@@ -20,7 +20,7 @@ import { StoreModule } from '@ngrx/store';
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireDatabaseModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({}),
   ],
   providers: [],
   bootstrap: [AppComponent],
