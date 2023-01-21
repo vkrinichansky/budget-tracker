@@ -1,0 +1,22 @@
+<button
+  class="w-full flex items-center justify-center gap-x-1.5 py-1.5 rounded-md {{ bgClass }} {{ textColorClass }}"
+  [class.px-3]="text"
+  [class.px-1.5]="!text"
+  [ngClass]="{
+    'pointer-events-none cursor-default grayscale': disabled
+  }"
+  [type]="'button'"
+>
+  <app-loader *ngIf="loading; else main"></app-loader>
+
+  <ng-template #main>
+    <svg-icon
+      *ngIf="iconName"
+      class="w-6 h-6"
+      [iconName]="iconName"
+      [iconColorClass]="disabled ? 'fill-charcoal' : iconColorClass"
+    ></svg-icon>
+
+    <span *ngIf="text" class="font-main text-base font-bold" [class.grayscale]="disabled">{{ text }}</span>
+  </ng-template>
+</button>

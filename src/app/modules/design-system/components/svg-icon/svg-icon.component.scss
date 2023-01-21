@@ -1,0 +1,8 @@
+:host {
+  @apply inline-block;
+
+  svg {
+    @apply inline-block;
+    all: inherit;
+  }
+}

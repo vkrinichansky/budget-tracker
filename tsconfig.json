@@ -21,8 +21,12 @@
     "useDefineForClassFields": false,
     "skipLibCheck": true,
     "lib": ["ES2022", "dom"],
+    "strictPropertyInitialization": false,
     "paths": {
-      "@budget-tracker/auth": ["src/app/modules/auth/index.ts"]
+      "@budget-tracker/auth": ["src/app/modules/auth/index.ts"],
+      "@budget-tracker/design-system": [
+        "src/app/modules/design-system/index.ts"
+      ]
     }
   },
   "angularCompilerOptions": {

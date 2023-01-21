@@ -16,7 +16,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'budget-tracker/dashboard',
+    redirectTo: 'auth',
     pathMatch: 'full',
   },
 ];
