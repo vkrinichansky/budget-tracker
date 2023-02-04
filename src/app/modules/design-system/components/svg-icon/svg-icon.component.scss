@@ -5,4 +5,16 @@
     @apply inline-block;
     all: inherit;
   }
+
+  &.charcoal {
+    @apply text-charcoal;
+  }
+
+  &.white {
+    @apply text-white;
+  }
+
+  &.green {
+    @apply text-green;
+  }
 }

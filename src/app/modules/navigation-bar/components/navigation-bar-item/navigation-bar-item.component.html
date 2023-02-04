@@ -1,0 +1,14 @@
+<a
+  class="link flex items-center justify-center w-full py-2"
+  [routerLink]="item.routerLink"
+  [routerLinkActive]="'active'"
+  [class.cursor-default]="routerLinkActive.isActive"
+  #routerLinkActive="routerLinkActive"
+>
+  <app-button
+    class="hover:bg-hover-white"
+    [class.pointer-events-none]="routerLinkActive.isActive"
+    [iconName]="item.iconName"
+    [iconColor]="routerLinkActive.isActive ? 'green' : 'white'"
+  ></app-button>
+</a>

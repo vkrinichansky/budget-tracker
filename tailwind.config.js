@@ -4,6 +4,8 @@ const colors = {
   charcoal: '#2C4251',
   green: '#24B563',
   white: '#ffffff',
+  'hover-white': 'rgb(255, 255, 255, 0.1)',
+  'hover-green': '#1DA156',
 };
 
 module.exports = {

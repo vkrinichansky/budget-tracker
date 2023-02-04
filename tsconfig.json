@@ -24,15 +24,15 @@
     "strictPropertyInitialization": false,
     "paths": {
       "@budget-tracker/auth": ["src/app/modules/auth/index.ts"],
-      "@budget-tracker/design-system": [
-        "src/app/modules/design-system/index.ts"
-      ]
+      "@budget-tracker/design-system": ["src/app/modules/design-system/index.ts"],
+      "@budget-tracker/navigation-bar": ["src/app/modules/navigation-bar/index.ts"],
+      "@budget-tracker/shared": ["src/app/modules/shared/index.ts"]
     }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictTemplates": false
   }
 }

@@ -1,5 +1,12 @@
 {
   "auth": {
     "signInWithGoogle": "Sign in with Google"
+  },
+
+  "snackbars": {
+    "errorSnackbar": {
+      "message": "Something went wrong! Please, try again.",
+      "buttonText": "Got it"
+    }
   }
 }
