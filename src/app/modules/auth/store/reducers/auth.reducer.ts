@@ -20,7 +20,7 @@ export const authFeature = createFeature({
       loading: true,
     })),
 
-    on(AuthActions.login, (state) => ({
+    on(AuthActions.loginFailed, (state) => ({
       ...state,
       loading: false,
     })),

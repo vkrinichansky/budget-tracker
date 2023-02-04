@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Auth, GoogleAuthProvider, signInWithPopup, signOut, UserCredential, authState } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { setPersistence, browserLocalPersistence } from '@firebase/auth';
 import { map, Observable } from 'rxjs';
 import { AppState } from '@budget-tracker/shared';
+import { addDoc, collection, doc, Firestore, setDoc } from '@angular/fire/firestore';
 
 @Injectable()
 export class AuthService {
-  constructor(private afAuth: Auth) {}
+  constructor(private afAuth: Auth, private firestore: Firestore) {}
 
   async googleLogin(): Promise<UserCredential> {
     await setPersistence(this.afAuth, browserLocalPersistence);
@@ -22,15 +22,17 @@ export class AuthService {
     return authState(this.afAuth).pipe(map((user) => !!user));
   }
 
-  async setUserData(userId: string): Promise<any> {
-    // const db = this.firestore.doc(`usersData/${userId}`);
-    // const data: AppState = {
-    //   income: [],
-    //   expense: [],
-    //   balance: 0,
-    //   accumulation: 0,
-    //   free: 0,
-    // };
-    // return await db.set(data, { merge: true });
+  async setUserData(userId: string): Promise<void> {
+    const userDataCollection = collection(this.firestore, `userData`);
+
+    const data: AppState = {
+      income: [],
+      expense: [],
+      balance: 0,
+      accumulation: 0,
+      free: 0,
+    };
+
+    return await setDoc(doc(userDataCollection, userId), data);
   }
 }
