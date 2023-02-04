@@ -7,8 +7,9 @@
 >
   <app-button
     class="hover:bg-hover-white"
-    [class.pointer-events-none]="routerLinkActive.isActive"
     [iconName]="item.iconName"
     [iconColor]="routerLinkActive.isActive ? 'green' : 'white'"
+    [matTooltip]="item.tooltipTranslationKey | translate"
+    [matTooltipPosition]="'right'"
   ></app-button>
 </a>

@@ -11,6 +11,8 @@ import { NavigationBarItem } from '../../models';
   styleUrls: ['./navigation-bar.component.scss'],
 })
 export class NavigationBarComponent implements OnInit {
+  private readonly rootTranslationKey = 'navigationBar';
+
   readonly navigationBarItems$ = new BehaviorSubject<NavigationBarItem[]>([]);
 
   constructor(private authFacade: AuthFacadeService) {}
@@ -27,10 +29,15 @@ export class NavigationBarComponent implements OnInit {
     const items: NavigationBarItem[] = [
       {
         iconName: 'home',
+        tooltipTranslationKey: this.buildTranslationKey('itemTooltip.home'),
         routerLink: AppRoutes.Dashboard,
       },
     ];
 
     this.navigationBarItems$.next(items);
+  }
+
+  private buildTranslationKey(key: string): string {
+    return `${this.rootTranslationKey}.${key}`;
   }
 }
