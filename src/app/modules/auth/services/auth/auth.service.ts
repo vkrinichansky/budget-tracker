@@ -3,7 +3,7 @@ import { Auth, GoogleAuthProvider, signInWithPopup, signOut, UserCredential, aut
 import { setPersistence, browserLocalPersistence } from '@firebase/auth';
 import { map, Observable } from 'rxjs';
 import { AppState } from '@budget-tracker/shared';
-import { addDoc, collection, doc, Firestore, setDoc } from '@angular/fire/firestore';
+import { collection, doc, Firestore, setDoc } from '@angular/fire/firestore';
 
 @Injectable()
 export class AuthService {
