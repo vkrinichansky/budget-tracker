@@ -1,0 +1,10 @@
+:host {
+  &.loading,
+  &.disabled {
+    @apply cursor-default pointer-events-none;
+  }
+
+  &.disabled {
+    @apply grayscale;
+  }
+}

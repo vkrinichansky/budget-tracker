@@ -1,0 +1,18 @@
+{
+  "auth": {
+    "signInWithGoogle": "Sign in with Google"
+  },
+
+  "navigationBar": {
+    "itemTooltip": {
+      "home": "Home"
+    }
+  },
+
+  "snackbars": {
+    "errorSnackbar": {
+      "message": "Something went wrong! Please, try again.",
+      "buttonText": "Got it"
+    }
+  }
+}

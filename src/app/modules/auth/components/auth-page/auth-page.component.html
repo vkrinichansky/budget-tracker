@@ -1,1 +1,8 @@
-<p>auth-page works!</p>
+<svg-icon [iconName]="'app-logo'"></svg-icon>
+<app-button
+  class="bg-green text-white hover:bg-hover-green w-60"
+  [iconName]="'google'"
+  [text]="buildTranslationKey('signInWithGoogle') | translate"
+  [loading]="authLoading$ | async"
+  (click)="googleLogin()"
+></app-button>

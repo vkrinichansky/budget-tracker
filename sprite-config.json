@@ -1,0 +1,12 @@
+{
+  "dest": "src/assets/svg-sprite",
+  "mode": {
+    "symbol": {
+      "dest": ".",
+      "sprite": "sprite.svg",
+      "render": {
+        "css": false
+      }
+    }
+  }
+}
