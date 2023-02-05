@@ -53,9 +53,7 @@ export class AuthEffects {
           map(() => AuthActions.authenticated({ user: action.user }))
         )
       ),
-      catchError((error) => {
-        console.log(error);
-
+      catchError(() => {
         this.snackbarHandler.showErrorSnackbar();
         return of(AuthActions.loginFailed());
       })
