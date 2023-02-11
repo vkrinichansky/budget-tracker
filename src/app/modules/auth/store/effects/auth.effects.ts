@@ -4,7 +4,7 @@ import { User as FirebaseUser } from '@angular/fire/auth';
 import { NavigatorService, SnackbarHandlerService } from '@budget-tracker/shared';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { UserCredential } from 'firebase/auth';
-import { catchError, of, take, tap } from 'rxjs';
+import { catchError, filter, of, take, tap } from 'rxjs';
 import { from, map, mergeMap } from 'rxjs';
 import { User } from '../../models';
 import { AuthService } from '../../services';
@@ -23,7 +23,12 @@ export class AuthEffects {
   getUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.getUser),
-      mergeMap(() => authState(this.afAuth).pipe(take(1))),
+      mergeMap(() =>
+        this.authService.getAuthState().pipe(
+          filter((user) => !!user),
+          take(1)
+        )
+      ),
       map((user) => AuthActions.authenticated({ user: this.extractUserFromState(user) }))
     )
   );
@@ -33,7 +38,7 @@ export class AuthEffects {
       ofType(AuthActions.login),
       mergeMap(() => from(this.authService.googleLogin())),
       map((user) =>
-        getAdditionalUserInfo(user)?.isNewUser
+        this.authService.getAdditionalUserInfo(user)?.isNewUser
           ? AuthActions.initDatabaseOnFirstLogin({ user: this.extractUserFromResponse(user) })
           : AuthActions.authenticated({ user: this.extractUserFromResponse(user) })
       ),

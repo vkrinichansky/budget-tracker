@@ -6,16 +6,12 @@ const routes: Routes = [
   {
     path: 'auth',
     canActivate: [SecureInnerPagesGuard],
-    loadChildren: () =>
-      import('./modules/auth/auth.module').then((m) => m.AuthCoreModule),
+    loadChildren: () => import('./modules/auth/auth.module').then((m) => m.AuthCoreModule),
   },
   {
     path: 'budget-tracker',
     canActivate: [AuthGuard],
-    loadChildren: () =>
-      import('./modules/main-page/main-page.module').then(
-        (m) => m.MainPageModule
-      ),
+    loadChildren: () => import('./modules/main-page/budget-tracker.module').then((m) => m.BudgetTrackerModule),
   },
   {
     path: '',

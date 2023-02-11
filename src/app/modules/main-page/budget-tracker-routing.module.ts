@@ -1,18 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { MainPageComponent } from './main-page.component';
+import { InitDataGuard } from './guards';
+import { BudgetTrackerComponent } from './budget-tracker.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: MainPageComponent,
+    component: BudgetTrackerComponent,
+    canActivate: [InitDataGuard],
     children: [
       {
         path: 'dashboard',
-        loadChildren: () =>
-          import('./modules/dashboard/dashboard.module').then(
-            (m) => m.DashboardModule
-          ),
+        loadChildren: () => import('./modules/dashboard/dashboard.module').then((m) => m.DashboardModule),
       },
       {
         path: '',
@@ -27,4 +26,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class MainPageRoutingModule {}
+export class BudgetTrackerRoutingModule {}

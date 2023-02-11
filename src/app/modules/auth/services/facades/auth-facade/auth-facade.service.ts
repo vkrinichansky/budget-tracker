@@ -3,10 +3,11 @@ import { Store } from '@ngrx/store';
 import { firstValueFrom } from 'rxjs';
 import { Observable } from 'rxjs';
 import { AuthActions, AuthSelectors } from '../../../store';
+import { AuthService } from '../../auth/auth.service';
 
 @Injectable()
 export class AuthFacadeService {
-  constructor(private store: Store) {}
+  constructor(private store: Store, private authService: AuthService) {}
 
   googleLogin(): void {
     this.store.dispatch(AuthActions.login());
@@ -18,6 +19,10 @@ export class AuthFacadeService {
 
   getUser(): void {
     this.store.dispatch(AuthActions.getUser());
+  }
+
+  isLoggedIn(): Observable<boolean> {
+    return this.authService.isLoggedIn();
   }
 
   async initAuthState(): Promise<void> {

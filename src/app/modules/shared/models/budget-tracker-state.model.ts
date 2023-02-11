@@ -1,6 +1,6 @@
 import { Category } from './category.model';
 
-export interface AppState {
+export interface BudgetTrackerState {
   income: Category[];
   expense: Category[];
   balance: number;
