@@ -33,7 +33,7 @@
       "files": ["*.html"],
       "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {
-        "no-console": 1
+        "no-console": 2
       }
     }
   ]

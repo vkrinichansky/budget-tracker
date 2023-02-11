@@ -1,8 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Auth, GoogleAuthProvider, signInWithPopup, signOut, UserCredential, authState } from '@angular/fire/auth';
+import {
+  Auth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+  UserCredential,
+  authState,
+  User,
+  getAdditionalUserInfo,
+  AdditionalUserInfo,
+} from '@angular/fire/auth';
 import { setPersistence, browserLocalPersistence } from '@firebase/auth';
 import { map, Observable } from 'rxjs';
-import { AppState } from '@budget-tracker/shared';
+import { BudgetTrackerState } from '@budget-tracker/shared';
 import { collection, doc, Firestore, setDoc } from '@angular/fire/firestore';
 
 @Injectable()
@@ -18,14 +28,22 @@ export class AuthService {
     return await signOut(this.afAuth);
   }
 
+  getAuthState(): Observable<User | null> {
+    return authState(this.afAuth);
+  }
+
   isLoggedIn(): Observable<boolean> {
-    return authState(this.afAuth).pipe(map((user) => !!user));
+    return this.getAuthState().pipe(map((user) => !!user));
+  }
+
+  getAdditionalUserInfo(user: UserCredential): AdditionalUserInfo | null {
+    return getAdditionalUserInfo(user);
   }
 
   async setUserData(userId: string): Promise<void> {
     const userDataCollection = collection(this.firestore, `userData`);
 
-    const data: AppState = {
+    const data: BudgetTrackerState = {
       income: [],
       expense: [],
       balance: 0,
