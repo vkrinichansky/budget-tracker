@@ -9,6 +9,10 @@
     }
   },
 
+  "dashboard": {
+    "pageTitle": "Dashboard"
+  },
+
   "snackbars": {
     "errorSnackbar": {
       "message": "Something went wrong! Please, try again.",
