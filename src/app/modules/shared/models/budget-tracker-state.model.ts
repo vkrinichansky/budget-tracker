@@ -4,6 +4,6 @@ export interface BudgetTrackerState {
   income: Category[];
   expense: Category[];
   balance: number;
-  accumulation: number;
+  savings: number;
   free: number;
 }

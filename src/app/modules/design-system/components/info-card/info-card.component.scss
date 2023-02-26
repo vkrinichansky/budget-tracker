@@ -1,0 +1,33 @@
+:host {
+  @apply flex p-8 rounded-lg h-28 justify-start items-center gap-x-6;
+
+  &.light {
+    @apply bg-white;
+
+    .primary {
+      @apply text-charcoal;
+    }
+
+    .secondary {
+      @apply text-grey;
+    }
+  }
+
+  &.dark {
+    @apply bg-charcoal;
+
+    .primary,
+    .secondary {
+      @apply text-white;
+    }
+  }
+
+  &.green {
+    @apply bg-green;
+
+    .primary,
+    .secondary {
+      @apply text-white;
+    }
+  }
+}

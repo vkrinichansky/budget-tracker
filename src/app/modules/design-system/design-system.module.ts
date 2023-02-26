@@ -1,11 +1,31 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent, LoaderComponent, SvgIconComponent } from './components';
-import { PageHeaderComponent } from './components/page-header/page-header.component';
+import {
+  ButtonComponent,
+  InfoCardComponent,
+  LoaderComponent,
+  PageHeaderComponent,
+  SvgIconComponent,
+  SvgIconWithBgComponent,
+} from './components';
 
 @NgModule({
-  declarations: [SvgIconComponent, ButtonComponent, LoaderComponent, PageHeaderComponent],
+  declarations: [
+    SvgIconComponent,
+    ButtonComponent,
+    LoaderComponent,
+    PageHeaderComponent,
+    InfoCardComponent,
+    SvgIconWithBgComponent,
+  ],
   imports: [CommonModule],
-  exports: [SvgIconComponent, ButtonComponent, LoaderComponent, PageHeaderComponent],
+  exports: [
+    SvgIconComponent,
+    ButtonComponent,
+    LoaderComponent,
+    PageHeaderComponent,
+    InfoCardComponent,
+    SvgIconWithBgComponent,
+  ],
 })
 export class DesignSystemModule {}

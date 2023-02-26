@@ -6,7 +6,7 @@ import { DesignSystemModule } from '@budget-tracker/design-system';
 import { AuthCoreModule } from '@budget-tracker/auth';
 import { NavigationBarModule } from '@budget-tracker/navigation-bar';
 import { StoreModule } from '@ngrx/store';
-import { mainAppFeature } from './store/reducers';
+import { budgetTrackerFeature } from './store/reducers';
 import { BudgetTrackerFacadeService, BudgetTrackerService } from './services';
 import { InitDataGuard } from './guards';
 import { EffectsModule } from '@ngrx/effects';
@@ -20,7 +20,7 @@ import { BudgetTrackerEffects } from './store/effects';
     DesignSystemModule,
     AuthCoreModule,
     NavigationBarModule,
-    StoreModule.forFeature(mainAppFeature),
+    StoreModule.forFeature(budgetTrackerFeature),
     EffectsModule.forFeature([BudgetTrackerEffects]),
   ],
   providers: [BudgetTrackerService, BudgetTrackerFacadeService, InitDataGuard],
