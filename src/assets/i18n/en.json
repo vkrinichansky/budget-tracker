@@ -9,6 +9,27 @@
     }
   },
 
+  "dashboard": {
+    "pageTitle": "Dashboard",
+    "infoCards": {
+      "income": {
+        "title": "Income"
+      },
+      "expense": {
+        "title": "Expense"
+      },
+      "balance": {
+        "title": "Balance"
+      },
+      "savings": {
+        "title": "Savings"
+      },
+      "freeMoney": {
+        "title": "Free money"
+      }
+    }
+  },
+
   "snackbars": {
     "errorSnackbar": {
       "message": "Something went wrong! Please, try again.",

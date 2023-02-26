@@ -16,11 +16,16 @@ export class ButtonComponent {
   @Input()
   disabled: boolean;
 
+  @HostBinding('class')
+  private get classes(): string {
+    return `block rounded overflow-hidden ${this.buttonSize}`;
+  }
+
+  @Input()
+  buttonSize: 'w-8' | 'w-60' = 'w-60';
+
   @Input()
   text = '';
-
-  @HostBinding('class')
-  private classes = `rounded overflow-hidden ${this.text ? 'w-8' : 'w-auto'}`;
 
   @Input()
   iconName: string;

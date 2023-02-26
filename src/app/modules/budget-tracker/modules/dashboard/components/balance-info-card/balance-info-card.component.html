@@ -1,0 +1,6 @@
+<app-info-card
+  [iconBGClass]="'bg-light-blue'"
+  [iconName]="'balance'"
+  [primaryText]="balance$ | async"
+  [secondaryText]="buildTranslationKey('title') | translate"
+></app-info-card>

@@ -47,7 +47,7 @@ export class AuthService {
       income: [],
       expense: [],
       balance: 0,
-      accumulation: 0,
+      savings: 0,
       free: 0,
     };
 

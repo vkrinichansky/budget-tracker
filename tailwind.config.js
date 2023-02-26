@@ -1,9 +1,15 @@
-/** @type {import('tailwindcss').Config} */
 const colors = {
   transparent: 'rgb(0, 0, 0, 0)',
   charcoal: '#2C4251',
+  dark: '#333B3D',
   green: '#24B563',
   white: '#ffffff',
+  blue: '#395B72',
+  grey: '#636766',
+  'light-green': '#E4FCF7',
+  'light-red': '#FFECEC',
+  'light-blue': '#E2F5FD',
+  'dirty-white': '#F0F2F2',
   'hover-white': 'rgb(255, 255, 255, 0.1)',
   'hover-green': '#1DA156',
 };
@@ -34,7 +40,7 @@ module.exports = {
     }),
 
     fontFamily: {
-      main: 'Lato',
+      main: 'Inter',
     },
   },
 };

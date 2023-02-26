@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: 'budget-tracker',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./modules/main-page/budget-tracker.module').then((m) => m.BudgetTrackerModule),
+    loadChildren: () => import('./modules/budget-tracker/budget-tracker.module').then((m) => m.BudgetTrackerModule),
   },
   {
     path: '',
