@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ColorsSet } from '../../models';
+import { ColorsSet, MenuAction } from '../../models';
 
 @Component({
   selector: 'app-menu',
@@ -28,4 +28,7 @@ export class MenuComponent {
 
   @Input()
   colorMode: ColorsSet = ColorsSet.Charcoal;
+
+  @Input()
+  menuActions: MenuAction[];
 }

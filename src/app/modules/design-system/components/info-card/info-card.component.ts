@@ -1,5 +1,5 @@
 import { Component, HostBinding, Input } from '@angular/core';
-import { ColorsSet } from '../../models';
+import { ColorsSet, MenuAction } from '../../models';
 
 @Component({
   selector: 'app-info-card',
@@ -31,4 +31,10 @@ export class InfoCardComponent {
 
   @Input()
   iconBGClass = 'bg-white';
+
+  @Input()
+  shouldDisplayMenu = false;
+
+  @Input()
+  menuActions: MenuAction[];
 }

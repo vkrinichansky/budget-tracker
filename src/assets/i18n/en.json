@@ -21,7 +21,12 @@
       },
       "balance": {
         "fullBalance": "Full balance",
-        "currentBalance": "Current balance"
+        "currentBalance": "Current balance",
+        "menu": {
+          "increase": "Increase balance",
+          "decrease": "Decrease balance",
+          "edit": "Edit balance"
+        }
       },
       "savings": {
         "title": "Savings"

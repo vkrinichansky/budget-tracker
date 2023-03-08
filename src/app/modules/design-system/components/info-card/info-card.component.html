@@ -1,4 +1,9 @@
-<app-menu class="absolute right-2 top-2" [colorMode]="bgMode"></app-menu>
+<app-menu
+  *ngIf="shouldDisplayMenu && menuActions?.length"
+  class="absolute right-2 top-2"
+  [colorMode]="bgMode"
+  [menuActions]="menuActions"
+></app-menu>
 
 <svg-icon-with-bg [iconBGClass]="iconBGClass" [iconName]="iconName"></svg-icon-with-bg>
 

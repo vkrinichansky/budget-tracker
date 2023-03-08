@@ -6,4 +6,6 @@
   [secondaryText]="buildTranslationKey('currentBalance') | translate"
   [additionalPrimaryText]="fullBalance$ | async"
   [additionalSecondaryText]="buildTranslationKey('fullBalance') | translate"
+  [menuActions]="menuActions"
+  [shouldDisplayMenu]="true"
 ></app-info-card>

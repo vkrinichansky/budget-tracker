@@ -1,0 +1,17 @@
+:host {
+  &.disabled {
+    @apply cursor-default pointer-events-none grayscale;
+  }
+
+  &.small {
+    @apply w-8;
+  }
+
+  &.large {
+    @apply w-60;
+  }
+
+  &.full {
+    @apply w-full;
+  }
+}
