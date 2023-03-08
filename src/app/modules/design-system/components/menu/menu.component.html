@@ -1,0 +1,15 @@
+<app-button
+  mat-button
+  [ngClass]="{
+    'hover:bg-hover-black': colorMode === colorsSet.White,
+    'hover:bg-hover-white': colorMode === colorsSet.Charcoal || colorMode === colorsSet.Green
+  }"
+  [matMenuTriggerFor]="menu"
+  [iconName]="'menu'"
+  [iconColor]="resolveMenuColor"
+></app-button>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item>Item 1</button>
+  <button mat-menu-item>Item 2</button>
+</mat-menu>

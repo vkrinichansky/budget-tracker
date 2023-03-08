@@ -13,11 +13,15 @@ import {
 import { setPersistence, browserLocalPersistence } from '@firebase/auth';
 import { map, Observable } from 'rxjs';
 import { BudgetTrackerState } from '@budget-tracker/shared';
-import { collection, doc, Firestore, setDoc } from '@angular/fire/firestore';
+import { collection, CollectionReference, doc, DocumentData, Firestore, setDoc } from '@angular/fire/firestore';
 
 @Injectable()
 export class AuthService {
-  constructor(private afAuth: Auth, private firestore: Firestore) {}
+  userDataCollection: CollectionReference<DocumentData>;
+
+  constructor(private afAuth: Auth, private firestore: Firestore) {
+    this.userDataCollection = collection(this.firestore, `userData`);
+  }
 
   async googleLogin(): Promise<UserCredential> {
     await setPersistence(this.afAuth, browserLocalPersistence);
@@ -41,8 +45,6 @@ export class AuthService {
   }
 
   async setUserData(userId: string): Promise<void> {
-    const userDataCollection = collection(this.firestore, `userData`);
-
     const data: BudgetTrackerState = {
       income: [],
       expense: [],
@@ -51,6 +53,6 @@ export class AuthService {
       free: 0,
     };
 
-    return await setDoc(doc(userDataCollection, userId), data);
+    return await setDoc(doc(this.userDataCollection, userId), data);
   }
 }

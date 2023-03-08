@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, authState, getAdditionalUserInfo } from '@angular/fire/auth';
+import { Auth } from '@angular/fire/auth';
 import { User as FirebaseUser } from '@angular/fire/auth';
 import { NavigatorService, SnackbarHandlerService } from '@budget-tracker/shared';
 import { Actions, createEffect, ofType } from '@ngrx/effects';

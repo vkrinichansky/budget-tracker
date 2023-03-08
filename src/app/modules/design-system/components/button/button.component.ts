@@ -1,5 +1,6 @@
 import { HostBinding } from '@angular/core';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ButtonSize, ColorsSet } from '../../models';
 
 @Component({
   selector: 'app-button',
@@ -22,7 +23,7 @@ export class ButtonComponent {
   }
 
   @Input()
-  buttonSize: 'w-8' | 'w-60' = 'w-60';
+  buttonSize: ButtonSize = ButtonSize.Small;
 
   @Input()
   text = '';
@@ -31,5 +32,5 @@ export class ButtonComponent {
   iconName: string;
 
   @Input()
-  iconColor: string;
+  iconColor: ColorsSet;
 }

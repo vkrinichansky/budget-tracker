@@ -1,4 +1,3 @@
-import { Category } from '@budget-tracker/shared';
 import { createSelector } from '@ngrx/store';
 import { budgetTrackerFeature, selectAll } from '../reducers';
 
@@ -19,7 +18,14 @@ const expenseValueSelector = createSelector(expenseCategoriesSelector, (categori
   categories.reduce((sum, category) => sum + category?.value, 0)
 );
 
-const balanceSelector = createSelector(budgetTrackerFeature.selectBalance, (balance) => balance);
+const fullBalanceSelector = createSelector(budgetTrackerFeature.selectBalance, (balance) => balance);
+
+const currentBalanceSelector = createSelector(
+  budgetTrackerFeature.selectBalance,
+  budgetTrackerFeature.selectFree,
+  budgetTrackerFeature.selectSavings,
+  (balance, free, savings) => balance - free - savings
+);
 
 const freeMoneySelector = createSelector(budgetTrackerFeature.selectFree, (freeMoney) => freeMoney);
 
@@ -31,7 +37,8 @@ export const BudgetTrackerSelectors = {
   incomeValueSelector,
   expenseCategoriesSelector,
   expenseValueSelector,
-  balanceSelector,
+  fullBalanceSelector,
   freeMoneySelector,
   savingsSelector,
+  currentBalanceSelector,
 };

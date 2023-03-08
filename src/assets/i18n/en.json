@@ -5,7 +5,8 @@
 
   "navigationBar": {
     "itemTooltip": {
-      "home": "Home"
+      "home": "Home",
+      "logout": "Logout"
     }
   },
 
@@ -19,7 +20,8 @@
         "title": "Expense"
       },
       "balance": {
-        "title": "Balance"
+        "fullBalance": "Full balance",
+        "currentBalance": "Current balance"
       },
       "savings": {
         "title": "Savings"

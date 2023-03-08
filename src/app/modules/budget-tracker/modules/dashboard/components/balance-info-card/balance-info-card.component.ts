@@ -8,12 +8,15 @@ import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
 export class BalanceInfoCardComponent implements OnInit {
   private readonly rootTranslationKey = 'dashboard.infoCards.balance';
 
-  balance$: Observable<number>;
+  fullBalance$: Observable<number>;
+
+  currentBalance$: Observable<number>;
 
   constructor(private budgetTrackerFacade: BudgetTrackerFacadeService) {}
 
   ngOnInit(): void {
-    this.balance$ = this.budgetTrackerFacade.getBalanceValue();
+    this.fullBalance$ = this.budgetTrackerFacade.getFullBalanceValue();
+    this.currentBalance$ = this.budgetTrackerFacade.getCurrentBalanceValue();
   }
 
   buildTranslationKey(key: string): string {

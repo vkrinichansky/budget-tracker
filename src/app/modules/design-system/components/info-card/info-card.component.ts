@@ -1,4 +1,5 @@
 import { Component, HostBinding, Input } from '@angular/core';
+import { ColorsSet } from '../../models';
 
 @Component({
   selector: 'app-info-card',
@@ -8,13 +9,22 @@ import { Component, HostBinding, Input } from '@angular/core';
 export class InfoCardComponent {
   @HostBinding('class')
   @Input()
-  bgMode: 'light' | 'dark' | 'green' = 'light';
+  bgMode: ColorsSet = ColorsSet.White;
 
   @Input()
   primaryText: string;
 
   @Input()
   secondaryText: string;
+
+  @Input()
+  additionalPrimaryText: string;
+
+  @Input()
+  additionalSecondaryText: string;
+
+  @Input()
+  twoLine = false;
 
   @Input()
   iconName: string;

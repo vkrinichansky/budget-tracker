@@ -8,6 +8,8 @@ import {
   SvgIconComponent,
   SvgIconWithBgComponent,
 } from './components';
+import { MenuComponent } from './components';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -17,8 +19,9 @@ import {
     PageHeaderComponent,
     InfoCardComponent,
     SvgIconWithBgComponent,
+    MenuComponent,
   ],
-  imports: [CommonModule],
+  imports: [CommonModule, MatMenuModule],
   exports: [
     SvgIconComponent,
     ButtonComponent,
@@ -26,6 +29,7 @@ import {
     PageHeaderComponent,
     InfoCardComponent,
     SvgIconWithBgComponent,
+    MenuComponent,
   ],
 })
 export class DesignSystemModule {}
