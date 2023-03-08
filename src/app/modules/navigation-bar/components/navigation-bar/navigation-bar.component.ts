@@ -25,6 +25,10 @@ export class NavigationBarComponent implements OnInit {
     this.authFacade.logOut();
   }
 
+  buildTranslationKey(key: string): string {
+    return `${this.rootTranslationKey}.${key}`;
+  }
+
   private prepareNavigationBarItems(): void {
     const items: NavigationBarItem[] = [
       {
@@ -35,9 +39,5 @@ export class NavigationBarComponent implements OnInit {
     ];
 
     this.navigationBarItems$.next(items);
-  }
-
-  private buildTranslationKey(key: string): string {
-    return `${this.rootTranslationKey}.${key}`;
   }
 }

@@ -34,3 +34,21 @@ body {
     @apply font-main text-sm bg-blue #{!important};
   }
 }
+
+.mat-mdc-menu-item {
+  &.mdc-list-item {
+    @apply font-main text-base p-0 #{!important};
+  }
+
+  &:hover:not([disabled]) {
+    @apply hover:bg-hover-black #{!important};
+  }
+
+  &[disabled] {
+    @apply opacity-100 #{!important};
+  }
+}
+
+.mat-mdc-menu-content {
+  @apply px-1 #{!important};
+}

@@ -1,6 +1,11 @@
 <app-info-card
   [iconBGClass]="'bg-light-blue'"
   [iconName]="'balance'"
-  [primaryText]="balance$ | async"
-  [secondaryText]="buildTranslationKey('title') | translate"
+  [twoLine]="true"
+  [primaryText]="currentBalance$ | async"
+  [secondaryText]="buildTranslationKey('currentBalance') | translate"
+  [additionalPrimaryText]="fullBalance$ | async"
+  [additionalSecondaryText]="buildTranslationKey('fullBalance') | translate"
+  [menuActions]="menuActions"
+  [shouldDisplayMenu]="true"
 ></app-info-card>

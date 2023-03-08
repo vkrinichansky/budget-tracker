@@ -21,8 +21,12 @@ export class BudgetTrackerFacadeService {
     return this.store.select(BudgetTrackerSelectors.expenseValueSelector);
   }
 
-  getBalanceValue(): Observable<number> {
-    return this.store.select(BudgetTrackerSelectors.balanceSelector);
+  getFullBalanceValue(): Observable<number> {
+    return this.store.select(BudgetTrackerSelectors.fullBalanceSelector);
+  }
+
+  getCurrentBalanceValue(): Observable<number> {
+    return this.store.select(BudgetTrackerSelectors.currentBalanceSelector);
   }
 
   getSavingsValue(): Observable<number> {

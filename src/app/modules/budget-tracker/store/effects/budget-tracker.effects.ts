@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, authState } from '@angular/fire/auth';
-import { AuthSelectors, AuthService } from '@budget-tracker/auth';
+import { AuthSelectors } from '@budget-tracker/auth';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { filter, from, map, mergeMap, take } from 'rxjs';

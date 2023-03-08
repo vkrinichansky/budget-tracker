@@ -45,7 +45,7 @@ export const budgetTrackerFeature = createFeature({
     on(BudgetTrackerActions.dataLoaded, (state, action) => ({
       ...state,
       savings: action.data.savings,
-      balance: action.data.savings,
+      balance: action.data.balance,
       free: action.data.free,
       income: categoryEntityAdapter.addMany(action.data.income, state.income),
       expense: categoryEntityAdapter.addMany(action.data.expense, state.expense),

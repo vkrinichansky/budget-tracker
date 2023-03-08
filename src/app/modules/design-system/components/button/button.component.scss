@@ -7,4 +7,12 @@
   &.disabled {
     @apply grayscale;
   }
+
+  &.small {
+    @apply w-8;
+  }
+
+  &.large {
+    @apply w-60;
+  }
 }

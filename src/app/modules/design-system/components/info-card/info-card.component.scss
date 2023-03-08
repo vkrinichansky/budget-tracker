@@ -1,7 +1,7 @@
 :host {
-  @apply flex p-8 rounded-lg h-28 justify-start items-center gap-x-6;
+  @apply flex py-4 px-5 rounded-lg h-28 justify-start items-center gap-x-5 relative;
 
-  &.light {
+  &.white {
     @apply bg-white;
 
     .primary {
@@ -13,7 +13,7 @@
     }
   }
 
-  &.dark {
+  &.charcoal {
     @apply bg-charcoal;
 
     .primary,
@@ -23,7 +23,7 @@
   }
 
   &.green {
-    @apply bg-green;
+    @apply bg-dark-green;
 
     .primary,
     .secondary {

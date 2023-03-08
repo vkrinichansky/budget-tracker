@@ -9,4 +9,11 @@
   <app-navigation-bar-item *ngFor="let item of navigationBarItems$ | async" [item]="item"></app-navigation-bar-item>
 </div>
 
-<app-button class="hover:bg-hover-white" [iconName]="'logout'" [iconColor]="'white'" (click)="logOut()"></app-button>
+<app-button
+  class="hover:bg-hover-white"
+  [iconName]="'logout'"
+  [iconColor]="'white'"
+  [matTooltip]="buildTranslationKey('itemTooltip.logout') | translate"
+  [matTooltipPosition]="'right'"
+  (click)="logOut()"
+></app-button>

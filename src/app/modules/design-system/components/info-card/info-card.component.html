@@ -1,6 +1,18 @@
+<app-menu
+  *ngIf="shouldDisplayMenu && menuActions?.length"
+  class="absolute right-2 top-2"
+  [colorMode]="bgMode"
+  [menuActions]="menuActions"
+></app-menu>
+
 <svg-icon-with-bg [iconBGClass]="iconBGClass" [iconName]="iconName"></svg-icon-with-bg>
 
 <div class="flex flex-1 flex-col">
-  <span class="primary font-main font-bold text-xl">{{ primaryText }}</span>
-  <span class="secondary font-main text-sm">{{ secondaryText }}</span>
+  <span class="primary font-main font-bold {{ twoLine ? 'text-sm' : 'text-xl' }}">{{ primaryText }}</span>
+  <span class="secondary font-main {{ twoLine ? 'text-xs' : 'text-sm' }}">{{ secondaryText }}</span>
+
+  <div *ngIf="twoLine" class="flex flex-1 flex-col mt-2">
+    <span class="primary font-main font-bold text-sm">{{ additionalPrimaryText }}</span>
+    <span class="secondary font-main text-xs">{{ additionalSecondaryText }}</span>
+  </div>
 </div>
