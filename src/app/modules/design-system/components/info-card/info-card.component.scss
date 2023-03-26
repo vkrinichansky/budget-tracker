@@ -1,0 +1,33 @@
+:host {
+  @apply flex py-4 px-5 rounded-lg h-28 justify-start items-center gap-x-5 relative;
+
+  &.white {
+    @apply bg-white;
+
+    .primary {
+      @apply text-charcoal;
+    }
+
+    .secondary {
+      @apply text-grey;
+    }
+  }
+
+  &.charcoal {
+    @apply bg-charcoal;
+
+    .primary,
+    .secondary {
+      @apply text-white;
+    }
+  }
+
+  &.green {
+    @apply bg-dark-green;
+
+    .primary,
+    .secondary {
+      @apply text-white;
+    }
+  }
+}

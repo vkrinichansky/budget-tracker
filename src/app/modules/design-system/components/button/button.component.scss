@@ -1,0 +1,18 @@
+:host {
+  &.loading,
+  &.disabled {
+    @apply cursor-default pointer-events-none;
+  }
+
+  &.disabled {
+    @apply grayscale;
+  }
+
+  &.small {
+    @apply w-8;
+  }
+
+  &.large {
+    @apply w-60;
+  }
+}

@@ -1,0 +1,10 @@
+<svg-icon [iconName]="'app-logo'"></svg-icon>
+
+<app-button
+  class="bg-green text-white hover:bg-hover-green"
+  [iconName]="'google'"
+  [text]="buildTranslationKey('signInWithGoogle') | translate"
+  [loading]="authLoading$ | async"
+  [buttonSize]="'large'"
+  (click)="googleLogin()"
+></app-button>

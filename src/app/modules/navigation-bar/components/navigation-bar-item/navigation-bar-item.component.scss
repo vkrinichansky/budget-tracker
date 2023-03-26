@@ -1,0 +1,14 @@
+:host {
+  @apply flex items-center justify-center w-full;
+
+  .link {
+    &.active {
+      @apply relative;
+
+      &::before {
+        @apply absolute top-0 left-0 w-1 bg-green h-full block rounded-tr-sm rounded-br-sm;
+        content: '';
+      }
+    }
+  }
+}

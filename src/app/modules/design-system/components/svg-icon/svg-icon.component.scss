@@ -1,0 +1,20 @@
+:host {
+  @apply block;
+
+  svg {
+    @apply block w-full h-full;
+    all: inherit;
+  }
+
+  &.charcoal {
+    @apply text-charcoal;
+  }
+
+  &.white {
+    @apply text-white;
+  }
+
+  &.green {
+    @apply text-green;
+  }
+}

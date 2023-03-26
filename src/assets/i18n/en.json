@@ -1,0 +1,46 @@
+{
+  "auth": {
+    "signInWithGoogle": "Sign in with Google"
+  },
+
+  "navigationBar": {
+    "itemTooltip": {
+      "home": "Home",
+      "logout": "Logout"
+    }
+  },
+
+  "dashboard": {
+    "pageTitle": "Dashboard",
+    "infoCards": {
+      "income": {
+        "title": "Income"
+      },
+      "expense": {
+        "title": "Expense"
+      },
+      "balance": {
+        "fullBalance": "Full balance",
+        "currentBalance": "Current balance",
+        "menu": {
+          "increase": "Increase balance",
+          "decrease": "Decrease balance",
+          "edit": "Edit balance"
+        }
+      },
+      "savings": {
+        "title": "Savings"
+      },
+      "freeMoney": {
+        "title": "Free money"
+      }
+    }
+  },
+
+  "snackbars": {
+    "errorSnackbar": {
+      "message": "Something went wrong! Please, try again.",
+      "buttonText": "Got it"
+    }
+  }
+}

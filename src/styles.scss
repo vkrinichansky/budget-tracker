@@ -1,1 +1,54 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  @apply h-full w-full overflow-hidden;
+}
+
+body {
+  @apply m-0;
+  font-family: 'Inter', sans-serif;
+}
+
+.mat-mdc-snack-bar-container {
+  .mdc-snackbar__surface {
+    @apply bg-white #{!important};
+  }
+
+  .mdc-snackbar__label {
+    @apply text-charcoal font-main text-base font-bold #{!important};
+  }
+
+  .mat-mdc-button.mat-mdc-snack-bar-action {
+    @apply text-green hover:bg-green hover:text-white font-bold font-main text-base #{!important};
+  }
+}
+
+.mat-mdc-tooltip {
+  .mdc-tooltip__surface {
+    @apply font-main text-sm bg-blue #{!important};
+  }
+}
+
+.mat-mdc-menu-item {
+  &.mdc-list-item {
+    @apply font-main text-base p-0 #{!important};
+  }
+
+  &:hover:not([disabled]) {
+    @apply hover:bg-hover-black #{!important};
+  }
+
+  &[disabled] {
+    @apply opacity-100 #{!important};
+  }
+}
+
+.mat-mdc-menu-content {
+  @apply px-1 #{!important};
+}
