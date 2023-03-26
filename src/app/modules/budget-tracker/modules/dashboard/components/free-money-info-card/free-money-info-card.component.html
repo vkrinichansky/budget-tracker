@@ -3,4 +3,6 @@
   [bgMode]="'charcoal'"
   [primaryText]="freeMoney$ | async"
   [secondaryText]="buildTranslationKey('title') | translate"
+  [shouldDisplayMenu]="true"
+  [menuActions]="menuActions$ | async"
 ></app-info-card>

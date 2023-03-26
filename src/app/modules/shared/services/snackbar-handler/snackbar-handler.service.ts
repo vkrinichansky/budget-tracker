@@ -7,11 +7,35 @@ export class SnackbarHandlerService {
   private readonly rootTranslationKey = 'snackbars';
   constructor(private snackBar: MatSnackBar, private translateService: TranslateService) {}
 
-  showErrorSnackbar(): void {
+  showGeneralErrorSnackbar(): void {
     this.snackBar.open(
       this.translateService.instant(this.buildTranslationKey('errorSnackbar.message')),
       this.translateService.instant(this.buildTranslationKey('errorSnackbar.buttonText'))
-      // { duration: 10000 }
+    );
+  }
+
+  showErrorSnackbar(error: string): void {
+    this.snackBar.open(error, this.translateService.instant(this.buildTranslationKey('errorSnackbar.buttonText')));
+  }
+
+  showBalanceEditedSnackbar(): void {
+    this.snackBar.open(
+      this.translateService.instant(this.buildTranslationKey('balanceEditedSnackbar.message')),
+      this.translateService.instant(this.buildTranslationKey('balanceEditedSnackbar.buttonText'))
+    );
+  }
+
+  showSavingsEditedSnackbar(): void {
+    this.snackBar.open(
+      this.translateService.instant(this.buildTranslationKey('savingsEditedSnackbar.message')),
+      this.translateService.instant(this.buildTranslationKey('savingsEditedSnackbar.buttonText'))
+    );
+  }
+
+  showFreeMoneyEditedSnackbar(): void {
+    this.snackBar.open(
+      this.translateService.instant(this.buildTranslationKey('freeMoneyEditedSnackbar.message')),
+      this.translateService.instant(this.buildTranslationKey('freeMoneyEditedSnackbar.buttonText'))
     );
   }
 

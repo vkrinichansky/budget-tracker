@@ -23,16 +23,47 @@
         "fullBalance": "Full balance",
         "currentBalance": "Current balance",
         "menu": {
-          "increase": "Increase balance",
-          "decrease": "Decrease balance",
-          "edit": "Edit balance"
+          "increase": "Increase",
+          "decrease": "Decrease",
+          "edit": "Edit"
         }
       },
       "savings": {
-        "title": "Savings"
+        "title": "Savings",
+        "menu": {
+          "increase": "Increase",
+          "decrease": "Decrease",
+          "edit": "Edit"
+        }
       },
       "freeMoney": {
-        "title": "Free money"
+        "title": "Free money",
+        "menu": {
+          "increase": "Increase",
+          "decrease": "Decrease",
+          "edit": "Edit"
+        }
+      }
+    },
+    "infoCardValueModal": {
+      "cancel": "Cancel",
+      "balance": {
+        "title": "Balance",
+        "increase": "Increase",
+        "decrease": "Decrease",
+        "edit": "Edit"
+      },
+      "savings": {
+        "title": "Savings",
+        "increase": "Increase",
+        "decrease": "Decrease",
+        "edit": "Edit"
+      },
+      "free": {
+        "title": "Free money",
+        "increase": "Increase",
+        "decrease": "Decrease",
+        "edit": "Edit"
       }
     }
   },
@@ -40,6 +71,18 @@
   "snackbars": {
     "errorSnackbar": {
       "message": "Something went wrong! Please, try again.",
+      "buttonText": "Got it"
+    },
+    "balanceEditedSnackbar": {
+      "message": "Balance updated successfully!",
+      "buttonText": "Got it"
+    },
+    "savingsEditedSnackbar": {
+      "message": "Savings updated successfully!",
+      "buttonText": "Got it"
+    },
+    "freeMoneyEditedSnackbar": {
+      "message": "Free money updated successfully!",
       "buttonText": "Got it"
     }
   }

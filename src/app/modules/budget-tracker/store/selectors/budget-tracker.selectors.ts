@@ -9,13 +9,13 @@ const budgetTrackerStateSelector = createSelector(
 const incomeCategoriesSelector = createSelector(budgetTrackerFeature.selectIncome, selectAll);
 
 const incomeValueSelector = createSelector(incomeCategoriesSelector, (categories) =>
-  categories.reduce((sum, category) => sum + category?.value, 0)
+  categories.reduce((sum, category) => sum + category.value, 0)
 );
 
 const expenseCategoriesSelector = createSelector(budgetTrackerFeature.selectExpense, selectAll);
 
 const expenseValueSelector = createSelector(expenseCategoriesSelector, (categories) =>
-  categories.reduce((sum, category) => sum + category?.value, 0)
+  categories.reduce((sum, category) => sum + category.value, 0)
 );
 
 const fullBalanceSelector = createSelector(budgetTrackerFeature.selectBalance, (balance) => balance);
@@ -31,6 +31,21 @@ const freeMoneySelector = createSelector(budgetTrackerFeature.selectFree, (freeM
 
 const savingsSelector = createSelector(budgetTrackerFeature.selectSavings, (savings) => savings);
 
+const valueUpdatingInProgressSelector = createSelector(
+  budgetTrackerFeature.selectValueUpdating,
+  (valueUpdating) => valueUpdating.inProgress
+);
+
+const valueUpdatingSuccessSelector = createSelector(
+  budgetTrackerFeature.selectValueUpdating,
+  (valueUpdating) => valueUpdating.success
+);
+
+const valueUpdatingErrorSelector = createSelector(
+  budgetTrackerFeature.selectValueUpdating,
+  (valueUpdating) => valueUpdating.error
+);
+
 export const BudgetTrackerSelectors = {
   budgetTrackerStateSelector,
   incomeCategoriesSelector,
@@ -41,4 +56,7 @@ export const BudgetTrackerSelectors = {
   freeMoneySelector,
   savingsSelector,
   currentBalanceSelector,
+  valueUpdatingInProgressSelector,
+  valueUpdatingSuccessSelector,
+  valueUpdatingErrorSelector,
 };

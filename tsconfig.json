@@ -27,7 +27,8 @@
       "@budget-tracker/design-system": ["src/app/modules/design-system/index.ts"],
       "@budget-tracker/navigation-bar": ["src/app/modules/navigation-bar/index.ts"],
       "@budget-tracker/shared": ["src/app/modules/shared/index.ts"],
-      "@budget-tracker/budget-tracker": ["src/app/modules/budget-tracker/index.ts"]
+      "@budget-tracker/budget-tracker": ["src/app/modules/budget-tracker/index.ts"],
+      "@budget-tracker/utils": ["src/app/modules/utils/index.ts"]
     }
   },
   "angularCompilerOptions": {
