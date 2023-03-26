@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { firstValueFrom } from 'rxjs';
+import { filter, firstValueFrom, map } from 'rxjs';
 import { Observable } from 'rxjs';
+import { User } from '../../../models';
 import { AuthActions, AuthSelectors } from '../../../store';
 import { AuthService } from '../../auth/auth.service';
 
@@ -19,6 +20,14 @@ export class AuthFacadeService {
 
   getUser(): void {
     this.store.dispatch(AuthActions.getUser());
+  }
+
+  getUserFromState(): Observable<User> {
+    return this.store.select(AuthSelectors.userSelector).pipe(filter((user) => !!user));
+  }
+
+  getUserId(): Observable<string> {
+    return this.getUserFromState().pipe(map((user) => user.uid));
   }
 
   isLoggedIn(): Observable<boolean> {

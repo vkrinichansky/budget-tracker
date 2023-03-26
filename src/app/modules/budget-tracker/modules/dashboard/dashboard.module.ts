@@ -7,11 +7,16 @@ import {
   ExpenseInfoCardComponent,
   FreeMoneyInfoCardComponent,
   IncomeInfoCardComponent,
+  InfoCardValueModalComponent,
   SavingsInfoCardComponent,
 } from './components';
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { InfoCardValueModalService } from './services';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 const routes: Routes = [
   {
     path: '',
@@ -27,7 +32,19 @@ const routes: Routes = [
     BalanceInfoCardComponent,
     SavingsInfoCardComponent,
     FreeMoneyInfoCardComponent,
+    InfoCardValueModalComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(routes), DesignSystemModule, TranslateModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    DesignSystemModule,
+    TranslateModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
+  providers: [InfoCardValueModalService],
 })
 export class DashboardModule {}

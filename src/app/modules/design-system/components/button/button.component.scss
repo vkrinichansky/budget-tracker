@@ -12,7 +12,23 @@
     @apply w-8;
   }
 
+  &.medium {
+    @apply w-12;
+  }
+
+  &.big {
+    @apply w-24;
+  }
+
   &.large {
     @apply w-60;
+  }
+
+  &.full {
+    @apply w-full;
+  }
+
+  &.auto {
+    @apply w-auto;
   }
 }

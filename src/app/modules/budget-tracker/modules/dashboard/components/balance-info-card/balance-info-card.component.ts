@@ -1,8 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { map, Observable } from 'rxjs';
 import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
 import { MenuAction } from '@budget-tracker/design-system';
 import { TranslateService } from '@ngx-translate/core';
+import { InfoCardValueModalService } from '../../services';
 @Component({
   selector: 'app-balance-info-card',
   templateUrl: './balance-info-card.component.html',
@@ -14,38 +15,39 @@ export class BalanceInfoCardComponent implements OnInit {
 
   currentBalance$: Observable<number>;
 
-  menuActions: MenuAction[];
+  menuActions$: Observable<MenuAction[]>;
 
   constructor(
     private budgetTrackerFacade: BudgetTrackerFacadeService,
     private translateService: TranslateService,
-    private cd: ChangeDetectorRef
+    private infoCardValueModalService: InfoCardValueModalService
   ) {}
 
   ngOnInit(): void {
     this.fullBalance$ = this.budgetTrackerFacade.getFullBalanceValue();
     this.currentBalance$ = this.budgetTrackerFacade.getCurrentBalanceValue();
-    
-    this.resolveMenuActions();
+
+    this.menuActions$ = this.fullBalance$.pipe(map((fullBalance) => this.resolveMenuActions(fullBalance)));
   }
 
   buildTranslationKey(key: string): string {
     return `${this.rootTranslationKey}.${key}`;
   }
 
-  private resolveMenuActions(): void {
-    this.menuActions = [
+  private resolveMenuActions(fullBalance: number): MenuAction[] {
+    return [
       {
         text: this.translateService.instant(this.buildTranslationKey('menu.increase')),
+        action: () => this.infoCardValueModalService.openIncreaseBalanceModal(),
       },
       {
         text: this.translateService.instant(this.buildTranslationKey('menu.decrease')),
+        action: () => this.infoCardValueModalService.openDecreaseBalanceModal(),
       },
       {
         text: this.translateService.instant(this.buildTranslationKey('menu.edit')),
+        action: () => this.infoCardValueModalService.openEditBalanceModal(fullBalance),
       },
     ];
-
-    this.cd.detectChanges();
   }
 }
