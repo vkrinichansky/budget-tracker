@@ -1,9 +1,10 @@
 import { createSelector } from '@ngrx/store';
+import { User } from '../../models';
 import { authFeature } from '../reducers';
 
 const authStateSelector = createSelector(authFeature.selectAuthState, (authState) => authState);
 
-const userSelector = createSelector(authFeature.selectUser, (user) => user);
+const userSelector = createSelector(authFeature.selectUser, (user) => user as User);
 
 const authLoadingSelector = createSelector(authFeature.selectLoading, (loading) => loading);
 

@@ -10,5 +10,10 @@
 ></app-button>
 
 <mat-menu #menu="matMenu">
-  <custom-menu-item *ngFor="let action of menuActions" [text]="action.text" [buttonSize]="'full'"></custom-menu-item>
+  <custom-menu-item
+    *ngFor="let action of menuActions"
+    [text]="action.text"
+    [buttonSize]="'full'"
+    (click)="action.action()"
+  ></custom-menu-item>
 </mat-menu>

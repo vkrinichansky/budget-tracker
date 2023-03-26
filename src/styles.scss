@@ -15,6 +15,7 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
+// SNACKBAR
 .mat-mdc-snack-bar-container {
   .mdc-snackbar__surface {
     @apply bg-white #{!important};
@@ -25,16 +26,18 @@ body {
   }
 
   .mat-mdc-button.mat-mdc-snack-bar-action {
-    @apply text-green hover:bg-green hover:text-white font-bold font-main text-base #{!important};
+    @apply text-dark-green hover:bg-dark-green hover:text-white font-bold font-main text-base #{!important};
   }
 }
 
+// TOOLTIP
 .mat-mdc-tooltip {
   .mdc-tooltip__surface {
     @apply font-main text-sm bg-blue #{!important};
   }
 }
 
+// MENU
 .mat-mdc-menu-item {
   &.mdc-list-item {
     @apply font-main text-base p-0 #{!important};
@@ -51,4 +54,40 @@ body {
 
 .mat-mdc-menu-content {
   @apply px-1 #{!important};
+}
+
+// DIALOG
+.mat-mdc-dialog-container {
+  .mdc-dialog__title {
+    @apply font-main text-base font-bold text-charcoal #{!important};
+  }
+}
+
+.mat-mdc-dialog-actions {
+  @apply justify-end #{!important};
+}
+
+// INPUT
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.mdc-text-field--filled {
+  .mdc-line-ripple::after {
+    @apply border-b-dark-green #{!important};
+  }
+
+  &:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
+    @apply border-b-blue #{!important};
+  }
+
+  &:not(.mdc-text-field--disabled):hover .mdc-line-ripple::before {
+    @apply border-b-charcoal #{!important};
+  }
+}
+
+.mdc-text-field .mdc-text-field__input {
+  @apply caret-charcoal;
 }

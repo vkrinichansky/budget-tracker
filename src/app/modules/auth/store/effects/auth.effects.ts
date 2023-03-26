@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
 import { User as FirebaseUser } from '@angular/fire/auth';
 import { NavigatorService, SnackbarHandlerService } from '@budget-tracker/shared';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -15,7 +14,6 @@ export class AuthEffects {
   constructor(
     private actions$: Actions,
     private authService: AuthService,
-    private afAuth: Auth,
     private navigator: NavigatorService,
     private snackbarHandler: SnackbarHandlerService
   ) {}
@@ -43,7 +41,7 @@ export class AuthEffects {
           : AuthActions.authenticated({ user: this.extractUserFromResponse(user) })
       ),
       catchError(() => {
-        this.snackbarHandler.showErrorSnackbar();
+        this.snackbarHandler.showGeneralErrorSnackbar();
         return of(AuthActions.loginFailed());
       })
     )
@@ -59,7 +57,7 @@ export class AuthEffects {
         )
       ),
       catchError(() => {
-        this.snackbarHandler.showErrorSnackbar();
+        this.snackbarHandler.showGeneralErrorSnackbar();
         return of(AuthActions.loginFailed());
       })
     )
