@@ -10,17 +10,18 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { getAuth, provideAuth } from '@angular/fire/auth';
-import { FirebaseApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { AuthCoreModule } from './modules/auth/auth.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideAuth((injector) => getAuth(injector.get(FirebaseApp))),
+    provideAuth(() => getAuth(getApp())),
     provideFirestore(() => getFirestore()),
     StoreModule.forRoot(
       {},
