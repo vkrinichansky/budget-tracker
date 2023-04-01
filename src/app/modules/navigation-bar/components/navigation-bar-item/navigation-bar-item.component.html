@@ -6,9 +6,8 @@
   #routerLinkActive="routerLinkActive"
 >
   <app-button
-    class="hover:bg-hover-white"
     [iconName]="item.iconName"
-    [iconColor]="routerLinkActive.isActive ? 'green' : 'white'"
+    [colorScheme]="routerLinkActive.isActive ? colorScheme.ActiveNavigationItem : colorScheme.TransparentLight"
     [matTooltip]="item.tooltipTranslationKey | translate"
     [matTooltipPosition]="'right'"
   ></app-button>

@@ -5,6 +5,7 @@ import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
 import { filter, Observable, takeUntil } from 'rxjs';
 import { InfoCardMenuActionsType, InfoCardValueModalData, InfoCardValueToEdit } from '../../models';
+import { ColorScheme } from '@budget-tracker/design-system';
 
 @Component({
   selector: 'app-info-card-value-modal',
@@ -15,6 +16,8 @@ import { InfoCardMenuActionsType, InfoCardValueModalData, InfoCardValueToEdit } 
 export class InfoCardValueModalComponent implements OnInit {
   private readonly rootTranslationKey = 'dashboard.infoCardValueModal';
   private readonly destroy$ = injectUnsubscriberService();
+
+  readonly colorScheme = ColorScheme;
 
   title: string;
 
@@ -29,7 +32,7 @@ export class InfoCardValueModalComponent implements OnInit {
   success$: Observable<boolean>;
 
   get shouldDisableButton(): boolean {
-    return this.input?.invalid;
+    return this.input?.invalid || parseInt(this.input?.value) === this.initialValue;
   }
 
   constructor(

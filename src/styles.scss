@@ -76,7 +76,7 @@ input::-webkit-inner-spin-button {
 
 .mdc-text-field--filled {
   .mdc-line-ripple::after {
-    @apply border-b-dark-green #{!important};
+    @apply border-b-charcoal #{!important};
   }
 
   &:not(.mdc-text-field--disabled) .mdc-line-ripple::before {

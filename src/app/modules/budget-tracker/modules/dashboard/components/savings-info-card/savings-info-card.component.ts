@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
-import { MenuAction } from '@budget-tracker/design-system';
+import { InfoCardColorScheme, MenuAction } from '@budget-tracker/design-system';
 import { TranslateService } from '@ngx-translate/core';
 import { map, Observable } from 'rxjs';
 import { InfoCardValueModalService } from '../../services';
@@ -11,6 +11,8 @@ import { InfoCardValueModalService } from '../../services';
 })
 export class SavingsInfoCardComponent implements OnInit {
   private readonly rootTranslationKey = 'dashboard.infoCards.savings';
+
+  readonly colorScheme = InfoCardColorScheme;
 
   savings$: Observable<number>;
 
@@ -35,14 +37,17 @@ export class SavingsInfoCardComponent implements OnInit {
   private resolveMenuActions(savings: number): MenuAction[] {
     return [
       {
+        icon: 'plus',
         text: this.translateService.instant(this.buildTranslationKey('menu.increase')),
         action: () => this.infoCardValueModalService.openIncreaseSavingsModal(),
       },
       {
+        icon: 'minus',
         text: this.translateService.instant(this.buildTranslationKey('menu.decrease')),
         action: () => this.infoCardValueModalService.openDecreaseSavingsModal(),
       },
       {
+        icon: 'edit',
         text: this.translateService.instant(this.buildTranslationKey('menu.edit')),
         action: () => this.infoCardValueModalService.openEditSavingsModal(savings),
       },
