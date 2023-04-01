@@ -1,12 +1,13 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { MatMenuItem } from '@angular/material/menu';
-import { ButtonSize, ColorsSet } from '../../models';
+import { ButtonSize } from '../../models';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'custom-menu-item',
   templateUrl: './custom-menu-item.component.html',
   styleUrls: ['./custom-menu-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomMenuItemComponent extends MatMenuItem {
   @HostBinding('class.disabled')
@@ -27,7 +28,4 @@ export class CustomMenuItemComponent extends MatMenuItem {
 
   @Input()
   iconName: string;
-
-  @Input()
-  iconColor: ColorsSet;
 }

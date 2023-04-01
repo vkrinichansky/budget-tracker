@@ -12,17 +12,17 @@
     />
   </mat-form-field>
 </div>
-<div mat-dialog-actions class="flex items-center justify-end">
+<div mat-dialog-actions class="flex items-center justify-end gap-x-4">
   <app-button
-    class="text-charcoal hover:bg-hover-black"
     [buttonSize]="'auto'"
+    [colorScheme]="colorScheme.TransparentDark"
     [text]="buildTranslationKey('cancel') | translate"
     (click)="cancelClick()"
   ></app-button>
 
   <app-button
-    class="text-white hover:bg-hover-green bg-dark-green"
     [buttonSize]="'big'"
+    [colorScheme]="colorScheme.Charcoal"
     [text]="mainButtonText | translate"
     [disabled]="shouldDisableButton"
     [loading]="(loading$ | async) || (success$ | async)"

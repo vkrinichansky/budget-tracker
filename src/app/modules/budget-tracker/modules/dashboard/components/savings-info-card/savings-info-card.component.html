@@ -1,6 +1,7 @@
 <app-info-card
-  [iconName]="'savings'"
-  [bgMode]="'green'"
+  [iconName]="'jar'"
+  [iconColorClass]="'text-dark-green'"
+  [colorScheme]="colorScheme.Green"
   [primaryText]="savings$ | async"
   [secondaryText]="buildTranslationKey('title') | translate"
   [shouldDisplayMenu]="true"

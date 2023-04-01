@@ -1,5 +1,5 @@
 <div class="flex flex-col items-center w-full">
-  <svg-icon class="w-10 h-10 text-white" [iconName]="'jar'"></svg-icon>
+  <svg-icon class="w-10 h-10 text-white" [iconName]="'small-logo'"></svg-icon>
   <span class="flex gap-x-1 my-4">
     <span class="w-1 h-1 bg-white rounded-full"></span>
     <span class="w-1 h-1 bg-white rounded-full"></span>
@@ -10,9 +10,8 @@
 </div>
 
 <app-button
-  class="hover:bg-hover-white"
   [iconName]="'logout'"
-  [iconColor]="'white'"
+  [colorScheme]="colorScheme.TransparentLight"
   [matTooltip]="buildTranslationKey('itemTooltip.logout') | translate"
   [matTooltipPosition]="'right'"
   (click)="logOut()"

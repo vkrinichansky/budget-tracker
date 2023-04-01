@@ -5,8 +5,8 @@
   <app-loader *ngIf="loading; else main"></app-loader>
 
   <ng-template #main>
-    <svg-icon *ngIf="iconName" class="w-6 h-6 {{ iconColor }}" [iconName]="iconName"></svg-icon>
+    <svg-icon *ngIf="iconName" class="w-6 h-6" [iconName]="iconName" [class.grayscale]="disabled"></svg-icon>
 
-    <span *ngIf="text" class="font-main text-base font-bold" [class.grayscale]="disabled">{{ text }}</span>
+    <span *ngIf="text" class="font-main text-base">{{ text }}</span>
   </ng-template>
 </button>
