@@ -47,6 +47,7 @@
     },
     "infoCardValueModal": {
       "cancel": "Cancel",
+      "noteInputTitle": "Note",
       "balance": {
         "title": "Balance",
         "increase": "Increase",
@@ -64,6 +65,16 @@
         "increase": "Increase",
         "decrease": "Decrease",
         "edit": "Edit"
+      }
+    },
+    "activityLog": {
+      "title": "Activity log",
+      "rootValueChangeRecord": {
+        "title": {
+          "balance": "Balance",
+          "savings": "Savings",
+          "free": "Free money"
+        }
       }
     }
   },

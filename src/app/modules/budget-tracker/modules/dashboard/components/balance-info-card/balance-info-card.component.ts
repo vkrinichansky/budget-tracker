@@ -39,12 +39,13 @@ export class BalanceInfoCardComponent implements OnInit {
       {
         icon: 'plus',
         text: this.translateService.instant(this.buildTranslationKey('menu.increase')),
-        action: () => this.infoCardValueModalService.openIncreaseBalanceModal(),
+        action: () => this.infoCardValueModalService.openIncreaseBalanceModal(fullBalance),
       },
       {
         icon: 'minus',
         text: this.translateService.instant(this.buildTranslationKey('menu.decrease')),
-        action: () => this.infoCardValueModalService.openDecreaseBalanceModal(),
+        disabled: fullBalance === 0,
+        action: () => this.infoCardValueModalService.openDecreaseBalanceModal(fullBalance),
       },
       {
         icon: 'edit',

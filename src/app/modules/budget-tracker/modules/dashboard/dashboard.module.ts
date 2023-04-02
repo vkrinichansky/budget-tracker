@@ -2,12 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import {
+  ActivityLogComponent,
   BalanceInfoCardComponent,
   DashboardComponent,
   ExpenseInfoCardComponent,
   FreeMoneyInfoCardComponent,
   IncomeInfoCardComponent,
   InfoCardValueModalComponent,
+  RootValueChangeRecordComponent,
   SavingsInfoCardComponent,
 } from './components';
 import { DesignSystemModule } from '@budget-tracker/design-system';
@@ -17,6 +19,8 @@ import { InfoCardValueModalService } from './services';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 const routes: Routes = [
   {
     path: '',
@@ -33,6 +37,8 @@ const routes: Routes = [
     SavingsInfoCardComponent,
     FreeMoneyInfoCardComponent,
     InfoCardValueModalComponent,
+    ActivityLogComponent,
+    RootValueChangeRecordComponent,
   ],
   imports: [
     CommonModule,
@@ -44,6 +50,7 @@ const routes: Routes = [
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
+    MatTooltipModule,
   ],
   providers: [InfoCardValueModalService],
 })

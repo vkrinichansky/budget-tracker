@@ -91,3 +91,40 @@ input::-webkit-inner-spin-button {
 .mdc-text-field .mdc-text-field__input {
   @apply caret-charcoal;
 }
+
+.mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+  @apply text-grey #{!important};
+}
+
+.mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-floating-label {
+  @apply text-red #{!important};
+}
+
+textarea {
+  resize: none !important;
+}
+
+// SCROLLBAR CLASS
+.scrollable {
+  @apply pr-5;
+}
+
+/* width */
+::-webkit-scrollbar {
+  @apply w-1.5;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  @apply bg-light-blue rounded;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-blue rounded;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-charcoal;
+}

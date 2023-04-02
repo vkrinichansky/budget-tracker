@@ -1,6 +1,6 @@
 :host {
   &.disabled {
-    @apply cursor-default pointer-events-none grayscale;
+    @apply cursor-default pointer-events-none;
   }
 
   &.small {

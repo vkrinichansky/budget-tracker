@@ -1,3 +1,4 @@
+import { RootValueChangeRecord } from './activity-log.model';
 import { Category } from './category.model';
 
 export interface BudgetTrackerState {
@@ -6,4 +7,5 @@ export interface BudgetTrackerState {
   balance: number;
   savings: number;
   free: number;
+  activityLog: RootValueChangeRecord[];
 }

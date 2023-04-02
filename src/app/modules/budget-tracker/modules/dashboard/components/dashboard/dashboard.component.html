@@ -1,9 +1,13 @@
 <app-page-header [title]="buildTranslationKey('pageTitle') | translate"></app-page-header>
 
-<div class="grid grid-cols-5 mt-8 gap-x-6">
+<div class="grid grid-cols-5 gap-x-6">
   <app-income-info-card></app-income-info-card>
   <app-expense-info-card></app-expense-info-card>
   <app-balance-info-card></app-balance-info-card>
   <app-savings-info-card></app-savings-info-card>
   <app-free-money-info-card></app-free-money-info-card>
+</div>
+
+<div class="grid grid-cols-3 gap-x-6 h-full overflow-hidden">
+  <app-activity-log></app-activity-log>
 </div>
