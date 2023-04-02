@@ -1,4 +1,4 @@
-import { Category } from '@budget-tracker/shared';
+import { Category, RootValueChangeRecord } from '@budget-tracker/shared';
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { BudgetTrackerActions } from '../actions';
@@ -11,6 +11,7 @@ export interface FullBudgetTrackerState {
   balance: number;
   savings: number;
   free: number;
+  activityLog: RootValueChangeRecord[];
   loading: boolean;
   loaded: boolean;
   valueUpdating: { success: boolean; error: boolean; inProgress: boolean };
@@ -30,6 +31,7 @@ const initialState: FullBudgetTrackerState = {
   balance: 0,
   savings: 0,
   free: 0,
+  activityLog: [],
   loaded: false,
   loading: false,
   valueUpdating: {
@@ -55,6 +57,7 @@ export const budgetTrackerFeature = createFeature({
       free: action.data.free,
       income: categoryEntityAdapter.addMany(action.data.income, state.income),
       expense: categoryEntityAdapter.addMany(action.data.expense, state.expense),
+      activityLog: action.data.activityLog,
       loading: false,
       loaded: true,
     })),
@@ -71,6 +74,7 @@ export const budgetTrackerFeature = createFeature({
     on(BudgetTrackerActions.balanceUpdated, (state, action) => ({
       ...state,
       balance: action.newBalanceValue,
+      activityLog: [...state.activityLog, action.activityLogRecord],
       valueUpdating: {
         inProgress: false,
         error: false,
@@ -99,6 +103,7 @@ export const budgetTrackerFeature = createFeature({
     on(BudgetTrackerActions.savingsUpdated, (state, action) => ({
       ...state,
       savings: action.newSavingsValue,
+      activityLog: [...state.activityLog, action.activityLogRecord],
       valueUpdating: {
         inProgress: false,
         error: false,
@@ -127,6 +132,7 @@ export const budgetTrackerFeature = createFeature({
     on(BudgetTrackerActions.freeMoneyUpdated, (state, action) => ({
       ...state,
       free: action.newFreeMoneyValue,
+      activityLog: [...state.activityLog, action.activityLogRecord],
       valueUpdating: {
         inProgress: false,
         error: false,

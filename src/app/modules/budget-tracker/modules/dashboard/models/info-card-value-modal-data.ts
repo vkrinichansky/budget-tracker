@@ -5,4 +5,5 @@ export interface InfoCardValueModalData {
   actionType: InfoCardMenuActionsType;
   valueToEdit: InfoCardValueToEdit;
   initialValue: number;
+  shouldDisplayInitialValue?: boolean;
 }

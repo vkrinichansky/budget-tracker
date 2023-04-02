@@ -1,15 +1,13 @@
 <h1 mat-dialog-title class="font-main text-charcoal text-base">{{ title | translate }}</h1>
-<div mat-dialog-content>
+<div mat-dialog-content class="flex flex-col">
   <mat-form-field>
-    <input
-      matInput
-      [formControl]="input"
-      [type]="'number'"
-      [placeholder]=""
-      [min]="1"
-      [required]="true"
-      [defaultValue]="initialValue"
-    />
+    <mat-label>{{ title | translate }}</mat-label>
+    <input matInput [formControl]="valueInput" [type]="'number'" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>{{ buildTranslationKey('noteInputTitle') | translate }}</mat-label>
+    <textarea matInput rows="3" class="scrollable" [formControl]="noteInput"></textarea>
   </mat-form-field>
 </div>
 <div mat-dialog-actions class="flex items-center justify-end gap-x-4">

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -10,4 +10,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 export class SvgIconComponent {
   @Input()
   iconName: string;
+
+  @HostBinding('class.autosize')
+  @Input()
+  autoSize = false;
 }

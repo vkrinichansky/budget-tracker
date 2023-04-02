@@ -46,6 +46,8 @@ const valueUpdatingErrorSelector = createSelector(
   (valueUpdating) => valueUpdating.error
 );
 
+const activityLogSelector = createSelector(budgetTrackerFeature.selectActivityLog, (activityLog) => activityLog);
+
 export const BudgetTrackerSelectors = {
   budgetTrackerStateSelector,
   incomeCategoriesSelector,
@@ -59,4 +61,5 @@ export const BudgetTrackerSelectors = {
   valueUpdatingInProgressSelector,
   valueUpdatingSuccessSelector,
   valueUpdatingErrorSelector,
+  activityLogSelector,
 };

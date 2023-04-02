@@ -39,12 +39,13 @@ export class FreeMoneyInfoCardComponent implements OnInit {
       {
         icon: 'plus',
         text: this.translateService.instant(this.buildTranslationKey('menu.increase')),
-        action: () => this.infoCardValueModalService.openIncreaseFreeMoneyModal(),
+        action: () => this.infoCardValueModalService.openIncreaseFreeMoneyModal(freeMoney),
       },
       {
         icon: 'minus',
         text: this.translateService.instant(this.buildTranslationKey('menu.decrease')),
-        action: () => this.infoCardValueModalService.openDecreaseFreeMoneyModal(),
+        disabled: freeMoney === 0,
+        action: () => this.infoCardValueModalService.openDecreaseFreeMoneyModal(freeMoney),
       },
       {
         icon: 'edit',

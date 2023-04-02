@@ -1,5 +1,9 @@
 :host {
-  @apply block;
+  @apply block w-6 h-6;
+
+  &.autosize {
+    @apply w-auto h-auto;
+  }
 
   svg {
     @apply block w-full h-full;
