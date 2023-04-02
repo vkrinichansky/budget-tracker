@@ -51,6 +51,7 @@ export class AuthService {
       balance: 0,
       savings: 0,
       free: 0,
+      activityLog: [],
     };
 
     return await setDoc(doc(this.userDataCollection, userId), data);

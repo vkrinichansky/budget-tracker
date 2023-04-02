@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  arrayUnion,
   collection,
   CollectionReference,
   doc,
@@ -9,7 +10,7 @@ import {
   getDoc,
   updateDoc,
 } from '@angular/fire/firestore';
-import { BudgetTrackerState } from '@budget-tracker/shared';
+import { BudgetTrackerState, RootValueChangeRecord } from '@budget-tracker/shared';
 import { Store } from '@ngrx/store';
 import { AuthFacadeService, AuthSelectors } from '@budget-tracker/auth';
 import { filter, firstValueFrom, from, map, mergeMap, Observable, switchMap, tap } from 'rxjs';
@@ -39,15 +40,15 @@ export class BudgetTrackerService {
     );
   }
 
-  updateBalance(newBalanceValue: number): Promise<void> {
-    return updateDoc(this.docRef, { balance: newBalanceValue });
+  updateBalance(newBalanceValue: number, activityLogRecord: RootValueChangeRecord): Promise<void> {
+    return updateDoc(this.docRef, { balance: newBalanceValue, activityLog: arrayUnion(activityLogRecord) });
   }
 
-  updateSavings(newBalanceValue: number): Promise<void> {
-    return updateDoc(this.docRef, { savings: newBalanceValue });
+  updateSavings(newBalanceValue: number, activityLogRecord: RootValueChangeRecord): Promise<void> {
+    return updateDoc(this.docRef, { savings: newBalanceValue, activityLog: arrayUnion(activityLogRecord) });
   }
 
-  updateFreeMoney(newFreeMoneyValue: number): Promise<void> {
-    return updateDoc(this.docRef, { free: newFreeMoneyValue });
+  updateFreeMoney(newFreeMoneyValue: number, activityLogRecord: RootValueChangeRecord): Promise<void> {
+    return updateDoc(this.docRef, { free: newFreeMoneyValue, activityLog: arrayUnion(activityLogRecord) });
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthFacadeService } from '../../services';
+import { ColorScheme } from '@budget-tracker/design-system';
 @Component({
   selector: 'app-auth-page',
   templateUrl: './auth-page.component.html',
@@ -8,6 +9,8 @@ import { AuthFacadeService } from '../../services';
 })
 export class AuthPageComponent implements OnInit {
   private readonly rootTranslationKey = 'auth';
+
+  readonly colorScheme = ColorScheme;
 
   authLoading$: Observable<boolean>;
 

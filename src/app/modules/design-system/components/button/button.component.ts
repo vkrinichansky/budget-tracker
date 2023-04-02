@@ -1,6 +1,6 @@
 import { HostBinding } from '@angular/core';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ButtonSize, ColorsSet } from '../../models';
+import { ButtonSize, ColorScheme } from '../../models';
 
 @Component({
   selector: 'app-button',
@@ -19,7 +19,7 @@ export class ButtonComponent {
 
   @HostBinding('class')
   private get classes(): string {
-    return `block rounded overflow-hidden ${this.buttonSize}`;
+    return `block rounded overflow-hidden ${this.buttonSize} ${this.colorScheme}`;
   }
 
   @Input()
@@ -32,5 +32,5 @@ export class ButtonComponent {
   iconName: string;
 
   @Input()
-  iconColor: ColorsSet;
+  colorScheme: ColorScheme;
 }

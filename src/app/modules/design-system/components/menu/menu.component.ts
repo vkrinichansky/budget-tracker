@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ColorsSet, MenuAction } from '../../models';
+import { ColorScheme, MenuAction } from '../../models';
 
 @Component({
   selector: 'app-menu',
@@ -8,26 +8,8 @@ import { ColorsSet, MenuAction } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent {
-  readonly colorsSet = ColorsSet;
-
-  get resolveMenuColor(): string {
-    switch (this.colorMode) {
-      case ColorsSet.Charcoal:
-        return ColorsSet.White;
-        break;
-
-      case ColorsSet.White:
-        return ColorsSet.Charcoal;
-        break;
-
-      case ColorsSet.Green:
-        return ColorsSet.White;
-        break;
-    }
-  }
-
   @Input()
-  colorMode: ColorsSet = ColorsSet.Charcoal;
+  colorScheme: ColorScheme;
 
   @Input()
   menuActions: MenuAction[];

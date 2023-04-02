@@ -34,10 +34,13 @@ export class BudgetTrackerEffects {
     this.actions$.pipe(
       ofType(BudgetTrackerActions.updateBalance),
       mergeMap((action) =>
-        from(this.budgetTrackerService.updateBalance(action.newBalanceValue)).pipe(
+        from(this.budgetTrackerService.updateBalance(action.newBalanceValue, action.activityLogRecord)).pipe(
           map(() => {
             this.snackbarHandler.showBalanceEditedSnackbar();
-            return BudgetTrackerActions.balanceUpdated({ newBalanceValue: action.newBalanceValue });
+            return BudgetTrackerActions.balanceUpdated({
+              newBalanceValue: action.newBalanceValue,
+              activityLogRecord: action.activityLogRecord,
+            });
           }),
           catchError((error) => {
             this.snackbarHandler.showErrorSnackbar(error);
@@ -53,10 +56,13 @@ export class BudgetTrackerEffects {
     this.actions$.pipe(
       ofType(BudgetTrackerActions.updateSavings),
       mergeMap((action) =>
-        from(this.budgetTrackerService.updateSavings(action.newSavingsValue)).pipe(
+        from(this.budgetTrackerService.updateSavings(action.newSavingsValue, action.activityLogRecord)).pipe(
           map(() => {
             this.snackbarHandler.showSavingsEditedSnackbar();
-            return BudgetTrackerActions.savingsUpdated({ newSavingsValue: action.newSavingsValue });
+            return BudgetTrackerActions.savingsUpdated({
+              newSavingsValue: action.newSavingsValue,
+              activityLogRecord: action.activityLogRecord,
+            });
           }),
           catchError((error) => {
             this.snackbarHandler.showErrorSnackbar(error);
@@ -72,10 +78,13 @@ export class BudgetTrackerEffects {
     this.actions$.pipe(
       ofType(BudgetTrackerActions.updateFreeMoney),
       mergeMap((action) =>
-        from(this.budgetTrackerService.updateFreeMoney(action.newFreeMoneyValue)).pipe(
+        from(this.budgetTrackerService.updateFreeMoney(action.newFreeMoneyValue, action.activityLogRecord)).pipe(
           map(() => {
             this.snackbarHandler.showFreeMoneyEditedSnackbar();
-            return BudgetTrackerActions.freeMoneyUpdated({ newFreeMoneyValue: action.newFreeMoneyValue });
+            return BudgetTrackerActions.freeMoneyUpdated({
+              newFreeMoneyValue: action.newFreeMoneyValue,
+              activityLogRecord: action.activityLogRecord,
+            });
           }),
           catchError((error) => {
             this.snackbarHandler.showErrorSnackbar(error);

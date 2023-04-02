@@ -4,10 +4,6 @@
     @apply cursor-default pointer-events-none;
   }
 
-  &.disabled {
-    @apply grayscale;
-  }
-
   &.small {
     @apply w-8;
   }
@@ -30,5 +26,49 @@
 
   &.auto {
     @apply w-auto;
+  }
+
+  &.charcoal {
+    @apply bg-charcoal hover:bg-blue text-white;
+
+    svg-icon {
+      @apply text-white;
+    }
+  }
+
+  &.green {
+    @apply bg-dark-green hover:bg-hover-green text-white;
+
+    svg-icon {
+      @apply text-white;
+    }
+  }
+
+  &.active-navigation-item {
+    @apply bg-transparent hover:bg-hover-white text-dark-green;
+
+    svg-icon {
+      @apply text-dark-green;
+    }
+  }
+
+  &.transparent-light {
+    @apply bg-transparent hover:bg-hover-white text-white;
+
+    svg-icon {
+      @apply text-white;
+    }
+  }
+
+  &.transparent-dark {
+    @apply bg-transparent hover:bg-hover-black text-charcoal;
+
+    svg-icon {
+      @apply text-charcoal;
+    }
+  }
+
+  &.disabled {
+    @apply bg-grey;
   }
 }

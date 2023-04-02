@@ -1,19 +1,12 @@
-<app-button
-  mat-button
-  [ngClass]="{
-    'hover:bg-hover-black': colorMode === colorsSet.White,
-    'hover:bg-hover-white': colorMode === colorsSet.Charcoal || colorMode === colorsSet.Green
-  }"
-  [matMenuTriggerFor]="menu"
-  [iconName]="'menu'"
-  [iconColor]="resolveMenuColor"
-></app-button>
+<app-button mat-button [matMenuTriggerFor]="menu" [iconName]="'menu'" [colorScheme]="colorScheme"></app-button>
 
 <mat-menu #menu="matMenu">
   <custom-menu-item
     *ngFor="let action of menuActions"
     [text]="action.text"
+    [iconName]="action.icon"
     [buttonSize]="'full'"
+    [disabled]="action.disabled"
     (click)="action.action()"
   ></custom-menu-item>
 </mat-menu>

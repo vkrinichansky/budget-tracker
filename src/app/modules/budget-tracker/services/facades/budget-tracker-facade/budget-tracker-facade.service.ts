@@ -1,8 +1,18 @@
 import { Injectable } from '@angular/core';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { Store } from '@ngrx/store';
-import { firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom, map, Observable } from 'rxjs';
 import { BudgetTrackerActions, BudgetTrackerSelectors } from '../../../store';
+import {
+  ActivityLog,
+  ActivityLogGroupedByDays,
+  ActivityLogGroupedByDaysInObject,
+  ActivityLogRecordType,
+  RootValueActionType,
+  RootValueChangeRecord,
+  RootValueType,
+} from '@budget-tracker/shared';
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class BudgetTrackerFacadeService {
@@ -38,60 +48,182 @@ export class BudgetTrackerFacadeService {
   }
 
   // BALANCE
-  async increaseBalance(value: number): Promise<void> {
+  async increaseBalance(value: number, note: string): Promise<void> {
     const balance = await firstValueFrom(this.getFullBalanceValue());
     const newBalanceValue = balance + value;
 
-    this.store.dispatch(BudgetTrackerActions.updateBalance({ newBalanceValue }));
+    const balanceIncreaseRecord: RootValueChangeRecord = {
+      recordType: ActivityLogRecordType.RootValueChange,
+      valueType: RootValueType.Balance,
+      actionType: RootValueActionType.Increase,
+      value,
+      date: new Date().getTime(),
+      icon: 'equal-sign',
+      id: uuid(),
+      note,
+    };
+
+    this.store.dispatch(
+      BudgetTrackerActions.updateBalance({ newBalanceValue, activityLogRecord: balanceIncreaseRecord })
+    );
   }
 
-  async decreaseBalance(value: number): Promise<void> {
+  async decreaseBalance(value: number, note: string): Promise<void> {
     const balance = await firstValueFrom(this.getFullBalanceValue());
     const newBalanceValue = balance - value;
 
-    this.store.dispatch(BudgetTrackerActions.updateBalance({ newBalanceValue }));
+    const balanceDecreaseRecord: RootValueChangeRecord = {
+      recordType: ActivityLogRecordType.RootValueChange,
+      valueType: RootValueType.Balance,
+      actionType: RootValueActionType.Decrease,
+      value,
+      date: new Date().getTime(),
+      icon: 'equal-sign',
+      id: uuid(),
+      note,
+    };
+
+    this.store.dispatch(
+      BudgetTrackerActions.updateBalance({ newBalanceValue, activityLogRecord: balanceDecreaseRecord })
+    );
   }
 
-  editBalance(newBalanceValue: number): void {
-    this.store.dispatch(BudgetTrackerActions.updateBalance({ newBalanceValue }));
+  async editBalance(newBalanceValue: number, note: string): Promise<void> {
+    const balance = await firstValueFrom(this.getFullBalanceValue());
+
+    const balanceEditRecord: RootValueChangeRecord = {
+      recordType: ActivityLogRecordType.RootValueChange,
+      valueType: RootValueType.Balance,
+      actionType: RootValueActionType.Edit,
+      oldValue: balance,
+      newValue: newBalanceValue,
+      date: new Date().getTime(),
+      icon: 'equal-sign',
+      id: uuid(),
+      note,
+    };
+
+    this.store.dispatch(BudgetTrackerActions.updateBalance({ newBalanceValue, activityLogRecord: balanceEditRecord }));
   }
 
   // SAVINGS
-  async increaseSavings(value: number): Promise<void> {
+  async increaseSavings(value: number, note: string): Promise<void> {
     const savings = await firstValueFrom(this.getSavingsValue());
     const newSavingsValue = savings + value;
 
-    this.store.dispatch(BudgetTrackerActions.updateSavings({ newSavingsValue }));
+    const savingsIncreaseRecord: RootValueChangeRecord = {
+      recordType: ActivityLogRecordType.RootValueChange,
+      valueType: RootValueType.Savings,
+      actionType: RootValueActionType.Increase,
+      value,
+      date: new Date().getTime(),
+      icon: 'jar',
+      id: uuid(),
+      note,
+    };
+
+    this.store.dispatch(
+      BudgetTrackerActions.updateSavings({ newSavingsValue, activityLogRecord: savingsIncreaseRecord })
+    );
   }
 
-  async decreaseSavings(value: number): Promise<void> {
+  async decreaseSavings(value: number, note: string): Promise<void> {
     const savings = await firstValueFrom(this.getSavingsValue());
     const newSavingsValue = savings - value;
 
-    this.store.dispatch(BudgetTrackerActions.updateSavings({ newSavingsValue }));
+    const savingsDecreaseRecord: RootValueChangeRecord = {
+      recordType: ActivityLogRecordType.RootValueChange,
+      valueType: RootValueType.Savings,
+      actionType: RootValueActionType.Decrease,
+      value,
+      date: new Date().getTime(),
+      icon: 'jar',
+      id: uuid(),
+      note,
+    };
+
+    this.store.dispatch(
+      BudgetTrackerActions.updateSavings({ newSavingsValue, activityLogRecord: savingsDecreaseRecord })
+    );
   }
 
-  editSavings(newSavingsValue: number): void {
-    this.store.dispatch(BudgetTrackerActions.updateSavings({ newSavingsValue }));
+  async editSavings(newSavingsValue: number, note: string): Promise<void> {
+    const savings = await firstValueFrom(this.getSavingsValue());
+
+    const savingsEditRecord: RootValueChangeRecord = {
+      recordType: ActivityLogRecordType.RootValueChange,
+      valueType: RootValueType.Savings,
+      actionType: RootValueActionType.Edit,
+      oldValue: savings,
+      newValue: newSavingsValue,
+      date: new Date().getTime(),
+      icon: 'jar',
+      id: uuid(),
+      note,
+    };
+
+    this.store.dispatch(BudgetTrackerActions.updateSavings({ newSavingsValue, activityLogRecord: savingsEditRecord }));
   }
 
   // FREE MONEY
-  async increaseFreeMoney(value: number): Promise<void> {
+  async increaseFreeMoney(value: number, note: string): Promise<void> {
     const freeMoney = await firstValueFrom(this.getFreeMoneyValue());
     const newFreeMoneyValue = freeMoney + value;
 
-    this.store.dispatch(BudgetTrackerActions.updateFreeMoney({ newFreeMoneyValue }));
+    const freeMoneyIncreaseRecord: RootValueChangeRecord = {
+      recordType: ActivityLogRecordType.RootValueChange,
+      valueType: RootValueType.FreeMoney,
+      actionType: RootValueActionType.Increase,
+      value,
+      date: new Date().getTime(),
+      icon: 'coins',
+      id: uuid(),
+      note,
+    };
+
+    this.store.dispatch(
+      BudgetTrackerActions.updateFreeMoney({ newFreeMoneyValue, activityLogRecord: freeMoneyIncreaseRecord })
+    );
   }
 
-  async decreaseFreeMoney(value: number): Promise<void> {
+  async decreaseFreeMoney(value: number, note: string): Promise<void> {
     const freeMoney = await firstValueFrom(this.getFreeMoneyValue());
     const newFreeMoneyValue = freeMoney - value;
 
-    this.store.dispatch(BudgetTrackerActions.updateFreeMoney({ newFreeMoneyValue }));
+    const freeMoneyDecreaseRecord: RootValueChangeRecord = {
+      recordType: ActivityLogRecordType.RootValueChange,
+      valueType: RootValueType.FreeMoney,
+      actionType: RootValueActionType.Decrease,
+      value,
+      date: new Date().getTime(),
+      icon: 'coins',
+      id: uuid(),
+      note,
+    };
+
+    this.store.dispatch(
+      BudgetTrackerActions.updateFreeMoney({ newFreeMoneyValue, activityLogRecord: freeMoneyDecreaseRecord })
+    );
   }
 
-  editFreeMoney(newFreeMoneyValue: number): void {
-    this.store.dispatch(BudgetTrackerActions.updateFreeMoney({ newFreeMoneyValue }));
+  async editFreeMoney(newFreeMoneyValue: number, note: string): Promise<void> {
+    const freeMoney = await firstValueFrom(this.getFreeMoneyValue());
+
+    const freeMoneyEditRecord: RootValueChangeRecord = {
+      recordType: ActivityLogRecordType.RootValueChange,
+      valueType: RootValueType.FreeMoney,
+      actionType: RootValueActionType.Edit,
+      oldValue: freeMoney,
+      newValue: newFreeMoneyValue,
+      date: new Date().getTime(),
+      icon: 'coins',
+      id: uuid(),
+      note,
+    };
+
+    this.store.dispatch(
+      BudgetTrackerActions.updateFreeMoney({ newFreeMoneyValue, activityLogRecord: freeMoneyEditRecord })
+    );
   }
 
   // VALUE UPDATING STATES
@@ -105,5 +237,43 @@ export class BudgetTrackerFacadeService {
 
   getValueUpdatingError(): Observable<boolean> {
     return this.store.select(BudgetTrackerSelectors.valueUpdatingErrorSelector);
+  }
+
+  // ACTIVITY LOG
+  getActivityLogGroupedByDays(): Observable<ActivityLogGroupedByDays[]> {
+    return this.store.select(BudgetTrackerSelectors.activityLogSelector).pipe(
+      map((activityLog) => this.groupActivityLogByDaysInObject(activityLog)),
+      map((activityLogInObject) => this.activityLogByDaysInObjectToArray(activityLogInObject))
+    );
+  }
+
+  private groupActivityLogByDaysInObject(activityLog: ActivityLog): ActivityLogGroupedByDaysInObject {
+    return activityLog
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .reduce((group, record) => {
+        const date = new Date(record.date);
+        const dateKey = date.toLocaleDateString('en', {
+          weekday: 'short',
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        });
+
+        group[dateKey] = group[dateKey] ?? [];
+        group[dateKey].push(record);
+        return group;
+      }, {} as ActivityLogGroupedByDaysInObject);
+  }
+
+  private activityLogByDaysInObjectToArray(
+    activityLogInObject: ActivityLogGroupedByDaysInObject
+  ): ActivityLogGroupedByDays[] {
+    return Object.keys(activityLogInObject).map(
+      (key) =>
+        ({
+          date: key,
+          records: activityLogInObject[key].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
+        } as ActivityLogGroupedByDays)
+    );
   }
 }

@@ -8,91 +8,94 @@ import { InfoCardMenuActionsType, InfoCardValueModalData, InfoCardValueToEdit } 
 export class InfoCardValueModalService {
   constructor(private dialog: MatDialog) {}
 
-  openIncreaseBalanceModal() {
+  openIncreaseBalanceModal(initialValue: number) {
     const data: InfoCardValueModalData = {
       actionType: InfoCardMenuActionsType.Increase,
       valueToEdit: InfoCardValueToEdit.Balance,
-      initialValue: 0,
+      initialValue,
     };
 
     this.dialog.open(InfoCardValueModalComponent, { data, disableClose: true });
   }
 
-  openDecreaseBalanceModal() {
+  openDecreaseBalanceModal(initialValue: number) {
     const data: InfoCardValueModalData = {
       actionType: InfoCardMenuActionsType.Decrease,
       valueToEdit: InfoCardValueToEdit.Balance,
-      initialValue: 0,
+      initialValue,
     };
 
     this.dialog.open(InfoCardValueModalComponent, { data, disableClose: true });
   }
 
-  openEditBalanceModal(balanceValue: number) {
+  openEditBalanceModal(initialValue: number) {
     const data: InfoCardValueModalData = {
       actionType: InfoCardMenuActionsType.Edit,
       valueToEdit: InfoCardValueToEdit.Balance,
-      initialValue: balanceValue,
+      initialValue,
+      shouldDisplayInitialValue: true,
     };
 
     this.dialog.open(InfoCardValueModalComponent, { data, disableClose: true });
   }
 
-  openIncreaseSavingsModal() {
+  openIncreaseSavingsModal(initialValue: number) {
     const data: InfoCardValueModalData = {
       actionType: InfoCardMenuActionsType.Increase,
       valueToEdit: InfoCardValueToEdit.Savings,
-      initialValue: 0,
+      initialValue,
     };
 
     this.dialog.open(InfoCardValueModalComponent, { data, disableClose: true });
   }
 
-  openDecreaseSavingsModal() {
+  openDecreaseSavingsModal(initialValue: number) {
     const data: InfoCardValueModalData = {
       actionType: InfoCardMenuActionsType.Decrease,
       valueToEdit: InfoCardValueToEdit.Savings,
-      initialValue: 0,
+      initialValue,
     };
 
     this.dialog.open(InfoCardValueModalComponent, { data, disableClose: true });
   }
 
-  openEditSavingsModal(savingsValue: number) {
+  openEditSavingsModal(initialValue: number) {
     const data: InfoCardValueModalData = {
       actionType: InfoCardMenuActionsType.Edit,
       valueToEdit: InfoCardValueToEdit.Savings,
-      initialValue: savingsValue,
+      initialValue,
+      shouldDisplayInitialValue: true,
     };
 
     this.dialog.open(InfoCardValueModalComponent, { data, disableClose: true });
   }
 
-  openIncreaseFreeMoneyModal() {
+  openIncreaseFreeMoneyModal(initialValue: number) {
     const data: InfoCardValueModalData = {
       actionType: InfoCardMenuActionsType.Increase,
       valueToEdit: InfoCardValueToEdit.FreeMoney,
-      initialValue: 0,
+      initialValue,
     };
 
     this.dialog.open(InfoCardValueModalComponent, { data, disableClose: true });
   }
 
-  openDecreaseFreeMoneyModal() {
+  openDecreaseFreeMoneyModal(initialValue: number) {
     const data: InfoCardValueModalData = {
       actionType: InfoCardMenuActionsType.Decrease,
       valueToEdit: InfoCardValueToEdit.FreeMoney,
-      initialValue: 0,
+      initialValue,
     };
 
     this.dialog.open(InfoCardValueModalComponent, { data, disableClose: true });
   }
 
-  openEditFreeMoneyModal(freeMoneyValue: number) {
+  openEditFreeMoneyModal(initialValue: number) {
     const data: InfoCardValueModalData = {
       actionType: InfoCardMenuActionsType.Edit,
       valueToEdit: InfoCardValueToEdit.FreeMoney,
-      initialValue: freeMoneyValue,
+      initialValue,
+      shouldDisplayInitialValue: true,
     };
 
     this.dialog.open(InfoCardValueModalComponent, { data, disableClose: true });

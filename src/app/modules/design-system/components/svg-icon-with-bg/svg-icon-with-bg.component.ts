@@ -14,5 +14,5 @@ export class SvgIconWithBgComponent {
 
   @HostBinding('class')
   @Input()
-  iconBGClass: string;
+  size: 'small' | 'big' = 'big';
 }

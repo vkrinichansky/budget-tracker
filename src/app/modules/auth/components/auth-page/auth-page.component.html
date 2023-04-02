@@ -1,8 +1,8 @@
-<svg-icon [iconName]="'app-logo'"></svg-icon>
+<svg-icon [iconName]="'app-logo'" [autoSize]="true"></svg-icon>
 
 <app-button
-  class="bg-green text-white hover:bg-hover-green"
   [iconName]="'google'"
+  [colorScheme]="colorScheme.Green"
   [text]="buildTranslationKey('signInWithGoogle') | translate"
   [loading]="authLoading$ | async"
   [buttonSize]="'large'"
