@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ButtonComponent,
-  CustomMenuItemComponent,
   InfoCardComponent,
   LoaderComponent,
   PageHeaderComponent,
@@ -21,7 +20,6 @@ import { MatMenuModule } from '@angular/material/menu';
     InfoCardComponent,
     SvgIconWithBgComponent,
     MenuComponent,
-    CustomMenuItemComponent,
   ],
   imports: [CommonModule, MatMenuModule],
   exports: [

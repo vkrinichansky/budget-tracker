@@ -1,4 +1,4 @@
-<div class="flex gap-x-4 items-center">
+<div class="flex gap-x-2 items-start">
   <svg-icon-with-bg class="text-charcoal bg-light-blue" [iconName]="record.icon" [size]="'small'"></svg-icon-with-bg>
 
   <span class="flex flex-col">
@@ -11,10 +11,11 @@
 
   <svg-icon
     *ngIf="record?.note as note"
-    class="text-charcoal hover:text-blue cursor-pointer"
+    class="text-charcoal hover:text-blue cursor-pointer mt-0.5"
     [iconName]="'info'"
     [matTooltip]="note"
     [matTooltipPosition]="'above'"
+    [size]="'small'"
   ></svg-icon>
 </div>
 

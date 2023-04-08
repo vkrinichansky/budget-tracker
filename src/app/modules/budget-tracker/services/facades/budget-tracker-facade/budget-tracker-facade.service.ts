@@ -23,6 +23,10 @@ export class BudgetTrackerFacadeService {
     this.store.dispatch(BudgetTrackerActions.init());
   }
 
+  isDataLoading(): Observable<boolean> {
+    return this.store.select(BudgetTrackerSelectors.dataLoadingSelector);
+  }
+
   getIncomeValue(): Observable<number> {
     return this.store.select(BudgetTrackerSelectors.incomeValueSelector);
   }

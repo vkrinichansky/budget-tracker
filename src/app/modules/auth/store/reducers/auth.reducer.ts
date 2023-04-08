@@ -32,11 +32,7 @@ export const authFeature = createFeature({
       loaded: true,
     })),
 
-    on(AuthActions.notAuthenticated, (state) => ({
-      ...state,
-      user: null,
-      loading: false,
-    }))
+    on(AuthActions.notAuthenticated, () => initialState)
   ),
 });
 

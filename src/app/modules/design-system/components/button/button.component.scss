@@ -1,4 +1,6 @@
 :host {
+  transition: background-color 0.2s ease;
+
   &.loading,
   &.disabled {
     @apply cursor-default pointer-events-none;
@@ -9,14 +11,10 @@
   }
 
   &.medium {
-    @apply w-12;
-  }
-
-  &.big {
     @apply w-24;
   }
 
-  &.large {
+  &.big {
     @apply w-60;
   }
 

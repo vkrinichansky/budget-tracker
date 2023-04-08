@@ -20,6 +20,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { UtilsModule } from '@budget-tracker/utils';
 
 const routes: Routes = [
   {
@@ -51,6 +52,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     MatTooltipModule,
+    UtilsModule,
   ],
   providers: [InfoCardValueModalService],
 })

@@ -3,6 +3,8 @@ import { createAction, props } from '@ngrx/store';
 
 enum BudgetTrackerActionsType {
   Init = '[Budget Tracker] Init',
+  CleanState = '[Budget Tracker] Clean state',
+
   DataLoaded = '[Budget Tracker] Data loaded',
   UpdateBalance = '[Budget Tracker] Update balance',
   BalanceUpdated = '[Budget Tracker] Balance updated',
@@ -21,6 +23,8 @@ enum BudgetTrackerActionsType {
 
 export const BudgetTrackerActions = {
   init: createAction(BudgetTrackerActionsType.Init),
+
+  clean: createAction(BudgetTrackerActionsType.CleanState),
 
   dataLoaded: createAction(BudgetTrackerActionsType.DataLoaded, props<{ data: BudgetTrackerState }>()),
 

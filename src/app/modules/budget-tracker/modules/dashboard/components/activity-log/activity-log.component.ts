@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivityLogGroupedByDays, ActivityLogRecordType } from '@budget-tracker/shared';
-import { Observable, tap } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { BudgetTrackerFacadeService } from 'src/app/modules/budget-tracker/services';
 
 @Component({
@@ -16,10 +16,14 @@ export class ActivityLogComponent implements OnInit {
 
   activityLog$: Observable<ActivityLogGroupedByDays[]>;
 
+  isEmpty$: Observable<boolean>;
+
   constructor(private budgetTrackerFacade: BudgetTrackerFacadeService) {}
 
   ngOnInit(): void {
     this.activityLog$ = this.budgetTrackerFacade.getActivityLogGroupedByDays();
+
+    this.isEmpty$ = this.activityLog$.pipe(map((activitiLog) => !activitiLog.length));
   }
 
   buildTranslationKey(key: string): string {

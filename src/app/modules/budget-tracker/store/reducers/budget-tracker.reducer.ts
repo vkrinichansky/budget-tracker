@@ -50,6 +50,8 @@ export const budgetTrackerFeature = createFeature({
       loading: true,
     })),
 
+    on(BudgetTrackerActions.clean, () => initialState),
+
     on(BudgetTrackerActions.dataLoaded, (state, action) => ({
       ...state,
       savings: action.data.savings,

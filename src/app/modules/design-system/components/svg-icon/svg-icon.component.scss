@@ -1,7 +1,19 @@
 :host {
-  @apply block w-6 h-6;
+  @apply block;
 
-  &.autosize {
+  &.small {
+    @apply w-4 h-4;
+  }
+
+  &.medium {
+    @apply w-6 h-6;
+  }
+
+  &.big {
+    @apply w-10 h-10;
+  }
+
+  &.auto {
     @apply w-auto h-auto;
   }
 
