@@ -75,7 +75,8 @@
           "savings": "Savings",
           "free": "Free money"
         }
-      }
+      },
+      "emptyStateText": "No data to display yet"
     }
   },
 

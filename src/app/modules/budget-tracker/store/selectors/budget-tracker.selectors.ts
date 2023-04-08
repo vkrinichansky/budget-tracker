@@ -6,6 +6,8 @@ const budgetTrackerStateSelector = createSelector(
   (budgetTrackerState) => budgetTrackerState
 );
 
+const dataLoadingSelector = createSelector(budgetTrackerFeature.selectLoading, (isLoading) => isLoading);
+
 const incomeCategoriesSelector = createSelector(budgetTrackerFeature.selectIncome, selectAll);
 
 const incomeValueSelector = createSelector(incomeCategoriesSelector, (categories) =>
@@ -50,6 +52,7 @@ const activityLogSelector = createSelector(budgetTrackerFeature.selectActivityLo
 
 export const BudgetTrackerSelectors = {
   budgetTrackerStateSelector,
+  dataLoadingSelector,
   incomeCategoriesSelector,
   incomeValueSelector,
   expenseCategoriesSelector,

@@ -1,5 +1,10 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 
+enum LoaderType {
+  Button = 'button-loader',
+  Main = 'main-loader',
+}
+
 @Component({
   selector: 'app-loader',
   templateUrl: './loader.component.html',
@@ -8,13 +13,13 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
 })
 export class LoaderComponent {
   @Input()
-  widthClass = 'w-6';
+  size: LoaderType = LoaderType.Button;
 
   @Input()
-  heightClass = 'h-6';
+  colorMode: 'dark' | 'light' = 'light';
 
   @HostBinding('class')
   private get classes(): string {
-    return `${this.widthClass} ${this.heightClass}`;
+    return `${this.size} ${this.colorMode}`;
   }
 }

@@ -1,5 +1,8 @@
 <button
-  class="w-full flex items-center justify-center gap-x-1.5  {{ text ? 'px-3 py-1.5' : 'px-1 py-1' }}"
+  class="w-full flex items-center gap-x-1.5  {{ text ? 'px-3 py-1.5' : 'px-1 py-1' }}"
+  [class.justify-center]="align === 'center'"
+  [class.justify-start]="align === 'start'"
+
   [type]="'button'"
 >
   <app-loader *ngIf="loading; else main"></app-loader>

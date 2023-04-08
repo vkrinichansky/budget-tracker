@@ -1,10 +1,10 @@
-<svg-icon [iconName]="'app-logo'" [autoSize]="true"></svg-icon>
+<svg-icon [iconName]="'app-logo'" [size]="'auto'"></svg-icon>
 
 <app-button
   [iconName]="'google'"
   [colorScheme]="colorScheme.Green"
   [text]="buildTranslationKey('signInWithGoogle') | translate"
   [loading]="authLoading$ | async"
-  [buttonSize]="'large'"
+  [buttonSize]="'big'"
   (click)="googleLogin()"
 ></app-button>

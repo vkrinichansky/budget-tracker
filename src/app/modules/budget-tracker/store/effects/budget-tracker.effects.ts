@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthSelectors } from '@budget-tracker/auth';
+import { AuthActions, AuthSelectors } from '@budget-tracker/auth';
 import { SnackbarHandlerService } from '@budget-tracker/shared';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -27,6 +27,13 @@ export class BudgetTrackerEffects {
       ),
       mergeMap(() => from(this.budgetTrackerService.initData())),
       map((data) => BudgetTrackerActions.dataLoaded({ data }))
+    )
+  );
+
+  cleanStateOnLogOut$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.logout),
+      map(() => BudgetTrackerActions.clean())
     )
   );
 

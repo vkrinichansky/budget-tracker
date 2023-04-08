@@ -1,12 +1,13 @@
 <app-button mat-button [matMenuTriggerFor]="menu" [iconName]="'menu'" [colorScheme]="colorScheme"></app-button>
 
 <mat-menu #menu="matMenu">
-  <custom-menu-item
+  <app-button
     *ngFor="let action of menuActions"
     [text]="action.text"
     [iconName]="action.icon"
     [buttonSize]="'full'"
     [disabled]="action.disabled"
+    [align]="'start'"
     (click)="action.action()"
-  ></custom-menu-item>
+  ></app-button>
 </mat-menu>
