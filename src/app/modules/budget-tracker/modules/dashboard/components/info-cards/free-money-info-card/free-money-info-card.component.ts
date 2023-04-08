@@ -3,7 +3,7 @@ import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
 import { InfoCardColorScheme, MenuAction } from '@budget-tracker/design-system';
 import { TranslateService } from '@ngx-translate/core';
 import { map, Observable } from 'rxjs';
-import { InfoCardValueModalService } from '../../services';
+import { InfoCardValueModalService } from '../../../services';
 
 @Component({
   selector: 'app-free-money-info-card',

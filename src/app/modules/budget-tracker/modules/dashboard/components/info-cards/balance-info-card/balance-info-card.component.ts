@@ -3,7 +3,7 @@ import { map, Observable } from 'rxjs';
 import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
 import { MenuAction } from '@budget-tracker/design-system';
 import { TranslateService } from '@ngx-translate/core';
-import { InfoCardValueModalService } from '../../services';
+import { InfoCardValueModalService } from '../../../services';
 @Component({
   selector: 'app-balance-info-card',
   templateUrl: './balance-info-card.component.html',
