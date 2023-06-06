@@ -5,7 +5,7 @@ import { BudgetType } from '@budget-tracker/shared';
 import { AddCategoryModalComponent } from '../../components';
 
 @Injectable()
-export class AddCategoryModalService {
+export class CategoryModalsService {
   constructor(private dialog: MatDialog) {}
 
   openAddIncomeCategoryModal() {

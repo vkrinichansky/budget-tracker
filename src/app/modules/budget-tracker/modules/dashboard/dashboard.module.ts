@@ -19,7 +19,7 @@ import {
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { AddCategoryModalService, InfoCardValueModalService } from './services';
+import { CategoryModalsService, InfoCardValueModalService } from './services';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -64,6 +64,6 @@ const routes: Routes = [
     UtilsModule,
     MatSelectModule,
   ],
-  providers: [InfoCardValueModalService, AddCategoryModalService],
+  providers: [InfoCardValueModalService, CategoryModalsService],
 })
 export class DashboardModule {}
