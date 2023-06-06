@@ -16,6 +16,7 @@ export interface FullBudgetTrackerState {
   loaded: boolean;
   valueUpdating: { success: boolean; error: boolean; inProgress: boolean };
   categoryManagement: { success: boolean; error: boolean; inProgress: boolean };
+  categoryValueChange: { success: boolean; error: boolean; inProgress: boolean };
 }
 
 function selectCategoryId(category: Category) {
@@ -41,6 +42,11 @@ const initialState: FullBudgetTrackerState = {
     inProgress: false,
   },
   categoryManagement: {
+    success: false,
+    error: false,
+    inProgress: false,
+  },
+  categoryValueChange: {
     success: false,
     error: false,
     inProgress: false,
@@ -230,6 +236,48 @@ export const budgetTrackerFeature = createFeature({
     on(BudgetTrackerActions.resetCategoryManagementProp, (state) => ({
       ...state,
       categoryManagement: {
+        inProgress: false,
+        error: false,
+        success: false,
+      },
+    })),
+
+    on(BudgetTrackerActions.changeCategoryValue, (state) => ({
+      ...state,
+      categoryValueChange: {
+        inProgress: true,
+        error: false,
+        success: false,
+      },
+    })),
+
+    on(BudgetTrackerActions.categoryValueChanged, (state, action) => ({
+      ...state,
+      [action.updatedCategory.budgetType]: categoryEntityAdapter.updateOne(
+        { changes: action.updatedCategory, id: action.updatedCategory.id },
+        state[action.updatedCategory.budgetType]
+      ),
+      balance: action.newBalanceValue,
+      activityLog: [...state.activityLog, action.activityLogRecord],
+      categoryValueChange: {
+        inProgress: false,
+        error: false,
+        success: true,
+      },
+    })),
+
+    on(BudgetTrackerActions.changeCategoryValueFail, (state) => ({
+      ...state,
+      categoryValueChange: {
+        inProgress: false,
+        error: true,
+        success: false,
+      },
+    })),
+
+    on(BudgetTrackerActions.resetCategoryValueChangeProp, (state) => ({
+      ...state,
+      categoryValueChange: {
         inProgress: false,
         error: false,
         success: false,

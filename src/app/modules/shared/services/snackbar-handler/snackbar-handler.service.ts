@@ -53,6 +53,13 @@ export class SnackbarHandlerService {
     );
   }
 
+  showCategoryValueChangedSnackbar(): void {
+    this.snackBar.open(
+      this.translateService.instant(this.buildTranslationKey('categoryValueChangedSnackbar.message')),
+      this.translateService.instant(this.buildTranslationKey('categoryValueChangedSnackbar.buttonText'))
+    );
+  }
+
   private buildTranslationKey(key: string): string {
     return `${this.rootTranslationKey}.${key}`;
   }

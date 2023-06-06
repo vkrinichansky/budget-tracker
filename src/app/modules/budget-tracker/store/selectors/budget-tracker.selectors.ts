@@ -63,6 +63,21 @@ const categoryManagementErrorSelector = createSelector(
   (valueUpdating) => valueUpdating.error
 );
 
+const categoryValueChangeInProgressSelector = createSelector(
+  budgetTrackerFeature.selectCategoryValueChange,
+  (valueUpdating) => valueUpdating.inProgress
+);
+
+const categoryValueChangeSuccessSelector = createSelector(
+  budgetTrackerFeature.selectCategoryValueChange,
+  (valueUpdating) => valueUpdating.success
+);
+
+const categoryValueChangeErrorSelector = createSelector(
+  budgetTrackerFeature.selectCategoryValueChange,
+  (valueUpdating) => valueUpdating.error
+);
+
 const activityLogSelector = createSelector(budgetTrackerFeature.selectActivityLog, (activityLog) => activityLog);
 
 export const BudgetTrackerSelectors = {
@@ -83,4 +98,7 @@ export const BudgetTrackerSelectors = {
   categoryManagementInProgressSelector,
   categoryManagementSuccessSelector,
   categoryManagementErrorSelector,
+  categoryValueChangeInProgressSelector,
+  categoryValueChangeSuccessSelector,
+  categoryValueChangeErrorSelector,
 };

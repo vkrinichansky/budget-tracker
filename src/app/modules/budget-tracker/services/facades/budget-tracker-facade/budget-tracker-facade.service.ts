@@ -8,9 +8,11 @@ import {
   ActivityLogGroupedByDays,
   ActivityLogGroupedByDaysInObject,
   ActivityLogRecordType,
+  BudgetType,
   Category,
   CategoryManagementActionType,
   CategoryManagementRecord,
+  CategoryValueChangeRecord,
   RootValueActionType,
   RootValueChangeRecord,
   RootValueType,
@@ -279,6 +281,54 @@ export class BudgetTrackerFacadeService {
     this.store.dispatch(BudgetTrackerActions.removeCategory({ category, activityLogRecord: removeCategoryRecord }));
   }
 
+  async changeCategoryValue(categoryId: string, valueToAdd: number, note: string): Promise<void> {
+    const balance = await firstValueFrom(this.getFullBalanceValue());
+    let newBalanceValue: number;
+
+    const category: Category = await firstValueFrom(this.getCategoryById(categoryId));
+
+    const updatedCategory: Category = { ...category, value: category.value + valueToAdd };
+
+    let updatedCategoriesArray: Category[];
+
+    switch (category.budgetType) {
+      case BudgetType.Income:
+        updatedCategoriesArray = await firstValueFrom(this.getIncomeCategories());
+        newBalanceValue = balance + valueToAdd;
+        break;
+
+      case BudgetType.Expense:
+        updatedCategoriesArray = await firstValueFrom(this.getExpenseCategories());
+        newBalanceValue = balance - valueToAdd;
+
+        break;
+    }
+
+    const updatedCategoryIndex = updatedCategoriesArray.findIndex((category) => category.id === categoryId);
+
+    updatedCategoriesArray[updatedCategoryIndex].value = updatedCategory.value;
+
+    const addCategoryValueRecord: CategoryValueChangeRecord = {
+      id: uuid(),
+      budgetType: category.budgetType,
+      categoryName: category.name,
+      date: new Date().getTime(),
+      icon: category.icon,
+      recordType: ActivityLogRecordType.CategoryValueChange,
+      value: valueToAdd,
+      note,
+    };
+
+    this.store.dispatch(
+      BudgetTrackerActions.changeCategoryValue({
+        updatedCategory,
+        updatedCategoriesArray,
+        newBalanceValue,
+        activityLogRecord: addCategoryValueRecord,
+      })
+    );
+  }
+
   // VALUE UPDATING STATES
   getValueUpdatingInProgress(): Observable<boolean> {
     return this.store.select(BudgetTrackerSelectors.valueUpdatingInProgressSelector);
@@ -303,6 +353,19 @@ export class BudgetTrackerFacadeService {
 
   getCategoryManagementError(): Observable<boolean> {
     return this.store.select(BudgetTrackerSelectors.categoryManagementErrorSelector);
+  }
+
+  // CATEGORY MANAGEMENT STATES
+  getCategoryValueChangeInProgress(): Observable<boolean> {
+    return this.store.select(BudgetTrackerSelectors.categoryValueChangeInProgressSelector);
+  }
+
+  getCategoryValueChangeSuccess(): Observable<boolean> {
+    return this.store.select(BudgetTrackerSelectors.categoryValueChangeSuccessSelector);
+  }
+
+  getCategoryValueChangeError(): Observable<boolean> {
+    return this.store.select(BudgetTrackerSelectors.categoryValueChangeErrorSelector);
   }
 
   // ACTIVITY LOG

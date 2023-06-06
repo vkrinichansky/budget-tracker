@@ -1,4 +1,10 @@
-import { BudgetTrackerState, Category, CategoryManagementRecord, RootValueChangeRecord } from '@budget-tracker/shared';
+import {
+  BudgetTrackerState,
+  Category,
+  CategoryManagementRecord,
+  CategoryValueChangeRecord,
+  RootValueChangeRecord,
+} from '@budget-tracker/shared';
 import { createAction, props } from '@ngrx/store';
 
 enum BudgetTrackerActionsType {
@@ -29,6 +35,12 @@ enum BudgetTrackerActionsType {
   RemoveCategoryFail = '[Budget Tracker] Remove category fail',
 
   ResetCategoryManagementProp = '[Budget Tracker] Reset categoryManagement prop',
+
+  ChangeCategoryValue = '[Budget Tracker] Change category value',
+  CategoryValueChanged = '[Budget Tracker] Category value changed',
+  ChangeCategoryValueFail = '[Budget Tracker] Change category value fail',
+
+  ResetCategoryValueChangeProp = '[Budget Tracker] Reset categoryValueChange prop',
 }
 
 export const BudgetTrackerActions = {
@@ -101,4 +113,23 @@ export const BudgetTrackerActions = {
   removeCategoryFail: createAction(BudgetTrackerActionsType.RemoveCategoryFail),
 
   resetCategoryManagementProp: createAction(BudgetTrackerActionsType.ResetCategoryManagementProp),
+
+  changeCategoryValue: createAction(
+    BudgetTrackerActionsType.ChangeCategoryValue,
+    props<{
+      updatedCategory: Category;
+      updatedCategoriesArray: Category[];
+      newBalanceValue: number;
+      activityLogRecord: CategoryValueChangeRecord;
+    }>()
+  ),
+
+  categoryValueChanged: createAction(
+    BudgetTrackerActionsType.CategoryValueChanged,
+    props<{ updatedCategory: Category; newBalanceValue: number; activityLogRecord: CategoryValueChangeRecord }>()
+  ),
+
+  changeCategoryValueFail: createAction(BudgetTrackerActionsType.ChangeCategoryValueFail),
+
+  resetCategoryValueChangeProp: createAction(BudgetTrackerActionsType.ResetCategoryValueChangeProp),
 };

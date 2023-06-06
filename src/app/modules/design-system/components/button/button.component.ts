@@ -1,4 +1,4 @@
-import { AfterViewInit, ElementRef, HostBinding, ViewChild } from '@angular/core';
+import { ElementRef, HostBinding, ViewChild } from '@angular/core';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ColorScheme } from '../../models';
 

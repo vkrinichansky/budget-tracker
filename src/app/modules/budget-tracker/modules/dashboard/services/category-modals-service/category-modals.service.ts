@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AddCategoryModalData } from '../../models';
+import { AddCategoryModalData, CategoryValueModalData } from '../../models';
 import { BudgetType } from '@budget-tracker/shared';
-import { AddCategoryModalComponent } from '../../components';
+import { AddCategoryModalComponent, CategoryValueModalComponent } from '../../components';
 
 @Injectable()
 export class CategoryModalsService {
@@ -22,5 +22,13 @@ export class CategoryModalsService {
     };
 
     this.dialog.open(AddCategoryModalComponent, { data, disableClose: true });
+  }
+
+  openCategoryValueModal(categoryId: string) {
+    const data: CategoryValueModalData = {
+      categoryId,
+    };
+
+    this.dialog.open(CategoryValueModalComponent, { data, disableClose: true });
   }
 }

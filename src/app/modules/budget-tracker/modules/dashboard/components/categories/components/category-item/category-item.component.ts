@@ -5,6 +5,7 @@ import { Category } from '@budget-tracker/shared';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
 import { TranslateService } from '@ngx-translate/core';
 import { takeUntil } from 'rxjs';
+import { CategoryModalsService } from '../../../../services';
 
 @Component({
   selector: 'app-category-item',
@@ -23,6 +24,11 @@ export class CategoryItemComponent implements OnInit {
 
   menuActions: MenuAction[] = [
     {
+      icon: 'plus',
+      text: this.translateService.instant(this.buildTranslationKey('menu.addValue')),
+      action: () => this.categoryModalsService.openCategoryValueModal(this.categoryId),
+    },
+    {
       icon: 'close',
       text: this.translateService.instant(this.buildTranslationKey('menu.remove')),
       action: () =>
@@ -40,7 +46,8 @@ export class CategoryItemComponent implements OnInit {
     private btFacade: BudgetTrackerFacadeService,
     private cd: ChangeDetectorRef,
     private translateService: TranslateService,
-    private confirmationModalService: ConfirmationModalService
+    private confirmationModalService: ConfirmationModalService,
+    private categoryModalsService: CategoryModalsService
   ) {}
 
   ngOnInit(): void {

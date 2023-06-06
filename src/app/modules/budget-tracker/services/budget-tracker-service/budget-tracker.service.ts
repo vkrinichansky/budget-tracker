@@ -11,7 +11,13 @@ import {
   getDoc,
   updateDoc,
 } from '@angular/fire/firestore';
-import { BudgetTrackerState, Category, CategoryManagementRecord, RootValueChangeRecord } from '@budget-tracker/shared';
+import {
+  BudgetTrackerState,
+  Category,
+  CategoryManagementRecord,
+  CategoryValueChangeRecord,
+  RootValueChangeRecord,
+} from '@budget-tracker/shared';
 import { Store } from '@ngrx/store';
 import { AuthFacadeService, AuthSelectors } from '@budget-tracker/auth';
 import { filter, firstValueFrom, from, map, mergeMap, Observable, switchMap, tap } from 'rxjs';
@@ -63,6 +69,20 @@ export class BudgetTrackerService {
   removeCategory(category: Category, activityLogRecord: CategoryManagementRecord): Promise<void> {
     return updateDoc(this.docRef, {
       [category.budgetType]: arrayRemove(category),
+      activityLog: arrayUnion(activityLogRecord),
+    });
+  }
+
+  changeCategoryValue(
+    updatedCategoryArray: Category[],
+    newBalanceValue: number,
+    activityLogRecord: CategoryValueChangeRecord
+  ): Promise<void> {
+    const budgetType = updatedCategoryArray[0].budgetType;
+
+    return updateDoc(this.docRef, {
+      [budgetType]: updatedCategoryArray,
+      balance: newBalanceValue,
       activityLog: arrayUnion(activityLogRecord),
     });
   }

@@ -179,4 +179,42 @@ export class BudgetTrackerEffects {
       map(() => BudgetTrackerActions.resetCategoryManagementProp())
     )
   );
+
+  changeCategoryValue$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BudgetTrackerActions.changeCategoryValue),
+      mergeMap((action) =>
+        from(
+          this.budgetTrackerService.changeCategoryValue(
+            action.updatedCategoriesArray,
+            action.newBalanceValue,
+            action.activityLogRecord
+          )
+        ).pipe(
+          map(() => {
+            this.snackbarHandler.showCategoryValueChangedSnackbar();
+
+            return BudgetTrackerActions.categoryValueChanged({
+              updatedCategory: action.updatedCategory,
+              newBalanceValue: action.newBalanceValue,
+              activityLogRecord: action.activityLogRecord,
+            });
+          }),
+          catchError((error) => {
+            this.snackbarHandler.showErrorSnackbar(error);
+
+            return of(BudgetTrackerActions.changeCategoryValueFail());
+          })
+        )
+      )
+    )
+  );
+
+  resetCategoryValueChangeProp$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BudgetTrackerActions.categoryValueChanged, BudgetTrackerActions.changeCategoryValueFail),
+      delay(1000),
+      map(() => BudgetTrackerActions.resetCategoryValueChangeProp())
+    )
+  );
 }

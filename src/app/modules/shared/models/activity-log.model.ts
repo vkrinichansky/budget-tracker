@@ -45,18 +45,14 @@ export interface CategoryManagementRecord extends ActivityLogRecord {
   budgetType: BudgetType;
 }
 
-export enum CategoryValueActionType {
-  Increase = 'increase',
-  Decrease = 'decrease',
-}
-
 export interface CategoryValueChangeRecord extends ActivityLogRecord {
-  actionType: CategoryValueActionType;
   categoryName: string;
   value: number;
+  budgetType: BudgetType;
+  note: string;
 }
 
-export type ActivityLog = (RootValueChangeRecord | CategoryManagementRecord)[];
+export type ActivityLog = (RootValueChangeRecord | CategoryManagementRecord | CategoryValueChangeRecord)[];
 
 export interface ActivityLogGroupedByDaysInObject {
   [date: string]: ActivityLog;
