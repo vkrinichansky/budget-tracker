@@ -39,6 +39,20 @@ export class SnackbarHandlerService {
     );
   }
 
+  showCategoryAddedSnackbar(): void {
+    this.snackBar.open(
+      this.translateService.instant(this.buildTranslationKey('categoryAddedSnackbar.message')),
+      this.translateService.instant(this.buildTranslationKey('categoryAddedSnackbar.buttonText'))
+    );
+  }
+
+  showCategoryRemovedSnackbar(): void {
+    this.snackBar.open(
+      this.translateService.instant(this.buildTranslationKey('categoryRemovedSnackbar.message')),
+      this.translateService.instant(this.buildTranslationKey('categoryRemovedSnackbar.buttonText'))
+    );
+  }
+
   private buildTranslationKey(key: string): string {
     return `${this.rootTranslationKey}.${key}`;
   }

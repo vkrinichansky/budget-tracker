@@ -1,3 +1,5 @@
+import { BudgetType } from './budget-type.enum';
+
 export enum ActivityLogRecordType {
   RootValueChange = 'root value change',
   CategoryManagement = 'category management',
@@ -40,6 +42,7 @@ export enum CategoryManagementActionType {
 export interface CategoryManagementRecord extends ActivityLogRecord {
   actionType: CategoryManagementActionType;
   categoryName: string;
+  budgetType: BudgetType;
 }
 
 export enum CategoryValueActionType {
@@ -53,7 +56,7 @@ export interface CategoryValueChangeRecord extends ActivityLogRecord {
   value: number;
 }
 
-export type ActivityLog = RootValueChangeRecord[];
+export type ActivityLog = (RootValueChangeRecord | CategoryManagementRecord)[];
 
 export interface ActivityLogGroupedByDaysInObject {
   [date: string]: ActivityLog;

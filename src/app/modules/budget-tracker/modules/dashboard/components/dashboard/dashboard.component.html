@@ -9,5 +9,7 @@
 </div>
 
 <div class="grid grid-cols-3 gap-x-6 h-full overflow-hidden">
+  <app-categories [budgetType]="budgetType.Income"></app-categories>
+  <app-categories [budgetType]="budgetType.Expense"></app-categories>
   <app-activity-log></app-activity-log>
 </div>

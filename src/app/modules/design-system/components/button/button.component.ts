@@ -1,4 +1,4 @@
-import { HostBinding } from '@angular/core';
+import { AfterViewInit, ElementRef, HostBinding, ViewChild } from '@angular/core';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ColorScheme } from '../../models';
 
@@ -6,6 +6,7 @@ enum ButtonSize {
   Small = 'small',
   Medium = 'medium',
   Big = 'big',
+  Large = 'large',
   Full = 'full',
   Auto = 'auto',
 }
@@ -44,4 +45,15 @@ export class ButtonComponent {
 
   @Input()
   align: 'center' | 'start' = 'center';
+
+  @ViewChild('textElement')
+  textElement: ElementRef;
+
+  isOverflowed = false;
+
+  setIsOverflowed(): void {
+    if (this.text) {
+      this.isOverflowed = this.textElement.nativeElement.offsetWidth < this.textElement.nativeElement.scrollWidth;
+    }
+  }
 }

@@ -1,0 +1,9 @@
+<div class="flex items-center gap-x-2">
+  <svg-icon class="text-charcoal" [iconName]="category?.icon"></svg-icon>
+  <span class="font-main font-bold text-charcoal text-base">{{ category?.name }}</span>
+</div>
+
+<div class="flex items-center gap-x-2">
+  <span class="font-main font-bold text-charcoal text-base">{{ category?.value }}</span>
+  <app-menu [menuActions]="menuActions"></app-menu>
+</div>

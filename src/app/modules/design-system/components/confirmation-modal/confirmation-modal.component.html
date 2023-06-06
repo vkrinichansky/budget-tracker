@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>{{ buildTranslationKey('title') | translate }}</h1>
+
+<div mat-dialog-content>
+  <span
+    class="font-main text-charcoal text-base"
+    [innerHTML]="data.questionTranslationKey | translate : data.translationParams"
+  ></span>
+</div>
+
+<div mat-dialog-actions>
+  <app-button
+    [colorScheme]="'transparent-dark'"
+    [text]="buildTranslationKey('noButton') | translate"
+    [buttonSize]="'auto'"
+    (click)="closeClick()"
+  >
+  </app-button>
+  <app-button
+    [colorScheme]="'charcoal'"
+    [text]="buildTranslationKey('yesButton') | translate"
+    [buttonSize]="'auto'"
+    (click)="data.action(); closeClick()"
+  >
+  </app-button>
+</div>

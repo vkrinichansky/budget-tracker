@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { Store } from '@ngrx/store';
-import { firstValueFrom, map, Observable } from 'rxjs';
+import { combineLatest, firstValueFrom, map, Observable } from 'rxjs';
 import { BudgetTrackerActions, BudgetTrackerSelectors } from '../../../store';
 import {
   ActivityLog,
   ActivityLogGroupedByDays,
   ActivityLogGroupedByDaysInObject,
   ActivityLogRecordType,
+  Category,
+  CategoryManagementActionType,
+  CategoryManagementRecord,
   RootValueActionType,
   RootValueChangeRecord,
   RootValueType,
@@ -25,6 +28,21 @@ export class BudgetTrackerFacadeService {
 
   isDataLoading(): Observable<boolean> {
     return this.store.select(BudgetTrackerSelectors.dataLoadingSelector);
+  }
+
+  getIncomeCategories(): Observable<Category[]> {
+    return this.store.select(BudgetTrackerSelectors.incomeCategoriesSelector);
+  }
+
+  getExpenseCategories(): Observable<Category[]> {
+    return this.store.select(BudgetTrackerSelectors.expenseCategoriesSelector);
+  }
+
+  getCategoryById(categoryId: string): Observable<Category> {
+    return combineLatest([this.getIncomeCategories(), this.getExpenseCategories()]).pipe(
+      map(([income, expense]) => [...income, ...expense]),
+      map((categories) => categories.find((category) => category.id === categoryId) as Category)
+    );
   }
 
   getIncomeValue(): Observable<number> {
@@ -230,6 +248,37 @@ export class BudgetTrackerFacadeService {
     );
   }
 
+  // CATEGORY MANAGEMENT
+  addCategory(category: Category): void {
+    const addCategoryRecord: CategoryManagementRecord = {
+      id: uuid(),
+      actionType: CategoryManagementActionType.Add,
+      budgetType: category.budgetType,
+      categoryName: category.name,
+      date: new Date().getTime(),
+      icon: category.icon,
+      recordType: ActivityLogRecordType.CategoryManagement,
+    };
+
+    this.store.dispatch(BudgetTrackerActions.addCategory({ category, activityLogRecord: addCategoryRecord }));
+  }
+
+  async removeCategory(categoryId: string): Promise<void> {
+    const category: Category = await firstValueFrom(this.getCategoryById(categoryId));
+
+    const removeCategoryRecord: CategoryManagementRecord = {
+      id: uuid(),
+      actionType: CategoryManagementActionType.Remove,
+      budgetType: category.budgetType,
+      categoryName: category.name,
+      date: new Date().getTime(),
+      icon: category.icon,
+      recordType: ActivityLogRecordType.CategoryManagement,
+    };
+
+    this.store.dispatch(BudgetTrackerActions.removeCategory({ category, activityLogRecord: removeCategoryRecord }));
+  }
+
   // VALUE UPDATING STATES
   getValueUpdatingInProgress(): Observable<boolean> {
     return this.store.select(BudgetTrackerSelectors.valueUpdatingInProgressSelector);
@@ -241,6 +290,19 @@ export class BudgetTrackerFacadeService {
 
   getValueUpdatingError(): Observable<boolean> {
     return this.store.select(BudgetTrackerSelectors.valueUpdatingErrorSelector);
+  }
+
+  // CATEGORY MANAGEMENT STATES
+  getCategoryManagementInProgress(): Observable<boolean> {
+    return this.store.select(BudgetTrackerSelectors.categoryManagementInProgressSelector);
+  }
+
+  getCategoryManagementSuccess(): Observable<boolean> {
+    return this.store.select(BudgetTrackerSelectors.categoryManagementSuccessSelector);
+  }
+
+  getCategoryManagementError(): Observable<boolean> {
+    return this.store.select(BudgetTrackerSelectors.categoryManagementErrorSelector);
   }
 
   // ACTIVITY LOG

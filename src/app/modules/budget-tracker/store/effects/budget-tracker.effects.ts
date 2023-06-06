@@ -44,6 +44,7 @@ export class BudgetTrackerEffects {
         from(this.budgetTrackerService.updateBalance(action.newBalanceValue, action.activityLogRecord)).pipe(
           map(() => {
             this.snackbarHandler.showBalanceEditedSnackbar();
+
             return BudgetTrackerActions.balanceUpdated({
               newBalanceValue: action.newBalanceValue,
               activityLogRecord: action.activityLogRecord,
@@ -66,6 +67,7 @@ export class BudgetTrackerEffects {
         from(this.budgetTrackerService.updateSavings(action.newSavingsValue, action.activityLogRecord)).pipe(
           map(() => {
             this.snackbarHandler.showSavingsEditedSnackbar();
+
             return BudgetTrackerActions.savingsUpdated({
               newSavingsValue: action.newSavingsValue,
               activityLogRecord: action.activityLogRecord,
@@ -88,6 +90,7 @@ export class BudgetTrackerEffects {
         from(this.budgetTrackerService.updateFreeMoney(action.newFreeMoneyValue, action.activityLogRecord)).pipe(
           map(() => {
             this.snackbarHandler.showFreeMoneyEditedSnackbar();
+
             return BudgetTrackerActions.freeMoneyUpdated({
               newFreeMoneyValue: action.newFreeMoneyValue,
               activityLogRecord: action.activityLogRecord,
@@ -115,6 +118,65 @@ export class BudgetTrackerEffects {
       ),
       delay(1000),
       map(() => BudgetTrackerActions.resetValueUpdatingProp())
+    )
+  );
+
+  addCategory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BudgetTrackerActions.addCategory),
+      mergeMap((action) =>
+        from(this.budgetTrackerService.addCategory(action.category, action.activityLogRecord)).pipe(
+          map(() => {
+            this.snackbarHandler.showCategoryAddedSnackbar();
+
+            return BudgetTrackerActions.categoryAdded({
+              category: action.category,
+              activityLogRecord: action.activityLogRecord,
+            });
+          }),
+          catchError((error) => {
+            this.snackbarHandler.showErrorSnackbar(error);
+
+            return of(BudgetTrackerActions.addCategoryFail());
+          })
+        )
+      )
+    )
+  );
+
+  removeCategory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BudgetTrackerActions.removeCategory),
+      mergeMap((action) =>
+        from(this.budgetTrackerService.removeCategory(action.category, action.activityLogRecord)).pipe(
+          map(() => {
+            this.snackbarHandler.showCategoryRemovedSnackbar();
+
+            return BudgetTrackerActions.categoryRemoved({
+              category: action.category,
+              activityLogRecord: action.activityLogRecord,
+            });
+          }),
+          catchError((error) => {
+            this.snackbarHandler.showErrorSnackbar(error);
+
+            return of(BudgetTrackerActions.removeCategoryFail());
+          })
+        )
+      )
+    )
+  );
+
+  resetCategoryManagementProp$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        BudgetTrackerActions.categoryAdded,
+        BudgetTrackerActions.addCategoryFail,
+        BudgetTrackerActions.categoryRemoved,
+        BudgetTrackerActions.removeCategoryFail
+      ),
+      delay(1000),
+      map(() => BudgetTrackerActions.resetCategoryManagementProp())
     )
   );
 }

@@ -3,7 +3,11 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import {
   ActivityLogComponent,
+  AddCategoryModalComponent,
   BalanceInfoCardComponent,
+  CategoriesComponent,
+  CategoryItemComponent,
+  CategoryManagementRecordComponent,
   DashboardComponent,
   ExpenseInfoCardComponent,
   FreeMoneyInfoCardComponent,
@@ -15,12 +19,13 @@ import {
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { InfoCardValueModalService } from './services';
+import { AddCategoryModalService, InfoCardValueModalService } from './services';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { UtilsModule } from '@budget-tracker/utils';
+import { MatSelectModule } from '@angular/material/select';
 
 const routes: Routes = [
   {
@@ -40,6 +45,10 @@ const routes: Routes = [
     InfoCardValueModalComponent,
     ActivityLogComponent,
     RootValueChangeRecordComponent,
+    CategoriesComponent,
+    AddCategoryModalComponent,
+    CategoryManagementRecordComponent,
+    CategoryItemComponent,
   ],
   imports: [
     CommonModule,
@@ -53,7 +62,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     MatTooltipModule,
     UtilsModule,
+    MatSelectModule,
   ],
-  providers: [InfoCardValueModalService],
+  providers: [InfoCardValueModalService, AddCategoryModalService],
 })
 export class DashboardModule {}

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  arrayRemove,
   arrayUnion,
   collection,
   CollectionReference,
@@ -10,7 +11,7 @@ import {
   getDoc,
   updateDoc,
 } from '@angular/fire/firestore';
-import { BudgetTrackerState, RootValueChangeRecord } from '@budget-tracker/shared';
+import { BudgetTrackerState, Category, CategoryManagementRecord, RootValueChangeRecord } from '@budget-tracker/shared';
 import { Store } from '@ngrx/store';
 import { AuthFacadeService, AuthSelectors } from '@budget-tracker/auth';
 import { filter, firstValueFrom, from, map, mergeMap, Observable, switchMap, tap } from 'rxjs';
@@ -50,5 +51,19 @@ export class BudgetTrackerService {
 
   updateFreeMoney(newFreeMoneyValue: number, activityLogRecord: RootValueChangeRecord): Promise<void> {
     return updateDoc(this.docRef, { free: newFreeMoneyValue, activityLog: arrayUnion(activityLogRecord) });
+  }
+
+  addCategory(category: Category, activityLogRecord: CategoryManagementRecord): Promise<void> {
+    return updateDoc(this.docRef, {
+      [category.budgetType]: arrayUnion(category),
+      activityLog: arrayUnion(activityLogRecord),
+    });
+  }
+
+  removeCategory(category: Category, activityLogRecord: CategoryManagementRecord): Promise<void> {
+    return updateDoc(this.docRef, {
+      [category.budgetType]: arrayRemove(category),
+      activityLog: arrayUnion(activityLogRecord),
+    });
   }
 }

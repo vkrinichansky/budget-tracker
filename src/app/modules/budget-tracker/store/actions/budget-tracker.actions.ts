@@ -1,11 +1,11 @@
-import { BudgetTrackerState, RootValueChangeRecord } from '@budget-tracker/shared';
+import { BudgetTrackerState, Category, CategoryManagementRecord, RootValueChangeRecord } from '@budget-tracker/shared';
 import { createAction, props } from '@ngrx/store';
 
 enum BudgetTrackerActionsType {
   Init = '[Budget Tracker] Init',
+  DataLoaded = '[Budget Tracker] Data loaded',
   CleanState = '[Budget Tracker] Clean state',
 
-  DataLoaded = '[Budget Tracker] Data loaded',
   UpdateBalance = '[Budget Tracker] Update balance',
   BalanceUpdated = '[Budget Tracker] Balance updated',
   BalanceUpdateFail = '[Budget Tracker] Balance update fail',
@@ -19,6 +19,16 @@ enum BudgetTrackerActionsType {
   FreeMoneyUpdateFail = '[Budget Tracker] Free money update fail',
 
   ResetValueUpdatingProp = '[Budget Tracker] Reset valueUpdating prop',
+
+  AddCategory = '[Budget Tracker] Add category',
+  CategoryAdded = '[Budget Tracker] Category added',
+  AddCategoryFail = '[Budget Tracker] Add category fail',
+
+  RemoveCategory = '[Budget Tracker] Remove category',
+  CategoryRemoved = '[Budget Tracker] Category removed',
+  RemoveCategoryFail = '[Budget Tracker] Remove category fail',
+
+  ResetCategoryManagementProp = '[Budget Tracker] Reset categoryManagement prop',
 }
 
 export const BudgetTrackerActions = {
@@ -65,4 +75,30 @@ export const BudgetTrackerActions = {
   freeMoneyUpdateFail: createAction(BudgetTrackerActionsType.FreeMoneyUpdateFail),
 
   resetValueUpdatingProp: createAction(BudgetTrackerActionsType.ResetValueUpdatingProp),
+
+  addCategory: createAction(
+    BudgetTrackerActionsType.AddCategory,
+    props<{ category: Category; activityLogRecord: CategoryManagementRecord }>()
+  ),
+
+  categoryAdded: createAction(
+    BudgetTrackerActionsType.CategoryAdded,
+    props<{ category: Category; activityLogRecord: CategoryManagementRecord }>()
+  ),
+
+  addCategoryFail: createAction(BudgetTrackerActionsType.AddCategoryFail),
+
+  removeCategory: createAction(
+    BudgetTrackerActionsType.RemoveCategory,
+    props<{ category: Category; activityLogRecord: CategoryManagementRecord }>()
+  ),
+
+  categoryRemoved: createAction(
+    BudgetTrackerActionsType.CategoryRemoved,
+    props<{ category: Category; activityLogRecord: CategoryManagementRecord }>()
+  ),
+
+  removeCategoryFail: createAction(BudgetTrackerActionsType.RemoveCategoryFail),
+
+  resetCategoryManagementProp: createAction(BudgetTrackerActionsType.ResetCategoryManagementProp),
 };

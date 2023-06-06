@@ -6,7 +6,7 @@
   class="flex flex-col gap-y-8 overflow-y-auto h-full"
   [class.justify-center]="isEmpty"
   [class.items-center]="isEmpty"
-  [class.scrollable]="!isEmpty && list.scrollHeight > list.clientHeight"
+  [class.scrollable]="!isEmpty"
 >
   <span *ngIf="isEmpty" class="font-main font-bold text-charcoal text-lg">
     {{ buildTranslationKey('emptyStateText') | translate }}
@@ -22,6 +22,11 @@
             *ngSwitchCase="recordType.RootValueChange"
             [record]="record"
           ></app-root-value-change-record>
+
+          <app-category-management-record
+            *ngSwitchCase="recordType.CategoryManagement"
+            [record]="record"
+          ></app-category-management-record>
         </ng-container>
       </ng-container>
     </div>
