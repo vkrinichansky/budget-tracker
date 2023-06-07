@@ -16,6 +16,8 @@ import {
   RootValueChangeRecordComponent,
   SavingsInfoCardComponent,
   CategoryValueModalComponent,
+  CategoryValueChangeRecordComponent,
+  CategoriesResetRecordComponent,
 } from './components';
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
@@ -27,7 +29,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { UtilsModule } from '@budget-tracker/utils';
 import { MatSelectModule } from '@angular/material/select';
-import { CategoryValueChangeRecordComponent } from './components/activity-log/components/category-value-change-record/category-value-change-record.component';
 
 const routes: Routes = [
   {
@@ -53,6 +54,7 @@ const routes: Routes = [
     CategoryItemComponent,
     CategoryValueModalComponent,
     CategoryValueChangeRecordComponent,
+    CategoriesResetRecordComponent,
   ],
   imports: [
     CommonModule,

@@ -26,6 +26,11 @@
 
           <app-category-value-change-record *ngSwitchCase="recordType.CategoryValueChange" [record]="record">
           </app-category-value-change-record>
+
+          <app-categories-reset-record
+            *ngSwitchCase="recordType.CategoriesReset"
+            [record]="record"
+          ></app-categories-reset-record>
         </ng-container>
       </ng-container>
     </div>

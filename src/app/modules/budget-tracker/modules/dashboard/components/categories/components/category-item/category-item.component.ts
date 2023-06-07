@@ -22,7 +22,7 @@ export class CategoryItemComponent implements OnInit {
 
   category: Category;
 
-  menuActions: MenuAction[] = [
+  readonly menuActions: MenuAction[] = [
     {
       icon: 'plus',
       text: this.translateService.instant(this.buildTranslationKey('menu.addValue')),

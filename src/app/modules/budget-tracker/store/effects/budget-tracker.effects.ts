@@ -210,6 +210,29 @@ export class BudgetTrackerEffects {
     )
   );
 
+  resetCategories$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BudgetTrackerActions.resetCategories),
+      mergeMap((action) =>
+        from(this.budgetTrackerService.resetCategories(action.updatedCategories, action.activityLogRecord)).pipe(
+          map(() => {
+            this.snackbarHandler.showCategoriesResetSnackbar(action.updatedCategories[0].budgetType);
+
+            return BudgetTrackerActions.categoriesReset({
+              updatedCategories: action.updatedCategories,
+              activityLogRecord: action.activityLogRecord,
+            });
+          }),
+          catchError((error) => {
+            this.snackbarHandler.showErrorSnackbar(error);
+
+            return of(BudgetTrackerActions.resetCategoriesFail());
+          })
+        )
+      )
+    )
+  );
+
   resetCategoryValueChangeProp$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BudgetTrackerActions.categoryValueChanged, BudgetTrackerActions.changeCategoryValueFail),

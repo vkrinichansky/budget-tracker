@@ -4,6 +4,7 @@ export enum ActivityLogRecordType {
   RootValueChange = 'root value change',
   CategoryManagement = 'category management',
   CategoryValueChange = 'category value change',
+  CategoriesReset = 'categories reset',
 }
 
 export interface ActivityLogRecord {
@@ -51,6 +52,18 @@ export interface CategoryValueChangeRecord extends ActivityLogRecord {
   budgetType: BudgetType;
   note: string;
   isReset: boolean;
+}
+
+export interface CategoryValueChangeRecord extends ActivityLogRecord {
+  categoryName: string;
+  value: number;
+  budgetType: BudgetType;
+  note: string;
+  isReset: boolean;
+}
+
+export interface CategoriesResetRecord extends ActivityLogRecord {
+  budgetType: BudgetType;
 }
 
 export type ActivityLog = (RootValueChangeRecord | CategoryManagementRecord | CategoryValueChangeRecord)[];

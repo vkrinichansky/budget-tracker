@@ -282,6 +282,15 @@ export const budgetTrackerFeature = createFeature({
         error: false,
         success: false,
       },
+    })),
+
+    on(BudgetTrackerActions.categoriesReset, (state, action) => ({
+      ...state,
+      [action.updatedCategories[0].budgetType]: categoryEntityAdapter.updateMany(
+        action.updatedCategories.map((category) => ({ changes: category, id: category.id })),
+        state[action.updatedCategories[0].budgetType]
+      ),
+      // activityLog: [...state.activityLog, action.activityLogRecord],
     }))
   ),
 });

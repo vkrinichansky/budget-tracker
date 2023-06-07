@@ -9,6 +9,7 @@ import {
   ActivityLogGroupedByDaysInObject,
   ActivityLogRecordType,
   BudgetType,
+  CategoriesResetRecord,
   Category,
   CategoryManagementActionType,
   CategoryManagementRecord,
@@ -38,6 +39,14 @@ export class BudgetTrackerFacadeService {
 
   getExpenseCategories(): Observable<Category[]> {
     return this.store.select(BudgetTrackerSelectors.expenseCategoriesSelector);
+  }
+
+  areIncomeCategoriesAllReset(): Observable<boolean> {
+    return this.getIncomeCategories().pipe(map((categories) => categories.every((category) => category.value === 0)));
+  }
+
+  areExpenseCategoriesAllReset(): Observable<boolean> {
+    return this.getExpenseCategories().pipe(map((categories) => categories.every((category) => category.value === 0)));
   }
 
   getCategoryById(categoryId: string): Observable<Category> {
@@ -328,6 +337,41 @@ export class BudgetTrackerFacadeService {
         activityLogRecord: addCategoryValueRecord,
       })
     );
+  }
+
+  async resetCategoriesByType(budgetType: BudgetType): Promise<void> {
+    let categories: Category[];
+    let icon: string;
+
+    switch (budgetType) {
+      case BudgetType.Income:
+        categories = await firstValueFrom(this.getIncomeCategories());
+        icon = 'arrow-up';
+        break;
+
+      case BudgetType.Expense:
+        categories = await firstValueFrom(this.getExpenseCategories());
+        icon = 'arrow-down';
+
+        break;
+    }
+
+    const updatedCategories = [
+      ...categories.map((category) => {
+        category.value = 0;
+        return category;
+      }),
+    ];
+
+    const activityLogRecord: CategoriesResetRecord = {
+      budgetType: budgetType,
+      date: new Date().getTime(),
+      id: uuid(),
+      recordType: ActivityLogRecordType.CategoriesReset,
+      icon,
+    };
+
+    this.store.dispatch(BudgetTrackerActions.resetCategories({ updatedCategories, activityLogRecord }));
   }
 
   // VALUE UPDATING STATES

@@ -13,6 +13,7 @@ import {
 } from '@angular/fire/firestore';
 import {
   BudgetTrackerState,
+  CategoriesResetRecord,
   Category,
   CategoryManagementRecord,
   CategoryValueChangeRecord,
@@ -83,6 +84,15 @@ export class BudgetTrackerService {
     return updateDoc(this.docRef, {
       [budgetType]: updatedCategoryArray,
       balance: newBalanceValue,
+      activityLog: arrayUnion(activityLogRecord),
+    });
+  }
+
+  resetCategories(updatedCategory: Category[], activityLogRecord: CategoriesResetRecord): Promise<void> {
+    const budgetType = updatedCategory[0].budgetType;
+
+    return updateDoc(this.docRef, {
+      [budgetType]: updatedCategory,
       activityLog: arrayUnion(activityLogRecord),
     });
   }

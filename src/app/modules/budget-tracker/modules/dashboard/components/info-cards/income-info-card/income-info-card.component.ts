@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
-import { Observable } from 'rxjs';
+import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
+import { BudgetType } from '@budget-tracker/shared';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-income-info-card',
@@ -9,12 +12,32 @@ import { Observable } from 'rxjs';
 export class IncomeInfoCardComponent implements OnInit {
   private readonly rootTranslationKey = 'dashboard.infoCards.income';
 
-  income$: Observable<number>;
+  readonly menuActions: MenuAction[] = [
+    {
+      icon: 'eraser',
+      text: this.translateService.instant(this.buildTranslationKey('menu.resetCategories')),
+      action: () =>
+        this.confirmationModalService.openConfirmationModal(
+          this.buildTranslationKey('resetConfirmationMessage'),
+          undefined,
+          () => this.btFacade.resetCategoriesByType(BudgetType.Income)
+        ),
+    },
+  ];
 
-  constructor(private budgetTrackerFacade: BudgetTrackerFacadeService) {}
+  income$: Observable<number>;
+  shouldDisplayMenu$: Observable<boolean>;
+
+  constructor(
+    private budgetTrackerFacade: BudgetTrackerFacadeService,
+    private translateService: TranslateService,
+    private confirmationModalService: ConfirmationModalService,
+    private btFacade: BudgetTrackerFacadeService
+  ) {}
 
   ngOnInit(): void {
     this.income$ = this.budgetTrackerFacade.getIncomeValue();
+    this.shouldDisplayMenu$ = this.budgetTrackerFacade.areIncomeCategoriesAllReset().pipe(map((areReset) => !areReset));
   }
 
   buildTranslationKey(key: string): string {

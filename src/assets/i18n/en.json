@@ -15,10 +15,18 @@
 
     "infoCards": {
       "income": {
-        "title": "Income"
+        "title": "Income",
+        "resetConfirmationMessage": "Do you want to reset all <b>income</b> categories' values?",
+        "menu": {
+          "resetCategories": "Reset categories"
+        }
       },
       "expense": {
-        "title": "Expense"
+        "title": "Expense",
+        "resetConfirmationMessage": "Do you want to reset all <b>expense</b> categories' values?",
+        "menu": {
+          "resetCategories": "Reset categories"
+        }
       },
       "balance": {
         "fullBalance": "Full balance",
@@ -89,6 +97,10 @@
         }
       },
 
+      "categoriesResetRecord": {
+        "message": "<b>{{ budgetType }}</b> categories were reset"
+      },
+
       "emptyStateText": "No data to display yet"
     },
 
@@ -149,11 +161,11 @@
       "buttonText": "Got it"
     },
     "savingsEditedSnackbar": {
-      "message": "Savings was updated successfully!",
+      "message": "Savings were updated successfully!",
       "buttonText": "Got it"
     },
     "freeMoneyEditedSnackbar": {
-      "message": "Free money was updated successfully!",
+      "message": "Free money were updated successfully!",
       "buttonText": "Got it"
     },
     "categoryAddedSnackbar": {
@@ -166,6 +178,10 @@
     },
     "categoryValueChangedSnackbar": {
       "message": "Category value was changed successfully!",
+      "buttonText": "Got it"
+    },
+    "categoriesResetSnackbar": {
+      "message": "{{ budgetType }} categories were reset successfully!",
       "buttonText": "Got it"
     }
   },

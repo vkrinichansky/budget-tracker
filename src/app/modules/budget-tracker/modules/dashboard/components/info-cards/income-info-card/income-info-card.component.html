@@ -4,4 +4,6 @@
   [iconName]="'arrow-up'"
   [primaryText]="income$ | async"
   [secondaryText]="buildTranslationKey('title') | translate"
+  [menuActions]="menuActions"
+  [shouldDisplayMenu]="shouldDisplayMenu$ | async"
 ></app-info-card>

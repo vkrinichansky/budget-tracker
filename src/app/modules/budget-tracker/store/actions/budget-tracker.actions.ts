@@ -1,5 +1,6 @@
 import {
   BudgetTrackerState,
+  CategoriesResetRecord,
   Category,
   CategoryManagementRecord,
   CategoryValueChangeRecord,
@@ -41,6 +42,10 @@ enum BudgetTrackerActionsType {
   ChangeCategoryValueFail = '[Budget Tracker] Change category value fail',
 
   ResetCategoryValueChangeProp = '[Budget Tracker] Reset categoryValueChange prop',
+
+  ResetCategories = '[Budget Tracker] Reset categories',
+  CategoriesReset = '[Budget Tracker] Categories reset',
+  ReserCategoriesFail = '[Budget Tracker] Reset categories fail',
 }
 
 export const BudgetTrackerActions = {
@@ -132,4 +137,22 @@ export const BudgetTrackerActions = {
   changeCategoryValueFail: createAction(BudgetTrackerActionsType.ChangeCategoryValueFail),
 
   resetCategoryValueChangeProp: createAction(BudgetTrackerActionsType.ResetCategoryValueChangeProp),
+
+  resetCategories: createAction(
+    BudgetTrackerActionsType.ResetCategories,
+    props<{
+      updatedCategories: Category[];
+      activityLogRecord: CategoriesResetRecord;
+    }>()
+  ),
+
+  categoriesReset: createAction(
+    BudgetTrackerActionsType.CategoriesReset,
+    props<{
+      updatedCategories: Category[];
+      activityLogRecord: CategoriesResetRecord;
+    }>()
+  ),
+
+  resetCategoriesFail: createAction(BudgetTrackerActionsType.ReserCategoriesFail),
 };

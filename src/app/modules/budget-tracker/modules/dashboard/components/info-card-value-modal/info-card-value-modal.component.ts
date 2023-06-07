@@ -60,7 +60,7 @@ export class InfoCardValueModalComponent implements OnInit {
 
     this.valueInput = new FormControl(this.shouldDisplayInitialValue ? this.initialValue : 0, [
       Validators.required,
-      Validators.min(1),
+      Validators.min(this.shouldDisplayInitialValue ? 0 : 1),
     ]);
 
     this.noteInput = new FormControl('', [Validators.maxLength(100)]);
