@@ -41,10 +41,7 @@ export class BudgetTrackerFacadeService {
   }
 
   getCategoryById(categoryId: string): Observable<Category> {
-    return combineLatest([this.getIncomeCategories(), this.getExpenseCategories()]).pipe(
-      map(([income, expense]) => [...income, ...expense]),
-      map((categories) => categories.find((category) => category.id === categoryId) as Category)
-    );
+    return this.store.select(BudgetTrackerSelectors.selectCategoryByIdSelector(categoryId));
   }
 
   getIncomeValue(): Observable<number> {
@@ -281,31 +278,34 @@ export class BudgetTrackerFacadeService {
     this.store.dispatch(BudgetTrackerActions.removeCategory({ category, activityLogRecord: removeCategoryRecord }));
   }
 
-  async changeCategoryValue(categoryId: string, valueToAdd: number, note: string): Promise<void> {
+  async changeCategoryValue(categoryId: string, valueToAdd = 0, note = '', isReset = false): Promise<void> {
     const balance = await firstValueFrom(this.getFullBalanceValue());
-    let newBalanceValue: number;
+    let newBalanceValue = balance;
 
     const category: Category = await firstValueFrom(this.getCategoryById(categoryId));
-
-    const updatedCategory: Category = { ...category, value: category.value + valueToAdd };
+    const updatedCategory: Category = { ...category, value: isReset ? 0 : category.value + valueToAdd };
 
     let updatedCategoriesArray: Category[];
 
     switch (category.budgetType) {
       case BudgetType.Income:
         updatedCategoriesArray = await firstValueFrom(this.getIncomeCategories());
-        newBalanceValue = balance + valueToAdd;
+
+        if (!isReset) {
+          newBalanceValue = balance + valueToAdd;
+        }
         break;
 
       case BudgetType.Expense:
         updatedCategoriesArray = await firstValueFrom(this.getExpenseCategories());
-        newBalanceValue = balance - valueToAdd;
 
+        if (!isReset) {
+          newBalanceValue = balance - valueToAdd;
+        }
         break;
     }
 
     const updatedCategoryIndex = updatedCategoriesArray.findIndex((category) => category.id === categoryId);
-
     updatedCategoriesArray[updatedCategoryIndex].value = updatedCategory.value;
 
     const addCategoryValueRecord: CategoryValueChangeRecord = {
@@ -315,8 +315,9 @@ export class BudgetTrackerFacadeService {
       date: new Date().getTime(),
       icon: category.icon,
       recordType: ActivityLogRecordType.CategoryValueChange,
-      value: valueToAdd,
+      value: isReset ? category.value : valueToAdd,
       note,
+      isReset,
     };
 
     this.store.dispatch(

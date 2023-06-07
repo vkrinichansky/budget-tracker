@@ -107,9 +107,11 @@
       "categoryItem": {
         "menu": {
           "addValue": "Add value",
+          "resetValue": "Reset value",
           "remove": "Remove"
         },
-        "confirmationModalRemove": "Do you want to remove <b>{{ categoryName }}</b> category?"
+        "confirmationModalRemove": "Do you want to remove <b>{{ categoryName }}</b> category?",
+        "confirmationModalReset": "Do you want to reset <b>{{ categoryName }}</b> category value?"
       }
     },
 

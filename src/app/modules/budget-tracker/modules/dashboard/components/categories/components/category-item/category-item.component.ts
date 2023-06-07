@@ -29,6 +29,18 @@ export class CategoryItemComponent implements OnInit {
       action: () => this.categoryModalsService.openCategoryValueModal(this.categoryId),
     },
     {
+      icon: 'eraser',
+      text: this.translateService.instant(this.buildTranslationKey('menu.resetValue')),
+      action: () =>
+        this.confirmationModalService.openConfirmationModal(
+          this.buildTranslationKey('confirmationModalReset'),
+          {
+            categoryName: this.category.name,
+          },
+          () => this.btFacade.changeCategoryValue(this.categoryId, undefined, undefined, true)
+        ),
+    },
+    {
       icon: 'close',
       text: this.translateService.instant(this.buildTranslationKey('menu.remove')),
       action: () =>

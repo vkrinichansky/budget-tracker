@@ -50,6 +50,7 @@ export interface CategoryValueChangeRecord extends ActivityLogRecord {
   value: number;
   budgetType: BudgetType;
   note: string;
+  isReset: boolean;
 }
 
 export type ActivityLog = (RootValueChangeRecord | CategoryManagementRecord | CategoryValueChangeRecord)[];

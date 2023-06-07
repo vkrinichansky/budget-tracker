@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { budgetTrackerFeature, selectAll } from '../reducers';
+import { Category } from '@budget-tracker/shared';
 
 const budgetTrackerStateSelector = createSelector(
   budgetTrackerFeature.selectBudgetTrackerState,
@@ -78,6 +79,11 @@ const categoryValueChangeErrorSelector = createSelector(
   (valueUpdating) => valueUpdating.error
 );
 
+const selectCategoryByIdSelector = (categoryId: string) =>
+  createSelector(incomeCategoriesSelector, expenseCategoriesSelector, (income, expense) => ({
+    ...([...income, ...expense].find((category) => category.id === categoryId) as Category),
+  }));
+
 const activityLogSelector = createSelector(budgetTrackerFeature.selectActivityLog, (activityLog) => activityLog);
 
 export const BudgetTrackerSelectors = {
@@ -101,4 +107,5 @@ export const BudgetTrackerSelectors = {
   categoryValueChangeInProgressSelector,
   categoryValueChangeSuccessSelector,
   categoryValueChangeErrorSelector,
+  selectCategoryByIdSelector,
 };

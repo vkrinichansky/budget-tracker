@@ -19,8 +19,14 @@
   ></svg-icon>
 </div>
 
-<ng-container [ngSwitch]="record.budgetType">
-  <span *ngSwitchCase="budgetType.Income" class="font-main font-bold text-dark-green">+ {{ record.value }}</span>
+<span *ngIf="record?.isReset; else budgetTypeTemplate" class="font-main font-bold text-blue">
+  {{ record.value }} → 0
+</span>
 
-  <span *ngSwitchCase="budgetType.Expense" class="font-main font-bold text-red">- {{ record.value }}</span>
-</ng-container>
+<ng-template #budgetTypeTemplate>
+  <ng-container [ngSwitch]="record.budgetType">
+    <span *ngSwitchCase="budgetType.Income" class="font-main font-bold text-dark-green">+ {{ record.value }}</span>
+
+    <span *ngSwitchCase="budgetType.Expense" class="font-main font-bold text-red">- {{ record.value }}</span>
+  </ng-container>
+</ng-template>
