@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
 import { BudgetType } from '@budget-tracker/shared';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, map } from 'rxjs';
+import { BudgetTrackerFacadeService } from '../../../../../services';
 
 @Component({
   selector: 'app-expense-info-card',
@@ -30,17 +30,14 @@ export class ExpenseInfoCardComponent implements OnInit {
   shouldDisplayMenu$: Observable<boolean>;
 
   constructor(
-    private budgetTrackerFacade: BudgetTrackerFacadeService,
     private translateService: TranslateService,
     private confirmationModalService: ConfirmationModalService,
     private btFacade: BudgetTrackerFacadeService
   ) {}
 
   ngOnInit(): void {
-    this.expense$ = this.budgetTrackerFacade.getExpenseValue();
-    this.shouldDisplayMenu$ = this.budgetTrackerFacade
-      .areExpenseCategoriesAllReset()
-      .pipe(map((areReset) => !areReset));
+    this.expense$ = this.btFacade.getExpenseValue();
+    this.shouldDisplayMenu$ = this.btFacade.areExpenseCategoriesAllReset().pipe(map((areReset) => !areReset));
   }
 
   buildTranslationKey(key: string): string {

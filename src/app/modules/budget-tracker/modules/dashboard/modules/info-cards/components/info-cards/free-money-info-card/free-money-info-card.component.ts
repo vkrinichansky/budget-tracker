@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
 import { InfoCardColorScheme, MenuAction } from '@budget-tracker/design-system';
 import { TranslateService } from '@ngx-translate/core';
 import { map, Observable } from 'rxjs';
 import { InfoCardValueModalService } from '../../../services';
+import { BudgetTrackerFacadeService } from '../../../../../services';
 
 @Component({
   selector: 'app-free-money-info-card',

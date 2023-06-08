@@ -4,8 +4,8 @@ import { SnackbarHandlerService } from '@budget-tracker/shared';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, delay, filter, from, map, mergeMap, of, take } from 'rxjs';
-import { BudgetTrackerService } from '../../services';
 import { BudgetTrackerActions } from '../actions';
+import { BudgetTrackerService } from '../../modules';
 
 @Injectable()
 export class BudgetTrackerEffects {

@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
 import { filter, Observable, takeUntil } from 'rxjs';
 import { InfoCardMenuActionsType, InfoCardValueModalData, InfoCardValueToEdit } from '../../models';
+import { BudgetTrackerFacadeService } from '../../../../services';
 
 @Component({
   selector: 'app-info-card-value-modal',

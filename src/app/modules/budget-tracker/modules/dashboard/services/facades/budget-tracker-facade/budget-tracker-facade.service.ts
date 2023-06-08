@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { Store } from '@ngrx/store';
-import { combineLatest, firstValueFrom, map, Observable } from 'rxjs';
-import { BudgetTrackerActions, BudgetTrackerSelectors } from '../../../store';
+import { firstValueFrom, map, Observable } from 'rxjs';
 import {
   ActivityLog,
   ActivityLogGroupedByDays,
@@ -19,6 +18,7 @@ import {
   RootValueType,
 } from '@budget-tracker/shared';
 import { v4 as uuid } from 'uuid';
+import { BudgetTrackerActions, BudgetTrackerSelectors } from '@budget-tracker/budget-tracker';
 
 @Injectable()
 export class BudgetTrackerFacadeService {

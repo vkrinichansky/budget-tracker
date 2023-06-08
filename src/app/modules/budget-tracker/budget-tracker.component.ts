@@ -1,6 +1,6 @@
 import { Component, HostBinding, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { BudgetTrackerFacadeService } from './services';
 import { Observable } from 'rxjs';
+import { BudgetTrackerFacadeService } from './modules';
 
 @Component({
   selector: 'app-budget-tracker',

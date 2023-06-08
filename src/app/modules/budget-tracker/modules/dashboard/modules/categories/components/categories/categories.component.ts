@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
 import { BudgetType, Category } from '@budget-tracker/shared';
 import { BehaviorSubject, Observable, combineLatest, map } from 'rxjs';
-import { CategoryModalsService } from '../../services';
 import { ChartData, ChartOptions } from 'chart.js';
+import { CategoryModalsService } from '../../services';
+import { BudgetTrackerFacadeService } from '../../../../services';
 
 const categoriesChartPalette = [
   '#ffffd9',

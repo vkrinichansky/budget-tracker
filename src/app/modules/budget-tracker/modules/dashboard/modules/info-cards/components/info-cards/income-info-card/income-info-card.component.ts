@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
 import { BudgetType } from '@budget-tracker/shared';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, map } from 'rxjs';
+import { BudgetTrackerFacadeService } from '../../../../../services';
 
 @Component({
   selector: 'app-income-info-card',

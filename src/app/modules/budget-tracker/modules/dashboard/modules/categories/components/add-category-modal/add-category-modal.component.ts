@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { v4 as uuid } from 'uuid';
 import { Observable, combineLatest, filter, map, takeUntil, tap } from 'rxjs';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
-import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
+import { BudgetTrackerFacadeService } from '../../../../services';
 
 enum FormFields {
   CategoryIcon = 'categoryIcon',

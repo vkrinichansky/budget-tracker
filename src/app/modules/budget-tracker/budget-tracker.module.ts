@@ -7,10 +7,10 @@ import { AuthCoreModule } from '@budget-tracker/auth';
 import { NavigationBarModule } from '@budget-tracker/navigation-bar';
 import { StoreModule } from '@ngrx/store';
 import { budgetTrackerFeature } from './store/reducers';
-import { BudgetTrackerFacadeService, BudgetTrackerService } from './services';
 import { InitDataGuard } from './guards';
 import { EffectsModule } from '@ngrx/effects';
 import { BudgetTrackerEffects } from './store/effects';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 
 @NgModule({
   declarations: [BudgetTrackerComponent],
@@ -22,7 +22,8 @@ import { BudgetTrackerEffects } from './store/effects';
     NavigationBarModule,
     StoreModule.forFeature(budgetTrackerFeature),
     EffectsModule.forFeature([BudgetTrackerEffects]),
+    DashboardModule,
   ],
-  providers: [BudgetTrackerService, BudgetTrackerFacadeService, InitDataGuard],
+  providers: [InitDataGuard],
 })
 export class BudgetTrackerModule {}

@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Input, OnInit } from '@angular/core';
-import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
 import { Category } from '@budget-tracker/shared';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
 import { TranslateService } from '@ngx-translate/core';
 import { takeUntil } from 'rxjs';
-import { CategoryModalsService } from '../../../../services';
+import { CategoryModalsService } from '../../services';
+import { BudgetTrackerFacadeService } from '../../../../services';
 
 @Component({
   selector: 'app-category-item',

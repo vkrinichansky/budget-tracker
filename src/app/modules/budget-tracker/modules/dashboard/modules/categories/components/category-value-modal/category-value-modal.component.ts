@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/cor
 import { CategoryValueModalData } from '../../../../models';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
 import { Observable, takeUntil, filter } from 'rxjs';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
+import { BudgetTrackerFacadeService } from '../../../../services';
 
 enum FormFields {
   ValueToAdd = 'valueToAdd',
