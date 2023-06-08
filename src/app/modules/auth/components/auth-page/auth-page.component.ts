@@ -1,10 +1,11 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthFacadeService } from '../../services';
 
 @Component({
   selector: 'app-auth-page',
   templateUrl: './auth-page.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthPageComponent implements OnInit {
   private readonly rootTranslationKey = 'auth';

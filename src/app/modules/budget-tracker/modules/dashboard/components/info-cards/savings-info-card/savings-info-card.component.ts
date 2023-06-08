@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
 import { InfoCardColorScheme, MenuAction } from '@budget-tracker/design-system';
 import { TranslateService } from '@ngx-translate/core';
@@ -8,6 +8,7 @@ import { InfoCardValueModalService } from '../../../services';
 @Component({
   selector: 'app-savings-info-card',
   templateUrl: './savings-info-card.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SavingsInfoCardComponent implements OnInit {
   private readonly rootTranslationKey = 'dashboard.infoCards.savings';

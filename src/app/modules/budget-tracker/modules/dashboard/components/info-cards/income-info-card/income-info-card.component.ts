@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
 import { BudgetType } from '@budget-tracker/shared';
@@ -8,6 +8,7 @@ import { Observable, map } from 'rxjs';
 @Component({
   selector: 'app-income-info-card',
   templateUrl: './income-info-card.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IncomeInfoCardComponent implements OnInit {
   private readonly rootTranslationKey = 'dashboard.infoCards.income';

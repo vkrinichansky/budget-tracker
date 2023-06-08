@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
@@ -9,6 +9,7 @@ import { InfoCardMenuActionsType, InfoCardValueModalData, InfoCardValueToEdit } 
 @Component({
   selector: 'app-info-card-value-modal',
   templateUrl: './info-card-value-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideUnsubscriberService()],
 })
 export class InfoCardValueModalComponent implements OnInit {

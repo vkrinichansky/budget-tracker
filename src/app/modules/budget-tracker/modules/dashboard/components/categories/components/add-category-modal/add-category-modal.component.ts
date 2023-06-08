@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AddCategoryModalData } from '../../../../models';
 import { BudgetType, Category, CategoryIconForSelect, PredefinedCategoryIcons } from '@budget-tracker/shared';
@@ -6,9 +6,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { v4 as uuid } from 'uuid';
-import { BudgetTrackerFacadeService } from 'src/app/modules/budget-tracker/services';
 import { Observable, combineLatest, filter, map, takeUntil, tap } from 'rxjs';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
+import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
 
 enum FormFields {
   CategoryIcon = 'categoryIcon',
@@ -18,6 +18,7 @@ enum FormFields {
 @Component({
   selector: 'app-add-category-modal',
   templateUrl: './add-category-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideUnsubscriberService()],
 })
 export class AddCategoryModalComponent implements OnInit {
