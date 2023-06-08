@@ -15,6 +15,10 @@
   }
 
   &.big {
+    @apply w-40;
+  }
+
+  &.large {
     @apply w-60;
   }
 
@@ -29,6 +33,10 @@
   &.charcoal {
     @apply bg-charcoal hover:bg-blue text-white;
 
+    &.disabled {
+      @apply bg-grey;
+    }
+
     svg-icon {
       @apply text-white;
     }
@@ -36,6 +44,10 @@
 
   &.green {
     @apply bg-dark-green hover:bg-hover-green text-white;
+
+    &.disabled {
+      @apply bg-grey;
+    }
 
     svg-icon {
       @apply text-white;
@@ -61,12 +73,12 @@
   &.transparent-dark {
     @apply bg-transparent hover:bg-hover-black text-charcoal;
 
+    &.disabled {
+      @apply text-grey;
+    }
+
     svg-icon {
       @apply text-charcoal;
     }
-  }
-
-  &.disabled {
-    @apply bg-grey;
   }
 }

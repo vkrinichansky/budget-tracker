@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivityLogGroupedByDays, ActivityLogRecordType } from '@budget-tracker/shared';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { BudgetTrackerFacadeService } from 'src/app/modules/budget-tracker/services';
 
 @Component({

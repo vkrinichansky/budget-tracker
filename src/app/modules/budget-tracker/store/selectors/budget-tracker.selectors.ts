@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { budgetTrackerFeature, selectAll } from '../reducers';
+import { Category } from '@budget-tracker/shared';
 
 const budgetTrackerStateSelector = createSelector(
   budgetTrackerFeature.selectBudgetTrackerState,
@@ -48,6 +49,41 @@ const valueUpdatingErrorSelector = createSelector(
   (valueUpdating) => valueUpdating.error
 );
 
+const categoryManagementInProgressSelector = createSelector(
+  budgetTrackerFeature.selectCategoryManagement,
+  (valueUpdating) => valueUpdating.inProgress
+);
+
+const categoryManagementSuccessSelector = createSelector(
+  budgetTrackerFeature.selectCategoryManagement,
+  (valueUpdating) => valueUpdating.success
+);
+
+const categoryManagementErrorSelector = createSelector(
+  budgetTrackerFeature.selectCategoryManagement,
+  (valueUpdating) => valueUpdating.error
+);
+
+const categoryValueChangeInProgressSelector = createSelector(
+  budgetTrackerFeature.selectCategoryValueChange,
+  (valueUpdating) => valueUpdating.inProgress
+);
+
+const categoryValueChangeSuccessSelector = createSelector(
+  budgetTrackerFeature.selectCategoryValueChange,
+  (valueUpdating) => valueUpdating.success
+);
+
+const categoryValueChangeErrorSelector = createSelector(
+  budgetTrackerFeature.selectCategoryValueChange,
+  (valueUpdating) => valueUpdating.error
+);
+
+const selectCategoryByIdSelector = (categoryId: string) =>
+  createSelector(incomeCategoriesSelector, expenseCategoriesSelector, (income, expense) => ({
+    ...([...income, ...expense].find((category) => category.id === categoryId) as Category),
+  }));
+
 const activityLogSelector = createSelector(budgetTrackerFeature.selectActivityLog, (activityLog) => activityLog);
 
 export const BudgetTrackerSelectors = {
@@ -65,4 +101,11 @@ export const BudgetTrackerSelectors = {
   valueUpdatingSuccessSelector,
   valueUpdatingErrorSelector,
   activityLogSelector,
+  categoryManagementInProgressSelector,
+  categoryManagementSuccessSelector,
+  categoryManagementErrorSelector,
+  categoryValueChangeInProgressSelector,
+  categoryValueChangeSuccessSelector,
+  categoryValueChangeErrorSelector,
+  selectCategoryByIdSelector,
 };

@@ -1,0 +1,66 @@
+<h1 mat-dialog-title>{{ title | translate }}</h1>
+
+<div mat-dialog-content class="flex flex-col">
+  <form class="flex flex-col" [formGroup]="form">
+    <mat-form-field>
+      <mat-label>{{ buildTranslationKey('categoryIconTitle') | translate }}</mat-label>
+      <mat-select formControlName="categoryIcon" (selectionChange)="setCategoryNameToInput($event.value)">
+        <mat-select-trigger>
+          <span class="flex justify-start items-center text-charcoal gap-x-1.5">
+            <svg-icon [iconName]="selectedIcon"></svg-icon>
+            <span>{{ selectedIconTitle | translate }}</span>
+          </span>
+        </mat-select-trigger>
+
+        <mat-option *ngFor="let option of options" [value]="option">
+          <app-button
+            class="overflow-hidden"
+            [iconName]="option.icon"
+            [text]="option.textTranslationKey | translate"
+            [buttonSize]="'full'"
+            [align]="'start'"
+          ></app-button>
+        </mat-option>
+      </mat-select>
+
+      <mat-error *ngIf="this.form.controls['categoryName'].hasError('required')">
+        {{ 'formErrors.required' | translate }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>{{ buildTranslationKey('categoryNameTitle') | translate }}</mat-label>
+      <input matInput formControlName="categoryName" />
+
+      <mat-error *ngIf="this.form.controls['categoryName'].hasError('required')">
+        {{ 'formErrors.required' | translate }}
+      </mat-error>
+
+      <mat-error *ngIf="this.form.controls['categoryName'].hasError('maxlength')">
+        {{ buildTranslationKey('categoryNameLengthError') | translate }}
+      </mat-error>
+
+      <mat-error *ngIf="this.form.controls['categoryName'].hasError('categoryExists')">
+        {{ buildTranslationKey('categoryExistsError') | translate }}
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <app-button
+    [buttonSize]="'auto'"
+    [colorScheme]="'transparent-dark'"
+    [text]="buildTranslationKey('cancel') | translate"
+    (click)="cancelClick()"
+  ></app-button>
+
+  <app-button
+    [colorScheme]="'charcoal'"
+    [text]="buildTranslationKey('addCategory') | translate"
+    [buttonSize]="'big'"
+    [disabled]="!isFormValid"
+    [loading]="loading$ | async"
+    (click)="submitClick()"
+  ></app-button>
+</div>

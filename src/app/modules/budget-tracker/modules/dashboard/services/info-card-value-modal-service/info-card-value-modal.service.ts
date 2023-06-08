@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { InfoCardValueModalComponent } from '../../components';
 import { InfoCardMenuActionsType, InfoCardValueModalData, InfoCardValueToEdit } from '../../models';
-@Injectable({
-  providedIn: 'root',
-})
+
+@Injectable()
 export class InfoCardValueModalService {
   constructor(private dialog: MatDialog) {}
 

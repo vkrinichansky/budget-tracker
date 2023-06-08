@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { Store } from '@ngrx/store';
-import { firstValueFrom, map, Observable } from 'rxjs';
+import { combineLatest, firstValueFrom, map, Observable } from 'rxjs';
 import { BudgetTrackerActions, BudgetTrackerSelectors } from '../../../store';
 import {
   ActivityLog,
   ActivityLogGroupedByDays,
   ActivityLogGroupedByDaysInObject,
   ActivityLogRecordType,
+  BudgetType,
+  CategoriesResetRecord,
+  Category,
+  CategoryManagementActionType,
+  CategoryManagementRecord,
+  CategoryValueChangeRecord,
   RootValueActionType,
   RootValueChangeRecord,
   RootValueType,
@@ -25,6 +31,26 @@ export class BudgetTrackerFacadeService {
 
   isDataLoading(): Observable<boolean> {
     return this.store.select(BudgetTrackerSelectors.dataLoadingSelector);
+  }
+
+  getIncomeCategories(): Observable<Category[]> {
+    return this.store.select(BudgetTrackerSelectors.incomeCategoriesSelector);
+  }
+
+  getExpenseCategories(): Observable<Category[]> {
+    return this.store.select(BudgetTrackerSelectors.expenseCategoriesSelector);
+  }
+
+  areIncomeCategoriesAllReset(): Observable<boolean> {
+    return this.getIncomeCategories().pipe(map((categories) => categories.every((category) => category.value === 0)));
+  }
+
+  areExpenseCategoriesAllReset(): Observable<boolean> {
+    return this.getExpenseCategories().pipe(map((categories) => categories.every((category) => category.value === 0)));
+  }
+
+  getCategoryById(categoryId: string): Observable<Category> {
+    return this.store.select(BudgetTrackerSelectors.selectCategoryByIdSelector(categoryId));
   }
 
   getIncomeValue(): Observable<number> {
@@ -230,6 +256,124 @@ export class BudgetTrackerFacadeService {
     );
   }
 
+  // CATEGORY MANAGEMENT
+  addCategory(category: Category): void {
+    const addCategoryRecord: CategoryManagementRecord = {
+      id: uuid(),
+      actionType: CategoryManagementActionType.Add,
+      budgetType: category.budgetType,
+      categoryName: category.name,
+      date: new Date().getTime(),
+      icon: category.icon,
+      recordType: ActivityLogRecordType.CategoryManagement,
+    };
+
+    this.store.dispatch(BudgetTrackerActions.addCategory({ category, activityLogRecord: addCategoryRecord }));
+  }
+
+  async removeCategory(categoryId: string): Promise<void> {
+    const category: Category = await firstValueFrom(this.getCategoryById(categoryId));
+
+    const removeCategoryRecord: CategoryManagementRecord = {
+      id: uuid(),
+      actionType: CategoryManagementActionType.Remove,
+      budgetType: category.budgetType,
+      categoryName: category.name,
+      date: new Date().getTime(),
+      icon: category.icon,
+      recordType: ActivityLogRecordType.CategoryManagement,
+    };
+
+    this.store.dispatch(BudgetTrackerActions.removeCategory({ category, activityLogRecord: removeCategoryRecord }));
+  }
+
+  async changeCategoryValue(categoryId: string, valueToAdd = 0, note = '', isReset = false): Promise<void> {
+    const balance = await firstValueFrom(this.getFullBalanceValue());
+    let newBalanceValue = balance;
+
+    const category: Category = await firstValueFrom(this.getCategoryById(categoryId));
+    const updatedCategory: Category = { ...category, value: isReset ? 0 : category.value + valueToAdd };
+
+    let updatedCategoriesArray: Category[];
+
+    switch (category.budgetType) {
+      case BudgetType.Income:
+        updatedCategoriesArray = await firstValueFrom(this.getIncomeCategories());
+
+        if (!isReset) {
+          newBalanceValue = balance + valueToAdd;
+        }
+        break;
+
+      case BudgetType.Expense:
+        updatedCategoriesArray = await firstValueFrom(this.getExpenseCategories());
+
+        if (!isReset) {
+          newBalanceValue = balance - valueToAdd;
+        }
+        break;
+    }
+
+    const updatedCategoryIndex = updatedCategoriesArray.findIndex((category) => category.id === categoryId);
+    updatedCategoriesArray[updatedCategoryIndex].value = updatedCategory.value;
+
+    const addCategoryValueRecord: CategoryValueChangeRecord = {
+      id: uuid(),
+      budgetType: category.budgetType,
+      categoryName: category.name,
+      date: new Date().getTime(),
+      icon: category.icon,
+      recordType: ActivityLogRecordType.CategoryValueChange,
+      value: isReset ? category.value : valueToAdd,
+      note,
+      isReset,
+    };
+
+    this.store.dispatch(
+      BudgetTrackerActions.changeCategoryValue({
+        updatedCategory,
+        updatedCategoriesArray,
+        newBalanceValue,
+        activityLogRecord: addCategoryValueRecord,
+      })
+    );
+  }
+
+  async resetCategoriesByType(budgetType: BudgetType): Promise<void> {
+    let categories: Category[];
+    let icon: string;
+
+    switch (budgetType) {
+      case BudgetType.Income:
+        categories = await firstValueFrom(this.getIncomeCategories());
+        icon = 'arrow-up';
+        break;
+
+      case BudgetType.Expense:
+        categories = await firstValueFrom(this.getExpenseCategories());
+        icon = 'arrow-down';
+
+        break;
+    }
+
+    const updatedCategories = [
+      ...categories.map((category) => {
+        category.value = 0;
+        return category;
+      }),
+    ];
+
+    const activityLogRecord: CategoriesResetRecord = {
+      budgetType: budgetType,
+      date: new Date().getTime(),
+      id: uuid(),
+      recordType: ActivityLogRecordType.CategoriesReset,
+      icon,
+    };
+
+    this.store.dispatch(BudgetTrackerActions.resetCategories({ updatedCategories, activityLogRecord }));
+  }
+
   // VALUE UPDATING STATES
   getValueUpdatingInProgress(): Observable<boolean> {
     return this.store.select(BudgetTrackerSelectors.valueUpdatingInProgressSelector);
@@ -241,6 +385,32 @@ export class BudgetTrackerFacadeService {
 
   getValueUpdatingError(): Observable<boolean> {
     return this.store.select(BudgetTrackerSelectors.valueUpdatingErrorSelector);
+  }
+
+  // CATEGORY MANAGEMENT STATES
+  getCategoryManagementInProgress(): Observable<boolean> {
+    return this.store.select(BudgetTrackerSelectors.categoryManagementInProgressSelector);
+  }
+
+  getCategoryManagementSuccess(): Observable<boolean> {
+    return this.store.select(BudgetTrackerSelectors.categoryManagementSuccessSelector);
+  }
+
+  getCategoryManagementError(): Observable<boolean> {
+    return this.store.select(BudgetTrackerSelectors.categoryManagementErrorSelector);
+  }
+
+  // CATEGORY MANAGEMENT STATES
+  getCategoryValueChangeInProgress(): Observable<boolean> {
+    return this.store.select(BudgetTrackerSelectors.categoryValueChangeInProgressSelector);
+  }
+
+  getCategoryValueChangeSuccess(): Observable<boolean> {
+    return this.store.select(BudgetTrackerSelectors.categoryValueChangeSuccessSelector);
+  }
+
+  getCategoryValueChangeError(): Observable<boolean> {
+    return this.store.select(BudgetTrackerSelectors.categoryValueChangeErrorSelector);
   }
 
   // ACTIVITY LOG

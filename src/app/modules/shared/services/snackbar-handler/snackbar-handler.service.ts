@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
+import { BudgetType } from '../../models';
 
 @Injectable()
 export class SnackbarHandlerService {
@@ -36,6 +37,38 @@ export class SnackbarHandlerService {
     this.snackBar.open(
       this.translateService.instant(this.buildTranslationKey('freeMoneyEditedSnackbar.message')),
       this.translateService.instant(this.buildTranslationKey('freeMoneyEditedSnackbar.buttonText'))
+    );
+  }
+
+  showCategoryAddedSnackbar(): void {
+    this.snackBar.open(
+      this.translateService.instant(this.buildTranslationKey('categoryAddedSnackbar.message')),
+      this.translateService.instant(this.buildTranslationKey('categoryAddedSnackbar.buttonText'))
+    );
+  }
+
+  showCategoryRemovedSnackbar(): void {
+    this.snackBar.open(
+      this.translateService.instant(this.buildTranslationKey('categoryRemovedSnackbar.message')),
+      this.translateService.instant(this.buildTranslationKey('categoryRemovedSnackbar.buttonText'))
+    );
+  }
+
+  showCategoryValueChangedSnackbar(): void {
+    this.snackBar.open(
+      this.translateService.instant(this.buildTranslationKey('categoryValueChangedSnackbar.message')),
+      this.translateService.instant(this.buildTranslationKey('categoryValueChangedSnackbar.buttonText'))
+    );
+  }
+
+  showCategoriesResetSnackbar(budgetType: BudgetType): void {
+    const capitalizedBudgetType = budgetType[0].toUpperCase() + budgetType.slice(1);
+
+    this.snackBar.open(
+      this.translateService.instant(this.buildTranslationKey('categoriesResetSnackbar.message'), {
+        budgetType: capitalizedBudgetType,
+      }),
+      this.translateService.instant(this.buildTranslationKey('categoriesResetSnackbar.buttonText'))
     );
   }
 

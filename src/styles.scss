@@ -59,12 +59,12 @@ body {
 // DIALOG
 .mat-mdc-dialog-container {
   .mdc-dialog__title {
-    @apply font-main text-base font-bold text-charcoal #{!important};
+    @apply font-main text-lg font-bold text-charcoal #{!important};
   }
 }
 
 .mat-mdc-dialog-actions {
-  @apply justify-end #{!important};
+  @apply flex items-center justify-end gap-x-4 #{!important};
 }
 
 // INPUT
@@ -92,6 +92,10 @@ input::-webkit-inner-spin-button {
   @apply caret-charcoal;
 }
 
+.mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
+  @apply text-charcoal #{!important};
+}
+
 .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
   @apply text-grey #{!important};
 }
@@ -116,15 +120,56 @@ textarea {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  @apply bg-light-blue rounded;
+  @apply bg-dirty-white rounded;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  @apply bg-blue rounded;
+  @apply bg-hover-black rounded;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-charcoal;
+  @apply bg-grey;
+}
+
+// SELECT
+.mat-mdc-option {
+  @apply p-0 px-2 min-h-fit #{!important};
+}
+
+.mat-mdc-option:hover:not(.mdc-list-item--disabled) {
+  @apply hover:bg-transparent #{!important};
+}
+
+.mdc-list-item__primary-text {
+  @apply w-full #{!important};
+}
+
+.mat-mdc-option.mdc-list-item {
+  &:not(:last-child) {
+    @apply mb-2 #{!important};
+  }
+}
+
+.mat-mdc-option.mat-mdc-option-active {
+  @apply bg-transparent #{!important};
+}
+
+.mat-primary .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-minimal::after,
+.mat-primary .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-minimal::after {
+  @apply text-charcoal #{!important};
+}
+
+.mat-mdc-select-arrow {
+  @apply text-charcoal #{!important};
+}
+
+.mat-mdc-form-field .mat-mdc-select.mat-mdc-select-invalid .mat-mdc-select-arrow {
+  @apply text-red #{!important};
+}
+
+// MAT ERRORS
+.mat-mdc-form-field-error-wrapper {
+  @apply p-0 #{!important};
 }

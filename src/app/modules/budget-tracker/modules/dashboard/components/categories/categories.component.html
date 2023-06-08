@@ -1,0 +1,62 @@
+<div
+  *ngVar="isEmpty$ | async as isEmpty"
+  class="flip-card-inner"
+  [class.front]="isFrontDisplayed$ | async"
+  [class.back]="isBackDisplayed$ | async"
+>
+  <div class="flip-card-front">
+    <div class="flex justify-between items-center">
+      <span class="font-main font-bold text-charcoal text-xl">{{ title | translate }}</span>
+
+      <div class="flex items-center gap-x-4">
+        <app-button
+          [colorScheme]="'green'"
+          [iconName]="'plus'"
+          [matTooltip]="buildTranslationKey('addCategoryButtonTooltip') | translate"
+          [matTooltipPosition]="'above'"
+          (click)="addButtonAction()"
+        ></app-button>
+        <app-button
+          [colorScheme]="'green'"
+          [iconName]="'redo'"
+          [disabled]="shouldDisableFlipButton$ | async"
+          [matTooltip]="buildTranslationKey('flipCardButtonTooltip') | translate"
+          [matTooltipPosition]="'above'"
+          (click)="toggleSide()"
+        ></app-button>
+      </div>
+    </div>
+
+    <div
+      #list
+      class="flex flex-col w-full h-full overflow-y-auto gap-y-6"
+      [class.justify-center]="isEmpty"
+      [class.items-center]="isEmpty"
+      [class.scrollable]="!isEmpty"
+    >
+      <span *ngIf="isEmpty" class="font-main font-bold text-charcoal text-lg">
+        {{ buildTranslationKey('emptyStateText') | translate }}
+      </span>
+
+      <app-category-item *ngFor="let category of categories$ | async" [categoryId]="category.id"></app-category-item>
+    </div>
+  </div>
+
+  <div class="flip-card-back">
+    <div class="flex justify-between items-center">
+      <span class="font-main font-bold text-charcoal text-xl">{{ title | translate }}</span>
+      <app-button
+        [colorScheme]="'green'"
+        [iconName]="'redo'"
+        (click)="toggleSide()"
+        [matTooltip]="buildTranslationKey('flipCardButtonTooltip') | translate"
+        [matTooltipPosition]="'above'"
+      ></app-button>
+    </div>
+
+    <div class="w-full h-full">
+      <canvas baseChart class="w-full" [type]="'doughnut'" [data]="chartData$ | async" [options]="chartOptions">
+      </canvas>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  arrayRemove,
   arrayUnion,
   collection,
   CollectionReference,
@@ -10,7 +11,14 @@ import {
   getDoc,
   updateDoc,
 } from '@angular/fire/firestore';
-import { BudgetTrackerState, RootValueChangeRecord } from '@budget-tracker/shared';
+import {
+  BudgetTrackerState,
+  CategoriesResetRecord,
+  Category,
+  CategoryManagementRecord,
+  CategoryValueChangeRecord,
+  RootValueChangeRecord,
+} from '@budget-tracker/shared';
 import { Store } from '@ngrx/store';
 import { AuthFacadeService, AuthSelectors } from '@budget-tracker/auth';
 import { filter, firstValueFrom, from, map, mergeMap, Observable, switchMap, tap } from 'rxjs';
@@ -50,5 +58,42 @@ export class BudgetTrackerService {
 
   updateFreeMoney(newFreeMoneyValue: number, activityLogRecord: RootValueChangeRecord): Promise<void> {
     return updateDoc(this.docRef, { free: newFreeMoneyValue, activityLog: arrayUnion(activityLogRecord) });
+  }
+
+  addCategory(category: Category, activityLogRecord: CategoryManagementRecord): Promise<void> {
+    return updateDoc(this.docRef, {
+      [category.budgetType]: arrayUnion(category),
+      activityLog: arrayUnion(activityLogRecord),
+    });
+  }
+
+  removeCategory(category: Category, activityLogRecord: CategoryManagementRecord): Promise<void> {
+    return updateDoc(this.docRef, {
+      [category.budgetType]: arrayRemove(category),
+      activityLog: arrayUnion(activityLogRecord),
+    });
+  }
+
+  changeCategoryValue(
+    updatedCategoryArray: Category[],
+    newBalanceValue: number,
+    activityLogRecord: CategoryValueChangeRecord
+  ): Promise<void> {
+    const budgetType = updatedCategoryArray[0].budgetType;
+
+    return updateDoc(this.docRef, {
+      [budgetType]: updatedCategoryArray,
+      balance: newBalanceValue,
+      activityLog: arrayUnion(activityLogRecord),
+    });
+  }
+
+  resetCategories(updatedCategory: Category[], activityLogRecord: CategoriesResetRecord): Promise<void> {
+    const budgetType = updatedCategory[0].budgetType;
+
+    return updateDoc(this.docRef, {
+      [budgetType]: updatedCategory,
+      activityLog: arrayUnion(activityLogRecord),
+    });
   }
 }

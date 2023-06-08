@@ -1,0 +1,28 @@
+<div class="flex gap-x-2 items-start">
+  <svg-icon-with-bg class="text-charcoal bg-light-blue" [iconName]="record.icon" [size]="'small'"></svg-icon-with-bg>
+
+  <span class="flex flex-col">
+    <span class="font-main text-charcoal text-base">
+      <ng-container [ngSwitch]="record.actionType">
+        <ng-container *ngSwitchCase="actionType.Add">
+          <span
+            [innerHTML]="
+              (buildTranslationKey('categoryAdded') | translate : { categoryName: record.categoryName }) +
+              (buildTranslationKey('budgetType.' + record.budgetType) | translate)
+            "
+          ></span>
+        </ng-container>
+        <ng-container *ngSwitchCase="actionType.Remove">
+          <span
+            [innerHTML]="
+              (buildTranslationKey('categoryRemoved') | translate : { categoryName: record.categoryName }) +
+              (buildTranslationKey('budgetType.' + record.budgetType) | translate)
+            "
+          ></span>
+        </ng-container>
+      </ng-container>
+    </span>
+
+    <span class="font-main text-grey text-xs">{{ time }}</span>
+  </span>
+</div>

@@ -12,12 +12,21 @@
 
   "dashboard": {
     "pageTitle": "Dashboard",
+
     "infoCards": {
       "income": {
-        "title": "Income"
+        "title": "Income",
+        "resetConfirmationMessage": "Do you want to reset all <b>income</b> categories' values?",
+        "menu": {
+          "resetCategories": "Reset categories"
+        }
       },
       "expense": {
-        "title": "Expense"
+        "title": "Expense",
+        "resetConfirmationMessage": "Do you want to reset all <b>expense</b> categories' values?",
+        "menu": {
+          "resetCategories": "Reset categories"
+        }
       },
       "balance": {
         "fullBalance": "Full balance",
@@ -45,6 +54,7 @@
         }
       }
     },
+
     "infoCardValueModal": {
       "cancel": "Cancel",
       "noteInputTitle": "Note",
@@ -67,8 +77,10 @@
         "edit": "Edit"
       }
     },
+
     "activityLog": {
       "title": "Activity log",
+
       "rootValueChangeRecord": {
         "title": {
           "balance": "Balance",
@@ -76,7 +88,66 @@
           "free": "Free money"
         }
       },
+      "categoryManagementRecord": {
+        "categoryAdded": "<b>{{ categoryName }}</b> was added to ",
+        "categoryRemoved": "<b>{{ categoryName }}</b> was removed from ",
+        "budgetType": {
+          "income": "<b>income</b>",
+          "expense": "<b>expense<b>"
+        }
+      },
+
+      "categoriesResetRecord": {
+        "message": "<b>{{ budgetType }}</b> categories were reset"
+      },
+
       "emptyStateText": "No data to display yet"
+    },
+
+    "categories": {
+      "income": {
+        "title": "Income"
+      },
+      "expense": {
+        "title": "Expense"
+      },
+      "emptyStateText": "No data to display yet",
+
+      "addCategoryButtonTooltip": "Add category",
+      "flipCardButtonTooltip": "Flip card",
+
+      "categoryItem": {
+        "menu": {
+          "addValue": "Add value",
+          "resetValue": "Reset value",
+          "remove": "Remove"
+        },
+        "confirmationModalRemove": "Do you want to remove <b>{{ categoryName }}</b> category?",
+        "confirmationModalReset": "Do you want to reset <b>{{ categoryName }}</b> category value?"
+      }
+    },
+
+    "addCategoryModal": {
+      "income": {
+        "title": "Add category to income"
+      },
+      "expense": {
+        "title": "Add category to expense"
+      },
+      "categoryIconTitle": "Category icon",
+      "categoryNameTitle": "Category name",
+      "cancel": "Cancel",
+      "addCategory": "Add category",
+      "categoryExistsError": "Such category already exists",
+      "categoryNameLengthError": "Max category name length is 25"
+    },
+    "categoryValueModal": {
+      "title": "Add value to category",
+      "cancel": "Cancel",
+      "add": "Add",
+      "valueToAddTitle": "Value to add",
+      "noteTitle": "Note",
+      "noteTooLongError": "Note is too long, max length is 100"
     }
   },
 
@@ -86,16 +157,61 @@
       "buttonText": "Got it"
     },
     "balanceEditedSnackbar": {
-      "message": "Balance updated successfully!",
+      "message": "Balance was updated successfully!",
       "buttonText": "Got it"
     },
     "savingsEditedSnackbar": {
-      "message": "Savings updated successfully!",
+      "message": "Savings were updated successfully!",
       "buttonText": "Got it"
     },
     "freeMoneyEditedSnackbar": {
-      "message": "Free money updated successfully!",
+      "message": "Free money were updated successfully!",
+      "buttonText": "Got it"
+    },
+    "categoryAddedSnackbar": {
+      "message": "Category was added successfully!",
+      "buttonText": "Got it"
+    },
+    "categoryRemovedSnackbar": {
+      "message": "Category was removed successfully!",
+      "buttonText": "Got it"
+    },
+    "categoryValueChangedSnackbar": {
+      "message": "Category value was changed successfully!",
+      "buttonText": "Got it"
+    },
+    "categoriesResetSnackbar": {
+      "message": "{{ budgetType }} categories were reset successfully!",
       "buttonText": "Got it"
     }
+  },
+
+  "formErrors": {
+    "required": "Field is required",
+    "minValue": "Minimal value is {{ minValue }}"
+  },
+
+  "confirmationModal": {
+    "title": "Confirm action",
+    "noButton": "No",
+    "yesButton": "Yes"
+  },
+
+  "categoryIcons": {
+    "housing": "Housing",
+    "food": "Food",
+    "health": "Health",
+    "clothes": "Clothes",
+    "entertainment": "Entertainment",
+    "transport": "Transport",
+    "car": "Car",
+    "everydayLife": "Everyday life",
+    "rest": "Rest",
+    "work": "Work",
+    "presents": "Presents",
+    "utilities": "Utilities",
+    "tech": "Tech",
+    "internet": "Communication and internet",
+    "subscriptions": "Subscriptions"
   }
 }

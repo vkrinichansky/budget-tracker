@@ -50,7 +50,6 @@ export class AuthEffects {
   initDatabaseOnFirstLogin$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.initDatabaseOnFirstLogin),
-      tap(() => console.log('AuthActions.initDatabaseOnFirstLogin')),
       mergeMap((action) =>
         from(this.authService.setUserData(action.user.uid)).pipe(
           map(() => AuthActions.authenticated({ user: action.user }))

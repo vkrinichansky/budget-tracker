@@ -14,6 +14,8 @@ import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { AuthCoreModule } from './modules/auth/auth.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { CustomErrorStateMatcher } from '@budget-tracker/utils';
 
 @NgModule({
   declarations: [AppComponent],
@@ -49,7 +51,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
     AuthCoreModule,
     BrowserAnimationsModule,
   ],
-  providers: [],
+  providers: [{ provide: ErrorStateMatcher, useClass: CustomErrorStateMatcher }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
