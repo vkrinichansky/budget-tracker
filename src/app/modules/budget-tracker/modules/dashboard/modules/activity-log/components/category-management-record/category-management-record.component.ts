@@ -14,10 +14,6 @@ export class CategoryManagementRecordComponent {
   @Input()
   record: CategoryManagementRecord;
 
-  get time(): string {
-    return new Date(this.record.date).toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit', hour12: false });
-  }
-
   buildTranslationKey(key: string): string {
     return `${this.rootTranslationKey}.${key}`;
   }

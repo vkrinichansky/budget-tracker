@@ -12,10 +12,6 @@ export class CategoriesResetRecordComponent {
   @Input()
   record: CategoriesResetRecord;
 
-  get time(): string {
-    return new Date(this.record.date).toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit', hour12: false });
-  }
-
   get budgetType(): string {
     return this.record.budgetType[0].toUpperCase() + this.record.budgetType.slice(1);
   }

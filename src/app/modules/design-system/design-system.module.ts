@@ -10,6 +10,7 @@ import {
   SvgIconWithBgComponent,
   InfoIconComponent,
   MenuComponent,
+  GenericActivityLogRecordComponent,
 } from './components';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -28,6 +29,7 @@ import { ConfirmationModalService } from './services';
     MenuComponent,
     ConfirmationModalComponent,
     InfoIconComponent,
+    GenericActivityLogRecordComponent,
   ],
   imports: [CommonModule, MatMenuModule, MatTooltipModule, MatDialogModule, TranslateModule],
   exports: [
@@ -39,6 +41,7 @@ import { ConfirmationModalService } from './services';
     SvgIconWithBgComponent,
     MenuComponent,
     InfoIconComponent,
+    GenericActivityLogRecordComponent,
   ],
   providers: [ConfirmationModalService],
 })

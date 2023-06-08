@@ -7,3 +7,4 @@ export { SvgIconWithBgComponent } from './svg-icon-with-bg/svg-icon-with-bg.comp
 export { MenuComponent } from './menu/menu.component';
 export { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 export { InfoIconComponent } from './info-icon/info-icon.component';
+export { GenericActivityLogRecordComponent } from './generic-activity-log-record/generic-activity-log-record.component';
