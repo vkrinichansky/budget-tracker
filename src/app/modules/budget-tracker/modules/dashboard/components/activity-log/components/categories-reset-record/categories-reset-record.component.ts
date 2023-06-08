@@ -4,7 +4,6 @@ import { CategoriesResetRecord } from '@budget-tracker/shared';
 @Component({
   selector: 'app-categories-reset-record',
   templateUrl: './categories-reset-record.component.html',
-  styleUrls: ['./categories-reset-record.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoriesResetRecordComponent {

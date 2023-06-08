@@ -67,6 +67,10 @@ body {
   @apply flex items-center justify-end gap-x-4 #{!important};
 }
 
+.mat-mdc-dialog-content {
+  @apply flex flex-col #{!important};
+}
+
 // INPUT
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

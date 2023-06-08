@@ -2,6 +2,7 @@
   @apply block rounded-full border-solid border-2 border-t-transparent;
   animation: loader 1s linear infinite;
 
+  // COLORS
   &.dark {
     @apply border-x-charcoal border-b-charcoal;
   }
@@ -19,6 +20,7 @@
   }
 }
 
+// ANIMATION
 @keyframes loader {
   0% {
     transform: rotate(0deg);

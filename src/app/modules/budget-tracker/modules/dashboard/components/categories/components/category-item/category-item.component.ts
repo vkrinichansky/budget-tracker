@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Input, OnInit } from '@angular/core';
 import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
 import { Category } from '@budget-tracker/shared';
@@ -10,13 +10,17 @@ import { CategoryModalsService } from '../../../../services';
 @Component({
   selector: 'app-category-item',
   templateUrl: './category-item.component.html',
-  styleUrls: ['./category-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideUnsubscriberService()],
 })
 export class CategoryItemComponent implements OnInit {
   private readonly rootTranslationKey = 'dashboard.categories.categoryItem';
   private readonly destroy$ = injectUnsubscriberService();
+
+  @HostBinding('class')
+  private readonly classes =
+    'flex justify-between items-center p-5 pr-2 border-solid border-2 border-grey rounded-lg hover:border-charcoal';
+
   @Input()
   categoryId: string;
 

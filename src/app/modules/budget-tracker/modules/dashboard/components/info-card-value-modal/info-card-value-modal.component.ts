@@ -5,19 +5,15 @@ import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
 import { filter, Observable, takeUntil } from 'rxjs';
 import { InfoCardMenuActionsType, InfoCardValueModalData, InfoCardValueToEdit } from '../../models';
-import { ColorScheme } from '@budget-tracker/design-system';
 
 @Component({
   selector: 'app-info-card-value-modal',
   templateUrl: './info-card-value-modal.component.html',
-  styleUrls: ['./info-card-value-modal.component.scss'],
   providers: [provideUnsubscriberService()],
 })
 export class InfoCardValueModalComponent implements OnInit {
   private readonly rootTranslationKey = 'dashboard.infoCardValueModal';
   private readonly destroy$ = injectUnsubscriberService();
-
-  readonly colorScheme = ColorScheme;
 
   title: string;
 

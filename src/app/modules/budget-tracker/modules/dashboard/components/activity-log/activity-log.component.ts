@@ -1,16 +1,18 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
+import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
 import { ActivityLogGroupedByDays, ActivityLogRecordType } from '@budget-tracker/shared';
 import { Observable, map } from 'rxjs';
-import { BudgetTrackerFacadeService } from 'src/app/modules/budget-tracker/services';
 
 @Component({
   selector: 'app-activity-log',
   templateUrl: './activity-log.component.html',
-  styleUrls: ['./activity-log.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityLogComponent implements OnInit {
   private readonly rootTranslationKey = 'dashboard.activityLog';
+
+  @HostBinding('class')
+  private readonly classes = 'flex flex-col w-full h-full bg-white rounded-lg p-7 gap-7 overflow-hidden';
 
   readonly recordType = ActivityLogRecordType;
 

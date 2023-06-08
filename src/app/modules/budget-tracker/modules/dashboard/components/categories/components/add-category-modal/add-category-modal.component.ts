@@ -18,7 +18,6 @@ enum FormFields {
 @Component({
   selector: 'app-add-category-modal',
   templateUrl: './add-category-modal.component.html',
-  styleUrls: ['./add-category-modal.component.scss'],
   providers: [provideUnsubscriberService()],
 })
 export class AddCategoryModalComponent implements OnInit {

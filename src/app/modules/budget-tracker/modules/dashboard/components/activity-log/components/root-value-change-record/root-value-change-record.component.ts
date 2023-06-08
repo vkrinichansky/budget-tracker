@@ -1,14 +1,16 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { RootValueActionType, RootValueChangeRecord } from '@budget-tracker/shared';
 
 @Component({
   selector: 'app-root-value-change-record',
   templateUrl: './root-value-change-record.component.html',
-  styleUrls: ['./root-value-change-record.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RootValueChangeRecordComponent {
   private readonly rootTranslationKey = 'dashboard.activityLog.rootValueChangeRecord';
+
+  @HostBinding('class')
+  private readonly classes = 'flex justify-between items-center';
 
   readonly actionType = RootValueActionType;
 

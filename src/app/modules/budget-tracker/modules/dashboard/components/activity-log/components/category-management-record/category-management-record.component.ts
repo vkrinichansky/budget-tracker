@@ -4,7 +4,6 @@ import { CategoryManagementActionType, CategoryManagementRecord } from '@budget-
 @Component({
   selector: 'app-category-management-record',
   templateUrl: './category-management-record.component.html',
-  styleUrls: ['./category-management-record.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryManagementRecordComponent {

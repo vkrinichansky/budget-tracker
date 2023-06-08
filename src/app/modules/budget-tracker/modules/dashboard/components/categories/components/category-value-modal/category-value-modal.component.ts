@@ -14,7 +14,6 @@ enum FormFields {
 @Component({
   selector: 'app-category-value-modal',
   templateUrl: './category-value-modal.component.html',
-  styleUrls: ['./category-value-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideUnsubscriberService()],
 })
