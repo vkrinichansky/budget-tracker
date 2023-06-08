@@ -7,7 +7,6 @@ import {
   CategoriesComponent,
   CategoryItemComponent,
   CategoryManagementRecordComponent,
-  DashboardComponent,
   RootValueChangeRecordComponent,
   CategoryValueModalComponent,
   CategoryValueChangeRecordComponent,
@@ -25,6 +24,7 @@ import { UtilsModule } from '@budget-tracker/utils';
 import { MatSelectModule } from '@angular/material/select';
 import { NgChartsModule } from 'ng2-charts';
 import { InfoCardsModule } from './modules';
+import { DashboardComponent } from './dashboard.component';
 
 const routes: Routes = [
   {
