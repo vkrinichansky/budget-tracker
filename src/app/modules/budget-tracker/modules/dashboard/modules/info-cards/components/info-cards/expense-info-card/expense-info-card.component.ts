@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { CategoriesFacadeService } from '@budget-tracker/dashboard/categories';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
 import { BudgetType } from '@budget-tracker/shared';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, map } from 'rxjs';
-import { BudgetTrackerFacadeService } from '../../../../../services';
 
 @Component({
   selector: 'app-expense-info-card',
@@ -21,7 +21,7 @@ export class ExpenseInfoCardComponent implements OnInit {
         this.confirmationModalService.openConfirmationModal(
           this.buildTranslationKey('resetConfirmationMessage'),
           undefined,
-          () => this.btFacade.resetCategoriesByType(BudgetType.Expense)
+          () => this.categoriesFacade.resetCategoriesByType(BudgetType.Expense)
         ),
     },
   ];
@@ -32,12 +32,12 @@ export class ExpenseInfoCardComponent implements OnInit {
   constructor(
     private translateService: TranslateService,
     private confirmationModalService: ConfirmationModalService,
-    private btFacade: BudgetTrackerFacadeService
+    private categoriesFacade: CategoriesFacadeService
   ) {}
 
   ngOnInit(): void {
-    this.expense$ = this.btFacade.getExpenseValue();
-    this.shouldDisplayMenu$ = this.btFacade.areExpenseCategoriesAllReset().pipe(map((areReset) => !areReset));
+    this.expense$ = this.categoriesFacade.getExpenseValue();
+    this.shouldDisplayMenu$ = this.categoriesFacade.areExpenseCategoriesAllReset().pipe(map((areReset) => !areReset));
   }
 
   buildTranslationKey(key: string): string {

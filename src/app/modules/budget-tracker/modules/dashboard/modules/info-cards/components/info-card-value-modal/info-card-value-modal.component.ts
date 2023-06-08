@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
 import { filter, Observable, takeUntil } from 'rxjs';
 import { InfoCardMenuActionsType, InfoCardValueModalData, InfoCardValueToEdit } from '../../models';
-import { BudgetTrackerFacadeService } from '../../../../services';
+import { RootValuesFacadeService } from '../../services';
 
 @Component({
   selector: 'app-info-card-value-modal',
@@ -46,7 +46,7 @@ export class InfoCardValueModalComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: InfoCardValueModalData,
     private dialogRef: MatDialogRef<InfoCardValueModalComponent>,
-    private budgetTrackerFacade: BudgetTrackerFacadeService
+    private rootValuesFacade: RootValuesFacadeService
   ) {}
 
   ngOnInit(): void {
@@ -62,9 +62,9 @@ export class InfoCardValueModalComponent implements OnInit {
 
     this.noteInput = new FormControl('', [Validators.maxLength(100)]);
 
-    this.loading$ = this.budgetTrackerFacade.getValueUpdatingInProgress();
+    this.loading$ = this.rootValuesFacade.getValueUpdatingInProgress();
 
-    this.success$ = this.budgetTrackerFacade.getValueUpdatingSuccess();
+    this.success$ = this.rootValuesFacade.getValueUpdatingSuccess();
 
     this.success$
       .pipe(
@@ -90,15 +90,15 @@ export class InfoCardValueModalComponent implements OnInit {
       case InfoCardValueToEdit.Balance:
         switch (this.data.actionType) {
           case InfoCardMenuActionsType.Increase:
-            this.budgetTrackerFacade.increaseBalance(inputValue, note);
+            this.rootValuesFacade.increaseBalance(inputValue, note);
             break;
 
           case InfoCardMenuActionsType.Decrease:
-            this.budgetTrackerFacade.decreaseBalance(inputValue, note);
+            this.rootValuesFacade.decreaseBalance(inputValue, note);
             break;
 
           case InfoCardMenuActionsType.Edit:
-            this.budgetTrackerFacade.editBalance(inputValue, note);
+            this.rootValuesFacade.editBalance(inputValue, note);
             break;
         }
         break;
@@ -106,15 +106,15 @@ export class InfoCardValueModalComponent implements OnInit {
       case InfoCardValueToEdit.Savings:
         switch (this.data.actionType) {
           case InfoCardMenuActionsType.Increase:
-            this.budgetTrackerFacade.increaseSavings(inputValue, note);
+            this.rootValuesFacade.increaseSavings(inputValue, note);
             break;
 
           case InfoCardMenuActionsType.Decrease:
-            this.budgetTrackerFacade.decreaseSavings(inputValue, note);
+            this.rootValuesFacade.decreaseSavings(inputValue, note);
             break;
 
           case InfoCardMenuActionsType.Edit:
-            this.budgetTrackerFacade.editSavings(inputValue, note);
+            this.rootValuesFacade.editSavings(inputValue, note);
             break;
         }
         break;
@@ -122,15 +122,15 @@ export class InfoCardValueModalComponent implements OnInit {
       case InfoCardValueToEdit.FreeMoney:
         switch (this.data.actionType) {
           case InfoCardMenuActionsType.Increase:
-            this.budgetTrackerFacade.increaseFreeMoney(inputValue, note);
+            this.rootValuesFacade.increaseFreeMoney(inputValue, note);
             break;
 
           case InfoCardMenuActionsType.Decrease:
-            this.budgetTrackerFacade.decreaseFreeMoney(inputValue, note);
+            this.rootValuesFacade.decreaseFreeMoney(inputValue, note);
             break;
 
           case InfoCardMenuActionsType.Edit:
-            this.budgetTrackerFacade.editFreeMoney(inputValue, note);
+            this.rootValuesFacade.editFreeMoney(inputValue, note);
             break;
         }
         break;

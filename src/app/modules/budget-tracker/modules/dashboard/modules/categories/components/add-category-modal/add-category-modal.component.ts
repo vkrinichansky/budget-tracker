@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AddCategoryModalData } from '../../../../models';
 import { BudgetType, Category, CategoryIconForSelect, PredefinedCategoryIcons } from '@budget-tracker/shared';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
@@ -8,7 +7,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { v4 as uuid } from 'uuid';
 import { Observable, combineLatest, filter, map, takeUntil, tap } from 'rxjs';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
-import { BudgetTrackerFacadeService } from '../../../../services';
+import { CategoriesFacadeService } from '../../services';
+import { AddCategoryModalData } from '../../models';
 
 enum FormFields {
   CategoryIcon = 'categoryIcon',
@@ -59,7 +59,7 @@ export class AddCategoryModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) private data: AddCategoryModalData,
     private dialogRef: MatDialogRef<AddCategoryModalComponent>,
     private translateService: TranslateService,
-    private btFacade: BudgetTrackerFacadeService
+    private categoriesFacade: CategoriesFacadeService
   ) {}
 
   ngOnInit(): void {
@@ -68,18 +68,18 @@ export class AddCategoryModalComponent implements OnInit {
     switch (this.budgetType) {
       case BudgetType.Income:
         this.title = this.buildTranslationKey(`${BudgetType.Income}.title`);
-        this.categories$ = this.btFacade.getIncomeCategories();
+        this.categories$ = this.categoriesFacade.getIncomeCategories();
         break;
 
       case BudgetType.Expense:
         this.title = this.buildTranslationKey(`${BudgetType.Expense}.title`);
-        this.categories$ = this.btFacade.getExpenseCategories();
+        this.categories$ = this.categoriesFacade.getExpenseCategories();
         break;
     }
 
-    this.loading$ = this.btFacade.getCategoryManagementInProgress();
+    this.loading$ = this.categoriesFacade.getCategoryManagementInProgress();
 
-    this.success$ = this.btFacade.getCategoryManagementSuccess();
+    this.success$ = this.categoriesFacade.getCategoryManagementSuccess();
 
     this.success$
       .pipe(
@@ -112,7 +112,7 @@ export class AddCategoryModalComponent implements OnInit {
       budgetType: this.budgetType,
     };
 
-    this.btFacade.addCategory(category);
+    this.categoriesFacade.addCategory(category);
   }
 
   private subscribeToCategoryNameChanges(): void {

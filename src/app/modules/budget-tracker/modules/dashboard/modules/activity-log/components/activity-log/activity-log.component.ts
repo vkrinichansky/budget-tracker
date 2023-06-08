@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { ActivityLogGroupedByDays, ActivityLogRecordType } from '@budget-tracker/shared';
 import { Observable, map } from 'rxjs';
-import { BudgetTrackerFacadeService } from '../../../../services';
+import { ActivityLogFacadeService } from '../../services';
 
 @Component({
   selector: 'app-activity-log',
@@ -20,10 +20,10 @@ export class ActivityLogComponent implements OnInit {
 
   isEmpty$: Observable<boolean>;
 
-  constructor(private budgetTrackerFacade: BudgetTrackerFacadeService) {}
+  constructor(private activityLogFacade: ActivityLogFacadeService) {}
 
   ngOnInit(): void {
-    this.activityLog$ = this.budgetTrackerFacade.getActivityLogGroupedByDays();
+    this.activityLog$ = this.activityLogFacade.getActivityLogGroupedByDays();
 
     this.isEmpty$ = this.activityLog$.pipe(map((activitiLog) => !activitiLog.length));
   }

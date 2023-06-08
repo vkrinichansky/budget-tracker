@@ -2,8 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { InfoCardColorScheme, MenuAction } from '@budget-tracker/design-system';
 import { TranslateService } from '@ngx-translate/core';
 import { map, Observable } from 'rxjs';
-import { InfoCardValueModalService } from '../../../services';
-import { BudgetTrackerFacadeService } from '../../../../../services';
+import { InfoCardValueModalService, RootValuesFacadeService } from '../../../services';
 
 @Component({
   selector: 'app-free-money-info-card',
@@ -20,13 +19,13 @@ export class FreeMoneyInfoCardComponent implements OnInit {
   menuActions$: Observable<MenuAction[]>;
 
   constructor(
-    private budgetTrackerFacade: BudgetTrackerFacadeService,
+    private rootValuesFacade: RootValuesFacadeService,
     private translateService: TranslateService,
     private infoCardValueModalService: InfoCardValueModalService
   ) {}
 
   ngOnInit(): void {
-    this.freeMoney$ = this.budgetTrackerFacade.getFreeMoneyValue();
+    this.freeMoney$ = this.rootValuesFacade.getFreeMoneyValue();
 
     this.menuActions$ = this.freeMoney$.pipe(map((freeMoney) => this.resolveMenuActions(freeMoney)));
   }

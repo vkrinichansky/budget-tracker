@@ -1,22 +1,13 @@
-import { ActivityLog, Category } from '@budget-tracker/shared';
-import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { Category } from '@budget-tracker/shared';
+import { createEntityAdapter } from '@ngrx/entity';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { BudgetTrackerActions } from '../actions';
 
 const budgetTrackerFeatureName = 'budgetTracker';
 
 export interface FullBudgetTrackerState {
-  income: EntityState<Category>;
-  expense: EntityState<Category>;
-  balance: number;
-  savings: number;
-  free: number;
-  activityLog: ActivityLog;
-  loading: boolean;
-  loaded: boolean;
-  valueUpdating: { success: boolean; error: boolean; inProgress: boolean };
-  categoryManagement: { success: boolean; error: boolean; inProgress: boolean };
-  categoryValueChange: { success: boolean; error: boolean; inProgress: boolean };
+  isDataLoading: boolean;
+  isDataLoaded: boolean;
 }
 
 function selectCategoryId(category: Category) {
@@ -28,29 +19,8 @@ export const categoryEntityAdapter = createEntityAdapter({
 });
 
 const initialState: FullBudgetTrackerState = {
-  income: categoryEntityAdapter.getInitialState({}),
-  expense: categoryEntityAdapter.getInitialState({}),
-  balance: 0,
-  savings: 0,
-  free: 0,
-  activityLog: [],
-  loaded: false,
-  loading: false,
-  valueUpdating: {
-    success: false,
-    error: false,
-    inProgress: false,
-  },
-  categoryManagement: {
-    success: false,
-    error: false,
-    inProgress: false,
-  },
-  categoryValueChange: {
-    success: false,
-    error: false,
-    inProgress: false,
-  },
+  isDataLoaded: false,
+  isDataLoading: false,
 };
 
 export const budgetTrackerFeature = createFeature({
@@ -59,254 +29,20 @@ export const budgetTrackerFeature = createFeature({
     initialState,
     on(BudgetTrackerActions.init, (state) => ({
       ...state,
-      loading: true,
+      isDataLoading: true,
     })),
 
     on(BudgetTrackerActions.clean, () => initialState),
 
-    on(BudgetTrackerActions.dataLoaded, (state, action) => ({
+    on(BudgetTrackerActions.dataLoaded, (state) => ({
       ...state,
-      savings: action.data.savings,
-      balance: action.data.balance,
-      free: action.data.free,
-      income: categoryEntityAdapter.addMany(action.data.income, state.income),
-      expense: categoryEntityAdapter.addMany(action.data.expense, state.expense),
-      activityLog: action.data.activityLog,
-      loading: false,
-      loaded: true,
-    })),
-
-    on(BudgetTrackerActions.updateBalance, (state) => ({
-      ...state,
-      valueUpdating: {
-        inProgress: true,
-        error: false,
-        success: false,
-      },
-    })),
-
-    on(BudgetTrackerActions.balanceUpdated, (state, action) => ({
-      ...state,
-      balance: action.newBalanceValue,
-      activityLog: [...state.activityLog, action.activityLogRecord],
-      valueUpdating: {
-        inProgress: false,
-        error: false,
-        success: true,
-      },
-    })),
-
-    on(BudgetTrackerActions.balanceUpdateFail, (state) => ({
-      ...state,
-      valueUpdating: {
-        inProgress: false,
-        error: true,
-        success: false,
-      },
-    })),
-
-    on(BudgetTrackerActions.updateSavings, (state) => ({
-      ...state,
-      valueUpdating: {
-        inProgress: true,
-        error: false,
-        success: false,
-      },
-    })),
-
-    on(BudgetTrackerActions.savingsUpdated, (state, action) => ({
-      ...state,
-      savings: action.newSavingsValue,
-      activityLog: [...state.activityLog, action.activityLogRecord],
-      valueUpdating: {
-        inProgress: false,
-        error: false,
-        success: true,
-      },
-    })),
-
-    on(BudgetTrackerActions.savingsUpdateFail, (state) => ({
-      ...state,
-      valueUpdating: {
-        inProgress: false,
-        error: true,
-        success: false,
-      },
-    })),
-
-    on(BudgetTrackerActions.updateFreeMoney, (state) => ({
-      ...state,
-      valueUpdating: {
-        inProgress: true,
-        error: false,
-        success: false,
-      },
-    })),
-
-    on(BudgetTrackerActions.freeMoneyUpdated, (state, action) => ({
-      ...state,
-      free: action.newFreeMoneyValue,
-      activityLog: [...state.activityLog, action.activityLogRecord],
-      valueUpdating: {
-        inProgress: false,
-        error: false,
-        success: true,
-      },
-    })),
-
-    on(BudgetTrackerActions.freeMoneyUpdateFail, (state) => ({
-      ...state,
-      valueUpdating: {
-        inProgress: false,
-        error: true,
-        success: false,
-      },
-    })),
-
-    on(BudgetTrackerActions.resetValueUpdatingProp, (state) => ({
-      ...state,
-      valueUpdating: {
-        inProgress: false,
-        error: false,
-        success: false,
-      },
-    })),
-
-    on(BudgetTrackerActions.addCategory, (state) => ({
-      ...state,
-      categoryManagement: {
-        inProgress: true,
-        error: false,
-        success: false,
-      },
-    })),
-
-    on(BudgetTrackerActions.categoryAdded, (state, action) => ({
-      ...state,
-      [action.category.budgetType]: categoryEntityAdapter.addOne(action.category, state[action.category.budgetType]),
-      activityLog: [...state.activityLog, action.activityLogRecord],
-      categoryManagement: {
-        inProgress: false,
-        error: false,
-        success: true,
-      },
-    })),
-
-    on(BudgetTrackerActions.addCategoryFail, (state) => ({
-      ...state,
-      categoryManagement: {
-        inProgress: false,
-        error: true,
-        success: false,
-      },
-    })),
-
-    on(BudgetTrackerActions.removeCategory, (state) => ({
-      ...state,
-      categoryManagement: {
-        inProgress: true,
-        error: false,
-        success: false,
-      },
-    })),
-
-    on(BudgetTrackerActions.categoryRemoved, (state, action) => ({
-      ...state,
-      [action.category.budgetType]: categoryEntityAdapter.removeOne(
-        action.category.id,
-        state[action.category.budgetType]
-      ),
-      activityLog: [...state.activityLog, action.activityLogRecord],
-      categoryManagement: {
-        inProgress: false,
-        error: false,
-        success: true,
-      },
-    })),
-
-    on(BudgetTrackerActions.removeCategoryFail, (state) => ({
-      ...state,
-      categoryManagement: {
-        inProgress: false,
-        error: true,
-        success: false,
-      },
-    })),
-
-    on(BudgetTrackerActions.resetCategoryManagementProp, (state) => ({
-      ...state,
-      categoryManagement: {
-        inProgress: false,
-        error: false,
-        success: false,
-      },
-    })),
-
-    on(BudgetTrackerActions.changeCategoryValue, (state) => ({
-      ...state,
-      categoryValueChange: {
-        inProgress: true,
-        error: false,
-        success: false,
-      },
-    })),
-
-    on(BudgetTrackerActions.categoryValueChanged, (state, action) => ({
-      ...state,
-      [action.updatedCategory.budgetType]: categoryEntityAdapter.updateOne(
-        { changes: action.updatedCategory, id: action.updatedCategory.id },
-        state[action.updatedCategory.budgetType]
-      ),
-      balance: action.newBalanceValue,
-      activityLog: [...state.activityLog, action.activityLogRecord],
-      categoryValueChange: {
-        inProgress: false,
-        error: false,
-        success: true,
-      },
-    })),
-
-    on(BudgetTrackerActions.changeCategoryValueFail, (state) => ({
-      ...state,
-      categoryValueChange: {
-        inProgress: false,
-        error: true,
-        success: false,
-      },
-    })),
-
-    on(BudgetTrackerActions.resetCategoryValueChangeProp, (state) => ({
-      ...state,
-      categoryValueChange: {
-        inProgress: false,
-        error: false,
-        success: false,
-      },
-    })),
-
-    on(BudgetTrackerActions.categoriesReset, (state, action) => ({
-      ...state,
-      [action.updatedCategories[0].budgetType]: categoryEntityAdapter.updateMany(
-        action.updatedCategories.map((category) => ({ changes: category, id: category.id })),
-        state[action.updatedCategories[0].budgetType]
-      ),
-      activityLog: [...state.activityLog, action.activityLogRecord],
+      isDataLoading: false,
+      isDataLoaded: true,
     }))
   ),
 });
 
-export const {
-  name,
-  reducer,
-  selectBudgetTrackerState,
-  selectIncome,
-  selectExpense,
-  selectBalance,
-  selectSavings,
-  selectFree,
-  selectLoaded,
-  selectLoading,
-  selectValueUpdating,
-} = budgetTrackerFeature;
+export const { name, reducer, selectBudgetTrackerState, selectIsDataLoading, selectIsDataLoaded } =
+  budgetTrackerFeature;
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = categoryEntityAdapter.getSelectors();

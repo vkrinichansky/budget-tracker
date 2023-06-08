@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { CategoryValueModalData } from '../../../../models';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable, takeUntil, filter } from 'rxjs';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
-import { BudgetTrackerFacadeService } from '../../../../services';
+import { CategoriesFacadeService } from '../../services';
+import { CategoryValueModalData } from '../../models';
 
 enum FormFields {
   ValueToAdd = 'valueToAdd',
@@ -40,13 +40,13 @@ export class CategoryValueModalComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: CategoryValueModalData,
     private dialogRef: MatDialogRef<CategoryValueModalComponent>,
-    private btFacade: BudgetTrackerFacadeService
+    private categoriesFacade: CategoriesFacadeService
   ) {}
 
   ngOnInit(): void {
-    this.loading$ = this.btFacade.getCategoryValueChangeInProgress();
+    this.loading$ = this.categoriesFacade.getCategoryValueChangeInProgress();
 
-    this.success$ = this.btFacade.getCategoryValueChangeSuccess();
+    this.success$ = this.categoriesFacade.getCategoryValueChangeSuccess();
 
     this.success$
       .pipe(
@@ -65,7 +65,7 @@ export class CategoryValueModalComponent implements OnInit {
   }
 
   submitClick(): void {
-    this.btFacade.changeCategoryValue(
+    this.categoriesFacade.changeCategoryValue(
       this.data.categoryId,
       parseInt(this.form.controls[FormFields.ValueToAdd].value),
       this.form.controls[FormFields.Note].value

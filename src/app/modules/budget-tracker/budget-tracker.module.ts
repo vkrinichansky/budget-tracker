@@ -10,6 +10,8 @@ import { budgetTrackerFeature } from './store/reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { BudgetTrackerEffects } from './store/effects';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { InitDataGuard } from './guards';
+import { BudgetTrackerFacadeService, BudgetTrackerService } from './services';
 
 @NgModule({
   declarations: [BudgetTrackerComponent],
@@ -23,5 +25,6 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     EffectsModule.forFeature([BudgetTrackerEffects]),
     DashboardModule,
   ],
+  providers: [InitDataGuard, BudgetTrackerService, BudgetTrackerFacadeService],
 })
 export class BudgetTrackerModule {}

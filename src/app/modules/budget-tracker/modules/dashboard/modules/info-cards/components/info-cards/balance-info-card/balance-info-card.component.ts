@@ -2,8 +2,8 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { MenuAction } from '@budget-tracker/design-system';
 import { TranslateService } from '@ngx-translate/core';
-import { InfoCardValueModalService } from '../../../services';
-import { BudgetTrackerFacadeService } from '../../../../../services';
+import { InfoCardValueModalService, RootValuesFacadeService } from '../../../services';
+
 @Component({
   selector: 'app-balance-info-card',
   templateUrl: './balance-info-card.component.html',
@@ -19,14 +19,14 @@ export class BalanceInfoCardComponent implements OnInit {
   menuActions$: Observable<MenuAction[]>;
 
   constructor(
-    private budgetTrackerFacade: BudgetTrackerFacadeService,
+    private rootValuesFacade: RootValuesFacadeService,
     private translateService: TranslateService,
     private infoCardValueModalService: InfoCardValueModalService
   ) {}
 
   ngOnInit(): void {
-    this.fullBalance$ = this.budgetTrackerFacade.getFullBalanceValue();
-    this.currentBalance$ = this.budgetTrackerFacade.getCurrentBalanceValue();
+    this.fullBalance$ = this.rootValuesFacade.getFullBalanceValue();
+    this.currentBalance$ = this.rootValuesFacade.getCurrentBalanceValue();
 
     this.menuActions$ = this.fullBalance$.pipe(map((fullBalance) => this.resolveMenuActions(fullBalance)));
   }

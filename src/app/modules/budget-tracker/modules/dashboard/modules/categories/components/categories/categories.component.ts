@@ -2,8 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { BudgetType, Category } from '@budget-tracker/shared';
 import { BehaviorSubject, Observable, combineLatest, map } from 'rxjs';
 import { ChartData, ChartOptions } from 'chart.js';
-import { CategoryModalsService } from '../../services';
-import { BudgetTrackerFacadeService } from '../../../../services';
+import { CategoriesFacadeService, CategoryModalsService } from '../../services';
 
 const categoriesChartPalette = [
   '#ffffd9',
@@ -49,22 +48,25 @@ export class CategoriesComponent implements OnInit {
 
   chartOptions: ChartOptions;
 
-  constructor(private btFacade: BudgetTrackerFacadeService, private categoryModalsService: CategoryModalsService) {}
+  constructor(
+    private categoriesFacade: CategoriesFacadeService,
+    private categoryModalsService: CategoryModalsService
+  ) {}
 
   ngOnInit(): void {
     switch (this.budgetType) {
       case BudgetType.Income:
         this.title = this.buildTranslationKey(`${BudgetType.Income}.title`);
-        this.categories$ = this.btFacade.getIncomeCategories();
+        this.categories$ = this.categoriesFacade.getIncomeCategories();
         this.addButtonAction = () => this.categoryModalsService.openAddIncomeCategoryModal();
-        this.areAllCategoriesReset$ = this.btFacade.areIncomeCategoriesAllReset();
+        this.areAllCategoriesReset$ = this.categoriesFacade.areIncomeCategoriesAllReset();
         break;
 
       case BudgetType.Expense:
         this.title = this.buildTranslationKey(`${BudgetType.Expense}.title`);
-        this.categories$ = this.btFacade.getExpenseCategories();
+        this.categories$ = this.categoriesFacade.getExpenseCategories();
         this.addButtonAction = () => this.categoryModalsService.openAddExpenseCategoryModal();
-        this.areAllCategoriesReset$ = this.btFacade.areExpenseCategoriesAllReset();
+        this.areAllCategoriesReset$ = this.categoriesFacade.areExpenseCategoriesAllReset();
         break;
     }
 

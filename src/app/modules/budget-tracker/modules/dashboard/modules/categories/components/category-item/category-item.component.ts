@@ -4,8 +4,7 @@ import { Category } from '@budget-tracker/shared';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
 import { TranslateService } from '@ngx-translate/core';
 import { takeUntil } from 'rxjs';
-import { CategoryModalsService } from '../../services';
-import { BudgetTrackerFacadeService } from '../../../../services';
+import { CategoriesFacadeService, CategoryModalsService } from '../../services';
 
 @Component({
   selector: 'app-category-item',
@@ -41,7 +40,7 @@ export class CategoryItemComponent implements OnInit {
           {
             categoryName: this.category.name,
           },
-          () => this.btFacade.changeCategoryValue(this.categoryId, undefined, undefined, true)
+          () => this.categoriesFacade.changeCategoryValue(this.categoryId, undefined, undefined, true)
         ),
     },
     {
@@ -53,13 +52,13 @@ export class CategoryItemComponent implements OnInit {
           {
             categoryName: this.category.name,
           },
-          () => this.btFacade.removeCategory(this.categoryId)
+          () => this.categoriesFacade.removeCategory(this.categoryId)
         ),
     },
   ];
 
   constructor(
-    private btFacade: BudgetTrackerFacadeService,
+    private categoriesFacade: CategoriesFacadeService,
     private cd: ChangeDetectorRef,
     private translateService: TranslateService,
     private confirmationModalService: ConfirmationModalService,
@@ -67,7 +66,7 @@ export class CategoryItemComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.btFacade
+    this.categoriesFacade
       .getCategoryById(this.categoryId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((category) => {

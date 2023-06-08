@@ -6,7 +6,7 @@ import {
   CategoryItemComponent,
   CategoryValueModalComponent,
 } from './components';
-import { CategoryModalsService } from './services';
+import { CategoriesFacadeService, CategoriesService, CategoryModalsService } from './services';
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,6 +17,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { UtilsModule } from '@budget-tracker/utils';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgChartsModule } from 'ng2-charts';
+import { categoriesFeature } from './store/reducers';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { CategoriesEffects } from './store/effects';
 
 @NgModule({
   declarations: [CategoriesComponent, AddCategoryModalComponent, CategoryItemComponent, CategoryValueModalComponent],
@@ -33,8 +37,10 @@ import { NgChartsModule } from 'ng2-charts';
     UtilsModule,
     MatTooltipModule,
     NgChartsModule,
+    StoreModule.forFeature(categoriesFeature),
+    EffectsModule.forFeature([CategoriesEffects]),
   ],
-  providers: [CategoryModalsService],
+  providers: [CategoryModalsService, CategoriesFacadeService, CategoriesService],
   exports: [CategoriesComponent],
 })
 export class CategoriesModule {}

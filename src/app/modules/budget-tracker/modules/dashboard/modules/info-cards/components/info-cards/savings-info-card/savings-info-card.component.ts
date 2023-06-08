@@ -2,8 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { InfoCardColorScheme, MenuAction } from '@budget-tracker/design-system';
 import { TranslateService } from '@ngx-translate/core';
 import { map, Observable } from 'rxjs';
-import { InfoCardValueModalService } from '../../../services';
-import { BudgetTrackerFacadeService } from '../../../../../services';
+import { InfoCardValueModalService, RootValuesFacadeService } from '../../../services';
 
 @Component({
   selector: 'app-savings-info-card',
@@ -20,13 +19,13 @@ export class SavingsInfoCardComponent implements OnInit {
   menuActions$: Observable<MenuAction[]>;
 
   constructor(
-    private budgetTrackerFacade: BudgetTrackerFacadeService,
+    private rootValuesFacade: RootValuesFacadeService,
     private translateService: TranslateService,
     private infoCardValueModalService: InfoCardValueModalService
   ) {}
 
   ngOnInit(): void {
-    this.savings$ = this.budgetTrackerFacade.getSavingsValue();
+    this.savings$ = this.rootValuesFacade.getSavingsValue();
 
     this.menuActions$ = this.savings$.pipe(map((savings) => this.resolveMenuActions(savings)));
   }

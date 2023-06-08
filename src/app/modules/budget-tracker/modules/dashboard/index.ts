@@ -1,1 +1,1 @@
-export { BudgetTrackerFacadeService, BudgetTrackerService } from './services';
+export * from './modules/categories';
