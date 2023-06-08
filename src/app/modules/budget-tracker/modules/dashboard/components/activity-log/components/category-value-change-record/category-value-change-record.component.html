@@ -9,14 +9,7 @@
     <span class="font-main text-grey text-xs">{{ time }}</span>
   </span>
 
-  <svg-icon
-    *ngIf="record?.note as note"
-    class="text-charcoal hover:text-blue cursor-pointer mt-0.5"
-    [iconName]="'info'"
-    [matTooltip]="note"
-    [matTooltipPosition]="'above'"
-    [size]="'small'"
-  ></svg-icon>
+  <app-info-icon *ngIf="record?.note as note" class="mt-0.5" [text]="note"></app-info-icon>
 </div>
 
 <span *ngIf="record?.isReset; else budgetTypeTemplate" class="font-main font-bold text-blue">

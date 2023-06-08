@@ -8,8 +8,9 @@ import {
   PageHeaderComponent,
   SvgIconComponent,
   SvgIconWithBgComponent,
+  InfoIconComponent,
+  MenuComponent,
 } from './components';
-import { MenuComponent } from './components';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -26,6 +27,7 @@ import { ConfirmationModalService } from './services';
     SvgIconWithBgComponent,
     MenuComponent,
     ConfirmationModalComponent,
+    InfoIconComponent,
   ],
   imports: [CommonModule, MatMenuModule, MatTooltipModule, MatDialogModule, TranslateModule],
   exports: [
@@ -36,6 +38,7 @@ import { ConfirmationModalService } from './services';
     InfoCardComponent,
     SvgIconWithBgComponent,
     MenuComponent,
+    InfoIconComponent,
   ],
   providers: [ConfirmationModalService],
 })
