@@ -29,6 +29,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { UtilsModule } from '@budget-tracker/utils';
 import { MatSelectModule } from '@angular/material/select';
+import { NgChartsModule } from 'ng2-charts';
 
 const routes: Routes = [
   {
@@ -69,6 +70,7 @@ const routes: Routes = [
     MatTooltipModule,
     UtilsModule,
     MatSelectModule,
+    NgChartsModule,
   ],
   providers: [InfoCardValueModalService, CategoryModalsService],
 })

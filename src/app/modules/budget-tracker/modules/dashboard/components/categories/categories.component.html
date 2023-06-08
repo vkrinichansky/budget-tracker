@@ -1,8 +1,8 @@
 <div
   *ngVar="isEmpty$ | async as isEmpty"
   class="flip-card-inner"
-  [class.front]="isFrontDisplayed"
-  [class.back]="isBackDisplayed"
+  [class.front]="isFrontDisplayed$ | async"
+  [class.back]="isBackDisplayed$ | async"
 >
   <div class="flip-card-front">
     <div class="flex justify-between items-center">
@@ -19,7 +19,7 @@
         <app-button
           [colorScheme]="'green'"
           [iconName]="'redo'"
-          [disabled]="isEmpty"
+          [disabled]="shouldDisableFlipButton$ | async"
           [matTooltip]="buildTranslationKey('flipCardButtonTooltip') | translate"
           [matTooltipPosition]="'above'"
           (click)="toggleSide()"
@@ -52,6 +52,11 @@
         [matTooltip]="buildTranslationKey('flipCardButtonTooltip') | translate"
         [matTooltipPosition]="'above'"
       ></app-button>
+    </div>
+
+    <div class="w-full h-full">
+      <canvas baseChart class="w-full" [type]="'doughnut'" [data]="chartData$ | async" [options]="chartOptions">
+      </canvas>
     </div>
   </div>
 </div>

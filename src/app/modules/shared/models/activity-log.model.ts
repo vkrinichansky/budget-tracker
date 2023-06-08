@@ -66,7 +66,12 @@ export interface CategoriesResetRecord extends ActivityLogRecord {
   budgetType: BudgetType;
 }
 
-export type ActivityLog = (RootValueChangeRecord | CategoryManagementRecord | CategoryValueChangeRecord)[];
+export type ActivityLog = (
+  | RootValueChangeRecord
+  | CategoryManagementRecord
+  | CategoryValueChangeRecord
+  | CategoriesResetRecord
+)[];
 
 export interface ActivityLogGroupedByDaysInObject {
   [date: string]: ActivityLog;

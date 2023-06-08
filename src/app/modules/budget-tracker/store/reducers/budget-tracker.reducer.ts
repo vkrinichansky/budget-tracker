@@ -290,7 +290,7 @@ export const budgetTrackerFeature = createFeature({
         action.updatedCategories.map((category) => ({ changes: category, id: category.id })),
         state[action.updatedCategories[0].budgetType]
       ),
-      // activityLog: [...state.activityLog, action.activityLogRecord],
+      activityLog: [...state.activityLog, action.activityLogRecord],
     }))
   ),
 });
