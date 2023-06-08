@@ -13,7 +13,7 @@ export class CategoryModalsService {
       budgetType: BudgetType.Income,
     };
 
-    this.dialog.open(AddCategoryModalComponent, { data, disableClose: true });
+    this.dialog.open(AddCategoryModalComponent, { data });
   }
 
   openAddExpenseCategoryModal() {
@@ -21,7 +21,7 @@ export class CategoryModalsService {
       budgetType: BudgetType.Expense,
     };
 
-    this.dialog.open(AddCategoryModalComponent, { data, disableClose: true });
+    this.dialog.open(AddCategoryModalComponent, { data });
   }
 
   openCategoryValueModal(categoryId: string) {
@@ -29,6 +29,6 @@ export class CategoryModalsService {
       categoryId,
     };
 
-    this.dialog.open(CategoryValueModalComponent, { data, disableClose: true });
+    this.dialog.open(CategoryValueModalComponent, { data });
   }
 }

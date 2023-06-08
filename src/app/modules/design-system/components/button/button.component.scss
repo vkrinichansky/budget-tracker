@@ -78,6 +78,10 @@
 
     &.disabled {
       @apply text-grey;
+
+      svg-icon {
+        @apply text-grey;
+      }
     }
 
     svg-icon {

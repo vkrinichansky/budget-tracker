@@ -14,7 +14,7 @@ export class InfoCardValueModalService {
       initialValue,
     };
 
-    this.dialog.open(InfoCardValueModalComponent, { data, disableClose: true });
+    this.dialog.open(InfoCardValueModalComponent, { data });
   }
 
   openDecreaseBalanceModal(initialValue: number) {
@@ -24,7 +24,7 @@ export class InfoCardValueModalService {
       initialValue,
     };
 
-    this.dialog.open(InfoCardValueModalComponent, { data, disableClose: true });
+    this.dialog.open(InfoCardValueModalComponent, { data });
   }
 
   openEditBalanceModal(initialValue: number) {
@@ -35,7 +35,7 @@ export class InfoCardValueModalService {
       shouldDisplayInitialValue: true,
     };
 
-    this.dialog.open(InfoCardValueModalComponent, { data, disableClose: true });
+    this.dialog.open(InfoCardValueModalComponent, { data });
   }
 
   openIncreaseSavingsModal(initialValue: number) {
@@ -45,7 +45,7 @@ export class InfoCardValueModalService {
       initialValue,
     };
 
-    this.dialog.open(InfoCardValueModalComponent, { data, disableClose: true });
+    this.dialog.open(InfoCardValueModalComponent, { data });
   }
 
   openDecreaseSavingsModal(initialValue: number) {
@@ -55,7 +55,7 @@ export class InfoCardValueModalService {
       initialValue,
     };
 
-    this.dialog.open(InfoCardValueModalComponent, { data, disableClose: true });
+    this.dialog.open(InfoCardValueModalComponent, { data });
   }
 
   openEditSavingsModal(initialValue: number) {
@@ -66,7 +66,7 @@ export class InfoCardValueModalService {
       shouldDisplayInitialValue: true,
     };
 
-    this.dialog.open(InfoCardValueModalComponent, { data, disableClose: true });
+    this.dialog.open(InfoCardValueModalComponent, { data });
   }
 
   openIncreaseFreeMoneyModal(initialValue: number) {
@@ -76,7 +76,7 @@ export class InfoCardValueModalService {
       initialValue,
     };
 
-    this.dialog.open(InfoCardValueModalComponent, { data, disableClose: true });
+    this.dialog.open(InfoCardValueModalComponent, { data });
   }
 
   openDecreaseFreeMoneyModal(initialValue: number) {
@@ -86,7 +86,7 @@ export class InfoCardValueModalService {
       initialValue,
     };
 
-    this.dialog.open(InfoCardValueModalComponent, { data, disableClose: true });
+    this.dialog.open(InfoCardValueModalComponent, { data });
   }
 
   openEditFreeMoneyModal(initialValue: number) {
@@ -97,6 +97,6 @@ export class InfoCardValueModalService {
       shouldDisplayInitialValue: true,
     };
 
-    this.dialog.open(InfoCardValueModalComponent, { data, disableClose: true });
+    this.dialog.open(InfoCardValueModalComponent, { data });
   }
 }
