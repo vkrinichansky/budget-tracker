@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { BudgetTrackerFacadeService } from '../../modules';
+import { BudgetTrackerFacadeService } from '../../services';
 
 @Injectable()
 export class InitDataGuard implements CanActivate {

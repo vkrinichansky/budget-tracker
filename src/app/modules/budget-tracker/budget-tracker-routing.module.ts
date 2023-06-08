@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { InitDataGuard } from './guards';
 import { BudgetTrackerComponent } from './budget-tracker.component';
 
 const routes: Routes = [
   {
     path: '',
     component: BudgetTrackerComponent,
-    canActivate: [InitDataGuard],
     children: [
       {
         path: 'dashboard',

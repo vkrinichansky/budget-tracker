@@ -6,11 +6,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ActivityLogModule, CategoriesModule, InfoCardsModule } from './modules';
 import { DashboardComponent } from './dashboard.component';
 import { BudgetTrackerFacadeService, BudgetTrackerService } from './services';
+import { InitDataGuard } from './guards';
 
 const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
+    canActivate: [InitDataGuard],
   },
 ];
 
@@ -25,6 +27,6 @@ const routes: Routes = [
     ActivityLogModule,
     CategoriesModule,
   ],
-  providers: [BudgetTrackerService, BudgetTrackerFacadeService],
+  providers: [BudgetTrackerService, BudgetTrackerFacadeService, InitDataGuard],
 })
 export class DashboardModule {}

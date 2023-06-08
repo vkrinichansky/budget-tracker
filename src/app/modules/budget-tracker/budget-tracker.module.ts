@@ -7,7 +7,6 @@ import { AuthCoreModule } from '@budget-tracker/auth';
 import { NavigationBarModule } from '@budget-tracker/navigation-bar';
 import { StoreModule } from '@ngrx/store';
 import { budgetTrackerFeature } from './store/reducers';
-import { InitDataGuard } from './guards';
 import { EffectsModule } from '@ngrx/effects';
 import { BudgetTrackerEffects } from './store/effects';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
@@ -24,6 +23,5 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     EffectsModule.forFeature([BudgetTrackerEffects]),
     DashboardModule,
   ],
-  providers: [InitDataGuard],
 })
 export class BudgetTrackerModule {}
