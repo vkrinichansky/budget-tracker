@@ -85,11 +85,11 @@ export class CategoriesFacadeService {
     const category: Category = await firstValueFrom(this.getCategoryById(categoryId));
     const updatedCategory: Category = { ...category, value: isReset ? 0 : category.value + valueToAdd };
 
-    let updatedCategoriesArray: Category[];
+    let updatedCategories: Category[];
 
     switch (category.budgetType) {
       case BudgetType.Income:
-        updatedCategoriesArray = await firstValueFrom(this.getIncomeCategories());
+        updatedCategories = await firstValueFrom(this.getIncomeCategories());
 
         if (!isReset) {
           newBalanceValue = balance + valueToAdd;
@@ -97,7 +97,7 @@ export class CategoriesFacadeService {
         break;
 
       case BudgetType.Expense:
-        updatedCategoriesArray = await firstValueFrom(this.getExpenseCategories());
+        updatedCategories = await firstValueFrom(this.getExpenseCategories());
 
         if (!isReset) {
           newBalanceValue = balance - valueToAdd;
@@ -105,8 +105,8 @@ export class CategoriesFacadeService {
         break;
     }
 
-    const updatedCategoryIndex = updatedCategoriesArray.findIndex((category) => category.id === categoryId);
-    updatedCategoriesArray[updatedCategoryIndex].value = updatedCategory.value;
+    const updatedCategoryIndex = updatedCategories.findIndex((category) => category.id === categoryId);
+    updatedCategories[updatedCategoryIndex].value = updatedCategory.value;
 
     const addCategoryValueRecord: CategoryValueChangeRecord = {
       id: uuid(),
@@ -123,7 +123,7 @@ export class CategoriesFacadeService {
     this.store.dispatch(
       CategoriesActions.changeCategoryValue({
         updatedCategory,
-        updatedCategoriesArray,
+        updatedCategories: updatedCategories,
         newBalanceValue,
         activityLogRecord: addCategoryValueRecord,
       })

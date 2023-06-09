@@ -8,7 +8,6 @@ import {
   arrayUnion,
   arrayRemove,
 } from '@angular/fire/firestore';
-import { AuthFacadeService } from '@budget-tracker/auth';
 import { BudgetTrackerService } from '@budget-tracker/budget-tracker';
 import {
   Category,
@@ -24,12 +23,7 @@ export class CategoriesService {
 
   dataCollection: CollectionReference<DocumentData>;
 
-  constructor(
-    private firestore: Firestore,
-    private authFacade: AuthFacadeService,
-    private btService: BudgetTrackerService
-  ) {
-    this.userId$ = this.authFacade.getUserId();
+  constructor(private firestore: Firestore, private btService: BudgetTrackerService) {
     this.dataCollection = collection(this.firestore, 'userData');
   }
 

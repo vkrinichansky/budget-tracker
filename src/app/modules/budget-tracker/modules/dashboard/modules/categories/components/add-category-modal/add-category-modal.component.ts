@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { BudgetType, Category, CategoryIconForSelect, PredefinedCategoryIcons } from '@budget-tracker/shared';
+import { BudgetType, Category } from '@budget-tracker/shared';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -8,7 +8,7 @@ import { v4 as uuid } from 'uuid';
 import { Observable, combineLatest, filter, map, takeUntil, tap } from 'rxjs';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
 import { CategoriesFacadeService } from '../../services';
-import { AddCategoryModalData } from '../../models';
+import { AddCategoryModalData, CategoryIconForSelect, PredefinedCategoryIcons } from '../../models';
 
 enum FormFields {
   CategoryIcon = 'categoryIcon',
@@ -96,7 +96,6 @@ export class AddCategoryModalComponent implements OnInit {
     }
 
     this.loading$ = this.categoriesFacade.getCategoryManagementInProgress();
-
     this.success$ = this.categoriesFacade.getCategoryManagementSuccess();
 
     this.success$

@@ -3,18 +3,7 @@ import { BudgetType, Category } from '@budget-tracker/shared';
 import { BehaviorSubject, Observable, combineLatest, map } from 'rxjs';
 import { ChartData, ChartOptions } from 'chart.js';
 import { CategoriesFacadeService, CategoryModalsService } from '../../services';
-
-const categoriesChartPalette = [
-  '#ffffd9',
-  '#edf8b1',
-  '#c7e9b4',
-  '#7fcdbb',
-  '#41b6c4',
-  '#1d91c0',
-  '#225ea8',
-  '#253494',
-  '#081d58',
-];
+import { doughnutChartPalette } from '@budget-tracker/design-system';
 
 @Component({
   selector: 'app-categories',
@@ -25,12 +14,11 @@ const categoriesChartPalette = [
 export class CategoriesComponent implements OnInit {
   private readonly rootTranslationKey = 'dashboard.categories';
 
+  readonly isBackDisplayed$ = new BehaviorSubject<boolean>(false);
+  readonly isFrontDisplayed$ = new BehaviorSubject<boolean>(true);
+
   @Input()
   budgetType: BudgetType;
-
-  readonly isBackDisplayed$ = new BehaviorSubject<boolean>(false);
-
-  readonly isFrontDisplayed$ = new BehaviorSubject<boolean>(true);
 
   title: string;
 
@@ -45,7 +33,6 @@ export class CategoriesComponent implements OnInit {
   addButtonAction: () => void;
 
   chartData$: Observable<ChartData>;
-
   chartOptions: ChartOptions;
 
   constructor(
@@ -82,7 +69,7 @@ export class CategoriesComponent implements OnInit {
         datasets: [
           {
             data: categories.map((category) => category.value),
-            backgroundColor: categoriesChartPalette,
+            backgroundColor: doughnutChartPalette,
           },
         ],
       }))

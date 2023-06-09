@@ -19,7 +19,6 @@ enum FormFields {
 })
 export class CategoryValueModalComponent implements OnInit {
   private readonly rootTranslationKey = 'dashboard.categoryValueModal';
-
   private readonly destroy$ = injectUnsubscriberService();
 
   readonly formFieldsEnum = FormFields;
@@ -30,7 +29,6 @@ export class CategoryValueModalComponent implements OnInit {
   });
 
   loading$: Observable<boolean>;
-
   success$: Observable<boolean>;
 
   get isFormValid(): boolean {
@@ -57,7 +55,6 @@ export class CategoryValueModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading$ = this.categoriesFacade.getCategoryValueChangeInProgress();
-
     this.success$ = this.categoriesFacade.getCategoryValueChangeSuccess();
 
     this.success$

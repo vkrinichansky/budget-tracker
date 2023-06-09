@@ -7,7 +7,7 @@ import { BudgetTrackerActions } from '../actions';
 import { CategoriesActions } from '../../modules';
 import { RootValuesActions } from '@budget-tracker/dashboard/info-cards';
 import { ActivityLogActions } from '@budget-tracker/dashboard/activity-log';
-import { BudgetTrackerService } from '@budget-tracker/budget-tracker';
+import { BudgetTrackerService } from '../../services';
 
 @Injectable()
 export class BudgetTrackerEffects {

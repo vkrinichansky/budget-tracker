@@ -60,7 +60,7 @@ export const CategoriesActions = {
     CategoriesActionsType.ChangeCategoryValue,
     props<{
       updatedCategory: Category;
-      updatedCategoriesArray: Category[];
+      updatedCategories: Category[];
       newBalanceValue: number;
       activityLogRecord: CategoryValueChangeRecord;
     }>()

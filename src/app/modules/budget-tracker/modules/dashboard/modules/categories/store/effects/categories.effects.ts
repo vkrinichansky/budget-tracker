@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SnackbarHandlerService } from '@budget-tracker/shared';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
 import { catchError, delay, from, map, mergeMap, of, switchMap } from 'rxjs';
 import { CategoriesActions } from '../actions';
 import { CategoriesService } from '../../services';
@@ -13,7 +12,6 @@ export class CategoriesEffects {
   constructor(
     private actions$: Actions,
     private categoriesService: CategoriesService,
-    private store: Store,
     private snackbarHandler: SnackbarHandlerService
   ) {}
 
@@ -91,7 +89,7 @@ export class CategoriesEffects {
       mergeMap((action) =>
         from(
           this.categoriesService.changeCategoryValue(
-            action.updatedCategoriesArray,
+            action.updatedCategories,
             action.newBalanceValue,
             action.activityLogRecord
           )

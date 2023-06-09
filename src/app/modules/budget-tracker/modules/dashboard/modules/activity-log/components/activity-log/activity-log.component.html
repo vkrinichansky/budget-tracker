@@ -1,7 +1,6 @@
 <span class="font-main font-bold text-charcoal text-xl">{{ buildTranslationKey('title') | translate }}</span>
 
 <div
-  #list
   *ngVar="isEmpty$ | async as isEmpty"
   class="flex flex-col gap-y-8 overflow-y-auto h-full"
   [class.justify-center]="isEmpty"

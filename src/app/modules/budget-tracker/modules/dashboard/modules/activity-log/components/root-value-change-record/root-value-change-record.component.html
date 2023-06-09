@@ -1,27 +1,3 @@
-<!-- <div class="flex gap-x-2 items-start">
-  <svg-icon-with-bg class="text-charcoal bg-light-blue" [iconName]="record.icon" [size]="'small'"></svg-icon-with-bg>
-
-  <span class="flex flex-col">
-    <span class="font-main text-charcoal text-base">
-      {{ buildTranslationKey('title.' + record.valueType) | translate }}
-    </span>
-
-    <span class="font-main text-grey text-xs">{{ time }}</span>
-  </span>
-
-  <app-info-icon *ngIf="record?.note as note" class="mt-0.5" [text]="note"></app-info-icon>
-</div>
-
-<ng-container [ngSwitch]="record.actionType">
-  <span *ngSwitchCase="actionType.Increase" class="font-main font-bold text-dark-green">+ {{ record.value }}</span>
-
-  <span *ngSwitchCase="actionType.Decrease" class="font-main font-bold text-red">- {{ record.value }}</span>
-
-  <span *ngSwitchCase="actionType.Edit" class="font-main font-bold text-blue">
-    {{ record.oldValue }} → {{ record.newValue }}
-  </span>
-</ng-container> -->
-
 <app-generic-activity-log-record [icon]="record.icon" [date]="record.date" [note]="record?.note">
   <span class="flex justify-between">
     <span class="font-main text-charcoal text-base">
