@@ -1,0 +1,11 @@
+:host {
+  @apply flex h-full;
+
+  @media (max-width: 480px) {
+    @apply flex-col-reverse;
+
+    .main {
+      @apply flex flex-1 overflow-auto;
+    }
+  }
+}

@@ -1,15 +1,15 @@
 <app-page-header [title]="buildTranslationKey('pageTitle') | translate"></app-page-header>
 
-<div class="grid grid-cols-5 gap-x-6">
-  <app-income-info-card></app-income-info-card>
-  <app-expense-info-card></app-expense-info-card>
-  <app-balance-info-card></app-balance-info-card>
-  <app-savings-info-card></app-savings-info-card>
-  <app-free-money-info-card></app-free-money-info-card>
+<div class="info-cards mb-6">
+  <app-income-info-card class="card"></app-income-info-card>
+  <app-expense-info-card class="card"></app-expense-info-card>
+  <app-balance-info-card class="card"></app-balance-info-card>
+  <app-savings-info-card class="card"></app-savings-info-card>
+  <app-free-money-info-card class="card"></app-free-money-info-card>
 </div>
 
-<div class="grid grid-cols-3 gap-x-6 h-full overflow-hidden">
-  <app-categories [budgetType]="budgetType.Income"></app-categories>
-  <app-categories [budgetType]="budgetType.Expense"></app-categories>
-  <app-activity-log></app-activity-log>
+<div class="main-cards pb-6">
+  <app-categories class="card" [budgetType]="budgetType.Income"></app-categories>
+  <app-categories class="card" [budgetType]="budgetType.Expense"></app-categories>
+  <app-activity-log class="card"></app-activity-log>
 </div>

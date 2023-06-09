@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { BehaviorSubject } from 'rxjs';
@@ -8,13 +8,11 @@ import { NavigationBarItem } from '../../models';
 @Component({
   selector: 'app-navigation-bar',
   templateUrl: './navigation-bar.component.html',
+  styleUrls: ['./navigation-bar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationBarComponent implements OnInit {
   private readonly rootTranslationKey = 'navigationBar';
-
-  @HostBinding('class')
-  private readonly classes = 'flex flex-col justify-between items-center w-16 bg-charcoal py-5';
 
   readonly navigationBarItems$ = new BehaviorSubject<NavigationBarItem[]>([]);
 
