@@ -1,11 +1,13 @@
 :host {
   transition: background-color 0.2s ease;
 
+  // STATES
   &.loading,
   &.disabled {
     @apply cursor-default pointer-events-none;
   }
 
+  // SIZES
   &.small {
     @apply w-8;
   }
@@ -30,6 +32,7 @@
     @apply w-auto;
   }
 
+  // COLORS
   &.charcoal {
     @apply bg-charcoal hover:bg-blue text-white;
 
@@ -55,10 +58,10 @@
   }
 
   &.active-navigation-item {
-    @apply bg-transparent hover:bg-hover-white text-dark-green;
+    @apply bg-transparent hover:bg-hover-white text-green;
 
     svg-icon {
-      @apply text-dark-green;
+      @apply text-green;
     }
   }
 
@@ -75,6 +78,10 @@
 
     &.disabled {
       @apply text-grey;
+
+      svg-icon {
+        @apply text-grey;
+      }
     }
 
     svg-icon {

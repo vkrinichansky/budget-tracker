@@ -1,0 +1,20 @@
+<app-generic-activity-log-record [icon]="record.icon" [date]="record.date">
+  <ng-container [ngSwitch]="record.actionType">
+    <ng-container *ngSwitchCase="actionType.Add">
+      <span
+        [innerHTML]="
+          (buildTranslationKey('categoryAdded') | translate : { categoryName: record.categoryName }) +
+          (buildTranslationKey('budgetType.' + record.budgetType) | translate)
+        "
+      ></span>
+    </ng-container>
+    <ng-container *ngSwitchCase="actionType.Remove">
+      <span
+        [innerHTML]="
+          (buildTranslationKey('categoryRemoved') | translate : { categoryName: record.categoryName }) +
+          (buildTranslationKey('budgetType.' + record.budgetType) | translate)
+        "
+      ></span>
+    </ng-container>
+  </ng-container>
+</app-generic-activity-log-record>

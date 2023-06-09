@@ -53,7 +53,7 @@ body {
 }
 
 .mat-mdc-menu-content {
-  @apply flex flex-col gap-y-2 px-1 #{!important};
+  @apply flex flex-col gap-y-2 p-1 #{!important};
 }
 
 // DIALOG
@@ -65,6 +65,10 @@ body {
 
 .mat-mdc-dialog-actions {
   @apply flex items-center justify-end gap-x-4 #{!important};
+}
+
+.mat-mdc-dialog-content {
+  @apply flex flex-col #{!important};
 }
 
 // INPUT

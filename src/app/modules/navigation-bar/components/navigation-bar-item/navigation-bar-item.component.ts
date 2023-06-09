@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NavigationBarItem } from '../../models';
-import { ColorScheme } from 'src/app/modules/design-system/models/colors-set.enum';
 
 @Component({
   selector: 'app-navigation-bar-item',
@@ -9,8 +8,6 @@ import { ColorScheme } from 'src/app/modules/design-system/models/colors-set.enu
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationBarItemComponent {
-  readonly colorScheme = ColorScheme;
-
   @Input()
   item: NavigationBarItem;
 }

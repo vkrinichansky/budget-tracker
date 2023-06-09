@@ -1,20 +1,18 @@
-import { OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { BehaviorSubject } from 'rxjs';
 import { AppRoutes } from '@budget-tracker/shared';
 import { NavigationBarItem } from '../../models';
-import { ColorScheme } from 'src/app/modules/design-system/models/colors-set.enum';
 
 @Component({
   selector: 'app-navigation-bar',
   templateUrl: './navigation-bar.component.html',
   styleUrls: ['./navigation-bar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationBarComponent implements OnInit {
   private readonly rootTranslationKey = 'navigationBar';
-
-  readonly colorScheme = ColorScheme;
 
   readonly navigationBarItems$ = new BehaviorSubject<NavigationBarItem[]>([]);
 

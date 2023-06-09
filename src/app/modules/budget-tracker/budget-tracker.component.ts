@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { BudgetTrackerFacadeService } from './services';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
+import { BudgetTrackerFacadeService } from './services';
 
 @Component({
   selector: 'app-budget-tracker',
   templateUrl: './budget-tracker.component.html',
   styleUrls: ['./budget-tracker.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetTrackerComponent implements OnInit {
   isLoading$: Observable<boolean>;

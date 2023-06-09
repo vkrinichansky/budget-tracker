@@ -1,0 +1,53 @@
+:host {
+  @apply grid h-full relative;
+  grid-template-rows: auto auto 1fr;
+
+  .info-cards,
+  .main-cards {
+    @apply flex overflow-x-scroll scroll-smooth;
+    scroll-snap-type: x mandatory;
+
+    &::-webkit-scrollbar {
+      @apply hidden;
+    }
+
+    .card:not(:last-child) {
+      @apply mr-6;
+    }
+
+    .card {
+      scroll-snap-align: start;
+    }
+  }
+
+  .info-cards {
+    min-height: 112px;
+
+    .card {
+      flex: 0 0 calc(20% - calc(4 * 24px / 5));
+    }
+  }
+
+  .main-cards {
+    .card {
+      flex: 0 0 calc(calc(100% / 3) - calc(2 * 24px / 3));
+    }
+  }
+
+  @media (max-width: 480px) {
+    .info-cards,
+    .main-cards {
+      .card {
+        flex: 0 0 100%;
+      }
+    }
+
+    .main-cards {
+      min-height: 500px;
+    }
+
+    app-page-header {
+      @apply sticky top-0 z-10;
+    }
+  }
+}

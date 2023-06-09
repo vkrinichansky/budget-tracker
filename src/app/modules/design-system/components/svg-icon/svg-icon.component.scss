@@ -1,6 +1,7 @@
 :host {
   @apply block;
 
+  // SIZES
   &.small {
     @apply w-4 h-4;
   }
