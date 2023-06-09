@@ -46,12 +46,18 @@ export class AuthService {
 
   async setUserData(userId: string): Promise<void> {
     const data: BudgetTrackerState = {
-      income: [],
-      expense: [],
-      balance: 0,
-      savings: 0,
-      free: 0,
-      activityLog: [],
+      budget: {
+        categories: {
+          income: [],
+          expense: [],
+        },
+        rootValues: {
+          balance: 0,
+          savings: 0,
+          freeMoney: 0,
+        },
+        activityLog: [],
+      },
     };
 
     return await setDoc(doc(this.userDataCollection, userId), data);

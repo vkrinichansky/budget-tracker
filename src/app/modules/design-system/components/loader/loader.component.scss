@@ -1,8 +1,26 @@
 :host {
-  @apply block rounded-full border-solid border-4 border-y-white border-x-transparent;
-  animation: loader .5s linear infinite;
+  @apply block rounded-full border-solid border-2 border-t-transparent;
+  animation: loader 1s linear infinite;
+
+  // COLORS
+  &.dark {
+    @apply border-x-charcoal border-b-charcoal;
+  }
+
+  &.light {
+    @apply border-x-white border-b-white;
+  }
+
+  &.button-loader {
+    @apply w-6 h-6;
+  }
+
+  &.main-loader {
+    @apply w-10 h-10;
+  }
 }
 
+// ANIMATION
 @keyframes loader {
   0% {
     transform: rotate(0deg);

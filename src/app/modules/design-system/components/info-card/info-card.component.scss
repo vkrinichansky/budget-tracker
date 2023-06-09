@@ -1,6 +1,7 @@
 :host {
   @apply flex py-4 px-5 rounded-lg h-28 justify-start items-center gap-x-5 relative;
 
+  // COLORS
   &.white {
     @apply bg-white;
 

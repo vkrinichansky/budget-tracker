@@ -1,19 +1,23 @@
 :host {
+  transition: background-color 0.2s ease;
+
+  // STATES
   &.loading,
   &.disabled {
     @apply cursor-default pointer-events-none;
   }
 
+  // SIZES
   &.small {
     @apply w-8;
   }
 
   &.medium {
-    @apply w-12;
+    @apply w-24;
   }
 
   &.big {
-    @apply w-24;
+    @apply w-40;
   }
 
   &.large {
@@ -28,8 +32,13 @@
     @apply w-auto;
   }
 
+  // COLORS
   &.charcoal {
     @apply bg-charcoal hover:bg-blue text-white;
+
+    &.disabled {
+      @apply bg-grey;
+    }
 
     svg-icon {
       @apply text-white;
@@ -39,16 +48,20 @@
   &.green {
     @apply bg-dark-green hover:bg-hover-green text-white;
 
+    &.disabled {
+      @apply bg-grey;
+    }
+
     svg-icon {
       @apply text-white;
     }
   }
 
   &.active-navigation-item {
-    @apply bg-transparent hover:bg-hover-white text-dark-green;
+    @apply bg-transparent hover:bg-hover-white text-green;
 
     svg-icon {
-      @apply text-dark-green;
+      @apply text-green;
     }
   }
 
@@ -63,12 +76,16 @@
   &.transparent-dark {
     @apply bg-transparent hover:bg-hover-black text-charcoal;
 
+    &.disabled {
+      @apply text-grey;
+
+      svg-icon {
+        @apply text-grey;
+      }
+    }
+
     svg-icon {
       @apply text-charcoal;
     }
-  }
-
-  &.disabled {
-    @apply bg-grey;
   }
 }

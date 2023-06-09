@@ -29,6 +29,8 @@
     "@ngrx/store-devtools": "^15.1.0",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
+    "chart.js": "^4.3.0",
+    "ng2-charts": "^4.1.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "uuidv4": "^6.2.13",

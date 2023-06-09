@@ -26,15 +26,13 @@
             "prefix": "app",
             "style": "kebab-case"
           }
-        ]
+        ],
+        "no-console": "error"
       }
     },
     {
       "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/recommended"],
-      "rules": {
-        "no-console": 2
-      }
+      "extends": ["plugin:@angular-eslint/template/recommended"]
     }
   ],
   "parserOptions": {

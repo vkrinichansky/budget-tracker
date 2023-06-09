@@ -28,7 +28,16 @@
       "@budget-tracker/navigation-bar": ["src/app/modules/navigation-bar/index.ts"],
       "@budget-tracker/shared": ["src/app/modules/shared/index.ts"],
       "@budget-tracker/budget-tracker": ["src/app/modules/budget-tracker/index.ts"],
-      "@budget-tracker/utils": ["src/app/modules/utils/index.ts"]
+      "@budget-tracker/utils": ["src/app/modules/utils/index.ts"],
+      "@budget-tracker/dashboard/categories": [
+        "src/app/modules/budget-tracker/modules/dashboard/modules/categories/index.ts"
+      ],
+      "@budget-tracker/dashboard/info-cards": [
+        "src/app/modules/budget-tracker/modules/dashboard/modules/info-cards/index.ts"
+      ],
+      "@budget-tracker/dashboard/activity-log": [
+        "src/app/modules/budget-tracker/modules/dashboard/modules/activity-log/index.ts"
+      ]
     }
   },
   "angularCompilerOptions": {

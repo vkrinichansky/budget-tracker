@@ -1,4 +1,11 @@
 <app-navigation-bar></app-navigation-bar>
-<div class="px-10 py-6 w-full bg-dirty-white">
-  <router-outlet></router-outlet>
+
+<div *ngIf="isLoading$ | async; else main" class="w-full h-full flex justify-center items-center bg-dirty-white">
+  <app-loader [colorMode]="'dark'" [size]="'main-loader'"></app-loader>
 </div>
+
+<ng-template #main>
+  <div class="main px-6 pb-6 w-full bg-dirty-white">
+    <router-outlet></router-outlet>
+  </div>
+</ng-template>

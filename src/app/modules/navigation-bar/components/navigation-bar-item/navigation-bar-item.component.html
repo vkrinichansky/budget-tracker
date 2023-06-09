@@ -1,13 +1,7 @@
-<a
-  class="link flex items-center justify-center w-full py-2"
-  [routerLink]="item.routerLink"
-  [routerLinkActive]="'active'"
-  [class.cursor-default]="routerLinkActive.isActive"
-  #routerLinkActive="routerLinkActive"
->
+<a class="link" [routerLink]="item.routerLink" [routerLinkActive]="'active'" #routerLinkActive="routerLinkActive">
   <app-button
     [iconName]="item.iconName"
-    [colorScheme]="routerLinkActive.isActive ? colorScheme.ActiveNavigationItem : colorScheme.TransparentLight"
+    [colorScheme]="routerLinkActive.isActive ? 'active-navigation-item' : 'transparent-light'"
     [matTooltip]="item.tooltipTranslationKey | translate"
     [matTooltipPosition]="'right'"
   ></app-button>

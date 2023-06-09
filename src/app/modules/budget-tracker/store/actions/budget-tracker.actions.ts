@@ -1,64 +1,16 @@
-import { BudgetTrackerState, RootValueChangeRecord } from '@budget-tracker/shared';
+import { BudgetTrackerState } from '@budget-tracker/shared';
 import { createAction, props } from '@ngrx/store';
 
 enum BudgetTrackerActionsType {
   Init = '[Budget Tracker] Init',
   DataLoaded = '[Budget Tracker] Data loaded',
-  UpdateBalance = '[Budget Tracker] Update balance',
-  BalanceUpdated = '[Budget Tracker] Balance updated',
-  BalanceUpdateFail = '[Budget Tracker] Balance update fail',
-
-  UpdateSavings = '[Budget Tracker] Update savings',
-  SavingsUpdated = '[Budget Tracker] Savings updated',
-  SavingsUpdateFail = '[Budget Tracker] Savings update fail',
-
-  UpdateFreeMoney = '[Budget Tracker] Update free money',
-  FreeMoneyUpdated = '[Budget Tracker] Free money updated',
-  FreeMoneyUpdateFail = '[Budget Tracker] Free money update fail',
-
-  ResetValueUpdatingProp = '[Budget Tracker] Reset valueUpdating prop',
+  CleanState = '[Budget Tracker] Clean state',
 }
 
 export const BudgetTrackerActions = {
   init: createAction(BudgetTrackerActionsType.Init),
 
+  clean: createAction(BudgetTrackerActionsType.CleanState),
+
   dataLoaded: createAction(BudgetTrackerActionsType.DataLoaded, props<{ data: BudgetTrackerState }>()),
-
-  updateBalance: createAction(
-    BudgetTrackerActionsType.UpdateBalance,
-    props<{ newBalanceValue: number; activityLogRecord: RootValueChangeRecord }>()
-  ),
-
-  balanceUpdated: createAction(
-    BudgetTrackerActionsType.BalanceUpdated,
-    props<{ newBalanceValue: number; activityLogRecord: RootValueChangeRecord }>()
-  ),
-
-  balanceUpdateFail: createAction(BudgetTrackerActionsType.BalanceUpdateFail),
-
-  updateSavings: createAction(
-    BudgetTrackerActionsType.UpdateSavings,
-    props<{ newSavingsValue: number; activityLogRecord: RootValueChangeRecord }>()
-  ),
-
-  savingsUpdated: createAction(
-    BudgetTrackerActionsType.SavingsUpdated,
-    props<{ newSavingsValue: number; activityLogRecord: RootValueChangeRecord }>()
-  ),
-
-  savingsUpdateFail: createAction(BudgetTrackerActionsType.SavingsUpdateFail),
-
-  updateFreeMoney: createAction(
-    BudgetTrackerActionsType.UpdateFreeMoney,
-    props<{ newFreeMoneyValue: number; activityLogRecord: RootValueChangeRecord }>()
-  ),
-
-  freeMoneyUpdated: createAction(
-    BudgetTrackerActionsType.FreeMoneyUpdated,
-    props<{ newFreeMoneyValue: number; activityLogRecord: RootValueChangeRecord }>()
-  ),
-
-  freeMoneyUpdateFail: createAction(BudgetTrackerActionsType.FreeMoneyUpdateFail),
-
-  resetValueUpdatingProp: createAction(BudgetTrackerActionsType.ResetValueUpdatingProp),
 };

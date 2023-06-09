@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
+import { BudgetType } from '../../models';
 
 @Injectable()
 export class SnackbarHandlerService {
@@ -8,38 +9,77 @@ export class SnackbarHandlerService {
   constructor(private snackBar: MatSnackBar, private translateService: TranslateService) {}
 
   showGeneralErrorSnackbar(): void {
-    this.snackBar.open(
+    this.openSnackBarWithCloseDelay(
       this.translateService.instant(this.buildTranslationKey('errorSnackbar.message')),
       this.translateService.instant(this.buildTranslationKey('errorSnackbar.buttonText'))
     );
   }
 
   showErrorSnackbar(error: string): void {
-    this.snackBar.open(error, this.translateService.instant(this.buildTranslationKey('errorSnackbar.buttonText')));
+    this.openSnackBarWithCloseDelay(
+      error,
+      this.translateService.instant(this.buildTranslationKey('errorSnackbar.buttonText'))
+    );
   }
 
   showBalanceEditedSnackbar(): void {
-    this.snackBar.open(
+    this.openSnackBarWithCloseDelay(
       this.translateService.instant(this.buildTranslationKey('balanceEditedSnackbar.message')),
       this.translateService.instant(this.buildTranslationKey('balanceEditedSnackbar.buttonText'))
     );
   }
 
   showSavingsEditedSnackbar(): void {
-    this.snackBar.open(
+    this.openSnackBarWithCloseDelay(
       this.translateService.instant(this.buildTranslationKey('savingsEditedSnackbar.message')),
       this.translateService.instant(this.buildTranslationKey('savingsEditedSnackbar.buttonText'))
     );
   }
 
   showFreeMoneyEditedSnackbar(): void {
-    this.snackBar.open(
+    this.openSnackBarWithCloseDelay(
       this.translateService.instant(this.buildTranslationKey('freeMoneyEditedSnackbar.message')),
       this.translateService.instant(this.buildTranslationKey('freeMoneyEditedSnackbar.buttonText'))
     );
   }
 
+  showCategoryAddedSnackbar(): void {
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant(this.buildTranslationKey('categoryAddedSnackbar.message')),
+      this.translateService.instant(this.buildTranslationKey('categoryAddedSnackbar.buttonText'))
+    );
+  }
+
+  showCategoryRemovedSnackbar(): void {
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant(this.buildTranslationKey('categoryRemovedSnackbar.message')),
+      this.translateService.instant(this.buildTranslationKey('categoryRemovedSnackbar.buttonText'))
+    );
+  }
+
+  showCategoryValueChangedSnackbar(): void {
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant(this.buildTranslationKey('categoryValueChangedSnackbar.message')),
+      this.translateService.instant(this.buildTranslationKey('categoryValueChangedSnackbar.buttonText'))
+    );
+  }
+
+  showCategoriesResetSnackbar(budgetType: BudgetType): void {
+    const capitalizedBudgetType = budgetType[0].toUpperCase() + budgetType.slice(1);
+
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant(this.buildTranslationKey('categoriesResetSnackbar.message'), {
+        budgetType: capitalizedBudgetType,
+      }),
+      this.translateService.instant(this.buildTranslationKey('categoriesResetSnackbar.buttonText'))
+    );
+  }
+
   private buildTranslationKey(key: string): string {
     return `${this.rootTranslationKey}.${key}`;
+  }
+
+  private openSnackBarWithCloseDelay(message: string, action: string): void {
+    this.snackBar.open(message, action, { duration: 3000 });
   }
 }

@@ -3,7 +3,7 @@ import { User as FirebaseUser } from '@angular/fire/auth';
 import { NavigatorService, SnackbarHandlerService } from '@budget-tracker/shared';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { UserCredential } from 'firebase/auth';
-import { catchError, filter, of, take, tap } from 'rxjs';
+import { catchError, filter, of, take } from 'rxjs';
 import { from, map, mergeMap } from 'rxjs';
 import { User } from '../../models';
 import { AuthService } from '../../services';
@@ -50,7 +50,6 @@ export class AuthEffects {
   initDatabaseOnFirstLogin$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.initDatabaseOnFirstLogin),
-      tap(() => console.log('AuthActions.initDatabaseOnFirstLogin')),
       mergeMap((action) =>
         from(this.authService.setUserData(action.user.uid)).pipe(
           map(() => AuthActions.authenticated({ user: action.user }))

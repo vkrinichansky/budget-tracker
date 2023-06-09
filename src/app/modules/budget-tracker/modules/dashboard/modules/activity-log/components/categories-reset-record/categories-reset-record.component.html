@@ -1,0 +1,7 @@
+<app-generic-activity-log-record [icon]="record.icon" [date]="record.date">
+  <span
+    class="font-main text-charcoal text-base"
+    [innerHTML]="buildTranslationKey('message') | translate : { budgetType }"
+  >
+  </span>
+</app-generic-activity-log-record>
