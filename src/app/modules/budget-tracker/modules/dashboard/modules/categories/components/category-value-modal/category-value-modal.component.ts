@@ -37,6 +37,18 @@ export class CategoryValueModalComponent implements OnInit {
     return this.form.valid;
   }
 
+  get hasRequiredError(): boolean {
+    return this.form.controls[FormFields.ValueToAdd].hasError('required');
+  }
+
+  get hasMinValueError(): boolean {
+    return this.form.controls[FormFields.ValueToAdd].hasError('min');
+  }
+
+  get hasMaxLengthError(): boolean {
+    return this.form.controls[FormFields.Note].hasError('maxlength');
+  }
+
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: CategoryValueModalData,
     private dialogRef: MatDialogRef<CategoryValueModalComponent>,

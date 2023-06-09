@@ -6,11 +6,11 @@
       <mat-label>{{ buildTranslationKey('valueToAddTitle') | translate }}</mat-label>
       <input matInput [type]="'number'" [formControlName]="formFieldsEnum.ValueToAdd" />
 
-      <mat-error *ngIf="this.form.controls[formFieldsEnum.ValueToAdd].hasError('required')">
+      <mat-error *ngIf="hasRequiredError">
         {{ 'formErrors.required' | translate }}
       </mat-error>
 
-      <mat-error *ngIf="this.form.controls[formFieldsEnum.ValueToAdd].hasError('min')">
+      <mat-error *ngIf="hasMinValueError">
         {{ 'formErrors.minValue' | translate : { minValue: 1 } }}
       </mat-error>
     </mat-form-field>
@@ -19,8 +19,8 @@
       <mat-label>{{ buildTranslationKey('noteTitle') | translate }}</mat-label>
       <textarea matInput rows="3" class="scrollable" [formControlName]="formFieldsEnum.Note"></textarea>
 
-      <mat-error *ngIf="this.form.controls[formFieldsEnum.Note].hasError('maxlength')">
-        {{ buildTranslationKey('noteTooLongError') | translate }}
+      <mat-error *ngIf="hasMaxLengthError">
+        {{ 'formErrors.noteTooLong' | translate }}
       </mat-error>
     </mat-form-field>
   </form>

@@ -1,15 +1,34 @@
 <h1 mat-dialog-title class="font-main text-charcoal text-base">{{ title | translate }}</h1>
 <div mat-dialog-content class="flex flex-col">
-  <mat-form-field>
-    <mat-label>{{ title | translate }}</mat-label>
-    <input matInput [formControl]="valueInput" [type]="'number'" />
-  </mat-form-field>
+  <form class="flex flex-col" [formGroup]="form">
+    <mat-form-field>
+      <mat-label>{{ title | translate }}</mat-label>
+      <input matInput [formControlName]="formFields.Value" [type]="'number'" />
 
-  <mat-form-field>
-    <mat-label>{{ buildTranslationKey('noteInputTitle') | translate }}</mat-label>
-    <textarea matInput rows="3" class="scrollable" [formControl]="noteInput"></textarea>
-  </mat-form-field>
+      <mat-error *ngIf="hasRequiredError">
+        {{ 'formErrors.required' | translate }}
+      </mat-error>
+
+      <mat-error *ngIf="hasMinValueError">
+        {{ 'formErrors.minValue' | translate : { minValue: 1 } }}
+      </mat-error>
+
+      <mat-error *ngIf="hasEditError">
+        {{ 'formErrors.editError' | translate }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>{{ buildTranslationKey('noteInputTitle') | translate }}</mat-label>
+      <textarea matInput rows="3" class="scrollable" [formControlName]="formFields.Note"></textarea>
+
+      <mat-error *ngIf="hasMaxLengthError">
+        {{ 'formErrors.noteTooLong' | translate }}
+      </mat-error>
+    </mat-form-field>
+  </form>
 </div>
+
 <div mat-dialog-actions>
   <app-button
     [buttonSize]="'auto'"
@@ -22,7 +41,7 @@
     [buttonSize]="'medium'"
     [colorScheme]="'charcoal'"
     [text]="mainButtonText | translate"
-    [disabled]="shouldDisableButton"
+    [disabled]="!isFormValid"
     [loading]="(loading$ | async) || (success$ | async)"
     (click)="resolveSubmitAction()"
   ></app-button>

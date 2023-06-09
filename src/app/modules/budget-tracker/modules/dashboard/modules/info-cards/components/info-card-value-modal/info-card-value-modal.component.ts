@@ -1,10 +1,15 @@
-import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Component, Inject, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
-import { filter, Observable, takeUntil } from 'rxjs';
+import { filter, Observable, takeUntil, tap } from 'rxjs';
 import { InfoCardMenuActionsType, InfoCardValueModalData, InfoCardValueToEdit } from '../../models';
 import { RootValuesFacadeService } from '../../services';
+
+enum FormFields {
+  Value = 'value',
+  Note = 'note',
+}
 
 @Component({
   selector: 'app-info-card-value-modal',
@@ -12,58 +17,56 @@ import { RootValuesFacadeService } from '../../services';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideUnsubscriberService()],
 })
-export class InfoCardValueModalComponent implements OnInit {
+export class InfoCardValueModalComponent implements OnInit, AfterViewInit {
   private readonly rootTranslationKey = 'dashboard.infoCardValueModal';
   private readonly destroy$ = injectUnsubscriberService();
 
+  readonly formFields = FormFields;
+
   title: string;
-
   mainButtonText: string;
-
-  initialValue: number;
-
-  shouldDisplayInitialValue: boolean;
-
-  valueInput: FormControl;
-
-  noteInput: FormControl;
+  isEditMode: boolean;
 
   loading$: Observable<boolean>;
-
   success$: Observable<boolean>;
 
-  get shouldDisableButton(): boolean {
-    return (
-      this.valueInput?.invalid ||
-      this.noteInput?.invalid ||
-      (this.data.actionType === InfoCardMenuActionsType.Edit &&
-        parseInt(this.valueInput?.value) === this.initialValue) ||
-      (this.data.actionType === InfoCardMenuActionsType.Decrease &&
-        parseInt(this.valueInput?.value) > this.initialValue)
-    );
+  form: FormGroup;
+
+  get isFormValid(): boolean {
+    return this.form?.valid;
+  }
+
+  get hasRequiredError(): boolean {
+    return this.form.controls[FormFields.Value].hasError('required');
+  }
+
+  get hasMinValueError(): boolean {
+    return this.form.controls[FormFields.Value].hasError('min');
+  }
+
+  get hasEditError(): boolean {
+    return this.form.controls[FormFields.Value].hasError('editError');
+  }
+
+  get hasMaxLengthError(): boolean {
+    return this.form.controls[FormFields.Note].hasError('maxlength');
   }
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: InfoCardValueModalData,
     private dialogRef: MatDialogRef<InfoCardValueModalComponent>,
-    private rootValuesFacade: RootValuesFacadeService
+    private rootValuesFacade: RootValuesFacadeService,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.title = this.buildTranslationKey(`${this.data.valueToEdit}.title`);
     this.mainButtonText = this.buildTranslationKey(`${this.data.valueToEdit}.${this.data.actionType}`);
-    this.initialValue = this.data.initialValue;
-    this.shouldDisplayInitialValue = !!this.data.shouldDisplayInitialValue;
+    this.isEditMode = !!this.data.isEditMode;
 
-    this.valueInput = new FormControl(this.shouldDisplayInitialValue ? this.initialValue : 0, [
-      Validators.required,
-      Validators.min(this.shouldDisplayInitialValue ? 0 : 1),
-    ]);
-
-    this.noteInput = new FormControl('', [Validators.maxLength(100)]);
+    this.initForm();
 
     this.loading$ = this.rootValuesFacade.getValueUpdatingInProgress();
-
     this.success$ = this.rootValuesFacade.getValueUpdatingSuccess();
 
     this.success$
@@ -72,6 +75,12 @@ export class InfoCardValueModalComponent implements OnInit {
         filter((isSuccess) => !!isSuccess)
       )
       .subscribe(() => this.dialogRef.close());
+  }
+
+  ngAfterViewInit(): void {
+    if (this.isEditMode) {
+      this.form.controls[FormFields.Value].setValue(this.data.initialValue);
+    }
   }
 
   buildTranslationKey(key: string): string {
@@ -83,8 +92,8 @@ export class InfoCardValueModalComponent implements OnInit {
   }
 
   resolveSubmitAction(): void {
-    const inputValue = parseInt(this.valueInput.value);
-    const note = this.noteInput?.value;
+    const inputValue = parseInt(this.form.controls[FormFields.Value].value);
+    const note = this.form.controls[FormFields.Note]?.value;
 
     switch (this.data.valueToEdit) {
       case InfoCardValueToEdit.Balance:
@@ -135,5 +144,23 @@ export class InfoCardValueModalComponent implements OnInit {
         }
         break;
     }
+  }
+
+  private initForm(): void {
+    this.form = new FormGroup({
+      [FormFields.Value]: new FormControl(null, [Validators.required, Validators.min(this.isEditMode ? 0 : 1)]),
+      [FormFields.Note]: new FormControl('', [Validators.maxLength(100)]),
+    });
+
+    this.form.controls[FormFields.Value].valueChanges
+      .pipe(
+        filter((value) => parseInt(value) === this.data.initialValue),
+        tap(() => {
+          this.form.controls[FormFields.Value].setErrors({ editError: true });
+          this.form.controls[FormFields.Value].markAsDirty();
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 }

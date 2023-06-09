@@ -28,6 +28,8 @@ export class AddCategoryModalComponent implements OnInit {
 
   private categories$: Observable<Category[]>;
 
+  readonly formFields = FormFields;
+
   readonly options = PredefinedCategoryIcons;
 
   readonly form: FormGroup = new FormGroup({
@@ -53,6 +55,22 @@ export class AddCategoryModalComponent implements OnInit {
 
   get isFormValid(): boolean {
     return this.form.valid;
+  }
+
+  get hasCategoryIconRequiredError(): boolean {
+    return this.form.controls[FormFields.CategoryIcon].hasError('required');
+  }
+
+  get hasCategoryNameRequiredError(): boolean {
+    return this.form.controls[FormFields.CategoryName].hasError('required');
+  }
+
+  get hasMaxLengthError(): boolean {
+    return this.form.controls[FormFields.CategoryName].hasError('maxlength');
+  }
+
+  get hasCategoryExistsError(): boolean {
+    return this.form.controls[FormFields.CategoryName].hasError('categoryExists');
   }
 
   constructor(

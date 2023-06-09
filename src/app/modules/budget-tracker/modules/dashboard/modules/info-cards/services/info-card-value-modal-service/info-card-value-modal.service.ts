@@ -32,7 +32,7 @@ export class InfoCardValueModalService {
       actionType: InfoCardMenuActionsType.Edit,
       valueToEdit: InfoCardValueToEdit.Balance,
       initialValue,
-      shouldDisplayInitialValue: true,
+      isEditMode: true,
     };
 
     this.dialog.open(InfoCardValueModalComponent, { data });
@@ -63,7 +63,7 @@ export class InfoCardValueModalService {
       actionType: InfoCardMenuActionsType.Edit,
       valueToEdit: InfoCardValueToEdit.Savings,
       initialValue,
-      shouldDisplayInitialValue: true,
+      isEditMode: true,
     };
 
     this.dialog.open(InfoCardValueModalComponent, { data });
@@ -94,7 +94,7 @@ export class InfoCardValueModalService {
       actionType: InfoCardMenuActionsType.Edit,
       valueToEdit: InfoCardValueToEdit.FreeMoney,
       initialValue,
-      shouldDisplayInitialValue: true,
+      isEditMode: true,
     };
 
     this.dialog.open(InfoCardValueModalComponent, { data });

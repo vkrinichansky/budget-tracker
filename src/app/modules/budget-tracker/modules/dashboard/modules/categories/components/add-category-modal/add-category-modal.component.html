@@ -4,7 +4,7 @@
   <form class="flex flex-col" [formGroup]="form">
     <mat-form-field>
       <mat-label>{{ buildTranslationKey('categoryIconTitle') | translate }}</mat-label>
-      <mat-select formControlName="categoryIcon" (selectionChange)="setCategoryNameToInput($event.value)">
+      <mat-select [formControlName]="formFields.CategoryIcon" (selectionChange)="setCategoryNameToInput($event.value)">
         <mat-select-trigger>
           <span class="flex justify-start items-center text-charcoal gap-x-1.5">
             <svg-icon [iconName]="selectedIcon"></svg-icon>
@@ -23,24 +23,24 @@
         </mat-option>
       </mat-select>
 
-      <mat-error *ngIf="this.form.controls['categoryName'].hasError('required')">
+      <mat-error *ngIf="hasCategoryIconRequiredError">
         {{ 'formErrors.required' | translate }}
       </mat-error>
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>{{ buildTranslationKey('categoryNameTitle') | translate }}</mat-label>
-      <input matInput formControlName="categoryName" />
+      <input matInput [formControlName]="formFields.CategoryName" />
 
-      <mat-error *ngIf="this.form.controls['categoryName'].hasError('required')">
+      <mat-error *ngIf="hasCategoryNameRequiredError">
         {{ 'formErrors.required' | translate }}
       </mat-error>
 
-      <mat-error *ngIf="this.form.controls['categoryName'].hasError('maxlength')">
+      <mat-error *ngIf="hasMaxLengthError">
         {{ buildTranslationKey('categoryNameLengthError') | translate }}
       </mat-error>
 
-      <mat-error *ngIf="this.form.controls['categoryName'].hasError('categoryExists')">
+      <mat-error *ngIf="hasCategoryExistsError">
         {{ buildTranslationKey('categoryExistsError') | translate }}
       </mat-error>
     </mat-form-field>
