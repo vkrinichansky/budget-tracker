@@ -5,3 +5,4 @@ export { BudgetType } from './budget-type.enum';
 
 export * from './activity-log.model';
 export * from './language.model';
+export * from './currency.model';

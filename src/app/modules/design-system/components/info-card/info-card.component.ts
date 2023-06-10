@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
 import { ColorScheme, InfoCardColorScheme, MenuAction } from '../../models';
+import { CurrencyService } from '@budget-tracker/shared';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-info-card',
@@ -7,7 +9,7 @@ import { ColorScheme, InfoCardColorScheme, MenuAction } from '../../models';
   styleUrls: ['./info-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InfoCardComponent {
+export class InfoCardComponent implements OnInit {
   @HostBinding('class')
   @Input()
   colorScheme: InfoCardColorScheme = InfoCardColorScheme.White;
@@ -51,5 +53,13 @@ export class InfoCardComponent {
       case InfoCardColorScheme.White:
         return ColorScheme.TransparentDark;
     }
+  }
+
+  currencySymbol$: Observable<string>;
+
+  constructor(private currencyService: CurrencyService) {}
+
+  ngOnInit(): void {
+    this.currencySymbol$ = this.currencyService.getCurrencySymbol();
   }
 }

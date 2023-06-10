@@ -33,7 +33,7 @@ body {
 // TOOLTIP
 .mat-mdc-tooltip {
   .mdc-tooltip__surface {
-    @apply font-main text-sm bg-blue #{!important};
+    @apply font-main text-sm bg-dark-green #{!important};
   }
 }
 
@@ -119,7 +119,7 @@ textarea {
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-blue hover:bg-charcoal border-4 border-solid border-transparent rounded-full bg-clip-padding;
+  @apply bg-dark-green border-4 border-solid border-transparent rounded-full bg-clip-padding;
 }
 
 // SELECT

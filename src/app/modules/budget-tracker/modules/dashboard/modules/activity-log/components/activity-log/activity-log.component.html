@@ -11,8 +11,10 @@
   </span>
 
   <ng-container *ngIf="!isEmpty">
-    <div *ngFor="let day of activityLog$ | async" class="flex flex-col gap-6">
-      <span class="block font-main text-grey text-sm">{{ day.date }}</span>
+    <div *ngFor="let day of activityLog$ | async" class="flex flex-col gap-6 relative">
+      <span [style.top.px]="'-0.1'" class="flex font-main text-grey text-sm sticky bg-white py-0.5 z-10">
+        {{ day.date }}
+      </span>
 
       <ng-container *ngFor="let record of day.records">
         <ng-container [ngSwitch]="record.recordType">

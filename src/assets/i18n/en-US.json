@@ -201,9 +201,19 @@
   },
 
   "languageSwitcher": {
+    "tooltip": "Language",
     "languages": {
       "english": "English (UK)",
       "ukrainian": "Ukrainian (UA)"
+    }
+  },
+
+  "currencySwitcher": {
+    "tooltip": "Currency",
+    "currencies": {
+      "hryvnia": "Hryvnia (UA)",
+      "dollar": "Dollar (USA)",
+      "euro": "Euro (EU)"
     }
   },
 

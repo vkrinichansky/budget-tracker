@@ -17,6 +17,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmationModalService } from './services';
+import { UtilsModule } from '@budget-tracker/utils';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { ConfirmationModalService } from './services';
     InfoIconComponent,
     GenericActivityLogRecordComponent,
   ],
-  imports: [CommonModule, MatMenuModule, MatTooltipModule, MatDialogModule, TranslateModule],
+  imports: [CommonModule, MatMenuModule, MatTooltipModule, MatDialogModule, TranslateModule, UtilsModule],
   exports: [
     SvgIconComponent,
     ButtonComponent,

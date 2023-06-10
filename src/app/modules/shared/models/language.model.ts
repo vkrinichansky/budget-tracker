@@ -1,8 +1,8 @@
 export const LanguageLSKey = 'language';
 
 export enum LanguagesEnum {
-  English = 'en',
-  Ukrainian = 'ua',
+  English = 'en-US',
+  Ukrainian = 'uk-UA',
 }
 
 export interface LanguageSwitcherData {

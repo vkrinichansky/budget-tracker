@@ -7,12 +7,14 @@
 
 <svg-icon-with-bg class="{{ iconBGClass }} {{ iconColorClass }}" [iconName]="iconName"></svg-icon-with-bg>
 
-<div class="flex flex-1 flex-col">
-  <span class="primary font-main font-bold {{ twoLine ? 'text-sm' : 'text-xl' }}">{{ primaryText }}</span>
+<div *ngVar="currencySymbol$ | async as currency" class="flex flex-1 flex-col">
+  <span class="primary font-main font-bold {{ twoLine ? 'text-sm' : 'text-xl' }}">
+    {{ primaryText }}&nbsp;{{  currency }}
+  </span>
   <span class="secondary font-main {{ twoLine ? 'text-xs' : 'text-sm' }}">{{ secondaryText }}</span>
 
   <div *ngIf="twoLine" class="flex flex-1 flex-col mt-2">
-    <span class="primary font-main font-bold text-sm">{{ additionalPrimaryText }}</span>
+    <span class="primary font-main font-bold text-sm">{{ additionalPrimaryText}}&nbsp;{{ currency }}</span>
     <span class="secondary font-main text-xs">{{ additionalSecondaryText }}</span>
   </div>
 </div>
