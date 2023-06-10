@@ -38,18 +38,18 @@ export class FreeMoneyInfoCardComponent implements OnInit {
     return [
       {
         icon: 'plus',
-        text: this.translateService.instant(this.buildTranslationKey('menu.increase')),
+        translationKey: this.buildTranslationKey('menu.increase'),
         action: () => this.infoCardValueModalService.openIncreaseFreeMoneyModal(freeMoney),
       },
       {
         icon: 'minus',
-        text: this.translateService.instant(this.buildTranslationKey('menu.decrease')),
+        translationKey: this.buildTranslationKey('menu.decrease'),
         disabled: freeMoney === 0,
         action: () => this.infoCardValueModalService.openDecreaseFreeMoneyModal(freeMoney),
       },
       {
         icon: 'edit',
-        text: this.translateService.instant(this.buildTranslationKey('menu.edit')),
+        translationKey: this.buildTranslationKey('menu.edit'),
         action: () => this.infoCardValueModalService.openEditFreeMoneyModal(freeMoney),
       },
     ];

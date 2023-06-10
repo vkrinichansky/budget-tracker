@@ -54,12 +54,12 @@ export class CategoryItemComponent implements OnInit {
     this.menuActions = [
       {
         icon: 'plus',
-        text: this.translateService.instant(this.buildTranslationKey('menu.addValue')),
+        translationKey: this.buildTranslationKey('menu.addValue'),
         action: () => this.categoryModalsService.openCategoryValueModal(this.categoryId),
       },
       {
         icon: 'eraser',
-        text: this.translateService.instant(this.buildTranslationKey('menu.resetValue')),
+        translationKey: this.buildTranslationKey('menu.resetValue'),
         disabled: this.category.value === 0,
         action: () =>
           this.confirmationModalService.openConfirmationModal(
@@ -72,7 +72,7 @@ export class CategoryItemComponent implements OnInit {
       },
       {
         icon: 'close',
-        text: this.translateService.instant(this.buildTranslationKey('menu.remove')),
+        translationKey: this.buildTranslationKey('menu.remove'),
         action: () =>
           this.confirmationModalService.openConfirmationModal(
             this.buildTranslationKey('confirmationModalRemove'),

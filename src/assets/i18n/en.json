@@ -98,7 +98,8 @@
       },
 
       "categoriesResetRecord": {
-        "message": "<b>{{ budgetType }}</b> categories were reset"
+        "income": "<b>Income</b> categories were reset",
+        "expense": "<b>Expense</b> categories were reset"
       },
 
       "emptyStateText": "No data to display yet"
@@ -180,7 +181,8 @@
       "buttonText": "Got it"
     },
     "categoriesResetSnackbar": {
-      "message": "{{ budgetType }} categories were reset successfully!",
+      "income": "Income categories were reset successfully!",
+      "expense": "Expense categories were reset successfully!",
       "buttonText": "Got it"
     }
   },
@@ -196,6 +198,13 @@
     "title": "Confirm action",
     "noButton": "No",
     "yesButton": "Yes"
+  },
+
+  "languageSwitcher": {
+    "languages": {
+      "english": "English (UK)",
+      "ukrainian": "Ukrainian (UA)"
+    }
   },
 
   "categoryIcons": {

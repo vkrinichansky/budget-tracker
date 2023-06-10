@@ -38,18 +38,18 @@ export class SavingsInfoCardComponent implements OnInit {
     return [
       {
         icon: 'plus',
-        text: this.translateService.instant(this.buildTranslationKey('menu.increase')),
+        translationKey: this.buildTranslationKey('menu.increase'),
         action: () => this.infoCardValueModalService.openIncreaseSavingsModal(savings),
       },
       {
         icon: 'minus',
-        text: this.translateService.instant(this.buildTranslationKey('menu.decrease')),
+        translationKey: this.buildTranslationKey('menu.decrease'),
         disabled: savings === 0,
         action: () => this.infoCardValueModalService.openDecreaseSavingsModal(savings),
       },
       {
         icon: 'edit',
-        text: this.translateService.instant(this.buildTranslationKey('menu.edit')),
+        translationKey: this.buildTranslationKey('menu.edit'),
         action: () => this.infoCardValueModalService.openEditSavingsModal(savings),
       },
     ];

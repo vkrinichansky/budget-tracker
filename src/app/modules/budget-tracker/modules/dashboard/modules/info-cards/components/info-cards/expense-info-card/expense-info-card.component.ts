@@ -16,7 +16,7 @@ export class ExpenseInfoCardComponent implements OnInit {
   readonly menuActions: MenuAction[] = [
     {
       icon: 'eraser',
-      text: this.translateService.instant(this.buildTranslationKey('menu.resetCategories')),
+      translationKey: this.buildTranslationKey('menu.resetCategories'),
       action: () =>
         this.confirmationModalService.openConfirmationModal(
           this.buildTranslationKey('resetConfirmationMessage'),
