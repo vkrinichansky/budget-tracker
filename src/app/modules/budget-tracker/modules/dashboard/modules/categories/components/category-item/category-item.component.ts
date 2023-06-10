@@ -25,37 +25,7 @@ export class CategoryItemComponent implements OnInit {
 
   category: Category;
 
-  readonly menuActions: MenuAction[] = [
-    {
-      icon: 'plus',
-      text: this.translateService.instant(this.buildTranslationKey('menu.addValue')),
-      action: () => this.categoryModalsService.openCategoryValueModal(this.categoryId),
-    },
-    {
-      icon: 'eraser',
-      text: this.translateService.instant(this.buildTranslationKey('menu.resetValue')),
-      action: () =>
-        this.confirmationModalService.openConfirmationModal(
-          this.buildTranslationKey('confirmationModalReset'),
-          {
-            categoryName: this.category.name,
-          },
-          () => this.categoriesFacade.changeCategoryValue(this.categoryId, undefined, undefined, true)
-        ),
-    },
-    {
-      icon: 'close',
-      text: this.translateService.instant(this.buildTranslationKey('menu.remove')),
-      action: () =>
-        this.confirmationModalService.openConfirmationModal(
-          this.buildTranslationKey('confirmationModalRemove'),
-          {
-            categoryName: this.category.name,
-          },
-          () => this.categoriesFacade.removeCategory(this.categoryId)
-        ),
-    },
-  ];
+  menuActions: MenuAction[];
 
   constructor(
     private categoriesFacade: CategoriesFacadeService,
@@ -71,11 +41,47 @@ export class CategoryItemComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((category) => {
         this.category = category;
+        this.initMenuActions();
         this.cd.detectChanges();
       });
   }
 
   buildTranslationKey(key: string): string {
     return `${this.rootTranslationKey}.${key}`;
+  }
+
+  private initMenuActions(): void {
+    this.menuActions = [
+      {
+        icon: 'plus',
+        text: this.translateService.instant(this.buildTranslationKey('menu.addValue')),
+        action: () => this.categoryModalsService.openCategoryValueModal(this.categoryId),
+      },
+      {
+        icon: 'eraser',
+        text: this.translateService.instant(this.buildTranslationKey('menu.resetValue')),
+        disabled: this.category.value === 0,
+        action: () =>
+          this.confirmationModalService.openConfirmationModal(
+            this.buildTranslationKey('confirmationModalReset'),
+            {
+              categoryName: this.category.name,
+            },
+            () => this.categoriesFacade.changeCategoryValue(this.categoryId, undefined, undefined, true)
+          ),
+      },
+      {
+        icon: 'close',
+        text: this.translateService.instant(this.buildTranslationKey('menu.remove')),
+        action: () =>
+          this.confirmationModalService.openConfirmationModal(
+            this.buildTranslationKey('confirmationModalRemove'),
+            {
+              categoryName: this.category.name,
+            },
+            () => this.categoriesFacade.removeCategory(this.categoryId)
+          ),
+      },
+    ];
   }
 }

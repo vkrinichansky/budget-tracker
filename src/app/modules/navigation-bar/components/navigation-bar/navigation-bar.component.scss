@@ -1,6 +1,14 @@
 :host {
   @apply flex flex-col justify-between items-center w-16 bg-charcoal py-5;
 
+  &.loading {
+    @apply pointer-events-none;
+
+    & * {
+      @apply pointer-events-none;
+    }
+  }
+
   .nav-container {
     @apply flex flex-col items-center w-full;
   }

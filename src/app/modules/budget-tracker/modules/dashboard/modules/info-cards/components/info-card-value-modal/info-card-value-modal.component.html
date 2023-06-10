@@ -20,7 +20,7 @@
 
     <mat-form-field>
       <mat-label>{{ buildTranslationKey('noteInputTitle') | translate }}</mat-label>
-      <textarea matInput rows="3" class="scrollable" [formControlName]="formFields.Note"></textarea>
+      <textarea matInput rows="3" [formControlName]="formFields.Note"></textarea>
 
       <mat-error *ngIf="hasMaxLengthError">
         {{ 'formErrors.noteTooLong' | translate }}

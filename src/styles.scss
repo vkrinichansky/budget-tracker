@@ -112,29 +112,14 @@ textarea {
   resize: none !important;
 }
 
-// SCROLLBAR CLASS
-.scrollable {
-  @apply pr-5;
-}
+// SCROLLBAR
 
-/* width */
 ::-webkit-scrollbar {
-  @apply w-1.5;
+  @apply w-3;
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-  @apply bg-dirty-white rounded;
-}
-
-/* Handle */
 ::-webkit-scrollbar-thumb {
-  @apply bg-hover-black rounded;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-grey;
+  @apply bg-blue hover:bg-charcoal border-4 border-solid border-transparent rounded-full bg-clip-padding;
 }
 
 // SELECT

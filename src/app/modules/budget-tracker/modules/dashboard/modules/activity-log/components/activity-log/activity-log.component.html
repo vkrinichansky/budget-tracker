@@ -5,7 +5,6 @@
   class="flex flex-col gap-y-8 overflow-y-auto h-full"
   [class.justify-center]="isEmpty"
   [class.items-center]="isEmpty"
-  [class.scrollable]="!isEmpty"
 >
   <span *ngIf="isEmpty" class="font-main font-bold text-charcoal text-lg">
     {{ buildTranslationKey('emptyStateText') | translate }}
