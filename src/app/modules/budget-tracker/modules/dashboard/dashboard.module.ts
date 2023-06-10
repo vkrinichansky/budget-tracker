@@ -5,6 +5,7 @@ import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActivityLogModule, CategoriesModule, InfoCardsModule } from './modules';
 import { DashboardComponent } from './dashboard.component';
+import { SharedModule } from '@budget-tracker/shared';
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
     InfoCardsModule,
     ActivityLogModule,
     CategoriesModule,
+    SharedModule,
   ],
 })
 export class DashboardModule {}

@@ -1,4 +1,9 @@
-<app-page-header [title]="buildTranslationKey('pageTitle') | translate"></app-page-header>
+<app-page-header [title]="buildTranslationKey('pageTitle') | translate">
+  <span class="flex items-center gap-x-2">
+    <app-currency-switcher></app-currency-switcher>
+    <app-language-switcher></app-language-switcher>
+  </span>
+</app-page-header>
 
 <div class="info-cards mb-6">
   <app-income-info-card class="card"></app-income-info-card>

@@ -1,0 +1,237 @@
+{
+  "auth": {
+    "signInWithGoogle": "Увійти з Google"
+  },
+
+  "navigationBar": {
+    "itemTooltip": {
+      "home": "Домашня",
+      "logout": "Вихід"
+    }
+  },
+
+  "dashboard": {
+    "pageTitle": "Дошка",
+
+    "infoCards": {
+      "income": {
+        "title": "Дохід",
+        "resetConfirmationMessage": "Ви хочете скинути всі категорії <b>доходів</b>?",
+        "menu": {
+          "resetCategories": "Скинути категорії"
+        }
+      },
+      "expense": {
+        "title": "Витрати",
+        "resetConfirmationMessage": "Ви хочете скинути всі категорії <b>витрат</b>?",
+        "menu": {
+          "resetCategories": "Скинути категорії"
+        }
+      },
+      "balance": {
+        "fullBalance": "Повний баланс",
+        "currentBalance": "Поточний баланс",
+        "menu": {
+          "increase": "Збільшити",
+          "decrease": "Зменшити",
+          "edit": "Редагувати"
+        }
+      },
+      "savings": {
+        "title": "Збереження",
+        "menu": {
+          "increase": "Збільшити",
+          "decrease": "Зменшити",
+          "edit": "Редагувати"
+        }
+      },
+      "freeMoney": {
+        "title": "Вільні гроші",
+        "menu": {
+          "increase": "Збільшити",
+          "decrease": "Зменшити",
+          "edit": "Редагувати"
+        }
+      }
+    },
+
+    "infoCardValueModal": {
+      "cancel": "Вихід",
+      "noteInputTitle": "Примітка",
+      "balance": {
+        "title": "Баланс",
+        "increase": "Збільшити",
+        "decrease": "Зменшити",
+        "edit": "Редагувати"
+      },
+      "savings": {
+        "title": "Збереження",
+        "increase": "Збільшити",
+        "decrease": "Зменшити",
+        "edit": "Редагувати"
+      },
+      "free": {
+        "title": "Вільні гроші",
+        "increase": "Збільшити",
+        "decrease": "Зменшити",
+        "edit": "Редагувати"
+      }
+    },
+
+    "activityLog": {
+      "title": "Журнал активності",
+
+      "rootValueChangeRecord": {
+        "title": {
+          "balance": "Баланс",
+          "savings": "Збереження",
+          "free": "Вільні гроші"
+        }
+      },
+      "categoryManagementRecord": {
+        "categoryAdded": "<b>{{ categoryName }}</b> було додано до ",
+        "categoryRemoved": "<b>{{ categoryName }}</b> було видалено з ",
+        "budgetType": {
+          "income": "<b>доходів</b>",
+          "expense": "<b>витрат<b>"
+        }
+      },
+
+      "categoriesResetRecord": {
+        "income": "Категорії <b>доходів</b> було скинуто",
+        "expense": "Категорії <b>витрат</b> було скинуто"
+      },
+
+      "emptyStateText": "Немає данних для відображення"
+    },
+
+    "categories": {
+      "income": {
+        "title": "Дохід"
+      },
+      "expense": {
+        "title": "Витрати"
+      },
+      "emptyStateText": "Немає данних для відображення",
+
+      "addCategoryButtonTooltip": "Додати категорію",
+      "flipCardButtonTooltip": "Повернути картку",
+
+      "categoryItem": {
+        "menu": {
+          "addValue": "Додати значення",
+          "resetValue": "Скинути значення",
+          "remove": "Видалити"
+        },
+        "confirmationModalRemove": "Ви хочете видалити <b>{{ categoryName }}</b> категорію?",
+        "confirmationModalReset": "Ви хочете скинути значення категорії <b>{{ categoryName }}</b>?"
+      }
+    },
+
+    "addCategoryModal": {
+      "income": {
+        "title": "Додати категорію до доходів"
+      },
+      "expense": {
+        "title": "Додати категорію до витрат"
+      },
+      "categoryIconTitle": "Значок категорії",
+      "categoryNameTitle": "Імя категорії",
+      "cancel": "Вихід",
+      "addCategory": "Додати",
+      "categoryExistsError": "Така категорія вже існує",
+      "categoryNameLengthError": "Макс. довжина імені категорії - 25"
+    },
+    "categoryValueModal": {
+      "title": "Додати значення до категорії",
+      "cancel": "Вихід",
+      "add": "Додати",
+      "valueToAddTitle": "Значення",
+      "noteTitle": "Примітка"
+    }
+  },
+
+  "snackbars": {
+    "errorSnackbar": {
+      "message": "Щось пішло не так! Будь ласка, спробуйте ще.",
+      "buttonText": "Добре"
+    },
+    "balanceEditedSnackbar": {
+      "message": "Баланс оновлено успішно!",
+      "buttonText": "Добре"
+    },
+    "savingsEditedSnackbar": {
+      "message": "Збереження оновлено успішно!",
+      "buttonText": "Добре"
+    },
+    "freeMoneyEditedSnackbar": {
+      "message": "Вільні гроші оновлено успішно!",
+      "buttonText": "Добре"
+    },
+    "categoryAddedSnackbar": {
+      "message": "Категорію було додано успішно!",
+      "buttonText": "Добре"
+    },
+    "categoryRemovedSnackbar": {
+      "message": "Категорію було видалено успішно!",
+      "buttonText": "Добре"
+    },
+    "categoryValueChangedSnackbar": {
+      "message": "Значення категорії було змінено успішно!",
+      "buttonText": "Добре"
+    },
+    "categoriesResetSnackbar": {
+      "income": "Категорії доходів було скинуто успішно!",
+      "expense": "Категорії витрат було скинуто успішно!",
+      "buttonText": "Добре"
+    }
+  },
+
+  "formErrors": {
+    "required": "Обов'язкове для заповнення",
+    "minValue": "Мінімальне значення - {{ minValue }}",
+    "noteTooLong": "Примітка занадто велика, макс. довжина - 100",
+    "editError": "Значення після редагування має бути іншим"
+  },
+
+  "confirmationModal": {
+    "title": "Підтвердіть дію",
+    "noButton": "Ні",
+    "yesButton": "Так"
+  },
+
+  "languageSwitcher": {
+    "tooltip": "Мова",
+    "languages": {
+      "english": "Англійська (UK)",
+      "ukrainian": "Українська (UA)"
+    }
+  },
+
+  "currencySwitcher": {
+    "tooltip": "Валюта",
+    "currencies": {
+      "hryvnia": "Гривня (UA)",
+      "dollar": "Долар (USA)",
+      "euro": "Євро (EU)"
+    }
+  },
+
+  "categoryIcons": {
+    "housing": "Житло",
+    "food": "Їжа",
+    "health": "Здоров'я",
+    "clothes": "Речі",
+    "entertainment": "Розваги",
+    "transport": "Транспорт",
+    "car": "Авто",
+    "everydayLife": "Побут",
+    "rest": "Відпочинок",
+    "work": "Робота",
+    "presents": "Подарунки",
+    "utilities": "Комунальні",
+    "tech": "Техніка",
+    "internet": "Зв'язок та інтернет",
+    "subscriptions": "Підписки"
+  }
+}

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { CurrenciesEnum, CurrencyService, LanguageService, LanguagesEnum } from '@budget-tracker/shared';
 
 @Component({
   selector: 'app-root',
@@ -7,8 +7,30 @@ import { TranslateService } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  constructor(private translateService: TranslateService) {
-    this.translateService.setDefaultLang('en');
-    this.translateService.use('en');
+  constructor(private currencyService: CurrencyService, private languageService: LanguageService) {
+    this.setLanguage();
+    this.setCurrency();
+  }
+
+  private setLanguage(): void {
+    const language = this.languageService.getLanguageFromLS();
+
+    if (language) {
+      this.languageService.setLanguage(language);
+    } else {
+      this.languageService.setLanguageToLS(LanguagesEnum.English);
+      this.languageService.setLanguage(LanguagesEnum.English);
+    }
+  }
+
+  private setCurrency(): void {
+    const currency = this.currencyService.getCurrencyFromLS();
+
+    if (currency) {
+      this.currencyService.setCurrency(currency);
+    } else {
+      this.currencyService.setCurrencyToLS(CurrenciesEnum.Dollar);
+      this.currencyService.setCurrency(CurrenciesEnum.Dollar);
+    }
   }
 }

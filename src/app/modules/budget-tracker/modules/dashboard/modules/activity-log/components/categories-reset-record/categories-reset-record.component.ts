@@ -12,10 +12,6 @@ export class CategoriesResetRecordComponent {
   @Input()
   record: CategoriesResetRecord;
 
-  get budgetType(): string {
-    return this.record.budgetType[0].toUpperCase() + this.record.budgetType.slice(1);
-  }
-
   buildTranslationKey(key: string): string {
     return `${this.rootTranslationKey}.${key}`;
   }

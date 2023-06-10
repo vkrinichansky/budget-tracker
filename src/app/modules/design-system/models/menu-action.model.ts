@@ -1,6 +1,6 @@
 export interface MenuAction {
   icon?: string;
-  text: string;
+  translationKey: string;
   disabled?: boolean;
   action?: () => unknown;
 }

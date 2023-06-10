@@ -65,12 +65,8 @@ export class SnackbarHandlerService {
   }
 
   showCategoriesResetSnackbar(budgetType: BudgetType): void {
-    const capitalizedBudgetType = budgetType[0].toUpperCase() + budgetType.slice(1);
-
     this.openSnackBarWithCloseDelay(
-      this.translateService.instant(this.buildTranslationKey('categoriesResetSnackbar.message'), {
-        budgetType: capitalizedBudgetType,
-      }),
+      this.translateService.instant(this.buildTranslationKey(`categoriesResetSnackbar.${budgetType}`)),
       this.translateService.instant(this.buildTranslationKey('categoriesResetSnackbar.buttonText'))
     );
   }

@@ -12,4 +12,7 @@ export class MenuComponent {
 
   @Input()
   menuActions: MenuAction[];
+
+  @Input()
+  icon = 'menu';
 }

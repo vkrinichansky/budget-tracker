@@ -1,9 +1,9 @@
-<app-button mat-button [matMenuTriggerFor]="menu" [iconName]="'menu'" [colorScheme]="colorScheme"></app-button>
+<app-button mat-button [matMenuTriggerFor]="menu" [iconName]="icon" [colorScheme]="colorScheme"></app-button>
 
 <mat-menu #menu="matMenu">
   <app-button
     *ngFor="let action of menuActions"
-    [text]="action.text"
+    [text]="action.translationKey | translate"
     [iconName]="action.icon"
     [buttonSize]="'full'"
     [disabled]="action.disabled"
