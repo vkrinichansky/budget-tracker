@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "budget-tracker-3ca8e"
+    "production": "bt-budget-tracker",
+    "develop": "budget-tracker-3ca8e"
   }
 }

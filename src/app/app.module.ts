@@ -2,7 +2,8 @@ import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { environment } from 'src/environments/environment';
+import { environment as devEnv } from 'src/environments/environment';
+import { environment as prodEnv } from 'src/environments/environment.prod';
 import { StoreModule } from '@ngrx/store';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -24,7 +25,7 @@ import 'chartjs-plugin-zoom';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideFirebaseApp(() => initializeApp(isDevMode() ? devEnv.firebaseConfig : prodEnv.firebaseConfig)),
     provideAuth(() => getAuth(getApp())),
     provideFirestore(() => getFirestore()),
     StoreModule.forRoot(
