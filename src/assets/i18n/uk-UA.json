@@ -6,6 +6,7 @@
   "navigationBar": {
     "itemTooltip": {
       "home": "Домашня",
+      "statistics": "Статистика",
       "logout": "Вихід"
     }
   },
@@ -148,6 +149,20 @@
       "add": "Додати",
       "valueToAddTitle": "Значення",
       "noteTitle": "Примітка"
+    }
+  },
+
+  "statistics": {
+    "pageTitle": "Статистика",
+    "monthlyStatistics": {
+      "title": "Щомісячна",
+      "chartActions": {
+        "zoomIn": "Збільшити",
+        "zoomOut": "Зменшити",
+        "scrollLeft": "Прогорнути вліво",
+        "scrollRight": "Прогорнути вправо",
+        "resetZoom": "Скинути зум"
+      }
     }
   },
 

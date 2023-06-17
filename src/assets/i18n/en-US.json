@@ -6,6 +6,7 @@
   "navigationBar": {
     "itemTooltip": {
       "home": "Home",
+      "statistics": "Statistics",
       "logout": "Logout"
     }
   },
@@ -148,6 +149,20 @@
       "add": "Add",
       "valueToAddTitle": "Value to add",
       "noteTitle": "Note"
+    }
+  },
+
+  "statistics": {
+    "pageTitle": "Statistics",
+    "monthlyStatistics": {
+      "title": "Monthly",
+      "chartActions": {
+        "zoomIn": "Zoom in",
+        "zoomOut": "Zoom out",
+        "scrollLeft": "Scroll left",
+        "scrollRight": "Scroll right",
+        "resetZoom": "Reset zoom"
+      }
     }
   },
 

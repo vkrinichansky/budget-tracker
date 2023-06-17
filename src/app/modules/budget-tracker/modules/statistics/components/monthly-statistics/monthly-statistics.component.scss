@@ -1,0 +1,13 @@
+:host {
+  @apply flex flex-col w-full flex-1 gap-y-5;
+
+  canvas {
+    @apply block;
+  }
+
+  @media (max-width: 480px) {
+    canvas {
+      @apply max-h-none;
+    }
+  }
+}

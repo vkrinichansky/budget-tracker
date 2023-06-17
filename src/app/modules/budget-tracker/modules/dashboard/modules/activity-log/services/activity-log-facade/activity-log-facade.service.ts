@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import {
-  ActivityLogGroupedByDays,
+  ActivityLogGroupedByDate,
   ActivityLog,
-  ActivityLogGroupedByDaysInObject,
+  ActivityLogGroupedByDateInObject,
   LanguageService,
+  ActivityLogRecordType,
+  CategoryValueChangeRecord,
+  BudgetType,
 } from '@budget-tracker/shared';
 import { Store } from '@ngrx/store';
 import { Observable, combineLatest, filter, map } from 'rxjs';
@@ -13,17 +16,46 @@ import { ActivityLogSelectors } from '../../store';
 export class ActivityLogFacadeService {
   constructor(private store: Store, private languageService: LanguageService) {}
 
-  getActivityLogGroupedByDays(): Observable<ActivityLogGroupedByDays[]> {
+  getActivityLog(): Observable<ActivityLog> {
+    return this.store.select(ActivityLogSelectors.activityLogSelector);
+  }
+
+  getActivityLogGroupedByDays(): Observable<ActivityLogGroupedByDate[]> {
     return combineLatest([
-      this.store.select(ActivityLogSelectors.activityLogSelector),
+      this.getActivityLog(),
       this.languageService.getLanguageObs().pipe(filter((language) => !!language)),
     ]).pipe(
       map(([activityLog, language]) => this.groupActivityLogByDaysInObject(activityLog, language)),
-      map((activityLogInObject) => this.activityLogByDaysInObjectToArray(activityLogInObject))
+      map((activityLogInObject) => this.activityLogByDateInObjectToArray(activityLogInObject))
     );
   }
 
-  private groupActivityLogByDaysInObject(activityLog: ActivityLog, language: string): ActivityLogGroupedByDaysInObject {
+  getMonthlyStatistics(): Observable<
+    {
+      date: string;
+      income: ActivityLog;
+      expense: ActivityLog;
+    }[]
+  > {
+    return this.getActivityLog().pipe(
+      map((activityLog) => this.filterOnlyCategoryValueChangeRecords(activityLog)),
+      map((filteredAL) => this.groupActivityLogByMonthsInObject(filteredAL, this.languageService.getLanguage())),
+      map((ALObject) => this.activityLogByDateInObjectToArray(ALObject)),
+      map((ALByDates) =>
+        ALByDates.map((ALDate) => ({
+          date: ALDate.date,
+          income: ALDate.records.filter(
+            (record) => (record as CategoryValueChangeRecord).budgetType === BudgetType.Income
+          ),
+          expense: ALDate.records.filter(
+            (record) => (record as CategoryValueChangeRecord).budgetType === BudgetType.Expense
+          ),
+        }))
+      )
+    );
+  }
+
+  private groupActivityLogByDaysInObject(activityLog: ActivityLog, language: string): ActivityLogGroupedByDateInObject {
     return activityLog
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .reduce((group, record) => {
@@ -38,18 +70,43 @@ export class ActivityLogFacadeService {
         group[dateKey] = group[dateKey] ?? [];
         group[dateKey].push(record);
         return group;
-      }, {} as ActivityLogGroupedByDaysInObject);
+      }, {} as ActivityLogGroupedByDateInObject);
   }
 
-  private activityLogByDaysInObjectToArray(
-    activityLogInObject: ActivityLogGroupedByDaysInObject
-  ): ActivityLogGroupedByDays[] {
+  private groupActivityLogByMonthsInObject(
+    activityLog: ActivityLog,
+    language: string
+  ): ActivityLogGroupedByDateInObject {
+    return activityLog
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .reduce((group, record) => {
+        const date = new Date(record.date);
+        const dateKey = date.toLocaleDateString(language, {
+          year: 'numeric',
+          month: 'short',
+        });
+
+        group[dateKey] = group[dateKey] ?? [];
+        group[dateKey].push(record);
+        return group;
+      }, {} as ActivityLogGroupedByDateInObject);
+  }
+
+  private activityLogByDateInObjectToArray(
+    activityLogInObject: ActivityLogGroupedByDateInObject
+  ): ActivityLogGroupedByDate[] {
     return Object.keys(activityLogInObject).map(
       (key) =>
         ({
           date: key,
           records: activityLogInObject[key].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
-        } as ActivityLogGroupedByDays)
+        } as ActivityLogGroupedByDate)
     );
+  }
+
+  private filterOnlyCategoryValueChangeRecords(activityLog: ActivityLog): ActivityLog {
+    return activityLog
+      .filter((activityLogRecord) => activityLogRecord.recordType === ActivityLogRecordType.CategoryValueChange)
+      .filter((activityLogRecord) => !(activityLogRecord as CategoryValueChangeRecord).isReset);
   }
 }

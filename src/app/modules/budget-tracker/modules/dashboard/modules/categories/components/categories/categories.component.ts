@@ -3,7 +3,7 @@ import { BudgetType, Category } from '@budget-tracker/shared';
 import { BehaviorSubject, Observable, combineLatest, map } from 'rxjs';
 import { ChartData, ChartOptions } from 'chart.js';
 import { CategoriesFacadeService, CategoryModalsService } from '../../services';
-import { doughnutChartPalette } from '@budget-tracker/design-system';
+import { ChartJSTooltipConfig, doughnutChartPalette } from '@budget-tracker/design-system';
 
 @Component({
   selector: 'app-categories',
@@ -100,25 +100,12 @@ export class CategoriesComponent implements OnInit {
       elements: { arc: { borderColor: '#395B72', hoverBorderColor: '#2C4251' } },
       plugins: {
         tooltip: {
-          bodyFont: {
-            family: 'Inter',
-            size: 14,
-            lineHeight: 1.5,
-          },
-          cornerRadius: 4,
-          caretSize: 0,
-          borderWidth: 0,
-          backgroundColor: '#395B72',
-          displayColors: false,
+          ...ChartJSTooltipConfig,
           callbacks: {
             label: (item) => `${item.label} - ${item.parsed}`,
             title: () => {
               return '';
             },
-          },
-          padding: {
-            x: 8,
-            y: 4,
           },
         },
         legend: {

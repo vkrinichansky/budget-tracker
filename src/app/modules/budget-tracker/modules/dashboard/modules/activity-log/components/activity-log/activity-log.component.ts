@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
-import { ActivityLogGroupedByDays, ActivityLogRecordType } from '@budget-tracker/shared';
+import { ActivityLogGroupedByDate, ActivityLogRecordType } from '@budget-tracker/shared';
 import { Observable, map } from 'rxjs';
 import { ActivityLogFacadeService } from '../../services';
 
@@ -16,7 +16,7 @@ export class ActivityLogComponent implements OnInit {
 
   readonly recordType = ActivityLogRecordType;
 
-  activityLog$: Observable<ActivityLogGroupedByDays[]>;
+  activityLog$: Observable<ActivityLogGroupedByDate[]>;
 
   isEmpty$: Observable<boolean>;
 
