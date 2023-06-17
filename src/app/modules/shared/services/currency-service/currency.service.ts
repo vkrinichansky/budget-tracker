@@ -33,7 +33,11 @@ export class CurrencyService {
     return this.currency$;
   }
 
-  getCurrencySymbol(): Observable<string> {
+  getCurrencySymbolObs(): Observable<string> {
     return this.getCurrencyObs().pipe(map((currency) => CurrencySymbolMapping[currency as CurrenciesEnum]));
+  }
+
+  getCurrencySymbol(): string {
+    return CurrencySymbolMapping[this.getCurrency()];
   }
 }

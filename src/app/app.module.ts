@@ -16,6 +16,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { CustomErrorStateMatcher } from '@budget-tracker/utils';
+import 'hammerjs';
+import 'chartjs-plugin-zoom';
 
 @NgModule({
   declarations: [AppComponent],

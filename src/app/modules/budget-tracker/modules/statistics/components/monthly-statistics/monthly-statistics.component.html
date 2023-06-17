@@ -1,0 +1,16 @@
+<p class="font-main font-bold text-charcoal text-xl">{{ buildTranslationKey('title') | translate }}</p>
+
+<div class="w-full flex justify-center items-center overflow-hidden">
+  <canvas baseChart #chart="base-chart" [type]="'bar'" [data]="chartData$ | async" [options]="chartOptions"></canvas>
+</div>
+
+<div class="flex justify-center gap-2">
+  <app-button
+    *ngFor="let action of zoomOptions"
+    [colorScheme]="'green'"
+    [iconName]="action.icon"
+    [matTooltip]="action.tooltipKey | translate"
+    [matTooltipPosition]="'above'"
+    (click)="action.handler()"
+  ></app-button>
+</div>

@@ -38,7 +38,7 @@ export class CategoryItemComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.currencySymbol$ = this.currencyService.getCurrencySymbol();
+    this.currencySymbol$ = this.currencyService.getCurrencySymbolObs();
 
     this.categoriesFacade
       .getCategoryById(this.categoryId)

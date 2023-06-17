@@ -74,11 +74,11 @@ export type ActivityLogRecordUnitedType =
 
 export type ActivityLog = ActivityLogRecordUnitedType[];
 
-export interface ActivityLogGroupedByDaysInObject {
+export interface ActivityLogGroupedByDateInObject {
   [date: string]: ActivityLog;
 }
 
-export interface ActivityLogGroupedByDays {
+export interface ActivityLogGroupedByDate {
   date: string;
   records: ActivityLog;
 }

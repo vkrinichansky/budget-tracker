@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BudgetTrackerComponent } from './budget-tracker.component';
 import { InitDataGuard } from './guards';
+import { AppRoutesNames } from '../shared/models';
 
 const routes: Routes = [
   {
@@ -10,12 +11,16 @@ const routes: Routes = [
     canActivate: [InitDataGuard],
     children: [
       {
-        path: 'dashboard',
+        path: AppRoutesNames.Dashboard,
         loadChildren: () => import('./modules/dashboard/dashboard.module').then((m) => m.DashboardModule),
       },
       {
+        path: AppRoutesNames.Statistics,
+        loadChildren: () => import('./modules/statistics/statistics.module').then((m) => m.StatisticsModule),
+      },
+      {
         path: '',
-        redirectTo: 'dashboard',
+        redirectTo: AppRoutesNames.Dashboard,
         pathMatch: 'full',
       },
     ],

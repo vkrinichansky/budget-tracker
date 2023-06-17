@@ -60,6 +60,6 @@ export class InfoCardComponent implements OnInit {
   constructor(private currencyService: CurrencyService) {}
 
   ngOnInit(): void {
-    this.currencySymbol$ = this.currencyService.getCurrencySymbol();
+    this.currencySymbol$ = this.currencyService.getCurrencySymbolObs();
   }
 }
