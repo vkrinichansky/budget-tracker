@@ -28,6 +28,8 @@ enum CategoriesActionsType {
   ResetCategories = '[Categories] Reset categories',
   CategoriesReset = '[Categories] Categories reset',
   ReserCategoriesFail = '[Categories] Reset categories fail',
+
+  Clean = '[Categories] Clean state',
 }
 
 export const CategoriesActions = {
@@ -91,4 +93,6 @@ export const CategoriesActions = {
   ),
 
   resetCategoriesFail: createAction(CategoriesActionsType.ReserCategoriesFail),
+
+  clean: createAction(CategoriesActionsType.Clean),
 };

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthActions, AuthSelectors } from '@budget-tracker/auth';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { filter, from, map, mergeMap, take, tap } from 'rxjs';
+import { filter, from, map, mergeMap, of, take, tap } from 'rxjs';
 import { BudgetTrackerActions } from '../actions';
 import { CategoriesActions } from '../../modules';
 import { RootValuesActions } from '@budget-tracker/dashboard/info-cards';
@@ -52,7 +52,14 @@ export class BudgetTrackerEffects {
   cleanStateOnLogOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logout),
-      map(() => BudgetTrackerActions.clean())
+      mergeMap(() =>
+        of(
+          BudgetTrackerActions.clean(),
+          CategoriesActions.clean(),
+          ActivityLogActions.clean(),
+          RootValuesActions.clean()
+        )
+      )
     )
   );
 }

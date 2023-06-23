@@ -16,7 +16,7 @@ export const AuthActions = {
   loginFailed: createAction(AuthActionsType.LoginFailed),
   initDatabaseOnFirstLogin: createAction(AuthActionsType.InitDatabaseOnFirstLogin, props<{ user: User }>()),
   getUser: createAction(AuthActionsType.GetUser),
-  authenticated: createAction(AuthActionsType.Authenticated, props<{ user: User }>()),
+  authenticated: createAction(AuthActionsType.Authenticated, props<{ user: User, shouldRedirect?: boolean }>()),
   notAuthenticated: createAction(AuthActionsType.NotAuthenticated),
   logout: createAction(AuthActionsType.Logout),
 };

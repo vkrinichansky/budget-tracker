@@ -13,4 +13,8 @@ export class NavigatorService {
   navigateToDashboard(): void {
     this.router.navigate([AppRoutes.Dashboard]);
   }
+
+  navigateToBudgetTracker(): void {
+    this.router.navigate([AppRoutes.BudgetTracker]);
+  }
 }

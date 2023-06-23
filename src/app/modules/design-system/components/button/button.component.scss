@@ -43,6 +43,10 @@
     svg-icon {
       @apply text-white;
     }
+
+    @media (max-width: 480px) {
+      @apply hover:bg-charcoal;
+    }
   }
 
   &.green {
@@ -55,6 +59,10 @@
     svg-icon {
       @apply text-white;
     }
+
+    @media (max-width: 480px) {
+      @apply hover:bg-dark-green;
+    }
   }
 
   &.active-navigation-item {
@@ -63,6 +71,10 @@
     svg-icon {
       @apply text-green;
     }
+
+    @media (max-width: 480px) {
+      @apply hover:bg-transparent;
+    }
   }
 
   &.transparent-light {
@@ -70,6 +82,10 @@
 
     svg-icon {
       @apply text-white;
+    }
+
+    @media (max-width: 480px) {
+      @apply hover:bg-transparent;
     }
   }
 
@@ -86,6 +102,10 @@
 
     svg-icon {
       @apply text-charcoal;
+    }
+
+    @media (max-width: 480px) {
+      @apply bg-transparent hover:bg-transparent;
     }
   }
 }

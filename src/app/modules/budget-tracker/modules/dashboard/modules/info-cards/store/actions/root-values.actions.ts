@@ -17,6 +17,8 @@ enum RootValuesActionsType {
   FreeMoneyUpdateFail = '[Root Values] Free money update fail',
 
   ResetValueUpdatingProp = '[Root Values] Reset valueUpdating prop',
+
+  Clean = '[Root Values] Clean state',
 }
 
 export const RootValuesActions = {
@@ -53,4 +55,6 @@ export const RootValuesActions = {
     RootValuesActionsType.RootValuesLoaded,
     props<{ balance: number; savings: number; freeMoney: number }>()
   ),
+
+  clean: createAction(RootValuesActionsType.Clean),
 };

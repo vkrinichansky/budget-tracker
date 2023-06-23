@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
@@ -45,7 +45,7 @@ export class InfoCardValueModalComponent implements OnInit, AfterViewInit {
   }
 
   get hasEditError(): boolean {
-    return this.form.controls[FormFields.Value].hasError('editError');
+    return this.form.controls[FormFields.Value].hasError('editError') && this.isEditMode;
   }
 
   get hasMaxLengthError(): boolean {
@@ -55,8 +55,7 @@ export class InfoCardValueModalComponent implements OnInit, AfterViewInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: InfoCardValueModalData,
     private dialogRef: MatDialogRef<InfoCardValueModalComponent>,
-    private rootValuesFacade: RootValuesFacadeService,
-    private cd: ChangeDetectorRef
+    private rootValuesFacade: RootValuesFacadeService
   ) {}
 
   ngOnInit(): void {
@@ -154,7 +153,7 @@ export class InfoCardValueModalComponent implements OnInit, AfterViewInit {
 
     this.form.controls[FormFields.Value].valueChanges
       .pipe(
-        filter((value) => parseInt(value) === this.data.initialValue),
+        filter((value) => parseInt(value) === this.data.initialValue && this.isEditMode),
         tap(() => {
           this.form.controls[FormFields.Value].setErrors({ editError: true });
           this.form.controls[FormFields.Value].markAsDirty();
