@@ -1,4 +1,4 @@
-<span class="font-main font-bold text-charcoal text-xl">{{ buildTranslationKey('title') | translate }}</span>
+<app-page-header class="text-xl bg-transparent" [title]="buildTranslationKey('title') | translate"></app-page-header>
 
 <div
   *ngVar="isEmpty$ | async as isEmpty"

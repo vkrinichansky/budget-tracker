@@ -6,25 +6,25 @@
 >
   <div class="flip-card-front">
     <div class="flex justify-between items-center">
-      <span class="font-main font-bold text-charcoal text-xl">{{ title | translate }}</span>
-
-      <div class="flex items-center gap-x-4">
-        <app-button
-          [colorScheme]="'green'"
-          [iconName]="'plus'"
-          [matTooltip]="buildTranslationKey('addCategoryButtonTooltip') | translate"
-          [matTooltipPosition]="'above'"
-          (click)="addButtonAction()"
-        ></app-button>
-        <app-button
-          [colorScheme]="'green'"
-          [iconName]="'redo'"
-          [disabled]="shouldDisableFlipButton$ | async"
-          [matTooltip]="buildTranslationKey('flipCardButtonTooltip') | translate"
-          [matTooltipPosition]="'above'"
-          (click)="toggleSide()"
-        ></app-button>
-      </div>
+      <app-page-header class="text-xl bg-transparent" [title]="title | translate">
+        <div class="flex items-center gap-x-2">
+          <app-button
+            [colorScheme]="'green'"
+            [iconName]="'plus'"
+            [matTooltip]="buildTranslationKey('addCategoryButtonTooltip') | translate"
+            [matTooltipPosition]="'above'"
+            (click)="addButtonAction()"
+          ></app-button>
+          <app-button
+            [colorScheme]="'green'"
+            [iconName]="'redo'"
+            [disabled]="shouldDisableFlipButton$ | async"
+            [matTooltip]="buildTranslationKey('flipCardButtonTooltip') | translate"
+            [matTooltipPosition]="'above'"
+            (click)="toggleSide()"
+          ></app-button>
+        </div>
+      </app-page-header>
     </div>
 
     <div
