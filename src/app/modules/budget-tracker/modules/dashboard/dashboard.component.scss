@@ -1,5 +1,5 @@
 :host {
-  @apply grid h-full relative;
+  @apply grid h-full relative gap-y-6;
   grid-template-rows: auto auto 1fr;
 
   .info-cards,
