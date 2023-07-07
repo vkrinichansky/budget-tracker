@@ -8,7 +8,8 @@
       "home": "Home",
       "statistics": "Statistics",
       "logout": "Logout"
-    }
+    },
+    "logoutConfirmation": "Are you sure you want to log out?"
   },
 
   "dashboard": {
@@ -247,6 +248,8 @@
     "utilities": "Utilities",
     "tech": "Tech",
     "internet": "Communication and internet",
-    "subscriptions": "Subscriptions"
+    "subscriptions": "Subscriptions",
+    "beauty": "Beauty",
+    "charity": "Charity"
   }
 }

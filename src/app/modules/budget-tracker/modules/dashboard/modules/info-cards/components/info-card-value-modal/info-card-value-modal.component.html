@@ -5,26 +5,18 @@
       <mat-label>{{ title | translate }}</mat-label>
       <input matInput [formControlName]="formFields.Value" [type]="'number'" />
 
-      <mat-error *ngIf="hasRequiredError">
-        {{ 'formErrors.required' | translate }}
-      </mat-error>
+      <mat-error *ngIf="hasRequiredError">{{ 'formErrors.required' | translate }}</mat-error>
 
-      <mat-error *ngIf="hasMinValueError">
-        {{ 'formErrors.minValue' | translate : { minValue: 1 } }}
-      </mat-error>
+      <mat-error *ngIf="hasMinValueError">{{ 'formErrors.minValue' | translate : { minValue: 1 } }}</mat-error>
 
-      <mat-error *ngIf="hasEditError">
-        {{ 'formErrors.editError' | translate }}
-      </mat-error>
+      <mat-error *ngIf="hasEditError">{{ 'formErrors.editError' | translate }}</mat-error>
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>{{ buildTranslationKey('noteInputTitle') | translate }}</mat-label>
       <textarea matInput rows="3" [formControlName]="formFields.Note"></textarea>
 
-      <mat-error *ngIf="hasMaxLengthError">
-        {{ 'formErrors.noteTooLong' | translate }}
-      </mat-error>
+      <mat-error *ngIf="hasMaxLengthError">{{ 'formErrors.noteTooLong' | translate }}</mat-error>
     </mat-form-field>
   </form>
 </div>

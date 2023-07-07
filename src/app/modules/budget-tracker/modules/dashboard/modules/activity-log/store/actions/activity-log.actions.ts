@@ -4,6 +4,8 @@ import { createAction, props } from '@ngrx/store';
 enum ActivityLogActionsType {
   ActivityLogLoaded = '[ActivityLog] Activity log loaded',
   ActivityLogRecordAdded = '[ActivityLog] Record added',
+
+  Clean = '[ActivityLog] Clean state',
 }
 
 export const ActivityLogActions = {
@@ -13,4 +15,6 @@ export const ActivityLogActions = {
   ),
 
   activityLogLoaded: createAction(ActivityLogActionsType.ActivityLogLoaded, props<{ activityLog: ActivityLog }>()),
+
+  clean: createAction(ActivityLogActionsType.Clean),
 };

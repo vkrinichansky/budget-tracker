@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
 })
 export class PageHeaderComponent {
   @HostBinding('class')
-  private readonly classes = 'flex w-full py-6 bg-dirty-white justify-between items-center';
+  private readonly classes = 'flex w-full bg-dirty-white justify-between items-center';
 
   @Input()
   title: string;

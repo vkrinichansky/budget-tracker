@@ -161,7 +161,9 @@ export const categoriesFeature = createFeature({
         action.updatedCategories.map((category) => ({ changes: category, id: category.id })),
         state[action.updatedCategories[0].budgetType]
       ),
-    }))
+    })),
+
+    on(CategoriesActions.clean, () => initialState)
   ),
 });
 

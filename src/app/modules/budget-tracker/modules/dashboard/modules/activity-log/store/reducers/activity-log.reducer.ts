@@ -25,7 +25,9 @@ export const activityLogFeature = createFeature({
     on(ActivityLogActions.activityLogRecordAdded, (state, action) => ({
       ...state,
       activityLog: [...state.activityLog, action.record],
-    }))
+    })),
+
+    on(ActivityLogActions.clean, () => initialState)
   ),
 });
 

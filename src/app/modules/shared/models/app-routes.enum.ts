@@ -6,6 +6,7 @@ export enum AppRoutesNames {
 }
 
 export const AppRoutes = {
+  BudgetTracker: `/${AppRoutesNames.BudgetTracker}`,
   Auth: `/${AppRoutesNames.Auth}`,
   Dashboard: `/${AppRoutesNames.BudgetTracker}/${AppRoutesNames.Dashboard}`,
   Statistics: `/${AppRoutesNames.BudgetTracker}/${AppRoutesNames.Statistics}`,

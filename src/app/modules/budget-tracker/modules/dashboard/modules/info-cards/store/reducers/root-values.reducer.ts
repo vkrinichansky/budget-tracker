@@ -134,7 +134,9 @@ export const rootValuesFeature = createFeature({
         error: false,
         success: false,
       },
-    }))
+    })),
+
+    on(RootValuesActions.clean, () => initialState)
   ),
 });
 

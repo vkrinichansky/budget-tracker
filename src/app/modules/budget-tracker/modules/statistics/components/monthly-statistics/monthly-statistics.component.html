@@ -1,4 +1,4 @@
-<p class="font-main font-bold text-charcoal text-xl">{{ buildTranslationKey('title') | translate }}</p>
+<app-page-header class="text-xl" [title]="buildTranslationKey('title') | translate"></app-page-header>
 
 <div class="w-full flex justify-center items-center overflow-hidden">
   <canvas baseChart #chart="base-chart" [type]="'bar'" [data]="chartData$ | async" [options]="chartOptions"></canvas>

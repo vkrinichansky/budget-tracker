@@ -6,25 +6,25 @@
 >
   <div class="flip-card-front">
     <div class="flex justify-between items-center">
-      <span class="font-main font-bold text-charcoal text-xl">{{ title | translate }}</span>
-
-      <div class="flex items-center gap-x-4">
-        <app-button
-          [colorScheme]="'green'"
-          [iconName]="'plus'"
-          [matTooltip]="buildTranslationKey('addCategoryButtonTooltip') | translate"
-          [matTooltipPosition]="'above'"
-          (click)="addButtonAction()"
-        ></app-button>
-        <app-button
-          [colorScheme]="'green'"
-          [iconName]="'redo'"
-          [disabled]="shouldDisableFlipButton$ | async"
-          [matTooltip]="buildTranslationKey('flipCardButtonTooltip') | translate"
-          [matTooltipPosition]="'above'"
-          (click)="toggleSide()"
-        ></app-button>
-      </div>
+      <app-page-header class="text-xl bg-transparent" [title]="title | translate">
+        <div class="flex items-center gap-x-2">
+          <app-button
+            [colorScheme]="'green'"
+            [iconName]="'plus'"
+            [matTooltip]="buildTranslationKey('addCategoryButtonTooltip') | translate"
+            [matTooltipPosition]="'above'"
+            (click)="addButtonAction()"
+          ></app-button>
+          <app-button
+            [colorScheme]="'green'"
+            [iconName]="'redo'"
+            [disabled]="shouldDisableFlipButton$ | async"
+            [matTooltip]="buildTranslationKey('flipCardButtonTooltip') | translate"
+            [matTooltipPosition]="'above'"
+            (click)="toggleSide()"
+          ></app-button>
+        </div>
+      </app-page-header>
     </div>
 
     <div
@@ -33,7 +33,7 @@
       [class.justify-center]="isEmpty"
       [class.items-center]="isEmpty"
     >
-      <span *ngIf="isEmpty" class="font-main font-bold text-charcoal text-lg">
+      <span *ngIf="isEmpty" class="font-main font-bold text-charcoal text-lg text-center">
         {{ buildTranslationKey('emptyStateText') | translate }}
       </span>
 
@@ -41,7 +41,7 @@
     </div>
   </div>
 
-  <div class="flip-card-back">
+  <div class="flip-card-back flex flex-col">
     <div class="flex justify-between items-center">
       <span class="font-main font-bold text-charcoal text-xl">{{ title | translate }}</span>
       <app-button
@@ -53,8 +53,8 @@
       ></app-button>
     </div>
 
-    <div class="w-full h-full flex items-center justify-center">
-      <canvas baseChart class="w-full" [type]="'doughnut'" [data]="chartData$ | async" [options]="chartOptions">
+    <div class="w-full h-full flex flex-1 items-center justify-center overflow-hidden">
+      <canvas baseChart class="h-full" [type]="'doughnut'" [data]="chartData$ | async" [options]="chartOptions">
       </canvas>
     </div>
   </div>

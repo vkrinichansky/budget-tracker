@@ -1,4 +1,4 @@
-<span class="font-main font-bold text-charcoal text-xl">{{ buildTranslationKey('title') | translate }}</span>
+<app-page-header class="text-xl bg-transparent" [title]="buildTranslationKey('title') | translate"></app-page-header>
 
 <div
   *ngVar="isEmpty$ | async as isEmpty"
@@ -6,13 +6,13 @@
   [class.justify-center]="isEmpty"
   [class.items-center]="isEmpty"
 >
-  <span *ngIf="isEmpty" class="font-main font-bold text-charcoal text-lg">
+  <span *ngIf="isEmpty" class="font-main font-bold text-charcoal text-lg text-center">
     {{ buildTranslationKey('emptyStateText') | translate }}
   </span>
 
   <ng-container *ngIf="!isEmpty">
     <div *ngFor="let day of activityLog$ | async" class="flex flex-col gap-6 relative">
-      <span [style.top.px]="'-0.1'" class="flex font-main text-grey text-sm sticky bg-white py-0.5 z-10">
+      <span [style.top.px]="'-0.1'" class="flex font-main text-grey text-sm sticky bg-white py-0.5 z-10 font-semibold">
         {{ day.date }}
       </span>
 

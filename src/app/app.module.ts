@@ -19,6 +19,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { CustomErrorStateMatcher } from '@budget-tracker/utils';
 import 'hammerjs';
 import 'chartjs-plugin-zoom';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [AppComponent],
@@ -54,7 +55,15 @@ import 'chartjs-plugin-zoom';
     AuthCoreModule,
     BrowserAnimationsModule,
   ],
-  providers: [{ provide: ErrorStateMatcher, useClass: CustomErrorStateMatcher }],
+  providers: [
+    { provide: ErrorStateMatcher, useClass: CustomErrorStateMatcher },
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: {
+        subscriptSizing: 'dynamic',
+      },
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

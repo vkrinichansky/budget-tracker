@@ -37,8 +37,8 @@ export class AuthEffects {
       mergeMap(() => from(this.authService.googleLogin())),
       map((user) =>
         this.authService.getAdditionalUserInfo(user)?.isNewUser
-          ? AuthActions.initDatabaseOnFirstLogin({ user: this.extractUserFromResponse(user) })
-          : AuthActions.authenticated({ user: this.extractUserFromResponse(user) })
+          ? AuthActions.initDatabaseOnFirstLogin({ user: this.extractUserFromState(user.user) })
+          : AuthActions.authenticated({ user: this.extractUserFromState(user.user), shouldRedirect: true })
       ),
       catchError(() => {
         this.snackbarHandler.showGeneralErrorSnackbar();
@@ -52,7 +52,7 @@ export class AuthEffects {
       ofType(AuthActions.initDatabaseOnFirstLogin),
       mergeMap((action) =>
         from(this.authService.setUserData(action.user.uid)).pipe(
-          map(() => AuthActions.authenticated({ user: action.user }))
+          map(() => AuthActions.authenticated({ user: action.user, shouldRedirect: true }))
         )
       ),
       catchError(() => {
@@ -83,7 +83,8 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.authenticated),
-        map(() => this.navigator.navigateToDashboard())
+        filter((action) => !!action?.shouldRedirect),
+        map(() => this.navigator.navigateToBudgetTracker())
       ),
     { dispatch: false }
   );
@@ -94,17 +95,6 @@ export class AuthEffects {
       email: user?.email as string,
       uid: user?.uid as string,
       photoURL: user?.photoURL as string,
-    };
-
-    return userData;
-  }
-
-  private extractUserFromResponse(user: UserCredential): User {
-    const userData: User = {
-      displayName: user.user.displayName as string,
-      email: user?.user.email as string,
-      uid: user?.user.uid as string,
-      photoURL: user?.user.photoURL as string,
     };
 
     return userData;

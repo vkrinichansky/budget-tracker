@@ -1,0 +1,7 @@
+:host {
+  @apply flex justify-between items-center px-5 py-2 pr-2 border-solid border-2 border-grey rounded-lg hover:border-charcoal;
+
+  @media (max-width: 480px) {
+    @apply border-charcoal;
+  }
+}
