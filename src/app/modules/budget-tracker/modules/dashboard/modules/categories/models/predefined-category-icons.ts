@@ -61,4 +61,12 @@ export const PredefinedCategoryIcons: CategoryIconForSelect[] = [
     icon: 'tv',
     textTranslationKey: 'categoryIcons.subscriptions',
   },
+  {
+    icon: 'flower',
+    textTranslationKey: 'categoryIcons.beauty',
+  },
+  {
+    icon: 'heart',
+    textTranslationKey: 'categoryIcons.charity',
+  },
 ];

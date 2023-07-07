@@ -6,6 +6,7 @@ import { AppRoutes } from '@budget-tracker/shared';
 import { NavigationBarItem } from '../../models';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
 import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
+import { ConfirmationModalService } from '@budget-tracker/design-system';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -30,7 +31,8 @@ export class NavigationBarComponent implements OnInit {
   constructor(
     private authFacade: AuthFacadeService,
     private btFacade: BudgetTrackerFacadeService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private confirmationModalService: ConfirmationModalService
   ) {}
 
   ngOnInit(): void {
@@ -46,7 +48,9 @@ export class NavigationBarComponent implements OnInit {
   }
 
   logOut(): void {
-    this.authFacade.logOut();
+    this.confirmationModalService.openConfirmationModal(this.buildTranslationKey('logoutConfirmation'), undefined, () =>
+      this.authFacade.logOut()
+    );
   }
 
   buildTranslationKey(key: string): string {

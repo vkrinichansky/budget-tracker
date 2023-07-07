@@ -15,12 +15,9 @@ import {
   CategoryValueChangeRecord,
   CategoriesResetRecord,
 } from '@budget-tracker/shared';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class CategoriesService {
-  userId$: Observable<string>;
-
   dataCollection: CollectionReference<DocumentData>;
 
   constructor(private firestore: Firestore, private btService: BudgetTrackerService) {

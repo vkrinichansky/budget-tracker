@@ -8,7 +8,8 @@
       "home": "Домашня",
       "statistics": "Статистика",
       "logout": "Вихід"
-    }
+    },
+    "logoutConfirmation": "Ви впевнені, що хочете вийти?"
   },
 
   "dashboard": {
@@ -247,6 +248,8 @@
     "utilities": "Комунальні",
     "tech": "Техніка",
     "internet": "Зв'язок та інтернет",
-    "subscriptions": "Підписки"
+    "subscriptions": "Підписки",
+    "beauty": "Краса",
+    "charity": "Благодійність"
   }
 }
