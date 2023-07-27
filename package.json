@@ -2,13 +2,17 @@
   "name": "budget-tracker",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
+    "start with open": "ng serve -o",
     "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "build sprites": "svg-sprite --config sprite-config.json src/assets/svg-icons/*.svg",
+    "build for dev": "ng build --configuration development",
+    "build for prod": "ng build --configuration production",
+    "use dev": "firebase use develop",
+    "use prod": "firebase use production",
+    "deploy": "firebase deploy",
     "test": "ng test",
-    "sprites": "svg-sprite --config sprite-config.json src/assets/svg-icons/*.svg",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "ng": "ng"
   },
   "private": true,
   "dependencies": {

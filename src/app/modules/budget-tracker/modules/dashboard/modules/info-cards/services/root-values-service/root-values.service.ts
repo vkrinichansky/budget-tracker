@@ -1,30 +1,37 @@
 import { Injectable } from '@angular/core';
-import { updateDoc, arrayUnion } from '@angular/fire/firestore';
-import { BudgetTrackerService } from '@budget-tracker/budget-tracker';
+import { Auth } from '@angular/fire/auth';
+import { updateDoc, arrayUnion, DocumentReference, collection, doc, Firestore } from '@angular/fire/firestore';
 import { RootValueChangeRecord } from '@budget-tracker/shared';
+
+const ROOT_VALUES_PATH = 'budget.rootValues';
+const ACTIVITY_LOG_PATH = 'budget.activityLog';
 
 @Injectable()
 export class RootValuesService {
-  constructor(private btService: BudgetTrackerService) {}
+  constructor(private firestore: Firestore, private afAuth: Auth) {}
 
   updateBalance(newBalanceValue: number, activityLogRecord: RootValueChangeRecord): Promise<void> {
-    return updateDoc(this.btService.getDocRef(), {
-      ['budget.rootValues.balance']: newBalanceValue,
-      ['budget.activityLog']: arrayUnion(activityLogRecord),
+    return updateDoc(this.getDocRef(), {
+      [`${ROOT_VALUES_PATH}.balance`]: newBalanceValue,
+      [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
     });
   }
 
   updateSavings(newSavingsValue: number, activityLogRecord: RootValueChangeRecord): Promise<void> {
-    return updateDoc(this.btService.getDocRef(), {
-      ['budget.rootValues.savings']: newSavingsValue,
-      ['budget.activityLog']: arrayUnion(activityLogRecord),
+    return updateDoc(this.getDocRef(), {
+      [`${ROOT_VALUES_PATH}.savings`]: newSavingsValue,
+      [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
     });
   }
 
   updateFreeMoney(newFreeMoneyValue: number, activityLogRecord: RootValueChangeRecord): Promise<void> {
-    return updateDoc(this.btService.getDocRef(), {
-      ['budget.rootValues.freeMoney']: newFreeMoneyValue,
-      ['budget.activityLog']: arrayUnion(activityLogRecord),
+    return updateDoc(this.getDocRef(), {
+      [`${ROOT_VALUES_PATH}.freeMoney`]: newFreeMoneyValue,
+      [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
     });
+  }
+
+  private getDocRef(): DocumentReference {
+    return doc(collection(this.firestore, 'userData'), this.afAuth.currentUser?.uid);
   }
 }
