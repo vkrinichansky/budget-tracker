@@ -17,6 +17,8 @@ export class CategoriesComponent implements OnInit {
   readonly isBackDisplayed$ = new BehaviorSubject<boolean>(false);
   readonly isFrontDisplayed$ = new BehaviorSubject<boolean>(true);
 
+  readonly chartOptions: ChartOptions = this.getChartOptions();
+
   @Input()
   budgetType: BudgetType;
 
@@ -33,7 +35,6 @@ export class CategoriesComponent implements OnInit {
   addButtonAction: () => void;
 
   chartData$: Observable<ChartData>;
-  chartOptions: ChartOptions;
 
   constructor(
     private categoriesFacade: CategoriesFacadeService,
@@ -44,14 +45,22 @@ export class CategoriesComponent implements OnInit {
     switch (this.budgetType) {
       case BudgetType.Income:
         this.title = this.buildTranslationKey(`${BudgetType.Income}.title`);
-        this.categories$ = this.categoriesFacade.getIncomeCategories();
+
+        this.categories$ = this.categoriesFacade
+          .getIncomeCategories()
+          .pipe(map((categories) => categories.sort((a, b) => b.value - a.value)));
+
         this.addButtonAction = () => this.categoryModalsService.openAddIncomeCategoryModal();
         this.areAllCategoriesReset$ = this.categoriesFacade.areIncomeCategoriesAllReset();
         break;
 
       case BudgetType.Expense:
         this.title = this.buildTranslationKey(`${BudgetType.Expense}.title`);
-        this.categories$ = this.categoriesFacade.getExpenseCategories();
+
+        this.categories$ = this.categoriesFacade
+          .getExpenseCategories()
+          .pipe(map((categories) => categories.sort((a, b) => b.value - a.value)));
+
         this.addButtonAction = () => this.categoryModalsService.openAddExpenseCategoryModal();
         this.areAllCategoriesReset$ = this.categoriesFacade.areExpenseCategoriesAllReset();
         break;
@@ -64,6 +73,7 @@ export class CategoriesComponent implements OnInit {
     );
 
     this.chartData$ = this.categories$.pipe(
+      map((categories) => [...categories].reverse()),
       map((categories) => ({
         labels: categories.map((category) => category.name),
         datasets: [
@@ -74,8 +84,6 @@ export class CategoriesComponent implements OnInit {
         ],
       }))
     );
-
-    this.chartOptions = this.getChartOptions();
   }
 
   buildTranslationKey(key: string): string {
@@ -97,7 +105,7 @@ export class CategoriesComponent implements OnInit {
       layout: {
         autoPadding: false,
       },
-      elements: { arc: { borderColor: '#395B72', hoverBorderColor: '#2C4251' } },
+      elements: { arc: { borderColor: '#395B72' } },
       plugins: {
         tooltip: {
           ...ChartJSTooltipConfig,
