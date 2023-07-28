@@ -13,6 +13,7 @@ import { UtilsModule } from '@budget-tracker/utils';
 import { ActivityLogFacadeService } from './services';
 import { StoreModule } from '@ngrx/store';
 import { activityLogFeature } from './store/reducers';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,14 @@ import { activityLogFeature } from './store/reducers';
     CategoryValueChangeRecordComponent,
     CategoriesResetRecordComponent,
   ],
-  imports: [CommonModule, DesignSystemModule, TranslateModule, UtilsModule, StoreModule.forFeature(activityLogFeature)],
+  imports: [
+    CommonModule,
+    DesignSystemModule,
+    TranslateModule,
+    UtilsModule,
+    StoreModule.forFeature(activityLogFeature),
+    ScrollingModule,
+  ],
   exports: [ActivityLogComponent],
   providers: [ActivityLogFacadeService],
 })

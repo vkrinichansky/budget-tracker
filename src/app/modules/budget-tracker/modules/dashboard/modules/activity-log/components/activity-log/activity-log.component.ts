@@ -6,6 +6,7 @@ import { ActivityLogFacadeService } from '../../services';
 @Component({
   selector: 'app-activity-log',
   templateUrl: './activity-log.component.html',
+  styleUrls: ['./activity-log.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityLogComponent implements OnInit {
