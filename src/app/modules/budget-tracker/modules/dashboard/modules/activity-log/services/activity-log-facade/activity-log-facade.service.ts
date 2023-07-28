@@ -33,8 +33,8 @@ export class ActivityLogFacadeService {
   getMonthlyStatistics(): Observable<
     {
       date: string;
-      income: ActivityLog;
-      expense: ActivityLog;
+      incomeValue: number;
+      expenseValue: number;
     }[]
   > {
     return this.getActivityLog().pipe(
@@ -44,11 +44,24 @@ export class ActivityLogFacadeService {
       map((ALByDates) =>
         ALByDates.map((ALDate) => ({
           date: ALDate.date,
-          income: ALDate.records.filter(
+          incomeRecords: ALDate.records.filter(
             (record) => (record as CategoryValueChangeRecord).budgetType === BudgetType.Income
           ),
-          expense: ALDate.records.filter(
+          expenseRecords: ALDate.records.filter(
             (record) => (record as CategoryValueChangeRecord).budgetType === BudgetType.Expense
+          ),
+        }))
+      ),
+      map((statistics) =>
+        statistics.map((statisticsItem) => ({
+          date: statisticsItem.date,
+          incomeValue: statisticsItem.incomeRecords.reduce(
+            (acc, currentValue) => acc + (currentValue as CategoryValueChangeRecord).value,
+            0
+          ),
+          expenseValue: statisticsItem.expenseRecords.reduce(
+            (acc, currentValue) => acc + (currentValue as CategoryValueChangeRecord).value,
+            0
           ),
         }))
       )
