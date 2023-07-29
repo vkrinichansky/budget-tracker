@@ -33,7 +33,7 @@
       </span>
 
       <app-category-item
-        *cdkVirtualFor="let category of categories$ | async"
+        *cdkVirtualFor="let category of categories$ | async; trackBy: trackBy"
         [categoryId]="category.id"
       ></app-category-item>
     </cdk-virtual-scroll-viewport>

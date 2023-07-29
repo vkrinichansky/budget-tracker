@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
-import { ActivityLogGroupedByDate, ActivityLogRecordType } from '@budget-tracker/shared';
+import { ActivityLogGroupedByDate, ActivityLogRecordType, ActivityLogRecordUnitedType } from '@budget-tracker/shared';
 import { Observable, map } from 'rxjs';
 import { ActivityLogFacadeService } from '../../services';
 
@@ -31,5 +31,13 @@ export class ActivityLogComponent implements OnInit {
 
   buildTranslationKey(key: string): string {
     return `${this.rootTranslationKey}.${key}`;
+  }
+
+  trackByDate(activitiLogGroup: ActivityLogGroupedByDate): string {
+    return activitiLogGroup.date;
+  }
+
+  trackByRecordId(activitiLogRecord: ActivityLogRecordUnitedType): string {
+    return activitiLogRecord.id;
   }
 }

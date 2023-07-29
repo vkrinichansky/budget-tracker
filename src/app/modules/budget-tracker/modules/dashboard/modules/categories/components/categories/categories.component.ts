@@ -100,6 +100,10 @@ export class CategoriesComponent implements OnInit {
     }
   }
 
+  trackBy(category: Category): string {
+    return category.id;
+  }
+
   private getChartOptions(): ChartOptions {
     return {
       layout: {
