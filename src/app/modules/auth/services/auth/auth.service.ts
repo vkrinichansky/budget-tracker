@@ -13,15 +13,11 @@ import {
 import { setPersistence, browserLocalPersistence } from '@firebase/auth';
 import { map, Observable } from 'rxjs';
 import { BudgetTrackerState } from '@budget-tracker/shared';
-import { collection, CollectionReference, doc, DocumentData, Firestore, setDoc } from '@angular/fire/firestore';
+import { collection, doc, Firestore, setDoc } from '@angular/fire/firestore';
 
 @Injectable()
 export class AuthService {
-  userDataCollection: CollectionReference<DocumentData>;
-
-  constructor(private afAuth: Auth, private firestore: Firestore) {
-    this.userDataCollection = collection(this.firestore, `userData`);
-  }
+  constructor(private afAuth: Auth, private firestore: Firestore) {}
 
   async googleLogin(): Promise<UserCredential> {
     await setPersistence(this.afAuth, browserLocalPersistence);
@@ -60,6 +56,6 @@ export class AuthService {
       },
     };
 
-    return await setDoc(doc(this.userDataCollection, userId), data);
+    return await setDoc(doc(collection(this.firestore, `userData`), userId), data);
   }
 }

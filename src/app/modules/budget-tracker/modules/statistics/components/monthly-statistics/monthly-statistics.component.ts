@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivityLogFacadeService } from '@budget-tracker/dashboard/activity-log';
-import { CategoryValueChangeRecord, CurrencyService } from '@budget-tracker/shared';
+import { CurrencyService } from '@budget-tracker/shared';
 import { Chart, ChartData, ChartOptions } from 'chart.js';
 import { Observable, map } from 'rxjs';
 import { ChartJSTooltipConfig } from '@budget-tracker/design-system';
@@ -25,52 +25,28 @@ export class MonthlyStatisticsComponent implements OnInit {
   private readonly rootTranslationKey = 'statistics.monthlyStatistics';
 
   @ViewChild('chart')
-  chart: BaseChartDirective;
+  private chart: BaseChartDirective;
+
+  readonly chartOptions: ChartOptions = this.getChartOptions();
+  readonly zoomOptions: ZoomOption[] = this.getZoomOptions();
 
   chartData$: Observable<ChartData>;
-  chartOptions: ChartOptions;
-
-  zoomOptions: ZoomOption[];
 
   constructor(private activityLogFacade: ActivityLogFacadeService, private currencyService: CurrencyService) {}
 
   ngOnInit(): void {
-    this.chartOptions = this.getChartOptions();
-    this.zoomOptions = this.getZoomOptions();
-
     this.chartData$ = this.activityLogFacade.getMonthlyStatistics().pipe(
+      map((statistics) => [...statistics].reverse()),
       map((statistics) => ({
         labels: statistics.map((statisticItem) => statisticItem.date),
         datasets: [
           {
-            data: statistics.map((statisticsItem) =>
-              statisticsItem.income.reduce(
-                (acc, currentValue) => acc + (currentValue as CategoryValueChangeRecord).value,
-                0
-              )
-            ),
-            borderColor: '#109279',
-            hoverBorderColor: '#109279',
-            backgroundColor: '#E4FCF7',
-            hoverBackgroundColor: '#E4FCF7',
-            borderWidth: 2,
-            borderRadius: 2,
-            borderSkipped: 'bottom',
+            data: statistics.map((statisticsItem) => statisticsItem.incomeValue),
+            ...this.getIncomeStyleOptions(),
           },
           {
-            data: statistics.map((statisticsItem) =>
-              statisticsItem.expense.reduce(
-                (acc, currentValue) => acc + (currentValue as CategoryValueChangeRecord).value,
-                0
-              )
-            ),
-            borderColor: '#FF6B69',
-            hoverBorderColor: '#FF6B69',
-            backgroundColor: '#FFECEC',
-            hoverBackgroundColor: '#FFECEC',
-            borderWidth: 2,
-            borderRadius: 2,
-            borderSkipped: 'bottom',
+            data: statistics.map((statisticsItem) => statisticsItem.expenseValue),
+            ...this.getExpenseStyleOptions(),
           },
         ],
       }))
@@ -109,6 +85,30 @@ export class MonthlyStatisticsComponent implements OnInit {
         handler: () => this.chart.chart?.resetZoom(),
       },
     ];
+  }
+
+  private getIncomeStyleOptions(): { [key: string]: string | number } {
+    return {
+      borderColor: '#109279',
+      hoverBorderColor: '#109279',
+      backgroundColor: '#E4FCF7',
+      hoverBackgroundColor: '#E4FCF7',
+      borderWidth: 2,
+      borderRadius: 2,
+      borderSkipped: 'bottom',
+    };
+  }
+
+  private getExpenseStyleOptions(): { [key: string]: string | number } {
+    return {
+      borderColor: '#FF6B69',
+      hoverBorderColor: '#FF6B69',
+      backgroundColor: '#FFECEC',
+      hoverBackgroundColor: '#FFECEC',
+      borderWidth: 2,
+      borderRadius: 2,
+      borderSkipped: 'bottom',
+    };
   }
 
   private getChartOptions(): ChartOptions {

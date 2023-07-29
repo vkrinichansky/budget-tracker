@@ -1,29 +1,16 @@
 import { Injectable } from '@angular/core';
-import {
-  collection,
-  CollectionReference,
-  doc,
-  DocumentData,
-  DocumentReference,
-  Firestore,
-  getDoc,
-} from '@angular/fire/firestore';
+import { collection, doc, Firestore, getDoc } from '@angular/fire/firestore';
 import { BudgetTrackerState } from '@budget-tracker/shared';
 import { Store } from '@ngrx/store';
 import { AuthFacadeService, AuthSelectors } from '@budget-tracker/auth';
-import { filter, firstValueFrom, from, map, mergeMap, Observable, switchMap, tap } from 'rxjs';
+import { filter, firstValueFrom, from, map, Observable, switchMap } from 'rxjs';
 
 @Injectable()
 export class BudgetTrackerService {
   userId$: Observable<string>;
 
-  dataCollection: CollectionReference<DocumentData>;
-
-  docRef: DocumentReference;
-
   constructor(private firestore: Firestore, private store: Store, private authFacade: AuthFacadeService) {
     this.userId$ = this.authFacade.getUserId();
-    this.dataCollection = collection(this.firestore, 'userData');
   }
 
   async initData(): Promise<BudgetTrackerState> {
@@ -31,14 +18,9 @@ export class BudgetTrackerService {
       this.store.select(AuthSelectors.authLoadedSelector).pipe(
         filter((isInitialized) => !!isInitialized),
         switchMap(() => this.userId$),
-        tap((userId) => (this.docRef = doc(this.dataCollection, userId))),
-        mergeMap(() => from(getDoc(this.docRef))),
+        switchMap((userId) => from(getDoc(doc(collection(this.firestore, 'userData'), userId)))),
         map((data) => data.data() as BudgetTrackerState)
       )
     );
-  }
-
-  getDocRef(): DocumentReference {
-    return this.docRef;
   }
 }

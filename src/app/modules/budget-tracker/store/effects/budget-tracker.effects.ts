@@ -24,26 +24,26 @@ export class BudgetTrackerEffects {
       ),
       mergeMap(() => from(this.budgetTrackerService.initData())),
       tap((data) => {
+        const categories = { ...data.budget.categories };
+        const rootValues = { ...data.budget.rootValues };
+        const activityLog = [...data.budget.activityLog];
+
         this.store.dispatch(
           CategoriesActions.categoriesLoaded({
-            expense: data.budget.categories.expense,
-            income: data.budget.categories.income,
+            expense: categories.expense,
+            income: categories.income,
           })
         );
 
         this.store.dispatch(
           RootValuesActions.rootValuesLoaded({
-            balance: data.budget.rootValues.balance,
-            savings: data.budget.rootValues.savings,
-            freeMoney: data.budget.rootValues.freeMoney,
+            balance: rootValues.balance,
+            savings: rootValues.savings,
+            freeMoney: rootValues.freeMoney,
           })
         );
 
-        this.store.dispatch(
-          ActivityLogActions.activityLogLoaded({
-            activityLog: data.budget.activityLog,
-          })
-        );
+        this.store.dispatch(ActivityLogActions.activityLogLoaded({ activityLog }));
       }),
       map((data) => BudgetTrackerActions.dataLoaded({ data }))
     )

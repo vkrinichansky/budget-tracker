@@ -30,4 +30,20 @@
   .flip-card-back {
     transform: rotateY(180deg);
   }
+
+  &::ng-deep {
+    .cdk-virtual-scroll-content-wrapper {
+      @apply flex flex-col w-full h-full overflow-y-auto gap-y-4;
+    }
+
+    cdk-virtual-scroll-viewport.isEmpty {
+      .cdk-virtual-scroll-content-wrapper {
+        @apply items-center justify-center;
+      }
+    }
+
+    .cdk-virtual-scroll-spacer {
+      @apply h-auto #{!important};
+    }
+  }
 }

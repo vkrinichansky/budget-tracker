@@ -20,6 +20,7 @@ import { CustomErrorStateMatcher } from '@budget-tracker/utils';
 import 'hammerjs';
 import 'chartjs-plugin-zoom';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [AppComponent],
@@ -54,6 +55,12 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     AuthCoreModule,
     BrowserAnimationsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
     { provide: ErrorStateMatcher, useClass: CustomErrorStateMatcher },

@@ -27,18 +27,16 @@
       </app-page-header>
     </div>
 
-    <div
-      #list
-      class="flex flex-col w-full h-full overflow-y-auto gap-y-4"
-      [class.justify-center]="isEmpty"
-      [class.items-center]="isEmpty"
-    >
+    <cdk-virtual-scroll-viewport itemSize="50" class="w-full h-full overflow-y-hidden -mr-4" [class.isEmpty]="isEmpty">
       <span *ngIf="isEmpty" class="font-main font-bold text-charcoal text-lg text-center">
         {{ buildTranslationKey('emptyStateText') | translate }}
       </span>
 
-      <app-category-item *ngFor="let category of categories$ | async" [categoryId]="category.id"></app-category-item>
-    </div>
+      <app-category-item
+        *cdkVirtualFor="let category of categories$ | async; trackBy: trackBy"
+        [categoryId]="category.id"
+      ></app-category-item>
+    </cdk-virtual-scroll-viewport>
   </div>
 
   <div class="flip-card-back flex flex-col">

@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
-import { ActivityLogGroupedByDate, ActivityLogRecordType } from '@budget-tracker/shared';
+import { ActivityLogGroupedByDate, ActivityLogRecordType, ActivityLogRecordUnitedType } from '@budget-tracker/shared';
 import { Observable, map } from 'rxjs';
 import { ActivityLogFacadeService } from '../../services';
 
 @Component({
   selector: 'app-activity-log',
   templateUrl: './activity-log.component.html',
+  styleUrls: ['./activity-log.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityLogComponent implements OnInit {
@@ -30,5 +31,13 @@ export class ActivityLogComponent implements OnInit {
 
   buildTranslationKey(key: string): string {
     return `${this.rootTranslationKey}.${key}`;
+  }
+
+  trackByDate(activitiLogGroup: ActivityLogGroupedByDate): string {
+    return activitiLogGroup.date;
+  }
+
+  trackByRecordId(activitiLogRecord: ActivityLogRecordUnitedType): string {
+    return activitiLogRecord.id;
   }
 }

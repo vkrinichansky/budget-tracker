@@ -1,0 +1,11 @@
+:host {
+  &::ng-deep {
+    .cdk-virtual-scroll-content-wrapper {
+      @apply flex flex-col w-full h-full overflow-y-auto gap-y-6;
+    }
+
+    .cdk-virtual-scroll-spacer {
+      @apply h-auto #{!important};
+    }
+  }
+}

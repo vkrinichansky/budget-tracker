@@ -2,7 +2,7 @@
 
 <div
   *ngVar="isEmpty$ | async as isEmpty"
-  class="flex flex-col gap-y-8 overflow-y-auto h-full"
+  class="flex flex-col overflow-y-hidden h-full"
   [class.justify-center]="isEmpty"
   [class.items-center]="isEmpty"
 >
@@ -10,13 +10,13 @@
     {{ buildTranslationKey('emptyStateText') | translate }}
   </span>
 
-  <ng-container *ngIf="!isEmpty">
-    <div *ngFor="let day of activityLog$ | async" class="flex flex-col gap-6 relative">
-      <span [style.top.px]="'-0.1'" class="flex font-main text-grey text-sm sticky bg-white py-0.5 z-10 font-semibold">
+  <cdk-virtual-scroll-viewport *ngIf="!isEmpty" itemSize="70" class="w-full h-full overflow-y-hidden">
+    <div *cdkVirtualFor="let day of activityLog$ | async; trackBy: trackByDate" class="flex flex-col gap-y-4 relative">
+      <span [style.top.px]="'-0.1'" class="flex font-main text-grey text-sm sticky bg-white py-0.5 z-10 font-bold">
         {{ day.date }}
       </span>
 
-      <ng-container *ngFor="let record of day.records">
+      <ng-container *ngFor="let record of day.records; trackBy: trackByRecordId">
         <ng-container [ngSwitch]="record.recordType">
           <app-root-value-change-record *ngSwitchCase="recordType.RootValueChange" [record]="record">
           </app-root-value-change-record>
@@ -34,5 +34,5 @@
         </ng-container>
       </ng-container>
     </div>
-  </ng-container>
+  </cdk-virtual-scroll-viewport>
 </div>
