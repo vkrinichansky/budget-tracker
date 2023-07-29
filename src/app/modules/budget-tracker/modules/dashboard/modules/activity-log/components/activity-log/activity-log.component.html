@@ -10,7 +10,7 @@
     {{ buildTranslationKey('emptyStateText') | translate }}
   </span>
 
-  <div *ngIf="!isEmpty" class="w-full h-full flex flex-col gap-y-6 overflow-y-auto">
+  <div *ngIf="!isEmpty" class="w-full h-full flex flex-col gap-y-6 overflow-y-auto scroll-smooth">
     <div *ngFor="let day of activityLog$ | async; trackBy: trackByDate" class="flex flex-col gap-y-4 relative">
       <span [style.top.px]="'-0.1'" class="flex font-main text-grey text-sm sticky bg-white py-0.5 z-10 font-bold">
         {{ day.date }}

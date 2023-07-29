@@ -21,7 +21,6 @@ import { categoriesFeature } from './store/reducers';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { CategoriesEffects } from './store/effects';
-import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [CategoriesComponent, AddCategoryModalComponent, CategoryItemComponent, CategoryValueModalComponent],
@@ -40,7 +39,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     NgChartsModule,
     StoreModule.forFeature(categoriesFeature),
     EffectsModule.forFeature([CategoriesEffects]),
-    ScrollingModule,
   ],
   providers: [CategoryModalsService, CategoriesFacadeService, CategoriesService],
   exports: [CategoriesComponent],
