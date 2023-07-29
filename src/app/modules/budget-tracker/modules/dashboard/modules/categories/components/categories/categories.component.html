@@ -27,7 +27,7 @@
       </app-page-header>
     </div>
 
-    <cdk-virtual-scroll-viewport itemSize="50" class="w-full h-full overflow-y-hidden -mr-4" [class.isEmpty]="isEmpty">
+    <cdk-virtual-scroll-viewport itemSize="48" class="w-full h-full overflow-y-hidden -mr-4" [class.isEmpty]="isEmpty">
       <span *ngIf="isEmpty" class="font-main font-bold text-charcoal text-lg text-center">
         {{ buildTranslationKey('emptyStateText') | translate }}
       </span>

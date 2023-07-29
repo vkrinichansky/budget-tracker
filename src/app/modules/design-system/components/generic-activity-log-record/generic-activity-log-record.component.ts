@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
 @Component({
   selector: 'app-generic-activity-log-record',
   templateUrl: './generic-activity-log-record.component.html',
-  styleUrls: ['./generic-activity-log-record.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GenericActivityLogRecordComponent {
