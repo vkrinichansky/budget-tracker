@@ -4,7 +4,7 @@
 
   .info-cards,
   .main-cards {
-    @apply flex overflow-x-scroll scroll-smooth;
+    @apply flex overflow-x-scroll scroll-smooth -mx-6 px-6;
     scroll-snap-type: x mandatory;
 
     &::-webkit-scrollbar {
@@ -16,7 +16,7 @@
     }
 
     .card {
-      scroll-snap-align: start;
+      scroll-snap-align: center;
     }
   }
 
@@ -40,10 +40,6 @@
       .card {
         flex: 0 0 100%;
       }
-    }
-
-    app-page-header {
-      @apply sticky top-0 z-10;
     }
   }
 }

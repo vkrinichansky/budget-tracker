@@ -38,7 +38,7 @@
 
     cdk-virtual-scroll-viewport.isEmpty {
       .cdk-virtual-scroll-content-wrapper {
-        @apply items-center justify-center;
+        @apply items-center justify-center h-full;
       }
     }
   }
