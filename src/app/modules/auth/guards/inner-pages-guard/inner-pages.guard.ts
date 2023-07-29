@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { AuthService } from '../../services';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
-export class SecureInnerPagesGuard implements CanActivate {
+export class SecureInnerPagesGuard  {
   constructor(public authService: AuthService, public router: Router) {}
   canActivate(): Observable<boolean> {
     return this.authService.isLoggedIn().pipe(

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+
 import { BudgetTrackerFacadeService } from '../../services';
 
 @Injectable()
-export class InitDataGuard implements CanActivate {
+export class InitDataGuard  {
   constructor(private budgetTrackerFacade: BudgetTrackerFacadeService) {}
 
   async canActivate(): Promise<boolean> {

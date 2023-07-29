@@ -41,5 +41,9 @@
         @apply items-center justify-center;
       }
     }
+
+    .cdk-virtual-scroll-spacer {
+      @apply h-auto #{!important};
+    }
   }
 }
