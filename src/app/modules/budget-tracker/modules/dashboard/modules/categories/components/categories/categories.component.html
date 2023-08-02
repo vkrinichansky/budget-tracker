@@ -36,10 +36,7 @@
         {{ buildTranslationKey('emptyStateText') | translate }}
       </span>
 
-      <app-category-item
-        *ngFor="let category of categories$ | async; trackBy: trackBy"
-        [categoryId]="category.id"
-      ></app-category-item>
+      <app-category-item *ngFor="let category of categories$ | async" [categoryId]="category.id"></app-category-item>
     </div>
   </div>
 
