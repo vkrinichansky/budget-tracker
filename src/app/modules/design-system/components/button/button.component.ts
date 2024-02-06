@@ -34,7 +34,7 @@ export class ButtonComponent {
   iconName: string;
 
   @Input()
-  colorScheme: ColorScheme = ColorScheme.TransparentDark;
+  colorScheme: ColorScheme = 'transparent-dark';
 
   @Input()
   align: 'center' | 'start' = 'center';

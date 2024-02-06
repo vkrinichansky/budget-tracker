@@ -6,14 +6,13 @@ import { Observable, map } from 'rxjs';
 @Component({
   selector: 'app-activity-log',
   templateUrl: './activity-log.component.html',
-  styleUrls: ['./activity-log.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityLogComponent implements OnInit {
   private readonly rootTranslationKey = 'dashboard.activityLog';
 
   @HostBinding('class')
-  private readonly classes = 'flex flex-col w-full h-full bg-white rounded-lg p-7 gap-7 overflow-hidden';
+  private readonly classes = 'flex flex-col w-full h-full bg-white rounded-lg p-5 gap-7 overflow-hidden';
 
   readonly recordType = ActivityLogRecordType;
 
@@ -33,11 +32,11 @@ export class ActivityLogComponent implements OnInit {
     return `${this.rootTranslationKey}.${key}`;
   }
 
-  trackByDate(activitiLogGroup: ActivityLogGroupedByDate): string {
+  trackByDate(index: number, activitiLogGroup: ActivityLogGroupedByDate): string {
     return activitiLogGroup.date;
   }
 
-  trackByRecordId(activitiLogRecord: ActivityLogRecordUnitedType): string {
+  trackByRecordId(index: number, activitiLogRecord: ActivityLogRecordUnitedType): string {
     return activitiLogRecord.id;
   }
 }

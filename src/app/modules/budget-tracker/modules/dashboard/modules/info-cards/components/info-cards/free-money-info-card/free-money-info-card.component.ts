@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { RootValuesFacadeService } from '@budget-tracker/data';
-import { InfoCardColorScheme, MenuAction } from '@budget-tracker/design-system';
+import { MenuAction } from '@budget-tracker/design-system';
 import { map, Observable } from 'rxjs';
 import { InfoCardValueModalService } from '../../../services';
 
@@ -11,8 +11,6 @@ import { InfoCardValueModalService } from '../../../services';
 })
 export class FreeMoneyInfoCardComponent implements OnInit {
   private readonly rootTranslationKey = 'dashboard.infoCards.freeMoney';
-
-  readonly colorScheme = InfoCardColorScheme;
 
   freeMoney$: Observable<number>;
 

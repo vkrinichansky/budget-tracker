@@ -8,7 +8,7 @@ import { ColorScheme, MenuAction } from '../../models';
 })
 export class MenuComponent {
   @Input()
-  colorScheme: ColorScheme = ColorScheme.TransparentDark;
+  colorScheme: ColorScheme = 'transparent-dark';
 
   @Input()
   menuActions: MenuAction[];
