@@ -3,8 +3,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable, takeUntil, filter } from 'rxjs';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
-import { CategoriesFacadeService } from '../../services';
 import { CategoryValueModalData } from '../../models';
+import { CategoriesFacadeService } from '@budget-tracker/data';
 
 enum FormFields {
   ValueToAdd = 'valueToAdd',

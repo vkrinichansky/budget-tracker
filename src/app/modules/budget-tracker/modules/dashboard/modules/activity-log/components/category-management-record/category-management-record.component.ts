@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CategoryManagementActionType, CategoryManagementRecord } from '@budget-tracker/shared';
+import { CategoryManagementActionType, CategoryManagementRecord } from '@budget-tracker/data';
 
 @Component({
   selector: 'app-category-management-record',

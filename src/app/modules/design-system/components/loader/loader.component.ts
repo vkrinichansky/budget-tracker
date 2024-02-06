@@ -1,10 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 
-enum LoaderType {
-  Button = 'button-loader',
-  Main = 'main-loader',
-}
-
 @Component({
   selector: 'app-loader',
   templateUrl: './loader.component.html',
@@ -13,7 +8,7 @@ enum LoaderType {
 })
 export class LoaderComponent {
   @Input()
-  size: LoaderType = LoaderType.Button;
+  size: 'main-loader' | 'button-loader' = 'button-loader';
 
   @Input()
   colorMode: 'dark' | 'light' = 'light';

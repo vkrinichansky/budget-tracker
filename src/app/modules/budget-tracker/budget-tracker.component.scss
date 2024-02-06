@@ -1,5 +1,5 @@
 :host {
-  @apply flex h-full;
+  @apply flex h-full relative;
 
   @media (max-width: 480px) {
     @apply flex-col-reverse;

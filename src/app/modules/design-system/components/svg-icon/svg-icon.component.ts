@@ -1,11 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 
-enum IconSize {
-  Small = 'small',
-  Medium = 'medium',
-  Big = 'big',
-  Auto = 'auto',
-}
+type IconSize = 'small' | 'medium' | 'big' | 'auto';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -20,5 +15,5 @@ export class SvgIconComponent {
 
   @HostBinding('class')
   @Input()
-  size: IconSize = IconSize.Medium;
+  size: IconSize = 'medium';
 }

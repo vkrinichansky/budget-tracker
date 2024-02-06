@@ -7,10 +7,19 @@ import { NavigationBarItemComponent } from './components/navigation-bar-item/nav
 import { RouterModule } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
+import { DataModule } from '@budget-tracker/data';
 
 @NgModule({
   declarations: [NavigationBarComponent, NavigationBarItemComponent],
-  imports: [CommonModule, DesignSystemModule, AuthCoreModule, RouterModule, MatTooltipModule, TranslateModule],
+  imports: [
+    CommonModule,
+    DesignSystemModule,
+    AuthCoreModule,
+    RouterModule,
+    MatTooltipModule,
+    TranslateModule,
+    DataModule,
+  ],
   exports: [NavigationBarComponent],
 })
 export class NavigationBarModule {}

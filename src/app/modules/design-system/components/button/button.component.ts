@@ -2,14 +2,7 @@ import { ElementRef, HostBinding, ViewChild } from '@angular/core';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ColorScheme } from '../../models';
 
-enum ButtonSize {
-  Small = 'small',
-  Medium = 'medium',
-  Big = 'big',
-  Large = 'large',
-  Full = 'full',
-  Auto = 'auto',
-}
+type ButtonSize = 'small' | 'medium' | 'big' | 'large' | 'full' | 'auto';
 
 @Component({
   selector: 'app-button',
@@ -32,7 +25,7 @@ export class ButtonComponent {
   }
 
   @Input()
-  buttonSize: ButtonSize = ButtonSize.Small;
+  buttonSize: ButtonSize = 'small';
 
   @Input()
   text = '';

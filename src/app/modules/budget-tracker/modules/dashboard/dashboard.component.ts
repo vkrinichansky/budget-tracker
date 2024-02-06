@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { BudgetType } from '@budget-tracker/shared';
+import { BudgetType } from '@budget-tracker/data';
 
 @Component({
   selector: 'app-dashboard',

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { User as FirebaseUser } from '@angular/fire/auth';
 import { NavigatorService, SnackbarHandlerService } from '@budget-tracker/shared';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { UserCredential } from 'firebase/auth';
 import { catchError, filter, of, take } from 'rxjs';
 import { from, map, mergeMap } from 'rxjs';
 import { User } from '../../models';

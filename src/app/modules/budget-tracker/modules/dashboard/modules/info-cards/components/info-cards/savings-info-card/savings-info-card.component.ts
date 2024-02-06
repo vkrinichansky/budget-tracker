@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { InfoCardColorScheme, MenuAction } from '@budget-tracker/design-system';
 import { TranslateService } from '@ngx-translate/core';
 import { map, Observable } from 'rxjs';
-import { InfoCardValueModalService, RootValuesFacadeService } from '../../../services';
+import { InfoCardValueModalService } from '../../../services';
+import { RootValuesFacadeService } from '@budget-tracker/data';
 
 @Component({
   selector: 'app-savings-info-card',

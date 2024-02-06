@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CategoriesResetRecord } from '@budget-tracker/shared';
+import { CategoriesResetRecord } from '@budget-tracker/data';
 
 @Component({
   selector: 'app-categories-reset-record',

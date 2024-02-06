@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
 import { filter, Observable, takeUntil, tap } from 'rxjs';
 import { InfoCardMenuActionsType, InfoCardValueModalData, InfoCardValueToEdit } from '../../models';
-import { RootValuesFacadeService } from '../../services';
+import { RootValuesFacadeService } from '@budget-tracker/data';
 
 enum FormFields {
   Value = 'value',

@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { BudgetType, Category } from '@budget-tracker/shared';
+import { BudgetType, Category } from '@budget-tracker/data';
 import { BehaviorSubject, Observable, combineLatest, map } from 'rxjs';
 import { ChartData, ChartOptions } from 'chart.js';
-import { CategoriesFacadeService, CategoryModalsService } from '../../services';
+import { CategoryModalsService } from '../../services';
 import { ChartJSTooltipConfig, doughnutChartPalette } from '@budget-tracker/design-system';
+import { CategoriesFacadeService } from '@budget-tracker/data';
 
 @Component({
   selector: 'app-categories',

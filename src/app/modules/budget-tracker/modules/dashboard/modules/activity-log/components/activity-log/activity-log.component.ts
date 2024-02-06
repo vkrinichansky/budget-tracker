@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
-import { ActivityLogGroupedByDate, ActivityLogRecordType, ActivityLogRecordUnitedType } from '@budget-tracker/shared';
+import { ActivityLogFacadeService } from '@budget-tracker/data';
+import { ActivityLogGroupedByDate, ActivityLogRecordType, ActivityLogRecordUnitedType } from '@budget-tracker/data';
 import { Observable, map } from 'rxjs';
-import { ActivityLogFacadeService } from '../../services';
 
 @Component({
   selector: 'app-activity-log',

@@ -8,17 +8,14 @@ import {
   FreeMoneyInfoCardComponent,
   InfoCardValueModalComponent,
 } from './components';
-import { InfoCardValueModalService, RootValuesFacadeService, RootValuesService } from './services';
+import { InfoCardValueModalService } from './services';
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
-import { rootValuesFeature } from './store/reducers';
-import { RootValuesEffects } from './store/effects';
+import { DataModule } from '@budget-tracker/data';
 
 @NgModule({
   declarations: [
@@ -38,8 +35,7 @@ import { RootValuesEffects } from './store/effects';
     MatFormFieldModule,
     MatDialogModule,
     MatInputModule,
-    StoreModule.forFeature(rootValuesFeature),
-    EffectsModule.forFeature([RootValuesEffects]),
+    DataModule,
   ],
   exports: [
     IncomeInfoCardComponent,
@@ -48,6 +44,6 @@ import { RootValuesEffects } from './store/effects';
     SavingsInfoCardComponent,
     FreeMoneyInfoCardComponent,
   ],
-  providers: [InfoCardValueModalService, RootValuesService, RootValuesFacadeService],
+  providers: [InfoCardValueModalService],
 })
 export class InfoCardsModule {}

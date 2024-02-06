@@ -1,14 +1,14 @@
 import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { BudgetType, Category } from '@budget-tracker/shared';
+import { BudgetType, Category } from '@budget-tracker/data';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { v4 as uuid } from 'uuid';
 import { Observable, combineLatest, filter, map, takeUntil, tap } from 'rxjs';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
-import { CategoriesFacadeService } from '../../services';
 import { AddCategoryModalData, CategoryIconForSelect, PredefinedCategoryIcons } from '../../models';
+import { CategoriesFacadeService } from '@budget-tracker/data';
 
 enum FormFields {
   CategoryIcon = 'categoryIcon',
@@ -45,11 +45,11 @@ export class AddCategoryModalComponent implements OnInit {
 
   success$: Observable<boolean>;
 
-  get selectedIcon(): boolean {
+  get selectedIcon(): string {
     return this.form.controls[FormFields.CategoryIcon].value?.icon;
   }
 
-  get selectedIconTitle(): boolean {
+  get selectedIconTitle(): string {
     return this.form.controls[FormFields.CategoryIcon].value?.textTranslationKey;
   }
 

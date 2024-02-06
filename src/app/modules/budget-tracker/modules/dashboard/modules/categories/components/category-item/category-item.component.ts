@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
-import { Category, CurrencyService } from '@budget-tracker/shared';
+import { CurrencyService } from '@budget-tracker/shared';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
 import { Observable, takeUntil } from 'rxjs';
-import { CategoriesFacadeService, CategoryModalsService } from '../../services';
+import { CategoryModalsService } from '../../services';
+import { CategoriesFacadeService, Category } from '@budget-tracker/data';
 
 @Component({
   selector: 'app-category-item',
