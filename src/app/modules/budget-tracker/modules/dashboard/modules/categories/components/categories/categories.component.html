@@ -36,7 +36,11 @@
         {{ buildTranslationKey('emptyStateText') | translate }}
       </span>
 
-      <app-category-item *ngFor="let category of categories$ | async" [categoryId]="category.id"></app-category-item>
+      <cdk-virtual-scroll-viewport *ngIf="!isEmpty" itemSize="48" class="h-full">
+        <div *cdkVirtualFor="let category of categories$ | async" class="h-15 flex items-start">
+          <app-category-item class="w-full" [categoryId]="category.id"></app-category-item>
+        </div>
+      </cdk-virtual-scroll-viewport>
     </div>
   </div>
 
