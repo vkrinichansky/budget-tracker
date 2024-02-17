@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
-import { ColorScheme, InfoCardColorScheme, MenuAction } from '../../models';
+import { ColorScheme, BgColorScheme, MenuAction } from '../../models';
 import { CurrencyService } from '@budget-tracker/shared';
 import { Observable } from 'rxjs';
 
@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 export class InfoCardComponent implements OnInit {
   @HostBinding('class')
   @Input()
-  colorScheme: InfoCardColorScheme = 'white';
+  colorScheme: BgColorScheme = 'white';
 
   @Input()
   primaryText: string | number;

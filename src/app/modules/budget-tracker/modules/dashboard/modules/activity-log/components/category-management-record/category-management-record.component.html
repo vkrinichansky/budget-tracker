@@ -2,11 +2,20 @@
   <ng-container [ngSwitch]="record.actionType">
     <ng-container *ngSwitchCase="actionType.Add">
       <span
-        [innerHTML]="
+        *ngVar="
           buildTranslationKey('categoryAdded.budgetType.' + record.budgetType)
-            | translate : { categoryName: record.categoryName }
+            | translate : { categoryName: record.categoryName } as content
         "
-      ></span>
+        class="block truncate"
+        [innerHTML]="content"
+        customTooltip
+        [contentTemplate]="template"
+        [showTooltipOnlyOnOverflow]="true"
+      >
+        <ng-template #template>
+          <span [innerHTML]="content"></span>
+        </ng-template>
+      </span>
     </ng-container>
     <ng-container *ngSwitchCase="actionType.Remove">
       <span
@@ -18,3 +27,10 @@
     </ng-container>
   </ng-container>
 </app-generic-activity-log-record>
+
+<ng-template #template>
+  {{
+    buildTranslationKey('categoryAdded.budgetType.' + record.budgetType)
+      | translate : { categoryName: record.categoryName }
+  }}
+</ng-template>

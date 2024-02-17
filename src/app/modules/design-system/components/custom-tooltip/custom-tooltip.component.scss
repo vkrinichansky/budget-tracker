@@ -1,0 +1,28 @@
+:host {
+  @apply rounded py-1 px-2 max-w-64 relative;
+
+  &::before {
+    @apply block absolute border-8 border-solid border-dark-green -z-10;
+    content: '';
+  }
+
+  &.top::before {
+    @apply bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 rounded-bl-sm -rotate-45;
+  }
+
+  &.bottom::before {
+    @apply top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-tl-sm rotate-45;
+  }
+
+  &.left::before {
+    @apply top-1/2 right-0 translate-x-1/2 -translate-y-1/2 rounded-tr-sm rotate-45;
+  }
+
+  &.right::before {
+    @apply top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 rounded-tl-sm -rotate-45;
+  }
+
+  &.green {
+    @apply bg-dark-green text-white;
+  }
+}

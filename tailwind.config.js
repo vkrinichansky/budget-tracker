@@ -64,6 +64,9 @@ module.exports = {
       spacing: {
         ...convertPixelsIntoRems(60), // 60px,
       },
+      maxWidth: {
+        ...convertPixelsIntoRems(256), // 256px,
+      },
     },
   },
 };

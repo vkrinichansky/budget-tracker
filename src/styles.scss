@@ -14,10 +14,6 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-.truncate {
-  @apply overflow-hidden overflow-ellipsis whitespace-nowrap;
-}
-
 // SNACKBAR
 .mat-mdc-snack-bar-container {
   .mdc-snackbar__surface {

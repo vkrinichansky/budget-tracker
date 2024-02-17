@@ -11,6 +11,7 @@ import {
   InfoIconComponent,
   MenuComponent,
   GenericActivityLogRecordComponent,
+  CustomTooltipComponent,
 } from './components';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -18,6 +19,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmationModalService } from './services';
 import { UtilsModule } from '@budget-tracker/utils';
+import { TooltipRendererDirective } from './directives';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { UtilsModule } from '@budget-tracker/utils';
     ConfirmationModalComponent,
     InfoIconComponent,
     GenericActivityLogRecordComponent,
+    CustomTooltipComponent,
+    TooltipRendererDirective,
   ],
   imports: [CommonModule, MatMenuModule, MatTooltipModule, MatDialogModule, TranslateModule, UtilsModule],
   exports: [
@@ -43,6 +47,7 @@ import { UtilsModule } from '@budget-tracker/utils';
     MenuComponent,
     InfoIconComponent,
     GenericActivityLogRecordComponent,
+    TooltipRendererDirective,
   ],
   providers: [ConfirmationModalService],
 })
