@@ -91,11 +91,17 @@
         }
       },
       "categoryManagementRecord": {
-        "categoryAdded": "<b>{{ categoryName }}</b> was added to ",
-        "categoryRemoved": "<b>{{ categoryName }}</b> was removed from ",
-        "budgetType": {
-          "income": "<b>income</b>",
-          "expense": "<b>expense<b>"
+        "categoryAdded": {
+          "budgetType": {
+            "income": "<b>{{ categoryName }}</b> was added to <b>income</b>",
+            "expense": "<b>{{ categoryName }}</b> was added to <b>expense<b>"
+          }
+        },
+        "categoryRemoved": {
+          "budgetType": {
+            "income": "<b>{{ categoryName }}</b> was removed from <b>income</b>",
+            "expense": "<b>{{ categoryName }}</b> was removed from <b>expense<b>"
+          }
         }
       },
 

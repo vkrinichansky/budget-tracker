@@ -91,14 +91,19 @@
         }
       },
       "categoryManagementRecord": {
-        "categoryAdded": "<b>{{ categoryName }}</b> було додано до ",
-        "categoryRemoved": "<b>{{ categoryName }}</b> було видалено з ",
-        "budgetType": {
-          "income": "<b>доходів</b>",
-          "expense": "<b>витрат<b>"
+        "categoryAdded": {
+          "budgetType": {
+            "income": "<b>{{ categoryName }}</b> було додано до <b>доходів</b>",
+            "expense": "<b>{{ categoryName }}</b> було додано до <b>витрат<b>"
+          }
+        },
+        "categoryRemoved": {
+          "budgetType": {
+            "income": "<b>{{ categoryName }}</b> було видалено з <b>доходів</b>",
+            "expense": "<b>{{ categoryName }}</b> було видалено з <b>витрат<b>"
+          }
         }
       },
-
       "categoriesResetRecord": {
         "income": "Категорії <b>доходів</b> було скинуто",
         "expense": "Категорії <b>витрат</b> було скинуто"
