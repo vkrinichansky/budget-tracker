@@ -118,7 +118,7 @@ textarea {
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-dark-green border-4 border-solid border-transparent rounded-full bg-clip-padding;
+  @apply bg-hover-black border-4 border-solid border-transparent rounded-full bg-clip-padding;
 }
 
 // SELECT

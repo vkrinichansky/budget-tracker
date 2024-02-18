@@ -1,4 +1,4 @@
-import { ElementRef, HostBinding, ViewChild } from '@angular/core';
+import { HostBinding } from '@angular/core';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ColorScheme } from '../../models';
 
@@ -21,7 +21,7 @@ export class ButtonComponent {
 
   @HostBinding('class')
   private get classes(): string {
-    return `block rounded overflow-hidden ${this.buttonSize} ${this.colorScheme} ${this.align}`;
+    return `flex rounded overflow-hidden ${this.buttonSize} ${this.colorScheme} ${this.align}`;
   }
 
   @Input()
@@ -38,15 +38,4 @@ export class ButtonComponent {
 
   @Input()
   align: 'center' | 'start' = 'center';
-
-  @ViewChild('textElement')
-  textElement: ElementRef;
-
-  isOverflowed = false;
-
-  setIsOverflowed(): void {
-    if (this.text) {
-      this.isOverflowed = this.textElement.nativeElement.offsetWidth < this.textElement.nativeElement.scrollWidth;
-    }
-  }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, TemplateRef, ChangeDetectionStrategy, HostBinding } from '@angular/core';
-import { BgColorScheme } from '../../models';
+import { BgColorScheme, TooltipPosition } from '../../models';
 
 /**
  * This component will be used to show custom tooltip
@@ -26,7 +26,7 @@ export class CustomTooltipComponent {
   /**
    * This is simple text which is to be shown in the tooltip
    */
-  @Input() text: string;
+  @Input() tooltipText: string;
 
   /**
    * This provides finer control on the content to be visible on the tooltip
@@ -35,13 +35,13 @@ export class CustomTooltipComponent {
    *  content.....
    * </ng-template>
    */
-  @Input() contentTemplate: TemplateRef<any>;
+  @Input() tooltipTemplate: TemplateRef<any>;
 
   @Input()
   tooltipBgColor: BgColorScheme = 'green';
 
   @Input()
-  position = 'top';
+  position: TooltipPosition = 'top';
 
   @HostBinding('class')
   private get classes(): string {

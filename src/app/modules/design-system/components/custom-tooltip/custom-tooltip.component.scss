@@ -2,7 +2,7 @@
   @apply rounded py-1 px-2 max-w-64 relative;
 
   &::before {
-    @apply block absolute border-8 border-solid border-dark-green -z-10;
+    @apply block absolute border-8 border-solid  -z-10;
     content: '';
   }
 
@@ -24,5 +24,17 @@
 
   &.green {
     @apply bg-dark-green text-white;
+
+    &::before {
+      @apply border-dark-green;
+    }
+  }
+
+  &.charcoal {
+    @apply bg-charcoal text-white;
+
+    &::before {
+      @apply border-charcoal;
+    }
   }
 }

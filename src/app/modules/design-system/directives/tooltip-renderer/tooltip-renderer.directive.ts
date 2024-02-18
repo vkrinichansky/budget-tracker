@@ -1,11 +1,9 @@
 import { Directive, Input, TemplateRef, ElementRef, HostListener, ComponentRef, OnDestroy } from '@angular/core';
 import { ConnectedPosition, Overlay, OverlayPositionBuilder, OverlayRef } from '@angular/cdk/overlay';
 import { CustomTooltipComponent } from '../../components';
-import { BgColorScheme } from '../../models';
+import { BgColorScheme, TooltipPosition } from '../../models';
 
 import { ComponentPortal } from '@angular/cdk/portal';
-
-type TooltipPosition = 'top' | 'bottom' | 'left' | 'right';
 
 const positionMapping: { [key: string]: ConnectedPosition } = {
   top: {
@@ -56,21 +54,40 @@ export class TooltipRendererDirective implements OnDestroy {
   showTooltipOnlyOnOverflow = false;
 
   @Input()
-  tooltipBgColor: BgColorScheme = 'green';
+  tooltipBgColor: BgColorScheme = 'charcoal';
 
   @Input()
   position: TooltipPosition = 'top';
 
   //If this is specified then specified text will be showin in the tooltip
   @Input()
-  text: string;
+  tooltipText: string;
 
   //If this is specified then specified template will be rendered in the tooltip
   @Input()
-  contentTemplate: TemplateRef<any>;
+  tooltipTemplate: TemplateRef<any>;
+
+  @Input()
+  childElementId: string;
 
   private get isOverflow(): boolean {
-    return this._elementRef.nativeElement.offsetWidth < this._elementRef.nativeElement.scrollWidth;
+    const element = this.elementToCheck;
+
+    return element.offsetWidth < element.scrollWidth;
+  }
+
+  private get elementToCheck(): any {
+    if (this.childElementId) {
+      const childElement = this._elementRef.nativeElement.querySelector(`#${this.childElementId}`);
+
+      if (childElement) {
+        return childElement;
+      }
+
+      return this._elementRef.nativeElement;
+    }
+
+    return this._elementRef.nativeElement;
   }
 
   constructor(
@@ -105,7 +122,7 @@ export class TooltipRendererDirective implements OnDestroy {
       return;
     }
 
-    if (this.text || this.contentTemplate) {
+    if (this.tooltipText || this.tooltipTemplate) {
       const positionStrategy = this._overlayPositionBuilder.flexibleConnectedTo(this._elementRef).withPositions([
         {
           ...positionMapping[this.position],
@@ -119,8 +136,8 @@ export class TooltipRendererDirective implements OnDestroy {
         const tooltipRef: ComponentRef<CustomTooltipComponent> = this._overlayRef.attach(
           new ComponentPortal(CustomTooltipComponent)
         );
-        tooltipRef.instance.text = this.text;
-        tooltipRef.instance.contentTemplate = this.contentTemplate;
+        tooltipRef.instance.tooltipText = this.tooltipText;
+        tooltipRef.instance.tooltipTemplate = this.tooltipTemplate;
         tooltipRef.instance.tooltipBgColor = this.tooltipBgColor;
         tooltipRef.instance.position = this.position;
       }
