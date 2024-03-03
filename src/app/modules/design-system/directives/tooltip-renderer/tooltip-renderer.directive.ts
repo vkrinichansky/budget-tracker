@@ -70,6 +70,12 @@ export class TooltipRendererDirective implements OnDestroy {
   @Input()
   childElementId: string;
 
+  @Input()
+  dontDisplayOnScreenWidth = false;
+
+  @Input()
+  screenWidth = 768;
+
   private get isOverflow(): boolean {
     const element = this.elementToCheck;
 
@@ -114,6 +120,10 @@ export class TooltipRendererDirective implements OnDestroy {
    */
   @HostListener('mouseenter')
   private show() {
+    if (this.dontDisplayOnScreenWidth && window.screen.width <= this.screenWidth) {
+      return;
+    }
+
     if (!this.showTooltip) {
       return;
     }
