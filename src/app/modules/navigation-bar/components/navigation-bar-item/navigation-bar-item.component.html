@@ -1,8 +1,11 @@
 <a class="link" [routerLink]="item.routerLink" [routerLinkActive]="'active'" #routerLinkActive="routerLinkActive">
   <app-button
+    customTooltip
+    [tooltipText]="item.tooltipTranslationKey | translate"
+    [position]="'right'"
+    [tooltipBgColor]="'green'"
     [iconName]="item.iconName"
     [colorScheme]="routerLinkActive.isActive ? 'active-navigation-item' : 'transparent-light'"
-    [matTooltip]="item.tooltipTranslationKey | translate"
-    [matTooltipPosition]="'right'"
+    [buttonSizeY]="'small'"
   ></app-button>
 </a>

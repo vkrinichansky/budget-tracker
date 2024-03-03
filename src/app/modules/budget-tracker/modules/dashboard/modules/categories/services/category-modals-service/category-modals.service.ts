@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddCategoryModalData, CategoryValueModalData } from '../../models';
-import { BudgetType } from '@budget-tracker/shared';
+import { BudgetType } from '@budget-tracker/data';
 import { AddCategoryModalComponent, CategoryValueModalComponent } from '../../components';
 
 @Injectable()

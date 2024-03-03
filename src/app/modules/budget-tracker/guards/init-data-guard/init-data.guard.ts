@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-
-import { BudgetTrackerFacadeService } from '../../services';
+import { DataInitFacadeService } from '@budget-tracker/data';
 
 @Injectable()
-export class InitDataGuard  {
-  constructor(private budgetTrackerFacade: BudgetTrackerFacadeService) {}
+export class InitDataGuard {
+  constructor(private dataInitFacade: DataInitFacadeService) {}
 
   async canActivate(): Promise<boolean> {
-    this.budgetTrackerFacade.initData();
+    this.dataInitFacade.initData();
     return true;
   }
 }

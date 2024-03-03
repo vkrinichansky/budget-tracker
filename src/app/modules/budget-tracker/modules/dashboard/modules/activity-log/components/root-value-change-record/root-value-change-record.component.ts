@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { CurrencyService, RootValueActionType, RootValueChangeRecord } from '@budget-tracker/shared';
+import { RootValueActionType, RootValueChangeRecord } from '@budget-tracker/data';
+import { CurrencyService } from '@budget-tracker/shared';
 import { Observable } from 'rxjs';
 
 @Component({

@@ -1,13 +1,3 @@
-export enum ColorScheme {
-  Charcoal = 'charcoal',
-  Green = 'green',
-  TransparentLight = 'transparent-light',
-  TransparentDark = 'transparent-dark',
-  ActiveNavigationItem = 'active-navigation-item',
-}
+export type ColorScheme = 'charcoal' | 'green' | 'transparent-light' | 'transparent-dark' | 'active-navigation-item';
 
-export enum InfoCardColorScheme {
-  White = 'white',
-  Green = 'green',
-  Charcoal = 'charcoal',
-}
+export type BgColorScheme = 'white' | 'green' | 'charcoal';

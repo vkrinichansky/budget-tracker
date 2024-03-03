@@ -1,15 +1,8 @@
-import { ElementRef, HostBinding, ViewChild } from '@angular/core';
+import { HostBinding } from '@angular/core';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ColorScheme } from '../../models';
 
-enum ButtonSize {
-  Small = 'small',
-  Medium = 'medium',
-  Big = 'big',
-  Large = 'large',
-  Full = 'full',
-  Auto = 'auto',
-}
+type ButtonSize = 'tiny' | 'small' | 'medium' | 'big' | 'large' | 'full' | 'auto';
 
 @Component({
   selector: 'app-button',
@@ -26,13 +19,26 @@ export class ButtonComponent {
   @Input()
   disabled: boolean;
 
+  // it means that button related option was selected and button becomes unclickable (not same as disabled, another color scheme)
+  @HostBinding('class.active')
+  @Input()
+  active = false;
+
+  @Input()
+  activeColorScheme: ColorScheme = 'green';
+
   @HostBinding('class')
   private get classes(): string {
-    return `block rounded overflow-hidden ${this.buttonSize} ${this.colorScheme} ${this.align}`;
+    return `flex rounded overflow-hidden ${this.buttonSizeX}-x ${this.buttonSizeY}-y ${this.colorScheme} ${
+      this.active ? 'active-' + this.activeColorScheme : ''
+    } ${this.align}`;
   }
 
   @Input()
-  buttonSize: ButtonSize = ButtonSize.Small;
+  buttonSizeX: ButtonSize = 'small';
+
+  @Input()
+  buttonSizeY: ButtonSize = 'medium';
 
   @Input()
   text = '';
@@ -41,19 +47,8 @@ export class ButtonComponent {
   iconName: string;
 
   @Input()
-  colorScheme: ColorScheme = ColorScheme.TransparentDark;
+  colorScheme: ColorScheme = 'transparent-dark';
 
   @Input()
   align: 'center' | 'start' = 'center';
-
-  @ViewChild('textElement')
-  textElement: ElementRef;
-
-  isOverflowed = false;
-
-  setIsOverflowed(): void {
-    if (this.text) {
-      this.isOverflowed = this.textElement.nativeElement.offsetWidth < this.textElement.nativeElement.scrollWidth;
-    }
-  }
 }

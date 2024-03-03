@@ -12,7 +12,7 @@ import {
 } from '@angular/fire/auth';
 import { setPersistence, browserLocalPersistence } from '@firebase/auth';
 import { map, Observable } from 'rxjs';
-import { BudgetTrackerState } from '@budget-tracker/shared';
+import { BudgetTrackerState } from '@budget-tracker/data';
 import { collection, doc, Firestore, setDoc } from '@angular/fire/firestore';
 
 @Injectable()

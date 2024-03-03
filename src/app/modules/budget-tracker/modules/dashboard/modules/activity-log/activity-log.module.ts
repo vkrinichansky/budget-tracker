@@ -10,9 +10,8 @@ import {
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
 import { UtilsModule } from '@budget-tracker/utils';
-import { ActivityLogFacadeService } from './services';
-import { StoreModule } from '@ngrx/store';
-import { activityLogFeature } from './store/reducers';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -22,8 +21,7 @@ import { activityLogFeature } from './store/reducers';
     CategoryValueChangeRecordComponent,
     CategoriesResetRecordComponent,
   ],
-  imports: [CommonModule, DesignSystemModule, TranslateModule, UtilsModule, StoreModule.forFeature(activityLogFeature)],
+  imports: [CommonModule, DesignSystemModule, TranslateModule, UtilsModule, ScrollingModule, MatTooltipModule],
   exports: [ActivityLogComponent],
-  providers: [ActivityLogFacadeService],
 })
 export class ActivityLogModule {}

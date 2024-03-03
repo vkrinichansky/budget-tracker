@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, HostBinding, OnInit } from 
 import { Component } from '@angular/core';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { BehaviorSubject, takeUntil } from 'rxjs';
-import { AppRoutes } from '@budget-tracker/shared';
 import { NavigationBarItem } from '../../models';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
-import { BudgetTrackerFacadeService } from '@budget-tracker/budget-tracker';
 import { ConfirmationModalService } from '@budget-tracker/design-system';
+import { DataInitFacadeService } from '@budget-tracker/data';
+import { AppRoutes } from '@budget-tracker/shared';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -30,7 +30,7 @@ export class NavigationBarComponent implements OnInit {
 
   constructor(
     private authFacade: AuthFacadeService,
-    private btFacade: BudgetTrackerFacadeService,
+    private dataInitFacade: DataInitFacadeService,
     private cd: ChangeDetectorRef,
     private confirmationModalService: ConfirmationModalService
   ) {}
@@ -38,7 +38,7 @@ export class NavigationBarComponent implements OnInit {
   ngOnInit(): void {
     this.prepareNavigationBarItems();
 
-    this.btFacade
+    this.dataInitFacade
       .isDataLoading()
       .pipe(takeUntil(this.destroy$))
       .subscribe((isLoading) => {

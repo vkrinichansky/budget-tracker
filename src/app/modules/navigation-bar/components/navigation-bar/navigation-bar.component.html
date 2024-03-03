@@ -11,9 +11,12 @@
 </div>
 
 <app-button
+  customTooltip
+  [tooltipText]="buildTranslationKey('itemTooltip.logout') | translate"
+  [position]="'right'"
+  [tooltipBgColor]="'green'"
   [iconName]="'logout'"
   [colorScheme]="'transparent-light'"
-  [matTooltip]="buildTranslationKey('itemTooltip.logout') | translate"
-  [matTooltipPosition]="'right'"
+  [buttonSizeY]="'small'"
   (click)="logOut()"
 ></app-button>

@@ -1,6 +1,13 @@
-<div class="flex items-center gap-x-2">
+<div class="flex items-center gap-x-2 flex-1 overflow-hidden">
   <svg-icon class="text-charcoal" [iconName]="category?.icon"></svg-icon>
-  <span class="font-main font-bold text-charcoal text-base">{{ category?.name }}</span>
+  <span
+    customTooltip
+    [tooltipText]="category?.name"
+    [showTooltipOnlyOnOverflow]="true"
+    class="font-main font-bold text-charcoal text-base truncate"
+  >
+    {{ category?.name }}
+  </span>
 </div>
 
 <div class="flex items-center gap-x-2">

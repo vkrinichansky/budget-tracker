@@ -1,35 +1,51 @@
 :host {
-  transition: background-color 0.2s ease;
-
   // STATES
   &.loading,
-  &.disabled {
+  &.disabled,
+  &.active {
     @apply cursor-default pointer-events-none;
   }
 
-  // SIZES
-  &.small {
+  // SIZES X
+  &.small-x {
     @apply w-8;
   }
 
-  &.medium {
+  &.medium-x {
     @apply w-24;
   }
 
-  &.big {
+  &.big-x {
     @apply w-40;
   }
 
-  &.large {
+  &.large-x {
     @apply w-60;
   }
 
-  &.full {
+  &.full-x {
     @apply w-full;
   }
 
-  &.auto {
+  &.auto-x {
     @apply w-auto;
+  }
+
+  // SIZES Y
+  &.tiny-y {
+    @apply h-7;
+  }
+
+  &.small-y {
+    @apply h-8;
+  }
+
+  &.medium-y {
+    @apply h-9;
+  }
+
+  &.auto-y {
+    @apply h-auto;
   }
 
   // COLORS
@@ -106,6 +122,23 @@
 
     @media (max-width: 480px) {
       @apply bg-transparent hover:bg-transparent;
+    }
+  }
+
+  // ACTIVE STATE
+  &.active-green {
+    @apply bg-dark-green hover:bg-dark-green text-white;
+
+    svg-icon {
+      @apply text-white;
+    }
+  }
+
+  &.active-charcoal {
+    @apply bg-charcoal hover:bg-blue text-white;
+
+    svg-icon {
+      @apply text-white;
     }
   }
 }

@@ -1,3 +1,12 @@
+function convertPixelsIntoRems(sizeInPx) {
+  const spacingUnitInRems = 0.25;
+  const spacingUnitInPx = 4;
+
+  const scale = sizeInPx / spacingUnitInPx;
+  const rems = scale * spacingUnitInRems;
+  return { [scale.toString()]: `${rems}rem` };
+}
+
 const colors = {
   transparent: 'rgb(0, 0, 0, 0)',
 
@@ -19,6 +28,7 @@ const colors = {
 
   'hover-white': 'rgb(255, 255, 255, 0.1)',
   'hover-black': 'rgb(0, 0, 0, 0.1)',
+  'black-transparent': 'rgb(0, 0, 0, 0.5)',
 };
 
 module.exports = {
@@ -48,6 +58,21 @@ module.exports = {
 
     fontFamily: {
       main: 'Inter',
+    },
+
+    extend: {
+      spacing: {
+        ...convertPixelsIntoRems(60), // 60px,
+        ...convertPixelsIntoRems(52), // 60px,
+
+      },
+      maxWidth: {
+        ...convertPixelsIntoRems(256), // 256px,
+      },
+      minHeight: {
+        ...convertPixelsIntoRems(36), // 36px,
+        ...convertPixelsIntoRems(32), // 32px,
+      },
     },
   },
 };

@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { ActivityLogFacadeService } from '@budget-tracker/dashboard/activity-log';
 import { CurrencyService } from '@budget-tracker/shared';
 import { Chart, ChartData, ChartOptions } from 'chart.js';
 import { Observable, map } from 'rxjs';
@@ -7,6 +6,7 @@ import { ChartJSTooltipConfig } from '@budget-tracker/design-system';
 import { BaseChartDirective } from 'ng2-charts';
 
 import zoomPlugin from 'chartjs-plugin-zoom';
+import { ActivityLogFacadeService } from '@budget-tracker/data';
 Chart.register(zoomPlugin);
 
 interface ZoomOption {

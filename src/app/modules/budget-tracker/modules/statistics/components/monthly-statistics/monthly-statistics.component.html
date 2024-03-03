@@ -7,10 +7,13 @@
 <div class="flex justify-center gap-2">
   <app-button
     *ngFor="let action of zoomOptions"
-    [colorScheme]="'green'"
+    customTooltip
+    [tooltipText]="action.tooltipKey | translate"
+    [position]="'top'"
+    [tooltipBgColor]="'charcoal'"
+    [colorScheme]="'charcoal'"
     [iconName]="action.icon"
-    [matTooltip]="action.tooltipKey | translate"
-    [matTooltipPosition]="'above'"
+    [buttonSizeY]="'small'"
     (click)="action.handler()"
   ></app-button>
 </div>

@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { MenuAction } from '@budget-tracker/design-system';
-import { TranslateService } from '@ngx-translate/core';
-import { InfoCardValueModalService, RootValuesFacadeService } from '../../../services';
+import { InfoCardValueModalService } from '../../../services';
+import { RootValuesFacadeService } from '@budget-tracker/data';
 
 @Component({
   selector: 'app-balance-info-card',
@@ -20,7 +20,6 @@ export class BalanceInfoCardComponent implements OnInit {
 
   constructor(
     private rootValuesFacade: RootValuesFacadeService,
-    private translateService: TranslateService,
     private infoCardValueModalService: InfoCardValueModalService
   ) {}
 

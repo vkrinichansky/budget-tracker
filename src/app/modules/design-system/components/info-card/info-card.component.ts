@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
-import { ColorScheme, InfoCardColorScheme, MenuAction } from '../../models';
+import { ColorScheme, BgColorScheme, MenuAction } from '../../models';
 import { CurrencyService } from '@budget-tracker/shared';
 import { Observable } from 'rxjs';
 
@@ -12,10 +12,10 @@ import { Observable } from 'rxjs';
 export class InfoCardComponent implements OnInit {
   @HostBinding('class')
   @Input()
-  colorScheme: InfoCardColorScheme = InfoCardColorScheme.White;
+  colorScheme: BgColorScheme = 'white';
 
   @Input()
-  primaryText: string;
+  primaryText: string | number;
 
   @Input()
   secondaryText: string;
@@ -44,14 +44,14 @@ export class InfoCardComponent implements OnInit {
   @Input()
   menuActions: MenuAction[];
 
-  get menuColorScheme(): string {
+  get menuColorScheme(): ColorScheme {
     switch (this.colorScheme) {
-      case InfoCardColorScheme.Charcoal:
-      case InfoCardColorScheme.Green:
-        return ColorScheme.TransparentLight;
+      case 'charcoal':
+      case 'green':
+        return 'transparent-light';
 
-      case InfoCardColorScheme.White:
-        return ColorScheme.TransparentDark;
+      case 'white':
+        return 'transparent-dark';
     }
   }
 

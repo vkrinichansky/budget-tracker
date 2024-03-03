@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { DataInitFacadeService } from '@budget-tracker/data';
 import { Observable } from 'rxjs';
-import { BudgetTrackerFacadeService } from './services';
 
 @Component({
   selector: 'app-budget-tracker',
@@ -11,9 +11,9 @@ import { BudgetTrackerFacadeService } from './services';
 export class BudgetTrackerComponent implements OnInit {
   isLoading$: Observable<boolean>;
 
-  constructor(private btFacade: BudgetTrackerFacadeService) {}
+  constructor(private dataInitFacade: DataInitFacadeService) {}
 
   ngOnInit(): void {
-    this.isLoading$ = this.btFacade.isDataLoading();
+    this.isLoading$ = this.dataInitFacade.isDataLoading();
   }
 }

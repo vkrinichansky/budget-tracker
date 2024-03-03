@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { CategoriesFacadeService } from '@budget-tracker/dashboard/categories';
+import { BudgetType, CategoriesFacadeService } from '@budget-tracker/data';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
-import { BudgetType } from '@budget-tracker/shared';
-import { TranslateService } from '@ngx-translate/core';
 import { Observable, map } from 'rxjs';
 
 @Component({
@@ -30,7 +28,6 @@ export class ExpenseInfoCardComponent implements OnInit {
   shouldDisplayMenu$: Observable<boolean>;
 
   constructor(
-    private translateService: TranslateService,
     private confirmationModalService: ConfirmationModalService,
     private categoriesFacade: CategoriesFacadeService
   ) {}

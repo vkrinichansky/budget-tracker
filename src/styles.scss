@@ -114,16 +114,20 @@ textarea {
 // SCROLLBAR
 
 ::-webkit-scrollbar {
-  @apply w-3;
+  @apply w-1.5;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-dark-green border-4 border-solid border-transparent rounded-full bg-clip-padding;
+  @apply bg-hover-black border border-solid border-transparent rounded-full bg-clip-padding;
 }
 
 // SELECT
+.mat-mdc-select-panel {
+  @apply p-1 flex flex-col gap-y-1 box-content #{!important};
+}
+
 .mat-mdc-option {
-  @apply p-0 px-2 min-h-fit #{!important};
+  @apply p-0 min-h-9 #{!important};
 }
 
 .mat-mdc-option:hover:not(.mdc-list-item--disabled) {
@@ -135,9 +139,7 @@ textarea {
 }
 
 .mat-mdc-option.mdc-list-item {
-  &:not(:last-child) {
-    @apply mb-2 #{!important};
-  }
+  @apply mb-0;
 }
 
 .mat-mdc-option.mat-mdc-option-active {
@@ -160,4 +162,18 @@ textarea {
 // MAT ERRORS
 .mat-mdc-form-field-error-wrapper {
   @apply p-0 #{!important};
+}
+
+// SCROLLER
+.cdk-virtual-scroll-content-wrapper {
+  @apply w-full #{!important};
+}
+
+// BUTTON TOGGLE
+.mat-button-toggle-group {
+  @apply flex h-8 border-2 border-solid border-charcoal rounded #{!important};
+
+  app-button {
+    @apply rounded-none #{!important};
+  }
 }

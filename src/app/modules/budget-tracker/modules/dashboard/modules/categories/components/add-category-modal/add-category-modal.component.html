@@ -17,7 +17,7 @@
             class="overflow-hidden"
             [iconName]="option.icon"
             [text]="option.textTranslationKey | translate"
-            [buttonSize]="'full'"
+            [buttonSizeX]="'full'"
             [align]="'start'"
           ></app-button>
         </mat-option>
@@ -41,7 +41,7 @@
 
 <div mat-dialog-actions>
   <app-button
-    [buttonSize]="'auto'"
+    [buttonSizeX]="'auto'"
     [colorScheme]="'transparent-dark'"
     [text]="buildTranslationKey('cancel') | translate"
     (click)="cancelClick()"
@@ -50,7 +50,7 @@
   <app-button
     [colorScheme]="'charcoal'"
     [text]="buildTranslationKey('addCategory') | translate"
-    [buttonSize]="'big'"
+    [buttonSizeX]="'big'"
     [disabled]="!isFormValid"
     [loading]="loading$ | async"
     (click)="submitClick()"

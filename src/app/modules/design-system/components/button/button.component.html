@@ -1,22 +1,22 @@
 <button
-  class="w-full flex items-center gap-x-1.5  {{ text ? 'px-3 py-1.5' : 'px-1 py-1' }}"
+  customTooltip
+  class="w-full flex items-center gap-x-1.5"
   [class.justify-center]="align === 'center'"
   [class.justify-start]="align === 'start'"
-  [matTooltipPosition]="'above'"
-  [matTooltip]="text && isOverflowed ? text : null"
+  [ngClass]="{
+    'px-1.5 py-1.5': text
+  }"
+  [tooltipText]="text"
+  [showTooltipOnlyOnOverflow]="true"
+  [childElementId]="'buttonText'"
   [type]="'button'"
-  (mouseover)="setIsOverflowed()"
 >
   <app-loader *ngIf="loading; else main"></app-loader>
 
   <ng-template #main>
     <svg-icon *ngIf="iconName" class="w-6 h-6" [iconName]="iconName" [class.grayscale]="disabled"></svg-icon>
 
-    <span
-      #textElement
-      *ngIf="text"
-      class="inline-block font-main text-base overflow-hidden whitespace-nowrap text-ellipsis"
-    >
+    <span id="buttonText" *ngIf="text" class="inline-block font-main text-base truncate">
       {{ text }}
     </span>
   </ng-template>

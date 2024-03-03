@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { InfoCardColorScheme, MenuAction } from '@budget-tracker/design-system';
-import { TranslateService } from '@ngx-translate/core';
+import { RootValuesFacadeService } from '@budget-tracker/data';
+import { MenuAction } from '@budget-tracker/design-system';
 import { map, Observable } from 'rxjs';
-import { InfoCardValueModalService, RootValuesFacadeService } from '../../../services';
+import { InfoCardValueModalService } from '../../../services';
 
 @Component({
   selector: 'app-free-money-info-card',
@@ -12,15 +12,12 @@ import { InfoCardValueModalService, RootValuesFacadeService } from '../../../ser
 export class FreeMoneyInfoCardComponent implements OnInit {
   private readonly rootTranslationKey = 'dashboard.infoCards.freeMoney';
 
-  readonly colorScheme = InfoCardColorScheme;
-
   freeMoney$: Observable<number>;
 
   menuActions$: Observable<MenuAction[]>;
 
   constructor(
     private rootValuesFacade: RootValuesFacadeService,
-    private translateService: TranslateService,
     private infoCardValueModalService: InfoCardValueModalService
   ) {}
 

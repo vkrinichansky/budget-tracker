@@ -1,20 +1,43 @@
 <app-generic-activity-log-record [icon]="record.icon" [date]="record.date">
   <ng-container [ngSwitch]="record.actionType">
     <ng-container *ngSwitchCase="actionType.Add">
-      <span
-        [innerHTML]="
-          (buildTranslationKey('categoryAdded') | translate : { categoryName: record.categoryName }) +
-          (buildTranslationKey('budgetType.' + record.budgetType) | translate)
+      <ng-container
+        *ngTemplateOutlet="
+          template;
+          context: {
+            content:
+              buildTranslationKey('categoryAdded.budgetType.' + record.budgetType)
+              | translate : { categoryName: record.categoryName }
+          }
         "
-      ></span>
+      ></ng-container>
     </ng-container>
+
     <ng-container *ngSwitchCase="actionType.Remove">
-      <span
-        [innerHTML]="
-          (buildTranslationKey('categoryRemoved') | translate : { categoryName: record.categoryName }) +
-          (buildTranslationKey('budgetType.' + record.budgetType) | translate)
+      <ng-container
+        *ngTemplateOutlet="
+          template;
+          context: {
+            content:
+              buildTranslationKey('categoryRemoved.budgetType.' + record.budgetType)
+              | translate : { categoryName: record.categoryName }
+          }
         "
-      ></span>
+      ></ng-container>
     </ng-container>
   </ng-container>
 </app-generic-activity-log-record>
+
+<ng-template #template let-content="content">
+  <span
+    class="block truncate"
+    customTooltip
+    [tooltipTemplate]="template"
+    [showTooltipOnlyOnOverflow]="true"
+    [innerHTML]="content"
+  >
+    <ng-template #template>
+      <span [innerHTML]="content"></span>
+    </ng-template>
+  </span>
+</ng-template>
