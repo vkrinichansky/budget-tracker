@@ -1,8 +1,11 @@
 <button
   customTooltip
-  class="w-full flex items-center gap-x-1.5  {{ text ? 'px-3 py-1.5' : 'px-1 py-1' }} "
+  class="w-full flex items-center gap-x-1.5"
   [class.justify-center]="align === 'center'"
   [class.justify-start]="align === 'start'"
+  [ngClass]="{
+    'px-1.5 py-1.5': text
+  }"
   [tooltipText]="text"
   [showTooltipOnlyOnOverflow]="true"
   [childElementId]="'buttonText'"

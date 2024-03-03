@@ -1,6 +1,8 @@
 <app-menu
+  customTooltip
+  [tooltipText]="buildTranslationKey('tooltip') | translate"
+  [position]="'left'"
+  [tooltipBgColor]="'charcoal'"
   [menuActions]="menuActions$ | async"
   [icon]="icon$ | async"
-  [matTooltip]="buildTranslationKey('tooltip') | translate"
-  [matTooltipPosition]="'below'"
 ></app-menu>

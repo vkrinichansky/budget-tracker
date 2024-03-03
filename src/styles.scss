@@ -168,3 +168,12 @@ textarea {
 .cdk-virtual-scroll-content-wrapper {
   @apply w-full #{!important};
 }
+
+// BUTTON TOGGLE
+.mat-button-toggle-group {
+  @apply flex h-8 border-2 border-solid border-charcoal rounded #{!important};
+
+  app-button {
+    @apply rounded-none #{!important};
+  }
+}

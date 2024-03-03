@@ -23,14 +23,14 @@
 
 <div mat-dialog-actions>
   <app-button
-    [buttonSize]="'auto'"
+    [buttonSizeX]="'auto'"
     [colorScheme]="'transparent-dark'"
     [text]="buildTranslationKey('cancel') | translate"
     (click)="cancelClick()"
   ></app-button>
 
   <app-button
-    [buttonSize]="'big'"
+    [buttonSizeX]="'big'"
     [colorScheme]="'charcoal'"
     [text]="mainButtonText | translate"
     [disabled]="!isFormValid"

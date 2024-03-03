@@ -6,6 +6,8 @@ import { CategoryModalsService } from '../../services';
 import { ChartJSTooltipConfig, doughnutChartPalette } from '@budget-tracker/design-system';
 import { CategoriesFacadeService } from '@budget-tracker/data';
 
+type TabType = 'list' | 'chart';
+
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
@@ -15,10 +17,9 @@ import { CategoriesFacadeService } from '@budget-tracker/data';
 export class CategoriesComponent implements OnInit {
   private readonly rootTranslationKey = 'dashboard.categories';
 
-  readonly isBackDisplayed$ = new BehaviorSubject<boolean>(false);
-  readonly isFrontDisplayed$ = new BehaviorSubject<boolean>(true);
-
   readonly chartOptions: ChartOptions = this.getChartOptions();
+
+  readonly currentTab$: BehaviorSubject<TabType> = new BehaviorSubject<TabType>('list');
 
   @Input()
   budgetType: BudgetType;
@@ -28,8 +29,6 @@ export class CategoriesComponent implements OnInit {
   categories$: Observable<Category[]>;
 
   isEmpty$: Observable<boolean>;
-
-  shouldDisableFlipButton$: Observable<boolean>;
 
   areAllCategoriesReset$: Observable<boolean>;
 
@@ -69,10 +68,6 @@ export class CategoriesComponent implements OnInit {
 
     this.isEmpty$ = this.categories$.pipe(map((categories) => !categories.length));
 
-    this.shouldDisableFlipButton$ = combineLatest([this.isEmpty$, this.areAllCategoriesReset$]).pipe(
-      map(([isEmpty, areReset]) => isEmpty || areReset)
-    );
-
     this.chartData$ = this.categories$.pipe(
       map((categories) => [...categories].reverse()),
       map((categories) => ({
@@ -91,14 +86,8 @@ export class CategoriesComponent implements OnInit {
     return `${this.rootTranslationKey}.${key}`;
   }
 
-  toggleSide(): void {
-    if (this.isFrontDisplayed$.value) {
-      this.isFrontDisplayed$.next(false);
-      this.isBackDisplayed$.next(true);
-    } else {
-      this.isFrontDisplayed$.next(true);
-      this.isBackDisplayed$.next(false);
-    }
+  setTab(value: TabType): void {
+    this.currentTab$.next(value);
   }
 
   private getChartOptions(): ChartOptions {

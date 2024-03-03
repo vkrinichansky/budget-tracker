@@ -121,10 +121,11 @@
         "title": "Expense"
       },
       "emptyStateText": "No data to display yet",
-
       "addCategoryButtonTooltip": "Add category",
-      "flipCardButtonTooltip": "Flip card",
-
+      "tabs": {
+        "list": "List",
+        "chart": "Chart"
+      },
       "categoryItem": {
         "menu": {
           "addValue": "Add value",

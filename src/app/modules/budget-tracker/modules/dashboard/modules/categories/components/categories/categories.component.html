@@ -1,50 +1,69 @@
 <div
-  *ngVar="isEmpty$ | async as isEmpty"
-  class="flip-card-inner"
-  [class.front]="isFrontDisplayed$ | async"
-  [class.back]="isBackDisplayed$ | async"
+  *ngVar="{
+    isEmpty: isEmpty$ | async,
+    currentTab: currentTab$ | async,
+    areAllCategoriesReset: areAllCategoriesReset$ | async
+  } as data"
+  class="flex flex-col gap-y-4 w-full h-full justify-between"
 >
-  <div class="flip-card-front">
-    <div class="flex justify-between items-center">
-      <app-page-header class="text-xl bg-transparent" [title]="title | translate">
-        <div class="flex items-center gap-x-2">
-          <app-button
-            [colorScheme]="'green'"
-            [iconName]="'plus'"
-            [matTooltip]="buildTranslationKey('addCategoryButtonTooltip') | translate"
-            [matTooltipPosition]="'above'"
-            (click)="addButtonAction()"
-          ></app-button>
-          <app-button
-            [colorScheme]="'green'"
-            [iconName]="'redo'"
-            [disabled]="shouldDisableFlipButton$ | async"
-            [matTooltip]="buildTranslationKey('flipCardButtonTooltip') | translate"
-            [matTooltipPosition]="'above'"
-            (click)="toggleSide()"
-          ></app-button>
-        </div>
-      </app-page-header>
+  <app-page-header class="text-xl bg-transparent" [title]="title | translate">
+    <div class="flex items-center gap-x-2">
+      <app-button
+        customTooltip
+        [tooltipText]="buildTranslationKey('addCategoryButtonTooltip') | translate"
+        [colorScheme]="'charcoal'"
+        [iconName]="'plus'"
+        [buttonSizeY]="'small'"
+        (click)="addButtonAction()"
+      ></app-button>
+
+      <mat-button-toggle-group appearance="legacy">
+        <app-button
+          [activeColorScheme]="'charcoal'"
+          [text]="buildTranslationKey('tabs.list') | translate"
+          [buttonSizeX]="'auto'"
+          [buttonSizeY]="'full'"
+          [active]="data.currentTab === 'list'"
+          (click)="setTab('list')"
+        ></app-button>
+
+        <app-button
+          [activeColorScheme]="'charcoal'"
+          [text]="buildTranslationKey('tabs.chart') | translate"
+          [buttonSizeX]="'auto'"
+          [buttonSizeY]="'full'"
+          [disabled]="data.areAllCategoriesReset"
+          [active]="data.currentTab === 'chart'"
+          (click)="setTab('chart')"
+        ></app-button>
+      </mat-button-toggle-group>
     </div>
+  </app-page-header>
 
-    <div
-      class="flex flex-col gap-y-4 w-full h-full overflow-y-auto scroll-smooth will-change-scroll"
-      [class.items-center]="isEmpty"
-      [class.justify-center]="isEmpty"
-    >
-      <span *ngIf="isEmpty" class="font-main font-bold text-charcoal text-lg text-center">
-        {{ buildTranslationKey('emptyStateText') | translate }}
-      </span>
+  <span
+    *ngIf="data.isEmpty"
+    class="font-main font-bold text-charcoal text-lg text-center flex flex-1 flex-col justify-center items-center"
+  >
+    {{ buildTranslationKey('emptyStateText') | translate }}
+  </span>
 
-      <cdk-virtual-scroll-viewport *ngIf="!isEmpty" itemSize="48" class="h-full">
+  <ng-container *ngIf="!data.isEmpty">
+    <ng-container [ngSwitch]="data.currentTab">
+      <cdk-virtual-scroll-viewport *ngSwitchCase="'list'" itemSize="48" class="h-full">
         <div *cdkVirtualFor="let category of categories$ | async" class="h-15 flex items-center">
           <app-category-item class="w-full" [categoryId]="category.id"></app-category-item>
         </div>
       </cdk-virtual-scroll-viewport>
-    </div>
-  </div>
 
-  <div class="flip-card-back flex flex-col">
+      <div *ngSwitchCase="'chart'" class="w-full h-full flex flex-1 items-center justify-center overflow-hidden">
+        <canvas baseChart class="h-full" [type]="'doughnut'" [data]="chartData$ | async" [options]="chartOptions">
+        </canvas>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>
+
+<!-- <div class="flip-card-back flex flex-col">
     <div class="flex justify-between items-center">
       <span class="font-main font-bold text-charcoal text-xl">{{ title | translate }}</span>
       <app-button
@@ -56,9 +75,5 @@
       ></app-button>
     </div>
 
-    <div class="w-full h-full flex flex-1 items-center justify-center overflow-hidden">
-      <canvas baseChart class="h-full" [type]="'doughnut'" [data]="chartData$ | async" [options]="chartOptions">
-      </canvas>
-    </div>
-  </div>
-</div>
+    
+  </div> -->

@@ -63,12 +63,15 @@ module.exports = {
     extend: {
       spacing: {
         ...convertPixelsIntoRems(60), // 60px,
+        ...convertPixelsIntoRems(52), // 60px,
+
       },
       maxWidth: {
         ...convertPixelsIntoRems(256), // 256px,
       },
       minHeight: {
         ...convertPixelsIntoRems(36), // 36px,
+        ...convertPixelsIntoRems(32), // 32px,
       },
     },
   },

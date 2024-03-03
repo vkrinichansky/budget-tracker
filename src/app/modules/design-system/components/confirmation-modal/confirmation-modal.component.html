@@ -11,14 +11,14 @@
   <app-button
     [colorScheme]="'transparent-dark'"
     [text]="buildTranslationKey('noButton') | translate"
-    [buttonSize]="'auto'"
+    [buttonSizeX]="'auto'"
     (click)="closeClick()"
   >
   </app-button>
   <app-button
     [colorScheme]="'charcoal'"
     [text]="buildTranslationKey('yesButton') | translate"
-    [buttonSize]="'auto'"
+    [buttonSizeX]="'auto'"
     (click)="data.action(); closeClick()"
   >
   </app-button>

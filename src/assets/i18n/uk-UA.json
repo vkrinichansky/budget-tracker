@@ -122,7 +122,10 @@
       "emptyStateText": "Немає данних для відображення",
 
       "addCategoryButtonTooltip": "Додати категорію",
-      "flipCardButtonTooltip": "Повернути картку",
+      "tabs": {
+        "list": "Список",
+        "chart": "Графік"
+      },
 
       "categoryItem": {
         "menu": {

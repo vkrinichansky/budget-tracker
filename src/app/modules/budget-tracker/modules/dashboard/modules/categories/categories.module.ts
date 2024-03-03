@@ -19,6 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgChartsModule } from 'ng2-charts';
 import { DataModule } from '@budget-tracker/data';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [CategoriesComponent, AddCategoryModalComponent, CategoryItemComponent, CategoryValueModalComponent],
@@ -37,6 +38,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     NgChartsModule,
     DataModule,
     ScrollingModule,
+    MatButtonToggleModule,
   ],
   providers: [CategoryModalsService],
   exports: [CategoriesComponent],

@@ -2,7 +2,7 @@ import { HostBinding } from '@angular/core';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ColorScheme } from '../../models';
 
-type ButtonSize = 'small' | 'medium' | 'big' | 'large' | 'full' | 'auto';
+type ButtonSize = 'tiny' | 'small' | 'medium' | 'big' | 'large' | 'full' | 'auto';
 
 @Component({
   selector: 'app-button',
@@ -19,13 +19,26 @@ export class ButtonComponent {
   @Input()
   disabled: boolean;
 
+  // it means that button related option was selected and button becomes unclickable (not same as disabled, another color scheme)
+  @HostBinding('class.active')
+  @Input()
+  active = false;
+
+  @Input()
+  activeColorScheme: ColorScheme = 'green';
+
   @HostBinding('class')
   private get classes(): string {
-    return `flex rounded overflow-hidden ${this.buttonSize} ${this.colorScheme} ${this.align}`;
+    return `flex rounded overflow-hidden ${this.buttonSizeX}-x ${this.buttonSizeY}-y ${this.colorScheme} ${
+      this.active ? 'active-' + this.activeColorScheme : ''
+    } ${this.align}`;
   }
 
   @Input()
-  buttonSize: ButtonSize = 'small';
+  buttonSizeX: ButtonSize = 'small';
+
+  @Input()
+  buttonSizeY: ButtonSize = 'medium';
 
   @Input()
   text = '';
