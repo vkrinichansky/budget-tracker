@@ -51,7 +51,10 @@
   <ng-container *ngIf="!data.isEmpty">
     <ng-container [ngSwitch]="data.currentTab">
       <cdk-virtual-scroll-viewport *ngSwitchCase="'list'" itemSize="60" class="h-full">
-        <div *cdkVirtualFor="let category of categories$ | async" class="h-15 flex items-center">
+        <div
+          *cdkVirtualFor="let category of categories$ | async; cdkVirtualForTrackBy: trackBy; templateCacheSize: 0"
+          class="h-15 flex items-center"
+        >
           <app-category-item class="w-full" [categoryId]="category.id"></app-category-item>
         </div>
       </cdk-virtual-scroll-viewport>

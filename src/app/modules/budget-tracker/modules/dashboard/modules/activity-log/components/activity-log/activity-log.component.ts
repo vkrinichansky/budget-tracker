@@ -36,19 +36,15 @@ export class ActivityLogComponent implements OnInit {
     this.isEmpty$ = this.activityLog$.pipe(map((activitiLog) => !activitiLog.length));
   }
 
+  trackBy(_: number, item: RenderingItemType): string {
+    return this.isItemDate(item) ? (item as string) : (item as ActivityLogRecordUnitedType).id;
+  }
+
   isItemDate(item: RenderingItemType): boolean {
     return typeof item === 'string';
   }
 
   buildTranslationKey(key: string): string {
     return `${this.rootTranslationKey}.${key}`;
-  }
-
-  trackByDate(index: number, activitiLogGroup: ActivityLogGroupedByDate): string {
-    return activitiLogGroup.date;
-  }
-
-  trackByRecordId(index: number, activitiLogRecord: ActivityLogRecordUnitedType): string {
-    return activitiLogRecord.id;
   }
 }

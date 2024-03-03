@@ -82,6 +82,10 @@ export class CategoriesComponent implements OnInit {
     );
   }
 
+  trackBy(_: number, category: Category): string {
+    return category.id;
+  }
+
   buildTranslationKey(key: string): string {
     return `${this.rootTranslationKey}.${key}`;
   }
