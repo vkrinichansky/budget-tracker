@@ -50,7 +50,7 @@
 
   // COLORS
   &.charcoal {
-    @apply bg-charcoal hover:bg-blue text-white;
+    @apply bg-charcoal text-white;
 
     &.disabled {
       @apply bg-grey;
@@ -60,13 +60,13 @@
       @apply text-white;
     }
 
-    @media (max-width: 480px) {
-      @apply hover:bg-charcoal;
+    @media (hover: hover) {
+      @apply hover:bg-blue;
     }
   }
 
   &.green {
-    @apply bg-dark-green hover:bg-hover-green text-white;
+    @apply bg-dark-green text-white;
 
     &.disabled {
       @apply bg-grey;
@@ -76,37 +76,37 @@
       @apply text-white;
     }
 
-    @media (max-width: 480px) {
-      @apply hover:bg-dark-green;
+    @media (hover: hover) {
+      @apply hover:bg-hover-green;
     }
   }
 
   &.active-navigation-item {
-    @apply bg-transparent hover:bg-hover-white text-green;
+    @apply bg-transparent text-green;
 
     svg-icon {
       @apply text-green;
     }
 
-    @media (max-width: 480px) {
-      @apply hover:bg-transparent;
+    @media (hover: hover) {
+      @apply hover:bg-hover-white;
     }
   }
 
   &.transparent-light {
-    @apply bg-transparent hover:bg-hover-white text-white;
+    @apply bg-transparent text-white;
 
     svg-icon {
       @apply text-white;
     }
 
-    @media (max-width: 480px) {
-      @apply hover:bg-transparent;
+    @media (hover: hover) {
+      @apply hover:bg-hover-white;
     }
   }
 
   &.transparent-dark {
-    @apply bg-transparent hover:bg-hover-black text-charcoal;
+    @apply bg-transparent  text-charcoal;
 
     &.disabled {
       @apply text-grey;
@@ -120,14 +120,14 @@
       @apply text-charcoal;
     }
 
-    @media (max-width: 480px) {
-      @apply bg-transparent hover:bg-transparent;
+    @media (hover: hover) {
+      @apply hover:bg-hover-black;
     }
   }
 
   // ACTIVE STATE
   &.active-green {
-    @apply bg-dark-green hover:bg-dark-green text-white;
+    @apply bg-dark-green text-white;
 
     svg-icon {
       @apply text-white;
@@ -135,7 +135,7 @@
   }
 
   &.active-charcoal {
-    @apply bg-charcoal hover:bg-blue text-white;
+    @apply bg-charcoal text-white;
 
     svg-icon {
       @apply text-white;

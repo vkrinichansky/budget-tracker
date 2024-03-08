@@ -12,7 +12,7 @@
 
   <cdk-virtual-scroll-viewport *ngIf="!isEmpty" itemSize="66" class="h-full w-full !overflow-x-hidden">
     <div
-      *cdkVirtualFor="let item of itemsToRender$ | async; cdkVirtualForTrackBy: trackBy; templateCacheSize: 0"
+      *cdkVirtualFor="let item of itemsToRender$ | async; trackBy: trackBy.bind(this); templateCacheSize: 0"
       class="h-16.5 flex items-center w-full"
     >
       <ng-container
@@ -23,7 +23,7 @@
 </div>
 
 <ng-template #dateItem let-item="item">
-  <span class="flex font-main text-grey text-sm bg-white py-0.5 z-10 font-bold h-full items-center">
+  <span class="flex font-main text-grey text-sm bg-white font-bold h-full items-center">
     {{ item }}
   </span>
 </ng-template>

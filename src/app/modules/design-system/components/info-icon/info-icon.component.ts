@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { IconSize } from '../../models';
 
 @Component({
   selector: 'app-info-icon',
@@ -10,7 +11,7 @@ export class InfoIconComponent {
   text: string;
 
   @Input()
-  size = 'small';
+  size: IconSize = 'small';
 
   @Input()
   tooltipPosition = 'above';

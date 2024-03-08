@@ -52,7 +52,7 @@
     <ng-container [ngSwitch]="data.currentTab">
       <cdk-virtual-scroll-viewport *ngSwitchCase="'list'" itemSize="60" class="h-full">
         <div
-          *cdkVirtualFor="let category of categories$ | async; cdkVirtualForTrackBy: trackBy; templateCacheSize: 0"
+          *cdkVirtualFor="let category of categories$ | async; trackBy: trackBy.bind(this); templateCacheSize: 0"
           class="h-15 flex items-center"
         >
           <app-category-item class="w-full" [categoryId]="category.id"></app-category-item>
@@ -66,18 +66,3 @@
     </ng-container>
   </ng-container>
 </div>
-
-<!-- <div class="flip-card-back flex flex-col">
-    <div class="flex justify-between items-center">
-      <span class="font-main font-bold text-charcoal text-xl">{{ title | translate }}</span>
-      <app-button
-        [colorScheme]="'green'"
-        [iconName]="'redo'"
-        [matTooltip]="buildTranslationKey('flipCardButtonTooltip') | translate"
-        [matTooltipPosition]="'above'"
-        (click)="toggleSide()"
-      ></app-button>
-    </div>
-
-    
-  </div> -->

@@ -1,3 +1,5 @@
+import { MainPalette } from './main-palette';
+
 export const ChartJSTooltipConfig = {
   bodyFont: {
     family: 'Inter',
@@ -7,7 +9,7 @@ export const ChartJSTooltipConfig = {
   cornerRadius: 4,
   caretSize: 0,
   borderWidth: 0,
-  backgroundColor: '#395B72',
+  backgroundColor: MainPalette.Charcoal,
   displayColors: false,
   padding: {
     x: 8,
