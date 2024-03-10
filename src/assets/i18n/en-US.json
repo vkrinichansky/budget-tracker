@@ -170,7 +170,8 @@
         "scrollLeft": "Scroll left",
         "scrollRight": "Scroll right",
         "resetZoom": "Reset zoom"
-      }
+      },
+      "total": "Total:"
     }
   },
 

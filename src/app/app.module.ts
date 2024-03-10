@@ -17,10 +17,14 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { CustomErrorStateMatcher } from '@budget-tracker/utils';
-import 'hammerjs';
-import 'chartjs-plugin-zoom';
+import { Chart } from 'chart.js';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { ServiceWorkerModule } from '@angular/service-worker';
+
+import 'hammerjs';
+import 'chartjs-plugin-zoom';
+import zoomPlugin from 'chartjs-plugin-zoom';
+Chart.register(zoomPlugin);
 
 @NgModule({
   declarations: [AppComponent],

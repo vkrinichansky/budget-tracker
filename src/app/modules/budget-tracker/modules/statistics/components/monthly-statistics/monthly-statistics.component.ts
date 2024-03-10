@@ -1,13 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { CurrencyService } from '@budget-tracker/shared';
-import { Chart, ChartData, ChartOptions } from 'chart.js';
-import { Observable, map } from 'rxjs';
-import { ChartJSTooltipConfig } from '@budget-tracker/design-system';
+import { ChartData, ChartOptions, Plugin, TooltipItem } from 'chart.js';
+import { Observable } from 'rxjs';
+import { ChartJSTooltipConfig, MainPalette } from '@budget-tracker/design-system';
 import { BaseChartDirective } from 'ng2-charts';
-
-import zoomPlugin from 'chartjs-plugin-zoom';
-import { ActivityLogFacadeService } from '@budget-tracker/data';
-Chart.register(zoomPlugin);
+import { StatisticsFacadeService } from '@budget-tracker/data';
+import { TranslateService } from '@ngx-translate/core';
 
 interface ZoomOption {
   icon: string;
@@ -22,8 +20,6 @@ interface ZoomOption {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MonthlyStatisticsComponent implements OnInit {
-  private readonly rootTranslationKey = 'statistics.monthlyStatistics';
-
   @ViewChild('chart')
   private chart: BaseChartDirective;
 
@@ -32,29 +28,18 @@ export class MonthlyStatisticsComponent implements OnInit {
 
   chartData$: Observable<ChartData>;
 
-  constructor(private activityLogFacade: ActivityLogFacadeService, private currencyService: CurrencyService) {}
+  constructor(
+    private statisticsFacade: StatisticsFacadeService,
+    private currencyService: CurrencyService,
+    private translateService: TranslateService
+  ) {}
 
   ngOnInit(): void {
-    this.chartData$ = this.activityLogFacade.getMonthlyStatistics().pipe(
-      map((statistics) => [...statistics].reverse()),
-      map((statistics) => ({
-        labels: statistics.map((statisticItem) => statisticItem.date),
-        datasets: [
-          {
-            data: statistics.map((statisticsItem) => statisticsItem.incomeValue),
-            ...this.getIncomeStyleOptions(),
-          },
-          {
-            data: statistics.map((statisticsItem) => statisticsItem.expenseValue),
-            ...this.getExpenseStyleOptions(),
-          },
-        ],
-      }))
-    );
+    this.chartData$ = this.statisticsFacade.getDataForMonthlyStatisticsChart();
   }
 
   buildTranslationKey(key: string): string {
-    return `${this.rootTranslationKey}.${key}`;
+    return `statistics.monthlyStatistics.${key}`;
   }
 
   private getZoomOptions(): ZoomOption[] {
@@ -87,31 +72,22 @@ export class MonthlyStatisticsComponent implements OnInit {
     ];
   }
 
-  private getIncomeStyleOptions(): { [key: string]: string | number } {
-    return {
-      borderColor: '#109279',
-      hoverBorderColor: '#109279',
-      backgroundColor: '#E4FCF7',
-      hoverBackgroundColor: '#E4FCF7',
-      borderWidth: 2,
-      borderRadius: 2,
-      borderSkipped: 'bottom',
-    };
-  }
-
-  private getExpenseStyleOptions(): { [key: string]: string | number } {
-    return {
-      borderColor: '#FF6B69',
-      hoverBorderColor: '#FF6B69',
-      backgroundColor: '#FFECEC',
-      hoverBackgroundColor: '#FFECEC',
-      borderWidth: 2,
-      borderRadius: 2,
-      borderSkipped: 'bottom',
-    };
-  }
-
   private getChartOptions(): ChartOptions {
+    const scaleOptions = {
+      stacked: true,
+      grid: {
+        color: MainPalette.Grey,
+      },
+      ticks: {
+        color: MainPalette.Charcoal,
+        font: {
+          family: 'Inter',
+          size: 12,
+          weight: 'bold',
+        },
+      },
+    };
+
     return {
       responsive: true,
       animation: false,
@@ -122,12 +98,8 @@ export class MonthlyStatisticsComponent implements OnInit {
         tooltip: {
           ...ChartJSTooltipConfig,
           callbacks: {
-            label: (item) => {
-              return `${item.label} - ${item.parsed.y}${this.currencyService.getCurrencySymbol()}`;
-            },
-            title: () => {
-              return '';
-            },
+            label: (item) => this.resolveChartTooltip(item),
+            title: () => '',
           },
         },
         zoom: {
@@ -147,33 +119,21 @@ export class MonthlyStatisticsComponent implements OnInit {
         },
       },
       scales: {
-        x: {
-          grid: {
-            color: '#636766',
-          },
-          ticks: {
-            color: '#2C4251',
-            font: {
-              family: 'Inter',
-              size: 12,
-              weight: 'bold',
-            },
-          },
-        },
-        y: {
-          grid: {
-            color: '#636766',
-          },
-          ticks: {
-            color: '#2C4251',
-            font: {
-              family: 'Inter',
-              size: 12,
-              weight: 'bold',
-            },
-          },
-        },
+        x: scaleOptions,
+        y: scaleOptions,
       },
     };
+  }
+
+  private resolveChartTooltip(item: TooltipItem<any>): string {
+    const currency = this.currencyService.getCurrencySymbol();
+    const totalText = this.translateService.instant(this.buildTranslationKey('total'));
+
+    const total = Object.values(Object.values((item.parsed._stacks['y'] as any)['_visualValues']) as number[]).reduce(
+      (result: number, value: number) => result + value,
+      0
+    );
+
+    return `${item.dataset.label} - ${item.parsed.y}${currency} | ${totalText} ${total}${currency}`;
   }
 }

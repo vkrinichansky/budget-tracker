@@ -10,6 +10,7 @@ import {
   DataInitService,
   RootValuesFacadeService,
   RootValuesService,
+  StatisticsFacadeService,
 } from './services';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -28,6 +29,7 @@ import { EffectsModule } from '@ngrx/effects';
     CategoriesService,
     DataInitService,
     DataInitFacadeService,
+    StatisticsFacadeService,
   ],
 })
 export class DataModule {}

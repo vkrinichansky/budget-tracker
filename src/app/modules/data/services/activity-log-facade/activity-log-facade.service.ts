@@ -7,7 +7,6 @@ import {
   ActivityLog,
   ActivityLogGroupedByDate,
   CategoryValueChangeRecord,
-  BudgetType,
   ActivityLogGroupedByDateInObject,
   ActivityLogRecordType,
 } from '../../models';
@@ -30,41 +29,11 @@ export class ActivityLogFacadeService {
     );
   }
 
-  getMonthlyStatistics(): Observable<
-    {
-      date: string;
-      incomeValue: number;
-      expenseValue: number;
-    }[]
-  > {
+  getActivityLogGroupedByDate(): Observable<ActivityLogGroupedByDate[]> {
     return this.getActivityLog().pipe(
       map((activityLog) => this.filterOnlyCategoryValueChangeRecords(activityLog)),
       map((filteredAL) => this.groupActivityLogByMonthsInObject(filteredAL, this.languageService.getLanguage())),
-      map((ALObject) => this.activityLogByDateInObjectToArray(ALObject)),
-      map((ALByDates) =>
-        ALByDates.map((ALDate) => ({
-          date: ALDate.date,
-          incomeRecords: ALDate.records.filter(
-            (record) => (record as CategoryValueChangeRecord).budgetType === BudgetType.Income
-          ),
-          expenseRecords: ALDate.records.filter(
-            (record) => (record as CategoryValueChangeRecord).budgetType === BudgetType.Expense
-          ),
-        }))
-      ),
-      map((statistics) =>
-        statistics.map((statisticsItem) => ({
-          date: statisticsItem.date,
-          incomeValue: statisticsItem.incomeRecords.reduce(
-            (acc, currentValue) => acc + (currentValue as CategoryValueChangeRecord).value,
-            0
-          ),
-          expenseValue: statisticsItem.expenseRecords.reduce(
-            (acc, currentValue) => acc + (currentValue as CategoryValueChangeRecord).value,
-            0
-          ),
-        }))
-      )
+      map((ALObject) => this.activityLogByDateInObjectToArray(ALObject))
     );
   }
 

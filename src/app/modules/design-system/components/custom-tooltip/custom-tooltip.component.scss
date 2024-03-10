@@ -7,19 +7,19 @@
   }
 
   &.top::before {
-    @apply bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 rounded-bl-sm -rotate-45;
+    @apply bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 -rotate-45;
   }
 
   &.bottom::before {
-    @apply top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-tl-sm rotate-45;
+    @apply top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-45;
   }
 
   &.left::before {
-    @apply top-1/2 right-0 translate-x-1/2 -translate-y-1/2 rounded-tr-sm rotate-45;
+    @apply top-1/2 right-0 translate-x-1/2 -translate-y-1/2 rotate-45;
   }
 
   &.right::before {
-    @apply top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 rounded-tl-sm -rotate-45;
+    @apply top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 -rotate-45;
   }
 
   &.green {
