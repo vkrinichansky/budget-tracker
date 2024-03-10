@@ -6,9 +6,8 @@ import {
   CategoryValueMapping,
   CategoryValueChangeRecord,
   MonthStatisticsDataItem,
-  Category,
 } from '../../models';
-import { Observable, combineLatest, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { ChartData, ChartDataset } from 'chart.js';
 import { CategoriesFacadeService } from '../categories-facade/categories-facade.service';
 import { MintChartPalette, MainPalette, CoralChartPalette } from '@budget-tracker/design-system';
@@ -72,6 +71,9 @@ export class StatisticsFacadeService {
       borderRadius: 2,
       borderSkipped: 'bottom',
       borderColor: colors.borderColor,
+      weight: statistics
+        .map((statisticItem) => statisticItem[`${budgetType}CategoryValueMapping`]?.[categoryName] || 0)
+        .reduce((result, value) => result + value, 0),
     }));
   }
 
