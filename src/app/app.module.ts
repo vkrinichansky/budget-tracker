@@ -56,7 +56,7 @@ Chart.register(zoomPlugin);
       },
     }),
     EffectsModule.forRoot([]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() , connectInZone: true}),
     AuthCoreModule,
     NoopAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {

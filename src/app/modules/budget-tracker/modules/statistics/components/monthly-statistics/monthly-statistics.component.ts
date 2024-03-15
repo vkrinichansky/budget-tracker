@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { CurrencyService } from '@budget-tracker/shared';
-import { ChartData, ChartOptions, Plugin, TooltipItem } from 'chart.js';
+import {  ChartData, ChartOptions, ScaleOptionsByType, TooltipItem } from 'chart.js';
 import { Observable } from 'rxjs';
 import { ChartJSTooltipConfig, MainPalette } from '@budget-tracker/design-system';
 import { BaseChartDirective } from 'ng2-charts';
@@ -86,7 +86,7 @@ export class MonthlyStatisticsComponent implements OnInit {
           weight: 'bold',
         },
       },
-    };
+    } as ScaleOptionsByType;
 
     return {
       responsive: true,
