@@ -4,7 +4,7 @@
   "scripts": {
     "start with open": "ng serve -o",
     "start": "ng serve",
-    "build sprites": "svg-sprite --config sprite-config.json src/assets/svg-icons/*.svg",
+    "build sprites": "svg-sprite --config sprite-config.json src/assets/svg-icons/**/*.svg",
     "build for dev": "ng build --configuration development",
     "build for prod": "ng build --configuration production",
     "use dev": "firebase use develop",
