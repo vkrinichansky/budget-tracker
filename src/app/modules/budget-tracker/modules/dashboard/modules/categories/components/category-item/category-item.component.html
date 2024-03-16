@@ -11,8 +11,6 @@
 </div>
 
 <div class="flex items-center gap-x-2">
-  <span class="font-main font-bold text-charcoal text-base">
-    {{ category?.value }}&nbsp;{{ currencySymbol$ | async }}
-  </span>
+  <span class="font-main font-bold text-charcoal text-base"> {{ category?.value | currencySymbol }}</span>
   <app-menu [menuActions]="menuActions"></app-menu>
 </div>

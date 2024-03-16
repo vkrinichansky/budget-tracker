@@ -235,9 +235,9 @@
   "currencySwitcher": {
     "tooltip": "Currency",
     "currencies": {
-      "hryvnia": "Hryvnia (UA)",
-      "dollar": "Dollar (USA)",
-      "euro": "Euro (EU)"
+      "hryvnia": "Hryvnia (₴)",
+      "dollar": "Dollar ($)",
+      "euro": "Euro (€)"
     }
   },
 

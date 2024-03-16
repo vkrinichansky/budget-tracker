@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
-import { CurrencyService } from '@budget-tracker/shared';
 import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
-import { Observable, takeUntil } from 'rxjs';
 import { CategoryModalsService } from '../../services';
 import { CategoriesFacadeService, Category } from '@budget-tracker/data';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-category-item',
@@ -24,19 +23,14 @@ export class CategoryItemComponent implements OnInit {
 
   menuActions: MenuAction[];
 
-  currencySymbol$: Observable<string>;
-
   constructor(
     private categoriesFacade: CategoriesFacadeService,
     private cd: ChangeDetectorRef,
     private confirmationModalService: ConfirmationModalService,
-    private categoryModalsService: CategoryModalsService,
-    private currencyService: CurrencyService
+    private categoryModalsService: CategoryModalsService
   ) {}
 
   ngOnInit(): void {
-    this.currencySymbol$ = this.currencyService.getCurrencySymbolObs();
-
     this.categoriesFacade
       .getCategoryById(this.categoryId)
       .pipe(takeUntil(this.destroy$))

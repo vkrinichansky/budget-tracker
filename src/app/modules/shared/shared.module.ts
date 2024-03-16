@@ -7,11 +7,12 @@ import { LanguageSwitcherComponent } from './components/language-switcher/langua
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { CurrencySwitcherComponent } from './components';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { CurrencyPipe } from './pipes';
 
 @NgModule({
-  declarations: [LanguageSwitcherComponent, CurrencySwitcherComponent],
+  declarations: [LanguageSwitcherComponent, CurrencySwitcherComponent, CurrencyPipe],
   imports: [CommonModule, MatSnackBarModule, TranslateModule, DesignSystemModule, MatTooltipModule],
-  exports: [LanguageSwitcherComponent, CurrencySwitcherComponent],
-  providers: [NavigatorService, SnackbarHandlerService],
+  exports: [LanguageSwitcherComponent, CurrencySwitcherComponent, CurrencyPipe],
+  providers: [NavigatorService, SnackbarHandlerService, CurrencyPipe],
 })
 export class SharedModule {}

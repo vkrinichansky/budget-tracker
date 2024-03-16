@@ -5,6 +5,7 @@ import { ChartData, ChartOptions } from 'chart.js';
 import { CategoryModalsService } from '../../services';
 import { ChartJSTooltipConfig, CoralChartPalette, MainPalette, MintChartPalette } from '@budget-tracker/design-system';
 import { CategoriesFacadeService } from '@budget-tracker/data';
+import { CurrencyPipe } from '@budget-tracker/shared';
 
 type TabType = 'list' | 'chart';
 
@@ -34,7 +35,8 @@ export class CategoriesComponent implements OnInit {
 
   constructor(
     private categoriesFacade: CategoriesFacadeService,
-    private categoryModalsService: CategoryModalsService
+    private categoryModalsService: CategoryModalsService,
+    private currencyPipe: CurrencyPipe
   ) {}
 
   ngOnInit(): void {
@@ -133,10 +135,8 @@ export class CategoriesComponent implements OnInit {
         tooltip: {
           ...ChartJSTooltipConfig,
           callbacks: {
-            label: (item) => `${item.label} - ${item.parsed}`,
-            title: () => {
-              return '';
-            },
+            label: (item) => `${item.label} - ${this.currencyPipe.transform(item.parsed)}`,
+            title: () => '',
           },
         },
         legend: {

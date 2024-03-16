@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { CurrencyService } from '@budget-tracker/shared';
+import { CurrencyPipe } from '@budget-tracker/shared';
 import { ChartData, ChartOptions, ScaleOptionsByType, TooltipItem } from 'chart.js';
 import { Observable } from 'rxjs';
 import { ChartJSTooltipConfig, MainPalette } from '@budget-tracker/design-system';
@@ -30,8 +30,8 @@ export class MonthlyStatisticsComponent implements OnInit {
 
   constructor(
     private statisticsFacade: StatisticsFacadeService,
-    private currencyService: CurrencyService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private currencyPipe: CurrencyPipe
   ) {}
 
   ngOnInit(): void {
@@ -127,7 +127,6 @@ export class MonthlyStatisticsComponent implements OnInit {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private resolveChartTooltip(item: TooltipItem<any>): string {
-    const currency = this.currencyService.getCurrencySymbol();
     const totalText = this.translateService.instant(this.buildTranslationKey('total'));
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -136,6 +135,8 @@ export class MonthlyStatisticsComponent implements OnInit {
       0
     );
 
-    return `${item.dataset.label} - ${item.parsed.y}${currency} | ${totalText} ${total}${currency}`;
+    return `${item.dataset.label} -
+            ${this.currencyPipe.transform(item.parsed.y)} |
+            ${totalText} ${this.currencyPipe.transform(total)}`;
   }
 }

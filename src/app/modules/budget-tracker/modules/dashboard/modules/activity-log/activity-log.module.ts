@@ -12,6 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { UtilsModule } from '@budget-tracker/utils';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SharedModule } from '@budget-tracker/shared';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,15 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     CategoryValueChangeRecordComponent,
     CategoriesResetRecordComponent,
   ],
-  imports: [CommonModule, DesignSystemModule, TranslateModule, UtilsModule, ScrollingModule, MatTooltipModule],
+  imports: [
+    CommonModule,
+    DesignSystemModule,
+    TranslateModule,
+    UtilsModule,
+    ScrollingModule,
+    MatTooltipModule,
+    SharedModule,
+  ],
   exports: [ActivityLogComponent],
 })
 export class ActivityLogModule {}

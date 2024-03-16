@@ -16,6 +16,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DataModule } from '@budget-tracker/data';
+import { SharedModule } from '@budget-tracker/shared';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { DataModule } from '@budget-tracker/data';
     MatDialogModule,
     MatInputModule,
     DataModule,
+    SharedModule,
   ],
   exports: [
     IncomeInfoCardComponent,

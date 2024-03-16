@@ -1,9 +1,4 @@
-<app-generic-activity-log-record
-  *ngVar="currencySymbol$ | async as currency"
-  [icon]="record.icon"
-  [date]="record.date"
-  [note]="record?.note"
->
+<app-generic-activity-log-record [icon]="record.icon" [date]="record.date" [note]="record?.note">
   <span class="flex justify-between flex-wrap">
     <span class="font-main text-charcoal text-base">
       {{ buildTranslationKey('title.' + record.valueType) | translate }}
@@ -11,15 +6,15 @@
 
     <ng-container [ngSwitch]="record.actionType">
       <span *ngSwitchCase="actionType.Increase" class="font-main font-bold text-dark-green">
-        &plus;&nbsp;{{ record.value }}{{ currency }}
+        &plus;&nbsp;{{ record.value | currencySymbol }}
       </span>
 
       <span *ngSwitchCase="actionType.Decrease" class="font-main font-bold text-red">
-        &minus;&nbsp;{{ record.value }}{{ currency }}
+        &minus;&nbsp;{{ record.value | currencySymbol }}
       </span>
 
       <span *ngSwitchCase="actionType.Edit" class="font-main font-bold text-blue">
-        {{ record.oldValue }}{{ currency }}&nbsp;&rarr;&nbsp;{{ record.newValue }}{{ currency }}
+        {{ record.oldValue | currencySymbol }}&nbsp;&rarr;&nbsp;{{ record.newValue | currencySymbol }}
       </span>
     </ng-container>
   </span>

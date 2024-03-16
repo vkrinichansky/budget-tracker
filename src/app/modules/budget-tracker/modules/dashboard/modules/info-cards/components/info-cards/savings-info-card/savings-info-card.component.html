@@ -2,7 +2,7 @@
   [iconName]="'jar'"
   [iconColorClass]="'text-dark-green'"
   [colorScheme]="'green'"
-  [primaryText]="savings$ | async"
+  [primaryText]="savings$ | async | currencySymbol"
   [secondaryText]="buildTranslationKey('title') | translate"
   [shouldDisplayMenu]="true"
   [menuActions]="menuActions$ | async"

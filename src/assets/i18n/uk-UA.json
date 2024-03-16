@@ -236,9 +236,9 @@
   "currencySwitcher": {
     "tooltip": "Валюта",
     "currencies": {
-      "hryvnia": "Гривня (UA)",
-      "dollar": "Долар (USA)",
-      "euro": "Євро (EU)"
+      "hryvnia": "Гривня (₴)",
+      "dollar": "Долар ($)",
+      "euro": "Євро (€)"
     }
   },
 
