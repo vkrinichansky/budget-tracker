@@ -1,8 +1,7 @@
 import { HostBinding } from '@angular/core';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ColorScheme } from '../../models';
+import { ButtonSize, ColorScheme } from '../../models';
 
-type ButtonSize = 'tiny' | 'small' | 'medium' | 'big' | 'large' | 'full' | 'auto';
 
 @Component({
   selector: 'app-button',

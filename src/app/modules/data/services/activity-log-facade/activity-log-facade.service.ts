@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LanguageService } from '@budget-tracker/shared';
 import { Store } from '@ngrx/store';
-import { Observable, combineLatest, filter, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { ActivityLogSelectors } from '../../store';
 import {
   ActivityLog,
@@ -20,11 +20,8 @@ export class ActivityLogFacadeService {
   }
 
   getActivityLogGroupedByDays(): Observable<ActivityLogGroupedByDate[]> {
-    return combineLatest([
-      this.getActivityLog(),
-      this.languageService.getLanguageObs().pipe(filter((language) => !!language)),
-    ]).pipe(
-      map(([activityLog, language]) => this.groupActivityLogByDaysInObject(activityLog, language)),
+    return this.getActivityLog().pipe(
+      map((activityLog) => this.groupActivityLogByDaysInObject(activityLog)),
       map((activityLogInObject) => this.activityLogByDateInObjectToArray(activityLogInObject))
     );
   }
@@ -32,12 +29,13 @@ export class ActivityLogFacadeService {
   getActivityLogGroupedByDate(): Observable<ActivityLogGroupedByDate[]> {
     return this.getActivityLog().pipe(
       map((activityLog) => this.filterOnlyCategoryValueChangeRecords(activityLog)),
-      map((filteredAL) => this.groupActivityLogByMonthsInObject(filteredAL, this.languageService.getLanguage())),
+      map((filteredAL) => this.groupActivityLogByMonthsInObject(filteredAL, this.languageService.getCurrentLanguage())),
       map((ALObject) => this.activityLogByDateInObjectToArray(ALObject))
     );
   }
 
-  private groupActivityLogByDaysInObject(activityLog: ActivityLog, language: string): ActivityLogGroupedByDateInObject {
+  private groupActivityLogByDaysInObject(activityLog: ActivityLog): ActivityLogGroupedByDateInObject {
+    const language =  this.languageService.getCurrentLanguage();
     return activityLog
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .reduce((group, record) => {

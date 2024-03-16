@@ -227,8 +227,8 @@
   "languageSwitcher": {
     "tooltip": "Language",
     "languages": {
-      "english": "English (UK)",
-      "ukrainian": "Ukrainian (UA)"
+      "english": "English",
+      "ukrainian": "Ukrainian"
     }
   },
 

@@ -228,8 +228,8 @@
   "languageSwitcher": {
     "tooltip": "Мова",
     "languages": {
-      "english": "Англійська (UK)",
-      "ukrainian": "Українська (UA)"
+      "english": "Англійська",
+      "ukrainian": "Українська"
     }
   },
 
