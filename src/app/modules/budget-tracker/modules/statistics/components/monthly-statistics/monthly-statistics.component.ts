@@ -135,8 +135,6 @@ export class MonthlyStatisticsComponent implements OnInit {
       0
     );
 
-    return `${item.dataset.label} -
-            ${this.currencyPipe.transform(item.parsed.y)} |
-            ${totalText} ${this.currencyPipe.transform(total)}`;
+    return `${item.dataset.label} - ${this.currencyPipe.transform(item.parsed.y)} | ${totalText} ${this.currencyPipe.transform(total)}`;
   }
 }

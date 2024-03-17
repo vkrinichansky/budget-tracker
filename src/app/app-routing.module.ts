@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, provideRouter, withViewTransitions } from '@angular/router';
 import { AuthGuard, SecureInnerPagesGuard } from './modules/auth/guards';
 
 const routes: Routes = [
@@ -21,7 +21,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
+  providers: [provideRouter(routes, withViewTransitions({ skipInitialTransition: true }))],
 })
 export class AppRoutingModule {}

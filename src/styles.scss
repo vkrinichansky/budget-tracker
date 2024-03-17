@@ -177,3 +177,46 @@ textarea {
     @apply rounded-none #{!important};
   }
 }
+
+// VIEW TRANSITIONS
+:root {
+  view-transition-name: none;
+}
+
+@media (max-width: 480px) {
+  ::view-transition-new(route),
+  ::view-transition-old(route) {
+    animation-duration: 200ms;
+    animation-timing-function: ease-out;
+    animation-direction: normal;
+  }
+
+  /* old view slides out to the left */
+  ::view-transition-old(route) {
+    animation-name: slide-out;
+  }
+
+  /* new view slides in from the right */
+  ::view-transition-new(route) {
+    animation-name: slide-in;
+    mix-blend-mode: normal;
+  }
+
+  @keyframes slide-out {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-20%);
+    }
+  }
+
+  @keyframes slide-in {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+}
