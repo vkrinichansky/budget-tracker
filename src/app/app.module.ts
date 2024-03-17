@@ -24,6 +24,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import 'hammerjs';
 import 'chartjs-plugin-zoom';
 import zoomPlugin from 'chartjs-plugin-zoom';
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig } from '@angular/material/dialog';
 Chart.register(zoomPlugin);
 
 @NgModule({
@@ -56,7 +57,7 @@ Chart.register(zoomPlugin);
       },
     }),
     EffectsModule.forRoot([]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() , connectInZone: true}),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode(), connectInZone: true }),
     AuthCoreModule,
     NoopAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
@@ -73,6 +74,15 @@ Chart.register(zoomPlugin);
       useValue: {
         subscriptSizing: 'dynamic',
       },
+    },
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {
+        ...new MatDialogConfig(),
+        width: '400px',
+        position: { top: '70px' },
+        autoFocus: false,
+      } as MatDialogConfig,
     },
   ],
   bootstrap: [AppComponent],

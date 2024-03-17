@@ -18,6 +18,6 @@ export class ConfirmationModalService {
       action,
     };
 
-    this.dialog.open(ConfirmationModalComponent, { data });
+    this.dialog.open(ConfirmationModalComponent, { data, position: {} });
   }
 }
