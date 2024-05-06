@@ -126,7 +126,6 @@ export class CategoriesComponent implements OnInit {
     const borderColor = this.getBorderColor();
 
     return {
-      animation: false,
       layout: {
         autoPadding: false,
       },

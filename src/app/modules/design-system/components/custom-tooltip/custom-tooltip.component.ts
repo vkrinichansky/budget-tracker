@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, TemplateRef, ChangeDetectionStrategy, HostBinding } from '@angular/core';
+import { Component, Input, TemplateRef, ChangeDetectionStrategy, HostBinding } from '@angular/core';
 import { BgColorScheme, TooltipPosition } from '../../models';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 /**
  * This component will be used to show custom tooltip
@@ -21,8 +22,16 @@ import { BgColorScheme, TooltipPosition } from '../../models';
   templateUrl: './custom-tooltip.component.html',
   styleUrls: ['./custom-tooltip.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('tooltip', [
+      transition(':enter', [style({ opacity: 0 }), animate(150, style({ opacity: 1 }))]),
+      transition(':leave', [animate(150, style({ opacity: 0 }))]),
+    ]),
+  ],
 })
 export class CustomTooltipComponent {
+  @HostBinding('@tooltip')
+  animation = true;
   /**
    * This is simple text which is to be shown in the tooltip
    */

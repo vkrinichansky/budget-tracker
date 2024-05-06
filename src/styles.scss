@@ -4,6 +4,10 @@
 @tailwind base;
 @tailwind utilities;
 
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 html,
 body {
   @apply h-full w-full min-h-full;
