@@ -6,7 +6,7 @@
 
 html,
 body {
-  @apply h-full w-full;
+  @apply h-full w-full min-h-full;
 }
 
 body {
@@ -183,40 +183,40 @@ textarea {
   view-transition-name: none;
 }
 
-@media (max-width: 480px) {
-  ::view-transition-new(route),
-  ::view-transition-old(route) {
-    animation-duration: 200ms;
-    animation-timing-function: ease-out;
-    animation-direction: normal;
-  }
+.animated-route {
+  view-transition-name: animated-route;
+}
 
-  /* old view slides out to the left */
-  ::view-transition-old(route) {
-    animation-name: slide-out;
-  }
+::view-transition-new(animated-route),
+::view-transition-old(animated-route) {
+  animation-duration: 250ms;
+  animation-timing-function: ease-out;
+  animation-direction: normal;
+}
 
-  /* new view slides in from the right */
-  ::view-transition-new(route) {
-    animation-name: slide-in;
-    mix-blend-mode: normal;
-  }
+::view-transition-old(animated-route) {
+  animation-name: scale-out;
+}
 
-  @keyframes slide-out {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-20%);
-    }
-  }
+::view-transition-new(animated-route) {
+  animation-name: slide-in;
+  mix-blend-mode: normal;
+}
 
-  @keyframes slide-in {
-    from {
-      transform: translateX(100%);
-    }
-    to {
-      transform: translateX(0);
-    }
+@keyframes scale-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

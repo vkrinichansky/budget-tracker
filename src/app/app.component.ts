@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { CurrencyService, LanguageService } from '@budget-tracker/shared';
 
 @Component({
@@ -7,6 +7,9 @@ import { CurrencyService, LanguageService } from '@budget-tracker/shared';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
+  @HostBinding('class')
+  private readonly classes = 'block w-full h-full min-h-full overflow-hidden';
+
   constructor(private currencyService: CurrencyService, private languageService: LanguageService) {
     this.languageService.initLanguage();
     this.currencyService.initCurrency();
