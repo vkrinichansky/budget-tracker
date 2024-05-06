@@ -1,14 +1,14 @@
-import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy, inject, DestroyRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BudgetType, Category } from '@budget-tracker/data';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { v4 as uuid } from 'uuid';
-import { Observable, combineLatest, filter, map, takeUntil, tap } from 'rxjs';
-import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
+import { Observable, combineLatest, filter, map, take, tap } from 'rxjs';
 import { AddCategoryModalData, CategoryIconForSelect, PredefinedCategoryIcons } from '../../models';
 import { CategoriesFacadeService } from '@budget-tracker/data';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 enum FormFields {
   CategoryIcon = 'categoryIcon',
@@ -19,12 +19,11 @@ enum FormFields {
   selector: 'app-add-category-modal',
   templateUrl: './add-category-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideUnsubscriberService()],
 })
 export class AddCategoryModalComponent implements OnInit {
   private readonly rootTranslationKey = 'dashboard.addCategoryModal';
 
-  private readonly destroy$ = injectUnsubscriberService();
+  private readonly destroyRef = inject(DestroyRef);
 
   private categories$: Observable<Category[]>;
 
@@ -100,8 +99,8 @@ export class AddCategoryModalComponent implements OnInit {
 
     this.success$
       .pipe(
-        takeUntil(this.destroy$),
-        filter((isSuccess) => !!isSuccess)
+        filter((isSuccess) => !!isSuccess),
+        take(1)
       )
       .subscribe(() => this.dialogRef.close());
 
@@ -140,7 +139,7 @@ export class AddCategoryModalComponent implements OnInit {
         ),
         filter((shouldDisable) => !!shouldDisable),
         tap(() => this.form.controls[FormFields.CategoryName].setErrors({ categoryExists: true })),
-        takeUntil(this.destroy$)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }

@@ -1,10 +1,10 @@
-import { Component, Inject, OnInit, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy, AfterViewInit, inject, DestroyRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
-import { filter, Observable, takeUntil, tap } from 'rxjs';
+import { filter, Observable, take, tap } from 'rxjs';
 import { InfoCardMenuActionsType, InfoCardValueModalData, InfoCardValueToEdit } from '../../models';
 import { RootValuesFacadeService } from '@budget-tracker/data';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 enum FormFields {
   Value = 'value',
@@ -15,11 +15,11 @@ enum FormFields {
   selector: 'app-info-card-value-modal',
   templateUrl: './info-card-value-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideUnsubscriberService()],
 })
 export class InfoCardValueModalComponent implements OnInit, AfterViewInit {
   private readonly rootTranslationKey = 'dashboard.infoCardValueModal';
-  private readonly destroy$ = injectUnsubscriberService();
+
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly formFields = FormFields;
 
@@ -70,8 +70,9 @@ export class InfoCardValueModalComponent implements OnInit, AfterViewInit {
 
     this.success$
       .pipe(
-        takeUntil(this.destroy$),
-        filter((isSuccess) => !!isSuccess)
+        takeUntilDestroyed(),
+        filter((isSuccess) => !!isSuccess),
+        take(1)
       )
       .subscribe(() => this.dialogRef.close());
   }
@@ -158,7 +159,7 @@ export class InfoCardValueModalComponent implements OnInit, AfterViewInit {
           this.form.controls[FormFields.Value].setErrors({ editError: true });
           this.form.controls[FormFields.Value].markAsDirty();
         }),
-        takeUntil(this.destroy$)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }

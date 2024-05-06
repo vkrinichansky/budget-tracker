@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable, takeUntil, filter } from 'rxjs';
-import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
+import { Observable, filter, take } from 'rxjs';
 import { CategoryValueModalData } from '../../models';
 import { CategoriesFacadeService } from '@budget-tracker/data';
 
@@ -15,11 +14,9 @@ enum FormFields {
   selector: 'app-category-value-modal',
   templateUrl: './category-value-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideUnsubscriberService()],
 })
 export class CategoryValueModalComponent implements OnInit {
   private readonly rootTranslationKey = 'dashboard.categoryValueModal';
-  private readonly destroy$ = injectUnsubscriberService();
 
   readonly formFieldsEnum = FormFields;
 
@@ -59,8 +56,8 @@ export class CategoryValueModalComponent implements OnInit {
 
     this.success$
       .pipe(
-        takeUntil(this.destroy$),
-        filter((isSuccess) => !!isSuccess)
+        filter((isSuccess) => !!isSuccess),
+        take(1)
       )
       .subscribe(() => this.dialogRef.close());
   }

@@ -1,20 +1,27 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  Input,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
-import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
 import { CategoryModalsService } from '../../services';
 import { CategoriesFacadeService, Category } from '@budget-tracker/data';
-import { takeUntil } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-category-item',
   templateUrl: './category-item.component.html',
   styleUrls: ['./category-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideUnsubscriberService()],
 })
 export class CategoryItemComponent implements OnInit {
   private readonly rootTranslationKey = 'dashboard.categories.categoryItem';
-  private readonly destroy$ = injectUnsubscriberService();
+
+  private readonly destroyRef = inject(DestroyRef);
 
   @Input()
   categoryId: string;
@@ -33,7 +40,7 @@ export class CategoryItemComponent implements OnInit {
   ngOnInit(): void {
     this.categoriesFacade
       .getCategoryById(this.categoryId)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((category) => {
         this.category = category;
         this.initMenuActions();
