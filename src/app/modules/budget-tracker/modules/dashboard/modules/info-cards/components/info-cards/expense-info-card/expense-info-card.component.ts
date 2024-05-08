@@ -25,7 +25,7 @@ export class ExpenseInfoCardComponent implements OnInit {
   ];
 
   expense$: Observable<number>;
-  shouldDisplayMenu$: Observable<boolean>;
+  shouldDisableMenu$: Observable<boolean>;
 
   constructor(
     private confirmationModalService: ConfirmationModalService,
@@ -34,7 +34,7 @@ export class ExpenseInfoCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.expense$ = this.categoriesFacade.getExpenseValue();
-    this.shouldDisplayMenu$ = this.categoriesFacade.areExpenseCategoriesAllReset().pipe(map((areReset) => !areReset));
+    this.shouldDisableMenu$ = this.categoriesFacade.areExpenseCategoriesAllReset().pipe(map((areReset) => areReset));
   }
 
   buildTranslationKey(key: string): string {

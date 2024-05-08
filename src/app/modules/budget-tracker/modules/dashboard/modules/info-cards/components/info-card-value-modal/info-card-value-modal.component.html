@@ -3,11 +3,15 @@
   <form class="flex flex-col" [formGroup]="form">
     <mat-form-field>
       <mat-label>{{ title | translate }}</mat-label>
-      <input matInput [formControlName]="formFields.Value" [type]="'number'" />
+      <input #valueInput matInput [formControlName]="formFields.Value" [type]="'number'" />
 
       <mat-error *ngIf="hasRequiredError">{{ 'formErrors.required' | translate }}</mat-error>
 
       <mat-error *ngIf="hasMinValueError">{{ 'formErrors.minValue' | translate : { minValue: 1 } }}</mat-error>
+
+      <mat-error *ngIf="hasMaxValueError">
+        {{ 'formErrors.maxValue' | translate : { maxValue: initialValue } }}
+      </mat-error>
 
       <mat-error *ngIf="hasEditError">{{ 'formErrors.editError' | translate }}</mat-error>
     </mat-form-field>

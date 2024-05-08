@@ -1,5 +1,5 @@
 :host {
-  @apply rounded py-1 px-2 max-w-64 relative;
+  @apply rounded py-1 px-2 relative;
 
   &::before {
     @apply block absolute border-4 border-solid -z-10;

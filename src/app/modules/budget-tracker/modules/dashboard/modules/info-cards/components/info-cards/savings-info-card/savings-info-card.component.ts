@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MenuAction } from '@budget-tracker/design-system';
-import { map, Observable } from 'rxjs';
+import { firstValueFrom, map, Observable } from 'rxjs';
 import { InfoCardValueModalService } from '../../../services';
 import { RootValuesFacadeService } from '@budget-tracker/data';
 
@@ -10,11 +10,9 @@ import { RootValuesFacadeService } from '@budget-tracker/data';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SavingsInfoCardComponent implements OnInit {
-  private readonly rootTranslationKey = 'dashboard.infoCards.savings';
-
   savings$: Observable<number>;
 
-  menuActions$: Observable<MenuAction[]>;
+  menuActions: MenuAction[];
 
   constructor(
     private rootValuesFacade: RootValuesFacadeService,
@@ -23,31 +21,39 @@ export class SavingsInfoCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.savings$ = this.rootValuesFacade.getSavingsValue().pipe();
-
-    this.menuActions$ = this.savings$.pipe(map((savings) => this.resolveMenuActions(savings)));
+    this.menuActions = this.resolveMenuActions();
   }
 
   buildTranslationKey(key: string): string {
-    return `${this.rootTranslationKey}.${key}`;
+    return `dashboard.infoCards.savings.${key}`;
   }
 
-  private resolveMenuActions(savings: number): MenuAction[] {
+  private resolveMenuActions(): MenuAction[] {
     return [
       {
         icon: 'plus',
         translationKey: this.buildTranslationKey('menu.increase'),
-        action: () => this.infoCardValueModalService.openIncreaseSavingsModal(savings),
+        action: async () => {
+          const savings = await firstValueFrom(this.savings$);
+          this.infoCardValueModalService.openIncreaseSavingsModal(savings);
+        },
       },
       {
         icon: 'minus',
         translationKey: this.buildTranslationKey('menu.decrease'),
-        disabled: savings === 0,
-        action: () => this.infoCardValueModalService.openDecreaseSavingsModal(savings),
+        disabledObs: this.savings$.pipe(map((savings) => savings === 0)),
+        action: async () => {
+          const savings = await firstValueFrom(this.savings$);
+          this.infoCardValueModalService.openDecreaseSavingsModal(savings);
+        },
       },
       {
         icon: 'edit',
         translationKey: this.buildTranslationKey('menu.edit'),
-        action: () => this.infoCardValueModalService.openEditSavingsModal(savings),
+        action: async () => {
+          const savings = await firstValueFrom(this.savings$);
+          this.infoCardValueModalService.openEditSavingsModal(savings);
+        },
       },
     ];
   }

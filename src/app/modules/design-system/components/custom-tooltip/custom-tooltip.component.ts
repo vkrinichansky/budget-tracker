@@ -24,8 +24,8 @@ import { animate, style, transition, trigger } from '@angular/animations';
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('tooltip', [
-      transition(':enter', [style({ opacity: 0 }), animate(150, style({ opacity: 1 }))]),
-      transition(':leave', [animate(150, style({ opacity: 0 }))]),
+      transition(':enter', [style({ opacity: 0 }), animate(100, style({ opacity: 1 }))]),
+      transition(':leave', [animate(100, style({ opacity: 0 }))]),
     ]),
   ],
 })
@@ -44,16 +44,19 @@ export class CustomTooltipComponent {
    *  content.....
    * </ng-template>
    */
-  @Input() tooltipTemplate: TemplateRef<any>;
+  @Input() tooltipTemplate: TemplateRef<unknown>;
 
   @Input()
-  tooltipBgColor: BgColorScheme = 'green';
+  tooltipBgColor: BgColorScheme;
 
   @Input()
-  position: TooltipPosition = 'top';
+  position: TooltipPosition;
+
+  @Input()
+  maxWidth: string;
 
   @HostBinding('class')
   private get classes(): string {
-    return `${this.tooltipBgColor} ${this.position}`;
+    return `${this.tooltipBgColor} ${this.position} ${this.maxWidth}`;
   }
 }

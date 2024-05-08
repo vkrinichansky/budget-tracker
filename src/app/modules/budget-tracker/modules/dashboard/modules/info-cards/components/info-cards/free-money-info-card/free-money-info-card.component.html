@@ -3,6 +3,5 @@
   [colorScheme]="'charcoal'"
   [primaryText]="freeMoney$ | async | currencySymbol"
   [secondaryText]="buildTranslationKey('title') | translate"
-  [shouldDisplayMenu]="true"
-  [menuActions]="menuActions$ | async"
+  [menuActions]="menuActions"
 ></app-info-card>

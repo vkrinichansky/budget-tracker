@@ -1,4 +1,15 @@
-import { Component, Inject, OnInit, ChangeDetectionStrategy, AfterViewInit, inject, DestroyRef } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnInit,
+  ChangeDetectionStrategy,
+  AfterViewInit,
+  inject,
+  DestroyRef,
+  ViewChild,
+  ElementRef,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { filter, Observable, take, tap } from 'rxjs';
@@ -21,6 +32,9 @@ export class InfoCardValueModalComponent implements OnInit, AfterViewInit {
 
   private readonly destroyRef = inject(DestroyRef);
 
+  @ViewChild('valueInput')
+  private valueInput: ElementRef;
+
   readonly formFields = FormFields;
 
   title: string;
@@ -31,6 +45,10 @@ export class InfoCardValueModalComponent implements OnInit, AfterViewInit {
   success$: Observable<boolean>;
 
   form: FormGroup;
+
+  get initialValue(): number {
+    return this.data.initialValue;
+  }
 
   get isFormValid(): boolean {
     return this.form?.valid;
@@ -44,6 +62,10 @@ export class InfoCardValueModalComponent implements OnInit, AfterViewInit {
     return this.form.controls[FormFields.Value].hasError('min');
   }
 
+  get hasMaxValueError(): boolean {
+    return this.form.controls[FormFields.Value].hasError('max');
+  }
+
   get hasEditError(): boolean {
     return this.form.controls[FormFields.Value].hasError('editError') && this.isEditMode;
   }
@@ -55,7 +77,8 @@ export class InfoCardValueModalComponent implements OnInit, AfterViewInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: InfoCardValueModalData,
     private dialogRef: MatDialogRef<InfoCardValueModalComponent>,
-    private rootValuesFacade: RootValuesFacadeService
+    private rootValuesFacade: RootValuesFacadeService,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -70,7 +93,6 @@ export class InfoCardValueModalComponent implements OnInit, AfterViewInit {
 
     this.success$
       .pipe(
-        takeUntilDestroyed(),
         filter((isSuccess) => !!isSuccess),
         take(1)
       )
@@ -81,6 +103,9 @@ export class InfoCardValueModalComponent implements OnInit, AfterViewInit {
     if (this.isEditMode) {
       this.form.controls[FormFields.Value].setValue(this.data.initialValue);
     }
+
+    this.valueInput.nativeElement.focus();
+    this.cd.detectChanges();
   }
 
   buildTranslationKey(key: string): string {
@@ -147,8 +172,14 @@ export class InfoCardValueModalComponent implements OnInit, AfterViewInit {
   }
 
   private initForm(): void {
+    const valueValidators = [Validators.required, Validators.min(this.isEditMode ? 0 : 1)];
+
+    if (this.data.actionType === InfoCardMenuActionsType.Decrease) {
+      valueValidators.push(Validators.max(this.data.initialValue));
+    }
+
     this.form = new FormGroup({
-      [FormFields.Value]: new FormControl(null, [Validators.required, Validators.min(this.isEditMode ? 0 : 1)]),
+      [FormFields.Value]: new FormControl(null, valueValidators),
       [FormFields.Note]: new FormControl('', [Validators.maxLength(100)]),
     });
 

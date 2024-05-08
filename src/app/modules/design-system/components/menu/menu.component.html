@@ -6,6 +6,7 @@
   [buttonSizeY]="buttonSizeY"
   [buttonSizeX]="buttonSizeX"
   [text]="text"
+  [disabled]="menuDisabled"
 ></app-button>
 
 <mat-menu #menu="matMenu">
@@ -14,7 +15,7 @@
     [text]="action.translationKey | translate"
     [iconName]="action.icon"
     [buttonSizeX]="'full'"
-    [disabled]="action.disabled"
+    [disabled]="action.disabled || (action.disabledObs | async)"
     [align]="'start'"
     (click)="action.action()"
   ></app-button>

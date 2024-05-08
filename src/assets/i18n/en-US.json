@@ -31,16 +31,17 @@
         }
       },
       "balance": {
-        "fullBalance": "Full balance",
-        "currentBalance": "Current balance",
+        "fullBalance": "Full balance (FB)",
+        "currentBalance": "Current balance (CB)",
         "menu": {
           "increase": "Increase",
           "decrease": "Decrease",
           "edit": "Edit"
-        }
+        },
+        "tooltip": "Balance calculation:<br>FB = CB + S + FM"
       },
       "savings": {
-        "title": "Savings",
+        "title": "Savings (S)",
         "menu": {
           "increase": "Increase",
           "decrease": "Decrease",
@@ -48,7 +49,7 @@
         }
       },
       "freeMoney": {
-        "title": "Free money",
+        "title": "Free money (FM)",
         "menu": {
           "increase": "Increase",
           "decrease": "Decrease",
@@ -214,6 +215,7 @@
   "formErrors": {
     "required": "Field is required",
     "minValue": "Minimal value is {{ minValue }}",
+    "maxValue": "Minimal value is {{ maxValue }}",
     "noteTooLong": "Note is too long, max length is 100",
     "editError": "Value must be different after edit"
   },

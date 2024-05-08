@@ -6,6 +6,10 @@
   [secondaryText]="buildTranslationKey('currentBalance') | translate"
   [additionalPrimaryText]="fullBalance$ | async | currencySymbol"
   [additionalSecondaryText]="buildTranslationKey('fullBalance') | translate"
-  [menuActions]="menuActions$ | async"
-  [shouldDisplayMenu]="true"
+  [menuActions]="menuActions"
+  [tooltip]="tooltip"
 ></app-info-card>
+
+<ng-template #tooltip>
+  <span [innerHTML]="buildTranslationKey('tooltip') | translate"></span>
+</ng-template>

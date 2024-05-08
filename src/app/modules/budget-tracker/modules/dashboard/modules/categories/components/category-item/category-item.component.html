@@ -1,16 +1,18 @@
-<div class="flex items-center gap-x-2 flex-1 overflow-hidden">
-  <svg-icon class="text-charcoal" [iconName]="category?.icon"></svg-icon>
-  <span
-    customTooltip
-    [tooltipText]="category?.name"
-    [showTooltipOnlyOnOverflow]="true"
-    class="font-main font-bold text-charcoal text-base truncate"
-  >
-    {{ category?.name }}
-  </span>
-</div>
+<ng-container *ngVar="category$ | async as category">
+  <div class="flex items-center gap-x-2 flex-1 overflow-hidden">
+    <svg-icon class="text-charcoal" [iconName]="category?.icon"></svg-icon>
+    <span
+      customTooltip
+      [tooltipText]="category?.name"
+      [showTooltipOnlyOnOverflow]="true"
+      class="font-main font-bold text-charcoal text-base truncate"
+    >
+      {{ category?.name }}
+    </span>
+  </div>
 
-<div class="flex items-center gap-x-2">
-  <span class="font-main font-bold text-charcoal text-base"> {{ category?.value | currencySymbol }}</span>
-  <app-menu [menuActions]="menuActions"></app-menu>
-</div>
+  <div class="flex items-center gap-x-2">
+    <span class="font-main font-bold text-charcoal text-base"> {{ category?.value | currencySymbol }}</span>
+    <app-menu [menuActions]="menuActions" (click)="$event.stopPropagation()"></app-menu>
+  </div>
+</ng-container>

@@ -1,9 +1,18 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable, filter, take } from 'rxjs';
 import { CategoryValueModalData } from '../../models';
-import { CategoriesFacadeService } from '@budget-tracker/data';
+import { CategoriesFacadeService, Category } from '@budget-tracker/data';
 
 enum FormFields {
   ValueToAdd = 'valueToAdd',
@@ -15,8 +24,9 @@ enum FormFields {
   templateUrl: './category-value-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CategoryValueModalComponent implements OnInit {
-  private readonly rootTranslationKey = 'dashboard.categoryValueModal';
+export class CategoryValueModalComponent implements OnInit, AfterViewInit {
+  @ViewChild('valueInput')
+  private valueInput: ElementRef;
 
   readonly formFieldsEnum = FormFields;
 
@@ -27,6 +37,8 @@ export class CategoryValueModalComponent implements OnInit {
 
   loading$: Observable<boolean>;
   success$: Observable<boolean>;
+
+  category$: Observable<Category>;
 
   get isFormValid(): boolean {
     return this.form.valid;
@@ -47,12 +59,14 @@ export class CategoryValueModalComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: CategoryValueModalData,
     private dialogRef: MatDialogRef<CategoryValueModalComponent>,
-    private categoriesFacade: CategoriesFacadeService
+    private categoriesFacade: CategoriesFacadeService,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.loading$ = this.categoriesFacade.getCategoryValueChangeInProgress();
     this.success$ = this.categoriesFacade.getCategoryValueChangeSuccess();
+    this.category$ = this.categoriesFacade.getCategoryById(this.data.categoryId);
 
     this.success$
       .pipe(
@@ -62,8 +76,13 @@ export class CategoryValueModalComponent implements OnInit {
       .subscribe(() => this.dialogRef.close());
   }
 
+  ngAfterViewInit(): void {
+    this.valueInput.nativeElement.focus();
+    this.cd.detectChanges();
+  }
+
   buildTranslationKey(key: string): string {
-    return `${this.rootTranslationKey}.${key}`;
+    return `dashboard.categoryValueModal.${key}`;
   }
 
   cancelClick(): void {

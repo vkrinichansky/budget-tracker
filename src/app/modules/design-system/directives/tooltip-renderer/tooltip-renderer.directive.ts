@@ -59,13 +59,16 @@ export class TooltipRendererDirective implements OnDestroy {
   @Input()
   position: TooltipPosition = 'top';
 
+  @Input()
+  maxWidth = 'max-w-64';
+
   //If this is specified then specified text will be showin in the tooltip
   @Input()
   tooltipText: string;
 
   //If this is specified then specified template will be rendered in the tooltip
   @Input()
-  tooltipTemplate: TemplateRef<any>;
+  tooltipTemplate: TemplateRef<unknown>;
 
   @Input()
   childElementId: string;
@@ -82,7 +85,7 @@ export class TooltipRendererDirective implements OnDestroy {
     return element.offsetWidth < element.scrollWidth;
   }
 
-  private get elementToCheck(): any {
+  private get elementToCheck(): HTMLElement {
     if (this.childElementId) {
       const childElement = this._elementRef.nativeElement.querySelector(`#${this.childElementId}`);
 
@@ -150,6 +153,7 @@ export class TooltipRendererDirective implements OnDestroy {
         tooltipRef.instance.tooltipTemplate = this.tooltipTemplate;
         tooltipRef.instance.tooltipBgColor = this.tooltipBgColor;
         tooltipRef.instance.position = this.position;
+        tooltipRef.instance.maxWidth = this.maxWidth;
       }
     }
   }

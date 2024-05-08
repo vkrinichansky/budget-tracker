@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, TemplateRef } from '@angular/core';
 import { ColorScheme, BgColorScheme, MenuAction } from '../../models';
+import { isMobileWidth } from '@budget-tracker/utils';
 
 @Component({
   selector: 'app-info-card',
@@ -37,7 +38,10 @@ export class InfoCardComponent {
   iconColorClass = 'text-charcoal';
 
   @Input()
-  shouldDisplayMenu = false;
+  shouldDisableMenu = false;
+
+  @Input()
+  tooltip: TemplateRef<unknown> | string;
 
   @Input()
   menuActions: MenuAction[];
@@ -51,5 +55,9 @@ export class InfoCardComponent {
       case 'white':
         return 'transparent-dark';
     }
+  }
+
+  get isMobile(): boolean {
+    return isMobileWidth();
   }
 }

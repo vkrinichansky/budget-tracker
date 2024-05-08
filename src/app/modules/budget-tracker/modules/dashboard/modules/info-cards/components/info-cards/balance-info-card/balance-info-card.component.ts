@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { firstValueFrom, map, Observable } from 'rxjs';
 import { MenuAction } from '@budget-tracker/design-system';
 import { InfoCardValueModalService } from '../../../services';
 import { RootValuesFacadeService } from '@budget-tracker/data';
@@ -10,13 +10,11 @@ import { RootValuesFacadeService } from '@budget-tracker/data';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BalanceInfoCardComponent implements OnInit {
-  private readonly rootTranslationKey = 'dashboard.infoCards.balance';
-
   fullBalance$: Observable<number>;
 
   currentBalance$: Observable<number>;
 
-  menuActions$: Observable<MenuAction[]>;
+  menuActions: MenuAction[];
 
   constructor(
     private rootValuesFacade: RootValuesFacadeService,
@@ -26,31 +24,39 @@ export class BalanceInfoCardComponent implements OnInit {
   ngOnInit(): void {
     this.fullBalance$ = this.rootValuesFacade.getFullBalanceValue();
     this.currentBalance$ = this.rootValuesFacade.getCurrentBalanceValue();
-
-    this.menuActions$ = this.fullBalance$.pipe(map((fullBalance) => this.resolveMenuActions(fullBalance)));
+    this.menuActions = this.resolveMenuActions();
   }
 
   buildTranslationKey(key: string): string {
-    return `${this.rootTranslationKey}.${key}`;
+    return `dashboard.infoCards.balance.${key}`;
   }
 
-  private resolveMenuActions(fullBalance: number): MenuAction[] {
+  private resolveMenuActions(): MenuAction[] {
     return [
       {
         icon: 'plus',
         translationKey: this.buildTranslationKey('menu.increase'),
-        action: () => this.infoCardValueModalService.openIncreaseBalanceModal(fullBalance),
+        action: async () => {
+          const fullBalance = await firstValueFrom(this.fullBalance$);
+          this.infoCardValueModalService.openIncreaseBalanceModal(fullBalance);
+        },
       },
       {
         icon: 'minus',
         translationKey: this.buildTranslationKey('menu.decrease'),
-        disabled: fullBalance === 0,
-        action: () => this.infoCardValueModalService.openDecreaseBalanceModal(fullBalance),
+        disabledObs: this.fullBalance$.pipe(map((fullBalance) => fullBalance <= 0)),
+        action: async () => {
+          const fullBalance = await firstValueFrom(this.fullBalance$);
+          this.infoCardValueModalService.openDecreaseBalanceModal(fullBalance);
+        },
       },
       {
         icon: 'edit',
         translationKey: this.buildTranslationKey('menu.edit'),
-        action: () => this.infoCardValueModalService.openEditBalanceModal(fullBalance),
+        action: async () => {
+          const fullBalance = await firstValueFrom(this.fullBalance$);
+          this.infoCardValueModalService.openEditBalanceModal(fullBalance);
+        },
       },
     ];
   }

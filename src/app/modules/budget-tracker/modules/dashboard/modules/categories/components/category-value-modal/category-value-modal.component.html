@@ -1,10 +1,13 @@
-<h1 mat-dialog-title>{{ buildTranslationKey('title') | translate }}</h1>
+<div mat-dialog-title>
+  <h1>{{ (category$ | async)?.name }}</h1>
+  <h2 class="text-sm">{{ buildTranslationKey('title') | translate }}</h2>
+</div>
 
 <div mat-dialog-content class="flex flex-col">
   <form class="flex flex-col" [formGroup]="form">
     <mat-form-field>
       <mat-label>{{ buildTranslationKey('valueToAddTitle') | translate }}</mat-label>
-      <input matInput [type]="'number'" [formControlName]="formFieldsEnum.ValueToAdd" />
+      <input #valueInput matInput [type]="'number'" [formControlName]="formFieldsEnum.ValueToAdd" />
 
       <mat-error *ngIf="hasRequiredError">{{ 'formErrors.required' | translate }}</mat-error>
 

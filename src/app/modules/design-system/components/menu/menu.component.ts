@@ -24,4 +24,7 @@ export class MenuComponent {
 
   @Input()
   buttonSizeY: ButtonSize = 'small';
+
+  @Input()
+  menuDisabled: boolean;
 }

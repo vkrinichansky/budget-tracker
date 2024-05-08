@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { IconSize } from '../../models';
+import { ChangeDetectionStrategy, Component, Input, TemplateRef } from '@angular/core';
+import { IconSize, TooltipPosition } from '../../models';
 
 @Component({
   selector: 'app-info-icon',
@@ -8,11 +8,23 @@ import { IconSize } from '../../models';
 })
 export class InfoIconComponent {
   @Input()
-  text: string;
+  tooltip: TemplateRef<unknown> | string;
 
   @Input()
   size: IconSize = 'small';
 
   @Input()
-  tooltipPosition = 'above';
+  tooltipPosition: TooltipPosition = 'top';
+
+  get isTemplate(): boolean {
+    return this.tooltip instanceof TemplateRef;
+  }
+
+  get stringTooltip(): string {
+    return typeof this.tooltip === 'string' ? this.tooltip : undefined;
+  }
+
+  get templateTooltip(): TemplateRef<unknown> {
+    return this.tooltip instanceof TemplateRef ? this.tooltip : undefined;
+  }
 }

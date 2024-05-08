@@ -25,7 +25,7 @@ export class IncomeInfoCardComponent implements OnInit {
   ];
 
   income$: Observable<number>;
-  shouldDisplayMenu$: Observable<boolean>;
+  shouldDisableMenu$: Observable<boolean>;
 
   constructor(
     private confirmationModalService: ConfirmationModalService,
@@ -34,7 +34,7 @@ export class IncomeInfoCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.income$ = this.categoriesFacade.getIncomeValue();
-    this.shouldDisplayMenu$ = this.categoriesFacade.areIncomeCategoriesAllReset().pipe(map((areReset) => !areReset));
+    this.shouldDisableMenu$ = this.categoriesFacade.areIncomeCategoriesAllReset().pipe(map((areReset) => areReset));
   }
 
   buildTranslationKey(key: string): string {

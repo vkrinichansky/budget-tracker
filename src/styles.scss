@@ -62,7 +62,11 @@ body {
 // DIALOG
 .mat-mdc-dialog-container {
   .mdc-dialog__title {
-    @apply font-main text-lg font-bold text-charcoal #{!important};
+    @apply font-main text-lg font-bold text-charcoal px-6 py-3 #{!important};
+
+    &::before {
+      @apply hidden;
+    }
   }
 }
 
