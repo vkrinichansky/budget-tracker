@@ -4,20 +4,24 @@
       {{ record.categoryName }}
     </span>
 
-    <span *ngIf="record?.isReset; else budgetTypeTemplate" class="font-main font-bold text-blue">
-      {{ record.value | currencySymbol }}&nbsp;&rarr;&nbsp;{{ 0 | currencySymbol }}
-    </span>
+    @if (record?.isReset) {
+      <span class="font-main font-bold text-blue">
+        {{ record.value | currencySymbol }}&nbsp;&rarr;&nbsp;{{ 0 | currencySymbol }}
+      </span>
+    } @else {
+      @switch (record.budgetType) {
+        @case (budgetType.Income) {
+          <span class="font-main font-bold text-dark-green">
+            &plus;&nbsp;{{ record.value | currencySymbol }}
+          </span>
+        }
+        @case (budgetType.Expense) {
+          <span class="font-main font-bold text-red">
+            &minus;&nbsp;{{ record.value | currencySymbol }}
+          </span>
+        }
+      }
+    }
 
-    <ng-template #budgetTypeTemplate>
-      <ng-container [ngSwitch]="record.budgetType">
-        <span *ngSwitchCase="budgetType.Income" class="font-main font-bold text-dark-green">
-          &plus;&nbsp;{{ record.value | currencySymbol }}
-        </span>
-
-        <span *ngSwitchCase="budgetType.Expense" class="font-main font-bold text-red">
-          &minus;&nbsp;{{ record.value | currencySymbol }}
-        </span>
-      </ng-container>
-    </ng-template>
   </span>
 </app-generic-activity-log-record>

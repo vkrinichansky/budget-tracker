@@ -12,29 +12,39 @@
           </span>
         </mat-select-trigger>
 
-        <mat-option *ngFor="let option of options" [value]="option">
-          <app-button
-            class="overflow-hidden"
-            [iconName]="option.icon"
-            [text]="option.textTranslationKey | translate"
-            [buttonSizeX]="'full'"
-            [align]="'start'"
-          ></app-button>
-        </mat-option>
+        @for (option of options; track option) {
+          <mat-option [value]="option">
+            <app-button
+              class="overflow-hidden"
+              [iconName]="option.icon"
+              [text]="option.textTranslationKey | translate"
+              [buttonSizeX]="'full'"
+              [align]="'start'"
+            ></app-button>
+          </mat-option>
+        }
       </mat-select>
 
-      <mat-error *ngIf="hasCategoryIconRequiredError">{{ 'formErrors.required' | translate }}</mat-error>
+      @if (hasCategoryIconRequiredError) {
+        <mat-error>{{ 'formErrors.required' | translate }}</mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>{{ buildTranslationKey('categoryNameTitle') | translate }}</mat-label>
       <input matInput [formControlName]="formFields.CategoryName" />
 
-      <mat-error *ngIf="hasCategoryNameRequiredError">{{ 'formErrors.required' | translate }}</mat-error>
+      @if (hasCategoryNameRequiredError) {
+        <mat-error>{{ 'formErrors.required' | translate }}</mat-error>
+      }
 
-      <mat-error *ngIf="hasMaxLengthError">{{ buildTranslationKey('categoryNameLengthError') | translate }}</mat-error>
+      @if (hasMaxLengthError) {
+        <mat-error>{{ buildTranslationKey('categoryNameLengthError') | translate }}</mat-error>
+      }
 
-      <mat-error *ngIf="hasCategoryExistsError">{{ buildTranslationKey('categoryExistsError') | translate }}</mat-error>
+      @if (hasCategoryExistsError) {
+        <mat-error>{{ buildTranslationKey('categoryExistsError') | translate }}</mat-error>
+      }
     </mat-form-field>
   </form>
 </div>

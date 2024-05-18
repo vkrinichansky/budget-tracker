@@ -5,12 +5,13 @@
     [menuDisabled]="shouldDisableMenu || !menuActions?.length"
   ></app-menu>
 
-  <app-info-icon
-    *ngIf="tooltip"
-    [size]="'medium'"
-    [tooltipPosition]="isMobile ? 'left' : 'top'"
-    [tooltip]="tooltip"
-  ></app-info-icon>
+  @if (tooltip) {
+    <app-info-icon
+      [size]="'medium'"
+      [tooltipPosition]="isMobile ? 'left' : 'top'"
+      [tooltip]="tooltip"
+    ></app-info-icon>
+  }
 </div>
 
 <svg-icon-with-bg class="{{ iconBGClass }} {{ iconColorClass }}" [iconName]="iconName"></svg-icon-with-bg>
@@ -19,8 +20,10 @@
   <span class="primary font-main font-bold {{ twoLine ? 'text-sm' : 'text-xl' }}"> {{ primaryText }}&nbsp; </span>
   <span class="secondary font-main {{ twoLine ? 'text-xs' : 'text-sm' }}">{{ secondaryText }}</span>
 
-  <div *ngIf="twoLine" class="flex flex-1 flex-col mt-2">
-    <span class="primary font-main font-bold text-sm">{{ additionalPrimaryText }}</span>
-    <span class="secondary font-main text-xs">{{ additionalSecondaryText }}</span>
-  </div>
+  @if (twoLine) {
+    <div class="flex flex-1 flex-col mt-2">
+      <span class="primary font-main font-bold text-sm">{{ additionalPrimaryText }}</span>
+      <span class="secondary font-main text-xs">{{ additionalSecondaryText }}</span>
+    </div>
+  }
 </div>

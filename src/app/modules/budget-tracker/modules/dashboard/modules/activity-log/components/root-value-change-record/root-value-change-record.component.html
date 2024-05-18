@@ -4,18 +4,22 @@
       {{ buildTranslationKey('title.' + record.valueType) | translate }}
     </span>
 
-    <ng-container [ngSwitch]="record.actionType">
-      <span *ngSwitchCase="actionType.Increase" class="font-main font-bold text-dark-green">
-        &plus;&nbsp;{{ record.value | currencySymbol }}
-      </span>
-
-      <span *ngSwitchCase="actionType.Decrease" class="font-main font-bold text-red">
-        &minus;&nbsp;{{ record.value | currencySymbol }}
-      </span>
-
-      <span *ngSwitchCase="actionType.Edit" class="font-main font-bold text-blue">
-        {{ record.oldValue | currencySymbol }}&nbsp;&rarr;&nbsp;{{ record.newValue | currencySymbol }}
-      </span>
-    </ng-container>
+    @switch (record.actionType) {
+      @case (actionType.Increase) {
+        <span class="font-main font-bold text-dark-green">
+          &plus;&nbsp;{{ record.value | currencySymbol }}
+        </span>
+      }
+      @case (actionType.Decrease) {
+        <span class="font-main font-bold text-red">
+          &minus;&nbsp;{{ record.value | currencySymbol }}
+        </span>
+      }
+      @case (actionType.Edit) {
+        <span class="font-main font-bold text-blue">
+          {{ record.oldValue | currencySymbol }}&nbsp;&rarr;&nbsp;{{ record.newValue | currencySymbol }}
+        </span>
+      }
+    }
   </span>
 </app-generic-activity-log-record>

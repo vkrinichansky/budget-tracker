@@ -6,6 +6,8 @@
   </span>
   <div class="flex items-center gap-x-1">
     <span class="font-main text-grey text-xs">{{ time }}</span>
-    <app-info-icon *ngIf="note" [tooltip]="note"></app-info-icon>
+    @if (note) {
+      <app-info-icon [tooltip]="note"></app-info-icon>
+    }
   </div>
 </div>

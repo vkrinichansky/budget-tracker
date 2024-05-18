@@ -5,21 +5,25 @@
   class="flex flex-col overflow-hidden h-full w-full"
   [class.justify-center]="isEmpty"
   [class.items-center]="isEmpty"
->
-  <span *ngIf="isEmpty" class="font-main font-bold text-charcoal text-lg text-center">
-    {{ buildTranslationKey('emptyStateText') | translate }}
-  </span>
+  >
+  @if (isEmpty) {
+    <span class="font-main font-bold text-charcoal text-lg text-center">
+      {{ buildTranslationKey('emptyStateText') | translate }}
+    </span>
+  }
 
-  <cdk-virtual-scroll-viewport *ngIf="!isEmpty" itemSize="66" class="h-full w-full !overflow-x-hidden">
-    <div
-      *cdkVirtualFor="let item of itemsToRender$ | async; trackBy: trackBy.bind(this); templateCacheSize: 0"
-      class="h-16.5 flex items-center w-full"
-    >
-      <ng-container
-        *ngTemplateOutlet="isItemDate(item) ? dateItem : recordItem; context: { item: item }"
-      ></ng-container>
-    </div>
-  </cdk-virtual-scroll-viewport>
+  @if (!isEmpty) {
+    <cdk-virtual-scroll-viewport itemSize="66" class="h-full w-full !overflow-x-hidden">
+      <div
+        *cdkVirtualFor="let item of itemsToRender$ | async; trackBy: trackBy.bind(this); templateCacheSize: 0"
+        class="h-16.5 flex items-center w-full"
+        >
+        <ng-container
+          *ngTemplateOutlet="isItemDate(item) ? dateItem : recordItem; context: { item: item }"
+        ></ng-container>
+      </div>
+    </cdk-virtual-scroll-viewport>
+  }
 </div>
 
 <ng-template #dateItem let-item="item">
@@ -29,20 +33,24 @@
 </ng-template>
 
 <ng-template #recordItem let-item="item">
-  <ng-container [ngSwitch]="item.recordType">
-    <app-root-value-change-record *ngSwitchCase="recordType.RootValueChange" class="w-full" [record]="item">
-    </app-root-value-change-record>
-
-    <app-category-management-record *ngSwitchCase="recordType.CategoryManagement" class="w-full" [record]="item">
-    </app-category-management-record>
-
-    <app-category-value-change-record *ngSwitchCase="recordType.CategoryValueChange" class="w-full" [record]="item">
-    </app-category-value-change-record>
-
-    <app-categories-reset-record
-      *ngSwitchCase="recordType.CategoriesReset"
-      class="w-full"
-      [record]="item"
-    ></app-categories-reset-record>
-  </ng-container>
+  @switch (item.recordType) {
+    @case (recordType.RootValueChange) {
+      <app-root-value-change-record class="w-full" [record]="item">
+      </app-root-value-change-record>
+    }
+    @case (recordType.CategoryManagement) {
+      <app-category-management-record class="w-full" [record]="item">
+      </app-category-management-record>
+    }
+    @case (recordType.CategoryValueChange) {
+      <app-category-value-change-record class="w-full" [record]="item">
+      </app-category-value-change-record>
+    }
+    @case (recordType.CategoriesReset) {
+      <app-categories-reset-record
+        class="w-full"
+        [record]="item"
+      ></app-categories-reset-record>
+    }
+  }
 </ng-template>

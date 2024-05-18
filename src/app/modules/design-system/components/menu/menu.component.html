@@ -10,13 +10,14 @@
 ></app-button>
 
 <mat-menu #menu="matMenu">
-  <app-button
-    *ngFor="let action of menuActions"
-    [text]="action.translationKey | translate"
-    [iconName]="action.icon"
-    [buttonSizeX]="'full'"
-    [disabled]="action.disabled || (action.disabledObs | async)"
-    [align]="'start'"
-    (click)="action.action()"
-  ></app-button>
+  @for (action of menuActions; track action) {
+    <app-button
+      [text]="action.translationKey | translate"
+      [iconName]="action.icon"
+      [buttonSizeX]="'full'"
+      [disabled]="action.disabled || (action.disabledObs | async)"
+      [align]="'start'"
+      (click)="action.action()"
+    ></app-button>
+  }
 </mat-menu>
