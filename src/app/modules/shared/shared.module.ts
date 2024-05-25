@@ -5,14 +5,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
 import { DesignSystemModule } from '@budget-tracker/design-system';
-import { CurrencySwitcherComponent } from './components';
+import { CurrencySwitcherComponent, LostConnectionMessageComponent } from './components';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CurrencyPipe } from './pipes';
 
 @NgModule({
-  declarations: [LanguageSwitcherComponent, CurrencySwitcherComponent, CurrencyPipe],
+  declarations: [LanguageSwitcherComponent, CurrencySwitcherComponent, CurrencyPipe, LostConnectionMessageComponent],
   imports: [CommonModule, MatSnackBarModule, TranslateModule, DesignSystemModule, MatTooltipModule],
-  exports: [LanguageSwitcherComponent, CurrencySwitcherComponent, CurrencyPipe],
+  exports: [LanguageSwitcherComponent, CurrencySwitcherComponent, CurrencyPipe, LostConnectionMessageComponent],
   providers: [NavigatorService, SnackbarHandlerService, CurrencyPipe],
 })
 export class SharedModule {}
