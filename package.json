@@ -38,6 +38,8 @@
     "chartjs-plugin-zoom": "^2.0.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
+    "firebase": "^10.12.2",
+    "firebase-tools": "^13.10.2",
     "hammerjs": "^2.0.8",
     "ng2-charts": "^4.1.1",
     "prettier": "^3.2.5",
