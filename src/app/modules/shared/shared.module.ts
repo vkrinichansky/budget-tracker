@@ -13,6 +13,6 @@ import { CurrencyPipe } from './pipes';
   declarations: [LanguageSwitcherComponent, CurrencySwitcherComponent, CurrencyPipe, LostConnectionMessageComponent],
   imports: [CommonModule, MatSnackBarModule, TranslateModule, DesignSystemModule, MatTooltipModule],
   exports: [LanguageSwitcherComponent, CurrencySwitcherComponent, CurrencyPipe, LostConnectionMessageComponent],
-  providers: [NavigatorService, SnackbarHandlerService, CurrencyPipe, LostConnectionService],
+  providers: [NavigatorService, SnackbarHandlerService, CurrencyPipe, LostConnectionService, Location],
 })
 export class SharedModule {}

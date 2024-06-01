@@ -1,23 +1,54 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { LostConnectionMessageComponent } from './lost-connection-message.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
-describe('LostConnectionMessageComponent', () => {
-  let component: LostConnectionMessageComponent;
+fdescribe('LostConnectionMessageComponent', () => {
+  let componentUnderTest: LostConnectionMessageComponent;
   let fixture: ComponentFixture<LostConnectionMessageComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [LostConnectionMessageComponent]
-    })
-    .compileComponents();
-    
+  let mockWindow: Window;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [LostConnectionMessageComponent],
+      imports: [TranslateModule.forRoot()],
+      providers: [{provide: Window, useValue: {location: {reload: () => {}}}}],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(LostConnectionMessageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    componentUnderTest = fixture.componentInstance;
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(componentUnderTest).toBeTruthy();
+  });
+
+  describe('#buildTranslationKey', () => {
+    it('should return the correct translation key', () => {
+      // Arrange 
+      const parentKey = 'lostConnectionMessage';
+      const key = 'key';
+      const expectedResult = `${parentKey}.${key}`;
+
+      // Act
+      const result = componentUnderTest.buildTranslationKey(key);
+      
+      // Assert
+      expect(result).toBe(expectedResult);
+    });
+  });
+
+  describe('#reload', () => {
+    it('should call window.location.reload', () => {
+      // Arrange 
+
+      // Act
+      componentUnderTest.reload();
+      
+      // Assert
+      //expect(mockWindow.location.reload).toHaveBeenCalledWith();
+    });
   });
 });

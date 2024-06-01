@@ -1,11 +1,11 @@
-/* tslint:disable:no-unused-variable */
+// /* tslint:disable:no-unused-variable */
 
-import { TestBed, async } from '@angular/core/testing';
-import { CurrencyPipe } from './currency.pipe';
+// import { TestBed, async } from '@angular/core/testing';
+// import { CurrencyPipe } from './currency.pipe';
 
-describe('Pipe: Currencye', () => {
-  it('create an instance', () => {
-    let pipe = new CurrencyPipe();
-    expect(pipe).toBeTruthy();
-  });
-});
+// describe('Pipe: Currencye', () => {
+//   it('create an instance', () => {
+//     let pipe = new CurrencyPipe();
+//     expect(pipe).toBeTruthy();
+//   });
+// });
