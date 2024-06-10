@@ -244,6 +244,11 @@
     }
   },
 
+  "lostConnectionMessage": {
+    "message": "Здається, ви офлайн. Перевірте підключення до Інтернету.",
+    "button": "Перезавантажити"
+  },
+
   "categoryIcons": {
     "housing": "Житло",
     "food": "Їжа",

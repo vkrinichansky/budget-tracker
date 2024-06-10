@@ -243,6 +243,11 @@
     }
   },
 
+  "lostConnectionMessage": {
+    "message": "It seems like you are offline. Please, check your internet connection.",
+    "button": "Reload"
+  },
+
   "categoryIcons": {
     "housing": "Housing",
     "food": "Food",

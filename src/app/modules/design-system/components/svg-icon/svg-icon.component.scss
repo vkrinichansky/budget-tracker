@@ -18,6 +18,10 @@
     @apply w-auto h-auto;
   }
 
+  &.full-width {
+    @apply w-full h-auto;
+  }
+
   svg {
     all: inherit;
   }
