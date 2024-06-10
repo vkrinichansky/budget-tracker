@@ -39,16 +39,4 @@ describe('LostConnectionMessageComponent', () => {
       expect(result).toBe(expectedResult);
     });
   });
-
-  describe('#reload', () => {
-    it('should call window.location.reload', () => {
-      // Arrange 
-
-      // Act
-      componentUnderTest.reload();
-      
-      // Assert
-      //expect(mockWindow.location.reload).toHaveBeenCalledWith();
-    });
-  });
 });
