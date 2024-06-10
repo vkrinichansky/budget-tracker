@@ -5,26 +5,34 @@ import { Store } from '@ngrx/store';
 import { from, map, of, switchMap, tap } from 'rxjs';
 import { ActivityLogActions, CategoriesActions, DataInitActions, RootValuesActions } from '../actions';
 import { DataInitService } from '../../services';
+import { getMonthAndYearString } from '@budget-tracker/utils';
+import { BudgetTrackerState } from '../../models';
 
 @Injectable()
 export class DataInitEffects {
-  constructor(private actions$: Actions, private dataInitService: DataInitService, private store: Store) {}
+  constructor(
+    private actions$: Actions,
+    private dataInitService: DataInitService,
+    private store: Store
+  ) {}
 
   init$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DataInitActions.init),
       switchMap(() => from(this.dataInitService.initData())),
       tap((data) => {
-        const categories = { ...data.budget.categories };
         const rootValues = { ...data.budget.rootValues };
-        const activityLog = [...data.budget.activityLog];
+        // const categories = { ...data.budget.categories };
+        // const activityLog = [...data.budget.activityLog];
+        const resetDate = data.budget.resetDate;
+        console.log('reseteDate', resetDate);
 
-        this.store.dispatch(
-          CategoriesActions.categoriesLoaded({
-            expense: categories.expense,
-            income: categories.income,
-          })
-        );
+        // this.store.dispatch(
+        //   CategoriesActions.categoriesLoaded({
+        //     expense: categories.expense,
+        //     income: categories.income,
+        //   })
+        // );
 
         this.store.dispatch(
           RootValuesActions.rootValuesLoaded({
@@ -34,9 +42,20 @@ export class DataInitEffects {
           })
         );
 
-        this.store.dispatch(ActivityLogActions.activityLogLoaded({ activityLog }));
+        // this.store.dispatch(ActivityLogActions.activityLogLoaded({ activityLog }));
+
+        // this.store.dispatch(DataInitActions.resetDateLoaded({ resetDate }));
       }),
-      map(() => DataInitActions.dataLoaded())
+      map((data) => {
+        console.log('CONDITION', data.budget.resetDate === getMonthAndYearString());
+        if (data.budget.resetDate === getMonthAndYearString()) {
+          this.setStates(data);
+
+          return DataInitActions.dataLoaded();
+        }
+
+        return DataInitActions.resetData({ data });
+      })
     )
   );
 
@@ -48,4 +67,21 @@ export class DataInitEffects {
       )
     )
   );
+
+  private setStates(data: BudgetTrackerState) {
+    const categories = { ...data.budget.categories };
+    const activityLog = [...data.budget.activityLog];
+    const resetDate = data.budget.resetDate;
+
+    this.store.dispatch(
+      CategoriesActions.categoriesLoaded({
+        expense: categories.expense,
+        income: categories.income,
+      })
+    );
+
+    this.store.dispatch(ActivityLogActions.activityLogLoaded({ activityLog }));
+
+    this.store.dispatch(DataInitActions.resetDateLoaded({ resetDate }));
+  }
 }

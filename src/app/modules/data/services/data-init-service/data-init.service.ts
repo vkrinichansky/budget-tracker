@@ -6,7 +6,10 @@ import { BudgetTrackerState } from '../../models';
 
 @Injectable()
 export class DataInitService {
-  constructor(private firestore: Firestore, private authFacade: AuthFacadeService) {}
+  constructor(
+    private firestore: Firestore,
+    private authFacade: AuthFacadeService
+  ) {}
 
   async initData(): Promise<BudgetTrackerState> {
     return await firstValueFrom(
