@@ -3,7 +3,7 @@ import { LostConnectionMessageComponent } from './lost-connection-message.compon
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
-fdescribe('LostConnectionMessageComponent', () => {
+describe('LostConnectionMessageComponent', () => {
   let componentUnderTest: LostConnectionMessageComponent;
   let fixture: ComponentFixture<LostConnectionMessageComponent>;
 
