@@ -3,7 +3,6 @@ import { Observable, combineLatest, fromEvent, map, merge, of } from 'rxjs';
 
 @Injectable()
 export class LostConnectionService {
-  constructor() {}
 
   isOnline(): Observable<boolean> {
      return merge(
