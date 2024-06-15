@@ -4,16 +4,18 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { from, map, of, switchMap, tap } from 'rxjs';
 import { ActivityLogActions, CategoriesActions, DataInitActions, RootValuesActions } from '../actions';
-import { DataInitService } from '../../services';
+import { CategoriesService, DataInitService } from '../../services';
 import { getMonthAndYearString } from '@budget-tracker/utils';
-import { BudgetTrackerState } from '../../models';
+import { ActivityLogRecordType, BudgetTrackerState, BudgetType, CategoriesResetRecord } from '../../models';
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class DataInitEffects {
   constructor(
     private actions$: Actions,
     private dataInitService: DataInitService,
-    private store: Store
+    private store: Store,
+    private categoryService: CategoriesService
   ) {}
 
   init$ = createEffect(() =>
@@ -22,17 +24,8 @@ export class DataInitEffects {
       switchMap(() => from(this.dataInitService.initData())),
       tap((data) => {
         const rootValues = { ...data.budget.rootValues };
-        // const categories = { ...data.budget.categories };
-        // const activityLog = [...data.budget.activityLog];
         const resetDate = data.budget.resetDate;
         console.log('reseteDate', resetDate);
-
-        // this.store.dispatch(
-        //   CategoriesActions.categoriesLoaded({
-        //     expense: categories.expense,
-        //     income: categories.income,
-        //   })
-        // );
 
         this.store.dispatch(
           RootValuesActions.rootValuesLoaded({
@@ -41,10 +34,6 @@ export class DataInitEffects {
             freeMoney: rootValues.freeMoney,
           })
         );
-
-        // this.store.dispatch(ActivityLogActions.activityLogLoaded({ activityLog }));
-
-        // this.store.dispatch(DataInitActions.resetDateLoaded({ resetDate }));
       }),
       map((data) => {
         console.log('CONDITION', data.budget.resetDate === getMonthAndYearString());
@@ -55,6 +44,53 @@ export class DataInitEffects {
         }
 
         return DataInitActions.resetData({ data });
+      })
+    )
+  );
+
+  resetData$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(DataInitActions.resetData),
+
+      switchMap((action) => {
+        const resetData = structuredClone(action.data);
+
+        [BudgetType.Income, BudgetType.Expense].forEach((budgetType) => {
+          resetData.budget.categories[budgetType] = resetData.budget.categories[budgetType].map((category) => ({
+            ...category,
+            value: 0,
+          }));
+        });
+
+        const activityLogRecords: CategoriesResetRecord[] = [
+          { budgetType: BudgetType.Income, icon: 'arrow-up' },
+          { budgetType: BudgetType.Expense, icon: 'arrow-down' },
+        ].map((item) => ({
+          budgetType: item.budgetType,
+          date: new Date().getTime(),
+          id: uuid(),
+          recordType: ActivityLogRecordType.CategoriesReset,
+          icon: item.icon,
+        }));
+
+        resetData.budget.resetDate = getMonthAndYearString();
+
+        return of({ resetData, activityLogRecords });
+      }),
+
+      switchMap(({ resetData, activityLogRecords }) =>
+        from(this.categoryService.resetData(resetData, activityLogRecords)).pipe(
+          tap(() => {
+            const resultResetData = {
+              ...resetData,
+              budget: { ...resetData.budget, activityLog: [...resetData.budget.activityLog, ...activityLogRecords] },
+            };
+            this.setStates(resultResetData);
+          })
+        )
+      ),
+      map(() => {
+        return DataInitActions.dataLoaded();
       })
     )
   );
