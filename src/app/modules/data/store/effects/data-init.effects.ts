@@ -117,7 +117,6 @@ export class DataInitEffects {
     );
 
     this.store.dispatch(ActivityLogActions.activityLogLoaded({ activityLog }));
-
     this.store.dispatch(DataInitActions.resetDateLoaded({ resetDate }));
   }
 }
