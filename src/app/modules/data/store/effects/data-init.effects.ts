@@ -24,8 +24,6 @@ export class DataInitEffects {
       switchMap(() => from(this.dataInitService.initData())),
       tap((data) => {
         const rootValues = { ...data.budget.rootValues };
-        const resetDate = data.budget.resetDate;
-        console.log('reseteDate', resetDate);
 
         this.store.dispatch(
           RootValuesActions.rootValuesLoaded({
@@ -50,33 +48,7 @@ export class DataInitEffects {
   resetData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DataInitActions.resetData),
-
-      switchMap((action) => {
-        const resetData = structuredClone(action.data);
-
-        [BudgetType.Income, BudgetType.Expense].forEach((budgetType) => {
-          resetData.budget.categories[budgetType] = resetData.budget.categories[budgetType].map((category) => ({
-            ...category,
-            value: 0,
-          }));
-        });
-
-        const activityLogRecords: CategoriesResetRecord[] = [
-          { budgetType: BudgetType.Income, icon: 'arrow-up' },
-          { budgetType: BudgetType.Expense, icon: 'arrow-down' },
-        ].map((item) => ({
-          budgetType: item.budgetType,
-          date: new Date().getTime(),
-          id: uuid(),
-          recordType: ActivityLogRecordType.CategoriesReset,
-          icon: item.icon,
-        }));
-
-        resetData.budget.resetDate = getMonthAndYearString();
-
-        return of({ resetData, activityLogRecords });
-      }),
-
+      switchMap((action) => of(this.getResetData(action.data))),
       switchMap(({ resetData, activityLogRecords }) =>
         from(this.categoryService.resetData(resetData, activityLogRecords)).pipe(
           tap(() => {
@@ -84,13 +56,12 @@ export class DataInitEffects {
               ...resetData,
               budget: { ...resetData.budget, activityLog: [...resetData.budget.activityLog, ...activityLogRecords] },
             };
+
             this.setStates(resultResetData);
           })
         )
       ),
-      map(() => {
-        return DataInitActions.dataLoaded();
-      })
+      map(() => DataInitActions.dataLoaded())
     )
   );
 
@@ -102,6 +73,34 @@ export class DataInitEffects {
       )
     )
   );
+
+  private getResetData(data: BudgetTrackerState): {
+    resetData: BudgetTrackerState;
+    activityLogRecords: CategoriesResetRecord[];
+  } {
+    const resetData = structuredClone(data);
+
+    [BudgetType.Income, BudgetType.Expense].forEach((budgetType) => {
+      resetData.budget.categories[budgetType] = resetData.budget.categories[budgetType].map((category) => ({
+        ...category,
+        value: 0,
+      }));
+    });
+
+    const activityLogRecords: CategoriesResetRecord[] = [
+      { budgetType: BudgetType.Income, icon: 'arrow-up' },
+      { budgetType: BudgetType.Expense, icon: 'arrow-down' },
+    ].map((item) => ({
+      budgetType: item.budgetType,
+      date: new Date().getTime(),
+      id: uuid(),
+      recordType: ActivityLogRecordType.CategoriesReset,
+      icon: item.icon,
+    }));
+
+    resetData.budget.resetDate = getMonthAndYearString();
+    return { resetData, activityLogRecords };
+  }
 
   private setStates(data: BudgetTrackerState) {
     const categories = { ...data.budget.categories };
