@@ -34,6 +34,8 @@ export class ActivityLogComponent implements OnInit {
     );
 
     this.isEmpty$ = this.activityLog$.pipe(map((activitiLog) => !activitiLog.length));
+
+    this.activityLogFacade.getSumsByDays().subscribe((sums) => console.log(sums));
   }
 
   trackBy(_: number, item: RenderingItemType): string {
