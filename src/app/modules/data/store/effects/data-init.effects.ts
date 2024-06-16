@@ -8,6 +8,7 @@ import { CategoriesService, DataInitService } from '../../services';
 import { getMonthAndYearString } from '@budget-tracker/utils';
 import { ActivityLogRecordType, BudgetTrackerState, BudgetType, CategoriesResetRecord } from '../../models';
 import { v4 as uuid } from 'uuid';
+import { SnackbarHandlerService } from '@budget-tracker/shared';
 
 @Injectable()
 export class DataInitEffects {
@@ -15,7 +16,8 @@ export class DataInitEffects {
     private actions$: Actions,
     private dataInitService: DataInitService,
     private store: Store,
-    private categoryService: CategoriesService
+    private categoryService: CategoriesService,
+    private snackbarHandler: SnackbarHandlerService
   ) {}
 
   init$ = createEffect(() =>
@@ -61,7 +63,8 @@ export class DataInitEffects {
           })
         )
       ),
-      map(() => DataInitActions.dataLoaded())
+      map(() => DataInitActions.dataLoaded()),
+      tap(() => this.snackbarHandler.showDataResetSnackbar())
     )
   );
 
