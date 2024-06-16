@@ -36,7 +36,6 @@ export class DataInitEffects {
         );
       }),
       map((data) => {
-        console.log('CONDITION', data.budget.resetDate === getMonthAndYearString());
         if (data.budget.resetDate === getMonthAndYearString()) {
           this.setStates(data);
 
