@@ -44,6 +44,7 @@ export class ActivityLogFacadeService {
       map((activityLog) => this.groupActivityLogByDaysInObject(activityLog)),
       map((activityLogInObject) => {
         const sumsByDays: SumByDate = {};
+        
         Object.keys(activityLogInObject).forEach((date) => {
           const categoryValueChangeRecords: CategoryValueChangeRecord[] = activityLogInObject[date]
             .filter((record) => record.recordType === ActivityLogRecordType.CategoryValueChange)
