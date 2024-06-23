@@ -1,20 +1,31 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CategoryManagementActionType, CategoryManagementRecord } from '@budget-tracker/data';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ActivityLogFacadeService, CategoryManagementActionType, CategoryManagementRecord } from '@budget-tracker/data';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-category-management-record',
   templateUrl: './category-management-record.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CategoryManagementRecordComponent {
-  private readonly rootTranslationKey = 'dashboard.activityLog.categoryManagementRecord';
-
+export class CategoryManagementRecordComponent implements OnInit {
   readonly actionType = CategoryManagementActionType;
 
   @Input()
   record: CategoryManagementRecord;
 
+  isRecordRemoving$: Observable<boolean>;
+
+  constructor(private activityLogFacade: ActivityLogFacadeService) {}
+
+  ngOnInit(): void {
+    this.isRecordRemoving$ = this.activityLogFacade.isActivityLogRecordRemoving(this.record.id);
+  }
+
   buildTranslationKey(key: string): string {
-    return `${this.rootTranslationKey}.${key}`;
+    return `dashboard.activityLog.categoryManagementRecord.${key}`;
+  }
+
+  removeRecord(): void {
+    this.activityLogFacade.removeActivityLogRecord(this.record.id);
   }
 }

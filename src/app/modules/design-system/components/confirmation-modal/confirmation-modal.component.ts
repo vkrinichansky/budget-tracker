@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, model } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ConfirmationModalData } from '../../models';
+import { ConfirmationModalData, ConfirmationModalTranslationData } from '../../models';
 
 @Component({
   selector: 'app-confirmation-modal',
@@ -8,7 +8,19 @@ import { ConfirmationModalData } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmationModalComponent implements OnInit {
-  private readonly rootTranslationKey = 'confirmationModal';
+  readonly checkmarkChecked = model(false);
+
+  get translation(): ConfirmationModalTranslationData {
+    return this.data.translation;
+  }
+
+  get shouldDisplayCheckbox(): boolean {
+    return this.data.shouldConsiderCheckbox && !!this.translation.checkboxTranslationKey;
+  }
+
+  get shouldDisplayRemark(): boolean {
+    return !!this.translation.remarkTranslationKey;
+  }
 
   constructor(
     private dialogRef: MatDialogRef<ConfirmationModalComponent>,
@@ -20,7 +32,7 @@ export class ConfirmationModalComponent implements OnInit {
   }
 
   buildTranslationKey(key: string): string {
-    return `${this.rootTranslationKey}.${key}`;
+    return `confirmationModal.${key}`;
   }
 
   closeClick(): void {

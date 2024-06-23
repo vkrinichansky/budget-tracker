@@ -8,7 +8,7 @@ const RootValuesStateSelector = createSelector(
 
 const fullBalanceSelector = createSelector(RootValuesStateSelector, (state) => state.balance);
 
-const freeMoneySelector = createSelector(RootValuesStateSelector, (state) => state.free);
+const freeMoneySelector = createSelector(RootValuesStateSelector, (state) => state.freeMoney);
 
 const savingsSelector = createSelector(RootValuesStateSelector, (state) => state.savings);
 
@@ -16,7 +16,7 @@ const currentBalanceSelector = createSelector(
   fullBalanceSelector,
   freeMoneySelector,
   savingsSelector,
-  (balance, free, savings) => balance - free - savings
+  (balance, freeMoney, savings) => balance - freeMoney - savings
 );
 
 const valueUpdatingInProgressSelector = createSelector(

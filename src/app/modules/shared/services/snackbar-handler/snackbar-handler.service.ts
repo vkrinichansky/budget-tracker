@@ -6,7 +6,10 @@ import { TranslateService } from '@ngx-translate/core';
 @Injectable()
 export class SnackbarHandlerService {
   private readonly rootTranslationKey = 'snackbars';
-  constructor(private snackBar: MatSnackBar, private translateService: TranslateService) {}
+  constructor(
+    private snackBar: MatSnackBar,
+    private translateService: TranslateService
+  ) {}
 
   showGeneralErrorSnackbar(): void {
     this.openSnackBarWithCloseDelay(
@@ -54,6 +57,13 @@ export class SnackbarHandlerService {
     this.openSnackBarWithCloseDelay(
       this.translateService.instant(this.buildTranslationKey('categoryRemovedSnackbar.message')),
       this.translateService.instant(this.buildTranslationKey('categoryRemovedSnackbar.buttonText'))
+    );
+  }
+
+  showActivityLogRecordRemovedSnackbar(): void {
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant(this.buildTranslationKey('activityLogRecordRemoved.message')),
+      this.translateService.instant(this.buildTranslationKey('activityLogRecordRemoved.buttonText'))
     );
   }
 

@@ -16,7 +16,14 @@ import {
 
 @Injectable()
 export class CategoriesFacadeService {
-  constructor(private store: Store, private rootValuesFacade: RootValuesFacadeService) {}
+  constructor(
+    private store: Store,
+    private rootValuesFacade: RootValuesFacadeService
+  ) {}
+
+  getAllCategories(): Observable<Category[]> {
+    return this.store.select(CategoriesSelectors.allCategoriesSelector);
+  }
 
   getIncomeCategories(): Observable<Category[]> {
     return this.store.select(CategoriesSelectors.incomeCategoriesSelector);
@@ -44,6 +51,16 @@ export class CategoriesFacadeService {
 
   getExpenseValue(): Observable<number> {
     return this.store.select(CategoriesSelectors.expenseValueSelector);
+  }
+
+  getCategoriesAccordingToBudgetType(budgetType: BudgetType): Observable<Category[]> {
+    switch (budgetType) {
+      case BudgetType.Income:
+        return this.getIncomeCategories();
+
+      case BudgetType.Expense:
+        return this.getExpenseCategories();
+    }
   }
 
   // CATEGORY MANAGEMENT
@@ -77,31 +94,27 @@ export class CategoriesFacadeService {
     this.store.dispatch(CategoriesActions.removeCategory({ category, activityLogRecord: removeCategoryRecord }));
   }
 
-  async changeCategoryValue(categoryId: string, valueToAdd = 0, note = '', isReset = false): Promise<void> {
+  async changeCategoryValue(categoryId: string, valueToAdd = 0, note = ''): Promise<void> {
     const balance = await firstValueFrom(this.rootValuesFacade.getFullBalanceValue());
 
     let newBalanceValue = balance;
 
-    const category: Category = await firstValueFrom(this.getCategoryById(categoryId));
-    const updatedCategory: Category = { ...category, value: isReset ? 0 : category.value + valueToAdd };
+    const category: Category = structuredClone(await firstValueFrom(this.getCategoryById(categoryId)));
+    const updatedCategory: Category = { ...category, value: category.value + valueToAdd };
 
-    let updatedCategories: Category[];
+    const updatedCategories: Category[] = structuredClone(
+      await firstValueFrom(this.getCategoriesAccordingToBudgetType(category.budgetType))
+    );
 
     switch (category.budgetType) {
       case BudgetType.Income:
-        updatedCategories = await firstValueFrom(this.getIncomeCategories());
+        newBalanceValue = balance + valueToAdd;
 
-        if (!isReset) {
-          newBalanceValue = balance + valueToAdd;
-        }
         break;
 
       case BudgetType.Expense:
-        updatedCategories = await firstValueFrom(this.getExpenseCategories());
+        newBalanceValue = balance - valueToAdd;
 
-        if (!isReset) {
-          newBalanceValue = balance - valueToAdd;
-        }
         break;
     }
 
@@ -111,13 +124,13 @@ export class CategoriesFacadeService {
     const addCategoryValueRecord: CategoryValueChangeRecord = {
       id: uuid(),
       budgetType: category.budgetType,
+      categoryId: category.id,
       categoryName: category.name,
       date: new Date().getTime(),
       icon: category.icon,
       recordType: ActivityLogRecordType.CategoryValueChange,
-      value: isReset ? category.value : valueToAdd,
+      value: valueToAdd,
       note,
-      isReset,
     };
 
     this.store.dispatch(

@@ -25,6 +25,12 @@ const expenseValueSelector = createSelector(expenseCategoriesSelector, (categori
   categories.reduce((sum, category) => sum + (category as Category).value, 0)
 );
 
+const allCategoriesSelector = createSelector(
+  incomeCategoriesSelector,
+  expenseCategoriesSelector,
+  (incomeCategories, expenseCategories) => [...incomeCategories, ...expenseCategories]
+);
+
 const categoryManagementInProgressSelector = createSelector(
   categoriesStateSelector,
   (state) => state.categoryManagement.inProgress
@@ -56,9 +62,9 @@ const categoryValueChangeErrorSelector = createSelector(
 );
 
 const selectCategoryByIdSelector = (categoryId: string) =>
-  createSelector(incomeCategoriesSelector, expenseCategoriesSelector, (income, expense) => ({
-    ...([...income, ...expense].find((category) => (category as Category).id === categoryId) as Category),
-  }));
+  createSelector(incomeCategoriesSelector, expenseCategoriesSelector, (income, expense) =>
+    [...income, ...expense].find((category) => (category as Category).id === categoryId)
+  );
 
 export const CategoriesSelectors = {
   categoriesStateSelector,
@@ -73,4 +79,5 @@ export const CategoriesSelectors = {
   categoryValueChangeSuccessSelector,
   categoryValueChangeErrorSelector,
   selectCategoryByIdSelector,
+  allCategoriesSelector,
 };

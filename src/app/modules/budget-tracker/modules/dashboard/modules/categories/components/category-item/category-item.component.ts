@@ -46,31 +46,17 @@ export class CategoryItemComponent implements OnInit {
         action: () => this.openCategoryValueModal(),
       },
       {
-        icon: 'eraser',
-        translationKey: this.buildTranslationKey('menu.resetValue'),
-        disabledObs: this.category$.pipe(map((category) => category.value === 0)),
-        action: async () => {
-          const category = await firstValueFrom(this.category$);
-
-          this.confirmationModalService.openConfirmationModal(
-            this.buildTranslationKey('confirmationModalReset'),
-            {
-              categoryName: category.name,
-            },
-            () => this.categoriesFacade.changeCategoryValue(this.categoryId, undefined, undefined, true)
-          );
-        },
-      },
-      {
-        icon: 'close',
+        icon: 'delete-bin',
         translationKey: this.buildTranslationKey('menu.remove'),
         action: async () => {
           const category = await firstValueFrom(this.category$);
 
           this.confirmationModalService.openConfirmationModal(
-            this.buildTranslationKey('confirmationModalRemove'),
             {
-              categoryName: category.name,
+              questionTranslationKey: this.buildTranslationKey('confirmationModalRemove'),
+              questionTranslationParams: {
+                categoryName: category.name,
+              },
             },
             () => this.categoriesFacade.removeCategory(this.categoryId)
           );

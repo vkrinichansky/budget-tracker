@@ -31,7 +31,15 @@
             "prefix": "app",
             "style": "kebab-case"
           }
-        ]
+        ],
+        "no-console": "error",
+        "prettier/prettier": [
+          "warn",
+          {
+            "usePrettierrc": true
+          }
+        ],
+        "@typescript-eslint/no-unused-vars": "warn"
       }
     },
     {
@@ -48,10 +56,13 @@
       ],
       "rules": {
         "prettier/prettier": [
-          "error",
+          "warn",
           {
             "parser": "angular",
             "endOfLine": "auto"
+          },
+          {
+            "usePrettierrc": true
           }
         ]
       }

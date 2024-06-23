@@ -1,10 +1,35 @@
 <h1 mat-dialog-title>{{ buildTranslationKey('title') | translate }}</h1>
 
 <div mat-dialog-content>
-  <span
-    class="font-main text-charcoal text-base"
-    [innerHTML]="data.questionTranslationKey | translate : data.translationParams"
-  ></span>
+  <div class="flex flex-col gap-y-4">
+    <span
+      class="font-main text-charcoal text-base"
+      [innerHTML]="translation.questionTranslationKey | translate: translation?.questionTranslationParams"
+    ></span>
+
+    @if (shouldDisplayCheckbox) {
+      <mat-checkbox [disableRipple]="true" [(ngModel)]="checkmarkChecked">
+        <span
+          class="text-charcoal"
+          [innerHTML]="translation.checkboxTranslationKey | translate: translation?.questionTranslationParams"
+        ></span>
+
+        @if (shouldDisplayRemark) {
+          <span class="text-red">&#xFE61;</span>
+        }
+      </mat-checkbox>
+    }
+
+    @if (shouldDisplayRemark) {
+      <div>
+        <span class="text-red">&#xFE61;</span>
+        <span
+          class="font-main text-sm text-charcoal"
+          [innerHTML]="translation.remarkTranslationKey | translate: translation?.remarkTranslationParams"
+        ></span>
+      </div>
+    }
+  </div>
 </div>
 
 <div mat-dialog-actions>
@@ -19,7 +44,7 @@
     [colorScheme]="'charcoal'"
     [text]="buildTranslationKey('yesButton') | translate"
     [buttonSizeX]="'medium'"
-    (click)="data.action(); closeClick()"
+    (click)="data.shouldConsiderCheckbox ? data.action(checkmarkChecked()) : data.action(); closeClick()"
   >
   </app-button>
 </div>

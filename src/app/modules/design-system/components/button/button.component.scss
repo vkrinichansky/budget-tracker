@@ -11,6 +11,10 @@
   transition-property: background-color, color;
 
   // SIZES X
+  &.tiny-x {
+    @apply w-7;
+  }
+
   &.small-x {
     @apply w-8;
   }

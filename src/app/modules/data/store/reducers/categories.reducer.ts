@@ -125,7 +125,6 @@ const adapterReducer = createReducer(
       { changes: action.updatedCategory, id: action.updatedCategory.id },
       state[action.updatedCategory.budgetType]
     ),
-    balance: action.newBalanceValue,
     categoryValueChange: {
       inProgress: false,
       error: false,

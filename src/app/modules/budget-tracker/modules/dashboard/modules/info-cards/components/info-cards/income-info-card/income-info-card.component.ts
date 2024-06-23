@@ -17,8 +17,9 @@ export class IncomeInfoCardComponent implements OnInit {
       translationKey: this.buildTranslationKey('menu.resetCategories'),
       action: () =>
         this.confirmationModalService.openConfirmationModal(
-          this.buildTranslationKey('resetConfirmationMessage'),
-          undefined,
+          {
+            questionTranslationKey: this.buildTranslationKey('resetConfirmationMessage'),
+          },
           () => this.categoriesFacade.resetCategoriesByType(BudgetType.Income)
         ),
     },

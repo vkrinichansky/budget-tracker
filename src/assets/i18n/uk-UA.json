@@ -73,7 +73,7 @@
         "decrease": "Зменшити",
         "edit": "Редагувати"
       },
-      "free": {
+      "freeMoney": {
         "title": "Вільні гроші",
         "increase": "Збільшити",
         "decrease": "Зменшити",
@@ -88,7 +88,26 @@
         "title": {
           "balance": "Баланс",
           "savings": "Збереження",
-          "free": "Вільні гроші"
+          "freeMoney": "Вільні гроші"
+        },
+        "removeConfirmationQuestion": "Ви хочете видалити цей запис?",
+        "removeConfirmationCheckboxText": "Також відмінити зміни, зроблені цим записом",
+        "removeConfirmationRemark": {
+          "balance": {
+            "increase": "<span class='font-bold'>Баланс</span> буде зменшено на <span class='font-bold'>{{ value }}</span>",
+            "decrease": "<span class='font-bold'>Баланс</span> буде збільшено на <span class='font-bold'>{{ value }}</span>",
+            "edit": "Значення <span class='font-bold'>балансу</span> буде <span class='font-bold'>{{ value }}</span>"
+          },
+          "savings": {
+            "increase": "<span class='font-bold'>Збереження</span> буде зменшено на <span class='font-bold'>{{ value }}</span>",
+            "decrease": "<span class='font-bold'>Збереження</span> буде збільшено на <span class='font-bold'>{{ value }}</span>",
+            "edit": "Значення <span class='font-bold'>збережень</span> буде <span class='font-bold'>{{ value }}</span>"
+          },
+          "freeMoney": {
+            "increase": "<span class='font-bold'>Вільні гроші</span> буде зменшено на <span class='font-bold'>{{ value }}</span>",
+            "decrease": "<span class='font-bold'>Вільні гроші</span> буде збільшено на <span class='font-bold'>{{ value }}</span>",
+            "edit": "Значення <span class='font-bold'>вільних грошей</span> буде <span class='font-bold'>{{ value }}</span>"
+          }
         }
       },
       "categoryManagementRecord": {
@@ -108,6 +127,15 @@
       "categoriesResetRecord": {
         "income": "Категорії <b>доходів</b> було скинуто",
         "expense": "Категорії <b>витрат</b> було скинуто"
+      },
+
+      "categoryValueChangeRecord": {
+        "removeConfirmationQuestion": "Ви хочете видалити цей запис?",
+        "removeConfirmationCheckboxText": "Також відмінити зміни, зроблені цим записом",
+        "removeConfirmationRemark": {
+          "income": "<span class='font-bold'>{{ value }}</span> буде вирахувано з <span class='font-bold'>Балансу</span> і категорії <span class='font-bold'>{{ categoryName }}</span>",
+          "expense": "<span class='font-bold'>{{ value }}</span> буде додано до <span class='font-bold'>Балансу</span> і вирахувано з категорії <span class='font-bold'>{{ categoryName }}</span>"
+        }
       },
 
       "emptyStateText": "Немає данних для відображення"
@@ -134,7 +162,7 @@
           "resetValue": "Скинути значення",
           "remove": "Видалити"
         },
-        "confirmationModalRemove": "Ви хочете видалити <b>{{ categoryName }}</b> категорію?",
+        "confirmationModalRemove": "Ви хочете видалити категорію <b>{{ categoryName }}</b>?",
         "confirmationModalReset": "Ви хочете скинути значення категорії <b>{{ categoryName }}</b>?"
       }
     },
@@ -200,6 +228,10 @@
     },
     "categoryRemovedSnackbar": {
       "message": "Категорію було видалено успішно!",
+      "buttonText": "Добре"
+    },
+    "activityLogRecordRemoved": {
+      "message": "Запис журналу активності було видалено успішно!",
       "buttonText": "Добре"
     },
     "categoryValueChangedSnackbar": {

@@ -6,3 +6,4 @@ export { CategoriesService } from './categories-service/categories.service';
 export { DataInitService } from './data-init-service/data-init.service';
 export { DataInitFacadeService } from './data-init-facade/data-init-facade.service';
 export { StatisticsFacadeService } from './statistics-facade/statistics-facade.service';
+export { ActivityLogService } from './activity-log-service/activity-log.service';

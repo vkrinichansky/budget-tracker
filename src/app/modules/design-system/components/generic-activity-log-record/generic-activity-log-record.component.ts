@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-generic-activity-log-record',
@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
 })
 export class GenericActivityLogRecordComponent {
   @HostBinding('class')
-  private readonly classes = 'flex gap-x-2 items-center justify-start w-full';
+  private readonly classes = 'relative flex gap-x-2 items-center justify-start w-full';
   @Input()
   icon: string;
 
@@ -17,7 +17,17 @@ export class GenericActivityLogRecordComponent {
   @Input()
   date: number;
 
+  @Input()
+  loading: boolean;
+
+  @Output()
+  remove = new EventEmitter();
+
   get time(): string {
     return new Date(this.date).toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit', hour12: false });
+  }
+
+  removeButtonClick(): void {
+    this.remove.emit();
   }
 }

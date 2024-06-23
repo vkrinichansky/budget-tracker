@@ -23,7 +23,7 @@ export enum RootValueActionType {
 export enum RootValueType {
   Balance = 'balance',
   Savings = 'savings',
-  FreeMoney = 'free',
+  FreeMoney = 'freeMoney',
 }
 
 export interface RootValueChangeRecord extends ActivityLogRecord {
@@ -47,19 +47,11 @@ export interface CategoryManagementRecord extends ActivityLogRecord {
 }
 
 export interface CategoryValueChangeRecord extends ActivityLogRecord {
+  categoryId: string;
   categoryName: string;
   value: number;
   budgetType: BudgetType;
   note: string;
-  isReset: boolean;
-}
-
-export interface CategoryValueChangeRecord extends ActivityLogRecord {
-  categoryName: string;
-  value: number;
-  budgetType: BudgetType;
-  note: string;
-  isReset: boolean;
 }
 
 export interface CategoriesResetRecord extends ActivityLogRecord {

@@ -1,20 +1,42 @@
 import { createAction, props } from '@ngrx/store';
-import { ActivityLogRecordUnitedType, ActivityLog } from '../../models';
-
-enum ActivityLogActionsType {
-  ActivityLogLoaded = '[ActivityLog] Activity log loaded',
-  ActivityLogRecordAdded = '[ActivityLog] Record added',
-
-  Clean = '[ActivityLog] Clean state',
-}
+import {
+  ActivityLogRecordUnitedType,
+  ActivityLog,
+  CategoryValueChangeRecord,
+  Category,
+  RootValueChangeRecord,
+  RootValueType,
+} from '../../models';
 
 export const ActivityLogActions = {
-  activityLogRecordAdded: createAction(
-    ActivityLogActionsType.ActivityLogRecordAdded,
-    props<{ record: ActivityLogRecordUnitedType }>()
+  activityLogRecordAdded: createAction('[ActivityLog] Record added', props<{ record: ActivityLogRecordUnitedType }>()),
+
+  activityLogLoaded: createAction('[ActivityLog] Activity log loaded', props<{ activityLog: ActivityLog }>()),
+
+  clean: createAction('[ActivityLog] Clean state'),
+
+  removeActivityLogRecord: createAction('[ActivityLog] Remove record', props<{ recordId: string }>()),
+
+  removeCategoryValueChangeRecord: createAction(
+    '[ActivityLog] Remove category value change record',
+    props<{
+      record: CategoryValueChangeRecord;
+      updatedBalanceValue: number;
+      updatedCategory: Category;
+      updatedCategories: Category[];
+    }>()
   ),
 
-  activityLogLoaded: createAction(ActivityLogActionsType.ActivityLogLoaded, props<{ activityLog: ActivityLog }>()),
+  removeRootValueChangeRecord: createAction(
+    '[ActivityLog] Remove root value change record',
+    props<{
+      record: RootValueChangeRecord;
+      updatedValue: number;
+      valueType: RootValueType;
+    }>()
+  ),
 
-  clean: createAction(ActivityLogActionsType.Clean),
+  activityLogRecordRemoved: createAction('[ActivityLog] Record removed', props<{ recordId: string }>()),
+
+  removeActivityLogRecordFail: createAction('[ActivityLog] Remove record fail', props<{ recordId: string }>()),
 };

@@ -65,7 +65,7 @@ export const CategoriesActions = {
 
   categoryValueChanged: createAction(
     CategoriesActionsType.CategoryValueChanged,
-    props<{ updatedCategory: Category; newBalanceValue: number }>()
+    props<{ updatedCategory: Category }>()
   ),
 
   changeCategoryValueFail: createAction(CategoriesActionsType.ChangeCategoryValueFail),

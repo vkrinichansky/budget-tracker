@@ -4,14 +4,14 @@ import { RootValuesActions } from '../actions';
 export interface RootValuesState {
   balance: number;
   savings: number;
-  free: number;
+  freeMoney: number;
   rootValueUpdating: { success: boolean; error: boolean; inProgress: boolean };
 }
 
 const initialState: RootValuesState = {
   balance: 0,
   savings: 0,
-  free: 0,
+  freeMoney: 0,
   rootValueUpdating: {
     success: false,
     error: false,
@@ -26,7 +26,7 @@ const adapterReducer = createReducer(
     ...state,
     savings: action.savings,
     balance: action.balance,
-    free: action.freeMoney,
+    freeMoney: action.freeMoney,
   })),
 
   on(RootValuesActions.updateBalance, (state) => ({
@@ -96,7 +96,7 @@ const adapterReducer = createReducer(
 
   on(RootValuesActions.freeMoneyUpdated, (state, action) => ({
     ...state,
-    free: action.newFreeMoneyValue,
+    freeMoney: action.newFreeMoneyValue,
     rootValueUpdating: {
       inProgress: false,
       error: false,

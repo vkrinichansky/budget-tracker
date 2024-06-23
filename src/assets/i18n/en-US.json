@@ -73,7 +73,7 @@
         "decrease": "Decrease",
         "edit": "Edit"
       },
-      "free": {
+      "freeMoney": {
         "title": "Free money",
         "increase": "Increase",
         "decrease": "Decrease",
@@ -88,7 +88,26 @@
         "title": {
           "balance": "Balance",
           "savings": "Savings",
-          "free": "Free money"
+          "freeMoney": "Free money"
+        },
+        "removeConfirmationQuestion": "Are you sure you want to remove this record?",
+        "removeConfirmationCheckboxText": "Also revert changes made by this record",
+        "removeConfirmationRemark": {
+          "balance": {
+            "increase": "<span class='font-bold'>Balance</span> will be decreased by <span class='font-bold'>{{ value }}</span>",
+            "decrease": "<span class='font-bold'>Balance</span> will be increased by <span class='font-bold'>{{ value }}</span>",
+            "edit": "<span class='font-bold'>Balance</span> value will be <span class='font-bold'>{{ value }}</span>"
+          },
+          "savings": {
+            "increase": "<span class='font-bold'>Savings</span> will be decreased by <span class='font-bold'>{{ value }}</span>",
+            "decrease": "<span class='font-bold'>Savings</span> will be increased by <span class='font-bold'>{{ value }}</span>",
+            "edit": "<span class='font-bold'>Savings</span> value will be <span class='font-bold'>{{ value }}</span>"
+          },
+          "freeMoney": {
+            "increase": "<span class='font-bold'>Free money</span> will be decreased by <span class='font-bold'>{{ value }}</span>",
+            "decrease": "<span class='font-bold'>Free money</span> will be increased by <span class='font-bold'>{{ value }}</span>",
+            "edit": "<span class='font-bold'>Free money</span> value will be <span class='font-bold'>{{ value }}</span>"
+          }
         }
       },
       "categoryManagementRecord": {
@@ -109,6 +128,15 @@
       "categoriesResetRecord": {
         "income": "<b>Income</b> categories were reset",
         "expense": "<b>Expense</b> categories were reset"
+      },
+
+      "categoryValueChangeRecord": {
+        "removeConfirmationQuestion": "Are you sure you want to remove this record?",
+        "removeConfirmationCheckboxText": "Also revert changes made by this record",
+        "removeConfirmationRemark": {
+          "income": "<span class='font-bold'>{{ value }}</span> will be deducted from <span class='font-bold'>Balance</span> and <span class='font-bold'>{{ categoryName }}</span> category",
+          "expense": "<span class='font-bold'>{{ value }}</span> will be added to <span class='font-bold'>Balance</span> and deducted from <span class='font-bold'>{{ categoryName }}</span> category"
+        }
       },
 
       "emptyStateText": "No data to display yet"
@@ -199,6 +227,10 @@
     },
     "categoryRemovedSnackbar": {
       "message": "Category was removed successfully!",
+      "buttonText": "Got it"
+    },
+    "activityLogRecordRemoved": {
+      "message": "Activity log record was removed successfully!",
       "buttonText": "Got it"
     },
     "categoryValueChangedSnackbar": {

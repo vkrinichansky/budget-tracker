@@ -1,9 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
-import { CategoriesEffects, DataInitEffects, RootValuesEffects, featureKey, reducers } from './store';
+import {
+  ActivityLogEffects,
+  CategoriesEffects,
+  DataInitEffects,
+  RootValuesEffects,
+  featureKey,
+  reducers,
+} from './store';
 import {
   ActivityLogFacadeService,
+  ActivityLogService,
   CategoriesFacadeService,
   CategoriesService,
   DataInitFacadeService,
@@ -19,7 +27,7 @@ import { EffectsModule } from '@ngrx/effects';
   imports: [
     CommonModule,
     StoreModule.forFeature(featureKey, reducers),
-    EffectsModule.forFeature([RootValuesEffects, CategoriesEffects, DataInitEffects]),
+    EffectsModule.forFeature([RootValuesEffects, CategoriesEffects, DataInitEffects, ActivityLogEffects]),
   ],
   providers: [
     ActivityLogFacadeService,
@@ -30,6 +38,7 @@ import { EffectsModule } from '@ngrx/effects';
     DataInitService,
     DataInitFacadeService,
     StatisticsFacadeService,
+    ActivityLogService,
   ],
 })
 export class DataModule {}

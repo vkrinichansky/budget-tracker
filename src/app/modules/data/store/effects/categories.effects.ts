@@ -98,7 +98,6 @@ export class CategoriesEffects {
             return of(
               CategoriesActions.categoryValueChanged({
                 updatedCategory: action.updatedCategory,
-                newBalanceValue: action.newBalanceValue,
               }),
               ActivityLogActions.activityLogRecordAdded({
                 record: action.activityLogRecord,

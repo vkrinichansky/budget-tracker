@@ -1,4 +1,9 @@
-<app-generic-activity-log-record [icon]="record.icon" [date]="record.date">
+<app-generic-activity-log-record
+  [icon]="record.icon"
+  [date]="record.date"
+  [loading]="isRecordRemoving$ | async"
+  (remove)="removeRecord()"
+>
   <ng-container [ngSwitch]="record.actionType">
     <ng-container *ngSwitchCase="actionType.Add">
       <ng-container
@@ -7,7 +12,7 @@
           context: {
             content:
               buildTranslationKey('categoryAdded.budgetType.' + record.budgetType)
-              | translate : { categoryName: record.categoryName }
+              | translate: { categoryName: record.categoryName }
           }
         "
       ></ng-container>
@@ -20,7 +25,7 @@
           context: {
             content:
               buildTranslationKey('categoryRemoved.budgetType.' + record.budgetType)
-              | translate : { categoryName: record.categoryName }
+              | translate: { categoryName: record.categoryName }
           }
         "
       ></ng-container>
