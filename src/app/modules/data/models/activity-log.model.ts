@@ -74,3 +74,7 @@ export interface ActivityLogGroupedByDate {
   date: string;
   records: ActivityLog;
 }
+
+export interface SumByDate {
+  [date: string]: number;
+}

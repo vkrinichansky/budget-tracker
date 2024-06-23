@@ -4,27 +4,28 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { from, map, of, switchMap, tap } from 'rxjs';
 import { ActivityLogActions, CategoriesActions, DataInitActions, RootValuesActions } from '../actions';
-import { DataInitService } from '../../services';
+import { CategoriesService, DataInitService } from '../../services';
+import { getMonthAndYearString } from '@budget-tracker/utils';
+import { ActivityLogRecordType, BudgetTrackerState, BudgetType, CategoriesResetRecord } from '../../models';
+import { v4 as uuid } from 'uuid';
+import { SnackbarHandlerService } from '@budget-tracker/shared';
 
 @Injectable()
 export class DataInitEffects {
-  constructor(private actions$: Actions, private dataInitService: DataInitService, private store: Store) {}
+  constructor(
+    private actions$: Actions,
+    private dataInitService: DataInitService,
+    private store: Store,
+    private categoryService: CategoriesService,
+    private snackbarHandler: SnackbarHandlerService
+  ) {}
 
   init$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DataInitActions.init),
       switchMap(() => from(this.dataInitService.initData())),
       tap((data) => {
-        const categories = { ...data.budget.categories };
         const rootValues = { ...data.budget.rootValues };
-        const activityLog = [...data.budget.activityLog];
-
-        this.store.dispatch(
-          CategoriesActions.categoriesLoaded({
-            expense: categories.expense,
-            income: categories.income,
-          })
-        );
 
         this.store.dispatch(
           RootValuesActions.rootValuesLoaded({
@@ -33,10 +34,37 @@ export class DataInitEffects {
             freeMoney: rootValues.freeMoney,
           })
         );
-
-        this.store.dispatch(ActivityLogActions.activityLogLoaded({ activityLog }));
       }),
-      map(() => DataInitActions.dataLoaded())
+      map((data) => {
+        if (data.budget.resetDate === getMonthAndYearString()) {
+          this.setStates(data);
+
+          return DataInitActions.dataLoaded();
+        }
+
+        return DataInitActions.resetData({ data });
+      })
+    )
+  );
+
+  resetData$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(DataInitActions.resetData),
+      switchMap((action) => of(this.getResetData(action.data))),
+      switchMap(({ resetData, activityLogRecords }) =>
+        from(this.categoryService.resetData(resetData, activityLogRecords)).pipe(
+          tap(() => {
+            const resultResetData = {
+              ...resetData,
+              budget: { ...resetData.budget, activityLog: [...resetData.budget.activityLog, ...activityLogRecords] },
+            };
+
+            this.setStates(resultResetData);
+          })
+        )
+      ),
+      map(() => DataInitActions.dataLoaded()),
+      tap(() => this.snackbarHandler.showDataResetSnackbar())
     )
   );
 
@@ -48,4 +76,48 @@ export class DataInitEffects {
       )
     )
   );
+
+  private getResetData(data: BudgetTrackerState): {
+    resetData: BudgetTrackerState;
+    activityLogRecords: CategoriesResetRecord[];
+  } {
+    const resetData = structuredClone(data);
+
+    [BudgetType.Income, BudgetType.Expense].forEach((budgetType) => {
+      resetData.budget.categories[budgetType] = resetData.budget.categories[budgetType].map((category) => ({
+        ...category,
+        value: 0,
+      }));
+    });
+
+    const activityLogRecords: CategoriesResetRecord[] = [
+      { budgetType: BudgetType.Income, icon: 'arrow-up' },
+      { budgetType: BudgetType.Expense, icon: 'arrow-down' },
+    ].map((item) => ({
+      budgetType: item.budgetType,
+      date: new Date().getTime(),
+      id: uuid(),
+      recordType: ActivityLogRecordType.CategoriesReset,
+      icon: item.icon,
+    }));
+
+    resetData.budget.resetDate = getMonthAndYearString();
+    return { resetData, activityLogRecords };
+  }
+
+  private setStates(data: BudgetTrackerState) {
+    const categories = { ...data.budget.categories };
+    const activityLog = [...data.budget.activityLog];
+    const resetDate = data.budget.resetDate;
+
+    this.store.dispatch(
+      CategoriesActions.categoriesLoaded({
+        expense: categories.expense,
+        income: categories.income,
+      })
+    );
+
+    this.store.dispatch(ActivityLogActions.activityLogLoaded({ activityLog }));
+    this.store.dispatch(DataInitActions.resetDateLoaded({ resetDate }));
+  }
 }

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
-import { ActivityLogFacadeService } from '@budget-tracker/data';
+import { ActivityLogFacadeService, SumByDate } from '@budget-tracker/data';
 import { ActivityLogGroupedByDate, ActivityLogRecordType, ActivityLogRecordUnitedType } from '@budget-tracker/data';
 import { Observable, map } from 'rxjs';
 
@@ -24,6 +24,8 @@ export class ActivityLogComponent implements OnInit {
 
   itemsToRender$: Observable<RenderingItemType[]>;
 
+  sumsByDaysDictionary$: Observable<SumByDate>;
+
   constructor(private activityLogFacade: ActivityLogFacadeService) {}
 
   ngOnInit(): void {
@@ -34,6 +36,8 @@ export class ActivityLogComponent implements OnInit {
     );
 
     this.isEmpty$ = this.activityLog$.pipe(map((activitiLog) => !activitiLog.length));
+
+    this.sumsByDaysDictionary$ = this.activityLogFacade.getSumsByDays();
   }
 
   trackBy(_: number, item: RenderingItemType): string {

@@ -15,6 +15,7 @@ import {
   RootValueChangeRecord,
   RootValueType,
   RootValueActionType,
+  SumByDate,
 } from '../../models';
 import { Dictionary } from '@ngrx/entity';
 import { CategoriesFacadeService } from '../categories-facade/categories-facade.service';
@@ -49,6 +50,33 @@ export class ActivityLogFacadeService {
       map((activityLog) => this.filterOnlyCategoryValueChangeRecords(activityLog)),
       map((filteredAL) => this.groupActivityLogByMonthsInObject(filteredAL)),
       map((ALObject) => this.activityLogByDateInObjectToArray(ALObject))
+    );
+  }
+
+  getSumsByDays(): Observable<SumByDate> {
+    return this.getActivityLog().pipe(
+      map((activityLog) => this.groupActivityLogByDaysInObject(activityLog)),
+      map((activityLogInObject) => {
+        const sumsByDays: SumByDate = {};
+
+        Object.keys(activityLogInObject).forEach((date) => {
+          const categoryValueChangeRecords: CategoryValueChangeRecord[] = activityLogInObject[date]
+            .filter((record) => record.recordType === ActivityLogRecordType.CategoryValueChange)
+            .map((record) => record as CategoryValueChangeRecord);
+
+          const incomeCategoryValueChangeRecordsSum: number = categoryValueChangeRecords
+            .filter((record) => record.budgetType === BudgetType.Income)
+            .reduce((sum, record) => sum + record.value, 0);
+
+          const expenseCategoryValueChangeRecordsSum: number = categoryValueChangeRecords
+            .filter((record) => record.budgetType === BudgetType.Expense)
+            .reduce((sum, record) => sum + record.value, 0);
+
+          sumsByDays[date] = incomeCategoryValueChangeRecordsSum - expenseCategoryValueChangeRecordsSum;
+        });
+
+        return sumsByDays;
+      })
     );
   }
 
@@ -200,15 +228,7 @@ export class ActivityLogFacadeService {
         .pipe(map((categories) => categories.filter((category) => category.budgetType === record.budgetType)))
     );
 
-    let category: Category;
-
-    category = categoriesAccordingToRecordBudgetType.find((category) => category.id === record.categoryId);
-
-    if (category) {
-      return category;
-    }
-
-    category = categoriesAccordingToRecordBudgetType.find((category) => category.name === record.categoryName);
+    const category = categoriesAccordingToRecordBudgetType.find((category) => category.id === record.categoryId);
 
     if (category) {
       return category;

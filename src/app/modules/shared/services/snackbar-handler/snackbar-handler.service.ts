@@ -81,6 +81,13 @@ export class SnackbarHandlerService {
     );
   }
 
+  showDataResetSnackbar(): void {
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant(this.buildTranslationKey('dataResetSnackbar.message')),
+      this.translateService.instant(this.buildTranslationKey('dataResetSnackbar.buttonText'))
+    );
+  }
+
   private buildTranslationKey(key: string): string {
     return `${this.rootTranslationKey}.${key}`;
   }
