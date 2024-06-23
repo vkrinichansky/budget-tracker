@@ -46,7 +46,7 @@
 <ng-template #recordItem let-item="item">
   @switch (item.recordType) {
     @case (recordType.RootValueChange) {
-      <app-root-value-change-record class="w-full" [record]="item"> </app-root-value-change-record>
+      <app-root-value-change-record class="w-full" [record]="item"></app-root-value-change-record>
     }
     @case (recordType.CategoryManagement) {
       <app-category-management-record class="w-full" [record]="item"> </app-category-management-record>
