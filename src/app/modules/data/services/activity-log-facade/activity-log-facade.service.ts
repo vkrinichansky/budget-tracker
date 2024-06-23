@@ -9,11 +9,16 @@ import {
   CategoryValueChangeRecord,
   ActivityLogGroupedByDateInObject,
   ActivityLogRecordType,
+  SumByDate,
+  BudgetType,
 } from '../../models';
 
 @Injectable()
 export class ActivityLogFacadeService {
-  constructor(private store: Store, private languageService: LanguageService) {}
+  constructor(
+    private store: Store,
+    private languageService: LanguageService
+  ) {}
 
   getActivityLog(): Observable<ActivityLog> {
     return this.store.select(ActivityLogSelectors.activityLogSelector);
@@ -34,8 +39,35 @@ export class ActivityLogFacadeService {
     );
   }
 
+  getSumsByDays(): Observable<SumByDate> {
+    return this.getActivityLog().pipe(
+      map((activityLog) => this.groupActivityLogByDaysInObject(activityLog)),
+      map((activityLogInObject) => {
+        const sumsByDays: SumByDate = {};
+        
+        Object.keys(activityLogInObject).forEach((date) => {
+          const categoryValueChangeRecords: CategoryValueChangeRecord[] = activityLogInObject[date]
+            .filter((record) => record.recordType === ActivityLogRecordType.CategoryValueChange)
+            .map((record) => record as CategoryValueChangeRecord);
+
+          const incomeCategoryValueChangeRecordsSum: number = categoryValueChangeRecords
+            .filter((record) => record.budgetType === BudgetType.Income)
+            .reduce((sum, record) => sum + record.value, 0);
+
+          const expenseCategoryValueChangeRecordsSum: number = categoryValueChangeRecords
+            .filter((record) => record.budgetType === BudgetType.Expense)
+            .reduce((sum, record) => sum + record.value, 0);
+
+          sumsByDays[date] = incomeCategoryValueChangeRecordsSum - expenseCategoryValueChangeRecordsSum;
+        });
+
+        return sumsByDays;
+      })
+    );
+  }
+
   private groupActivityLogByDaysInObject(activityLog: ActivityLog): ActivityLogGroupedByDateInObject {
-    const language =  this.languageService.getCurrentLanguage();
+    const language = this.languageService.getCurrentLanguage();
     return activityLog
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .reduce((group, record) => {
@@ -80,7 +112,7 @@ export class ActivityLogFacadeService {
         ({
           date: key,
           records: activityLogInObject[key].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
-        } as ActivityLogGroupedByDate)
+        }) as ActivityLogGroupedByDate
     );
   }
 

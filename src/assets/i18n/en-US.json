@@ -209,6 +209,10 @@
       "income": "Income categories were reset successfully!",
       "expense": "Expense categories were reset successfully!",
       "buttonText": "Got it"
+    },
+    "dataResetSnackbar": {
+      "message": "Categories were reset!",
+      "buttonText": "Got it"
     }
   },
 

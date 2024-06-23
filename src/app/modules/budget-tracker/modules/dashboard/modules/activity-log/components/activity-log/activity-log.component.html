@@ -5,7 +5,7 @@
   class="flex flex-col overflow-hidden h-full w-full"
   [class.justify-center]="isEmpty"
   [class.items-center]="isEmpty"
-  >
+>
   @if (isEmpty) {
     <span class="font-main font-bold text-charcoal text-lg text-center">
       {{ buildTranslationKey('emptyStateText') | translate }}
@@ -17,7 +17,7 @@
       <div
         *cdkVirtualFor="let item of itemsToRender$ | async; trackBy: trackBy.bind(this); templateCacheSize: 0"
         class="h-16.5 flex items-center w-full"
-        >
+      >
         <ng-container
           *ngTemplateOutlet="isItemDate(item) ? dateItem : recordItem; context: { item: item }"
         ></ng-container>
@@ -27,30 +27,35 @@
 </div>
 
 <ng-template #dateItem let-item="item">
-  <span class="flex font-main text-grey text-sm bg-white font-bold h-full items-center">
-    {{ item }}
-  </span>
+  <div
+    *ngVar="sumsByDaysDictionary$ | async as sumsByDaysDictionary"
+    class="flex justify-between items-center h-full w-full font-main text-grey text-lg bg-white font-bold"
+  >
+    <span>
+      {{ item }}
+    </span>
+
+    @if (sumsByDaysDictionary[item] !== 0) {
+      <span [class.text-dark-green]="sumsByDaysDictionary[item] > 0" [class.text-red]="sumsByDaysDictionary[item] < 0">
+        {{ sumsByDaysDictionary[item] | currencySymbol }}
+      </span>
+    }
+  </div>
 </ng-template>
 
 <ng-template #recordItem let-item="item">
   @switch (item.recordType) {
     @case (recordType.RootValueChange) {
-      <app-root-value-change-record class="w-full" [record]="item">
-      </app-root-value-change-record>
+      <app-root-value-change-record class="w-full" [record]="item"></app-root-value-change-record>
     }
     @case (recordType.CategoryManagement) {
-      <app-category-management-record class="w-full" [record]="item">
-      </app-category-management-record>
+      <app-category-management-record class="w-full" [record]="item"></app-category-management-record>
     }
     @case (recordType.CategoryValueChange) {
-      <app-category-value-change-record class="w-full" [record]="item">
-      </app-category-value-change-record>
+      <app-category-value-change-record class="w-full" [record]="item"></app-category-value-change-record>
     }
     @case (recordType.CategoriesReset) {
-      <app-categories-reset-record
-        class="w-full"
-        [record]="item"
-      ></app-categories-reset-record>
+      <app-categories-reset-record class="w-full" [record]="item"></app-categories-reset-record>
     }
   }
 </ng-template>

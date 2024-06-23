@@ -14,10 +14,14 @@ import { setPersistence, browserLocalPersistence } from '@firebase/auth';
 import { map, Observable } from 'rxjs';
 import { BudgetTrackerState } from '@budget-tracker/data';
 import { collection, doc, Firestore, setDoc } from '@angular/fire/firestore';
+import { getMonthAndYearString } from '@budget-tracker/utils';
 
 @Injectable()
 export class AuthService {
-  constructor(private afAuth: Auth, private firestore: Firestore) {}
+  constructor(
+    private afAuth: Auth,
+    private firestore: Firestore
+  ) {}
 
   async googleLogin(): Promise<UserCredential> {
     await setPersistence(this.afAuth, browserLocalPersistence);
@@ -53,6 +57,7 @@ export class AuthService {
           freeMoney: 0,
         },
         activityLog: [],
+        resetDate: getMonthAndYearString(),
       },
     };
 
