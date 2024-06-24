@@ -7,7 +7,7 @@ import {
   ActivityLog,
   ActivityLogGroupedByDate,
   CategoryValueChangeRecord,
-  ActivityLogGroupedByDateInObject,
+  ActivityLogGroupedByDateDictionary,
   ActivityLogRecordType,
   ActivityLogRecordUnitedType,
   Category,
@@ -15,7 +15,6 @@ import {
   RootValueChangeRecord,
   RootValueType,
   RootValueActionType,
-  SumByDate,
 } from '../../models';
 import { Dictionary } from '@ngrx/entity';
 import { CategoriesFacadeService } from '../categories-facade/categories-facade.service';
@@ -38,31 +37,21 @@ export class ActivityLogFacadeService {
     return this.store.select(ActivityLogSelectors.activityLogSelector);
   }
 
+  getActivityLogTypes(): Observable<ActivityLogRecordType[]> {
+    return this.getActivityLog().pipe(
+      map((activityLog) => [...new Set(activityLog.map((record) => record.recordType))])
+    );
+  }
+
   getActivityLogGroupedByDays(): Observable<ActivityLogGroupedByDate[]> {
     return this.getActivityLog().pipe(
-      map((activityLog) => this.groupActivityLogByDaysInObject(activityLog)),
-      map((activityLogInObject) => this.activityLogByDateInObjectToArray(activityLogInObject))
-    );
-  }
-
-  getActivityLogGroupedByDate(): Observable<ActivityLogGroupedByDate[]> {
-    return this.getActivityLog().pipe(
-      map((activityLog) => this.filterOnlyCategoryValueChangeRecords(activityLog)),
-      map((filteredAL) => this.groupActivityLogByMonthsInObject(filteredAL)),
-      map((ALObject) => this.activityLogByDateInObjectToArray(ALObject))
-    );
-  }
-
-  getSumsByDays(): Observable<SumByDate> {
-    return this.getActivityLog().pipe(
-      map((activityLog) => this.groupActivityLogByDaysInObject(activityLog)),
-      map((activityLogInObject) => {
-        const sumsByDays: SumByDate = {};
-
-        Object.keys(activityLogInObject).forEach((date) => {
-          const categoryValueChangeRecords: CategoryValueChangeRecord[] = activityLogInObject[date]
-            .filter((record) => record.recordType === ActivityLogRecordType.CategoryValueChange)
-            .map((record) => record as CategoryValueChangeRecord);
+      map((activityLog) => this.getActivityLogByDaysDictionary(activityLog)),
+      map((activityLogDictionary) => this.getActivityLogGroupedByDateDictionaryToArray(activityLogDictionary)),
+      map((activityLogGroupedByDateArray) =>
+        activityLogGroupedByDateArray.map((item) => {
+          const categoryValueChangeRecords: CategoryValueChangeRecord[] = this.filterOnlyCategoryValueChangeRecords(
+            item.records
+          ).map((record) => record as CategoryValueChangeRecord);
 
           const incomeCategoryValueChangeRecordsSum: number = categoryValueChangeRecords
             .filter((record) => record.budgetType === BudgetType.Income)
@@ -72,16 +61,25 @@ export class ActivityLogFacadeService {
             .filter((record) => record.budgetType === BudgetType.Expense)
             .reduce((sum, record) => sum + record.value, 0);
 
-          sumsByDays[date] = incomeCategoryValueChangeRecordsSum - expenseCategoryValueChangeRecordsSum;
-        });
+          return {
+            ...item,
+            sumOfCategoryValueChangeRecords: incomeCategoryValueChangeRecordsSum - expenseCategoryValueChangeRecordsSum,
+          };
+        })
+      )
+    );
+  }
 
-        return sumsByDays;
-      })
+  getActivityLogGroupedByDate(): Observable<ActivityLogGroupedByDate[]> {
+    return this.getActivityLog().pipe(
+      map((activityLog) => this.filterOnlyCategoryValueChangeRecords(activityLog)),
+      map((filteredActivityLog) => this.getActivityLogByMonthsDictionary(filteredActivityLog)),
+      map((activityLogDictionary) => this.getActivityLogGroupedByDateDictionaryToArray(activityLogDictionary))
     );
   }
 
   removeActivityLogRecord(recordId: string): void {
-    this.store.dispatch(ActivityLogActions.removeActivityLogRecord({ recordId }));
+    this.store.dispatch(ActivityLogActions.removeRecord({ recordId }));
   }
 
   isActivityLogRecordRemoving(recordId: string): Observable<boolean> {
@@ -191,6 +189,26 @@ export class ActivityLogFacadeService {
     );
   }
 
+  async removeRecordsBySelectedTypes(selectedTypes: ActivityLogRecordType[], removeAll: boolean): Promise<void> {
+    let records: ActivityLogRecordUnitedType[];
+
+    if (removeAll) {
+      records = [];
+    } else {
+      records = await firstValueFrom(
+        this.getActivityLog().pipe(
+          map((records) => records.filter((record) => selectedTypes.includes(record.recordType)))
+        )
+      );
+    }
+
+    this.store.dispatch(ActivityLogActions.bulkRecordsRemove({ records }));
+  }
+
+  isBulkRecordsRemovingInProgress(): Observable<boolean> {
+    return this.store.select(ActivityLogSelectors.isBulkRecordsRemovingInProgressSelector);
+  }
+
   private async resolveRecordRelatedUpdatedCategory(record: CategoryValueChangeRecord): Promise<{
     updatedCategory: Category;
     updatedCategories: Category[];
@@ -222,13 +240,7 @@ export class ActivityLogFacadeService {
   }
 
   private async getRecordRelatedCategory(record: CategoryValueChangeRecord): Promise<Category> {
-    const categoriesAccordingToRecordBudgetType = await firstValueFrom(
-      this.categoryFacade
-        .getAllCategories()
-        .pipe(map((categories) => categories.filter((category) => category.budgetType === record.budgetType)))
-    );
-
-    const category = categoriesAccordingToRecordBudgetType.find((category) => category.id === record.categoryId);
+    const category = await firstValueFrom(this.categoryFacade.getCategoryById(record.categoryId));
 
     if (category) {
       return category;
@@ -237,7 +249,7 @@ export class ActivityLogFacadeService {
     return null;
   }
 
-  private groupActivityLogByDaysInObject(activityLog: ActivityLog): ActivityLogGroupedByDateInObject {
+  private getActivityLogByDaysDictionary(activityLog: ActivityLog): ActivityLogGroupedByDateDictionary {
     const language = this.languageService.getCurrentLanguage();
 
     return activityLog
@@ -254,10 +266,10 @@ export class ActivityLogFacadeService {
         group[dateKey] = group[dateKey] ?? [];
         group[dateKey].push(record);
         return group;
-      }, {} as ActivityLogGroupedByDateInObject);
+      }, {} as ActivityLogGroupedByDateDictionary);
   }
 
-  private groupActivityLogByMonthsInObject(activityLog: ActivityLog): ActivityLogGroupedByDateInObject {
+  private getActivityLogByMonthsDictionary(activityLog: ActivityLog): ActivityLogGroupedByDateDictionary {
     const language = this.languageService.getCurrentLanguage();
 
     return activityLog
@@ -272,17 +284,19 @@ export class ActivityLogFacadeService {
         group[dateKey] = group[dateKey] ?? [];
         group[dateKey].push(record);
         return group;
-      }, {} as ActivityLogGroupedByDateInObject);
+      }, {} as ActivityLogGroupedByDateDictionary);
   }
 
-  private activityLogByDateInObjectToArray(
-    activityLogInObject: ActivityLogGroupedByDateInObject
+  private getActivityLogGroupedByDateDictionaryToArray(
+    activityLogDictionary: ActivityLogGroupedByDateDictionary
   ): ActivityLogGroupedByDate[] {
-    return Object.keys(activityLogInObject).map(
-      (key) =>
+    return Object.keys(activityLogDictionary).map(
+      (dateKey) =>
         ({
-          date: key,
-          records: activityLogInObject[key].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
+          date: dateKey,
+          records: activityLogDictionary[dateKey].sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+          ),
         }) as ActivityLogGroupedByDate
     );
   }

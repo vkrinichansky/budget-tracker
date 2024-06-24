@@ -12,6 +12,7 @@ import {
   MenuComponent,
   GenericActivityLogRecordComponent,
   CustomTooltipComponent,
+  CheckboxGroupComponent,
 } from './components';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -49,6 +50,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     GenericActivityLogRecordComponent,
     CustomTooltipComponent,
     TooltipRendererDirective,
+    CheckboxGroupComponent,
   ],
   exports: [
     SvgIconComponent,
@@ -61,6 +63,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     InfoIconComponent,
     GenericActivityLogRecordComponent,
     TooltipRendererDirective,
+    CheckboxGroupComponent,
   ],
   providers: [ConfirmationModalService],
 })

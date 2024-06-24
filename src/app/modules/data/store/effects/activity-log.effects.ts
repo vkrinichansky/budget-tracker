@@ -17,9 +17,9 @@ export class ActivityLogEffects {
     private activityLogService: ActivityLogService
   ) {}
 
-  removeActivityLogRecord$ = createEffect(() =>
+  removeRecord$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ActivityLogActions.removeActivityLogRecord),
+      ofType(ActivityLogActions.removeRecord),
       mergeMap((action) =>
         this.store.select(ActivityLogSelectors.selectRecordByIdSelector(action.recordId)).pipe(
           filter((record) => !!record),
@@ -40,7 +40,7 @@ export class ActivityLogEffects {
           catchError((error) => {
             this.snackbarHandler.showErrorSnackbar(error);
 
-            return of(ActivityLogActions.removeActivityLogRecordFail({ recordId: record.id }));
+            return of(ActivityLogActions.removeRecordFail({ recordId: record.id }));
           })
         )
       )
@@ -89,7 +89,7 @@ export class ActivityLogEffects {
           catchError((error) => {
             this.snackbarHandler.showErrorSnackbar(error);
 
-            return of(ActivityLogActions.removeActivityLogRecordFail({ recordId: action.record.id }));
+            return of(ActivityLogActions.removeRecordFail({ recordId: action.record.id }));
           })
         )
       )
@@ -145,7 +145,31 @@ export class ActivityLogEffects {
           catchError((error) => {
             this.snackbarHandler.showErrorSnackbar(error);
 
-            return of(ActivityLogActions.removeActivityLogRecordFail({ recordId: action.record.id }));
+            return of(ActivityLogActions.removeRecordFail({ recordId: action.record.id }));
+          })
+        )
+      )
+    )
+  );
+
+  removeRecordsBySelectedTypes$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActivityLogActions.bulkRecordsRemove),
+      mergeMap((action) =>
+        from(this.activityLogService.bulkRecordRemove(action.records)).pipe(
+          switchMap(() => {
+            this.snackbarHandler.showBulkActivityLogRecordsRemovedSnackbar(action.records);
+
+            return of(
+              ActivityLogActions.bulkRecordsRemoved({
+                records: action.records,
+              })
+            );
+          }),
+          catchError((error) => {
+            this.snackbarHandler.showErrorSnackbar(error);
+
+            return of(ActivityLogActions.bulkRecordsRemoveFail());
           })
         )
       )

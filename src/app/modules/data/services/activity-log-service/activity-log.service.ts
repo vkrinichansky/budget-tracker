@@ -68,6 +68,12 @@ export class ActivityLogService {
     });
   }
 
+  bulkRecordRemove(records: ActivityLogRecordUnitedType[]): Promise<void> {
+    return updateDoc(this.getDocRef(), {
+      [`${ACTIVITY_LOG_PATH}`]: records.length ? arrayRemove(...records) : [],
+    });
+  }
+
   private getDocRef(): DocumentReference {
     return doc(collection(this.firestore, 'userData'), this.afAuth.currentUser?.uid);
   }

@@ -187,6 +187,10 @@ textarea {
       @apply border-dark-green bg-dark-green #{!important};
     }
 
+    .mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background {
+      @apply border-dark-green bg-dark-green #{!important};
+    }
+
     &:hover {
       @media (hover: hover) {
         .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate='true'])

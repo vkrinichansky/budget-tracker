@@ -110,6 +110,7 @@
           }
         }
       },
+
       "categoryManagementRecord": {
         "categoryAdded": {
           "budgetType": {
@@ -124,6 +125,7 @@
           }
         }
       },
+
       "categoriesResetRecord": {
         "income": "Категорії <b>доходів</b> було скинуто",
         "expense": "Категорії <b>витрат</b> було скинуто"
@@ -138,7 +140,29 @@
         }
       },
 
-      "emptyStateText": "Немає данних для відображення"
+      "emptyStateText": "Немає данних для відображення",
+
+      "removeMenu": {
+        "removeButtonTooltip": "Видалення записів за типом",
+        "allTypes": "Всі типи",
+        "categoryManagement": {
+          "text": "Менеджмент категорій",
+          "tooltip": "Додавання та видалення категорій"
+        },
+        "categoriesReset": {
+          "text": "Скидання категорій",
+          "tooltip": "Ручне та щомісячне скидання категорій"
+        },
+        "rootValueChange": {
+          "text": "Зміна основних значень",
+          "tooltip": "Зміна значень балансу, збережень та вільних грошей"
+
+        },
+        "categoryValueChange": {
+          "text": "Зміна значень категорій",
+          "tooltip": "Зміна значень категорій розходів та доходів<br><br><span class='text-yellow'>Зверніть увагу, що якщо ви видалите записи цього типу, то це вплине на сторінку <b>статистики</b></span>"
+        }
+      }
     },
 
     "categories": {
@@ -232,6 +256,11 @@
     },
     "activityLogRecordRemoved": {
       "message": "Запис журналу активності було видалено успішно!",
+      "buttonText": "Добре"
+    },
+    "bulkActivityLogRecordsRemoved": {
+      "allRecordsRemoved": "Всі записи журналу активності було видалено успішно!",
+      "recordsByTypesRemoved": "Записи журналу активності обраних типів було видалено успішно!",
       "buttonText": "Добре"
     },
     "categoryValueChangedSnackbar": {

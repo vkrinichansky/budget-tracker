@@ -36,14 +36,14 @@
   <app-button
     [colorScheme]="'transparent-dark'"
     [text]="buildTranslationKey('noButton') | translate"
-    [buttonSizeX]="'medium'"
+    [buttonSizeX]="'px100'"
     (click)="closeClick()"
   >
   </app-button>
   <app-button
     [colorScheme]="'charcoal'"
     [text]="buildTranslationKey('yesButton') | translate"
-    [buttonSizeX]="'medium'"
+    [buttonSizeX]="'px100'"
     (click)="data.shouldConsiderCheckbox ? data.action(checkmarkChecked()) : data.action(); closeClick()"
   >
   </app-button>

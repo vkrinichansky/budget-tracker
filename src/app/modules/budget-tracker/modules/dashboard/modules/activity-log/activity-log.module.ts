@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ActivityLogComponent,
+  ActivityLogRemoveMenuComponent,
   CategoriesResetRecordComponent,
   CategoryManagementRecordComponent,
   CategoryValueChangeRecordComponent,
@@ -13,15 +14,9 @@ import { UtilsModule } from '@budget-tracker/utils';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from '@budget-tracker/shared';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
-  declarations: [
-    ActivityLogComponent,
-    RootValueChangeRecordComponent,
-    CategoryManagementRecordComponent,
-    CategoryValueChangeRecordComponent,
-    CategoriesResetRecordComponent,
-  ],
   imports: [
     CommonModule,
     DesignSystemModule,
@@ -30,7 +25,17 @@ import { SharedModule } from '@budget-tracker/shared';
     ScrollingModule,
     MatTooltipModule,
     SharedModule,
+    MatMenuModule,
   ],
+  declarations: [
+    ActivityLogComponent,
+    RootValueChangeRecordComponent,
+    CategoryManagementRecordComponent,
+    CategoryValueChangeRecordComponent,
+    CategoriesResetRecordComponent,
+    ActivityLogRemoveMenuComponent,
+  ],
+
   exports: [ActivityLogComponent],
 })
 export class ActivityLogModule {}

@@ -20,10 +20,16 @@ const removingRecordsIdsSelector = createSelector(activityLogStateSelector, (sta
 const selectRecordByIdSelector = (recordId: string) =>
   createSelector(activityLogSelector, (activityLog) => activityLog.find((record) => record.id === recordId));
 
+const isBulkRecordsRemovingInProgressSelector = createSelector(
+  activityLogStateSelector,
+  (state) => state.bulkRecordsRemove
+);
+
 export const ActivityLogSelectors = {
   activityLogStateSelector,
   activityLogSelector,
   removingRecordsIdsSelector,
   selectRecordByIdSelector,
   activityLogDictionarySelector,
+  isBulkRecordsRemovingInProgressSelector,
 };

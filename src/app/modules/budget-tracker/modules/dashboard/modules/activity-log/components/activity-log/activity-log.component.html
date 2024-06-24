@@ -1,45 +1,53 @@
-<app-page-header class="text-xl bg-transparent" [title]="buildTranslationKey('title') | translate"></app-page-header>
-
-<div
-  *ngVar="isEmpty$ | async as isEmpty"
-  class="flex flex-col overflow-hidden h-full w-full"
-  [class.justify-center]="isEmpty"
-  [class.items-center]="isEmpty"
+<ng-container
+  *ngVar="{
+    isEmpty: isEmpty$ | async,
+    isBulkRecordsRemovingInProgress: isBulkRecordsRemovingInProgress$ | async
+  } as data"
 >
-  @if (isEmpty) {
-    <span class="font-main font-bold text-charcoal text-lg text-center">
-      {{ buildTranslationKey('emptyStateText') | translate }}
-    </span>
-  }
+  <app-page-header class="text-xl bg-transparent" [title]="buildTranslationKey('title') | translate">
+    @if (!data.isEmpty) {
+      <app-activity-log-remove-menu [disabled]="data.isBulkRecordsRemovingInProgress"></app-activity-log-remove-menu>
+    }
+  </app-page-header>
 
-  @if (!isEmpty) {
-    <cdk-virtual-scroll-viewport itemSize="66" class="h-full w-full !overflow-x-hidden">
-      <div
-        *cdkVirtualFor="let item of itemsToRender$ | async; trackBy: trackBy.bind(this); templateCacheSize: 0"
-        class="h-16.5 flex items-center w-full"
-      >
-        <ng-container
-          *ngTemplateOutlet="isItemDate(item) ? dateItem : recordItem; context: { item: item }"
-        ></ng-container>
-      </div>
-    </cdk-virtual-scroll-viewport>
-  }
-</div>
-
-<ng-template #dateItem let-item="item">
   <div
-    *ngVar="sumsByDaysDictionary$ | async as sumsByDaysDictionary"
-    class="flex justify-between items-center h-full w-full font-main text-grey text-lg bg-white font-bold"
+    class="flex flex-col overflow-hidden h-full w-full"
+    [class.justify-center]="data.isEmpty"
+    [class.items-center]="data.isEmpty"
   >
-    <span>
-      {{ item }}
-    </span>
-
-    @if (sumsByDaysDictionary[item] !== 0) {
-      <span [class.text-dark-green]="sumsByDaysDictionary[item] > 0" [class.text-red]="sumsByDaysDictionary[item] < 0">
-        {{ sumsByDaysDictionary[item] | currencySymbol }}
+    @if (data.isEmpty) {
+      <span class="font-main font-bold text-charcoal text-lg text-center">
+        {{ buildTranslationKey('emptyStateText') | translate }}
       </span>
     }
+
+    @if (!data.isEmpty) {
+      <cdk-virtual-scroll-viewport itemSize="66" class="h-full w-full !overflow-x-hidden">
+        <div
+          *cdkVirtualFor="let item of itemsToRender$ | async; trackBy: trackBy.bind(this); templateCacheSize: 0"
+          class="h-16.5 flex items-center w-full"
+        >
+          <ng-container
+            *ngTemplateOutlet="isItemDateObject(item) ? dateItem : recordItem; context: { item: item }"
+          ></ng-container>
+        </div>
+      </cdk-virtual-scroll-viewport>
+    }
+  </div>
+</ng-container>
+
+<ng-template #dateItem let-item="item">
+  <div class="flex justify-between items-center h-full w-full font-main text-grey text-base bg-white font-bold">
+    <span>
+      {{ item.date }}
+    </span>
+
+    <span [class.text-dark-green]="item.sum > 0" [class.text-red]="item.sum < 0">
+      @if (item.sum > 0) {
+        &plus;
+      }
+      {{ item.sum | currencySymbol }}
+    </span>
   </div>
 </ng-template>
 

@@ -1,0 +1,16 @@
+<app-button
+  mat-button
+  customTooltip
+  [tooltipText]="buildTranslationKey('removeButtonTooltip') | translate"
+  [position]="'left'"
+  [matMenuTriggerFor]="menu"
+  [iconName]="'delete-bin'"
+  [colorScheme]="'transparent-dark'"
+  [buttonSizeY]="'small'"
+  [buttonSizeX]="'small'"
+  [disabled]="disabled"
+></app-button>
+
+<mat-menu #menu="matMenu" (close)="removeRecordsWithSelectedTypes(checkbox.checkboxGroup)">
+  <app-checkbox-group #checkbox [checkboxGroup]="checkboxGroup$ | async"></app-checkbox-group>
+</mat-menu>

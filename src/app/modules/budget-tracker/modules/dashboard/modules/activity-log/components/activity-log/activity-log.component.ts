@@ -1,9 +1,14 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
-import { ActivityLogFacadeService, SumByDate } from '@budget-tracker/data';
+import { ActivityLogFacadeService } from '@budget-tracker/data';
 import { ActivityLogGroupedByDate, ActivityLogRecordType, ActivityLogRecordUnitedType } from '@budget-tracker/data';
 import { Observable, map } from 'rxjs';
 
-type RenderingItemType = string | ActivityLogRecordUnitedType;
+interface DateObject {
+  date: string;
+  sum: number;
+}
+
+type RenderingItemType = DateObject | ActivityLogRecordUnitedType;
 
 @Component({
   selector: 'app-activity-log',
@@ -24,7 +29,7 @@ export class ActivityLogComponent implements OnInit {
 
   itemsToRender$: Observable<RenderingItemType[]>;
 
-  sumsByDaysDictionary$: Observable<SumByDate>;
+  isBulkRecordsRemovingInProgress$: Observable<boolean>;
 
   constructor(private activityLogFacade: ActivityLogFacadeService) {}
 
@@ -32,20 +37,29 @@ export class ActivityLogComponent implements OnInit {
     this.activityLog$ = this.activityLogFacade.getActivityLogGroupedByDays();
 
     this.itemsToRender$ = this.activityLog$.pipe(
-      map((days) => days.reduce((previous, current) => [...previous, current.date, ...current.records], []))
+      map((days) =>
+        days.reduce(
+          (previous, current) => [
+            ...previous,
+            { date: current.date, sum: current.sumOfCategoryValueChangeRecords },
+            ...current.records,
+          ],
+          []
+        )
+      )
     );
 
     this.isEmpty$ = this.activityLog$.pipe(map((activitiLog) => !activitiLog.length));
 
-    this.sumsByDaysDictionary$ = this.activityLogFacade.getSumsByDays();
+    this.isBulkRecordsRemovingInProgress$ = this.activityLogFacade.isBulkRecordsRemovingInProgress();
   }
 
   trackBy(_: number, item: RenderingItemType): string {
-    return this.isItemDate(item) ? (item as string) : (item as ActivityLogRecordUnitedType).id;
+    return this.isItemDateObject(item) ? (item as DateObject).date : (item as ActivityLogRecordUnitedType).id;
   }
 
-  isItemDate(item: RenderingItemType): boolean {
-    return typeof item === 'string';
+  isItemDateObject(item: RenderingItemType): boolean {
+    return 'date' in item && 'sum' in item;
   }
 
   buildTranslationKey(key: string): string {

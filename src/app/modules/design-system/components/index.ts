@@ -9,4 +9,4 @@ export { ConfirmationModalComponent } from './confirmation-modal/confirmation-mo
 export { InfoIconComponent } from './info-icon/info-icon.component';
 export { GenericActivityLogRecordComponent } from './generic-activity-log-record/generic-activity-log-record.component';
 export { CustomTooltipComponent } from './custom-tooltip/custom-tooltip.component';
-
+export { CheckboxGroupComponent } from './checkbox-group/checkbox-group.component';

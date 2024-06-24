@@ -36,13 +36,13 @@ export class DataInitEffects {
         );
       }),
       map((data) => {
-        if (data.budget.resetDate === getMonthAndYearString()) {
-          this.setStates(data);
-
-          return DataInitActions.dataLoaded();
+        if (data.budget.resetDate !== getMonthAndYearString() && data.budget.shouldDoReset) {
+          return DataInitActions.resetData({ data });
         }
 
-        return DataInitActions.resetData({ data });
+        this.setStates(data);
+
+        return DataInitActions.dataLoaded();
       })
     )
   );

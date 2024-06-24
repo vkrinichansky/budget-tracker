@@ -110,6 +110,7 @@
           }
         }
       },
+
       "categoryManagementRecord": {
         "categoryAdded": {
           "budgetType": {
@@ -139,7 +140,28 @@
         }
       },
 
-      "emptyStateText": "No data to display yet"
+      "emptyStateText": "No data to display yet",
+
+      "removeMenu": {
+        "removeButtonTooltip": "Remove records by types",
+        "allTypes": "All types",
+        "categoryManagement": {
+          "text": "Category management",
+          "tooltip": "Adding and removing categories"
+        },
+        "categoriesReset": {
+          "text": "Categories reset",
+          "tooltip": "Manual and monthly categories reset"
+        },
+        "rootValueChange": {
+          "text": "Root value change",
+          "tooltip": "Balance, savings and free money values changing"
+        },
+        "categoryValueChange": {
+          "text": "Category value change",
+          "tooltip": "Income and expense categories value changing<br><br><span class='font-bold text-yellow'>Pay attention that if you remove records of this type it will affect <b>statistics</b> page</span>"
+        }
+      }
     },
 
     "categories": {
@@ -231,6 +253,11 @@
     },
     "activityLogRecordRemoved": {
       "message": "Activity log record was removed successfully!",
+      "buttonText": "Got it"
+    },
+    "bulkActivityLogRecordsRemoved": {
+      "allRecordsRemoved": "All activity log records were removed successfully!",
+      "recordsByTypesRemoved": "Activity log records with selected types were removed successfully!",
       "buttonText": "Got it"
     },
     "categoryValueChangedSnackbar": {

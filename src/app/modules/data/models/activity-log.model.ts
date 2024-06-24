@@ -66,15 +66,12 @@ export type ActivityLogRecordUnitedType =
 
 export type ActivityLog = ActivityLogRecordUnitedType[];
 
-export interface ActivityLogGroupedByDateInObject {
+export interface ActivityLogGroupedByDateDictionary {
   [date: string]: ActivityLog;
 }
 
 export interface ActivityLogGroupedByDate {
   date: string;
   records: ActivityLog;
-}
-
-export interface SumByDate {
-  [date: string]: number;
+  sumOfCategoryValueChangeRecords?: number;
 }

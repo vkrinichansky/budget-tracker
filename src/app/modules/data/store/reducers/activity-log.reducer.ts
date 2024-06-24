@@ -6,6 +6,7 @@ import { EntityState, createEntityAdapter } from '@ngrx/entity';
 export interface ActivityLogState {
   activityLogRecords: EntityState<ActivityLogRecordUnitedType>;
   removingRecordsIds: string[];
+  bulkRecordsRemove: boolean;
 }
 
 function selectRecordId(record: ActivityLogRecordUnitedType): string {
@@ -19,6 +20,7 @@ export const activityLogRecordsEntityAdapter = createEntityAdapter({
 const initialState: ActivityLogState = {
   activityLogRecords: activityLogRecordsEntityAdapter.getInitialState({}),
   removingRecordsIds: [],
+  bulkRecordsRemove: false,
 };
 
 const adapterReducer = createReducer(
@@ -29,14 +31,14 @@ const adapterReducer = createReducer(
     activityLogRecords: activityLogRecordsEntityAdapter.addMany(action.activityLog, state.activityLogRecords),
   })),
 
-  on(ActivityLogActions.activityLogRecordAdded, (state, action) => ({
+  on(ActivityLogActions.recordAdded, (state, action) => ({
     ...state,
     activityLogRecords: activityLogRecordsEntityAdapter.addOne(action.record, state.activityLogRecords),
   })),
 
   on(ActivityLogActions.clean, () => initialState),
 
-  on(ActivityLogActions.removeActivityLogRecord, (state, action) => ({
+  on(ActivityLogActions.removeRecord, (state, action) => ({
     ...state,
     removingRecordsIds: [...state.removingRecordsIds, action.recordId],
   })),
@@ -57,9 +59,30 @@ const adapterReducer = createReducer(
     removingRecordsIds: state.removingRecordsIds.filter((recordId) => recordId !== action.recordId),
   })),
 
-  on(ActivityLogActions.removeActivityLogRecordFail, (state, action) => ({
+  on(ActivityLogActions.removeRecordFail, (state, action) => ({
     ...state,
     removingRecordsIds: state.removingRecordsIds.filter((recordId) => recordId !== action.recordId),
+  })),
+
+  on(ActivityLogActions.bulkRecordsRemove, (state) => ({
+    ...state,
+    bulkRecordsRemove: true,
+  })),
+
+  on(ActivityLogActions.bulkRecordsRemoved, (state, action) => ({
+    ...state,
+    activityLogRecords: action.records.length
+      ? activityLogRecordsEntityAdapter.removeMany(
+          action.records.map((record) => record.id),
+          state.activityLogRecords
+        )
+      : activityLogRecordsEntityAdapter.removeAll(state.activityLogRecords),
+    bulkRecordsRemove: false,
+  })),
+
+  on(ActivityLogActions.bulkRecordsRemoveFail, (state) => ({
+    ...state,
+    bulkRecordsRemove: false,
   }))
 );
 

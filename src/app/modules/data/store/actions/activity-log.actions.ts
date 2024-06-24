@@ -9,13 +9,13 @@ import {
 } from '../../models';
 
 export const ActivityLogActions = {
-  activityLogRecordAdded: createAction('[ActivityLog] Record added', props<{ record: ActivityLogRecordUnitedType }>()),
+  recordAdded: createAction('[ActivityLog] Record added', props<{ record: ActivityLogRecordUnitedType }>()),
 
   activityLogLoaded: createAction('[ActivityLog] Activity log loaded', props<{ activityLog: ActivityLog }>()),
 
   clean: createAction('[ActivityLog] Clean state'),
 
-  removeActivityLogRecord: createAction('[ActivityLog] Remove record', props<{ recordId: string }>()),
+  removeRecord: createAction('[ActivityLog] Remove record', props<{ recordId: string }>()),
 
   removeCategoryValueChangeRecord: createAction(
     '[ActivityLog] Remove category value change record',
@@ -38,5 +38,19 @@ export const ActivityLogActions = {
 
   activityLogRecordRemoved: createAction('[ActivityLog] Record removed', props<{ recordId: string }>()),
 
-  removeActivityLogRecordFail: createAction('[ActivityLog] Remove record fail', props<{ recordId: string }>()),
+  removeRecordFail: createAction('[ActivityLog] Remove record fail', props<{ recordId: string }>()),
+
+  bulkRecordsRemove: createAction(
+    '[ActivityLog] Bulk records remove',
+    props<{
+      records: ActivityLogRecordUnitedType[];
+    }>()
+  ),
+
+  bulkRecordsRemoved: createAction(
+    '[ActivityLog] Bulk records removed',
+    props<{ records: ActivityLogRecordUnitedType[] }>()
+  ),
+
+  bulkRecordsRemoveFail: createAction('[ActivityLog] Bulk records remove fail'),
 };

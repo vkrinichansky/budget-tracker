@@ -26,7 +26,7 @@ export class CategoriesEffects {
                 category: action.category,
               }),
 
-              ActivityLogActions.activityLogRecordAdded({
+              ActivityLogActions.recordAdded({
                 record: action.activityLogRecord,
               })
             );
@@ -53,7 +53,7 @@ export class CategoriesEffects {
               CategoriesActions.categoryRemoved({
                 category: action.category,
               }),
-              ActivityLogActions.activityLogRecordAdded({
+              ActivityLogActions.recordAdded({
                 record: action.activityLogRecord,
               })
             );
@@ -99,7 +99,7 @@ export class CategoriesEffects {
               CategoriesActions.categoryValueChanged({
                 updatedCategory: action.updatedCategory,
               }),
-              ActivityLogActions.activityLogRecordAdded({
+              ActivityLogActions.recordAdded({
                 record: action.activityLogRecord,
               }),
               RootValuesActions.balanceUpdated({ newBalanceValue: action.newBalanceValue })
@@ -127,7 +127,7 @@ export class CategoriesEffects {
               CategoriesActions.categoriesReset({
                 updatedCategories: action.updatedCategories,
               }),
-              ActivityLogActions.activityLogRecordAdded({
+              ActivityLogActions.recordAdded({
                 record: action.activityLogRecord,
               })
             );
