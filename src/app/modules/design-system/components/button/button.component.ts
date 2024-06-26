@@ -2,7 +2,6 @@ import { HostBinding } from '@angular/core';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ButtonSize, ColorScheme } from '../../models';
 
-
 @Component({
   selector: 'app-button',
   templateUrl: './button.component.html',
@@ -50,4 +49,17 @@ export class ButtonComponent {
 
   @Input()
   align: 'center' | 'start' = 'center';
+
+  get loaderColorMode(): 'dark' | 'light' {
+    switch (this.colorScheme) {
+      case 'charcoal':
+      case 'green':
+        return 'light';
+
+      case 'transparent-light':
+      case 'transparent-dark':
+      case 'active-navigation-item':
+        return 'dark';
+    }
+  }
 }

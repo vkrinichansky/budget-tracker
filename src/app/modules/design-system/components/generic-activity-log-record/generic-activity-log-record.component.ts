@@ -7,7 +7,8 @@ import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, O
 })
 export class GenericActivityLogRecordComponent {
   @HostBinding('class')
-  private readonly classes = 'relative flex gap-x-2 items-center justify-start w-full';
+  private readonly classes = 'flex gap-x-2 items-center justify-start w-full';
+
   @Input()
   icon: string;
 

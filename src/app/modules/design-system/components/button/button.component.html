@@ -10,9 +10,9 @@
   [showTooltipOnlyOnOverflow]="true"
   [childElementId]="'buttonText'"
   [type]="'button'"
-  >
+>
   @if (loading) {
-    <app-loader></app-loader>
+    <app-loader [colorMode]="loaderColorMode"></app-loader>
   } @else {
     @if (iconName) {
       <svg-icon class="w-6 h-6" [iconName]="iconName" [class.grayscale]="disabled"></svg-icon>
@@ -23,5 +23,4 @@
       </span>
     }
   }
-
 </button>
