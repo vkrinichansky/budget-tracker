@@ -1,6 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { dataFeatureSelector } from './feature.selector';
 import { Category } from '../../models';
+import { Dictionary } from '@ngrx/entity';
 
 const categoriesStateSelector = createSelector(
   dataFeatureSelector,
@@ -29,6 +30,14 @@ const allCategoriesSelector = createSelector(
   incomeCategoriesSelector,
   expenseCategoriesSelector,
   (incomeCategories, expenseCategories) => [...incomeCategories, ...expenseCategories]
+);
+
+const allCategoriesDictionarySelector = createSelector(
+  categoriesStateSelector,
+  (state): Dictionary<Category> => ({
+    ...state.income.entities,
+    ...state.expense.entities,
+  })
 );
 
 const categoryManagementInProgressSelector = createSelector(
@@ -80,4 +89,5 @@ export const CategoriesSelectors = {
   categoryValueChangeErrorSelector,
   selectCategoryByIdSelector,
   allCategoriesSelector,
+  allCategoriesDictionarySelector,
 };

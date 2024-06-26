@@ -6,4 +6,5 @@ export interface Category {
   icon: string;
   value: number;
   budgetType: BudgetType;
+  hexColor?: string;
 }

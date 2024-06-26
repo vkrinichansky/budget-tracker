@@ -70,7 +70,7 @@ export class ActivityLogFacadeService {
     );
   }
 
-  getActivityLogGroupedByDate(): Observable<ActivityLogGroupedByDate[]> {
+  getActivityLogGroupedByMonths(): Observable<ActivityLogGroupedByDate[]> {
     return this.getActivityLog().pipe(
       map((activityLog) => this.filterOnlyCategoryValueChangeRecords(activityLog)),
       map((filteredActivityLog) => this.getActivityLogByMonthsDictionary(filteredActivityLog)),

@@ -6,42 +6,52 @@ import {
   CategoryValueMapping,
   CategoryValueChangeRecord,
   MonthStatisticsDataItem,
+  Category,
 } from '../../models';
-import { Observable, map } from 'rxjs';
+import { Observable, combineLatest, map } from 'rxjs';
 import { ChartData, ChartDataset } from 'chart.js';
 import { CategoriesFacadeService } from '../categories-facade/categories-facade.service';
-import { MintChartPalette, MainPalette, CoralChartPalette } from '@budget-tracker/design-system';
-
-interface ColorsData {
-  borderColor: string;
-  palette: string[];
-}
+import { MainPalette } from '@budget-tracker/design-system';
 
 @Injectable()
 export class StatisticsFacadeService {
-  constructor(private activityLogFacade: ActivityLogFacadeService, private categoryFacade: CategoriesFacadeService) {}
+  constructor(
+    private activityLogFacade: ActivityLogFacadeService,
+    private categoryFacade: CategoriesFacadeService
+  ) {}
 
   getMonthlyStatistics(): Observable<MonthStatisticsDataItem[]> {
-    return this.activityLogFacade.getActivityLogGroupedByDate().pipe(
-      map((ALByDates) =>
-        ALByDates.map((ALDate) => ({
-          date: ALDate.date,
-          incomeCategoryValueMapping: this.getCategoryValueMappingForChart(ALDate.records, BudgetType.Income),
-          expenseCategoryValueMapping: this.getCategoryValueMappingForChart(ALDate.records, BudgetType.Expense),
+    return this.activityLogFacade.getActivityLogGroupedByMonths().pipe(
+      map((activityLogByMonths) =>
+        activityLogByMonths.map((monthItem) => ({
+          date: monthItem.date,
+          incomeCategoryValueMapping: this.getCategoryValueMappingForChart(monthItem.records, BudgetType.Income),
+          expenseCategoryValueMapping: this.getCategoryValueMappingForChart(monthItem.records, BudgetType.Expense),
         }))
       )
     );
   }
 
   getDataForMonthlyStatisticsChart(): Observable<ChartData> {
-    return this.getMonthlyStatistics().pipe(
-      map((statistics) => {
+    return combineLatest([this.categoryFacade.getAllCategoriesDictionary(), this.getMonthlyStatistics()]).pipe(
+      map(([categoriesDictionary, statistics]) => {
         const reverseStatistics = [...statistics].reverse();
         const labels = reverseStatistics.map((statisticItem) => statisticItem.date);
 
+        const categories: Category[] = [
+          ...new Set(
+            reverseStatistics.flatMap((statisticsItem) =>
+              Object.keys({
+                ...statisticsItem.expenseCategoryValueMapping,
+                ...statisticsItem.incomeCategoryValueMapping,
+              })
+            )
+          ),
+        ].map((categoryId) => categoriesDictionary?.[categoryId]);
+
         const datasets: ChartDataset[] = [
-          ...this.getDatasets(reverseStatistics, BudgetType.Income),
-          ...this.getDatasets(reverseStatistics, BudgetType.Expense),
+          ...this.getDatasets(categories, reverseStatistics, BudgetType.Income),
+          ...this.getDatasets(categories, reverseStatistics, BudgetType.Expense),
         ];
 
         return {
@@ -52,27 +62,22 @@ export class StatisticsFacadeService {
     );
   }
 
-  private getDatasets(statistics: MonthStatisticsDataItem[], budgetType: BudgetType): ChartDataset[] {
-    const colors = this.resolveColors(budgetType);
-    const palette = colors.palette;
-
-    const categoriesNames = [
-      ...new Set(
-        statistics.flatMap((statisticsItem) => Object.keys(statisticsItem[`${budgetType}CategoryValueMapping`]))
-      ),
-    ];
-
-    return categoriesNames.map((categoryName, index) => ({
-      label: categoryName,
+  private getDatasets(
+    categories: Category[],
+    statistics: MonthStatisticsDataItem[],
+    budgetType: BudgetType
+  ): ChartDataset[] {
+    return categories.map((category) => ({
+      label: category.name,
       stack: budgetType,
-      data: statistics.map((statisticItem) => statisticItem[`${budgetType}CategoryValueMapping`]?.[categoryName] || 0),
-      backgroundColor: palette[index >= palette.length ? index - palette.length : index],
+      data: statistics.map((statisticItem) => statisticItem[`${budgetType}CategoryValueMapping`]?.[category.id] || 0),
+      backgroundColor: category.hexColor,
       borderWidth: 2,
       borderRadius: 2,
       borderSkipped: 'bottom',
-      borderColor: colors.borderColor,
+      borderColor: this.resolveBorderColors(budgetType),
       weight: statistics
-        .map((statisticItem) => statisticItem[`${budgetType}CategoryValueMapping`]?.[categoryName] || 0)
+        .map((statisticItem) => statisticItem[`${budgetType}CategoryValueMapping`]?.[category.id] || 0)
         .reduce((result, value) => result + value, 0),
     }));
   }
@@ -85,29 +90,23 @@ export class StatisticsFacadeService {
       .map((record) => record as CategoryValueChangeRecord);
 
     recordsFilteredByBudgetType.forEach((record) => {
-      if (!mapping[record.categoryName]) {
-        mapping[record.categoryName] = record.value;
+      if (!mapping[record.categoryId]) {
+        mapping[record.categoryId] = record.value;
       } else {
-        mapping[record.categoryName] = mapping[record.categoryName] + record.value;
+        mapping[record.categoryId] = mapping[record.categoryId] + record.value;
       }
     });
 
     return mapping;
   }
 
-  private resolveColors(budgetType: BudgetType): ColorsData {
+  private resolveBorderColors(budgetType: BudgetType): MainPalette {
     switch (budgetType) {
       case BudgetType.Income:
-        return {
-          borderColor: MainPalette.DarkGreen,
-          palette: MintChartPalette,
-        };
+        return MainPalette.DarkGreen;
 
       case BudgetType.Expense:
-        return {
-          borderColor: MainPalette.Red,
-          palette: CoralChartPalette,
-        };
+        return MainPalette.Red;
     }
   }
 }

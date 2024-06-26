@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, TemplateRef } from '@angular/core';
 import { IconSize, InfoIconType, TooltipPosition } from '../../models';
 
 @Component({
@@ -17,6 +17,7 @@ export class InfoIconComponent {
   @Input()
   tooltipPosition: TooltipPosition = 'top';
 
+  @HostBinding('class')
   @Input()
   type: InfoIconType = 'info';
 
@@ -30,16 +31,6 @@ export class InfoIconComponent {
 
   get templateTooltip(): TemplateRef<unknown> {
     return this.tooltip instanceof TemplateRef ? this.tooltip : undefined;
-  }
-
-  get colorClasses(): string {
-    switch (this.type) {
-      case 'info':
-        return 'text-charcoal hover:text-blue';
-
-      case 'warning':
-        return 'text-yellow hover:text-dark-yellow';
-    }
   }
 
   get icon(): string {

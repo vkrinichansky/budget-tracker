@@ -2,6 +2,7 @@ import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
 import { CategoriesActions } from '../actions';
 import { Category } from '../../models';
+import { ChartPalette } from '@budget-tracker/design-system';
 
 export interface CategoriesState {
   income: EntityState<Category>;
@@ -36,11 +37,30 @@ const initialState: CategoriesState = {
 const adapterReducer = createReducer(
   initialState,
 
-  on(CategoriesActions.categoriesLoaded, (state, action) => ({
-    ...state,
-    expense: categoryEntityAdapter.addMany(action.expense, state.expense),
-    income: categoryEntityAdapter.addMany(action.income, state.income),
-  })),
+  on(CategoriesActions.categoriesLoaded, (state, action) => {
+    const incomeCategories = action.income.map((category) =>
+      category?.hexColor
+        ? category
+        : {
+            ...category,
+            hexColor: ChartPalette[Math.floor(Math.random() * 30)],
+          }
+    );
+
+    const expenseCategories = action.expense.map((category) =>
+      category?.hexColor
+        ? category
+        : {
+            ...category,
+            hexColor: ChartPalette[Math.floor(Math.random() * 30)],
+          }
+    );
+    return {
+      ...state,
+      expense: categoryEntityAdapter.addMany(expenseCategories, state.expense),
+      income: categoryEntityAdapter.addMany(incomeCategories, state.income),
+    };
+  }),
 
   on(CategoriesActions.addCategory, (state) => ({
     ...state,

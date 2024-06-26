@@ -159,7 +159,7 @@
         },
         "categoryValueChange": {
           "text": "Category value change",
-          "tooltip": "Income and expense categories value changing<br><br><span class='font-bold text-yellow'>Pay attention that if you remove records of this type it will affect <b>statistics</b> page</span>"
+          "tooltip": "Income and expense categories value changing<br><br><span class='text-yellow'>Pay attention that if you remove records of this type it will affect <b>statistics</b> page</span>"
         }
       }
     },

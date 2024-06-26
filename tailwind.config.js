@@ -35,7 +35,7 @@ const colors = {
 };
 
 module.exports = {
-  content: ['./src/**/*.{html,ts}'],
+  content: ['./src/**/*.{html,ts,scss,json}'],
   theme: {
     colors: colors,
 
@@ -65,13 +65,14 @@ module.exports = {
 
     extend: {
       spacing: {
-        ...convertPixelsIntoRems(60), // 60px,
         ...convertPixelsIntoRems(52), // 52px,
+        ...convertPixelsIntoRems(60), // 60px,
         ...convertPixelsIntoRems(68), // 68px,
         ...convertPixelsIntoRems(66), // 66px,
         ...convertPixelsIntoRems(100), // 100px,
       },
       maxWidth: {
+        ...convertPixelsIntoRems(200), // 200px,
         ...convertPixelsIntoRems(256), // 256px,
       },
       minHeight: {

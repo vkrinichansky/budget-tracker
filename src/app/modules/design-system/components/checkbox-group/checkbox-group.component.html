@@ -13,7 +13,21 @@
 <span>
   <ul class="pl-5">
     @for (subItem of checkboxGroup.subItems; track i; let i = $index) {
-      <li class="flex gap-x-2 items-center">
+      <li class="flex items-center">
+        @if (subItem?.tooltipTranslationKey) {
+          <app-info-icon
+            [type]="subItem.infoIconType"
+            [tooltip]="tooltip"
+            [tooltipPosition]="subItem.tooltipPosition"
+            [size]="'medium'"
+            (click)="$event.stopPropagation()"
+          ></app-info-icon>
+
+          <ng-template #tooltip>
+            <span class="block max-w-50" [innerHTML]="subItem.tooltipTranslationKey | translate"></span>
+          </ng-template>
+        }
+
         <mat-checkbox
           [checked]="subItem.checked"
           [disableRipple]="true"
@@ -22,19 +36,6 @@
         >
           {{ subItem.nameOrTranslationKey | translate }}
         </mat-checkbox>
-
-        @if (subItem?.tooltipTranslationKey) {
-          <app-info-icon
-            [type]="subItem.infoIconType"
-            [tooltip]="tooltip"
-            [tooltipPosition]="'left'"
-            [size]="'medium'"
-          ></app-info-icon>
-
-          <ng-template #tooltip>
-            <span [innerHTML]="subItem.tooltipTranslationKey | translate"></span>
-          </ng-template>
-        }
       </li>
     }
   </ul>

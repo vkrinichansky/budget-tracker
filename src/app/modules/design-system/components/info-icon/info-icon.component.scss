@@ -8,4 +8,28 @@
       }
     }
   }
+
+  &.info {
+    &::ng-deep {
+      svg-icon {
+        @apply text-charcoal;
+      }
+
+      @media (hover: hover) {
+        @apply hover:text-blue;
+      }
+    }
+  }
+
+  &.warning {
+    &::ng-deep {
+      svg-icon {
+        @apply text-yellow;
+      }
+
+      @media (hover: hover) {
+        @apply hover:text-dark-yellow;
+      }
+    }
+  }
 }

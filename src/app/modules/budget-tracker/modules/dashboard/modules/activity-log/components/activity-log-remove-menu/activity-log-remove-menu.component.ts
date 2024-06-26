@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { ActivityLogFacadeService, ActivityLogRecordType } from '@budget-tracker/data';
-import { CheckboxGroup } from '@budget-tracker/design-system';
+import { CheckboxGroup, TooltipPosition } from '@budget-tracker/design-system';
+import { isMobileWidth } from '@budget-tracker/utils';
 import { Observable, map } from 'rxjs';
 
 @Component({
@@ -20,6 +21,7 @@ export class ActivityLogRemoveMenuComponent implements OnInit {
         value: ActivityLogRecordType.CategoryManagement,
         infoIconType: 'info',
         tooltipTranslationKey: this.buildTranslationKey('categoryManagement.tooltip'),
+        tooltipPosition: this.tooltipPosition,
       },
       {
         nameOrTranslationKey: this.buildTranslationKey('categoriesReset.text'),
@@ -27,6 +29,7 @@ export class ActivityLogRemoveMenuComponent implements OnInit {
         value: ActivityLogRecordType.CategoriesReset,
         infoIconType: 'info',
         tooltipTranslationKey: this.buildTranslationKey('categoriesReset.tooltip'),
+        tooltipPosition: this.tooltipPosition,
       },
       {
         nameOrTranslationKey: this.buildTranslationKey('rootValueChange.text'),
@@ -34,6 +37,7 @@ export class ActivityLogRemoveMenuComponent implements OnInit {
         value: ActivityLogRecordType.RootValueChange,
         infoIconType: 'info',
         tooltipTranslationKey: this.buildTranslationKey('rootValueChange.tooltip'),
+        tooltipPosition: this.tooltipPosition,
       },
       {
         nameOrTranslationKey: this.buildTranslationKey('categoryValueChange.text'),
@@ -41,6 +45,7 @@ export class ActivityLogRemoveMenuComponent implements OnInit {
         value: ActivityLogRecordType.CategoryValueChange,
         infoIconType: 'warning',
         tooltipTranslationKey: this.buildTranslationKey('categoryValueChange.tooltip'),
+        tooltipPosition: this.tooltipPosition,
       },
     ],
   };
@@ -49,6 +54,10 @@ export class ActivityLogRemoveMenuComponent implements OnInit {
   disabled: boolean;
 
   checkboxGroup$: Observable<CheckboxGroup>;
+
+  private get tooltipPosition(): TooltipPosition {
+    return isMobileWidth() ? 'right' : 'top';
+  }
 
   constructor(private activityLogFacade: ActivityLogFacadeService) {}
 

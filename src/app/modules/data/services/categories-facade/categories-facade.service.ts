@@ -13,6 +13,7 @@ import {
   CategoryValueChangeRecord,
   CategoriesResetRecord,
 } from '../../models';
+import { Dictionary } from '@ngrx/entity';
 
 @Injectable()
 export class CategoriesFacadeService {
@@ -23,6 +24,10 @@ export class CategoriesFacadeService {
 
   getAllCategories(): Observable<Category[]> {
     return this.store.select(CategoriesSelectors.allCategoriesSelector);
+  }
+
+  getAllCategoriesDictionary(): Observable<Dictionary<Category>> {
+    return this.store.select(CategoriesSelectors.allCategoriesDictionarySelector);
   }
 
   getIncomeCategories(): Observable<Category[]> {
