@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { ActivityLogFacadeService, ActivityLogRecordType } from '@budget-tracker/data';
-import { CheckboxGroup, TooltipPosition } from '@budget-tracker/design-system';
+import { CheckboxGroup, ConfirmationModalService, TooltipPosition } from '@budget-tracker/design-system';
 import { isMobileWidth } from '@budget-tracker/utils';
 import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-activity-log-remove-menu',
   templateUrl: './activity-log-remove-menu.component.html',
-  styleUrl: './activity-log-remove-menu.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityLogRemoveMenuComponent implements OnInit {
@@ -59,15 +58,13 @@ export class ActivityLogRemoveMenuComponent implements OnInit {
     return isMobileWidth() ? 'right' : 'top';
   }
 
-  constructor(private activityLogFacade: ActivityLogFacadeService) {}
+  constructor(
+    private activityLogFacade: ActivityLogFacadeService,
+    private confirmationModalService: ConfirmationModalService
+  ) {}
 
   ngOnInit(): void {
-    this.checkboxGroup$ = this.activityLogFacade.getActivityLogTypes().pipe(
-      map((types) => ({
-        ...this.checkboxGroup,
-        subItems: this.checkboxGroup.subItems.filter((item) => types.includes(item.value as ActivityLogRecordType)),
-      }))
-    );
+    this.initCheckboxGroup();
   }
 
   buildTranslationKey(key: string): string {
@@ -80,7 +77,22 @@ export class ActivityLogRemoveMenuComponent implements OnInit {
       .map((item) => item.value as ActivityLogRecordType);
 
     if (checkboxGroup.subItems.some((item) => item.checked)) {
-      this.activityLogFacade.removeRecordsBySelectedTypes(selectedTypes, checkboxGroup.checked);
+      this.confirmationModalService.openConfirmationModal(
+        {
+          questionTranslationKey: this.buildTranslationKey('removeConfirmationQuestion'),
+          remarkTranslationKey: this.buildTranslationKey('removeConfirmationRemark'),
+        },
+        () => this.activityLogFacade.removeRecordsBySelectedTypes(selectedTypes)
+      );
     }
+  }
+
+  private initCheckboxGroup(): void {
+    this.checkboxGroup$ = this.activityLogFacade.getActivityLogTypes().pipe(
+      map((types) => ({
+        ...this.checkboxGroup,
+        subItems: this.checkboxGroup.subItems.filter((item) => types.includes(item.value as ActivityLogRecordType)),
+      }))
+    );
   }
 }

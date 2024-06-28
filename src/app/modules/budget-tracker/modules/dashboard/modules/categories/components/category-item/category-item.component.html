@@ -17,6 +17,6 @@
 
   <div class="flex items-center gap-x-2">
     <span class="font-main font-bold text-charcoal text-base"> {{ category?.value | currencySymbol }}</span>
-    <app-menu [menuActions]="menuActions" (click)="$event.stopPropagation()"></app-menu>
+    <app-menu [menuActions]="menuActions" [loading]="isCategoryRemoving" (click)="$event.stopPropagation()"></app-menu>
   </div>
 </ng-container>

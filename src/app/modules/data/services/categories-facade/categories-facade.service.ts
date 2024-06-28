@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, firstValueFrom, map } from 'rxjs';
 import { v4 as uuid } from 'uuid';
-import { CategoriesActions, CategoriesSelectors } from '../../store';
+import { ActivityLogActions, ActivityLogSelectors, CategoriesActions, CategoriesSelectors } from '../../store';
 import { RootValuesFacadeService } from '../root-values-facade/root-values-facade.service';
 import {
   Category,
@@ -86,6 +86,17 @@ export class CategoriesFacadeService {
   async removeCategory(categoryId: string): Promise<void> {
     const category: Category = await firstValueFrom(this.getCategoryById(categoryId));
 
+    const relatedCategoryValueChangeRecordsToRemove = await firstValueFrom(
+      this.store.select(ActivityLogSelectors.activityLogSelector).pipe(
+        map((activityLog) =>
+          activityLog
+            .filter((record) => record.recordType === ActivityLogRecordType.CategoryValueChange)
+            .map((record) => record as CategoryValueChangeRecord)
+            .filter((record) => record.categoryId === categoryId)
+        )
+      )
+    );
+
     const removeCategoryRecord: CategoryManagementRecord = {
       id: uuid(),
       actionType: CategoryManagementActionType.Remove,
@@ -96,7 +107,24 @@ export class CategoriesFacadeService {
       recordType: ActivityLogRecordType.CategoryManagement,
     };
 
-    this.store.dispatch(CategoriesActions.removeCategory({ category, activityLogRecord: removeCategoryRecord }));
+    this.store.dispatch(
+      CategoriesActions.removeCategory({
+        category,
+        activityLogRecord: removeCategoryRecord,
+      })
+    );
+
+    this.store.dispatch(
+      ActivityLogActions.bulkRecordsRemove({
+        records: relatedCategoryValueChangeRecordsToRemove,
+      })
+    );
+  }
+
+  isCategoryRemoving(categoryId: string): Observable<boolean> {
+    return this.store
+      .select(CategoriesSelectors.selectCategoriesRemovingIds)
+      .pipe(map((removingCategoriesIds) => removingCategoriesIds.includes(categoryId)));
   }
 
   async changeCategoryValue(categoryId: string, valueToAdd = 0, note = ''): Promise<void> {

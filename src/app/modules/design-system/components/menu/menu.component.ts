@@ -27,4 +27,7 @@ export class MenuComponent {
 
   @Input()
   menuDisabled: boolean;
+
+  @Input()
+  loading: boolean;
 }

@@ -1,20 +1,32 @@
 <ng-container
   *ngVar="{
     isEmpty: isEmpty$ | async,
-    isBulkRecordsRemovingInProgress: isBulkRecordsRemovingInProgress$ | async
+    isBulkRecordsRemovingInProgress: isBulkRecordsRemovingInProgress$ | async,
+    shouldDisableRemoveButton: shouldDisableRemoveButton$ | async
   } as data"
 >
   <app-page-header class="text-xl bg-transparent" [title]="buildTranslationKey('title') | translate">
     @if (!data.isEmpty) {
-      <app-activity-log-remove-menu [disabled]="data.isBulkRecordsRemovingInProgress"></app-activity-log-remove-menu>
+      <app-activity-log-remove-menu
+        *ngVar="data.isBulkRecordsRemovingInProgress || data.shouldDisableRemoveButton as disabled"
+        customTooltip
+        [tooltipText]="buildTranslationKey(disabled ? 'removeMenuDisabledTooltip' : 'removeMenuTooltip') | translate"
+        [dontDisplayOnScreenWidth]="true"
+        [position]="'left'"
+        [disabled]="disabled"
+      ></app-activity-log-remove-menu>
     }
   </app-page-header>
 
   <div
-    class="flex flex-col overflow-hidden h-full w-full"
+    class="flex flex-col overflow-hidden h-full w-full relative"
     [class.justify-center]="data.isEmpty"
     [class.items-center]="data.isEmpty"
   >
+    @if (data.isBulkRecordsRemovingInProgress) {
+      <app-fullsize-loader></app-fullsize-loader>
+    }
+
     @if (data.isEmpty) {
       <span class="font-main font-bold text-charcoal text-lg text-center">
         {{ buildTranslationKey('emptyStateText') | translate }}

@@ -141,9 +141,10 @@
       },
 
       "emptyStateText": "No data to display yet",
+      "removeMenuTooltip": "Remove records by types",
+      "removeMenuDisabledTooltip": "You can do bulk records remove only if you have previous months records. For current month records you can use remove button on specific record",
 
       "removeMenu": {
-        "removeButtonTooltip": "Remove records by types",
         "allTypes": "All types",
         "categoryManagement": {
           "text": "Category management",
@@ -160,7 +161,9 @@
         "categoryValueChange": {
           "text": "Category value change",
           "tooltip": "Income and expense categories value changing<br><br><span class='text-yellow'>Pay attention that if you remove records of this type it will affect <b>statistics</b> page</span>"
-        }
+        },
+        "removeConfirmationQuestion": "Are you sure you want to remove records of selected types?",
+        "removeConfirmationRemark": "This action won't affect current month records"
       }
     },
 
@@ -183,8 +186,8 @@
           "resetValue": "Reset value",
           "remove": "Remove"
         },
-        "confirmationModalRemove": "Do you want to remove <b>{{ categoryName }}</b> category?",
-        "confirmationModalReset": "Do you want to reset <b>{{ categoryName }}</b> category value?"
+        "removeConfirmationQuestion": "Do you want to remove <b>{{ categoryName }}</b> category?",
+        "removeConfirmationRemark": "This action will remove related records from activity log as well"
       }
     },
 

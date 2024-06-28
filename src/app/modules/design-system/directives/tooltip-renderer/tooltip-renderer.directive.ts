@@ -164,6 +164,7 @@ export class TooltipRendererDirective implements OnDestroy {
    * This method will close the tooltip by detaching the overlay from the view
    */
   @HostListener('mouseleave')
+  @HostListener('click')
   private hide() {
     this.closeToolTip();
   }

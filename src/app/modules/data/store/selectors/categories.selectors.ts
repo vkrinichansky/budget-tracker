@@ -75,6 +75,8 @@ const selectCategoryByIdSelector = (categoryId: string) =>
     [...income, ...expense].find((category) => (category as Category).id === categoryId)
   );
 
+const selectCategoriesRemovingIds = createSelector(categoriesStateSelector, (state) => state.removingCategoriesIds);
+
 export const CategoriesSelectors = {
   categoriesStateSelector,
   incomeCategoriesSelector,
@@ -90,4 +92,5 @@ export const CategoriesSelectors = {
   selectCategoryByIdSelector,
   allCategoriesSelector,
   allCategoriesDictionarySelector,
+  selectCategoriesRemovingIds,
 };

@@ -71,12 +71,10 @@ const adapterReducer = createReducer(
 
   on(ActivityLogActions.bulkRecordsRemoved, (state, action) => ({
     ...state,
-    activityLogRecords: action.records.length
-      ? activityLogRecordsEntityAdapter.removeMany(
-          action.records.map((record) => record.id),
-          state.activityLogRecords
-        )
-      : activityLogRecordsEntityAdapter.removeAll(state.activityLogRecords),
+    activityLogRecords: activityLogRecordsEntityAdapter.removeMany(
+      action.records.map((record) => record.id),
+      state.activityLogRecords
+    ),
     bulkRecordsRemove: false,
   })),
 

@@ -70,7 +70,7 @@ export class ActivityLogService {
 
   bulkRecordRemove(records: ActivityLogRecordUnitedType[]): Promise<void> {
     return updateDoc(this.getDocRef(), {
-      [`${ACTIVITY_LOG_PATH}`]: records.length ? arrayRemove(...records) : [],
+      [`${ACTIVITY_LOG_PATH}`]: arrayRemove(...records),
     });
   }
 

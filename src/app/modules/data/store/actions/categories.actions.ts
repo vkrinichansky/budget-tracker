@@ -44,12 +44,15 @@ export const CategoriesActions = {
 
   removeCategory: createAction(
     CategoriesActionsType.RemoveCategory,
-    props<{ category: Category; activityLogRecord: CategoryManagementRecord }>()
+    props<{
+      category: Category;
+      activityLogRecord: CategoryManagementRecord;
+    }>()
   ),
 
   categoryRemoved: createAction(CategoriesActionsType.CategoryRemoved, props<{ category: Category }>()),
 
-  removeCategoryFail: createAction(CategoriesActionsType.RemoveCategoryFail),
+  removeCategoryFail: createAction(CategoriesActionsType.RemoveCategoryFail, props<{ categoryId: string }>()),
 
   resetCategoryManagementProp: createAction(CategoriesActionsType.ResetCategoryManagementProp),
 

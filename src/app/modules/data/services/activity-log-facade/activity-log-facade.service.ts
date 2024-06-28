@@ -19,6 +19,7 @@ import {
 import { Dictionary } from '@ngrx/entity';
 import { CategoriesFacadeService } from '../categories-facade/categories-facade.service';
 import { RootValuesFacadeService } from '../root-values-facade/root-values-facade.service';
+import { isPreviousMonth } from '@budget-tracker/utils';
 
 @Injectable()
 export class ActivityLogFacadeService {
@@ -39,7 +40,9 @@ export class ActivityLogFacadeService {
 
   getActivityLogTypes(): Observable<ActivityLogRecordType[]> {
     return this.getActivityLog().pipe(
-      map((activityLog) => [...new Set(activityLog.map((record) => record.recordType))])
+      map((activityLog) => [
+        ...new Set(activityLog.filter((record) => isPreviousMonth(record.date)).map((record) => record.recordType)),
+      ])
     );
   }
 
@@ -51,7 +54,7 @@ export class ActivityLogFacadeService {
         activityLogGroupedByDateArray.map((item) => {
           const categoryValueChangeRecords: CategoryValueChangeRecord[] = this.filterOnlyCategoryValueChangeRecords(
             item.records
-          ).map((record) => record as CategoryValueChangeRecord);
+          );
 
           const incomeCategoryValueChangeRecordsSum: number = categoryValueChangeRecords
             .filter((record) => record.budgetType === BudgetType.Income)
@@ -78,6 +81,16 @@ export class ActivityLogFacadeService {
     );
   }
 
+  getPreviousMonthsRecords(): Observable<ActivityLog> {
+    return this.getActivityLog().pipe(
+      map((activityLog) => activityLog.filter((record) => isPreviousMonth(record.date)))
+    );
+  }
+
+  doPreviousMonthsRecordsExist(): Observable<boolean> {
+    return this.getPreviousMonthsRecords().pipe(map((records) => !!records.length));
+  }
+
   removeActivityLogRecord(recordId: string): void {
     this.store.dispatch(ActivityLogActions.removeRecord({ recordId }));
   }
@@ -88,7 +101,7 @@ export class ActivityLogFacadeService {
       .pipe(map((removingRecordsIds) => removingRecordsIds.includes(recordId)));
   }
 
-  async removeCategoryValueChangeRecord(recordId: string, shouldRevertChangesMadeByRecord: boolean): Promise<void> {
+  async removeCategoryValueChangeRecord(recordId: string, shouldRevertChangesMadeByRecord?: boolean): Promise<void> {
     const record: CategoryValueChangeRecord = await firstValueFrom(
       this.getActivityLogDictionary().pipe(map((dictionary) => dictionary[recordId] as CategoryValueChangeRecord))
     );
@@ -132,7 +145,7 @@ export class ActivityLogFacadeService {
     );
   }
 
-  async removeRootValueChangeRecord(recordId: string, shouldRevertChangesMadeByRecord: boolean): Promise<void> {
+  async removeRootValueChangeRecord(recordId: string, shouldRevertChangesMadeByRecord?: boolean): Promise<void> {
     const record: RootValueChangeRecord = await firstValueFrom(
       this.getActivityLogDictionary().pipe(map((dictionary) => dictionary[recordId] as RootValueChangeRecord))
     );
@@ -189,18 +202,14 @@ export class ActivityLogFacadeService {
     );
   }
 
-  async removeRecordsBySelectedTypes(selectedTypes: ActivityLogRecordType[], removeAll: boolean): Promise<void> {
-    let records: ActivityLogRecordUnitedType[];
-
-    if (removeAll) {
-      records = [];
-    } else {
-      records = await firstValueFrom(
-        this.getActivityLog().pipe(
-          map((records) => records.filter((record) => selectedTypes.includes(record.recordType)))
+  async removeRecordsBySelectedTypes(selectedTypes: ActivityLogRecordType[]): Promise<void> {
+    const records = await firstValueFrom(
+      this.getActivityLog().pipe(
+        map((records) =>
+          records.filter((record) => selectedTypes.includes(record.recordType) && isPreviousMonth(record.date))
         )
-      );
-    }
+      )
+    );
 
     this.store.dispatch(ActivityLogActions.bulkRecordsRemove({ records }));
   }
@@ -301,9 +310,9 @@ export class ActivityLogFacadeService {
     );
   }
 
-  private filterOnlyCategoryValueChangeRecords(activityLog: ActivityLog): ActivityLog {
-    return activityLog.filter(
-      (activityLogRecord) => activityLogRecord.recordType === ActivityLogRecordType.CategoryValueChange
-    );
+  private filterOnlyCategoryValueChangeRecords(activityLog: ActivityLog): CategoryValueChangeRecord[] {
+    return activityLog
+      .filter((activityLogRecord) => activityLogRecord.recordType === ActivityLogRecordType.CategoryValueChange)
+      .map((record) => record as CategoryValueChangeRecord);
   }
 }

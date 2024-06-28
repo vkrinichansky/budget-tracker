@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { ActivityLogFacadeService } from '@budget-tracker/data';
-import { ActivityLogGroupedByDate, ActivityLogRecordType, ActivityLogRecordUnitedType } from '@budget-tracker/data';
+import { ActivityLogRecordType, ActivityLogRecordUnitedType } from '@budget-tracker/data';
 import { Observable, map } from 'rxjs';
 
 interface DateObject {
@@ -16,14 +16,10 @@ type RenderingItemType = DateObject | ActivityLogRecordUnitedType;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityLogComponent implements OnInit {
-  private readonly rootTranslationKey = 'dashboard.activityLog';
-
   @HostBinding('class')
   private readonly classes = 'flex flex-col w-full h-full bg-white rounded-lg p-5 gap-y-4 overflow-hidden';
 
   readonly recordType = ActivityLogRecordType;
-
-  activityLog$: Observable<ActivityLogGroupedByDate[]>;
 
   isEmpty$: Observable<boolean>;
 
@@ -31,12 +27,36 @@ export class ActivityLogComponent implements OnInit {
 
   isBulkRecordsRemovingInProgress$: Observable<boolean>;
 
+  shouldDisableRemoveButton$: Observable<boolean>;
+
   constructor(private activityLogFacade: ActivityLogFacadeService) {}
 
   ngOnInit(): void {
-    this.activityLog$ = this.activityLogFacade.getActivityLogGroupedByDays();
+    this.initActivityLogListeners();
 
-    this.itemsToRender$ = this.activityLog$.pipe(
+    this.isBulkRecordsRemovingInProgress$ = this.activityLogFacade.isBulkRecordsRemovingInProgress();
+
+    this.shouldDisableRemoveButton$ = this.activityLogFacade
+      .doPreviousMonthsRecordsExist()
+      .pipe(map((doPreviousMonthsRecordsExist) => !doPreviousMonthsRecordsExist));
+  }
+
+  trackBy(_: number, item: RenderingItemType): string {
+    return this.isItemDateObject(item) ? (item as DateObject).date : (item as ActivityLogRecordUnitedType).id;
+  }
+
+  isItemDateObject(item: RenderingItemType): boolean {
+    return 'date' in item && 'sum' in item;
+  }
+
+  buildTranslationKey(key: string): string {
+    return `dashboard.activityLog.${key}`;
+  }
+
+  private initActivityLogListeners(): void {
+    const activityLog$ = this.activityLogFacade.getActivityLogGroupedByDays();
+
+    this.itemsToRender$ = activityLog$.pipe(
       map((days) =>
         days.reduce(
           (previous, current) => [
@@ -49,20 +69,6 @@ export class ActivityLogComponent implements OnInit {
       )
     );
 
-    this.isEmpty$ = this.activityLog$.pipe(map((activitiLog) => !activitiLog.length));
-
-    this.isBulkRecordsRemovingInProgress$ = this.activityLogFacade.isBulkRecordsRemovingInProgress();
-  }
-
-  trackBy(_: number, item: RenderingItemType): string {
-    return this.isItemDateObject(item) ? (item as DateObject).date : (item as ActivityLogRecordUnitedType).id;
-  }
-
-  isItemDateObject(item: RenderingItemType): boolean {
-    return 'date' in item && 'sum' in item;
-  }
-
-  buildTranslationKey(key: string): string {
-    return `${this.rootTranslationKey}.${key}`;
+    this.isEmpty$ = activityLog$.pipe(map((activitiLog) => !activitiLog.length));
   }
 }

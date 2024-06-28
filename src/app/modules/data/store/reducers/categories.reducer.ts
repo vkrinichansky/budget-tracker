@@ -9,6 +9,7 @@ export interface CategoriesState {
   expense: EntityState<Category>;
   categoryManagement: { success: boolean; error: boolean; inProgress: boolean };
   categoryValueChange: { success: boolean; error: boolean; inProgress: boolean };
+  removingCategoriesIds: string[];
 }
 
 function selectCategoryId(category: Category) {
@@ -32,6 +33,7 @@ const initialState: CategoriesState = {
     error: false,
     inProgress: false,
   },
+  removingCategoriesIds: [],
 };
 
 const adapterReducer = createReducer(
@@ -90,13 +92,14 @@ const adapterReducer = createReducer(
     },
   })),
 
-  on(CategoriesActions.removeCategory, (state) => ({
+  on(CategoriesActions.removeCategory, (state, action) => ({
     ...state,
     categoryManagement: {
       inProgress: true,
       error: false,
       success: false,
     },
+    removingCategoriesIds: [...state.removingCategoriesIds, action.category.id],
   })),
 
   on(CategoriesActions.categoryRemoved, (state, action) => ({
@@ -110,15 +113,17 @@ const adapterReducer = createReducer(
       error: false,
       success: true,
     },
+    removingCategoriesIds: state.removingCategoriesIds.filter((id) => id !== action.category.id),
   })),
 
-  on(CategoriesActions.removeCategoryFail, (state) => ({
+  on(CategoriesActions.removeCategoryFail, (state, action) => ({
     ...state,
     categoryManagement: {
       inProgress: false,
       error: true,
       success: false,
     },
+    removingCategoriesIds: state.removingCategoriesIds.filter((id) => id !== action.categoryId),
   })),
 
   on(CategoriesActions.resetCategoryManagementProp, (state) => ({

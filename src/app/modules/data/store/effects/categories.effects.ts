@@ -61,7 +61,7 @@ export class CategoriesEffects {
           catchError((error) => {
             this.snackbarHandler.showErrorSnackbar(error);
 
-            return of(CategoriesActions.removeCategoryFail());
+            return of(CategoriesActions.removeCategoryFail({ categoryId: action.category.id }));
           })
         )
       )

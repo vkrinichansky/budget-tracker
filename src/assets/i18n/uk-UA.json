@@ -141,9 +141,10 @@
       },
 
       "emptyStateText": "Немає данних для відображення",
+      "removeMenuTooltip": "Видалення записів за типом",
+      "removeMenuDisabledTooltip": "Ви можете використовувати масове видалення лише якщо є записи з попередніх місяців. Для видалення записів поточного місяця використовуйте кнопку видалення на конкретному записі",
 
       "removeMenu": {
-        "removeButtonTooltip": "Видалення записів за типом",
         "allTypes": "Всі типи",
         "categoryManagement": {
           "text": "Менеджмент категорій",
@@ -156,12 +157,13 @@
         "rootValueChange": {
           "text": "Зміна основних значень",
           "tooltip": "Зміна значень балансу, збережень та вільних грошей"
-
         },
         "categoryValueChange": {
           "text": "Зміна значень категорій",
           "tooltip": "Зміна значень категорій розходів та доходів<br><br><span class='text-yellow'>Зверніть увагу, що якщо ви видалите записи цього типу, то це вплине на сторінку <b>статистики</b></span>"
-        }
+        },
+        "removeConfirmationQuestion": "Ви хочете видалити записи обраних типів?",
+        "removeConfirmationRemark": "Ця дія не вплине на записи поточного місяця"
       }
     },
 
@@ -186,8 +188,8 @@
           "resetValue": "Скинути значення",
           "remove": "Видалити"
         },
-        "confirmationModalRemove": "Ви хочете видалити категорію <b>{{ categoryName }}</b>?",
-        "confirmationModalReset": "Ви хочете скинути значення категорії <b>{{ categoryName }}</b>?"
+        "removeConfirmationQuestion": "Ви хочете видалити категорію <b>{{ categoryName }}</b>?",
+        "removeConfirmationRemark": "Ця дія також видалить пов'язані записи з журналу активності"
       }
     },
 
