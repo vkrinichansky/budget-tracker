@@ -1,13 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable, filter, take } from 'rxjs';
@@ -24,10 +15,7 @@ enum FormFields {
   templateUrl: './category-value-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CategoryValueModalComponent implements OnInit, AfterViewInit {
-  @ViewChild('valueInput')
-  private valueInput: ElementRef;
-
+export class CategoryValueModalComponent implements OnInit {
   readonly formFieldsEnum = FormFields;
 
   readonly form: FormGroup = new FormGroup({
@@ -59,26 +47,11 @@ export class CategoryValueModalComponent implements OnInit, AfterViewInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: CategoryValueModalData,
     private dialogRef: MatDialogRef<CategoryValueModalComponent>,
-    private categoriesFacade: CategoriesFacadeService,
-    private cd: ChangeDetectorRef
+    private categoriesFacade: CategoriesFacadeService
   ) {}
 
   ngOnInit(): void {
-    this.loading$ = this.categoriesFacade.getCategoryValueChangeInProgress();
-    this.success$ = this.categoriesFacade.getCategoryValueChangeSuccess();
-    this.category$ = this.categoriesFacade.getCategoryById(this.data.categoryId);
-
-    this.success$
-      .pipe(
-        filter((isSuccess) => !!isSuccess),
-        take(1)
-      )
-      .subscribe(() => this.dialogRef.close());
-  }
-
-  ngAfterViewInit(): void {
-    this.valueInput.nativeElement.focus();
-    this.cd.detectChanges();
+    this.initListeners();
   }
 
   buildTranslationKey(key: string): string {
@@ -95,5 +68,18 @@ export class CategoryValueModalComponent implements OnInit, AfterViewInit {
       parseInt(this.form.controls[FormFields.ValueToAdd].value),
       this.form.controls[FormFields.Note].value
     );
+  }
+
+  private initListeners(): void {
+    this.loading$ = this.categoriesFacade.getCategoryValueChangeInProgress();
+    this.success$ = this.categoriesFacade.getCategoryValueChangeSuccess();
+    this.category$ = this.categoriesFacade.getCategoryById(this.data.categoryId);
+
+    this.success$
+      .pipe(
+        filter((isSuccess) => !!isSuccess),
+        take(1)
+      )
+      .subscribe(() => this.dialogRef.close());
   }
 }

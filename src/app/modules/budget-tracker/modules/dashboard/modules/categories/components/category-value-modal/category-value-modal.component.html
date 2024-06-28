@@ -1,9 +1,13 @@
-<div mat-dialog-title>
-  <h1>{{ (category$ | async)?.name }}</h1>
-  <h2 class="text-sm">{{ buildTranslationKey('title') | translate }}</h2>
+<div mat-dialog-title class="!flex !justify-between !items-center">
+  <div>
+    <h1>{{ (category$ | async)?.name }}</h1>
+    <h2 class="text-sm">{{ buildTranslationKey('title') | translate }}</h2>
+  </div>
+
+  <app-button [iconName]="'close'" (click)="cancelClick()"></app-button>
 </div>
 
-<div mat-dialog-content class="flex flex-col">
+<div mat-dialog-content>
   <form class="flex flex-col" [formGroup]="form">
     <mat-form-field>
       <mat-label>{{ buildTranslationKey('valueToAddTitle') | translate }}</mat-label>
@@ -30,13 +34,6 @@
 </div>
 
 <div mat-dialog-actions>
-  <app-button
-    [buttonSizeX]="'auto'"
-    [colorScheme]="'transparent-dark'"
-    [text]="buildTranslationKey('cancel') | translate"
-    (click)="cancelClick()"
-  ></app-button>
-
   <app-button
     [buttonSizeX]="'px100'"
     [colorScheme]="'charcoal'"

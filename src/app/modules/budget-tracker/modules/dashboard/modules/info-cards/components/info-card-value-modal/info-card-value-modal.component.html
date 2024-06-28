@@ -1,5 +1,13 @@
-<h1 mat-dialog-title class="font-main text-charcoal text-base">{{ title | translate }}</h1>
-<div mat-dialog-content class="flex flex-col">
+<div mat-dialog-title class="!flex !justify-between !items-center">
+  <div>
+    <h1>{{ title | translate }}</h1>
+    <h2 class="text-sm">{{ subtitle | translate }}</h2>
+  </div>
+
+  <app-button [iconName]="'close'" (click)="cancelClick()"></app-button>
+</div>
+
+<div mat-dialog-content>
   <form class="flex flex-col" [formGroup]="form">
     <mat-form-field>
       <mat-label>{{ title | translate }}</mat-label>
@@ -36,13 +44,6 @@
 </div>
 
 <div mat-dialog-actions>
-  <app-button
-    [buttonSizeX]="'auto'"
-    [colorScheme]="'transparent-dark'"
-    [text]="buildTranslationKey('cancel') | translate"
-    (click)="cancelClick()"
-  ></app-button>
-
   <app-button
     [buttonSizeX]="'big'"
     [colorScheme]="'charcoal'"

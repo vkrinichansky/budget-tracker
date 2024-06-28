@@ -78,6 +78,11 @@
         "increase": "Increase",
         "decrease": "Decrease",
         "edit": "Edit"
+      },
+      "subtitle": {
+        "increase": "Increase",
+        "decrease": "Decrease",
+        "edit": "Edit"
       }
     },
 
