@@ -1,0 +1,12 @@
+{
+  "translationFiles": [
+    {
+      "lang": "uk-UA",
+      "uri": "dist/budget-tracker/assets/i18n/uk-UA.json"
+    },
+    {
+      "lang": "en-US",
+      "uri": "dist/budget-tracker/assets/i18n/en-US.json"
+    }
+  ]
+}

@@ -10,5 +10,6 @@
   },
   "prettier.configPath": ".prettierrc",
   "eslint.format.enable": true,
-  "eslint.codeActionsOnSave.rules": null
+  "eslint.codeActionsOnSave.rules": null,
+  "lingua.defaultLanguage": "en-US"
 }
