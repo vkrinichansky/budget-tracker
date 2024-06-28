@@ -10,7 +10,14 @@ import { SharedModule } from '@budget-tracker/shared';
 
 @NgModule({
   declarations: [BudgetTrackerComponent],
-  imports: [CommonModule, BudgetTrackerRoutingModule, DesignSystemModule, AuthCoreModule, NavigationBarModule, SharedModule],
+  imports: [
+    CommonModule,
+    BudgetTrackerRoutingModule,
+    DesignSystemModule,
+    AuthCoreModule,
+    NavigationBarModule,
+    SharedModule,
+  ],
   providers: [InitDataGuard],
 })
 export class BudgetTrackerModule {}

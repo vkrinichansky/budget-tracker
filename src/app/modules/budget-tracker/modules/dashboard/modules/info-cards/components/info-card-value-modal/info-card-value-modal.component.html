@@ -10,12 +10,12 @@
       }
 
       @if (hasMinValueError) {
-        <mat-error>{{ 'formErrors.minValue' | translate : { minValue: 1 } }}</mat-error>
+        <mat-error>{{ 'formErrors.minValue' | translate: { minValue: 1 } }}</mat-error>
       }
 
       @if (hasMaxValueError) {
         <mat-error>
-          {{ 'formErrors.maxValue' | translate : { maxValue: initialValue } }}
+          {{ 'formErrors.maxValue' | translate: { maxValue: initialValue } }}
         </mat-error>
       }
 

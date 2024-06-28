@@ -6,11 +6,7 @@
   ></app-menu>
 
   @if (tooltip) {
-    <app-info-icon
-      [size]="'medium'"
-      [tooltipPosition]="isMobile ? 'left' : 'top'"
-      [tooltip]="tooltip"
-    ></app-info-icon>
+    <app-info-icon [size]="'medium'" [tooltipPosition]="isMobile ? 'left' : 'top'" [tooltip]="tooltip"></app-info-icon>
   }
 </div>
 

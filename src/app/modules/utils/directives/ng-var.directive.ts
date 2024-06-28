@@ -25,5 +25,8 @@ export class NgVarDirective {
 
   private hasView = false;
 
-  constructor(private templateRef: TemplateRef<unknown>, private vcRef: ViewContainerRef) {}
+  constructor(
+    private templateRef: TemplateRef<unknown>,
+    private vcRef: ViewContainerRef
+  ) {}
 }

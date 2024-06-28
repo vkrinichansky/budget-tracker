@@ -6,7 +6,10 @@ import { DataInitActions, DataInitSelectors } from '../../store';
 
 @Injectable()
 export class DataInitFacadeService {
-  constructor(private store: Store, private authFacade: AuthFacadeService) {}
+  constructor(
+    private store: Store,
+    private authFacade: AuthFacadeService
+  ) {}
 
   initData(): void {
     this.authFacade.initAuthState();

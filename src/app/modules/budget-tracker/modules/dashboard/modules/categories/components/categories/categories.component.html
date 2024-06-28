@@ -5,7 +5,7 @@
     areAllCategoriesReset: areAllCategoriesReset$ | async
   } as data"
   class="flex flex-col gap-y-4 w-full h-full justify-between"
-  >
+>
   <app-page-header class="text-xl bg-transparent" [title]="title | translate">
     <div class="flex items-center gap-x-2">
       <app-button
@@ -44,7 +44,7 @@
   @if (data.isEmpty) {
     <span
       class="font-main font-bold text-charcoal text-lg text-center flex flex-1 flex-col justify-center items-center"
-      >
+    >
       {{ buildTranslationKey('emptyStateText') | translate }}
     </span>
   }
@@ -56,7 +56,7 @@
           <div
             *cdkVirtualFor="let category of categories$ | async; trackBy: trackBy.bind(this); templateCacheSize: 0"
             class="h-15 flex items-center"
-            >
+          >
             <app-category-item class="w-full" [categoryId]="category.id"></app-category-item>
           </div>
         </cdk-virtual-scroll-viewport>

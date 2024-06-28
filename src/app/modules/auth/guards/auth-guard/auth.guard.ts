@@ -5,7 +5,10 @@ import { NavigatorService } from '@budget-tracker/shared';
 
 @Injectable()
 export class AuthGuard {
-  constructor(private authFacade: AuthFacadeService, private navigator: NavigatorService) {}
+  constructor(
+    private authFacade: AuthFacadeService,
+    private navigator: NavigatorService
+  ) {}
 
   canActivate(): Observable<boolean> {
     return this.authFacade.isLoggedIn().pipe(
