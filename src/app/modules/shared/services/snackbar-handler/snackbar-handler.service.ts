@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivityLogRecordUnitedType, BudgetType } from '@budget-tracker/data';
+import { BudgetType } from '@budget-tracker/data';
 import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()

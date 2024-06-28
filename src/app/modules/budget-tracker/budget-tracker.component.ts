@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DataInitFacadeService } from '@budget-tracker/data';
 import { Observable } from 'rxjs';
-import { LostConnectionService } from '../shared/services'; 
+import { LostConnectionService } from '../shared/services';
 
 @Component({
   selector: 'app-budget-tracker',
@@ -13,7 +13,10 @@ export class BudgetTrackerComponent implements OnInit {
   isLoading$: Observable<boolean>;
   isOnline$: Observable<boolean>;
 
-  constructor(private dataInitFacade: DataInitFacadeService, private lostConnectionService: LostConnectionService ) {}
+  constructor(
+    private dataInitFacade: DataInitFacadeService,
+    private lostConnectionService: LostConnectionService
+  ) {}
 
   ngOnInit(): void {
     this.isLoading$ = this.dataInitFacade.isDataLoading();

@@ -10,7 +10,10 @@ export class AppComponent {
   @HostBinding('class')
   private readonly classes = 'block w-full h-full min-h-full overflow-hidden';
 
-  constructor(private currencyService: CurrencyService, private languageService: LanguageService) {
+  constructor(
+    private currencyService: CurrencyService,
+    private languageService: LanguageService
+  ) {
     this.languageService.initLanguage();
     this.currencyService.initCurrency();
   }
