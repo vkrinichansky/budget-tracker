@@ -163,13 +163,57 @@ textarea {
   @apply text-charcoal #{!important};
 }
 
-.mat-mdc-form-field .mat-mdc-select.mat-mdc-select-invalid .mat-mdc-select-arrow {
-  @apply text-red #{!important};
+.mat-mdc-form-field {
+  .mat-mdc-select.mat-mdc-select-invalid .mat-mdc-select-arrow {
+    @apply text-red #{!important};
+  }
+}
+
+.mdc-floating-label {
+  @apply font-main #{!important};
 }
 
 // MAT ERRORS
+.mat-mdc-form-field-error {
+  @apply font-main #{!important};
+}
+
 .mat-mdc-form-field-error-wrapper {
   @apply p-0 #{!important};
+}
+
+// MAT CHECKBOX
+.mat-mdc-checkbox {
+  .mdc-checkbox {
+    .mdc-checkbox__background {
+      @apply border-grey #{!important};
+    }
+
+    .mdc-checkbox__ripple {
+      @apply hidden #{!important};
+    }
+
+    .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background {
+      @apply border-dark-green bg-dark-green #{!important};
+    }
+
+    .mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background {
+      @apply border-dark-green bg-dark-green #{!important};
+    }
+
+    &:hover {
+      @media (hover: hover) {
+        .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate='true'])
+          ~ .mdc-checkbox__background {
+          @apply border-charcoal #{!important};
+        }
+      }
+    }
+  }
+
+  .mdc-label {
+    @apply font-main #{!important};
+  }
 }
 
 // SCROLLER

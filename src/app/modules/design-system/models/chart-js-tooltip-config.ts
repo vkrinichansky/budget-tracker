@@ -1,5 +1,5 @@
 import { TooltipOptions } from 'chart.js';
-import { MainPalette } from './main-palette';
+import { MainPalette } from './design-system';
 
 export const ChartJSTooltipConfig: TooltipOptions = {
   bodyFont: {

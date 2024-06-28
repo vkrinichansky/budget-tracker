@@ -26,7 +26,7 @@ export class CategoriesEffects {
                 category: action.category,
               }),
 
-              ActivityLogActions.activityLogRecordAdded({
+              ActivityLogActions.recordAdded({
                 record: action.activityLogRecord,
               })
             );
@@ -53,7 +53,7 @@ export class CategoriesEffects {
               CategoriesActions.categoryRemoved({
                 category: action.category,
               }),
-              ActivityLogActions.activityLogRecordAdded({
+              ActivityLogActions.recordAdded({
                 record: action.activityLogRecord,
               })
             );
@@ -61,7 +61,7 @@ export class CategoriesEffects {
           catchError((error) => {
             this.snackbarHandler.showErrorSnackbar(error);
 
-            return of(CategoriesActions.removeCategoryFail());
+            return of(CategoriesActions.removeCategoryFail({ categoryId: action.category.id }));
           })
         )
       )
@@ -98,9 +98,8 @@ export class CategoriesEffects {
             return of(
               CategoriesActions.categoryValueChanged({
                 updatedCategory: action.updatedCategory,
-                newBalanceValue: action.newBalanceValue,
               }),
-              ActivityLogActions.activityLogRecordAdded({
+              ActivityLogActions.recordAdded({
                 record: action.activityLogRecord,
               }),
               RootValuesActions.balanceUpdated({ newBalanceValue: action.newBalanceValue })
@@ -128,7 +127,7 @@ export class CategoriesEffects {
               CategoriesActions.categoriesReset({
                 updatedCategories: action.updatedCategories,
               }),
-              ActivityLogActions.activityLogRecordAdded({
+              ActivityLogActions.recordAdded({
                 record: action.activityLogRecord,
               })
             );

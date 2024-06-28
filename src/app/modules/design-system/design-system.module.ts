@@ -12,6 +12,8 @@ import {
   MenuComponent,
   GenericActivityLogRecordComponent,
   CustomTooltipComponent,
+  CheckboxGroupComponent,
+  FullsizeLoaderComponent,
 } from './components';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -20,8 +22,22 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmationModalService } from './services';
 import { UtilsModule } from '@budget-tracker/utils';
 import { TooltipRendererDirective } from './directives';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
+  imports: [
+    CommonModule,
+    MatMenuModule,
+    MatTooltipModule,
+    MatDialogModule,
+    TranslateModule,
+    UtilsModule,
+    MatCheckboxModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
+
   declarations: [
     SvgIconComponent,
     ButtonComponent,
@@ -35,8 +51,9 @@ import { TooltipRendererDirective } from './directives';
     GenericActivityLogRecordComponent,
     CustomTooltipComponent,
     TooltipRendererDirective,
+    CheckboxGroupComponent,
+    FullsizeLoaderComponent,
   ],
-  imports: [CommonModule, MatMenuModule, MatTooltipModule, MatDialogModule, TranslateModule, UtilsModule],
   exports: [
     SvgIconComponent,
     ButtonComponent,
@@ -48,6 +65,8 @@ import { TooltipRendererDirective } from './directives';
     InfoIconComponent,
     GenericActivityLogRecordComponent,
     TooltipRendererDirective,
+    CheckboxGroupComponent,
+    FullsizeLoaderComponent,
   ],
   providers: [ConfirmationModalService],
 })

@@ -3,7 +3,7 @@ import { BudgetType, Category } from '@budget-tracker/data';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { ChartData, ChartOptions } from 'chart.js';
 import { CategoryModalsService } from '../../services';
-import { ChartJSTooltipConfig, CoralChartPalette, MainPalette, MintChartPalette } from '@budget-tracker/design-system';
+import { ChartJSTooltipConfig, MainPalette } from '@budget-tracker/design-system';
 import { CategoriesFacadeService } from '@budget-tracker/data';
 import { CurrencyPipe } from '@budget-tracker/shared';
 
@@ -41,7 +41,6 @@ export class CategoriesComponent implements OnInit {
 
   ngOnInit(): void {
     this.title = this.buildTranslationKey(`${this.budgetType}.title`);
-    this.palette = this.getPalette();
     this.chartOptions = this.getChartOptions();
 
     this.initDataAccordingBudgetType();
@@ -95,41 +94,19 @@ export class CategoriesComponent implements OnInit {
         datasets: [
           {
             data: categories.map((category) => category.value),
-            backgroundColor: this.palette,
+            backgroundColor: categories.map((category) => category.hexColor),
           },
         ],
       }))
     );
   }
 
-  private getBorderColor(): string {
-    switch (this.budgetType) {
-      case BudgetType.Income:
-        return MainPalette.DarkGreen;
-
-      case BudgetType.Expense:
-        return MainPalette.Red;
-    }
-  }
-
-  private getPalette(): string[] {
-    switch (this.budgetType) {
-      case BudgetType.Income:
-        return MintChartPalette;
-
-      case BudgetType.Expense:
-        return CoralChartPalette;
-    }
-  }
-
   private getChartOptions(): ChartOptions {
-    const borderColor = this.getBorderColor();
-
     return {
       layout: {
         autoPadding: false,
       },
-      elements: { arc: { borderColor: borderColor } },
+      elements: { arc: { borderColor: MainPalette.Charcoal } },
       plugins: {
         tooltip: {
           ...ChartJSTooltipConfig,

@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, TemplateRef } from '@angular/core';
-import { IconSize, TooltipPosition } from '../../models';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, TemplateRef } from '@angular/core';
+import { IconSize, InfoIconType, TooltipPosition } from '../../models';
 
 @Component({
   selector: 'app-info-icon',
   templateUrl: './info-icon.component.html',
+  styleUrl: './info-icon.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InfoIconComponent {
@@ -16,6 +17,10 @@ export class InfoIconComponent {
   @Input()
   tooltipPosition: TooltipPosition = 'top';
 
+  @HostBinding('class')
+  @Input()
+  type: InfoIconType = 'info';
+
   get isTemplate(): boolean {
     return this.tooltip instanceof TemplateRef;
   }
@@ -26,5 +31,15 @@ export class InfoIconComponent {
 
   get templateTooltip(): TemplateRef<unknown> {
     return this.tooltip instanceof TemplateRef ? this.tooltip : undefined;
+  }
+
+  get icon(): string {
+    switch (this.type) {
+      case 'info':
+        return 'info';
+
+      case 'warning':
+        return 'alert-triangle';
+    }
   }
 }

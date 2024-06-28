@@ -6,8 +6,18 @@
   </span>
   <div class="flex items-center gap-x-1">
     <span class="font-main text-grey text-xs">{{ time }}</span>
+
     @if (note) {
       <app-info-icon [tooltip]="note"></app-info-icon>
     }
   </div>
 </div>
+
+<app-button
+  [iconName]="'close'"
+  [colorScheme]="'transparent-dark'"
+  [buttonSizeY]="'tiny'"
+  [buttonSizeX]="'tiny'"
+  [loading]="loading"
+  (click)="removeButtonClick()"
+></app-button>

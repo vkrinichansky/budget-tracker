@@ -26,13 +26,16 @@ const colors = {
   red: '#FF6B69',
   'light-red': '#FFECEC',
 
+  yellow: '#E9AD03',
+  'dark-yellow': '#C39104',
+
   'hover-white': 'rgb(255, 255, 255, 0.1)',
   'hover-black': 'rgb(0, 0, 0, 0.1)',
   'black-transparent': 'rgb(0, 0, 0, 0.5)',
 };
 
 module.exports = {
-  content: ['./src/**/*.{html,ts}'],
+  content: ['./src/**/*.{html,ts,scss,json}'],
   theme: {
     colors: colors,
 
@@ -62,13 +65,14 @@ module.exports = {
 
     extend: {
       spacing: {
-        ...convertPixelsIntoRems(60), // 60px,
         ...convertPixelsIntoRems(52), // 52px,
+        ...convertPixelsIntoRems(60), // 60px,
         ...convertPixelsIntoRems(68), // 68px,
         ...convertPixelsIntoRems(66), // 66px,
-
+        ...convertPixelsIntoRems(100), // 100px,
       },
       maxWidth: {
+        ...convertPixelsIntoRems(200), // 200px,
         ...convertPixelsIntoRems(256), // 256px,
       },
       minHeight: {

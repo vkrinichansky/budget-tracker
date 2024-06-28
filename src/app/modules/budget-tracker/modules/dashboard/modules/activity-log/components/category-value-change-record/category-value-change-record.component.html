@@ -1,27 +1,22 @@
-<app-generic-activity-log-record [icon]="record.icon" [date]="record.date" [note]="record?.note">
+<app-generic-activity-log-record
+  [icon]="record.icon"
+  [date]="record.date"
+  [note]="record?.note"
+  [loading]="isRecordRemoving$ | async"
+  (remove)="removeHandler()"
+>
   <span class="flex justify-between">
     <span class="font-main text-charcoal text-base">
       {{ record.categoryName }}
     </span>
 
-    @if (record?.isReset) {
-      <span class="font-main font-bold text-blue">
-        {{ record.value | currencySymbol }}&nbsp;&rarr;&nbsp;{{ 0 | currencySymbol }}
-      </span>
-    } @else {
-      @switch (record.budgetType) {
-        @case (budgetType.Income) {
-          <span class="font-main font-bold text-dark-green">
-            &plus;&nbsp;{{ record.value | currencySymbol }}
-          </span>
-        }
-        @case (budgetType.Expense) {
-          <span class="font-main font-bold text-red">
-            &minus;&nbsp;{{ record.value | currencySymbol }}
-          </span>
-        }
+    @switch (record.budgetType) {
+      @case (budgetType.Income) {
+        <span class="font-main font-bold text-dark-green">&plus;&nbsp;{{ record.value | currencySymbol }}</span>
+      }
+      @case (budgetType.Expense) {
+        <span class="font-main font-bold text-red">&minus;&nbsp;{{ record.value | currencySymbol }}</span>
       }
     }
-
   </span>
 </app-generic-activity-log-record>

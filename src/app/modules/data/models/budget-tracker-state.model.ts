@@ -17,5 +17,6 @@ export interface BudgetTrackerState {
     activityLog: ActivityLog;
 
     resetDate: string;
+    shouldDoReset: boolean;
   };
 }

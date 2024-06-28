@@ -1,6 +1,12 @@
 <ng-container *ngVar="category$ | async as category">
   <div class="flex items-center gap-x-2 flex-1 overflow-hidden">
+    <span
+      class="w-5 h-5 border-2 border-solid border-charcoal rounded-full"
+      [style.backgroundColor]="category.hexColor"
+    ></span>
+
     <svg-icon class="text-charcoal" [iconName]="category?.icon"></svg-icon>
+
     <span
       customTooltip
       [tooltipText]="category?.name"
@@ -13,6 +19,6 @@
 
   <div class="flex items-center gap-x-2">
     <span class="font-main font-bold text-charcoal text-base"> {{ category?.value | currencySymbol }}</span>
-    <app-menu [menuActions]="menuActions" (click)="$event.stopPropagation()"></app-menu>
+    <app-menu [menuActions]="menuActions" [loading]="isCategoryRemoving" (click)="$event.stopPropagation()"></app-menu>
   </div>
 </ng-container>

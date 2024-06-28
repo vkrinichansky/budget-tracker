@@ -58,6 +58,7 @@ export class AuthService {
         },
         activityLog: [],
         resetDate: getMonthAndYearString(),
+        shouldDoReset: true,
       },
     };
 

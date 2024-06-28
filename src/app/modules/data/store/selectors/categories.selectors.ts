@@ -1,6 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { dataFeatureSelector } from './feature.selector';
 import { Category } from '../../models';
+import { Dictionary } from '@ngrx/entity';
 
 const categoriesStateSelector = createSelector(
   dataFeatureSelector,
@@ -23,6 +24,20 @@ const expenseCategoriesSelector = createSelector(
 
 const expenseValueSelector = createSelector(expenseCategoriesSelector, (categories) =>
   categories.reduce((sum, category) => sum + (category as Category).value, 0)
+);
+
+const allCategoriesSelector = createSelector(
+  incomeCategoriesSelector,
+  expenseCategoriesSelector,
+  (incomeCategories, expenseCategories) => [...incomeCategories, ...expenseCategories]
+);
+
+const allCategoriesDictionarySelector = createSelector(
+  categoriesStateSelector,
+  (state): Dictionary<Category> => ({
+    ...state.income.entities,
+    ...state.expense.entities,
+  })
 );
 
 const categoryManagementInProgressSelector = createSelector(
@@ -56,9 +71,11 @@ const categoryValueChangeErrorSelector = createSelector(
 );
 
 const selectCategoryByIdSelector = (categoryId: string) =>
-  createSelector(incomeCategoriesSelector, expenseCategoriesSelector, (income, expense) => ({
-    ...([...income, ...expense].find((category) => (category as Category).id === categoryId) as Category),
-  }));
+  createSelector(incomeCategoriesSelector, expenseCategoriesSelector, (income, expense) =>
+    [...income, ...expense].find((category) => (category as Category).id === categoryId)
+  );
+
+const selectCategoriesRemovingIds = createSelector(categoriesStateSelector, (state) => state.removingCategoriesIds);
 
 export const CategoriesSelectors = {
   categoriesStateSelector,
@@ -73,4 +90,7 @@ export const CategoriesSelectors = {
   categoryValueChangeSuccessSelector,
   categoryValueChangeErrorSelector,
   selectCategoryByIdSelector,
+  allCategoriesSelector,
+  allCategoriesDictionarySelector,
+  selectCategoriesRemovingIds,
 };

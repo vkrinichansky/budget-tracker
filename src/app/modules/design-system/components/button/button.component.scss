@@ -6,17 +6,27 @@
     @apply cursor-default pointer-events-none;
   }
 
-  transition-duration: 0.1s;
-  transition-timing-function: ease-in-out;
-  transition-property: background-color, color;
+  @media (hover: hover) {
+    transition-duration: 0.1s;
+    transition-timing-function: linear;
+    transition-property: background-color, color;
+  }
 
   // SIZES X
+  &.tiny-x {
+    @apply w-7;
+  }
+
   &.small-x {
     @apply w-8;
   }
 
   &.medium-x {
-    @apply w-24;
+    @apply w-9;
+  }
+
+  &.px100-x {
+    @apply w-25;
   }
 
   &.big-x {

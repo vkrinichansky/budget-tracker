@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BudgetType } from '@budget-tracker/data';
+import { ActivityLogRecordUnitedType, BudgetType } from '@budget-tracker/data';
 import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
@@ -57,6 +57,20 @@ export class SnackbarHandlerService {
     this.openSnackBarWithCloseDelay(
       this.translateService.instant(this.buildTranslationKey('categoryRemovedSnackbar.message')),
       this.translateService.instant(this.buildTranslationKey('categoryRemovedSnackbar.buttonText'))
+    );
+  }
+
+  showActivityLogRecordRemovedSnackbar(): void {
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant(this.buildTranslationKey('activityLogRecordRemoved.message')),
+      this.translateService.instant(this.buildTranslationKey('activityLogRecordRemoved.buttonText'))
+    );
+  }
+
+  showBulkActivityLogRecordsRemovedSnackbar(): void {
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant(this.buildTranslationKey('bulkActivityLogRecordsRemoved.recordsByTypesRemoved')),
+      this.translateService.instant(this.buildTranslationKey('activityLogRecordRemoved.buttonText'))
     );
   }
 

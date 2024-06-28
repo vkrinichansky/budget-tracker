@@ -1,8 +1,18 @@
-import { ChangeDetectionStrategy, Component, HostListener, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  HostBinding,
+  HostListener,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
 import { CategoryModalsService } from '../../services';
 import { CategoriesFacadeService, Category } from '@budget-tracker/data';
-import { Observable, firstValueFrom, map } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-category-item',
@@ -18,19 +28,35 @@ export class CategoryItemComponent implements OnInit {
 
   menuActions: MenuAction[];
 
+  @HostBinding('class.pointer-events-none')
+  isCategoryRemoving: boolean;
+
   constructor(
     private categoriesFacade: CategoriesFacadeService,
     private confirmationModalService: ConfirmationModalService,
-    private categoryModalsService: CategoryModalsService
+    private categoryModalsService: CategoryModalsService,
+    private destroyRef: DestroyRef,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.category$ = this.categoriesFacade.getCategoryById(this.categoryId);
     this.menuActions = this.initMenuActions();
+    this.initIsCategoryRemoving();
   }
 
   buildTranslationKey(key: string): string {
     return `dashboard.categories.categoryItem.${key}`;
+  }
+
+  private initIsCategoryRemoving(): void {
+    this.categoriesFacade
+      .isCategoryRemoving(this.categoryId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((isCategoryRemoving) => {
+        this.isCategoryRemoving = isCategoryRemoving;
+        this.cd.detectChanges();
+      });
   }
 
   @HostListener('click')
@@ -46,31 +72,18 @@ export class CategoryItemComponent implements OnInit {
         action: () => this.openCategoryValueModal(),
       },
       {
-        icon: 'eraser',
-        translationKey: this.buildTranslationKey('menu.resetValue'),
-        disabledObs: this.category$.pipe(map((category) => category.value === 0)),
-        action: async () => {
-          const category = await firstValueFrom(this.category$);
-
-          this.confirmationModalService.openConfirmationModal(
-            this.buildTranslationKey('confirmationModalReset'),
-            {
-              categoryName: category.name,
-            },
-            () => this.categoriesFacade.changeCategoryValue(this.categoryId, undefined, undefined, true)
-          );
-        },
-      },
-      {
-        icon: 'close',
+        icon: 'delete-bin',
         translationKey: this.buildTranslationKey('menu.remove'),
         action: async () => {
           const category = await firstValueFrom(this.category$);
 
           this.confirmationModalService.openConfirmationModal(
-            this.buildTranslationKey('confirmationModalRemove'),
             {
-              categoryName: category.name,
+              questionTranslationKey: this.buildTranslationKey('removeConfirmationQuestion'),
+              questionTranslationParams: {
+                categoryName: category.name,
+              },
+              remarkTranslationKey: this.buildTranslationKey('removeConfirmationRemark'),
             },
             () => this.categoriesFacade.removeCategory(this.categoryId)
           );

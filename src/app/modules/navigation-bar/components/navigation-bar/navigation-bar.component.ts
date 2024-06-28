@@ -19,15 +19,21 @@ export class NavigationBarComponent implements OnInit {
 
   isLoading: boolean;
 
-  constructor(private authFacade: AuthFacadeService, private confirmationModalService: ConfirmationModalService) {}
+  constructor(
+    private authFacade: AuthFacadeService,
+    private confirmationModalService: ConfirmationModalService
+  ) {}
 
   ngOnInit(): void {
     this.prepareNavigationBarItems();
   }
 
   logOut(): void {
-    this.confirmationModalService.openConfirmationModal(this.buildTranslationKey('logoutConfirmation'), undefined, () =>
-      this.authFacade.logOut()
+    this.confirmationModalService.openConfirmationModal(
+      {
+        questionTranslationKey: this.buildTranslationKey('logoutConfirmation'),
+      },
+      () => this.authFacade.logOut()
     );
   }
 

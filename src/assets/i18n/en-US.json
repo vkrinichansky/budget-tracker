@@ -73,7 +73,7 @@
         "decrease": "Decrease",
         "edit": "Edit"
       },
-      "free": {
+      "freeMoney": {
         "title": "Free money",
         "increase": "Increase",
         "decrease": "Decrease",
@@ -88,9 +88,29 @@
         "title": {
           "balance": "Balance",
           "savings": "Savings",
-          "free": "Free money"
+          "freeMoney": "Free money"
+        },
+        "removeConfirmationQuestion": "Are you sure you want to remove this record?",
+        "removeConfirmationCheckboxText": "Also revert changes made by this record",
+        "removeConfirmationRemark": {
+          "balance": {
+            "increase": "<span class='font-bold'>Balance</span> will be decreased by <span class='font-bold'>{{ value }}</span>",
+            "decrease": "<span class='font-bold'>Balance</span> will be increased by <span class='font-bold'>{{ value }}</span>",
+            "edit": "<span class='font-bold'>Balance</span> value will be <span class='font-bold'>{{ value }}</span>"
+          },
+          "savings": {
+            "increase": "<span class='font-bold'>Savings</span> will be decreased by <span class='font-bold'>{{ value }}</span>",
+            "decrease": "<span class='font-bold'>Savings</span> will be increased by <span class='font-bold'>{{ value }}</span>",
+            "edit": "<span class='font-bold'>Savings</span> value will be <span class='font-bold'>{{ value }}</span>"
+          },
+          "freeMoney": {
+            "increase": "<span class='font-bold'>Free money</span> will be decreased by <span class='font-bold'>{{ value }}</span>",
+            "decrease": "<span class='font-bold'>Free money</span> will be increased by <span class='font-bold'>{{ value }}</span>",
+            "edit": "<span class='font-bold'>Free money</span> value will be <span class='font-bold'>{{ value }}</span>"
+          }
         }
       },
+
       "categoryManagementRecord": {
         "categoryAdded": {
           "budgetType": {
@@ -111,7 +131,40 @@
         "expense": "<b>Expense</b> categories were reset"
       },
 
-      "emptyStateText": "No data to display yet"
+      "categoryValueChangeRecord": {
+        "removeConfirmationQuestion": "Are you sure you want to remove this record?",
+        "removeConfirmationCheckboxText": "Also revert changes made by this record",
+        "removeConfirmationRemark": {
+          "income": "<span class='font-bold'>{{ value }}</span> will be deducted from <span class='font-bold'>Balance</span> and <span class='font-bold'>{{ categoryName }}</span> category",
+          "expense": "<span class='font-bold'>{{ value }}</span> will be added to <span class='font-bold'>Balance</span> and deducted from <span class='font-bold'>{{ categoryName }}</span> category"
+        }
+      },
+
+      "emptyStateText": "No data to display yet",
+      "removeMenuTooltip": "Remove records by types",
+      "removeMenuDisabledTooltip": "You can do bulk records remove only if you have previous months records. For current month records you can use remove button on specific record",
+
+      "removeMenu": {
+        "allTypes": "All types",
+        "categoryManagement": {
+          "text": "Category management",
+          "tooltip": "Adding and removing categories"
+        },
+        "categoriesReset": {
+          "text": "Categories reset",
+          "tooltip": "Manual and monthly categories reset"
+        },
+        "rootValueChange": {
+          "text": "Root value change",
+          "tooltip": "Balance, savings and free money values changing"
+        },
+        "categoryValueChange": {
+          "text": "Category value change",
+          "tooltip": "Income and expense categories value changing<br><br><span class='text-yellow'>Pay attention that if you remove records of this type it will affect <b>statistics</b> page</span>"
+        },
+        "removeConfirmationQuestion": "Are you sure you want to remove records of selected types?",
+        "removeConfirmationRemark": "This action won't affect current month records"
+      }
     },
 
     "categories": {
@@ -133,8 +186,8 @@
           "resetValue": "Reset value",
           "remove": "Remove"
         },
-        "confirmationModalRemove": "Do you want to remove <b>{{ categoryName }}</b> category?",
-        "confirmationModalReset": "Do you want to reset <b>{{ categoryName }}</b> category value?"
+        "removeConfirmationQuestion": "Do you want to remove <b>{{ categoryName }}</b> category?",
+        "removeConfirmationRemark": "This action will remove related records from activity log as well"
       }
     },
 
@@ -199,6 +252,15 @@
     },
     "categoryRemovedSnackbar": {
       "message": "Category was removed successfully!",
+      "buttonText": "Got it"
+    },
+    "activityLogRecordRemoved": {
+      "message": "Activity log record was removed successfully!",
+      "buttonText": "Got it"
+    },
+    "bulkActivityLogRecordsRemoved": {
+      "allRecordsRemoved": "All activity log records were removed successfully!",
+      "recordsByTypesRemoved": "Activity log records with selected types were removed successfully!",
       "buttonText": "Got it"
     },
     "categoryValueChangedSnackbar": {

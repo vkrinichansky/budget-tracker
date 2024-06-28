@@ -1,9 +1,14 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
-import { ActivityLogFacadeService, SumByDate } from '@budget-tracker/data';
-import { ActivityLogGroupedByDate, ActivityLogRecordType, ActivityLogRecordUnitedType } from '@budget-tracker/data';
+import { ActivityLogFacadeService } from '@budget-tracker/data';
+import { ActivityLogRecordType, ActivityLogRecordUnitedType } from '@budget-tracker/data';
 import { Observable, map } from 'rxjs';
 
-type RenderingItemType = string | ActivityLogRecordUnitedType;
+interface DateObject {
+  date: string;
+  sum: number;
+}
+
+type RenderingItemType = DateObject | ActivityLogRecordUnitedType;
 
 @Component({
   selector: 'app-activity-log',
@@ -11,44 +16,59 @@ type RenderingItemType = string | ActivityLogRecordUnitedType;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityLogComponent implements OnInit {
-  private readonly rootTranslationKey = 'dashboard.activityLog';
-
   @HostBinding('class')
   private readonly classes = 'flex flex-col w-full h-full bg-white rounded-lg p-5 gap-y-4 overflow-hidden';
 
   readonly recordType = ActivityLogRecordType;
 
-  activityLog$: Observable<ActivityLogGroupedByDate[]>;
-
   isEmpty$: Observable<boolean>;
 
   itemsToRender$: Observable<RenderingItemType[]>;
 
-  sumsByDaysDictionary$: Observable<SumByDate>;
+  isBulkRecordsRemovingInProgress$: Observable<boolean>;
+
+  shouldDisableRemoveButton$: Observable<boolean>;
 
   constructor(private activityLogFacade: ActivityLogFacadeService) {}
 
   ngOnInit(): void {
-    this.activityLog$ = this.activityLogFacade.getActivityLogGroupedByDays();
+    this.initActivityLogListeners();
 
-    this.itemsToRender$ = this.activityLog$.pipe(
-      map((days) => days.reduce((previous, current) => [...previous, current.date, ...current.records], []))
-    );
+    this.isBulkRecordsRemovingInProgress$ = this.activityLogFacade.isBulkRecordsRemovingInProgress();
 
-    this.isEmpty$ = this.activityLog$.pipe(map((activitiLog) => !activitiLog.length));
-
-    this.sumsByDaysDictionary$ = this.activityLogFacade.getSumsByDays();
+    this.shouldDisableRemoveButton$ = this.activityLogFacade
+      .doPreviousMonthsRecordsExist()
+      .pipe(map((doPreviousMonthsRecordsExist) => !doPreviousMonthsRecordsExist));
   }
 
   trackBy(_: number, item: RenderingItemType): string {
-    return this.isItemDate(item) ? (item as string) : (item as ActivityLogRecordUnitedType).id;
+    return this.isItemDateObject(item) ? (item as DateObject).date : (item as ActivityLogRecordUnitedType).id;
   }
 
-  isItemDate(item: RenderingItemType): boolean {
-    return typeof item === 'string';
+  isItemDateObject(item: RenderingItemType): boolean {
+    return 'date' in item && 'sum' in item;
   }
 
   buildTranslationKey(key: string): string {
-    return `${this.rootTranslationKey}.${key}`;
+    return `dashboard.activityLog.${key}`;
+  }
+
+  private initActivityLogListeners(): void {
+    const activityLog$ = this.activityLogFacade.getActivityLogGroupedByDays();
+
+    this.itemsToRender$ = activityLog$.pipe(
+      map((days) =>
+        days.reduce(
+          (previous, current) => [
+            ...previous,
+            { date: current.date, sum: current.sumOfCategoryValueChangeRecords },
+            ...current.records,
+          ],
+          []
+        )
+      )
+    );
+
+    this.isEmpty$ = activityLog$.pipe(map((activitiLog) => !activitiLog.length));
   }
 }

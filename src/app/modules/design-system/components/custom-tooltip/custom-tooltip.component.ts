@@ -18,7 +18,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
  * NOTE - ONLY one should be specified; If BOTH are specified then "template" will be rendered and "text" will be ignored
  */
 @Component({
-  selector: 'app-custom-tool-tip',
+  selector: 'app-custom-tooltip',
   templateUrl: './custom-tooltip.component.html',
   styleUrls: ['./custom-tooltip.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,0 +1,42 @@
+<span>
+  <mat-checkbox
+    [checked]="checkboxGroup.checked"
+    [indeterminate]="partiallyComplete"
+    [disableRipple]="true"
+    (click)="$event.stopPropagation()"
+    (change)="update($event.checked)"
+  >
+    {{ checkboxGroup.nameOrTranslationKey | translate }}
+  </mat-checkbox>
+</span>
+
+<span>
+  <ul class="pl-5">
+    @for (subItem of checkboxGroup.subItems; track i; let i = $index) {
+      <li class="flex items-center">
+        @if (subItem?.tooltipTranslationKey) {
+          <app-info-icon
+            [type]="subItem.infoIconType"
+            [tooltip]="tooltip"
+            [tooltipPosition]="subItem.tooltipPosition"
+            [size]="'medium'"
+            (click)="$event.stopPropagation()"
+          ></app-info-icon>
+
+          <ng-template #tooltip>
+            <span class="block max-w-50" [innerHTML]="subItem.tooltipTranslationKey | translate"></span>
+          </ng-template>
+        }
+
+        <mat-checkbox
+          [checked]="subItem.checked"
+          [disableRipple]="true"
+          (click)="$event.stopPropagation()"
+          (change)="update($event.checked, i)"
+        >
+          {{ subItem.nameOrTranslationKey | translate }}
+        </mat-checkbox>
+      </li>
+    }
+  </ul>
+</span>

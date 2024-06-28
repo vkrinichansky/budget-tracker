@@ -1,4 +1,9 @@
-<app-generic-activity-log-record [icon]="record.icon" [date]="record.date">
+<app-generic-activity-log-record
+  [icon]="record.icon"
+  [date]="record.date"
+  [loading]="isRecordRemoving$ | async"
+  (remove)="removeRecord()"
+>
   <span class="font-main text-charcoal text-base" [innerHTML]="buildTranslationKey(record.budgetType) | translate">
   </span>
 </app-generic-activity-log-record>
