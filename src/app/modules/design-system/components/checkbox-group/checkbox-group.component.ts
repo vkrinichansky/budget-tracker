@@ -4,7 +4,6 @@ import { CheckboxGroup } from '../../models';
 @Component({
   selector: 'app-checkbox-group',
   templateUrl: './checkbox-group.component.html',
-  styleUrl: './checkbox-group.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckboxGroupComponent {

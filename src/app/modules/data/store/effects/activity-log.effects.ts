@@ -158,7 +158,9 @@ export class ActivityLogEffects {
       mergeMap((action) =>
         from(this.activityLogService.bulkRecordRemove(action.records)).pipe(
           switchMap(() => {
-            this.snackbarHandler.showBulkActivityLogRecordsRemovedSnackbar(action.records);
+            if (action.shouldDisplaySnackbar) {
+              this.snackbarHandler.showBulkActivityLogRecordsRemovedSnackbar();
+            }
 
             return of(
               ActivityLogActions.bulkRecordsRemoved({
@@ -167,7 +169,9 @@ export class ActivityLogEffects {
             );
           }),
           catchError((error) => {
-            this.snackbarHandler.showErrorSnackbar(error);
+            if (action.shouldDisplaySnackbar) {
+              this.snackbarHandler.showErrorSnackbar(error);
+            }
 
             return of(ActivityLogActions.bulkRecordsRemoveFail());
           })

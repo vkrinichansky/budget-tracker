@@ -67,13 +67,9 @@ export class SnackbarHandlerService {
     );
   }
 
-  showBulkActivityLogRecordsRemovedSnackbar(records: ActivityLogRecordUnitedType[]): void {
+  showBulkActivityLogRecordsRemovedSnackbar(): void {
     this.openSnackBarWithCloseDelay(
-      this.translateService.instant(
-        this.buildTranslationKey(
-          `bulkActivityLogRecordsRemoved.${records.length ? 'recordsByTypesRemoved' : 'allRecordsRemoved'}`
-        )
-      ),
+      this.translateService.instant(this.buildTranslationKey('bulkActivityLogRecordsRemoved.recordsByTypesRemoved')),
       this.translateService.instant(this.buildTranslationKey('activityLogRecordRemoved.buttonText'))
     );
   }

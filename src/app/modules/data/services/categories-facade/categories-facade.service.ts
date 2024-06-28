@@ -117,6 +117,7 @@ export class CategoriesFacadeService {
     this.store.dispatch(
       ActivityLogActions.bulkRecordsRemove({
         records: relatedCategoryValueChangeRecordsToRemove,
+        shouldDisplaySnackbar: false,
       })
     );
   }
