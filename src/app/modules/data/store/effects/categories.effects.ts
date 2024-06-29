@@ -45,7 +45,9 @@ export class CategoriesEffects {
     this.actions$.pipe(
       ofType(CategoriesActions.removeCategory),
       mergeMap((action) =>
-        from(this.categoriesService.removeCategory(action.category, action.activityLogRecord)).pipe(
+        from(
+          this.categoriesService.removeCategory(action.category, action.activityLogRecord, action.recordsToRemove)
+        ).pipe(
           switchMap(() => {
             this.snackbarHandler.showCategoryRemovedSnackbar();
 
@@ -55,6 +57,9 @@ export class CategoriesEffects {
               }),
               ActivityLogActions.recordAdded({
                 record: action.activityLogRecord,
+              }),
+              ActivityLogActions.bulkRecordsRemoved({
+                records: action.recordsToRemove,
               })
             );
           }),

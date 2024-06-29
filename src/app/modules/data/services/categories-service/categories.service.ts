@@ -37,10 +37,17 @@ export class CategoriesService {
     });
   }
 
-  removeCategory(category: Category, activityLogRecord: CategoryManagementRecord): Promise<void> {
-    return updateDoc(this.getDocRef(), {
+  async removeCategory(
+    category: Category,
+    activityLogRecord: CategoryManagementRecord,
+    recordsToRemove: CategoryValueChangeRecord[]
+  ): Promise<void> {
+    await updateDoc(this.getDocRef(), {
       [`${CATEGORIES_PATH}.${category.budgetType}`]: arrayRemove(category),
       [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
+    });
+    return await updateDoc(this.getDocRef(), {
+      [`${ACTIVITY_LOG_PATH}`]: arrayRemove(...recordsToRemove),
     });
   }
 

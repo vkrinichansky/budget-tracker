@@ -50,6 +50,10 @@ export class ButtonComponent {
   @Input()
   align: 'center' | 'start' = 'center';
 
+  @HostBinding('class.mobile-click-effect')
+  @Input()
+  shouldDisplayMobileClickEffect = true;
+
   get loaderColorMode(): 'dark' | 'light' {
     switch (this.colorScheme) {
       case 'charcoal':

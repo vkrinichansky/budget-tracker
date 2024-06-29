@@ -211,7 +211,7 @@ export class ActivityLogFacadeService {
       )
     );
 
-    this.store.dispatch(ActivityLogActions.bulkRecordsRemove({ records, shouldDisplaySnackbar: true }));
+    this.store.dispatch(ActivityLogActions.bulkRecordsRemove({ records }));
   }
 
   isBulkRecordsRemovingInProgress(): Observable<boolean> {

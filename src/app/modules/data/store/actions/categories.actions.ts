@@ -47,6 +47,7 @@ export const CategoriesActions = {
     props<{
       category: Category;
       activityLogRecord: CategoryManagementRecord;
+      recordsToRemove: CategoryValueChangeRecord[];
     }>()
   ),
 

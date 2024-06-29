@@ -4,6 +4,7 @@ import { CustomTooltipComponent } from '../../components';
 import { BgColorScheme, TooltipPosition } from '../../models';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { isMobileWidth } from '@budget-tracker/utils';
+import { firstValueFrom, map } from 'rxjs';
 
 const positionMapping: { [key: string]: ConnectedPosition } = {
   top: {
@@ -12,6 +13,7 @@ const positionMapping: { [key: string]: ConnectedPosition } = {
     overlayX: 'center',
     overlayY: 'bottom',
     offsetY: -10,
+    panelClass: 'top',
   },
   bottom: {
     originX: 'center',
@@ -19,6 +21,7 @@ const positionMapping: { [key: string]: ConnectedPosition } = {
     overlayX: 'center',
     overlayY: 'top',
     offsetY: 10,
+    panelClass: 'bottom',
   },
   left: {
     originX: 'start',
@@ -26,6 +29,7 @@ const positionMapping: { [key: string]: ConnectedPosition } = {
     overlayX: 'end',
     overlayY: 'center',
     offsetX: -10,
+    panelClass: 'left',
   },
   right: {
     originX: 'end',
@@ -33,6 +37,7 @@ const positionMapping: { [key: string]: ConnectedPosition } = {
     overlayX: 'start',
     overlayY: 'center',
     offsetX: 10,
+    panelClass: 'right',
   },
 };
 
@@ -122,7 +127,7 @@ export class TooltipRendererDirective implements OnDestroy {
    * This method will show the tooltip by instantiating the McToolTipComponent and attaching to the overlay
    */
   @HostListener('mouseenter')
-  private show() {
+  private async show() {
     if (this.dontDisplayOnScreenWidth && window.screen.width <= this.screenWidth) {
       return;
     }
@@ -136,11 +141,9 @@ export class TooltipRendererDirective implements OnDestroy {
     }
 
     if (this.tooltipText || this.tooltipTemplate) {
-      const positionStrategy = this._overlayPositionBuilder.flexibleConnectedTo(this._elementRef).withPositions([
-        {
-          ...positionMapping[this.position],
-        },
-      ]);
+      const positionStrategy = this._overlayPositionBuilder
+        .flexibleConnectedTo(this._elementRef)
+        .withPositions(Object.values(positionMapping));
 
       this._overlayRef = this._overlay.create({ positionStrategy });
 
@@ -149,11 +152,14 @@ export class TooltipRendererDirective implements OnDestroy {
         const tooltipRef: ComponentRef<CustomTooltipComponent> = this._overlayRef.attach(
           new ComponentPortal(CustomTooltipComponent)
         );
+
         tooltipRef.instance.tooltipText = this.tooltipText;
         tooltipRef.instance.tooltipTemplate = this.tooltipTemplate;
         tooltipRef.instance.tooltipBgColor = this.tooltipBgColor;
-        tooltipRef.instance.position = this.position;
         tooltipRef.instance.maxWidth = this.maxWidth;
+        tooltipRef.instance.position = await firstValueFrom(
+          positionStrategy.positionChanges.pipe(map((changes) => changes.connectionPair.panelClass as TooltipPosition))
+        );
       }
     }
   }
