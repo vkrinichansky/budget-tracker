@@ -1,0 +1,21 @@
+<div mat-dialog-title class="!flex !justify-between !items-center">
+  <div>
+    <h1>{{ titleTranslationKey | translate }}</h1>
+
+    @if (subtitleTranslationKey) {
+      <h2 class="text-sm">{{ subtitleTranslationKey | translate }}</h2>
+    }
+  </div>
+
+  @if (shouldDisplayCloseButton) {
+    <app-button [iconName]="'close'" (click)="cancelClick()"></app-button>
+  }
+</div>
+
+<div mat-dialog-content>
+  <ng-content></ng-content>
+</div>
+
+<div mat-dialog-actions>
+  <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
+</div>

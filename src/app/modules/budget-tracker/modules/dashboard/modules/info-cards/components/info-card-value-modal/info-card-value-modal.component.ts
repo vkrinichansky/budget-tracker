@@ -4,10 +4,7 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   AfterViewInit,
-  inject,
   DestroyRef,
-  ViewChild,
-  ElementRef,
   ChangeDetectorRef,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -28,16 +25,10 @@ enum FormFields {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InfoCardValueModalComponent implements OnInit, AfterViewInit {
-  private readonly rootTranslationKey = 'dashboard.infoCardValueModal';
-
-  private readonly destroyRef = inject(DestroyRef);
-
-  @ViewChild('valueInput')
-  private valueInput: ElementRef;
-
   readonly formFields = FormFields;
 
   title: string;
+  subtitle: string;
   mainButtonText: string;
   isEditMode: boolean;
 
@@ -78,42 +69,25 @@ export class InfoCardValueModalComponent implements OnInit, AfterViewInit {
     @Inject(MAT_DIALOG_DATA) private data: InfoCardValueModalData,
     private dialogRef: MatDialogRef<InfoCardValueModalComponent>,
     private rootValuesFacade: RootValuesFacadeService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private destroyRef: DestroyRef
   ) {}
 
   ngOnInit(): void {
-    this.title = this.buildTranslationKey(`${this.data.valueToEdit}.title`);
-    this.mainButtonText = this.buildTranslationKey(`${this.data.valueToEdit}.${this.data.actionType}`);
-    this.isEditMode = !!this.data.isEditMode;
-
+    this.initProps();
     this.initForm();
-
-    this.loading$ = this.rootValuesFacade.getValueUpdatingInProgress();
-    this.success$ = this.rootValuesFacade.getValueUpdatingSuccess();
-
-    this.success$
-      .pipe(
-        filter((isSuccess) => !!isSuccess),
-        take(1)
-      )
-      .subscribe(() => this.dialogRef.close());
+    this.initListeners();
   }
 
   ngAfterViewInit(): void {
     if (this.isEditMode) {
       this.form.controls[FormFields.Value].setValue(this.data.initialValue);
+      this.cd.detectChanges();
     }
-
-    this.valueInput.nativeElement.focus();
-    this.cd.detectChanges();
   }
 
   buildTranslationKey(key: string): string {
-    return `${this.rootTranslationKey}.${key}`;
-  }
-
-  cancelClick(): void {
-    this.dialogRef.close();
+    return `dashboard.infoCardValueModal.${key}`;
   }
 
   resolveSubmitAction(): void {
@@ -169,6 +143,25 @@ export class InfoCardValueModalComponent implements OnInit, AfterViewInit {
         }
         break;
     }
+  }
+
+  private initProps(): void {
+    this.title = this.buildTranslationKey(`${this.data.valueToEdit}.title`);
+    this.mainButtonText = this.buildTranslationKey(`${this.data.valueToEdit}.${this.data.actionType}`);
+    this.subtitle = this.buildTranslationKey(`subtitle.${this.data.actionType}`);
+    this.isEditMode = !!this.data.isEditMode;
+  }
+
+  private initListeners(): void {
+    this.loading$ = this.rootValuesFacade.getValueUpdatingInProgress();
+    this.success$ = this.rootValuesFacade.getValueUpdatingSuccess();
+
+    this.success$
+      .pipe(
+        filter((isSuccess) => !!isSuccess),
+        take(1)
+      )
+      .subscribe(() => this.dialogRef.close());
   }
 
   private initForm(): void {

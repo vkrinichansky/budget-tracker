@@ -14,6 +14,7 @@ import {
   CustomTooltipComponent,
   CheckboxGroupComponent,
   FullsizeLoaderComponent,
+  BaseModalComponent,
 } from './components';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -53,6 +54,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     TooltipRendererDirective,
     CheckboxGroupComponent,
     FullsizeLoaderComponent,
+    BaseModalComponent,
   ],
   exports: [
     SvgIconComponent,
@@ -67,6 +69,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     TooltipRendererDirective,
     CheckboxGroupComponent,
     FullsizeLoaderComponent,
+    BaseModalComponent,
   ],
   providers: [ConfirmationModalService],
 })

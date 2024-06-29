@@ -1,6 +1,4 @@
-<h1 mat-dialog-title>{{ title | translate }}</h1>
-
-<div mat-dialog-content class="flex flex-col">
+<app-base-modal [titleTranslationKey]="title" [footerTemplate]="footer">
   <form class="flex flex-col" [formGroup]="form">
     <mat-form-field>
       <mat-label>{{ buildTranslationKey('categoryIconTitle') | translate }}</mat-label>
@@ -47,16 +45,9 @@
       }
     </mat-form-field>
   </form>
-</div>
+</app-base-modal>
 
-<div mat-dialog-actions>
-  <app-button
-    [buttonSizeX]="'auto'"
-    [colorScheme]="'transparent-dark'"
-    [text]="buildTranslationKey('cancel') | translate"
-    (click)="cancelClick()"
-  ></app-button>
-
+<ng-template #footer>
   <app-button
     [colorScheme]="'charcoal'"
     [text]="buildTranslationKey('addCategory') | translate"
@@ -65,4 +56,4 @@
     [loading]="loading$ | async"
     (click)="submitClick()"
   ></app-button>
-</div>
+</ng-template>

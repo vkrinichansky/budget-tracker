@@ -33,7 +33,7 @@ export class ButtonComponent {
   }
 
   @Input()
-  buttonSizeX: ButtonSize = 'small';
+  buttonSizeX: ButtonSize = 'medium';
 
   @Input()
   buttonSizeY: ButtonSize = 'medium';

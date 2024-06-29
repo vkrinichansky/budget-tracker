@@ -1,6 +1,8 @@
-<h1 mat-dialog-title>{{ buildTranslationKey('title') | translate }}</h1>
-
-<div mat-dialog-content>
+<app-base-modal
+  [titleTranslationKey]="buildTranslationKey('title')"
+  [shouldDisplayCloseButton]="false"
+  [footerTemplate]="footer"
+>
   <div class="flex flex-col gap-y-4">
     <span
       class="font-main text-charcoal text-base"
@@ -30,9 +32,9 @@
       </div>
     }
   </div>
-</div>
+</app-base-modal>
 
-<div mat-dialog-actions>
+<ng-template #footer>
   <app-button
     [colorScheme]="'transparent-dark'"
     [text]="buildTranslationKey('noButton') | translate"
@@ -44,7 +46,7 @@
     [colorScheme]="'charcoal'"
     [text]="buildTranslationKey('yesButton') | translate"
     [buttonSizeX]="'px100'"
-    (click)="data.shouldConsiderCheckbox ? data.action(checkmarkChecked()) : data.action(); closeClick()"
+    (click)="resolveAction()"
   >
   </app-button>
-</div>
+</ng-template>

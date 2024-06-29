@@ -2,8 +2,8 @@ import { Directive, Input, TemplateRef, ElementRef, HostListener, ComponentRef, 
 import { ConnectedPosition, Overlay, OverlayPositionBuilder, OverlayRef } from '@angular/cdk/overlay';
 import { CustomTooltipComponent } from '../../components';
 import { BgColorScheme, TooltipPosition } from '../../models';
-
 import { ComponentPortal } from '@angular/cdk/portal';
+import { isMobileWidth } from '@budget-tracker/utils';
 
 const positionMapping: { [key: string]: ConnectedPosition } = {
   top: {
@@ -164,9 +164,15 @@ export class TooltipRendererDirective implements OnDestroy {
    * This method will close the tooltip by detaching the overlay from the view
    */
   @HostListener('mouseleave')
-  @HostListener('click')
-  private hide() {
+  private hideOnMouseLeave() {
     this.closeToolTip();
+  }
+
+  @HostListener('click')
+  private hideOnClick() {
+    if (!isMobileWidth()) {
+      this.closeToolTip();
+    }
   }
 
   /**
