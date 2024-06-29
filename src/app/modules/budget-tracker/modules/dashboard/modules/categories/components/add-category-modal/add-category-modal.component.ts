@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ChangeDetectionStrategy, inject, DestroyRef } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy, DestroyRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BudgetType, Category } from '@budget-tracker/data';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -21,10 +21,6 @@ enum FormFields {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddCategoryModalComponent implements OnInit {
-  private readonly rootTranslationKey = 'dashboard.addCategoryModal';
-
-  private readonly destroyRef = inject(DestroyRef);
-
   private categories$: Observable<Category[]>;
 
   readonly formFields = FormFields;
@@ -76,10 +72,37 @@ export class AddCategoryModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) private data: AddCategoryModalData,
     private dialogRef: MatDialogRef<AddCategoryModalComponent>,
     private translateService: TranslateService,
-    private categoriesFacade: CategoriesFacadeService
+    private categoriesFacade: CategoriesFacadeService,
+    private destroyRef: DestroyRef
   ) {}
 
   ngOnInit(): void {
+    this.initDataAccordingToBudgetType();
+    this.initListeners();
+    this.subscribeToCategoryNameChanges();
+  }
+
+  setCategoryNameToInput(value: CategoryIconForSelect) {
+    this.form.controls[FormFields.CategoryName].setValue(this.translateService.instant(value.textTranslationKey));
+  }
+
+  buildTranslationKey(key: string): string {
+    return `dashboard.addCategoryModal.${key}`;
+  }
+
+  submitClick(): void {
+    const category: Category = {
+      icon: this.form.controls[FormFields.CategoryIcon].value.icon,
+      name: this.form.controls[FormFields.CategoryName].value,
+      value: 0,
+      id: uuid(),
+      budgetType: this.budgetType,
+    };
+
+    this.categoriesFacade.addCategory(category);
+  }
+
+  private initDataAccordingToBudgetType(): void {
     this.budgetType = this.data.budgetType;
 
     switch (this.budgetType) {
@@ -93,7 +116,9 @@ export class AddCategoryModalComponent implements OnInit {
         this.categories$ = this.categoriesFacade.getExpenseCategories();
         break;
     }
+  }
 
+  private initListeners(): void {
     this.loading$ = this.categoriesFacade.getCategoryManagementInProgress();
     this.success$ = this.categoriesFacade.getCategoryManagementSuccess();
 
@@ -103,32 +128,6 @@ export class AddCategoryModalComponent implements OnInit {
         take(1)
       )
       .subscribe(() => this.dialogRef.close());
-
-    this.subscribeToCategoryNameChanges();
-  }
-
-  setCategoryNameToInput(value: CategoryIconForSelect) {
-    this.form.controls[FormFields.CategoryName].setValue(this.translateService.instant(value.textTranslationKey));
-  }
-
-  buildTranslationKey(key: string): string {
-    return `${this.rootTranslationKey}.${key}`;
-  }
-
-  cancelClick(): void {
-    this.dialogRef.close();
-  }
-
-  submitClick(): void {
-    const category: Category = {
-      icon: this.form.controls[FormFields.CategoryIcon].value.icon,
-      name: this.form.controls[FormFields.CategoryName].value,
-      value: 0,
-      id: uuid(),
-      budgetType: this.budgetType,
-    };
-
-    this.categoriesFacade.addCategory(category);
   }
 
   private subscribeToCategoryNameChanges(): void {

@@ -4,7 +4,6 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   AfterViewInit,
-  inject,
   DestroyRef,
   ChangeDetectorRef,
 } from '@angular/core';
@@ -26,8 +25,6 @@ enum FormFields {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InfoCardValueModalComponent implements OnInit, AfterViewInit {
-  private readonly destroyRef = inject(DestroyRef);
-
   readonly formFields = FormFields;
 
   title: string;
@@ -72,7 +69,8 @@ export class InfoCardValueModalComponent implements OnInit, AfterViewInit {
     @Inject(MAT_DIALOG_DATA) private data: InfoCardValueModalData,
     private dialogRef: MatDialogRef<InfoCardValueModalComponent>,
     private rootValuesFacade: RootValuesFacadeService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private destroyRef: DestroyRef
   ) {}
 
   ngOnInit(): void {
@@ -90,10 +88,6 @@ export class InfoCardValueModalComponent implements OnInit, AfterViewInit {
 
   buildTranslationKey(key: string): string {
     return `dashboard.infoCardValueModal.${key}`;
-  }
-
-  cancelClick(): void {
-    this.dialogRef.close();
   }
 
   resolveSubmitAction(): void {

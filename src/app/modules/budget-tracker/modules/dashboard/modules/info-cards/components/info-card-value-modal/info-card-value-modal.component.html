@@ -1,13 +1,4 @@
-<div mat-dialog-title class="!flex !justify-between !items-center">
-  <div>
-    <h1>{{ title | translate }}</h1>
-    <h2 class="text-sm">{{ subtitle | translate }}</h2>
-  </div>
-
-  <app-button [iconName]="'close'" (click)="cancelClick()"></app-button>
-</div>
-
-<div mat-dialog-content>
+<app-base-modal [titleTranslationKey]="title" [subtitleTranslationKey]="subtitle" [footerTemplate]="footer">
   <form class="flex flex-col" [formGroup]="form">
     <mat-form-field>
       <mat-label>{{ title | translate }}</mat-label>
@@ -41,9 +32,9 @@
       }
     </mat-form-field>
   </form>
-</div>
+</app-base-modal>
 
-<div mat-dialog-actions>
+<ng-template #footer>
   <app-button
     [buttonSizeX]="'big'"
     [colorScheme]="'charcoal'"
@@ -52,4 +43,4 @@
     [loading]="(loading$ | async) || (success$ | async)"
     (click)="resolveSubmitAction()"
   ></app-button>
-</div>
+</ng-template>

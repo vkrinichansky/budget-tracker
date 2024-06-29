@@ -22,9 +22,13 @@ export class ConfirmationModalComponent implements OnInit {
     return !!this.translation.remarkTranslationKey;
   }
 
+  get data(): ConfirmationModalData {
+    return this._data;
+  }
+
   constructor(
-    private dialogRef: MatDialogRef<ConfirmationModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ConfirmationModalData
+    @Inject(MAT_DIALOG_DATA) private _data: ConfirmationModalData,
+    private dialogRef: MatDialogRef<ConfirmationModalComponent>
   ) {}
 
   ngOnInit(): void {
@@ -33,6 +37,11 @@ export class ConfirmationModalComponent implements OnInit {
 
   buildTranslationKey(key: string): string {
     return `confirmationModal.${key}`;
+  }
+
+  resolveAction(): void {
+    this.data.shouldConsiderCheckbox ? this.data.action(this.checkmarkChecked()) : this.data.action();
+    this.closeClick();
   }
 
   closeClick(): void {

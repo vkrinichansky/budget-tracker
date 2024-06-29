@@ -211,7 +211,7 @@
       "categoryNameLengthError": "Max category name length is 25"
     },
     "categoryValueModal": {
-      "title": "Add value to category",
+      "subtitle": "Add value to category",
       "cancel": "Cancel",
       "add": "Add",
       "valueToAddTitle": "Value to add",

@@ -213,7 +213,7 @@
       "categoryNameLengthError": "Макс. довжина імені категорії - 25"
     },
     "categoryValueModal": {
-      "title": "Додати значення до категорії",
+      "subtitle": "Додати значення до категорії",
       "cancel": "Вихід",
       "add": "Додати",
       "valueToAddTitle": "Значення",
