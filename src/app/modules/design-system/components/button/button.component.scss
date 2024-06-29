@@ -12,29 +12,37 @@
     transition-property: background-color, color;
   }
 
+  @mixin clickEffectOnMobile($bg-color) {
+    @media (hover: none) {
+      &:active {
+        @apply #{$bg-color};
+      }
+    }
+  }
+
   // SIZES X
   &.tiny-x {
-    @apply w-7;
+    @apply w-7 min-w-7;
   }
 
   &.small-x {
-    @apply w-8;
+    @apply w-8 min-w-8;
   }
 
   &.medium-x {
-    @apply w-9;
+    @apply w-9 min-w-9;
   }
 
   &.px100-x {
-    @apply w-25;
+    @apply w-25 min-w-25;
   }
 
   &.big-x {
-    @apply w-40;
+    @apply w-40 min-w-40;
   }
 
   &.large-x {
-    @apply w-60;
+    @apply w-60 min-w-60;
   }
 
   &.full-x {
@@ -47,15 +55,15 @@
 
   // SIZES Y
   &.tiny-y {
-    @apply h-7;
+    @apply h-7 min-h-7;
   }
 
   &.small-y {
-    @apply h-8;
+    @apply h-8 min-h-8;
   }
 
   &.medium-y {
-    @apply h-9;
+    @apply h-9 min-h-9;
   }
 
   &.auto-y {
@@ -77,6 +85,8 @@
     @media (hover: hover) {
       @apply hover:bg-blue;
     }
+
+    @include clickEffectOnMobile(bg-blue);
   }
 
   &.green {
@@ -93,6 +103,8 @@
     @media (hover: hover) {
       @apply hover:bg-hover-green;
     }
+
+    @include clickEffectOnMobile(bg-hover-green);
   }
 
   &.active-navigation-item {
@@ -105,6 +117,8 @@
     @media (hover: hover) {
       @apply hover:bg-hover-white;
     }
+
+    @include clickEffectOnMobile(bg-hover-white);
   }
 
   &.transparent-light {
@@ -117,6 +131,8 @@
     @media (hover: hover) {
       @apply hover:bg-hover-white;
     }
+
+    @include clickEffectOnMobile(bg-hover-white);
   }
 
   &.transparent-dark {
@@ -137,6 +153,8 @@
     @media (hover: hover) {
       @apply hover:bg-hover-black;
     }
+
+    @include clickEffectOnMobile(bg-hover-black);
   }
 
   // ACTIVE STATE
