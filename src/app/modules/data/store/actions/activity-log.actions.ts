@@ -44,7 +44,6 @@ export const ActivityLogActions = {
     '[ActivityLog] Bulk records remove',
     props<{
       records: ActivityLogRecordUnitedType[];
-      shouldDisplaySnackbar: boolean;
     }>()
   ),
 

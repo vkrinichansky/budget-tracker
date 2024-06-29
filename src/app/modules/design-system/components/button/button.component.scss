@@ -86,7 +86,9 @@
       @apply hover:bg-blue;
     }
 
-    @include clickEffectOnMobile(bg-blue);
+    &.mobile-click-effect {
+      @include clickEffectOnMobile(bg-blue);
+    }
   }
 
   &.green {
@@ -104,7 +106,9 @@
       @apply hover:bg-hover-green;
     }
 
-    @include clickEffectOnMobile(bg-hover-green);
+    &.mobile-click-effect {
+      @include clickEffectOnMobile(bg-hover-green);
+    }
   }
 
   &.active-navigation-item {
@@ -118,7 +122,9 @@
       @apply hover:bg-hover-white;
     }
 
-    @include clickEffectOnMobile(bg-hover-white);
+    &.mobile-click-effect {
+      @include clickEffectOnMobile(bg-hover-white);
+    }
   }
 
   &.transparent-light {
@@ -132,7 +138,9 @@
       @apply hover:bg-hover-white;
     }
 
-    @include clickEffectOnMobile(bg-hover-white);
+    &.mobile-click-effect {
+      @include clickEffectOnMobile(bg-hover-white);
+    }
   }
 
   &.transparent-dark {
@@ -154,7 +162,9 @@
       @apply hover:bg-hover-black;
     }
 
-    @include clickEffectOnMobile(bg-hover-black);
+    &.mobile-click-effect {
+      @include clickEffectOnMobile(bg-hover-black);
+    }
   }
 
   // ACTIVE STATE

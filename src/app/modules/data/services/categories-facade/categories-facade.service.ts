@@ -111,13 +111,7 @@ export class CategoriesFacadeService {
       CategoriesActions.removeCategory({
         category,
         activityLogRecord: removeCategoryRecord,
-      })
-    );
-
-    this.store.dispatch(
-      ActivityLogActions.bulkRecordsRemove({
-        records: relatedCategoryValueChangeRecordsToRemove,
-        shouldDisplaySnackbar: false,
+        recordsToRemove: relatedCategoryValueChangeRecordsToRemove,
       })
     );
   }

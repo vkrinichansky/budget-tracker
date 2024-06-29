@@ -26,6 +26,7 @@
           [buttonSizeX]="'auto'"
           [buttonSizeY]="'full'"
           [active]="data.currentTab === 'list'"
+          [shouldDisplayMobileClickEffect]="false"
           (click)="setTab('list')"
         ></app-button>
 
@@ -36,6 +37,7 @@
           [buttonSizeY]="'full'"
           [disabled]="data.areAllCategoriesReset"
           [active]="data.currentTab === 'chart'"
+          [shouldDisplayMobileClickEffect]="false"
           (click)="setTab('chart')"
         ></app-button>
       </mat-button-toggle-group>
