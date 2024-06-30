@@ -13,6 +13,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 enum FormFields {
   CategoryIcon = 'categoryIcon',
   CategoryName = 'categoryName',
+  CategoryColor = 'categoryColor',
 }
 
 @Component({
@@ -30,6 +31,7 @@ export class AddCategoryModalComponent implements OnInit {
   readonly form: FormGroup = new FormGroup({
     [FormFields.CategoryIcon]: new FormControl(null, [Validators.required]),
     [FormFields.CategoryName]: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+    [FormFields.CategoryColor]: new FormControl('', [Validators.required]),
   });
 
   budgetType: BudgetType;
@@ -94,6 +96,7 @@ export class AddCategoryModalComponent implements OnInit {
     const category: Category = {
       icon: this.form.controls[FormFields.CategoryIcon].value.icon,
       name: this.form.controls[FormFields.CategoryName].value,
+      hexColor: this.form.controls[FormFields.CategoryColor].value,
       value: 0,
       id: uuid(),
       budgetType: this.budgetType,

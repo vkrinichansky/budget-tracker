@@ -208,6 +208,7 @@
       },
       "categoryIconTitle": "Значок категорії",
       "categoryNameTitle": "Імя категорії",
+      "categoryColorTitle": "Колір категорії",
       "cancel": "Вихід",
       "addCategory": "Додати",
       "categoryExistsError": "Така категорія вже існує",

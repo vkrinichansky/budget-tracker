@@ -206,6 +206,7 @@
       },
       "categoryIconTitle": "Category icon",
       "categoryNameTitle": "Category name",
+      "categoryColorTitle": "Category color",
       "cancel": "Cancel",
       "addCategory": "Add category",
       "categoryExistsError": "Such category already exists",
