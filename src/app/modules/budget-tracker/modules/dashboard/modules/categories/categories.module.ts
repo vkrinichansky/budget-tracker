@@ -44,7 +44,6 @@ import { NgxColorsModule } from 'ngx-colors';
     NgxColorsModule,
   ],
   declarations: [CategoriesComponent, AddCategoryModalComponent, CategoryItemComponent, CategoryValueModalComponent],
-
   providers: [CategoryModalsService],
   exports: [CategoriesComponent],
 })
