@@ -73,14 +73,6 @@ export class ActivityLogFacadeService {
     );
   }
 
-  getActivityLogGroupedByMonths(): Observable<ActivityLogGroupedByDate[]> {
-    return this.getActivityLog().pipe(
-      map((activityLog) => this.filterOnlyCategoryValueChangeRecords(activityLog)),
-      map((filteredActivityLog) => this.getActivityLogByMonthsDictionary(filteredActivityLog)),
-      map((activityLogDictionary) => this.getActivityLogGroupedByDateDictionaryToArray(activityLogDictionary))
-    );
-  }
-
   getPreviousMonthsRecords(): Observable<ActivityLog> {
     return this.getActivityLog().pipe(
       map((activityLog) => activityLog.filter((record) => isPreviousMonth(record.date)))
@@ -270,24 +262,6 @@ export class ActivityLogFacadeService {
           year: 'numeric',
           month: 'short',
           day: 'numeric',
-        });
-
-        group[dateKey] = group[dateKey] ?? [];
-        group[dateKey].push(record);
-        return group;
-      }, {} as ActivityLogGroupedByDateDictionary);
-  }
-
-  private getActivityLogByMonthsDictionary(activityLog: ActivityLog): ActivityLogGroupedByDateDictionary {
-    const language = this.languageService.getCurrentLanguage();
-
-    return activityLog
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .reduce((group, record) => {
-        const date = new Date(record.date);
-        const dateKey = date.toLocaleDateString(language, {
-          year: 'numeric',
-          month: 'short',
         });
 
         group[dateKey] = group[dateKey] ?? [];

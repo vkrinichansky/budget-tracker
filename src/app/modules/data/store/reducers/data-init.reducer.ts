@@ -34,6 +34,6 @@ const adapterReducer = createReducer(
   }))
 );
 
-export function dateInitializationReducer(state = initialState, action: Action): DataInitializationState {
+export function dataInitializationReducer(state = initialState, action: Action): DataInitializationState {
   return adapterReducer(state, action);
 }

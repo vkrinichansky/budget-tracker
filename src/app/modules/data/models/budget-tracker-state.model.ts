@@ -1,5 +1,6 @@
 import { ActivityLog } from './activity-log.model';
 import { Category } from './category.model';
+import { Statistics } from './statistics.model';
 
 export interface BudgetTrackerState {
   budget: {
@@ -15,8 +16,10 @@ export interface BudgetTrackerState {
     };
 
     activityLog: ActivityLog;
-
-    resetDate: string;
-    shouldDoReset: boolean;
   };
+
+  statistics: Statistics;
+
+  resetDate: string;
+  shouldDoReset: boolean;
 }

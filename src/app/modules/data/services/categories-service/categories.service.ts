@@ -9,19 +9,11 @@ import {
   doc,
   DocumentReference,
 } from '@angular/fire/firestore';
-import {
-  Category,
-  CategoryManagementRecord,
-  CategoryValueChangeRecord,
-  CategoriesResetRecord,
-  BudgetTrackerState,
-  BudgetType,
-} from '../../models';
+import { Category, CategoryManagementRecord, CategoryValueChangeRecord, CategoriesResetRecord } from '../../models';
 
 const CATEGORIES_PATH = 'budget.categories';
 const ACTIVITY_LOG_PATH = 'budget.activityLog';
 const ROOT_VALUES_PATH = 'budget.rootValues';
-const RESET_DATE_PATH = 'budget.resetDate';
 
 @Injectable()
 export class CategoriesService {
@@ -71,15 +63,6 @@ export class CategoriesService {
     return updateDoc(this.getDocRef(), {
       [`${CATEGORIES_PATH}.${budgetType}`]: updatedCategories,
       [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
-    });
-  }
-
-  resetData(data: BudgetTrackerState, activityLogRecords: CategoriesResetRecord[]): Promise<void> {
-    return updateDoc(this.getDocRef(), {
-      [`${CATEGORIES_PATH}.${BudgetType.Income}`]: data.budget.categories.income,
-      [`${CATEGORIES_PATH}.${BudgetType.Expense}`]: data.budget.categories.expense,
-      [`${ACTIVITY_LOG_PATH}`]: arrayUnion(...activityLogRecords),
-      [`${RESET_DATE_PATH}`]: data.budget.resetDate,
     });
   }
 

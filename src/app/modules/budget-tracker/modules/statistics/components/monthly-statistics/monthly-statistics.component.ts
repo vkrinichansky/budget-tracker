@@ -6,6 +6,7 @@ import { ChartJSTooltipConfig, MainPalette } from '@budget-tracker/design-system
 import { BaseChartDirective } from 'ng2-charts';
 import { StatisticsFacadeService } from '@budget-tracker/data';
 import { TranslateService } from '@ngx-translate/core';
+import { isMobileWidth } from '@budget-tracker/utils';
 
 interface ZoomOption {
   icon: string;
@@ -88,7 +89,7 @@ export class MonthlyStatisticsComponent implements OnInit {
       },
     } as ScaleOptionsByType;
 
-    return {
+    const config: ChartOptions = {
       responsive: true,
       plugins: {
         legend: {
@@ -122,6 +123,15 @@ export class MonthlyStatisticsComponent implements OnInit {
         y: scaleOptions,
       },
     };
+
+    if (isMobileWidth()) {
+      return {
+        ...config,
+        animation: false,
+      };
+    }
+
+    return config;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
