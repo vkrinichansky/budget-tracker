@@ -45,10 +45,18 @@
       }
     </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Color</mat-label>
-      <input matInput [formControlName]="formFields.CategoryColorInput" />
-      <ngx-colors matSuffix ngx-colors-trigger [formControlName]="formFields.CategoryColorPicker"></ngx-colors>
+    <mat-form-field class="no-click cursor-pointer" (click)="clickOnColorPicker()">
+      <mat-label>{{ buildTranslationKey('categoryColorTitle') | translate }}</mat-label>
+      <input matInput [readonly]="true" [formControlName]="formFields.CategoryColorInput" />
+      <ngx-colors
+        #colorPicker
+        matSuffix
+        ngx-colors-trigger
+        [formControlName]="formFields.CategoryColorPicker"
+        [hideTextInput]="true"
+        [colorsAnimation]="isMobile ? null : 'slide-in'"
+        (click)="$event.stopPropagation()"
+      ></ngx-colors>
 
       @if (this.form.controls[formFields.CategoryColorInput].hasError('invalidColor')) {
         <mat-error> {{ 'formErrors.invalidColor' | translate }} </mat-error>

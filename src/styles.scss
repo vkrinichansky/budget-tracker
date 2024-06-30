@@ -85,6 +85,18 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+mat-form-field {
+  &.no-click:hover {
+    .mat-mdc-text-field-wrapper .mat-mdc-form-field-focus-overlay {
+      opacity: 0.04 !important;
+    }
+
+    * {
+      @apply pointer-events-none #{!important};
+    }
+  }
+}
+
 .mdc-text-field--filled {
   .mdc-line-ripple::after {
     @apply border-b-charcoal #{!important};
@@ -232,6 +244,8 @@ textarea {
 
 // COLOR PICKER
 ngx-colors {
+  @apply cursor-pointer;
+
   .preview {
     @apply w-10 h-10;
 
