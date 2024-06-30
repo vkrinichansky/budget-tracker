@@ -290,7 +290,8 @@
     "minValue": "Minimal value is {{ minValue }}",
     "maxValue": "Minimal value is {{ maxValue }}",
     "noteTooLong": "Note is too long, max length is 100",
-    "editError": "Value must be different after edit"
+    "editError": "Value must be different after edit",
+    "invalidColor": "The color is invalid"
   },
 
   "confirmationModal": {
