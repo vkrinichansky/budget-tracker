@@ -6,6 +6,7 @@ import { CategoryModalsService } from '../../services';
 import { ChartJSTooltipConfig, MainPalette } from '@budget-tracker/design-system';
 import { CategoriesFacadeService } from '@budget-tracker/data';
 import { CurrencyPipe } from '@budget-tracker/shared';
+import { isMobileWidth } from '@budget-tracker/utils';
 
 type TabType = 'list' | 'chart';
 
@@ -102,7 +103,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   private getChartOptions(): ChartOptions {
-    return {
+    const config: ChartOptions = {
       layout: {
         autoPadding: false,
       },
@@ -120,5 +121,14 @@ export class CategoriesComponent implements OnInit {
         },
       },
     };
+
+    if (isMobileWidth()) {
+      return {
+        ...config,
+        animation: false,
+      };
+    }
+
+    return config;
   }
 }

@@ -57,9 +57,12 @@ export class AuthService {
           freeMoney: 0,
         },
         activityLog: [],
-        resetDate: getMonthAndYearString(),
-        shouldDoReset: true,
       },
+      statistics: {
+        snapshots: {},
+      },
+      resetDate: getMonthAndYearString(),
+      shouldDoReset: true,
     };
 
     return await setDoc(doc(collection(this.firestore, `userData`), userId), data);

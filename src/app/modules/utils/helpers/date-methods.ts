@@ -7,3 +7,11 @@ export function getMonthAndYearString(date?: number): string {
 export function isPreviousMonth(date: number): boolean {
   return getMonthAndYearString() !== getMonthAndYearString(date);
 }
+
+export function getPreviousMonthTime(): number {
+  const date = new Date();
+  const previousMonth = new Date(date.getTime());
+  previousMonth.setDate(0);
+
+  return previousMonth.getTime();
+}

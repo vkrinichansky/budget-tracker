@@ -1,7 +1,12 @@
-export type CategoryValueMapping = { [categoryName: string]: number };
+import { Category } from './category.model';
 
-export interface MonthStatisticsDataItem {
+export interface StatisticsSnapshot {
   date: string;
-  incomeCategoryValueMapping: CategoryValueMapping;
-  expenseCategoryValueMapping: CategoryValueMapping;
+  categories: Category[];
+}
+
+export interface Statistics {
+  snapshots: {
+    [date: number]: StatisticsSnapshot;
+  };
 }
