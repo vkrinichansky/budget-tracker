@@ -100,7 +100,7 @@ input::-webkit-inner-spin-button {
 }
 
 .mdc-text-field .mdc-text-field__input {
-  @apply caret-charcoal;
+  @apply caret-charcoal font-main #{!important};
 }
 
 .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
@@ -227,6 +227,21 @@ textarea {
 
   app-button {
     @apply rounded-none #{!important};
+  }
+}
+
+// COLOR PICKER
+ngx-colors {
+  .preview {
+    @apply w-10 h-10;
+
+    .preview-background {
+      @apply w-full h-full;
+
+      .circle {
+        @apply w-full h-full #{!important};
+      }
+    }
   }
 }
 

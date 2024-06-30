@@ -9,10 +9,13 @@ import { Observable, combineLatest, filter, map, take, tap } from 'rxjs';
 import { AddCategoryModalData, CategoryIconForSelect, PredefinedCategoryIcons } from '../../models';
 import { CategoriesFacadeService } from '@budget-tracker/data';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { validColorValidator } from 'ngx-colors';
 
 enum FormFields {
   CategoryIcon = 'categoryIcon',
   CategoryName = 'categoryName',
+  CategoryColorPicker = 'categoryColorPicker',
+  CategoryColorInput = 'categoryColorInput',
 }
 
 @Component({
@@ -30,6 +33,8 @@ export class AddCategoryModalComponent implements OnInit {
   readonly form: FormGroup = new FormGroup({
     [FormFields.CategoryIcon]: new FormControl(null, [Validators.required]),
     [FormFields.CategoryName]: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+    [FormFields.CategoryColorPicker]: new FormControl('', [Validators.required]),
+    [FormFields.CategoryColorInput]: new FormControl('', [Validators.required, validColorValidator()]),
   });
 
   budgetType: BudgetType;
@@ -80,6 +85,7 @@ export class AddCategoryModalComponent implements OnInit {
     this.initDataAccordingToBudgetType();
     this.initListeners();
     this.subscribeToCategoryNameChanges();
+    this.initColorInputsBinding();
   }
 
   setCategoryNameToInput(value: CategoryIconForSelect) {
@@ -94,6 +100,7 @@ export class AddCategoryModalComponent implements OnInit {
     const category: Category = {
       icon: this.form.controls[FormFields.CategoryIcon].value.icon,
       name: this.form.controls[FormFields.CategoryName].value,
+      hexColor: this.form.controls[FormFields.CategoryColorPicker].value,
       value: 0,
       id: uuid(),
       budgetType: this.budgetType,
@@ -141,5 +148,25 @@ export class AddCategoryModalComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
+  }
+
+  private initColorInputsBinding(): void {
+    this.form.controls[FormFields.CategoryColorInput].valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((color) => {
+        if (this.form.controls[FormFields.CategoryColorInput].valid) {
+          this.form.controls[FormFields.CategoryColorPicker].setValue(color, {
+            emitEvent: false,
+          });
+        }
+      });
+
+    this.form.controls[FormFields.CategoryColorPicker].valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((color) =>
+        this.form.controls[FormFields.CategoryColorInput].setValue(color, {
+          emitEvent: false,
+        })
+      );
   }
 }

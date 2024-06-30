@@ -4,7 +4,7 @@
       <mat-label>{{ buildTranslationKey('categoryIconTitle') | translate }}</mat-label>
       <mat-select [formControlName]="formFields.CategoryIcon" (selectionChange)="setCategoryNameToInput($event.value)">
         <mat-select-trigger>
-          <span class="flex justify-start items-center text-charcoal gap-x-1.5">
+          <span class="flex justify-start items-center text-charcoal gap-x-1.5 font-main">
             <svg-icon [iconName]="selectedIcon"></svg-icon>
             <span>{{ selectedIconTitle | translate }}</span>
           </span>
@@ -42,6 +42,16 @@
 
       @if (hasCategoryExistsError) {
         <mat-error>{{ buildTranslationKey('categoryExistsError') | translate }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Color</mat-label>
+      <input matInput [formControlName]="formFields.CategoryColorInput" />
+      <ngx-colors matSuffix ngx-colors-trigger [formControlName]="formFields.CategoryColorPicker"></ngx-colors>
+
+      @if (this.form.controls[formFields.CategoryColorInput].hasError('invalidColor')) {
+        <mat-error> {{ 'formErrors.invalidColor' | translate }} </mat-error>
       }
     </mat-form-field>
   </form>

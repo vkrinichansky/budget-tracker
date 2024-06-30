@@ -21,9 +21,9 @@ import { DataModule } from '@budget-tracker/data';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { SharedModule } from '@budget-tracker/shared';
+import { NgxColorsModule } from 'ngx-colors';
 
 @NgModule({
-  declarations: [CategoriesComponent, AddCategoryModalComponent, CategoryItemComponent, CategoryValueModalComponent],
   imports: [
     CommonModule,
     DesignSystemModule,
@@ -41,7 +41,9 @@ import { SharedModule } from '@budget-tracker/shared';
     ScrollingModule,
     MatButtonToggleModule,
     SharedModule,
+    NgxColorsModule,
   ],
+  declarations: [CategoriesComponent, AddCategoryModalComponent, CategoryItemComponent, CategoryValueModalComponent],
   providers: [CategoryModalsService],
   exports: [CategoriesComponent],
 })
