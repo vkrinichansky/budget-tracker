@@ -1,43 +1,32 @@
 import { createSelector } from '@ngrx/store';
 import { dataFeatureSelector } from './feature.selector';
-import { Category } from '../../models';
-import { Dictionary } from '@ngrx/entity';
+import { BudgetType, Category } from '../../models';
 
 const categoriesStateSelector = createSelector(
   dataFeatureSelector,
   (dataFeatureState) => dataFeatureState.categoriesState
 );
 
-const incomeCategoriesSelector = createSelector(
-  categoriesStateSelector,
-  (state) => Object.values(state.income.entities) as Category[]
+const allCategoriesDictionarySelector = createSelector(categoriesStateSelector, (state) => state.categories.entities);
+
+const allCategoriesSelector = createSelector(allCategoriesDictionarySelector, (categoriesDictionary) =>
+  Object.values(categoriesDictionary)
+);
+
+const incomeCategoriesSelector = createSelector(allCategoriesSelector, (allCategories) =>
+  allCategories.filter((category) => category.budgetType === BudgetType.Income)
 );
 
 const incomeValueSelector = createSelector(incomeCategoriesSelector, (categories) =>
   categories.reduce((sum, category) => sum + (category as Category).value, 0)
 );
 
-const expenseCategoriesSelector = createSelector(
-  categoriesStateSelector,
-  (state) => Object.values(state.expense.entities) as Category[]
+const expenseCategoriesSelector = createSelector(allCategoriesSelector, (allCategories) =>
+  allCategories.filter((category) => category.budgetType === BudgetType.Expense)
 );
 
 const expenseValueSelector = createSelector(expenseCategoriesSelector, (categories) =>
   categories.reduce((sum, category) => sum + (category as Category).value, 0)
-);
-
-const allCategoriesSelector = createSelector(
-  incomeCategoriesSelector,
-  expenseCategoriesSelector,
-  (incomeCategories, expenseCategories) => [...incomeCategories, ...expenseCategories]
-);
-
-const allCategoriesDictionarySelector = createSelector(
-  categoriesStateSelector,
-  (state): Dictionary<Category> => ({
-    ...state.income.entities,
-    ...state.expense.entities,
-  })
 );
 
 const categoryManagementInProgressSelector = createSelector(

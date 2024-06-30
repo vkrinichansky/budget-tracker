@@ -17,18 +17,10 @@
 
     "infoCards": {
       "income": {
-        "title": "Дохід",
-        "resetConfirmationMessage": "Ви хочете скинути всі категорії <b>доходів</b>?",
-        "menu": {
-          "resetCategories": "Скинути категорії"
-        }
+        "title": "Дохід"
       },
       "expense": {
-        "title": "Витрати",
-        "resetConfirmationMessage": "Ви хочете скинути всі категорії <b>витрат</b>?",
-        "menu": {
-          "resetCategories": "Скинути категорії"
-        }
+        "title": "Витрати"
       },
       "balance": {
         "fullBalance": "Повний баланс (ПвБ)",
@@ -165,7 +157,7 @@
         },
         "categoryValueChange": {
           "text": "Зміна значень категорій",
-          "tooltip": "Зміна значень категорій розходів та доходів<br><br><span class='text-yellow'>Зверніть увагу, що якщо ви видалите записи цього типу, то це вплине на сторінку <b>статистики</b></span>"
+          "tooltip": "Зміна значень категорій розходів та доходів"
         },
         "removeConfirmationQuestion": "Ви хочете видалити записи обраних типів?",
         "removeConfirmationRemark": "Ця дія не вплине на записи поточного місяця"
@@ -174,14 +166,23 @@
 
     "categories": {
       "income": {
-        "title": "Дохід"
+        "title": "Дохід",
+        "resetConfirmationQuestion": "Ви хочете скинути всі категорії <b>доходів</b>?",
+        "menu": {
+          "addCategory": "Додати категорію",
+          "resetCategories": "Скинути категорії"
+        }
       },
       "expense": {
-        "title": "Витрати"
+        "title": "Витрати",
+        "resetConfirmationQuestion": "Ви хочете скинути всі категорії <b>витрат</b>?",
+        "menu": {
+          "addCategory": "Додати категорію",
+          "resetCategories": "Скинути категорії"
+        }
       },
       "emptyStateText": "Немає данних для відображення",
 
-      "addCategoryButtonTooltip": "Додати категорію",
       "tabs": {
         "list": "Список",
         "chart": "Графік"

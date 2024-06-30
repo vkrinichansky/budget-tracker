@@ -3,7 +3,7 @@ import { BudgetType, Category } from '@budget-tracker/data';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { ChartData, ChartOptions } from 'chart.js';
 import { CategoryModalsService } from '../../services';
-import { ChartJSTooltipConfig, MainPalette } from '@budget-tracker/design-system';
+import { ChartJSTooltipConfig, ConfirmationModalService, MainPalette, MenuAction } from '@budget-tracker/design-system';
 import { CategoriesFacadeService } from '@budget-tracker/data';
 import { CurrencyPipe } from '@budget-tracker/shared';
 import { isMobileWidth } from '@budget-tracker/utils';
@@ -26,8 +26,7 @@ export class CategoriesComponent implements OnInit {
 
   title: string;
   chartOptions: ChartOptions;
-  palette: string[];
-  addButtonAction: () => void;
+  menuActions: MenuAction[];
 
   categories$: Observable<Category[]>;
   isEmpty$: Observable<boolean>;
@@ -37,7 +36,8 @@ export class CategoriesComponent implements OnInit {
   constructor(
     private categoriesFacade: CategoriesFacadeService,
     private categoryModalsService: CategoryModalsService,
-    private currencyPipe: CurrencyPipe
+    private currencyPipe: CurrencyPipe,
+    private confirmationModalService: ConfirmationModalService
   ) {}
 
   ngOnInit(): void {
@@ -47,6 +47,7 @@ export class CategoriesComponent implements OnInit {
     this.initDataAccordingBudgetType();
     this.initIsEmptyListener();
     this.initChartData();
+    this.initMenuActions();
   }
 
   trackBy(_: number, category: Category): string {
@@ -68,7 +69,6 @@ export class CategoriesComponent implements OnInit {
           .getIncomeCategories()
           .pipe(map((categories) => categories.sort((a, b) => b.value - a.value)));
 
-        this.addButtonAction = () => this.categoryModalsService.openAddIncomeCategoryModal();
         this.areAllCategoriesReset$ = this.categoriesFacade.areIncomeCategoriesAllReset();
         break;
 
@@ -77,7 +77,6 @@ export class CategoriesComponent implements OnInit {
           .getExpenseCategories()
           .pipe(map((categories) => categories.sort((a, b) => b.value - a.value)));
 
-        this.addButtonAction = () => this.categoryModalsService.openAddExpenseCategoryModal();
         this.areAllCategoriesReset$ = this.categoriesFacade.areExpenseCategoriesAllReset();
         break;
     }
@@ -130,5 +129,53 @@ export class CategoriesComponent implements OnInit {
     }
 
     return config;
+  }
+
+  private initMenuActions(): void {
+    switch (this.budgetType) {
+      case BudgetType.Income:
+        this.menuActions = [
+          {
+            icon: 'plus',
+            translationKey: this.buildTranslationKey('income.menu.addCategory'),
+            action: () => this.categoryModalsService.openAddIncomeCategoryModal(),
+          },
+          {
+            icon: 'eraser',
+            translationKey: this.buildTranslationKey('income.menu.resetCategories'),
+            disabledObs: this.categoriesFacade.areIncomeCategoriesAllReset().pipe(map((areReset) => areReset)),
+            action: () =>
+              this.confirmationModalService.openConfirmationModal(
+                {
+                  questionTranslationKey: this.buildTranslationKey('income.resetConfirmationQuestion'),
+                },
+                () => this.categoriesFacade.resetCategoriesByType(BudgetType.Income)
+              ),
+          },
+        ];
+        break;
+
+      case BudgetType.Expense:
+        this.menuActions = [
+          {
+            icon: 'plus',
+            translationKey: this.buildTranslationKey('expense.menu.addCategory'),
+            action: () => this.categoryModalsService.openAddExpenseCategoryModal(),
+          },
+          {
+            icon: 'eraser',
+            translationKey: this.buildTranslationKey('expense.menu.resetCategories'),
+            disabledObs: this.categoriesFacade.areExpenseCategoriesAllReset().pipe(map((areReset) => areReset)),
+            action: () =>
+              this.confirmationModalService.openConfirmationModal(
+                {
+                  questionTranslationKey: this.buildTranslationKey('expense.resetConfirmationQuestion'),
+                },
+                () => this.categoriesFacade.resetCategoriesByType(BudgetType.Expense)
+              ),
+          },
+        ];
+        break;
+    }
   }
 }

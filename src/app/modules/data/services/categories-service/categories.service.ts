@@ -8,6 +8,7 @@ import {
   arrayRemove,
   doc,
   DocumentReference,
+  deleteField,
 } from '@angular/fire/firestore';
 import { Category, CategoryManagementRecord, CategoryValueChangeRecord, CategoriesResetRecord } from '../../models';
 
@@ -24,7 +25,7 @@ export class CategoriesService {
 
   addCategory(category: Category, activityLogRecord: CategoryManagementRecord): Promise<void> {
     return updateDoc(this.getDocRef(), {
-      [`${CATEGORIES_PATH}.${category.budgetType}`]: arrayUnion(category),
+      [`${CATEGORIES_PATH}.${category.id}`]: category,
       [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
     });
   }
@@ -35,7 +36,7 @@ export class CategoriesService {
     recordsToRemove: CategoryValueChangeRecord[]
   ): Promise<void> {
     await updateDoc(this.getDocRef(), {
-      [`${CATEGORIES_PATH}.${category.budgetType}`]: arrayRemove(category),
+      [`${CATEGORIES_PATH}.${category.id}`]: deleteField(),
       [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
     });
     return await updateDoc(this.getDocRef(), {
@@ -44,24 +45,25 @@ export class CategoriesService {
   }
 
   changeCategoryValue(
-    updatedCategoryArray: Category[],
+    updatedCategory: Category,
     newBalanceValue: number,
     activityLogRecord: CategoryValueChangeRecord
   ): Promise<void> {
-    const budgetType = updatedCategoryArray[0].budgetType;
-
     return updateDoc(this.getDocRef(), {
-      [`${CATEGORIES_PATH}.${budgetType}`]: updatedCategoryArray,
+      [`${CATEGORIES_PATH}.${updatedCategory.id}`]: updatedCategory,
       [`${ROOT_VALUES_PATH}.balance`]: newBalanceValue,
       [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
     });
   }
 
   resetCategories(updatedCategories: Category[], activityLogRecord: CategoriesResetRecord): Promise<void> {
-    const budgetType = updatedCategories[0].budgetType;
+    const updatedCategoriesDictionary = updatedCategories.reduce(
+      (result, category) => ({ ...result, [`${CATEGORIES_PATH}.${category.id}`]: category }),
+      {}
+    );
 
     return updateDoc(this.getDocRef(), {
-      [`${CATEGORIES_PATH}.${budgetType}`]: updatedCategories,
+      ...updatedCategoriesDictionary,
       [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
     });
   }

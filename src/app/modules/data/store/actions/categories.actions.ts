@@ -28,10 +28,7 @@ enum CategoriesActionsType {
 }
 
 export const CategoriesActions = {
-  categoriesLoaded: createAction(
-    CategoriesActionsType.CategoriesLoaded,
-    props<{ income: Category[]; expense: Category[] }>()
-  ),
+  categoriesLoaded: createAction(CategoriesActionsType.CategoriesLoaded, props<{ categories: Category[] }>()),
 
   addCategory: createAction(
     CategoriesActionsType.AddCategory,
@@ -61,7 +58,6 @@ export const CategoriesActions = {
     CategoriesActionsType.ChangeCategoryValue,
     props<{
       updatedCategory: Category;
-      updatedCategories: Category[];
       newBalanceValue: number;
       activityLogRecord: CategoryValueChangeRecord;
     }>()

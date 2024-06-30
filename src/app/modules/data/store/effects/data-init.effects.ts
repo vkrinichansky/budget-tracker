@@ -68,10 +68,7 @@ export class DataInitEffects {
 
         const statisticsSnapshot: StatisticsSnapshot = {
           date,
-          categories: [
-            ...action.data.budget.categories.income.filter((category) => category.budgetType === BudgetType.Income),
-            ...action.data.budget.categories.expense.filter((category) => category.budgetType === BudgetType.Expense),
-          ],
+          categories: [...Object.values(action.data.budget.categories)],
         };
 
         return of({ resetData, activityLogRecords, statisticsSnapshot, date, initialData: action.data });
@@ -119,12 +116,9 @@ export class DataInitEffects {
   } {
     const resetData = structuredClone(data);
 
-    [BudgetType.Income, BudgetType.Expense].forEach((budgetType) => {
-      resetData.budget.categories[budgetType] = resetData.budget.categories[budgetType].map((category) => ({
-        ...category,
-        value: 0,
-      }));
-    });
+    Object.keys(resetData.budget.categories).forEach(
+      (categoryId) => (resetData.budget.categories[categoryId].value = 0)
+    );
 
     const activityLogRecords: CategoriesResetRecord[] = [
       { budgetType: BudgetType.Income, icon: 'arrow-up' },
@@ -142,15 +136,14 @@ export class DataInitEffects {
   }
 
   private setStates(data: BudgetTrackerState) {
-    const categories = { ...data.budget.categories };
+    const categories = Object.values(data.budget.categories);
     const activityLog = [...data.budget.activityLog];
     const statistics = structuredClone(data.statistics);
     const resetDate = data.resetDate;
 
     this.store.dispatch(
       CategoriesActions.categoriesLoaded({
-        expense: categories.expense,
-        income: categories.income,
+        categories,
       })
     );
 

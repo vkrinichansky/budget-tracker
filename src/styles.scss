@@ -223,7 +223,7 @@ textarea {
 
 // BUTTON TOGGLE
 .mat-button-toggle-group {
-  @apply flex h-8 border-2 border-solid border-charcoal rounded #{!important};
+  @apply flex h-7 border-2 border-solid border-charcoal rounded #{!important};
 
   app-button {
     @apply rounded-none #{!important};

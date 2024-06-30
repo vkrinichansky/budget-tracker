@@ -49,12 +49,14 @@ export class ActivityLogFacadeService {
   getActivityLogGroupedByDays(): Observable<ActivityLogGroupedByDate[]> {
     return this.getActivityLog().pipe(
       map((activityLog) => this.getActivityLogByDaysDictionary(activityLog)),
-      map((activityLogDictionary) => this.getActivityLogGroupedByDateDictionaryToArray(activityLogDictionary)),
-      map((activityLogGroupedByDateArray) =>
-        activityLogGroupedByDateArray.map((item) => {
-          const categoryValueChangeRecords: CategoryValueChangeRecord[] = this.filterOnlyCategoryValueChangeRecords(
-            item.records
+      map((activityLogDictionary) => {
+        return Object.keys(activityLogDictionary).map((dateKey) => {
+          const allRecords = activityLogDictionary[dateKey].sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
           );
+
+          const categoryValueChangeRecords: CategoryValueChangeRecord[] =
+            this.filterOnlyCategoryValueChangeRecords(allRecords);
 
           const incomeCategoryValueChangeRecordsSum: number = categoryValueChangeRecords
             .filter((record) => record.budgetType === BudgetType.Income)
@@ -65,11 +67,12 @@ export class ActivityLogFacadeService {
             .reduce((sum, record) => sum + record.value, 0);
 
           return {
-            ...item,
+            date: dateKey,
+            records: allRecords,
             sumOfCategoryValueChangeRecords: incomeCategoryValueChangeRecordsSum - expenseCategoryValueChangeRecordsSum,
           };
-        })
-      )
+        });
+      })
     );
   }
 
@@ -83,14 +86,19 @@ export class ActivityLogFacadeService {
     return this.getPreviousMonthsRecords().pipe(map((records) => !!records.length));
   }
 
-  removeActivityLogRecord(recordId: string): void {
-    this.store.dispatch(ActivityLogActions.removeRecord({ recordId }));
-  }
-
   isActivityLogRecordRemoving(recordId: string): Observable<boolean> {
     return this.store
       .select(ActivityLogSelectors.removingRecordsIdsSelector)
       .pipe(map((removingRecordsIds) => removingRecordsIds.includes(recordId)));
+  }
+
+  isBulkRecordsRemovingInProgress(): Observable<boolean> {
+    return this.store.select(ActivityLogSelectors.isBulkRecordsRemovingInProgressSelector);
+  }
+
+  // RECORDS REMOVING
+  removeActivityLogRecord(recordId: string): void {
+    this.store.dispatch(ActivityLogActions.removeRecord({ recordId }));
   }
 
   async removeCategoryValueChangeRecord(recordId: string, shouldRevertChangesMadeByRecord?: boolean): Promise<void> {
@@ -99,7 +107,6 @@ export class ActivityLogFacadeService {
     );
 
     let updatedCategory: Category;
-    let updatedCategories: Category[];
     let updatedBalanceValue: number;
 
     if (shouldRevertChangesMadeByRecord) {
@@ -121,10 +128,7 @@ export class ActivityLogFacadeService {
         )
       );
 
-      const result = await this.resolveRecordRelatedUpdatedCategory(record);
-
-      updatedCategory = result.updatedCategory;
-      updatedCategories = result.updatedCategories;
+      updatedCategory = await this.resolveRecordRelatedUpdatedCategory(record);
     }
 
     this.store.dispatch(
@@ -132,7 +136,6 @@ export class ActivityLogFacadeService {
         record,
         updatedBalanceValue,
         updatedCategory,
-        updatedCategories,
       })
     );
   }
@@ -206,48 +209,18 @@ export class ActivityLogFacadeService {
     this.store.dispatch(ActivityLogActions.bulkRecordsRemove({ records }));
   }
 
-  isBulkRecordsRemovingInProgress(): Observable<boolean> {
-    return this.store.select(ActivityLogSelectors.isBulkRecordsRemovingInProgressSelector);
-  }
-
-  private async resolveRecordRelatedUpdatedCategory(record: CategoryValueChangeRecord): Promise<{
-    updatedCategory: Category;
-    updatedCategories: Category[];
-  }> {
-    let updatedCategory = structuredClone(await this.getRecordRelatedCategory(record));
-    let updatedCategories: Category[];
-
-    if (updatedCategory) {
-      const newValue = updatedCategory.value - record.value < 0 ? 0 : updatedCategory.value - record.value;
-
-      updatedCategories = [
-        ...(await firstValueFrom(this.categoryFacade.getCategoriesAccordingToBudgetType(updatedCategory.budgetType))),
-      ];
-
-      const updatedCategoryIndex = updatedCategories.findIndex((category) => category.id === updatedCategory.id);
-
-      updatedCategories[updatedCategoryIndex].value = newValue;
-
-      updatedCategory = {
-        ...updatedCategory,
-        value: newValue,
-      };
-    }
-
-    return {
-      updatedCategory,
-      updatedCategories,
-    };
-  }
-
-  private async getRecordRelatedCategory(record: CategoryValueChangeRecord): Promise<Category> {
+  private async resolveRecordRelatedUpdatedCategory(record: CategoryValueChangeRecord): Promise<Category> {
     const category = await firstValueFrom(this.categoryFacade.getCategoryById(record.categoryId));
+    let updatedCategory = structuredClone(category);
 
-    if (category) {
-      return category;
-    }
+    const newValue = updatedCategory.value - record.value < 0 ? 0 : updatedCategory.value - record.value;
 
-    return null;
+    updatedCategory = {
+      ...updatedCategory,
+      value: newValue,
+    };
+
+    return updatedCategory;
   }
 
   private getActivityLogByDaysDictionary(activityLog: ActivityLog): ActivityLogGroupedByDateDictionary {
@@ -268,20 +241,6 @@ export class ActivityLogFacadeService {
         group[dateKey].push(record);
         return group;
       }, {} as ActivityLogGroupedByDateDictionary);
-  }
-
-  private getActivityLogGroupedByDateDictionaryToArray(
-    activityLogDictionary: ActivityLogGroupedByDateDictionary
-  ): ActivityLogGroupedByDate[] {
-    return Object.keys(activityLogDictionary).map(
-      (dateKey) =>
-        ({
-          date: dateKey,
-          records: activityLogDictionary[dateKey].sort(
-            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-          ),
-        }) as ActivityLogGroupedByDate
-    );
   }
 
   private filterOnlyCategoryValueChangeRecords(activityLog: ActivityLog): CategoryValueChangeRecord[] {

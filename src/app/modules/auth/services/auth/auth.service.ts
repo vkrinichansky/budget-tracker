@@ -47,10 +47,7 @@ export class AuthService {
   async setUserData(userId: string): Promise<void> {
     const data: BudgetTrackerState = {
       budget: {
-        categories: {
-          income: [],
-          expense: [],
-        },
+        categories: {},
         rootValues: {
           balance: 0,
           savings: 0,

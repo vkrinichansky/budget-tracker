@@ -42,7 +42,7 @@ export class ActivityLogRemoveMenuComponent implements OnInit {
         nameOrTranslationKey: this.buildTranslationKey('categoryValueChange.text'),
         checked: false,
         value: ActivityLogRecordType.CategoryValueChange,
-        infoIconType: 'warning',
+        infoIconType: 'info',
         tooltipTranslationKey: this.buildTranslationKey('categoryValueChange.tooltip'),
         tooltipPosition: this.tooltipPosition,
       },
