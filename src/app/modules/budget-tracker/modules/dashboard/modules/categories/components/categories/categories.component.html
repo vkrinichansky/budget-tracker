@@ -8,17 +8,6 @@
 >
   <app-page-header class="text-xl bg-transparent" [title]="title | translate">
     <div class="flex items-center gap-x-2">
-      <app-button
-        customTooltip
-        [tooltipText]="buildTranslationKey('addCategoryButtonTooltip') | translate"
-        [dontDisplayOnScreenWidth]="true"
-        [colorScheme]="'charcoal'"
-        [iconName]="'plus'"
-        [buttonSizeY]="'small'"
-        [buttonSizeX]="'small'"
-        (click)="addButtonAction()"
-      ></app-button>
-
       <mat-button-toggle-group appearance="legacy">
         <app-button
           [activeColorScheme]="'charcoal'"
@@ -41,6 +30,7 @@
           (click)="setTab('chart')"
         ></app-button>
       </mat-button-toggle-group>
+      <app-menu [colorScheme]="'transparent-dark'" [menuActions]="menuActions"></app-menu>
     </div>
   </app-page-header>
 

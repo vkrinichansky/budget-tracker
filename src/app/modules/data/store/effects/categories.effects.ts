@@ -92,7 +92,7 @@ export class CategoriesEffects {
       mergeMap((action) =>
         from(
           this.categoriesService.changeCategoryValue(
-            action.updatedCategories,
+            action.updatedCategory,
             action.newBalanceValue,
             action.activityLogRecord
           )

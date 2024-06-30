@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, firstValueFrom, map } from 'rxjs';
 import { v4 as uuid } from 'uuid';
-import { ActivityLogActions, ActivityLogSelectors, CategoriesActions, CategoriesSelectors } from '../../store';
+import { ActivityLogSelectors, CategoriesActions, CategoriesSelectors } from '../../store';
 import { RootValuesFacadeService } from '../root-values-facade/root-values-facade.service';
 import {
   Category,
@@ -130,10 +130,6 @@ export class CategoriesFacadeService {
     const category: Category = structuredClone(await firstValueFrom(this.getCategoryById(categoryId)));
     const updatedCategory: Category = { ...category, value: category.value + valueToAdd };
 
-    const updatedCategories: Category[] = structuredClone(
-      await firstValueFrom(this.getCategoriesAccordingToBudgetType(category.budgetType))
-    );
-
     switch (category.budgetType) {
       case BudgetType.Income:
         newBalanceValue = balance + valueToAdd;
@@ -145,9 +141,6 @@ export class CategoriesFacadeService {
 
         break;
     }
-
-    const updatedCategoryIndex = updatedCategories.findIndex((category) => category.id === categoryId);
-    updatedCategories[updatedCategoryIndex].value = updatedCategory.value;
 
     const addCategoryValueRecord: CategoryValueChangeRecord = {
       id: uuid(),
@@ -164,7 +157,6 @@ export class CategoriesFacadeService {
     this.store.dispatch(
       CategoriesActions.changeCategoryValue({
         updatedCategory,
-        updatedCategories: updatedCategories,
         newBalanceValue,
         activityLogRecord: addCategoryValueRecord,
       })

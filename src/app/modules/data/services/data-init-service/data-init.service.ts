@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { arrayUnion, collection, doc, DocumentReference, Firestore, getDoc, updateDoc } from '@angular/fire/firestore';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { firstValueFrom, from, map, switchMap } from 'rxjs';
-import { BudgetTrackerState, BudgetType, CategoriesResetRecord, StatisticsSnapshot } from '../../models';
+import { BudgetTrackerState, CategoriesResetRecord, StatisticsSnapshot } from '../../models';
 import { Auth } from '@angular/fire/auth';
 
 const CATEGORIES_PATH = 'budget.categories';
@@ -34,8 +34,7 @@ export class DataInitService {
     date: string
   ): Promise<void> {
     return updateDoc(this.getDocRef(), {
-      [`${CATEGORIES_PATH}.${BudgetType.Income}`]: data.budget.categories.income,
-      [`${CATEGORIES_PATH}.${BudgetType.Expense}`]: data.budget.categories.expense,
+      [`${CATEGORIES_PATH}`]: data.budget.categories,
       [`${ACTIVITY_LOG_PATH}`]: arrayUnion(...activityLogRecords),
       [`${RESET_DATE_PATH}`]: data.resetDate,
       [`${STATISTICS_SNAPSHOTS_PATH}.${date}`]: statisticsSnapshot,

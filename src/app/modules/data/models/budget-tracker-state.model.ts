@@ -5,8 +5,7 @@ import { Statistics } from './statistics.model';
 export interface BudgetTrackerState {
   budget: {
     categories: {
-      income: Category[];
-      expense: Category[];
+      [categoryId: string]: Category;
     };
 
     rootValues: {

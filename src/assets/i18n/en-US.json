@@ -17,18 +17,10 @@
 
     "infoCards": {
       "income": {
-        "title": "Income",
-        "resetConfirmationMessage": "Do you want to reset all <b>income</b> categories' values?",
-        "menu": {
-          "resetCategories": "Reset categories"
-        }
+        "title": "Income"
       },
       "expense": {
-        "title": "Expense",
-        "resetConfirmationMessage": "Do you want to reset all <b>expense</b> categories' values?",
-        "menu": {
-          "resetCategories": "Reset categories"
-        }
+        "title": "Expense"
       },
       "balance": {
         "fullBalance": "Full balance (FB)",
@@ -165,7 +157,7 @@
         },
         "categoryValueChange": {
           "text": "Category value change",
-          "tooltip": "Income and expense categories value changing<br><br><span class='text-yellow'>Pay attention that if you remove records of this type it will affect <b>statistics</b> page</span>"
+          "tooltip": "Income and expense categories value changing"
         },
         "removeConfirmationQuestion": "Are you sure you want to remove records of selected types?",
         "removeConfirmationRemark": "This action won't affect current month records"
@@ -174,13 +166,22 @@
 
     "categories": {
       "income": {
-        "title": "Income"
+        "title": "Income",
+        "resetConfirmationQuestion": "Do you want to reset all <b>income</b> categories' values?",
+        "menu": {
+          "addCategory": "Add category",
+          "resetCategories": "Reset categories"
+        }
       },
       "expense": {
-        "title": "Expense"
+        "title": "Expense",
+        "resetConfirmationQuestion": "Do you want to reset all <b>expense</b> categories' values?",
+        "menu": {
+          "addCategory": "Add category",
+          "resetCategories": "Reset categories"
+        }
       },
       "emptyStateText": "No data to display yet",
-      "addCategoryButtonTooltip": "Add category",
       "tabs": {
         "list": "List",
         "chart": "Chart"

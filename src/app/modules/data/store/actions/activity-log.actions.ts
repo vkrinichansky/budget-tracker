@@ -23,7 +23,6 @@ export const ActivityLogActions = {
       record: CategoryValueChangeRecord;
       updatedBalanceValue: number;
       updatedCategory: Category;
-      updatedCategories: Category[];
     }>()
   ),
 

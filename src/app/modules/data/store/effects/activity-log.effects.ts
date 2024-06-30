@@ -55,28 +55,19 @@ export class ActivityLogEffects {
           this.activityLogService.removeCategoryValueChangeRecord(
             action.record,
             action.updatedBalanceValue,
-            action.updatedCategories
+            action.updatedCategory
           )
         ).pipe(
           switchMap(() => {
             this.snackbarHandler.showActivityLogRecordRemovedSnackbar();
 
-            if (action.updatedBalanceValue !== undefined && action.updatedCategories) {
+            if (action.updatedBalanceValue !== undefined && action.updatedCategory) {
               return of(
                 ActivityLogActions.activityLogRecordRemoved({
                   recordId: action.record.id,
                 }),
                 RootValuesActions.balanceUpdated({ newBalanceValue: action.updatedBalanceValue }),
                 CategoriesActions.categoryValueChanged({ updatedCategory: action.updatedCategory })
-              );
-            }
-
-            if (action.updatedBalanceValue !== undefined && !action.updatedCategories) {
-              return of(
-                ActivityLogActions.activityLogRecordRemoved({
-                  recordId: action.record.id,
-                }),
-                RootValuesActions.balanceUpdated({ newBalanceValue: action.updatedBalanceValue })
               );
             }
 

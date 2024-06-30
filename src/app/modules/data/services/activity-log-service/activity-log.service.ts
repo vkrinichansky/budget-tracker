@@ -29,19 +29,12 @@ export class ActivityLogService {
   removeCategoryValueChangeRecord(
     record: CategoryValueChangeRecord,
     updatedBalanceValue: number,
-    updatedCategories: Category[]
+    updatedCategory: Category
   ): Promise<void> {
-    if (updatedBalanceValue !== undefined && updatedCategories) {
+    if (updatedBalanceValue !== undefined && updatedCategory) {
       return updateDoc(this.getDocRef(), {
         [`${ACTIVITY_LOG_PATH}`]: arrayRemove(record),
-        [`${CATEGORIES_PATH}.${record.budgetType}`]: updatedCategories,
-        [`${ROOT_VALUES_PATH}.balance`]: updatedBalanceValue,
-      });
-    }
-
-    if (updatedBalanceValue !== undefined && !updatedCategories) {
-      return updateDoc(this.getDocRef(), {
-        [`${ACTIVITY_LOG_PATH}`]: arrayRemove(record),
+        [`${CATEGORIES_PATH}.${updatedCategory.id}`]: updatedCategory,
         [`${ROOT_VALUES_PATH}.balance`]: updatedBalanceValue,
       });
     }
