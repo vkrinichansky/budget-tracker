@@ -23,6 +23,11 @@ const routes: Routes = [
         redirectTo: AppRoutesNames.Dashboard,
         pathMatch: 'full',
       },
+      {
+        path: '**',
+        redirectTo: AppRoutesNames.Dashboard,
+        pathMatch: 'full',
+      },
     ],
   },
 ];

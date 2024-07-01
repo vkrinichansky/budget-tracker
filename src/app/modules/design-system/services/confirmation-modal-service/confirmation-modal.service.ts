@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationModalData } from '../../models';
+import { ConfirmationModalData, ConfirmationModalTranslationData } from '../../models';
 import { ConfirmationModalComponent } from '../../components';
 
 @Injectable()
@@ -8,16 +8,16 @@ export class ConfirmationModalService {
   constructor(private dialog: MatDialog) {}
 
   openConfirmationModal(
-    questionTranslationKey: string,
-    translationParams: { [key: string]: string } = {},
-    action: () => unknown
+    translation: ConfirmationModalTranslationData,
+    action: (() => unknown) | ((checkboxValue: boolean) => unknown),
+    shouldConsiderCheckbox = false
   ): void {
     const data: ConfirmationModalData = {
-      questionTranslationKey,
-      translationParams,
+      translation,
       action,
+      shouldConsiderCheckbox,
     };
 
-    this.dialog.open(ConfirmationModalComponent, { data });
+    this.dialog.open(ConfirmationModalComponent, { data, position: {} });
   }
 }

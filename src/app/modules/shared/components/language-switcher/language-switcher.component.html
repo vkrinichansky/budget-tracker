@@ -3,7 +3,8 @@
   [tooltipText]="buildTranslationKey('tooltip') | translate"
   [position]="'left'"
   [dontDisplayOnScreenWidth]="true"
-  [tooltipBgColor]="'charcoal'"
-  [menuActions]="menuActions$ | async"
-  [icon]="icon$ | async"
+  [menuActions]="menuActions"
+  [icon]="icon"
+  [text]="currentLanguageText"
+  [buttonSizeX]="'auto'"
 ></app-menu>

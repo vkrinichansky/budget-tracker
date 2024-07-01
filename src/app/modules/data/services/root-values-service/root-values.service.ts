@@ -8,7 +8,10 @@ const ACTIVITY_LOG_PATH = 'budget.activityLog';
 
 @Injectable()
 export class RootValuesService {
-  constructor(private firestore: Firestore, private afAuth: Auth) {}
+  constructor(
+    private firestore: Firestore,
+    private afAuth: Auth
+  ) {}
 
   updateBalance(newBalanceValue: number, activityLogRecord: RootValueChangeRecord): Promise<void> {
     return updateDoc(this.getDocRef(), {

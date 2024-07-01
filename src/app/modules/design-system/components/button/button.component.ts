@@ -1,8 +1,6 @@
 import { HostBinding } from '@angular/core';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ColorScheme } from '../../models';
-
-type ButtonSize = 'tiny' | 'small' | 'medium' | 'big' | 'large' | 'full' | 'auto';
+import { ButtonSize, ColorScheme } from '../../models';
 
 @Component({
   selector: 'app-button',
@@ -35,7 +33,7 @@ export class ButtonComponent {
   }
 
   @Input()
-  buttonSizeX: ButtonSize = 'small';
+  buttonSizeX: ButtonSize = 'medium';
 
   @Input()
   buttonSizeY: ButtonSize = 'medium';
@@ -51,4 +49,21 @@ export class ButtonComponent {
 
   @Input()
   align: 'center' | 'start' = 'center';
+
+  @HostBinding('class.mobile-click-effect')
+  @Input()
+  shouldDisplayMobileClickEffect = true;
+
+  get loaderColorMode(): 'dark' | 'light' {
+    switch (this.colorScheme) {
+      case 'charcoal':
+      case 'green':
+        return 'light';
+
+      case 'transparent-light':
+      case 'transparent-dark':
+      case 'active-navigation-item':
+        return 'dark';
+    }
+  }
 }

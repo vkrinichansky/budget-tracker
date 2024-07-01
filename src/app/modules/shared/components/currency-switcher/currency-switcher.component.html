@@ -2,9 +2,10 @@
   customTooltip
   [tooltipText]="buildTranslationKey('tooltip') | translate"
   [position]="'left'"
-  [tooltipBgColor]="'charcoal'"
   [dontDisplayOnScreenWidth]="true"
-  [menuActions]="menuActions$ | async"
-  [icon]="icon$ | async"
+  [menuActions]="menuActions"
+  [icon]="icon"
+  [text]="currentLanguageText"
+  [buttonSizeX]="'auto'"
 >
 </app-menu>

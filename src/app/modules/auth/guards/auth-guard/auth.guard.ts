@@ -1,21 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
-import { AuthService } from '../../services';
+import { AuthFacadeService } from '../../services';
+import { NavigatorService } from '@budget-tracker/shared';
 
 @Injectable()
-export class AuthGuard  {
-  constructor(public authService: AuthService, public router: Router) {}
+export class AuthGuard {
+  constructor(
+    private authFacade: AuthFacadeService,
+    private navigator: NavigatorService
+  ) {}
 
   canActivate(): Observable<boolean> {
-    return this.authService.isLoggedIn().pipe(
+    return this.authFacade.isLoggedIn().pipe(
       map((isLoggedIn) => {
         if (isLoggedIn) {
           return true;
-        } else {
-          this.router.navigate(['auth']);
-          return false;
         }
+
+        this.navigator.navigateToAuthPage();
+        return false;
       })
     );
   }

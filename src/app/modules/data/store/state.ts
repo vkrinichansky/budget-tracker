@@ -8,13 +8,15 @@ export interface DataFeatureState {
   activityLogState: t.ActivityLogState;
   rootValuesState: t.RootValuesState;
   categoriesState: t.CategoriesState;
+  statisticsState: t.StatisticsState;
 }
 
 export const reducers: ActionReducerMap<DataFeatureState> = {
   activityLogState: t.activityLogReducer,
   rootValuesState: t.rootValuesReducer,
   categoriesState: t.categoriesReducer,
-  dataInitState: t.dateInitializationReducer,
+  dataInitState: t.dataInitializationReducer,
+  statisticsState: t.statisticsReducer,
 };
 
 // tslint:disable-next-line:typedef

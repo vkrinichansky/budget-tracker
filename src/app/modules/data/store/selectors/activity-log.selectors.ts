@@ -6,9 +6,30 @@ const activityLogStateSelector = createSelector(
   (dataFeatureState) => dataFeatureState.activityLogState
 );
 
-const activityLogSelector = createSelector(activityLogStateSelector, (state) => state.activityLog);
+const activityLogDictionarySelector = createSelector(
+  activityLogStateSelector,
+  (state) => state.activityLogRecords.entities
+);
+
+const activityLogSelector = createSelector(activityLogStateSelector, (state) =>
+  Object.values(state.activityLogRecords.entities)
+);
+
+const removingRecordsIdsSelector = createSelector(activityLogStateSelector, (state) => state.removingRecordsIds);
+
+const selectRecordByIdSelector = (recordId: string) =>
+  createSelector(activityLogSelector, (activityLog) => activityLog.find((record) => record.id === recordId));
+
+const isBulkRecordsRemovingInProgressSelector = createSelector(
+  activityLogStateSelector,
+  (state) => state.bulkRecordsRemove
+);
 
 export const ActivityLogSelectors = {
   activityLogStateSelector,
   activityLogSelector,
+  removingRecordsIdsSelector,
+  selectRecordByIdSelector,
+  activityLogDictionarySelector,
+  isBulkRecordsRemovingInProgressSelector,
 };

@@ -1,20 +1,23 @@
-<app-menu
-  *ngIf="shouldDisplayMenu && menuActions?.length"
-  class="absolute right-2 top-2"
-  [colorScheme]="menuColorScheme"
-  [menuActions]="menuActions"
-></app-menu>
+<div class="absolute right-2 top-2 flex flex-col gap-1 items-center">
+  @if (menuActions?.length) {
+    <app-menu [colorScheme]="menuColorScheme" [menuActions]="menuActions" [menuDisabled]="shouldDisableMenu"></app-menu>
+  }
+
+  @if (tooltip) {
+    <app-info-icon [size]="'medium'" [tooltipPosition]="isMobile ? 'left' : 'top'" [tooltip]="tooltip"></app-info-icon>
+  }
+</div>
 
 <svg-icon-with-bg class="{{ iconBGClass }} {{ iconColorClass }}" [iconName]="iconName"></svg-icon-with-bg>
 
-<div *ngVar="currencySymbol$ | async as currency" class="flex flex-1 flex-col">
-  <span class="primary font-main font-bold {{ twoLine ? 'text-sm' : 'text-xl' }}">
-    {{ primaryText }}&nbsp;{{  currency }}
-  </span>
+<div class="flex flex-1 flex-col">
+  <span class="primary font-main font-bold {{ twoLine ? 'text-sm' : 'text-xl' }}"> {{ primaryText }}&nbsp; </span>
   <span class="secondary font-main {{ twoLine ? 'text-xs' : 'text-sm' }}">{{ secondaryText }}</span>
 
-  <div *ngIf="twoLine" class="flex flex-1 flex-col mt-2">
-    <span class="primary font-main font-bold text-sm">{{ additionalPrimaryText}}&nbsp;{{ currency }}</span>
-    <span class="secondary font-main text-xs">{{ additionalSecondaryText }}</span>
-  </div>
+  @if (twoLine) {
+    <div class="flex flex-1 flex-col mt-2">
+      <span class="primary font-main font-bold text-sm">{{ additionalPrimaryText }}</span>
+      <span class="secondary font-main text-xs">{{ additionalSecondaryText }}</span>
+    </div>
+  }
 </div>

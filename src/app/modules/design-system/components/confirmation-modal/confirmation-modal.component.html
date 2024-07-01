@@ -1,25 +1,52 @@
-<h1 mat-dialog-title>{{ buildTranslationKey('title') | translate }}</h1>
+<app-base-modal
+  [titleTranslationKey]="buildTranslationKey('title')"
+  [shouldDisplayCloseButton]="false"
+  [footerTemplate]="footer"
+>
+  <div class="flex flex-col gap-y-4">
+    <span
+      class="font-main text-charcoal text-base"
+      [innerHTML]="translation.questionTranslationKey | translate: translation?.questionTranslationParams"
+    ></span>
 
-<div mat-dialog-content>
-  <span
-    class="font-main text-charcoal text-base"
-    [innerHTML]="data.questionTranslationKey | translate : data.translationParams"
-  ></span>
-</div>
+    @if (shouldDisplayCheckbox) {
+      <mat-checkbox [disableRipple]="true" [(ngModel)]="checkmarkChecked">
+        <span
+          class="text-charcoal"
+          [innerHTML]="translation.checkboxTranslationKey | translate: translation?.questionTranslationParams"
+        ></span>
 
-<div mat-dialog-actions>
+        @if (shouldDisplayRemark) {
+          <span class="text-red">&#xFE61;</span>
+        }
+      </mat-checkbox>
+    }
+
+    @if (shouldDisplayRemark) {
+      <div>
+        <span class="text-red">&#xFE61;</span>
+        <span
+          class="font-main text-sm text-charcoal"
+          [innerHTML]="translation.remarkTranslationKey | translate: translation?.remarkTranslationParams"
+        ></span>
+      </div>
+    }
+  </div>
+</app-base-modal>
+
+<ng-template #footer>
   <app-button
     [colorScheme]="'transparent-dark'"
     [text]="buildTranslationKey('noButton') | translate"
-    [buttonSizeX]="'auto'"
+    [buttonSizeX]="'px100'"
     (click)="closeClick()"
   >
   </app-button>
   <app-button
     [colorScheme]="'charcoal'"
     [text]="buildTranslationKey('yesButton') | translate"
-    [buttonSizeX]="'auto'"
-    (click)="data.action(); closeClick()"
+    [buttonSizeX]="'px100'"
+    (click)="resolveAction()"
   >
   </app-button>
-</div>
+</ng-template>

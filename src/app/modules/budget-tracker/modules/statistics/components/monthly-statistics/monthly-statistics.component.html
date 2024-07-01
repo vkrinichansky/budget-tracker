@@ -5,16 +5,17 @@
 </div>
 
 <div class="flex justify-center gap-2">
-  <app-button
-    *ngFor="let action of zoomOptions"
-    customTooltip
-    [tooltipText]="action.tooltipKey | translate"
-    [position]="'top'"
-    [tooltipBgColor]="'charcoal'"
-    [dontDisplayOnScreenWidth]="true"
-    [colorScheme]="'charcoal'"
-    [iconName]="action.icon"
-    [buttonSizeY]="'small'"
-    (click)="action.handler()"
-  ></app-button>
+  @for (action of zoomOptions; track action) {
+    <app-button
+      customTooltip
+      [tooltipText]="action.tooltipKey | translate"
+      [position]="'top'"
+      [dontDisplayOnScreenWidth]="true"
+      [colorScheme]="'charcoal'"
+      [iconName]="action.icon"
+      [buttonSizeY]="'small'"
+      [buttonSizeX]="'small'"
+      (click)="action.handler()"
+    ></app-button>
+  }
 </div>

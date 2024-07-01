@@ -17,30 +17,23 @@
 
     "infoCards": {
       "income": {
-        "title": "Дохід",
-        "resetConfirmationMessage": "Ви хочете скинути всі категорії <b>доходів</b>?",
-        "menu": {
-          "resetCategories": "Скинути категорії"
-        }
+        "title": "Дохід"
       },
       "expense": {
-        "title": "Витрати",
-        "resetConfirmationMessage": "Ви хочете скинути всі категорії <b>витрат</b>?",
-        "menu": {
-          "resetCategories": "Скинути категорії"
-        }
+        "title": "Витрати"
       },
       "balance": {
-        "fullBalance": "Повний баланс",
-        "currentBalance": "Поточний баланс",
+        "fullBalance": "Повний баланс (ПвБ)",
+        "currentBalance": "Поточний баланс (ПтБ)",
         "menu": {
           "increase": "Збільшити",
           "decrease": "Зменшити",
           "edit": "Редагувати"
-        }
+        },
+        "tooltip": "Розрахунок балансу:<br>ПвБ = ПтБ + З + ВГ"
       },
       "savings": {
-        "title": "Збереження",
+        "title": "Збереження (З)",
         "menu": {
           "increase": "Збільшити",
           "decrease": "Зменшити",
@@ -48,7 +41,7 @@
         }
       },
       "freeMoney": {
-        "title": "Вільні гроші",
+        "title": "Вільні гроші (ВГ)",
         "menu": {
           "increase": "Збільшити",
           "decrease": "Зменшити",
@@ -72,11 +65,16 @@
         "decrease": "Зменшити",
         "edit": "Редагувати"
       },
-      "free": {
+      "freeMoney": {
         "title": "Вільні гроші",
         "increase": "Збільшити",
         "decrease": "Зменшити",
         "edit": "Редагувати"
+      },
+      "subtitle": {
+        "increase": "Збільшення",
+        "decrease": "Зменшення",
+        "edit": "Редагування"
       }
     },
 
@@ -87,9 +85,29 @@
         "title": {
           "balance": "Баланс",
           "savings": "Збереження",
-          "free": "Вільні гроші"
+          "freeMoney": "Вільні гроші"
+        },
+        "removeConfirmationQuestion": "Ви хочете видалити цей запис?",
+        "removeConfirmationCheckboxText": "Також відмінити зміни, зроблені цим записом",
+        "removeConfirmationRemark": {
+          "balance": {
+            "increase": "<span class='font-bold'>Баланс</span> буде зменшено на <span class='font-bold'>{{ value }}</span>",
+            "decrease": "<span class='font-bold'>Баланс</span> буде збільшено на <span class='font-bold'>{{ value }}</span>",
+            "edit": "Значення <span class='font-bold'>балансу</span> буде <span class='font-bold'>{{ value }}</span>"
+          },
+          "savings": {
+            "increase": "<span class='font-bold'>Збереження</span> буде зменшено на <span class='font-bold'>{{ value }}</span>",
+            "decrease": "<span class='font-bold'>Збереження</span> буде збільшено на <span class='font-bold'>{{ value }}</span>",
+            "edit": "Значення <span class='font-bold'>збережень</span> буде <span class='font-bold'>{{ value }}</span>"
+          },
+          "freeMoney": {
+            "increase": "<span class='font-bold'>Вільні гроші</span> буде зменшено на <span class='font-bold'>{{ value }}</span>",
+            "decrease": "<span class='font-bold'>Вільні гроші</span> буде збільшено на <span class='font-bold'>{{ value }}</span>",
+            "edit": "Значення <span class='font-bold'>вільних грошей</span> буде <span class='font-bold'>{{ value }}</span>"
+          }
         }
       },
+
       "categoryManagementRecord": {
         "categoryAdded": {
           "budgetType": {
@@ -104,24 +122,67 @@
           }
         }
       },
+
       "categoriesResetRecord": {
         "income": "Категорії <b>доходів</b> було скинуто",
         "expense": "Категорії <b>витрат</b> було скинуто"
       },
 
-      "emptyStateText": "Немає данних для відображення"
+      "categoryValueChangeRecord": {
+        "removeConfirmationQuestion": "Ви хочете видалити цей запис?",
+        "removeConfirmationCheckboxText": "Також відмінити зміни, зроблені цим записом",
+        "removeConfirmationRemark": {
+          "income": "<span class='font-bold'>{{ value }}</span> буде вирахувано з <span class='font-bold'>Балансу</span> і категорії <span class='font-bold'>{{ categoryName }}</span>",
+          "expense": "<span class='font-bold'>{{ value }}</span> буде додано до <span class='font-bold'>Балансу</span> і вирахувано з категорії <span class='font-bold'>{{ categoryName }}</span>"
+        }
+      },
+
+      "emptyStateText": "Немає данних для відображення",
+      "removeMenuTooltip": "Видалення записів за типом",
+      "removeMenuDisabledTooltip": "Ви можете використовувати масове видалення лише якщо є записи з попередніх місяців. Для видалення записів поточного місяця використовуйте кнопку видалення на конкретному записі",
+
+      "removeMenu": {
+        "allTypes": "Всі типи",
+        "categoryManagement": {
+          "text": "Менеджмент категорій",
+          "tooltip": "Додавання та видалення категорій"
+        },
+        "categoriesReset": {
+          "text": "Скидання категорій",
+          "tooltip": "Ручне та щомісячне скидання категорій"
+        },
+        "rootValueChange": {
+          "text": "Зміна основних значень",
+          "tooltip": "Зміна значень балансу, збережень та вільних грошей"
+        },
+        "categoryValueChange": {
+          "text": "Зміна значень категорій",
+          "tooltip": "Зміна значень категорій розходів та доходів"
+        },
+        "removeConfirmationQuestion": "Ви хочете видалити записи обраних типів?",
+        "removeConfirmationRemark": "Ця дія не вплине на записи поточного місяця"
+      }
     },
 
     "categories": {
       "income": {
-        "title": "Дохід"
+        "title": "Дохід",
+        "resetConfirmationQuestion": "Ви хочете скинути всі категорії <b>доходів</b>?",
+        "menu": {
+          "addCategory": "Додати категорію",
+          "resetCategories": "Скинути категорії"
+        }
       },
       "expense": {
-        "title": "Витрати"
+        "title": "Витрати",
+        "resetConfirmationQuestion": "Ви хочете скинути всі категорії <b>витрат</b>?",
+        "menu": {
+          "addCategory": "Додати категорію",
+          "resetCategories": "Скинути категорії"
+        }
       },
       "emptyStateText": "Немає данних для відображення",
 
-      "addCategoryButtonTooltip": "Додати категорію",
       "tabs": {
         "list": "Список",
         "chart": "Графік"
@@ -133,8 +194,8 @@
           "resetValue": "Скинути значення",
           "remove": "Видалити"
         },
-        "confirmationModalRemove": "Ви хочете видалити <b>{{ categoryName }}</b> категорію?",
-        "confirmationModalReset": "Ви хочете скинути значення категорії <b>{{ categoryName }}</b>?"
+        "removeConfirmationQuestion": "Ви хочете видалити категорію <b>{{ categoryName }}</b>?",
+        "removeConfirmationRemark": "Ця дія також видалить пов'язані записи з журналу активності"
       }
     },
 
@@ -147,13 +208,14 @@
       },
       "categoryIconTitle": "Значок категорії",
       "categoryNameTitle": "Імя категорії",
+      "categoryColorTitle": "Колір категорії",
       "cancel": "Вихід",
       "addCategory": "Додати",
       "categoryExistsError": "Така категорія вже існує",
       "categoryNameLengthError": "Макс. довжина імені категорії - 25"
     },
     "categoryValueModal": {
-      "title": "Додати значення до категорії",
+      "subtitle": "Додати значення до категорії",
       "cancel": "Вихід",
       "add": "Додати",
       "valueToAddTitle": "Значення",
@@ -171,7 +233,8 @@
         "scrollLeft": "Прогорнути вліво",
         "scrollRight": "Прогорнути вправо",
         "resetZoom": "Скинути зум"
-      }
+      },
+      "total": "Всього:"
     }
   },
 
@@ -200,6 +263,15 @@
       "message": "Категорію було видалено успішно!",
       "buttonText": "Добре"
     },
+    "activityLogRecordRemoved": {
+      "message": "Запис журналу активності було видалено успішно!",
+      "buttonText": "Добре"
+    },
+    "bulkActivityLogRecordsRemoved": {
+      "allRecordsRemoved": "Всі записи журналу активності було видалено успішно!",
+      "recordsByTypesRemoved": "Записи журналу активності обраних типів було видалено успішно!",
+      "buttonText": "Добре"
+    },
     "categoryValueChangedSnackbar": {
       "message": "Значення категорії було змінено успішно!",
       "buttonText": "Добре"
@@ -208,14 +280,20 @@
       "income": "Категорії доходів було скинуто успішно!",
       "expense": "Категорії витрат було скинуто успішно!",
       "buttonText": "Добре"
+    },
+    "dataResetSnackbar": {
+      "message": "Категорії було скинуто!",
+      "buttonText": "Добре"
     }
   },
 
   "formErrors": {
     "required": "Обов'язкове для заповнення",
     "minValue": "Мінімальне значення - {{ minValue }}",
+    "maxValue": "Максимальне значення - {{ maxValue }}",
     "noteTooLong": "Примітка занадто велика, макс. довжина - 100",
-    "editError": "Значення після редагування має бути іншим"
+    "editError": "Значення після редагування має бути іншим",
+    "invalidColor": "Колір введено невірно"
   },
 
   "confirmationModal": {
@@ -227,18 +305,23 @@
   "languageSwitcher": {
     "tooltip": "Мова",
     "languages": {
-      "english": "Англійська (UK)",
-      "ukrainian": "Українська (UA)"
+      "english": "Англійська",
+      "ukrainian": "Українська"
     }
   },
 
   "currencySwitcher": {
     "tooltip": "Валюта",
     "currencies": {
-      "hryvnia": "Гривня (UA)",
-      "dollar": "Долар (USA)",
-      "euro": "Євро (EU)"
+      "hryvnia": "Гривня (₴)",
+      "dollar": "Долар ($)",
+      "euro": "Євро (€)"
     }
+  },
+
+  "lostConnectionMessage": {
+    "message": "Здається, ви офлайн. Перевірте підключення до Інтернету.",
+    "button": "Перезавантажити"
   },
 
   "categoryIcons": {

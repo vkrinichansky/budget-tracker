@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { User as FirebaseUser } from '@angular/fire/auth';
 import { NavigatorService, SnackbarHandlerService } from '@budget-tracker/shared';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, filter, of, take } from 'rxjs';
+import { catchError, filter, of, switchMap, take, tap } from 'rxjs';
 import { from, map, mergeMap } from 'rxjs';
 import { User } from '../../models';
 import { AuthService } from '../../services';
@@ -33,7 +33,7 @@ export class AuthEffects {
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
-      mergeMap(() => from(this.authService.googleLogin())),
+      switchMap(() => from(this.authService.googleLogin())),
       map((user) =>
         this.authService.getAdditionalUserInfo(user)?.isNewUser
           ? AuthActions.initDatabaseOnFirstLogin({ user: this.extractUserFromState(user.user) })
@@ -49,7 +49,7 @@ export class AuthEffects {
   initDatabaseOnFirstLogin$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.initDatabaseOnFirstLogin),
-      mergeMap((action) =>
+      switchMap((action) =>
         from(this.authService.setUserData(action.user.uid)).pipe(
           map(() => AuthActions.authenticated({ user: action.user, shouldRedirect: true }))
         )
@@ -64,7 +64,7 @@ export class AuthEffects {
   logOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logout),
-      mergeMap(() => from(this.authService.logOut())),
+      switchMap(() => from(this.authService.logOut())),
       map(() => AuthActions.notAuthenticated())
     )
   );
@@ -73,7 +73,7 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.notAuthenticated),
-        map(() => this.navigator.navigateToAuthPage())
+        tap(() => this.navigator.navigateToAuthPage())
       ),
     { dispatch: false }
   );
@@ -83,7 +83,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.authenticated),
         filter((action) => !!action?.shouldRedirect),
-        map(() => this.navigator.navigateToBudgetTracker())
+        tap(() => this.navigator.navigateToBudgetTracker())
       ),
     { dispatch: false }
   );

@@ -1,36 +1,43 @@
 import { Injectable } from '@angular/core';
-import { AuthActions, AuthSelectors } from '@budget-tracker/auth';
+import { AuthActions } from '@budget-tracker/auth';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { filter, from, map, mergeMap, of, take, tap } from 'rxjs';
-import { ActivityLogActions, CategoriesActions, DataInitActions, RootValuesActions } from '../actions';
-import { DataInitService } from '../../services';
+import { from, map, of, switchMap, tap } from 'rxjs';
+import {
+  ActivityLogActions,
+  CategoriesActions,
+  DataInitActions,
+  RootValuesActions,
+  StatisticsActions,
+} from '../actions';
+import { CategoriesService, DataInitService } from '../../services';
+import { getMonthAndYearString, getPreviousMonthTime } from '@budget-tracker/utils';
+import {
+  ActivityLogRecordType,
+  BudgetTrackerState,
+  BudgetType,
+  CategoriesResetRecord,
+  StatisticsSnapshot,
+} from '../../models';
+import { v4 as uuid } from 'uuid';
+import { SnackbarHandlerService } from '@budget-tracker/shared';
 
 @Injectable()
 export class DataInitEffects {
-  constructor(private actions$: Actions, private dataInitService: DataInitService, private store: Store) {}
+  constructor(
+    private actions$: Actions,
+    private dataInitService: DataInitService,
+    private store: Store,
+    private categoryService: CategoriesService,
+    private snackbarHandler: SnackbarHandlerService
+  ) {}
 
   init$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DataInitActions.init),
-      mergeMap(() =>
-        this.store.select(AuthSelectors.userSelector).pipe(
-          filter((user) => !!user),
-          take(1)
-        )
-      ),
-      mergeMap(() => from(this.dataInitService.initData())),
+      switchMap(() => from(this.dataInitService.initData())),
       tap((data) => {
-        const categories = { ...data.budget.categories };
         const rootValues = { ...data.budget.rootValues };
-        const activityLog = [...data.budget.activityLog];
-
-        this.store.dispatch(
-          CategoriesActions.categoriesLoaded({
-            expense: categories.expense,
-            income: categories.income,
-          })
-        );
 
         this.store.dispatch(
           RootValuesActions.rootValuesLoaded({
@@ -39,19 +46,109 @@ export class DataInitEffects {
             freeMoney: rootValues.freeMoney,
           })
         );
-
-        this.store.dispatch(ActivityLogActions.activityLogLoaded({ activityLog }));
       }),
-      map((data) => DataInitActions.dataLoaded({ data }))
+      map((data) => {
+        if (data.resetDate !== getMonthAndYearString() && data.shouldDoReset) {
+          return DataInitActions.resetData({ data });
+        }
+
+        this.setStates(data);
+
+        return DataInitActions.dataLoaded();
+      })
+    )
+  );
+
+  resetData$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(DataInitActions.resetData),
+      switchMap((action) => {
+        const { resetData, activityLogRecords } = this.getResetData(action.data);
+        const date = getPreviousMonthTime().toString();
+
+        const statisticsSnapshot: StatisticsSnapshot = {
+          date,
+          categories: [...Object.values(action.data.budget.categories)],
+        };
+
+        return of({ resetData, activityLogRecords, statisticsSnapshot, date, initialData: action.data });
+      }),
+
+      switchMap(({ resetData, activityLogRecords, statisticsSnapshot, date, initialData }) =>
+        from(this.dataInitService.resetData(resetData, activityLogRecords, statisticsSnapshot, date)).pipe(
+          tap(() => {
+            const resultResetData: BudgetTrackerState = {
+              ...resetData,
+              budget: { ...resetData.budget, activityLog: [...resetData.budget.activityLog, ...activityLogRecords] },
+              statistics: {
+                ...resetData.statistics,
+                snapshots: { ...initialData.statistics.snapshots, [date]: statisticsSnapshot },
+              },
+            };
+
+            this.setStates(resultResetData);
+          })
+        )
+      ),
+      map(() => DataInitActions.dataLoaded()),
+      tap(() => this.snackbarHandler.showDataResetSnackbar())
     )
   );
 
   cleanStateOnLogOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logout),
-      mergeMap(() =>
-        of(DataInitActions.clean(), CategoriesActions.clean(), ActivityLogActions.clean(), RootValuesActions.clean())
+      switchMap(() =>
+        of(
+          DataInitActions.clean(),
+          CategoriesActions.clean(),
+          ActivityLogActions.clean(),
+          RootValuesActions.clean(),
+          StatisticsActions.clean()
+        )
       )
     )
   );
+
+  private getResetData(data: BudgetTrackerState): {
+    resetData: BudgetTrackerState;
+    activityLogRecords: CategoriesResetRecord[];
+  } {
+    const resetData = structuredClone(data);
+
+    Object.keys(resetData.budget.categories).forEach(
+      (categoryId) => (resetData.budget.categories[categoryId].value = 0)
+    );
+
+    const activityLogRecords: CategoriesResetRecord[] = [
+      { budgetType: BudgetType.Income, icon: 'arrow-up' },
+      { budgetType: BudgetType.Expense, icon: 'arrow-down' },
+    ].map((item) => ({
+      budgetType: item.budgetType,
+      date: new Date().getTime(),
+      id: uuid(),
+      recordType: ActivityLogRecordType.CategoriesReset,
+      icon: item.icon,
+    }));
+
+    resetData.resetDate = getMonthAndYearString();
+    return { resetData, activityLogRecords };
+  }
+
+  private setStates(data: BudgetTrackerState) {
+    const categories = Object.values(data.budget.categories);
+    const activityLog = [...data.budget.activityLog];
+    const statistics = structuredClone(data.statistics);
+    const resetDate = data.resetDate;
+
+    this.store.dispatch(
+      CategoriesActions.categoriesLoaded({
+        categories,
+      })
+    );
+
+    this.store.dispatch(ActivityLogActions.activityLogLoaded({ activityLog }));
+    this.store.dispatch(DataInitActions.resetDateLoaded({ resetDate }));
+    this.store.dispatch(StatisticsActions.statisticsLoaded({ statistics }));
+  }
 }

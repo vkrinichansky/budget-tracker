@@ -4,11 +4,13 @@ import { DataInitActions } from '../actions';
 export interface DataInitializationState {
   isDataLoading: boolean;
   isDataLoaded: boolean;
+  resetDate: string;
 }
 
 const initialState: DataInitializationState = {
   isDataLoaded: false,
   isDataLoading: false,
+  resetDate: null,
 };
 
 const adapterReducer = createReducer(
@@ -24,9 +26,14 @@ const adapterReducer = createReducer(
     ...state,
     isDataLoading: false,
     isDataLoaded: true,
+  })),
+
+  on(DataInitActions.resetDateLoaded, (state, action) => ({
+    ...state,
+    resetDate: action.resetDate,
   }))
 );
 
-export function dateInitializationReducer(state = initialState, action: Action): DataInitializationState {
+export function dataInitializationReducer(state = initialState, action: Action): DataInitializationState {
   return adapterReducer(state, action);
 }

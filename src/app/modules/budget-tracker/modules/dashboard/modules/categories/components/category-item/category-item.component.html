@@ -1,18 +1,24 @@
-<div class="flex items-center gap-x-2 flex-1 overflow-hidden">
-  <svg-icon class="text-charcoal" [iconName]="category?.icon"></svg-icon>
-  <span
-    customTooltip
-    [tooltipText]="category?.name"
-    [showTooltipOnlyOnOverflow]="true"
-    class="font-main font-bold text-charcoal text-base truncate"
-  >
-    {{ category?.name }}
-  </span>
-</div>
+<ng-container *ngVar="category$ | async as category">
+  <div class="flex items-center gap-x-2 flex-1 overflow-hidden">
+    <span
+      class="w-5 h-5 border-2 border-solid border-charcoal rounded-full"
+      [style.backgroundColor]="category.hexColor"
+    ></span>
 
-<div class="flex items-center gap-x-2">
-  <span class="font-main font-bold text-charcoal text-base">
-    {{ category?.value }}&nbsp;{{ currencySymbol$ | async }}
-  </span>
-  <app-menu [menuActions]="menuActions"></app-menu>
-</div>
+    <svg-icon class="text-charcoal" [iconName]="category?.icon"></svg-icon>
+
+    <span
+      customTooltip
+      [tooltipText]="category?.name"
+      [showTooltipOnlyOnOverflow]="true"
+      class="font-main font-bold text-charcoal text-base truncate"
+    >
+      {{ category?.name }}
+    </span>
+  </div>
+
+  <div class="flex items-center gap-x-2">
+    <span class="font-main font-bold text-charcoal text-base"> {{ category?.value | currencySymbol }}</span>
+    <app-menu [menuActions]="menuActions" [loading]="isCategoryRemoving" (click)="$event.stopPropagation()"></app-menu>
+  </div>
+</ng-container>

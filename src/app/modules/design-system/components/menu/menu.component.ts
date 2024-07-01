@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ColorScheme, MenuAction } from '../../models';
+import { ButtonSize, ColorScheme, MenuAction } from '../../models';
 
 @Component({
   selector: 'app-menu',
@@ -15,4 +15,19 @@ export class MenuComponent {
 
   @Input()
   icon = 'menu';
+
+  @Input()
+  text: string;
+
+  @Input()
+  buttonSizeX: ButtonSize = 'small';
+
+  @Input()
+  buttonSizeY: ButtonSize = 'small';
+
+  @Input()
+  menuDisabled: boolean;
+
+  @Input()
+  loading: boolean;
 }

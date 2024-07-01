@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
-
-type IconSize = 'small' | 'medium' | 'big' | 'auto';
+import { IconSize } from '../../models';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

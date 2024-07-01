@@ -6,7 +6,10 @@ import { TranslateService } from '@ngx-translate/core';
 @Injectable()
 export class SnackbarHandlerService {
   private readonly rootTranslationKey = 'snackbars';
-  constructor(private snackBar: MatSnackBar, private translateService: TranslateService) {}
+  constructor(
+    private snackBar: MatSnackBar,
+    private translateService: TranslateService
+  ) {}
 
   showGeneralErrorSnackbar(): void {
     this.openSnackBarWithCloseDelay(
@@ -57,6 +60,20 @@ export class SnackbarHandlerService {
     );
   }
 
+  showActivityLogRecordRemovedSnackbar(): void {
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant(this.buildTranslationKey('activityLogRecordRemoved.message')),
+      this.translateService.instant(this.buildTranslationKey('activityLogRecordRemoved.buttonText'))
+    );
+  }
+
+  showBulkActivityLogRecordsRemovedSnackbar(): void {
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant(this.buildTranslationKey('bulkActivityLogRecordsRemoved.recordsByTypesRemoved')),
+      this.translateService.instant(this.buildTranslationKey('activityLogRecordRemoved.buttonText'))
+    );
+  }
+
   showCategoryValueChangedSnackbar(): void {
     this.openSnackBarWithCloseDelay(
       this.translateService.instant(this.buildTranslationKey('categoryValueChangedSnackbar.message')),
@@ -68,6 +85,13 @@ export class SnackbarHandlerService {
     this.openSnackBarWithCloseDelay(
       this.translateService.instant(this.buildTranslationKey(`categoriesResetSnackbar.${budgetType}`)),
       this.translateService.instant(this.buildTranslationKey('categoriesResetSnackbar.buttonText'))
+    );
+  }
+
+  showDataResetSnackbar(): void {
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant(this.buildTranslationKey('dataResetSnackbar.message')),
+      this.translateService.instant(this.buildTranslationKey('dataResetSnackbar.buttonText'))
     );
   }
 

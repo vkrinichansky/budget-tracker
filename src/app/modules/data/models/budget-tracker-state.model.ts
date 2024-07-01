@@ -1,11 +1,11 @@
-import { RootValueChangeRecord } from './activity-log.model';
+import { ActivityLog } from './activity-log.model';
 import { Category } from './category.model';
+import { Statistics } from './statistics.model';
 
 export interface BudgetTrackerState {
   budget: {
     categories: {
-      income: Category[];
-      expense: Category[];
+      [categoryId: string]: Category;
     };
 
     rootValues: {
@@ -14,6 +14,11 @@ export interface BudgetTrackerState {
       freeMoney: number;
     };
 
-    activityLog: RootValueChangeRecord[];
+    activityLog: ActivityLog;
   };
+
+  statistics: Statistics;
+
+  resetDate: string;
+  shouldDoReset: boolean;
 }

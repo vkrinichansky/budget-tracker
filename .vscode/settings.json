@@ -1,3 +1,15 @@
 {
-    "angular.enable-strict-mode-prompt": false
+  "angular.enable-strict-mode-prompt": false,
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false
+  },
+  "prettier.configPath": ".prettierrc",
+  "eslint.format.enable": true,
+  "eslint.codeActionsOnSave.rules": null,
+  "lingua.defaultLanguage": "en-US"
 }

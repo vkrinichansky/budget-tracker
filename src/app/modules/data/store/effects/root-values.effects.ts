@@ -25,7 +25,7 @@ export class RootValuesEffects {
               RootValuesActions.balanceUpdated({
                 newBalanceValue: action.newBalanceValue,
               }),
-              ActivityLogActions.activityLogRecordAdded({ record: action.activityLogRecord })
+              ActivityLogActions.recordAdded({ record: action.activityLogRecord })
             );
           }),
           catchError((error) => {
@@ -50,7 +50,7 @@ export class RootValuesEffects {
               RootValuesActions.savingsUpdated({
                 newSavingsValue: action.newSavingsValue,
               }),
-              ActivityLogActions.activityLogRecordAdded({ record: action.activityLogRecord })
+              ActivityLogActions.recordAdded({ record: action.activityLogRecord })
             );
           }),
           catchError((error) => {
@@ -75,7 +75,7 @@ export class RootValuesEffects {
               RootValuesActions.freeMoneyUpdated({
                 newFreeMoneyValue: action.newFreeMoneyValue,
               }),
-              ActivityLogActions.activityLogRecordAdded({ record: action.activityLogRecord })
+              ActivityLogActions.recordAdded({ record: action.activityLogRecord })
             );
           }),
           catchError((error) => {

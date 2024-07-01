@@ -25,7 +25,7 @@ const routes: Routes = [
     TranslateModule,
     NgChartsModule,
     MatTooltipModule,
-    DataModule
+    DataModule,
   ],
 })
 export class StatisticsModule {}

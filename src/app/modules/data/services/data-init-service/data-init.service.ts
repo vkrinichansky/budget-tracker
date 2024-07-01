@@ -1,22 +1,47 @@
 import { Injectable } from '@angular/core';
-import { collection, doc, Firestore, getDoc } from '@angular/fire/firestore';
-import { Store } from '@ngrx/store';
-import { AuthFacadeService, AuthSelectors } from '@budget-tracker/auth';
-import { filter, firstValueFrom, from, map, switchMap } from 'rxjs';
-import { BudgetTrackerState } from '../../models';
+import { arrayUnion, collection, doc, DocumentReference, Firestore, getDoc, updateDoc } from '@angular/fire/firestore';
+import { AuthFacadeService } from '@budget-tracker/auth';
+import { firstValueFrom, from, map, switchMap } from 'rxjs';
+import { BudgetTrackerState, CategoriesResetRecord, StatisticsSnapshot } from '../../models';
+import { Auth } from '@angular/fire/auth';
+
+const CATEGORIES_PATH = 'budget.categories';
+const ACTIVITY_LOG_PATH = 'budget.activityLog';
+const RESET_DATE_PATH = 'resetDate';
+const STATISTICS_SNAPSHOTS_PATH = 'statistics.snapshots';
 
 @Injectable()
 export class DataInitService {
-  constructor(private firestore: Firestore, private store: Store, private authFacade: AuthFacadeService) {}
+  constructor(
+    private firestore: Firestore,
+    private authFacade: AuthFacadeService,
+    private afAuth: Auth
+  ) {}
 
   async initData(): Promise<BudgetTrackerState> {
     return await firstValueFrom(
-      this.store.select(AuthSelectors.authLoadedSelector).pipe(
-        filter((isInitialized) => !!isInitialized),
-        switchMap(() => this.authFacade.getUserId()),
+      this.authFacade.getUserId().pipe(
         switchMap((userId) => from(getDoc(doc(collection(this.firestore, 'userData'), userId)))),
         map((data) => data.data() as BudgetTrackerState)
       )
     );
+  }
+
+  resetData(
+    data: BudgetTrackerState,
+    activityLogRecords: CategoriesResetRecord[],
+    statisticsSnapshot: StatisticsSnapshot,
+    date: string
+  ): Promise<void> {
+    return updateDoc(this.getDocRef(), {
+      [`${CATEGORIES_PATH}`]: data.budget.categories,
+      [`${ACTIVITY_LOG_PATH}`]: arrayUnion(...activityLogRecords),
+      [`${RESET_DATE_PATH}`]: data.resetDate,
+      [`${STATISTICS_SNAPSHOTS_PATH}.${date}`]: statisticsSnapshot,
+    });
+  }
+
+  private getDocRef(): DocumentReference {
+    return doc(collection(this.firestore, 'userData'), this.afAuth.currentUser?.uid);
   }
 }

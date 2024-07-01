@@ -1,87 +1,93 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  HostBinding,
+  HostListener,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
-import { CurrencyService } from '@budget-tracker/shared';
-import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
-import { Observable, takeUntil } from 'rxjs';
 import { CategoryModalsService } from '../../services';
 import { CategoriesFacadeService, Category } from '@budget-tracker/data';
+import { Observable, firstValueFrom } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-category-item',
   templateUrl: './category-item.component.html',
   styleUrls: ['./category-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideUnsubscriberService()],
 })
 export class CategoryItemComponent implements OnInit {
-  private readonly rootTranslationKey = 'dashboard.categories.categoryItem';
-  private readonly destroy$ = injectUnsubscriberService();
-
   @Input()
   categoryId: string;
 
-  category: Category;
+  category$: Observable<Category>;
 
   menuActions: MenuAction[];
 
-  currencySymbol$: Observable<string>;
+  @HostBinding('class.pointer-events-none')
+  isCategoryRemoving: boolean;
 
   constructor(
     private categoriesFacade: CategoriesFacadeService,
-    private cd: ChangeDetectorRef,
     private confirmationModalService: ConfirmationModalService,
     private categoryModalsService: CategoryModalsService,
-    private currencyService: CurrencyService
+    private destroyRef: DestroyRef,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.currencySymbol$ = this.currencyService.getCurrencySymbolObs();
+    this.category$ = this.categoriesFacade.getCategoryById(this.categoryId);
+    this.menuActions = this.initMenuActions();
+    this.initIsCategoryRemoving();
+  }
 
+  buildTranslationKey(key: string): string {
+    return `dashboard.categories.categoryItem.${key}`;
+  }
+
+  private initIsCategoryRemoving(): void {
     this.categoriesFacade
-      .getCategoryById(this.categoryId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((category) => {
-        this.category = category;
-        this.initMenuActions();
+      .isCategoryRemoving(this.categoryId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((isCategoryRemoving) => {
+        this.isCategoryRemoving = isCategoryRemoving;
         this.cd.detectChanges();
       });
   }
 
-  buildTranslationKey(key: string): string {
-    return `${this.rootTranslationKey}.${key}`;
+  @HostListener('click')
+  private openCategoryValueModal(): void {
+    this.categoryModalsService.openCategoryValueModal(this.categoryId);
   }
 
-  private initMenuActions(): void {
-    this.menuActions = [
+  private initMenuActions(): MenuAction[] {
+    return [
       {
         icon: 'plus',
         translationKey: this.buildTranslationKey('menu.addValue'),
-        action: () => this.categoryModalsService.openCategoryValueModal(this.categoryId),
+        action: () => this.openCategoryValueModal(),
       },
       {
-        icon: 'eraser',
-        translationKey: this.buildTranslationKey('menu.resetValue'),
-        disabled: this.category.value === 0,
-        action: () =>
-          this.confirmationModalService.openConfirmationModal(
-            this.buildTranslationKey('confirmationModalReset'),
-            {
-              categoryName: this.category.name,
-            },
-            () => this.categoriesFacade.changeCategoryValue(this.categoryId, undefined, undefined, true)
-          ),
-      },
-      {
-        icon: 'close',
+        icon: 'delete-bin',
         translationKey: this.buildTranslationKey('menu.remove'),
-        action: () =>
+        action: async () => {
+          const category = await firstValueFrom(this.category$);
+
           this.confirmationModalService.openConfirmationModal(
-            this.buildTranslationKey('confirmationModalRemove'),
             {
-              categoryName: this.category.name,
+              questionTranslationKey: this.buildTranslationKey('removeConfirmationQuestion'),
+              questionTranslationParams: {
+                categoryName: category.name,
+              },
+              remarkTranslationKey: this.buildTranslationKey('removeConfirmationRemark'),
             },
             () => this.categoriesFacade.removeCategory(this.categoryId)
-          ),
+          );
+        },
       },
     ];
   }

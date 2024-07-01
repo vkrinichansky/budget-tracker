@@ -28,10 +28,7 @@ enum CategoriesActionsType {
 }
 
 export const CategoriesActions = {
-  categoriesLoaded: createAction(
-    CategoriesActionsType.CategoriesLoaded,
-    props<{ income: Category[]; expense: Category[] }>()
-  ),
+  categoriesLoaded: createAction(CategoriesActionsType.CategoriesLoaded, props<{ categories: Category[] }>()),
 
   addCategory: createAction(
     CategoriesActionsType.AddCategory,
@@ -44,12 +41,16 @@ export const CategoriesActions = {
 
   removeCategory: createAction(
     CategoriesActionsType.RemoveCategory,
-    props<{ category: Category; activityLogRecord: CategoryManagementRecord }>()
+    props<{
+      category: Category;
+      activityLogRecord: CategoryManagementRecord;
+      recordsToRemove: CategoryValueChangeRecord[];
+    }>()
   ),
 
   categoryRemoved: createAction(CategoriesActionsType.CategoryRemoved, props<{ category: Category }>()),
 
-  removeCategoryFail: createAction(CategoriesActionsType.RemoveCategoryFail),
+  removeCategoryFail: createAction(CategoriesActionsType.RemoveCategoryFail, props<{ categoryId: string }>()),
 
   resetCategoryManagementProp: createAction(CategoriesActionsType.ResetCategoryManagementProp),
 
@@ -57,7 +58,6 @@ export const CategoriesActions = {
     CategoriesActionsType.ChangeCategoryValue,
     props<{
       updatedCategory: Category;
-      updatedCategories: Category[];
       newBalanceValue: number;
       activityLogRecord: CategoryValueChangeRecord;
     }>()
@@ -65,7 +65,7 @@ export const CategoriesActions = {
 
   categoryValueChanged: createAction(
     CategoriesActionsType.CategoryValueChanged,
-    props<{ updatedCategory: Category; newBalanceValue: number }>()
+    props<{ updatedCategory: Category }>()
   ),
 
   changeCategoryValueFail: createAction(CategoriesActionsType.ChangeCategoryValueFail),

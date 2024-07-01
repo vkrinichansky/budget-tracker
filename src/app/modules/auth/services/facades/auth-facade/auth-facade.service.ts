@@ -8,7 +8,10 @@ import { AuthService } from '../../auth/auth.service';
 
 @Injectable()
 export class AuthFacadeService {
-  constructor(private store: Store, private authService: AuthService) {}
+  constructor(
+    private store: Store,
+    private authService: AuthService
+  ) {}
 
   googleLogin(): void {
     this.store.dispatch(AuthActions.login());

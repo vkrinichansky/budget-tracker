@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, TemplateRef } from '@angular/core';
 import { ColorScheme, BgColorScheme, MenuAction } from '../../models';
-import { CurrencyService } from '@budget-tracker/shared';
-import { Observable } from 'rxjs';
+import { isMobileWidth } from '@budget-tracker/utils';
 
 @Component({
   selector: 'app-info-card',
@@ -9,7 +8,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./info-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InfoCardComponent implements OnInit {
+export class InfoCardComponent {
   @HostBinding('class')
   @Input()
   colorScheme: BgColorScheme = 'white';
@@ -39,7 +38,10 @@ export class InfoCardComponent implements OnInit {
   iconColorClass = 'text-charcoal';
 
   @Input()
-  shouldDisplayMenu = false;
+  shouldDisableMenu = false;
+
+  @Input()
+  tooltip: TemplateRef<unknown> | string;
 
   @Input()
   menuActions: MenuAction[];
@@ -55,11 +57,7 @@ export class InfoCardComponent implements OnInit {
     }
   }
 
-  currencySymbol$: Observable<string>;
-
-  constructor(private currencyService: CurrencyService) {}
-
-  ngOnInit(): void {
-    this.currencySymbol$ = this.currencyService.getCurrencySymbolObs();
+  get isMobile(): boolean {
+    return isMobileWidth();
   }
 }

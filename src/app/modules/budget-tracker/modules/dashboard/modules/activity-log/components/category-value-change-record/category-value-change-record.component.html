@@ -1,28 +1,22 @@
 <app-generic-activity-log-record
-  *ngVar="currencySymbol$ | async as currency"
   [icon]="record.icon"
   [date]="record.date"
   [note]="record?.note"
+  [loading]="isRecordRemoving$ | async"
+  (remove)="removeHandler()"
 >
   <span class="flex justify-between">
     <span class="font-main text-charcoal text-base">
       {{ record.categoryName }}
     </span>
 
-    <span *ngIf="record?.isReset; else budgetTypeTemplate" class="font-main font-bold text-blue">
-      {{ record.value }}{{ currency }}&nbsp;&rarr;&nbsp;0{{ currency }}
-    </span>
-
-    <ng-template #budgetTypeTemplate>
-      <ng-container [ngSwitch]="record.budgetType">
-        <span *ngSwitchCase="budgetType.Income" class="font-main font-bold text-dark-green">
-          &plus;&nbsp;{{ record.value }}{{ currency }}
-        </span>
-
-        <span *ngSwitchCase="budgetType.Expense" class="font-main font-bold text-red">
-          &minus;&nbsp;{{ record.value }}{{ currency }}
-        </span>
-      </ng-container>
-    </ng-template>
+    @switch (record.budgetType) {
+      @case (budgetType.Income) {
+        <span class="font-main font-bold text-dark-green">&plus;&nbsp;{{ record.value | currencySymbol }}</span>
+      }
+      @case (budgetType.Expense) {
+        <span class="font-main font-bold text-red">&minus;&nbsp;{{ record.value | currencySymbol }}</span>
+      }
+    }
   </span>
 </app-generic-activity-log-record>

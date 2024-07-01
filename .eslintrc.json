@@ -3,6 +3,9 @@
   "ignorePatterns": [
     "projects/**/*"
   ],
+  "plugins": [
+    "jasmine"
+  ],
   "overrides": [
     {
       "files": [
@@ -12,7 +15,8 @@
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:prettier/recommended"
       ],
       "rules": {
         "@angular-eslint/directive-selector": [
@@ -31,22 +35,86 @@
             "style": "kebab-case"
           }
         ],
-        "no-console": "error"
+        "no-console": "error",
+        "prettier/prettier": [
+          "warn",
+          {
+            "usePrettierrc": true
+          }
+        ],
+        "@typescript-eslint/no-unused-vars": "warn"
+      }
+    },
+    {
+      "files": [
+        "*.spec.ts"
+      ],
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:prettier/recommended",
+        "plugin:jasmine/recommended"
+      ],
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "app",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
+          }
+        ],
+        "no-console": "error",
+        "prettier/prettier": [
+          "warn",
+          {
+            "usePrettierrc": true
+          }
+        ],
+        "@typescript-eslint/no-unused-vars": "warn"
       }
     },
     {
       "files": [
         "*.html"
       ],
+      "excludedFiles": [
+        "*inline-template-*.component.html"
+      ],
       "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ]
+        "plugin:@angular-eslint/template/recommended",
+        "plugin:@angular-eslint/template/accessibility",
+        "plugin:prettier/recommended"
+      ],
+      "rules": {
+        "prettier/prettier": [
+          "warn",
+          {
+            "parser": "angular",
+            "endOfLine": "auto"
+          },
+          {
+            "usePrettierrc": true
+          }
+        ]
+      }
     }
   ],
   "parserOptions": {
     "ecmaVersion": "latest"
   },
   "env": {
-    "es6": true
+    "es6": true,
+    "jasmine": true
   }
 }

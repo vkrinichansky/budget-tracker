@@ -1,27 +1,33 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, provideRouter, withViewTransitions } from '@angular/router';
 import { AuthGuard, SecureInnerPagesGuard } from './modules/auth/guards';
+import { AppRoutesNames } from '@budget-tracker/shared';
 
 const routes: Routes = [
   {
-    path: 'auth',
+    path: AppRoutesNames.Auth,
     canActivate: [SecureInnerPagesGuard],
     loadChildren: () => import('./modules/auth/auth.module').then((m) => m.AuthCoreModule),
   },
   {
-    path: 'budget-tracker',
+    path: AppRoutesNames.BudgetTracker,
     canActivate: [AuthGuard],
     loadChildren: () => import('./modules/budget-tracker/budget-tracker.module').then((m) => m.BudgetTrackerModule),
   },
   {
     path: '',
-    redirectTo: 'budget-tracker',
+    redirectTo: AppRoutesNames.BudgetTracker,
+    pathMatch: 'full',
+  },
+  {
+    path: '**',
+    redirectTo: AppRoutesNames.BudgetTracker,
     pathMatch: 'full',
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
+  providers: [provideRouter(routes, withViewTransitions({ skipInitialTransition: true }))],
 })
 export class AppRoutingModule {}

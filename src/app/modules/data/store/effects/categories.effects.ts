@@ -26,7 +26,7 @@ export class CategoriesEffects {
                 category: action.category,
               }),
 
-              ActivityLogActions.activityLogRecordAdded({
+              ActivityLogActions.recordAdded({
                 record: action.activityLogRecord,
               })
             );
@@ -45,7 +45,9 @@ export class CategoriesEffects {
     this.actions$.pipe(
       ofType(CategoriesActions.removeCategory),
       mergeMap((action) =>
-        from(this.categoriesService.removeCategory(action.category, action.activityLogRecord)).pipe(
+        from(
+          this.categoriesService.removeCategory(action.category, action.activityLogRecord, action.recordsToRemove)
+        ).pipe(
           switchMap(() => {
             this.snackbarHandler.showCategoryRemovedSnackbar();
 
@@ -53,15 +55,18 @@ export class CategoriesEffects {
               CategoriesActions.categoryRemoved({
                 category: action.category,
               }),
-              ActivityLogActions.activityLogRecordAdded({
+              ActivityLogActions.recordAdded({
                 record: action.activityLogRecord,
+              }),
+              ActivityLogActions.bulkRecordsRemoved({
+                records: action.recordsToRemove,
               })
             );
           }),
           catchError((error) => {
             this.snackbarHandler.showErrorSnackbar(error);
 
-            return of(CategoriesActions.removeCategoryFail());
+            return of(CategoriesActions.removeCategoryFail({ categoryId: action.category.id }));
           })
         )
       )
@@ -87,7 +92,7 @@ export class CategoriesEffects {
       mergeMap((action) =>
         from(
           this.categoriesService.changeCategoryValue(
-            action.updatedCategories,
+            action.updatedCategory,
             action.newBalanceValue,
             action.activityLogRecord
           )
@@ -98,9 +103,8 @@ export class CategoriesEffects {
             return of(
               CategoriesActions.categoryValueChanged({
                 updatedCategory: action.updatedCategory,
-                newBalanceValue: action.newBalanceValue,
               }),
-              ActivityLogActions.activityLogRecordAdded({
+              ActivityLogActions.recordAdded({
                 record: action.activityLogRecord,
               }),
               RootValuesActions.balanceUpdated({ newBalanceValue: action.newBalanceValue })
@@ -128,7 +132,7 @@ export class CategoriesEffects {
               CategoriesActions.categoriesReset({
                 updatedCategories: action.updatedCategories,
               }),
-              ActivityLogActions.activityLogRecordAdded({
+              ActivityLogActions.recordAdded({
                 record: action.activityLogRecord,
               })
             );

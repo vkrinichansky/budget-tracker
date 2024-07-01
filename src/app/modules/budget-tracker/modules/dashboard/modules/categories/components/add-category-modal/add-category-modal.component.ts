@@ -1,30 +1,32 @@
-import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy, DestroyRef, viewChild, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BudgetType, Category } from '@budget-tracker/data';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { v4 as uuid } from 'uuid';
-import { Observable, combineLatest, filter, map, takeUntil, tap } from 'rxjs';
-import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
+import { Observable, combineLatest, filter, map, take, tap } from 'rxjs';
 import { AddCategoryModalData, CategoryIconForSelect, PredefinedCategoryIcons } from '../../models';
 import { CategoriesFacadeService } from '@budget-tracker/data';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NgxColorsComponent, NgxColorsTriggerDirective, validColorValidator } from 'ngx-colors';
+import { isMobileWidth } from '@budget-tracker/utils';
 
 enum FormFields {
   CategoryIcon = 'categoryIcon',
   CategoryName = 'categoryName',
+  CategoryColorPicker = 'categoryColorPicker',
+  CategoryColorInput = 'categoryColorInput',
 }
 
 @Component({
   selector: 'app-add-category-modal',
   templateUrl: './add-category-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideUnsubscriberService()],
 })
 export class AddCategoryModalComponent implements OnInit {
-  private readonly rootTranslationKey = 'dashboard.addCategoryModal';
-
-  private readonly destroy$ = injectUnsubscriberService();
+  @ViewChild(NgxColorsTriggerDirective)
+  private colorPicker: NgxColorsTriggerDirective;
 
   private categories$: Observable<Category[]>;
 
@@ -35,6 +37,8 @@ export class AddCategoryModalComponent implements OnInit {
   readonly form: FormGroup = new FormGroup({
     [FormFields.CategoryIcon]: new FormControl(null, [Validators.required]),
     [FormFields.CategoryName]: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+    [FormFields.CategoryColorPicker]: new FormControl('', [Validators.required]),
+    [FormFields.CategoryColorInput]: new FormControl('', [Validators.required, validColorValidator()]),
   });
 
   budgetType: BudgetType;
@@ -73,14 +77,51 @@ export class AddCategoryModalComponent implements OnInit {
     return this.form.controls[FormFields.CategoryName].hasError('categoryExists');
   }
 
+  get isMobile(): boolean {
+    return isMobileWidth();
+  }
+
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: AddCategoryModalData,
     private dialogRef: MatDialogRef<AddCategoryModalComponent>,
     private translateService: TranslateService,
-    private categoriesFacade: CategoriesFacadeService
+    private categoriesFacade: CategoriesFacadeService,
+    private destroyRef: DestroyRef
   ) {}
 
   ngOnInit(): void {
+    this.initDataAccordingToBudgetType();
+    this.initListeners();
+    this.subscribeToCategoryNameChanges();
+    this.initColorInputsBinding();
+  }
+
+  clickOnColorPicker(): void {
+    this.colorPicker.openPanel();
+  }
+
+  setCategoryNameToInput(value: CategoryIconForSelect) {
+    this.form.controls[FormFields.CategoryName].setValue(this.translateService.instant(value.textTranslationKey));
+  }
+
+  buildTranslationKey(key: string): string {
+    return `dashboard.addCategoryModal.${key}`;
+  }
+
+  submitClick(): void {
+    const category: Category = {
+      icon: this.form.controls[FormFields.CategoryIcon].value.icon,
+      name: this.form.controls[FormFields.CategoryName].value,
+      hexColor: this.form.controls[FormFields.CategoryColorPicker].value,
+      value: 0,
+      id: uuid(),
+      budgetType: this.budgetType,
+    };
+
+    this.categoriesFacade.addCategory(category);
+  }
+
+  private initDataAccordingToBudgetType(): void {
     this.budgetType = this.data.budgetType;
 
     switch (this.budgetType) {
@@ -94,42 +135,18 @@ export class AddCategoryModalComponent implements OnInit {
         this.categories$ = this.categoriesFacade.getExpenseCategories();
         break;
     }
+  }
 
+  private initListeners(): void {
     this.loading$ = this.categoriesFacade.getCategoryManagementInProgress();
     this.success$ = this.categoriesFacade.getCategoryManagementSuccess();
 
     this.success$
       .pipe(
-        takeUntil(this.destroy$),
-        filter((isSuccess) => !!isSuccess)
+        filter((isSuccess) => !!isSuccess),
+        take(1)
       )
       .subscribe(() => this.dialogRef.close());
-
-    this.subscribeToCategoryNameChanges();
-  }
-
-  setCategoryNameToInput(value: CategoryIconForSelect) {
-    this.form.controls[FormFields.CategoryName].setValue(this.translateService.instant(value.textTranslationKey));
-  }
-
-  buildTranslationKey(key: string): string {
-    return `${this.rootTranslationKey}.${key}`;
-  }
-
-  cancelClick(): void {
-    this.dialogRef.close();
-  }
-
-  submitClick(): void {
-    const category: Category = {
-      icon: this.form.controls[FormFields.CategoryIcon].value.icon,
-      name: this.form.controls[FormFields.CategoryName].value,
-      value: 0,
-      id: uuid(),
-      budgetType: this.budgetType,
-    };
-
-    this.categoriesFacade.addCategory(category);
   }
 
   private subscribeToCategoryNameChanges(): void {
@@ -140,8 +157,18 @@ export class AddCategoryModalComponent implements OnInit {
         ),
         filter((shouldDisable) => !!shouldDisable),
         tap(() => this.form.controls[FormFields.CategoryName].setErrors({ categoryExists: true })),
-        takeUntil(this.destroy$)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
+  }
+
+  private initColorInputsBinding(): void {
+    this.form.controls[FormFields.CategoryColorPicker].valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((color) =>
+        this.form.controls[FormFields.CategoryColorInput].setValue(color, {
+          emitEvent: false,
+        })
+      );
   }
 }

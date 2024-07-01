@@ -8,16 +8,6 @@
 >
   <app-page-header class="text-xl bg-transparent" [title]="title | translate">
     <div class="flex items-center gap-x-2">
-      <app-button
-        customTooltip
-        [tooltipText]="buildTranslationKey('addCategoryButtonTooltip') | translate"
-        [dontDisplayOnScreenWidth]="true"
-        [colorScheme]="'charcoal'"
-        [iconName]="'plus'"
-        [buttonSizeY]="'small'"
-        (click)="addButtonAction()"
-      ></app-button>
-
       <mat-button-toggle-group appearance="legacy">
         <app-button
           [activeColorScheme]="'charcoal'"
@@ -25,6 +15,7 @@
           [buttonSizeX]="'auto'"
           [buttonSizeY]="'full'"
           [active]="data.currentTab === 'list'"
+          [shouldDisplayMobileClickEffect]="false"
           (click)="setTab('list')"
         ></app-button>
 
@@ -35,49 +26,40 @@
           [buttonSizeY]="'full'"
           [disabled]="data.areAllCategoriesReset"
           [active]="data.currentTab === 'chart'"
+          [shouldDisplayMobileClickEffect]="false"
           (click)="setTab('chart')"
         ></app-button>
       </mat-button-toggle-group>
+      <app-menu [colorScheme]="'transparent-dark'" [menuActions]="menuActions"></app-menu>
     </div>
   </app-page-header>
 
-  <span
-    *ngIf="data.isEmpty"
-    class="font-main font-bold text-charcoal text-lg text-center flex flex-1 flex-col justify-center items-center"
-  >
-    {{ buildTranslationKey('emptyStateText') | translate }}
-  </span>
+  @if (data.isEmpty) {
+    <span
+      class="font-main font-bold text-charcoal text-lg text-center flex flex-1 flex-col justify-center items-center"
+    >
+      {{ buildTranslationKey('emptyStateText') | translate }}
+    </span>
+  }
 
-  <ng-container *ngIf="!data.isEmpty">
-    <ng-container [ngSwitch]="data.currentTab">
-      <cdk-virtual-scroll-viewport *ngSwitchCase="'list'" itemSize="60" class="h-full">
-        <div
-          *cdkVirtualFor="let category of categories$ | async; cdkVirtualForTrackBy: trackBy; templateCacheSize: 0"
-          class="h-15 flex items-center"
-        >
-          <app-category-item class="w-full" [categoryId]="category.id"></app-category-item>
+  @if (!data.isEmpty) {
+    @switch (data.currentTab) {
+      @case ('list') {
+        <cdk-virtual-scroll-viewport itemSize="60" class="h-full">
+          <div
+            *cdkVirtualFor="let category of categories$ | async; trackBy: trackBy.bind(this); templateCacheSize: 0"
+            class="h-15 flex items-center"
+          >
+            <app-category-item class="w-full" [categoryId]="category.id"></app-category-item>
+          </div>
+        </cdk-virtual-scroll-viewport>
+      }
+      @case ('chart') {
+        <div class="w-full h-full flex flex-1 items-center justify-center overflow-hidden">
+          <canvas baseChart class="h-full" [type]="'doughnut'" [data]="chartData$ | async" [options]="chartOptions">
+          </canvas>
         </div>
-      </cdk-virtual-scroll-viewport>
-
-      <div *ngSwitchCase="'chart'" class="w-full h-full flex flex-1 items-center justify-center overflow-hidden">
-        <canvas baseChart class="h-full" [type]="'doughnut'" [data]="chartData$ | async" [options]="chartOptions">
-        </canvas>
-      </div>
-    </ng-container>
-  </ng-container>
+      }
+    }
+  }
 </div>
-
-<!-- <div class="flip-card-back flex flex-col">
-    <div class="flex justify-between items-center">
-      <span class="font-main font-bold text-charcoal text-xl">{{ title | translate }}</span>
-      <app-button
-        [colorScheme]="'green'"
-        [iconName]="'redo'"
-        [matTooltip]="buildTranslationKey('flipCardButtonTooltip') | translate"
-        [matTooltipPosition]="'above'"
-        (click)="toggleSide()"
-      ></app-button>
-    </div>
-
-    
-  </div> -->

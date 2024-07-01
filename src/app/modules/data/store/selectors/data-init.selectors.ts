@@ -1,14 +1,11 @@
 import { createSelector } from '@ngrx/store';
 import { dataFeatureSelector } from './feature.selector';
 
-const budgetTrackerStateSelector = createSelector(
-  dataFeatureSelector,
-  (dataFeatureState) => dataFeatureState.dataInitState
-);
+const dataInitStateSelector = createSelector(dataFeatureSelector, (dataFeatureState) => dataFeatureState.dataInitState);
 
-const dataLoadingSelector = createSelector(budgetTrackerStateSelector, (state) => state.isDataLoading);
+const dataLoadingSelector = createSelector(dataInitStateSelector, (state) => state.isDataLoading);
 
 export const DataInitSelectors = {
-  budgetTrackerStateSelector,
+  budgetTrackerStateSelector: dataInitStateSelector,
   dataLoadingSelector,
 };

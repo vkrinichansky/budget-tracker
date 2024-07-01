@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { RootValuesFacadeService } from '@budget-tracker/data';
 import { MenuAction } from '@budget-tracker/design-system';
-import { map, Observable } from 'rxjs';
+import { firstValueFrom, map, Observable } from 'rxjs';
 import { InfoCardValueModalService } from '../../../services';
 
 @Component({
@@ -10,11 +10,9 @@ import { InfoCardValueModalService } from '../../../services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FreeMoneyInfoCardComponent implements OnInit {
-  private readonly rootTranslationKey = 'dashboard.infoCards.freeMoney';
-
   freeMoney$: Observable<number>;
 
-  menuActions$: Observable<MenuAction[]>;
+  menuActions: MenuAction[];
 
   constructor(
     private rootValuesFacade: RootValuesFacadeService,
@@ -23,31 +21,39 @@ export class FreeMoneyInfoCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.freeMoney$ = this.rootValuesFacade.getFreeMoneyValue();
-
-    this.menuActions$ = this.freeMoney$.pipe(map((freeMoney) => this.resolveMenuActions(freeMoney)));
+    this.menuActions = this.resolveMenuActions();
   }
 
   buildTranslationKey(key: string): string {
-    return `${this.rootTranslationKey}.${key}`;
+    return `dashboard.infoCards.freeMoney.${key}`;
   }
 
-  private resolveMenuActions(freeMoney: number): MenuAction[] {
+  private resolveMenuActions(): MenuAction[] {
     return [
       {
         icon: 'plus',
         translationKey: this.buildTranslationKey('menu.increase'),
-        action: () => this.infoCardValueModalService.openIncreaseFreeMoneyModal(freeMoney),
+        action: async () => {
+          const freeMoney = await firstValueFrom(this.freeMoney$);
+          this.infoCardValueModalService.openIncreaseFreeMoneyModal(freeMoney);
+        },
       },
       {
         icon: 'minus',
         translationKey: this.buildTranslationKey('menu.decrease'),
-        disabled: freeMoney === 0,
-        action: () => this.infoCardValueModalService.openDecreaseFreeMoneyModal(freeMoney),
+        disabledObs: this.freeMoney$.pipe(map((freeMoney) => freeMoney === 0)),
+        action: async () => {
+          const freeMoney = await firstValueFrom(this.freeMoney$);
+          this.infoCardValueModalService.openDecreaseFreeMoneyModal(freeMoney);
+        },
       },
       {
         icon: 'edit',
         translationKey: this.buildTranslationKey('menu.edit'),
-        action: () => this.infoCardValueModalService.openEditFreeMoneyModal(freeMoney),
+        action: async () => {
+          const freeMoney = await firstValueFrom(this.freeMoney$);
+          this.infoCardValueModalService.openEditFreeMoneyModal(freeMoney);
+        },
       },
     ];
   }

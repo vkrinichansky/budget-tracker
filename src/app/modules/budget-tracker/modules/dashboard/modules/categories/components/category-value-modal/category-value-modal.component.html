@@ -1,39 +1,40 @@
-<h1 mat-dialog-title>{{ buildTranslationKey('title') | translate }}</h1>
-
-<div mat-dialog-content class="flex flex-col">
+<app-base-modal
+  [titleTranslationKey]="(category$ | async)?.name"
+  [subtitleTranslationKey]="buildTranslationKey('subtitle')"
+  [footerTemplate]="footer"
+>
   <form class="flex flex-col" [formGroup]="form">
     <mat-form-field>
       <mat-label>{{ buildTranslationKey('valueToAddTitle') | translate }}</mat-label>
-      <input matInput [type]="'number'" [formControlName]="formFieldsEnum.ValueToAdd" />
+      <input #valueInput matInput [type]="'number'" [formControlName]="formFieldsEnum.ValueToAdd" />
 
-      <mat-error *ngIf="hasRequiredError">{{ 'formErrors.required' | translate }}</mat-error>
+      @if (hasRequiredError) {
+        <mat-error>{{ 'formErrors.required' | translate }}</mat-error>
+      }
 
-      <mat-error *ngIf="hasMinValueError">{{ 'formErrors.minValue' | translate : { minValue: 1 } }}</mat-error>
+      @if (hasMinValueError) {
+        <mat-error>{{ 'formErrors.minValue' | translate: { minValue: 1 } }}</mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>{{ buildTranslationKey('noteTitle') | translate }}</mat-label>
       <textarea matInput rows="3" [formControlName]="formFieldsEnum.Note"></textarea>
 
-      <mat-error *ngIf="hasMaxLengthError">{{ 'formErrors.noteTooLong' | translate }}</mat-error>
+      @if (hasMaxLengthError) {
+        <mat-error>{{ 'formErrors.noteTooLong' | translate }}</mat-error>
+      }
     </mat-form-field>
   </form>
-</div>
+</app-base-modal>
 
-<div mat-dialog-actions>
+<ng-template #footer>
   <app-button
-    [buttonSizeX]="'auto'"
-    [colorScheme]="'transparent-dark'"
-    [text]="buildTranslationKey('cancel') | translate"
-    (click)="cancelClick()"
-  ></app-button>
-
-  <app-button
-    [buttonSizeX]="'medium'"
+    [buttonSizeX]="'px100'"
     [colorScheme]="'charcoal'"
     [text]="buildTranslationKey('add') | translate"
     [loading]="loading$ | async"
     [disabled]="!isFormValid"
     (click)="submitClick()"
   ></app-button>
-</div>
+</ng-template>

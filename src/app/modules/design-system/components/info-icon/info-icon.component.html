@@ -1,7 +1,9 @@
 <svg-icon
-  class="text-charcoal hover:text-blue cursor-pointer"
-  [iconName]="'info'"
-  [matTooltip]="text"
-  [matTooltipPosition]="tooltipPosition"
+  customTooltip
+  class="cursor-pointer"
+  [position]="tooltipPosition"
+  [tooltipText]="stringTooltip"
+  [tooltipTemplate]="templateTooltip"
+  [iconName]="icon"
   [size]="size"
 ></svg-icon>

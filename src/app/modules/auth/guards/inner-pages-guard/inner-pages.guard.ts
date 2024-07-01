@@ -1,22 +1,24 @@
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { AuthService } from '../../services';
-import { Router } from '@angular/router';
+import { AuthFacadeService } from '../../services';
+import { NavigatorService } from '@budget-tracker/shared';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class SecureInnerPagesGuard  {
-  constructor(public authService: AuthService, public router: Router) {}
+@Injectable()
+export class SecureInnerPagesGuard {
+  constructor(
+    private authFacade: AuthFacadeService,
+    private navigator: NavigatorService
+  ) {}
+
   canActivate(): Observable<boolean> {
-    return this.authService.isLoggedIn().pipe(
+    return this.authFacade.isLoggedIn().pipe(
       map((isLoggedIn) => {
         if (!isLoggedIn) {
           return true;
-        } else {
-          this.router.navigate(['budget-tracker']);
-          return false;
         }
+
+        this.navigator.navigateToBudgetTracker();
+        return false;
       })
     );
   }

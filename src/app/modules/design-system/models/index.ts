@@ -1,8 +1,7 @@
 export { MenuAction } from './menu-action.model';
-export { ConfirmationModalData } from './confirmation-modal-data.model';
-
-export * from './colors-set.enum';
-export * from './tooltip';
-
-export { doughnutChartPalette } from './doughnut-chart-palette';
+export * from './confirmation-modal-data.model';
 export { ChartJSTooltipConfig } from './chart-js-tooltip-config';
+
+export * from './tooltip';
+export * from './checkbox-group.model';
+export * from './design-system';

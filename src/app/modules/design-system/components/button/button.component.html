@@ -11,13 +11,16 @@
   [childElementId]="'buttonText'"
   [type]="'button'"
 >
-  <app-loader *ngIf="loading; else main"></app-loader>
-
-  <ng-template #main>
-    <svg-icon *ngIf="iconName" class="w-6 h-6" [iconName]="iconName" [class.grayscale]="disabled"></svg-icon>
-
-    <span id="buttonText" *ngIf="text" class="inline-block font-main text-base truncate">
-      {{ text }}
-    </span>
-  </ng-template>
+  @if (loading) {
+    <app-loader [colorMode]="loaderColorMode"></app-loader>
+  } @else {
+    @if (iconName) {
+      <svg-icon class="w-6 h-6" [iconName]="iconName" [class.grayscale]="disabled"></svg-icon>
+    }
+    @if (text) {
+      <span id="buttonText" class="inline-block font-main text-base truncate">
+        {{ text }}
+      </span>
+    }
+  }
 </button>

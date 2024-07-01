@@ -1,43 +1,40 @@
 import { Injectable } from '@angular/core';
 import { CurrenciesEnum, CurrencyLSKey, CurrencySymbolMapping } from '../../models';
-import { BehaviorSubject, Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CurrencyService {
-  private readonly currency = new BehaviorSubject<string>('');
-  currency$ = this.currency.asObservable();
+  private _currency: CurrenciesEnum;
 
-  setCurrencyToLS(currency: CurrenciesEnum): void {
+  setCurrencyToLS(currency: CurrenciesEnum, shouldReload = false): void {
     localStorage.setItem(CurrencyLSKey, currency);
-  }
 
-  getCurrencyFromLS(): CurrenciesEnum | undefined {
-    const language = localStorage.getItem(CurrencyLSKey);
-    if (language) {
-      return language as CurrenciesEnum;
+    if (shouldReload) {
+      location.reload();
     }
-    return undefined;
   }
 
-  setCurrency(currency: CurrenciesEnum): void {
-    this.currency.next(currency);
+  initCurrency(): void {
+    const language = localStorage.getItem(CurrencyLSKey);
+
+    if (language) {
+      this.setCurrentCurrency(language as CurrenciesEnum);
+      return;
+    }
+    this.setCurrencyToLS(CurrenciesEnum.Dollar);
+    this.setCurrentCurrency(CurrenciesEnum.Dollar);
   }
 
-  getCurrency(): CurrenciesEnum {
-    return this.currency.value as CurrenciesEnum;
+  setCurrentCurrency(currency: CurrenciesEnum): void {
+    this._currency = currency;
   }
 
-  getCurrencyObs(): Observable<string> {
-    return this.currency$;
-  }
-
-  getCurrencySymbolObs(): Observable<string> {
-    return this.getCurrencyObs().pipe(map((currency) => CurrencySymbolMapping[currency as CurrenciesEnum]));
+  getCurrentCurrency(): CurrenciesEnum {
+    return this._currency;
   }
 
   getCurrencySymbol(): string {
-    return CurrencySymbolMapping[this.getCurrency()];
+    return CurrencySymbolMapping[this._currency];
   }
 }

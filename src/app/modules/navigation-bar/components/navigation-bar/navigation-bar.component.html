@@ -7,7 +7,9 @@
     <span class="w-1 h-1 bg-white rounded-full"></span>
   </span>
 
-  <app-navigation-bar-item *ngFor="let item of navigationBarItems$ | async" [item]="item"></app-navigation-bar-item>
+  @for (item of navigationBarItems$ | async; track item) {
+    <app-navigation-bar-item [item]="item"></app-navigation-bar-item>
+  }
 </div>
 
 <app-button
@@ -19,5 +21,6 @@
   [iconName]="'logout'"
   [colorScheme]="'transparent-light'"
   [buttonSizeY]="'small'"
+  [buttonSizeX]="'small'"
   (click)="logOut()"
 ></app-button>

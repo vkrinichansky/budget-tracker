@@ -13,14 +13,19 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { AuthCoreModule } from './modules/auth/auth.module';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { CustomErrorStateMatcher } from '@budget-tracker/utils';
-import 'hammerjs';
-import 'chartjs-plugin-zoom';
+import { Chart } from 'chart.js';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { ServiceWorkerModule } from '@angular/service-worker';
+
+import 'hammerjs';
+import 'chartjs-plugin-zoom';
+import zoomPlugin from 'chartjs-plugin-zoom';
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig } from '@angular/material/dialog';
+Chart.register(zoomPlugin);
 
 @NgModule({
   declarations: [AppComponent],
@@ -52,9 +57,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
       },
     }),
     EffectsModule.forRoot([]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode(), connectInZone: true }),
     AuthCoreModule,
-    NoopAnimationsModule,
+    BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
@@ -69,6 +74,15 @@ import { ServiceWorkerModule } from '@angular/service-worker';
       useValue: {
         subscriptSizing: 'dynamic',
       },
+    },
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {
+        ...new MatDialogConfig(),
+        width: '400px',
+        position: { top: '70px' },
+        autoFocus: false,
+      } as MatDialogConfig,
     },
   ],
   bootstrap: [AppComponent],

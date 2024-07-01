@@ -2,8 +2,6 @@
   [iconBGClass]="'bg-light-red'"
   [iconColorClass]="'text-red'"
   [iconName]="'arrow-down'"
-  [primaryText]="expense$ | async"
+  [primaryText]="expense$ | async | currencySymbol"
   [secondaryText]="buildTranslationKey('title') | translate"
-  [menuActions]="menuActions"
-  [shouldDisplayMenu]="shouldDisplayMenu$ | async"
 ></app-info-card>

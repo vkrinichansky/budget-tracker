@@ -17,30 +17,23 @@
 
     "infoCards": {
       "income": {
-        "title": "Income",
-        "resetConfirmationMessage": "Do you want to reset all <b>income</b> categories' values?",
-        "menu": {
-          "resetCategories": "Reset categories"
-        }
+        "title": "Income"
       },
       "expense": {
-        "title": "Expense",
-        "resetConfirmationMessage": "Do you want to reset all <b>expense</b> categories' values?",
-        "menu": {
-          "resetCategories": "Reset categories"
-        }
+        "title": "Expense"
       },
       "balance": {
-        "fullBalance": "Full balance",
-        "currentBalance": "Current balance",
+        "fullBalance": "Full balance (FB)",
+        "currentBalance": "Current balance (CB)",
         "menu": {
           "increase": "Increase",
           "decrease": "Decrease",
           "edit": "Edit"
-        }
+        },
+        "tooltip": "Balance calculation:<br>FB = CB + S + FM"
       },
       "savings": {
-        "title": "Savings",
+        "title": "Savings (S)",
         "menu": {
           "increase": "Increase",
           "decrease": "Decrease",
@@ -48,7 +41,7 @@
         }
       },
       "freeMoney": {
-        "title": "Free money",
+        "title": "Free money (FM)",
         "menu": {
           "increase": "Increase",
           "decrease": "Decrease",
@@ -72,8 +65,13 @@
         "decrease": "Decrease",
         "edit": "Edit"
       },
-      "free": {
+      "freeMoney": {
         "title": "Free money",
+        "increase": "Increase",
+        "decrease": "Decrease",
+        "edit": "Edit"
+      },
+      "subtitle": {
         "increase": "Increase",
         "decrease": "Decrease",
         "edit": "Edit"
@@ -87,9 +85,29 @@
         "title": {
           "balance": "Balance",
           "savings": "Savings",
-          "free": "Free money"
+          "freeMoney": "Free money"
+        },
+        "removeConfirmationQuestion": "Are you sure you want to remove this record?",
+        "removeConfirmationCheckboxText": "Also revert changes made by this record",
+        "removeConfirmationRemark": {
+          "balance": {
+            "increase": "<span class='font-bold'>Balance</span> will be decreased by <span class='font-bold'>{{ value }}</span>",
+            "decrease": "<span class='font-bold'>Balance</span> will be increased by <span class='font-bold'>{{ value }}</span>",
+            "edit": "<span class='font-bold'>Balance</span> value will be <span class='font-bold'>{{ value }}</span>"
+          },
+          "savings": {
+            "increase": "<span class='font-bold'>Savings</span> will be decreased by <span class='font-bold'>{{ value }}</span>",
+            "decrease": "<span class='font-bold'>Savings</span> will be increased by <span class='font-bold'>{{ value }}</span>",
+            "edit": "<span class='font-bold'>Savings</span> value will be <span class='font-bold'>{{ value }}</span>"
+          },
+          "freeMoney": {
+            "increase": "<span class='font-bold'>Free money</span> will be decreased by <span class='font-bold'>{{ value }}</span>",
+            "decrease": "<span class='font-bold'>Free money</span> will be increased by <span class='font-bold'>{{ value }}</span>",
+            "edit": "<span class='font-bold'>Free money</span> value will be <span class='font-bold'>{{ value }}</span>"
+          }
         }
       },
+
       "categoryManagementRecord": {
         "categoryAdded": {
           "budgetType": {
@@ -110,18 +128,60 @@
         "expense": "<b>Expense</b> categories were reset"
       },
 
-      "emptyStateText": "No data to display yet"
+      "categoryValueChangeRecord": {
+        "removeConfirmationQuestion": "Are you sure you want to remove this record?",
+        "removeConfirmationCheckboxText": "Also revert changes made by this record",
+        "removeConfirmationRemark": {
+          "income": "<span class='font-bold'>{{ value }}</span> will be deducted from <span class='font-bold'>Balance</span> and <span class='font-bold'>{{ categoryName }}</span> category",
+          "expense": "<span class='font-bold'>{{ value }}</span> will be added to <span class='font-bold'>Balance</span> and deducted from <span class='font-bold'>{{ categoryName }}</span> category"
+        }
+      },
+
+      "emptyStateText": "No data to display yet",
+      "removeMenuTooltip": "Remove records by types",
+      "removeMenuDisabledTooltip": "You can do bulk records remove only if you have previous months records. For current month records you can use remove button on specific record",
+
+      "removeMenu": {
+        "allTypes": "All types",
+        "categoryManagement": {
+          "text": "Category management",
+          "tooltip": "Adding and removing categories"
+        },
+        "categoriesReset": {
+          "text": "Categories reset",
+          "tooltip": "Manual and monthly categories reset"
+        },
+        "rootValueChange": {
+          "text": "Root value change",
+          "tooltip": "Balance, savings and free money values changing"
+        },
+        "categoryValueChange": {
+          "text": "Category value change",
+          "tooltip": "Income and expense categories value changing"
+        },
+        "removeConfirmationQuestion": "Are you sure you want to remove records of selected types?",
+        "removeConfirmationRemark": "This action won't affect current month records"
+      }
     },
 
     "categories": {
       "income": {
-        "title": "Income"
+        "title": "Income",
+        "resetConfirmationQuestion": "Do you want to reset all <b>income</b> categories' values?",
+        "menu": {
+          "addCategory": "Add category",
+          "resetCategories": "Reset categories"
+        }
       },
       "expense": {
-        "title": "Expense"
+        "title": "Expense",
+        "resetConfirmationQuestion": "Do you want to reset all <b>expense</b> categories' values?",
+        "menu": {
+          "addCategory": "Add category",
+          "resetCategories": "Reset categories"
+        }
       },
       "emptyStateText": "No data to display yet",
-      "addCategoryButtonTooltip": "Add category",
       "tabs": {
         "list": "List",
         "chart": "Chart"
@@ -132,8 +192,8 @@
           "resetValue": "Reset value",
           "remove": "Remove"
         },
-        "confirmationModalRemove": "Do you want to remove <b>{{ categoryName }}</b> category?",
-        "confirmationModalReset": "Do you want to reset <b>{{ categoryName }}</b> category value?"
+        "removeConfirmationQuestion": "Do you want to remove <b>{{ categoryName }}</b> category?",
+        "removeConfirmationRemark": "This action will remove related records from activity log as well"
       }
     },
 
@@ -146,13 +206,14 @@
       },
       "categoryIconTitle": "Category icon",
       "categoryNameTitle": "Category name",
+      "categoryColorTitle": "Category color",
       "cancel": "Cancel",
       "addCategory": "Add category",
       "categoryExistsError": "Such category already exists",
       "categoryNameLengthError": "Max category name length is 25"
     },
     "categoryValueModal": {
-      "title": "Add value to category",
+      "subtitle": "Add value to category",
       "cancel": "Cancel",
       "add": "Add",
       "valueToAddTitle": "Value to add",
@@ -170,7 +231,8 @@
         "scrollLeft": "Scroll left",
         "scrollRight": "Scroll right",
         "resetZoom": "Reset zoom"
-      }
+      },
+      "total": "Total:"
     }
   },
 
@@ -199,6 +261,15 @@
       "message": "Category was removed successfully!",
       "buttonText": "Got it"
     },
+    "activityLogRecordRemoved": {
+      "message": "Activity log record was removed successfully!",
+      "buttonText": "Got it"
+    },
+    "bulkActivityLogRecordsRemoved": {
+      "allRecordsRemoved": "All activity log records were removed successfully!",
+      "recordsByTypesRemoved": "Activity log records with selected types were removed successfully!",
+      "buttonText": "Got it"
+    },
     "categoryValueChangedSnackbar": {
       "message": "Category value was changed successfully!",
       "buttonText": "Got it"
@@ -207,14 +278,20 @@
       "income": "Income categories were reset successfully!",
       "expense": "Expense categories were reset successfully!",
       "buttonText": "Got it"
+    },
+    "dataResetSnackbar": {
+      "message": "Categories were reset!",
+      "buttonText": "Got it"
     }
   },
 
   "formErrors": {
     "required": "Field is required",
     "minValue": "Minimal value is {{ minValue }}",
+    "maxValue": "Minimal value is {{ maxValue }}",
     "noteTooLong": "Note is too long, max length is 100",
-    "editError": "Value must be different after edit"
+    "editError": "Value must be different after edit",
+    "invalidColor": "The color is invalid"
   },
 
   "confirmationModal": {
@@ -226,18 +303,23 @@
   "languageSwitcher": {
     "tooltip": "Language",
     "languages": {
-      "english": "English (UK)",
-      "ukrainian": "Ukrainian (UA)"
+      "english": "English",
+      "ukrainian": "Ukrainian"
     }
   },
 
   "currencySwitcher": {
     "tooltip": "Currency",
     "currencies": {
-      "hryvnia": "Hryvnia (UA)",
-      "dollar": "Dollar (USA)",
-      "euro": "Euro (EU)"
+      "hryvnia": "Hryvnia (₴)",
+      "dollar": "Dollar ($)",
+      "euro": "Euro (€)"
     }
+  },
+
+  "lostConnectionMessage": {
+    "message": "It seems like you are offline. Please, check your internet connection.",
+    "button": "Reload"
   },
 
   "categoryIcons": {

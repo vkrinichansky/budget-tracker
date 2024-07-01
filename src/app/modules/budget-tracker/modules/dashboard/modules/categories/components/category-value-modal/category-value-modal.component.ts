@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable, takeUntil, filter } from 'rxjs';
-import { injectUnsubscriberService, provideUnsubscriberService } from '@budget-tracker/utils';
+import { Observable, filter, take } from 'rxjs';
 import { CategoryValueModalData } from '../../models';
-import { CategoriesFacadeService } from '@budget-tracker/data';
+import { CategoriesFacadeService, Category } from '@budget-tracker/data';
 
 enum FormFields {
   ValueToAdd = 'valueToAdd',
@@ -15,12 +14,8 @@ enum FormFields {
   selector: 'app-category-value-modal',
   templateUrl: './category-value-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideUnsubscriberService()],
 })
 export class CategoryValueModalComponent implements OnInit {
-  private readonly rootTranslationKey = 'dashboard.categoryValueModal';
-  private readonly destroy$ = injectUnsubscriberService();
-
   readonly formFieldsEnum = FormFields;
 
   readonly form: FormGroup = new FormGroup({
@@ -30,6 +25,8 @@ export class CategoryValueModalComponent implements OnInit {
 
   loading$: Observable<boolean>;
   success$: Observable<boolean>;
+
+  category$: Observable<Category>;
 
   get isFormValid(): boolean {
     return this.form.valid;
@@ -54,19 +51,11 @@ export class CategoryValueModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loading$ = this.categoriesFacade.getCategoryValueChangeInProgress();
-    this.success$ = this.categoriesFacade.getCategoryValueChangeSuccess();
-
-    this.success$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((isSuccess) => !!isSuccess)
-      )
-      .subscribe(() => this.dialogRef.close());
+    this.initListeners();
   }
 
   buildTranslationKey(key: string): string {
-    return `${this.rootTranslationKey}.${key}`;
+    return `dashboard.categoryValueModal.${key}`;
   }
 
   cancelClick(): void {
@@ -79,5 +68,18 @@ export class CategoryValueModalComponent implements OnInit {
       parseInt(this.form.controls[FormFields.ValueToAdd].value),
       this.form.controls[FormFields.Note].value
     );
+  }
+
+  private initListeners(): void {
+    this.loading$ = this.categoriesFacade.getCategoryValueChangeInProgress();
+    this.success$ = this.categoriesFacade.getCategoryValueChangeSuccess();
+    this.category$ = this.categoriesFacade.getCategoryById(this.data.categoryId);
+
+    this.success$
+      .pipe(
+        filter((isSuccess) => !!isSuccess),
+        take(1)
+      )
+      .subscribe(() => this.dialogRef.close());
   }
 }

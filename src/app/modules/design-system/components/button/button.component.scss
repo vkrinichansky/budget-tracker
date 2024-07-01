@@ -6,21 +6,43 @@
     @apply cursor-default pointer-events-none;
   }
 
+  @media (hover: hover) {
+    transition-duration: 0.1s;
+    transition-timing-function: linear;
+    transition-property: background-color, color;
+  }
+
+  @mixin clickEffectOnMobile($bg-color) {
+    @media (hover: none) {
+      &:active {
+        @apply #{$bg-color};
+      }
+    }
+  }
+
   // SIZES X
+  &.tiny-x {
+    @apply w-7 min-w-7;
+  }
+
   &.small-x {
-    @apply w-8;
+    @apply w-8 min-w-8;
   }
 
   &.medium-x {
-    @apply w-24;
+    @apply w-9 min-w-9;
+  }
+
+  &.px100-x {
+    @apply w-25 min-w-25;
   }
 
   &.big-x {
-    @apply w-40;
+    @apply w-40 min-w-40;
   }
 
   &.large-x {
-    @apply w-60;
+    @apply w-60 min-w-60;
   }
 
   &.full-x {
@@ -33,15 +55,15 @@
 
   // SIZES Y
   &.tiny-y {
-    @apply h-7;
+    @apply h-7 min-h-7;
   }
 
   &.small-y {
-    @apply h-8;
+    @apply h-8 min-h-8;
   }
 
   &.medium-y {
-    @apply h-9;
+    @apply h-9 min-h-9;
   }
 
   &.auto-y {
@@ -50,7 +72,7 @@
 
   // COLORS
   &.charcoal {
-    @apply bg-charcoal hover:bg-blue text-white;
+    @apply bg-charcoal text-white;
 
     &.disabled {
       @apply bg-grey;
@@ -60,13 +82,17 @@
       @apply text-white;
     }
 
-    @media (max-width: 480px) {
-      @apply hover:bg-charcoal;
+    @media (hover: hover) {
+      @apply hover:bg-blue;
+    }
+
+    &.mobile-click-effect {
+      @include clickEffectOnMobile(bg-blue);
     }
   }
 
   &.green {
-    @apply bg-dark-green hover:bg-hover-green text-white;
+    @apply bg-dark-green text-white;
 
     &.disabled {
       @apply bg-grey;
@@ -76,37 +102,49 @@
       @apply text-white;
     }
 
-    @media (max-width: 480px) {
-      @apply hover:bg-dark-green;
+    @media (hover: hover) {
+      @apply hover:bg-hover-green;
+    }
+
+    &.mobile-click-effect {
+      @include clickEffectOnMobile(bg-hover-green);
     }
   }
 
   &.active-navigation-item {
-    @apply bg-transparent hover:bg-hover-white text-green;
+    @apply bg-transparent text-green;
 
     svg-icon {
       @apply text-green;
     }
 
-    @media (max-width: 480px) {
-      @apply hover:bg-transparent;
+    @media (hover: hover) {
+      @apply hover:bg-hover-white;
+    }
+
+    &.mobile-click-effect {
+      @include clickEffectOnMobile(bg-hover-white);
     }
   }
 
   &.transparent-light {
-    @apply bg-transparent hover:bg-hover-white text-white;
+    @apply bg-transparent text-white;
 
     svg-icon {
       @apply text-white;
     }
 
-    @media (max-width: 480px) {
-      @apply hover:bg-transparent;
+    @media (hover: hover) {
+      @apply hover:bg-hover-white;
+    }
+
+    &.mobile-click-effect {
+      @include clickEffectOnMobile(bg-hover-white);
     }
   }
 
   &.transparent-dark {
-    @apply bg-transparent hover:bg-hover-black text-charcoal;
+    @apply bg-transparent  text-charcoal;
 
     &.disabled {
       @apply text-grey;
@@ -120,14 +158,18 @@
       @apply text-charcoal;
     }
 
-    @media (max-width: 480px) {
-      @apply bg-transparent hover:bg-transparent;
+    @media (hover: hover) {
+      @apply hover:bg-hover-black;
+    }
+
+    &.mobile-click-effect {
+      @include clickEffectOnMobile(bg-hover-black);
     }
   }
 
   // ACTIVE STATE
   &.active-green {
-    @apply bg-dark-green hover:bg-dark-green text-white;
+    @apply bg-dark-green text-white;
 
     svg-icon {
       @apply text-white;
@@ -135,7 +177,7 @@
   }
 
   &.active-charcoal {
-    @apply bg-charcoal hover:bg-blue text-white;
+    @apply bg-charcoal text-white;
 
     svg-icon {
       @apply text-white;
