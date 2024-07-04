@@ -291,7 +291,8 @@
     "maxValue": "Minimal value is {{ maxValue }}",
     "noteTooLong": "Note is too long, max length is 100",
     "editError": "Value must be different after edit",
-    "invalidColor": "The color is invalid"
+    "invalidColor": "The color is invalid",
+    "numberPattern": "Input should be integer"
   },
 
   "confirmationModal": {

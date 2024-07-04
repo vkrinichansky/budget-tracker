@@ -45,7 +45,7 @@
       }
     </mat-form-field>
 
-    <mat-form-field class="no-click cursor-pointer" (click)="clickOnColorPicker()">
+    <!-- <mat-form-field class="no-click cursor-pointer" (click)="clickOnColorPicker()">
       <mat-label>{{ buildTranslationKey('categoryColorTitle') | translate }}</mat-label>
       <input matInput [readonly]="true" [formControlName]="formFields.CategoryColorInput" />
       <ngx-colors
@@ -61,7 +61,12 @@
       @if (this.form.controls[formFields.CategoryColorInput].hasError('invalidColor')) {
         <mat-error> {{ 'formErrors.invalidColor' | translate }} </mat-error>
       }
-    </mat-form-field>
+    </mat-form-field> -->
+
+    <color-picker
+      [label]="buildTranslationKey('categoryColorTitle') | translate"
+      [formControlName]="formFields.CategoryColorPicker"
+    ></color-picker>
   </form>
 </app-base-modal>
 
