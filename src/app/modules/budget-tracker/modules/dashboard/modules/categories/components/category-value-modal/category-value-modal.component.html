@@ -6,7 +6,7 @@
   <form class="flex flex-col" [formGroup]="form">
     <mat-form-field>
       <mat-label>{{ buildTranslationKey('valueToAddTitle') | translate }}</mat-label>
-      <input #valueInput matInput [type]="'number'" [formControlName]="formFieldsEnum.ValueToAdd" />
+      <input #valueInput matInput [formControlName]="formFieldsEnum.ValueToAdd" />
 
       @if (hasRequiredError) {
         <mat-error>{{ 'formErrors.required' | translate }}</mat-error>
@@ -14,6 +14,10 @@
 
       @if (hasMinValueError) {
         <mat-error>{{ 'formErrors.minValue' | translate: { minValue: 1 } }}</mat-error>
+      }
+
+      @if (hasNumberPatternError) {
+        <mat-error>{{ 'formErrors.numberPattern' | translate }}</mat-error>
       }
     </mat-form-field>
 

@@ -15,6 +15,7 @@ import {
   CheckboxGroupComponent,
   FullsizeLoaderComponent,
   BaseModalComponent,
+  ColorPickerComponent,
 } from './components';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -25,6 +26,9 @@ import { UtilsModule } from '@budget-tracker/utils';
 import { TooltipRendererDirective } from './directives';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgxColorsModule } from 'ngx-colors';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   imports: [
@@ -37,6 +41,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatCheckboxModule,
     ReactiveFormsModule,
     FormsModule,
+    MatFormFieldModule,
+    NgxColorsModule,
+    MatInputModule,
   ],
 
   declarations: [
@@ -55,6 +62,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CheckboxGroupComponent,
     FullsizeLoaderComponent,
     BaseModalComponent,
+    ColorPickerComponent,
   ],
   exports: [
     SvgIconComponent,
@@ -70,6 +78,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CheckboxGroupComponent,
     FullsizeLoaderComponent,
     BaseModalComponent,
+    ColorPickerComponent,
   ],
   providers: [ConfirmationModalService],
 })

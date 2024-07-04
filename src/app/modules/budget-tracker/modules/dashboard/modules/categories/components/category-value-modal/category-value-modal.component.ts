@@ -19,7 +19,11 @@ export class CategoryValueModalComponent implements OnInit {
   readonly formFieldsEnum = FormFields;
 
   readonly form: FormGroup = new FormGroup({
-    [FormFields.ValueToAdd]: new FormControl(null, [Validators.required, Validators.min(1)]),
+    [FormFields.ValueToAdd]: new FormControl(null, [
+      Validators.required,
+      Validators.min(1),
+      Validators.pattern(new RegExp(/^[0-9]+$/)),
+    ]),
     [FormFields.Note]: new FormControl(null, [Validators.maxLength(100)]),
   });
 
@@ -38,6 +42,10 @@ export class CategoryValueModalComponent implements OnInit {
 
   get hasMinValueError(): boolean {
     return this.form.controls[FormFields.ValueToAdd].hasError('min');
+  }
+
+  get hasNumberPatternError(): boolean {
+    return this.form.controls[FormFields.ValueToAdd].hasError('pattern');
   }
 
   get hasMaxLengthError(): boolean {

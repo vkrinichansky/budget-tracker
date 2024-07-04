@@ -1,7 +1,7 @@
 <ng-container *ngVar="category$ | async as category">
   <div class="flex items-center gap-x-2 flex-1 overflow-hidden">
     <span
-      class="w-5 h-5 border-2 border-solid border-charcoal rounded-full"
+      class="w-5 h-5 min-w-5 min-h-5 border-2 border-solid border-charcoal rounded-full"
       [style.backgroundColor]="category.hexColor"
     ></span>
 

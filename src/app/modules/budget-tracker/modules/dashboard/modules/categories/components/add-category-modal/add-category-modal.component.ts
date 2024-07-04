@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ChangeDetectionStrategy, DestroyRef, viewChild, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy, DestroyRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BudgetType, Category } from '@budget-tracker/data';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -9,14 +9,11 @@ import { Observable, combineLatest, filter, map, take, tap } from 'rxjs';
 import { AddCategoryModalData, CategoryIconForSelect, PredefinedCategoryIcons } from '../../models';
 import { CategoriesFacadeService } from '@budget-tracker/data';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NgxColorsComponent, NgxColorsTriggerDirective, validColorValidator } from 'ngx-colors';
-import { isMobileWidth } from '@budget-tracker/utils';
 
 enum FormFields {
   CategoryIcon = 'categoryIcon',
   CategoryName = 'categoryName',
   CategoryColorPicker = 'categoryColorPicker',
-  CategoryColorInput = 'categoryColorInput',
 }
 
 @Component({
@@ -25,9 +22,6 @@ enum FormFields {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddCategoryModalComponent implements OnInit {
-  @ViewChild(NgxColorsTriggerDirective)
-  private colorPicker: NgxColorsTriggerDirective;
-
   private categories$: Observable<Category[]>;
 
   readonly formFields = FormFields;
@@ -38,7 +32,6 @@ export class AddCategoryModalComponent implements OnInit {
     [FormFields.CategoryIcon]: new FormControl(null, [Validators.required]),
     [FormFields.CategoryName]: new FormControl('', [Validators.required, Validators.maxLength(50)]),
     [FormFields.CategoryColorPicker]: new FormControl('', [Validators.required]),
-    [FormFields.CategoryColorInput]: new FormControl('', [Validators.required, validColorValidator()]),
   });
 
   budgetType: BudgetType;
@@ -77,10 +70,6 @@ export class AddCategoryModalComponent implements OnInit {
     return this.form.controls[FormFields.CategoryName].hasError('categoryExists');
   }
 
-  get isMobile(): boolean {
-    return isMobileWidth();
-  }
-
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: AddCategoryModalData,
     private dialogRef: MatDialogRef<AddCategoryModalComponent>,
@@ -93,11 +82,6 @@ export class AddCategoryModalComponent implements OnInit {
     this.initDataAccordingToBudgetType();
     this.initListeners();
     this.subscribeToCategoryNameChanges();
-    this.initColorInputsBinding();
-  }
-
-  clickOnColorPicker(): void {
-    this.colorPicker.openPanel();
   }
 
   setCategoryNameToInput(value: CategoryIconForSelect) {
@@ -160,15 +144,5 @@ export class AddCategoryModalComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
-  }
-
-  private initColorInputsBinding(): void {
-    this.form.controls[FormFields.CategoryColorPicker].valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((color) =>
-        this.form.controls[FormFields.CategoryColorInput].setValue(color, {
-          emitEvent: false,
-        })
-      );
   }
 }

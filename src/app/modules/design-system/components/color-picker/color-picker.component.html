@@ -1,0 +1,20 @@
+<form class="flex flex-col" [formGroup]="form">
+  <mat-form-field class="no-click cursor-pointer" (click)="clickOnColorPicker()">
+    <mat-label>{{ label }}</mat-label>
+    <input matInput [readonly]="true" [formControlName]="formFields.ColorInput" />
+    <ngx-colors
+      #colorPicker
+      matSuffix
+      ngx-colors-trigger
+      [formControlName]="formFields.ColorPicker"
+      [hideTextInput]="true"
+      [colorsAnimation]="isMobile ? null : 'slide-in'"
+      (click)="$event.stopPropagation()"
+      (ngModelChange)="valueChanged($event)"
+    ></ngx-colors>
+
+    @if (this.form.controls[formFields.ColorInput].hasError('invalidColor')) {
+      <mat-error> {{ 'formErrors.invalidColor' | translate }} </mat-error>
+    }
+  </mat-form-field>
+</form>
