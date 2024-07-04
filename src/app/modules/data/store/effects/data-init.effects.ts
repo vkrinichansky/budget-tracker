@@ -4,6 +4,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { from, map, of, switchMap, tap } from 'rxjs';
 import {
+  AccountsActions,
   ActivityLogActions,
   CategoriesActions,
   DataInitActions,
@@ -104,7 +105,8 @@ export class DataInitEffects {
           CategoriesActions.clean(),
           ActivityLogActions.clean(),
           RootValuesActions.clean(),
-          StatisticsActions.clean()
+          StatisticsActions.clean(),
+          AccountsActions.clean()
         )
       )
     )
@@ -137,6 +139,7 @@ export class DataInitEffects {
 
   private setStates(data: BudgetTrackerState) {
     const categories = Object.values(data.budget.categories);
+    const accounts = Object.values(data.budget.accounts);
     const activityLog = [...data.budget.activityLog];
     const statistics = structuredClone(data.statistics);
     const resetDate = data.resetDate;
@@ -150,5 +153,6 @@ export class DataInitEffects {
     this.store.dispatch(ActivityLogActions.activityLogLoaded({ activityLog }));
     this.store.dispatch(DataInitActions.resetDateLoaded({ resetDate }));
     this.store.dispatch(StatisticsActions.statisticsLoaded({ statistics }));
+    this.store.dispatch(AccountsActions.accountsLoaded({ accounts }));
   }
 }

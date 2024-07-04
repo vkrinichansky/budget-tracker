@@ -48,6 +48,7 @@ export class AuthService {
     const data: BudgetTrackerState = {
       budget: {
         categories: {},
+        accounts: {},
         rootValues: {
           balance: 0,
           savings: 0,

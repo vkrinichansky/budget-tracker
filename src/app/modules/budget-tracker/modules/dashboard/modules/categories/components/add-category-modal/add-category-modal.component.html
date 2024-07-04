@@ -2,7 +2,11 @@
   <form class="flex flex-col" [formGroup]="form">
     <mat-form-field>
       <mat-label>{{ buildTranslationKey('categoryIconTitle') | translate }}</mat-label>
-      <mat-select [formControlName]="formFields.CategoryIcon" (selectionChange)="setCategoryNameToInput($event.value)">
+      <mat-select
+        [disableRipple]="true"
+        [formControlName]="formFields.CategoryIcon"
+        (selectionChange)="setCategoryNameToInput($event.value)"
+      >
         <mat-select-trigger>
           <span class="flex justify-start items-center text-charcoal gap-x-1.5 font-main">
             <svg-icon [iconName]="selectedIcon"></svg-icon>
@@ -44,24 +48,6 @@
         <mat-error>{{ buildTranslationKey('categoryExistsError') | translate }}</mat-error>
       }
     </mat-form-field>
-
-    <!-- <mat-form-field class="no-click cursor-pointer" (click)="clickOnColorPicker()">
-      <mat-label>{{ buildTranslationKey('categoryColorTitle') | translate }}</mat-label>
-      <input matInput [readonly]="true" [formControlName]="formFields.CategoryColorInput" />
-      <ngx-colors
-        #colorPicker
-        matSuffix
-        ngx-colors-trigger
-        [formControlName]="formFields.CategoryColorPicker"
-        [hideTextInput]="true"
-        [colorsAnimation]="isMobile ? null : 'slide-in'"
-        (click)="$event.stopPropagation()"
-      ></ngx-colors>
-
-      @if (this.form.controls[formFields.CategoryColorInput].hasError('invalidColor')) {
-        <mat-error> {{ 'formErrors.invalidColor' | translate }} </mat-error>
-      }
-    </mat-form-field> -->
 
     <color-picker
       [label]="buildTranslationKey('categoryColorTitle') | translate"

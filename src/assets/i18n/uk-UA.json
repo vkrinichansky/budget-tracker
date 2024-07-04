@@ -22,31 +22,18 @@
       "expense": {
         "title": "Витрати"
       },
-      "balance": {
-        "fullBalance": "Повний баланс (ПвБ)",
-        "currentBalance": "Поточний баланс (ПтБ)",
+      "fullBalance": {
+        "fullBalance": "Повний баланс",
         "menu": {
           "increase": "Збільшити",
           "decrease": "Зменшити",
           "edit": "Редагувати"
         },
-        "tooltip": "Розрахунок балансу:<br>ПвБ = ПтБ + З + ВГ"
+        "tooltip": "Full balance is the sum of all your accounts"
       },
-      "savings": {
-        "title": "Збереження (З)",
-        "menu": {
-          "increase": "Збільшити",
-          "decrease": "Зменшити",
-          "edit": "Редагувати"
-        }
-      },
-      "freeMoney": {
-        "title": "Вільні гроші (ВГ)",
-        "menu": {
-          "increase": "Збільшити",
-          "decrease": "Зменшити",
-          "edit": "Редагувати"
-        }
+      "accounts": {
+        "title": "Рахунки",
+        "hoverTip": "Ваші рахунки (натисніть)"
       }
     },
 

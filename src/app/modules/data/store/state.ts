@@ -9,6 +9,7 @@ export interface DataFeatureState {
   rootValuesState: t.RootValuesState;
   categoriesState: t.CategoriesState;
   statisticsState: t.StatisticsState;
+  accountsState: t.AccountsState;
 }
 
 export const reducers: ActionReducerMap<DataFeatureState> = {
@@ -17,6 +18,7 @@ export const reducers: ActionReducerMap<DataFeatureState> = {
   categoriesState: t.categoriesReducer,
   dataInitState: t.dataInitializationReducer,
   statisticsState: t.statisticsReducer,
+  accountsState: t.accountsReducer,
 };
 
 // tslint:disable-next-line:typedef

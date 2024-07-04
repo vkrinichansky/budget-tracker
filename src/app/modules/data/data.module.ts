@@ -10,6 +10,7 @@ import {
   reducers,
 } from './store';
 import {
+  AccountsFacadeService,
   ActivityLogFacadeService,
   ActivityLogService,
   CategoriesFacadeService,
@@ -39,6 +40,7 @@ import { EffectsModule } from '@ngrx/effects';
     DataInitFacadeService,
     StatisticsFacadeService,
     ActivityLogService,
+    AccountsFacadeService,
   ],
 })
 export class DataModule {}

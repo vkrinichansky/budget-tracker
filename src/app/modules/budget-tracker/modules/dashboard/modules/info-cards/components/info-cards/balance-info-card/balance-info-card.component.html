@@ -1,12 +1,8 @@
 <app-info-card
   [iconBGClass]="'bg-light-blue'"
   [iconName]="'equal-sign'"
-  [twoLine]="true"
-  [primaryText]="currentBalance$ | async | currencySymbol"
-  [secondaryText]="buildTranslationKey('currentBalance') | translate"
-  [additionalPrimaryText]="fullBalance$ | async | currencySymbol"
-  [additionalSecondaryText]="buildTranslationKey('fullBalance') | translate"
-  [menuActions]="menuActions"
+  [primaryText]="fullBalance$ | async | currencySymbol"
+  [secondaryText]="buildTranslationKey('fullBalance') | translate"
   [tooltip]="tooltip"
 ></app-info-card>
 

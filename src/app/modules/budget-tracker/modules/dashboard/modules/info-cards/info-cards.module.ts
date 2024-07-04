@@ -4,9 +4,8 @@ import {
   IncomeInfoCardComponent,
   ExpenseInfoCardComponent,
   BalanceInfoCardComponent,
-  SavingsInfoCardComponent,
-  FreeMoneyInfoCardComponent,
   InfoCardValueModalComponent,
+  AccountsInfoCardComponent,
 } from './components';
 import { InfoCardValueModalService } from './services';
 import { DesignSystemModule } from '@budget-tracker/design-system';
@@ -23,9 +22,8 @@ import { SharedModule } from '@budget-tracker/shared';
     IncomeInfoCardComponent,
     ExpenseInfoCardComponent,
     BalanceInfoCardComponent,
-    SavingsInfoCardComponent,
-    FreeMoneyInfoCardComponent,
     InfoCardValueModalComponent,
+    AccountsInfoCardComponent,
   ],
   imports: [
     CommonModule,
@@ -39,13 +37,7 @@ import { SharedModule } from '@budget-tracker/shared';
     DataModule,
     SharedModule,
   ],
-  exports: [
-    IncomeInfoCardComponent,
-    ExpenseInfoCardComponent,
-    BalanceInfoCardComponent,
-    SavingsInfoCardComponent,
-    FreeMoneyInfoCardComponent,
-  ],
+  exports: [IncomeInfoCardComponent, ExpenseInfoCardComponent, BalanceInfoCardComponent, AccountsInfoCardComponent],
   providers: [InfoCardValueModalService],
 })
 export class InfoCardsModule {}

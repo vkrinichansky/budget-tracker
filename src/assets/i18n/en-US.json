@@ -22,31 +22,18 @@
       "expense": {
         "title": "Expense"
       },
-      "balance": {
-        "fullBalance": "Full balance (FB)",
-        "currentBalance": "Current balance (CB)",
+      "fullBalance": {
+        "fullBalance": "Full balance",
         "menu": {
           "increase": "Increase",
           "decrease": "Decrease",
           "edit": "Edit"
         },
-        "tooltip": "Balance calculation:<br>FB = CB + S + FM"
+        "tooltip": "Full balance is the sum of all your accounts"
       },
-      "savings": {
-        "title": "Savings (S)",
-        "menu": {
-          "increase": "Increase",
-          "decrease": "Decrease",
-          "edit": "Edit"
-        }
-      },
-      "freeMoney": {
-        "title": "Free money (FM)",
-        "menu": {
-          "increase": "Increase",
-          "decrease": "Decrease",
-          "edit": "Edit"
-        }
+      "accounts": {
+        "title": "Accounts",
+        "hoverTip": "Click to see your accounts"
       }
     },
 

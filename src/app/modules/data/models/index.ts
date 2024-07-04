@@ -4,3 +4,4 @@ export { BudgetType } from './budget-type.enum';
 
 export * from './activity-log.model';
 export * from './statistics.model';
+export * from './account.model';
