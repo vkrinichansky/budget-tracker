@@ -4,7 +4,7 @@ import { AuthFacadeService } from '@budget-tracker/auth';
 import { BehaviorSubject } from 'rxjs';
 import { NavigationBarItem } from '../../models';
 import { ConfirmationModalService } from '@budget-tracker/design-system';
-import { AppRoutes } from '@budget-tracker/shared';
+import { AppRoutes } from '@budget-tracker/utils';
 
 @Component({
   selector: 'app-navigation-bar',

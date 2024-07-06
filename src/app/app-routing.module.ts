@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, provideRouter, withViewTransitions } from '@angular/router';
 import { AuthGuard, SecureInnerPagesGuard } from './modules/auth/guards';
-import { AppRoutesNames } from '@budget-tracker/shared';
+import { AppRoutesNames } from '@budget-tracker/utils';
 
 const routes: Routes = [
   {

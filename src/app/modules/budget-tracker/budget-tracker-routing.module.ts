@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BudgetTrackerComponent } from './budget-tracker.component';
 import { InitDataGuard } from './guards';
-import { AppRoutesNames } from '../shared/models';
+import { AppRoutesNames } from '@budget-tracker/utils';
 
 const routes: Routes = [
   {
