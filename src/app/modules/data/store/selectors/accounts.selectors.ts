@@ -9,7 +9,23 @@ const allAccountsSelector = createSelector(allAccountsDictionarySelector, (accou
   Object.values(accountsDictionary)
 );
 
+const accountByIdSelector = (accountId: string) =>
+  createSelector(allAccountsDictionarySelector, (accountsDictionary) => accountsDictionary[accountId]);
+
+const editAccountValueInProgressSelector = createSelector(
+  accountsStateSelector,
+  (state) => state.accountValueEdit.inProgress
+);
+
+const editAccountValueSucceedSelector = createSelector(
+  accountsStateSelector,
+  (state) => state.accountValueEdit.success
+);
+
 export const AccountsSelectors = {
   accountsStateSelector,
   allAccountsSelector,
+  accountByIdSelector,
+  editAccountValueInProgressSelector,
+  editAccountValueSucceedSelector,
 };

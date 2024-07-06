@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { InfoCardValueModalService } from './info-card-value-modal.service';
+import { InfoCardValueModalService } from './account-value-edit-modal.service';
 
 describe('InfoCardValueModalService', () => {
   let service: InfoCardValueModalService;

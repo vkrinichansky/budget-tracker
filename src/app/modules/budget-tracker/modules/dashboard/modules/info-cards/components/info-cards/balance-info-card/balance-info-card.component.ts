@@ -10,10 +10,10 @@ import { AccountsFacadeService } from '@budget-tracker/data';
 export class BalanceInfoCardComponent implements OnInit {
   fullBalance$: Observable<number>;
 
-  constructor(private accountFacade: AccountsFacadeService) {}
+  constructor(private accountsFacade: AccountsFacadeService) {}
 
   ngOnInit(): void {
-    this.fullBalance$ = this.accountFacade.getFullBallance();
+    this.fullBalance$ = this.accountsFacade.getFullBallance();
   }
 
   buildTranslationKey(key: string): string {

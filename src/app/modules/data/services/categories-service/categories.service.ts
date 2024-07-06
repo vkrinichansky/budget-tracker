@@ -10,11 +10,17 @@ import {
   DocumentReference,
   deleteField,
 } from '@angular/fire/firestore';
-import { Category, CategoryManagementRecord, CategoryValueChangeRecord, CategoriesResetRecord } from '../../models';
+import {
+  Category,
+  CategoryManagementRecord,
+  CategoryValueChangeRecord,
+  CategoriesResetRecord,
+  Account,
+} from '../../models';
 
 const CATEGORIES_PATH = 'budget.categories';
 const ACTIVITY_LOG_PATH = 'budget.activityLog';
-const ROOT_VALUES_PATH = 'budget.rootValues';
+const ACCOUNTS_PATH = 'budget.accounts';
 
 @Injectable()
 export class CategoriesService {
@@ -46,12 +52,12 @@ export class CategoriesService {
 
   changeCategoryValue(
     updatedCategory: Category,
-    newBalanceValue: number,
+    updatedAccount: Account,
     activityLogRecord: CategoryValueChangeRecord
   ): Promise<void> {
     return updateDoc(this.getDocRef(), {
       [`${CATEGORIES_PATH}.${updatedCategory.id}`]: updatedCategory,
-      [`${ROOT_VALUES_PATH}.balance`]: newBalanceValue,
+      [`${ACCOUNTS_PATH}.${updatedAccount.id}`]: updatedAccount,
       [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
     });
   }

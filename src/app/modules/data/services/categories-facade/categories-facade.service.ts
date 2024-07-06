@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 import { Observable, firstValueFrom, map } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { ActivityLogSelectors, CategoriesActions, CategoriesSelectors } from '../../store';
-import { RootValuesFacadeService } from '../root-values-facade/root-values-facade.service';
 import {
   Category,
   CategoryManagementRecord,
@@ -12,14 +11,16 @@ import {
   BudgetType,
   CategoryValueChangeRecord,
   CategoriesResetRecord,
+  Account,
 } from '../../models';
 import { Dictionary } from '@ngrx/entity';
+import { AccountsFacadeService } from '../accounts-facade/accounts-facade.service';
 
 @Injectable()
 export class CategoriesFacadeService {
   constructor(
     private store: Store,
-    private rootValuesFacade: RootValuesFacadeService
+    private accountsFacade: AccountsFacadeService
   ) {}
 
   getAllCategories(): Observable<Category[]> {
@@ -122,31 +123,22 @@ export class CategoriesFacadeService {
       .pipe(map((removingCategoriesIds) => removingCategoriesIds.includes(categoryId)));
   }
 
-  async changeCategoryValue(categoryId: string, valueToAdd = 0, note = ''): Promise<void> {
-    const balance = await firstValueFrom(this.rootValuesFacade.getFullBalanceValue());
+  async changeCategoryValue(categoryId: string, accountId: string, valueToAdd = 0, note = ''): Promise<void> {
+    const account = structuredClone(await firstValueFrom(this.accountsFacade.getAccountById(accountId)));
+    const category = structuredClone(await firstValueFrom(this.getCategoryById(categoryId)));
 
-    let newBalanceValue = balance;
-
-    const category: Category = structuredClone(await firstValueFrom(this.getCategoryById(categoryId)));
-    const updatedCategory: Category = { ...category, value: category.value + valueToAdd };
-
-    switch (category.budgetType) {
-      case BudgetType.Income:
-        newBalanceValue = balance + valueToAdd;
-
-        break;
-
-      case BudgetType.Expense:
-        newBalanceValue = balance - valueToAdd;
-
-        break;
-    }
+    const updatedCategory: Category = {
+      ...category,
+      value: category.value + valueToAdd,
+    };
 
     const addCategoryValueRecord: CategoryValueChangeRecord = {
       id: uuid(),
       budgetType: category.budgetType,
       categoryId: category.id,
       categoryName: category.name,
+      accountId,
+      accountName: account.name,
       date: new Date().getTime(),
       icon: category.icon,
       recordType: ActivityLogRecordType.CategoryValueChange,
@@ -154,10 +146,30 @@ export class CategoriesFacadeService {
       note,
     };
 
+    let updatedAccount: Account;
+
+    switch (category.budgetType) {
+      case BudgetType.Income:
+        updatedAccount = {
+          ...account,
+          value: account.value + valueToAdd,
+        };
+
+        break;
+
+      case BudgetType.Expense:
+        updatedAccount = {
+          ...account,
+          value: account.value - valueToAdd,
+        };
+
+        break;
+    }
+
     this.store.dispatch(
       CategoriesActions.changeCategoryValue({
         updatedCategory,
-        newBalanceValue,
+        updatedAccount,
         activityLogRecord: addCategoryValueRecord,
       })
     );

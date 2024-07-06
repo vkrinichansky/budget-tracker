@@ -11,6 +11,9 @@ export class BaseModalComponent {
   titleTranslationKey: string;
 
   @Input()
+  titleTranslationParams: Record<string, string | number>;
+
+  @Input()
   subtitleTranslationKey: string;
 
   @Input()

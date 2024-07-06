@@ -3,14 +3,7 @@ import { AuthActions } from '@budget-tracker/auth';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { from, map, of, switchMap, tap } from 'rxjs';
-import {
-  AccountsActions,
-  ActivityLogActions,
-  CategoriesActions,
-  DataInitActions,
-  RootValuesActions,
-  StatisticsActions,
-} from '../actions';
+import { AccountsActions, ActivityLogActions, CategoriesActions, DataInitActions, StatisticsActions } from '../actions';
 import { CategoriesService, DataInitService } from '../../services';
 import { getMonthAndYearString, getPreviousMonthTime } from '@budget-tracker/utils';
 import {
@@ -37,17 +30,6 @@ export class DataInitEffects {
     this.actions$.pipe(
       ofType(DataInitActions.init),
       switchMap(() => from(this.dataInitService.initData())),
-      tap((data) => {
-        const rootValues = { ...data.budget.rootValues };
-
-        this.store.dispatch(
-          RootValuesActions.rootValuesLoaded({
-            balance: rootValues.balance,
-            savings: rootValues.savings,
-            freeMoney: rootValues.freeMoney,
-          })
-        );
-      }),
       map((data) => {
         if (data.resetDate !== getMonthAndYearString() && data.shouldDoReset) {
           return DataInitActions.resetData({ data });
@@ -104,7 +86,6 @@ export class DataInitEffects {
           DataInitActions.clean(),
           CategoriesActions.clean(),
           ActivityLogActions.clean(),
-          RootValuesActions.clean(),
           StatisticsActions.clean(),
           AccountsActions.clean()
         )

@@ -8,9 +8,14 @@
   }
 </div>
 
-<svg-icon-with-bg class="{{ iconBGClass }} {{ iconColorClass }}" [iconName]="iconName"></svg-icon-with-bg>
+<svg-icon-with-bg
+  class="{{ iconClasses }}"
+  [style.color]="hexBgColor"
+  [style.background-color]="hexTextColor"
+  [iconName]="iconName"
+></svg-icon-with-bg>
 
-<div class="flex flex-1 flex-col">
+<div class="flex flex-1 flex-col" [style.color]="hexTextColor">
   <span class="primary font-main font-bold {{ twoLine ? 'text-sm' : 'text-xl' }}"> {{ primaryText }}&nbsp; </span>
   <span class="secondary font-main {{ twoLine ? 'text-xs' : 'text-sm' }}">{{ secondaryText }}</span>
 

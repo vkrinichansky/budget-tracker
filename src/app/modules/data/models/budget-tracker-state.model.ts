@@ -13,12 +13,6 @@ export interface BudgetTrackerState {
       [accountId: string]: Account;
     };
 
-    rootValues: {
-      balance: number;
-      savings: number;
-      freeMoney: number;
-    };
-
     activityLog: ActivityLog;
   };
 

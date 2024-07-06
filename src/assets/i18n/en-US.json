@@ -32,68 +32,29 @@
         "tooltip": "Full balance is the sum of all your accounts"
       },
       "accounts": {
-        "title": "Accounts",
+        "title": "Accounts ({{ accountsAmount }})",
         "hoverTip": "Click to see your accounts"
+      },
+      "accountCard": {
+        "menu": {
+          "editValue": "Edit"
+        }
       }
     },
 
-    "infoCardValueModal": {
+    "accountValueEditModal": {
+      "subtitle": "Edit account value",
       "cancel": "Cancel",
       "noteInputTitle": "Note",
-      "balance": {
-        "title": "Balance",
-        "increase": "Increase",
-        "decrease": "Decrease",
-        "edit": "Edit"
-      },
-      "savings": {
-        "title": "Savings",
-        "increase": "Increase",
-        "decrease": "Decrease",
-        "edit": "Edit"
-      },
-      "freeMoney": {
-        "title": "Free money",
-        "increase": "Increase",
-        "decrease": "Decrease",
-        "edit": "Edit"
-      },
-      "subtitle": {
-        "increase": "Increase",
-        "decrease": "Decrease",
-        "edit": "Edit"
-      }
+      "editButton": "Edit"
+    },
+
+    "accountsListModal": {
+      "title": "Accounts ({{ accountsAmount }})"
     },
 
     "activityLog": {
       "title": "Activity log",
-
-      "rootValueChangeRecord": {
-        "title": {
-          "balance": "Balance",
-          "savings": "Savings",
-          "freeMoney": "Free money"
-        },
-        "removeConfirmationQuestion": "Are you sure you want to remove this record?",
-        "removeConfirmationCheckboxText": "Also revert changes made by this record",
-        "removeConfirmationRemark": {
-          "balance": {
-            "increase": "<span class='font-bold'>Balance</span> will be decreased by <span class='font-bold'>{{ value }}</span>",
-            "decrease": "<span class='font-bold'>Balance</span> will be increased by <span class='font-bold'>{{ value }}</span>",
-            "edit": "<span class='font-bold'>Balance</span> value will be <span class='font-bold'>{{ value }}</span>"
-          },
-          "savings": {
-            "increase": "<span class='font-bold'>Savings</span> will be decreased by <span class='font-bold'>{{ value }}</span>",
-            "decrease": "<span class='font-bold'>Savings</span> will be increased by <span class='font-bold'>{{ value }}</span>",
-            "edit": "<span class='font-bold'>Savings</span> value will be <span class='font-bold'>{{ value }}</span>"
-          },
-          "freeMoney": {
-            "increase": "<span class='font-bold'>Free money</span> will be decreased by <span class='font-bold'>{{ value }}</span>",
-            "decrease": "<span class='font-bold'>Free money</span> will be increased by <span class='font-bold'>{{ value }}</span>",
-            "edit": "<span class='font-bold'>Free money</span> value will be <span class='font-bold'>{{ value }}</span>"
-          }
-        }
-      },
 
       "categoryManagementRecord": {
         "categoryAdded": {
@@ -117,11 +78,7 @@
 
       "categoryValueChangeRecord": {
         "removeConfirmationQuestion": "Are you sure you want to remove this record?",
-        "removeConfirmationCheckboxText": "Also revert changes made by this record",
-        "removeConfirmationRemark": {
-          "income": "<span class='font-bold'>{{ value }}</span> will be deducted from <span class='font-bold'>Balance</span> and <span class='font-bold'>{{ categoryName }}</span> category",
-          "expense": "<span class='font-bold'>{{ value }}</span> will be added to <span class='font-bold'>Balance</span> and deducted from <span class='font-bold'>{{ categoryName }}</span> category"
-        }
+        "removeConfirmationRemark": "This action will revert changes made by this record and will affect <span class='font-bold'>{{ accountName }}</span> account and <span class='font-bold'>{{ categoryName }}</span> category"
       },
 
       "emptyStateText": "No data to display yet",
@@ -204,7 +161,8 @@
       "cancel": "Cancel",
       "add": "Add",
       "valueToAddTitle": "Value to add",
-      "noteTitle": "Note"
+      "noteTitle": "Note",
+      "accountsTitle": "Account to use:"
     }
   },
 
@@ -269,13 +227,16 @@
     "dataResetSnackbar": {
       "message": "Categories were reset!",
       "buttonText": "Got it"
+    },
+    "accountValueEdited": {
+      "message": "Account value was edited successfully!",
+      "buttonText": "Got it"
     }
   },
 
   "formErrors": {
     "required": "Field is required",
     "minValue": "Minimal value is {{ minValue }}",
-    "maxValue": "Minimal value is {{ maxValue }}",
     "noteTooLong": "Note is too long, max length is 100",
     "editError": "Value must be different after edit",
     "invalidColor": "The color is invalid",

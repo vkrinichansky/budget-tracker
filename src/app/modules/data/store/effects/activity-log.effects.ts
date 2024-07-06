@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { SnackbarHandlerService } from '@budget-tracker/shared';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { mergeMap, from, switchMap, of, catchError, filter, take } from 'rxjs';
-import { ActivityLogActions, CategoriesActions, RootValuesActions } from '../actions';
+import { AccountsActions, ActivityLogActions, CategoriesActions } from '../actions';
 import { Store } from '@ngrx/store';
 import { ActivityLogSelectors } from '../selectors';
 import { ActivityLogService } from '../../services';
-import { RootValueType } from '../../models';
 
 @Injectable()
 export class ActivityLogEffects {
@@ -54,83 +53,28 @@ export class ActivityLogEffects {
         from(
           this.activityLogService.removeCategoryValueChangeRecord(
             action.record,
-            action.updatedBalanceValue,
+            action.updatedAccount,
             action.updatedCategory
           )
         ).pipe(
           switchMap(() => {
             this.snackbarHandler.showActivityLogRecordRemovedSnackbar();
 
-            if (action.updatedBalanceValue !== undefined && action.updatedCategory) {
+            if (action.updatedAccount) {
               return of(
                 ActivityLogActions.activityLogRecordRemoved({
                   recordId: action.record.id,
                 }),
-                RootValuesActions.balanceUpdated({ newBalanceValue: action.updatedBalanceValue }),
-                CategoriesActions.categoryValueChanged({ updatedCategory: action.updatedCategory })
+                CategoriesActions.categoryValueChanged({ updatedCategory: action.updatedCategory }),
+                AccountsActions.accountValueEdited({ updatedAccount: action.updatedAccount })
               );
             }
 
             return of(
               ActivityLogActions.activityLogRecordRemoved({
                 recordId: action.record.id,
-              })
-            );
-          }),
-          catchError((error) => {
-            this.snackbarHandler.showErrorSnackbar(error);
-
-            return of(ActivityLogActions.removeRecordFail({ recordId: action.record.id }));
-          })
-        )
-      )
-    )
-  );
-
-  removeRootValueChangeRecord$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ActivityLogActions.removeRootValueChangeRecord),
-      mergeMap((action) =>
-        from(
-          this.activityLogService.removeRootValueChangeRecord(action.record, action.updatedValue, action.valueType)
-        ).pipe(
-          switchMap(() => {
-            this.snackbarHandler.showActivityLogRecordRemovedSnackbar();
-
-            if (action.updatedValue !== undefined) {
-              switch (action.valueType) {
-                case RootValueType.Balance:
-                  return of(
-                    ActivityLogActions.activityLogRecordRemoved({
-                      recordId: action.record.id,
-                    }),
-                    RootValuesActions.balanceUpdated({ newBalanceValue: action.updatedValue })
-                  );
-
-                case RootValueType.Savings:
-                  return of(
-                    ActivityLogActions.activityLogRecordRemoved({
-                      recordId: action.record.id,
-                    }),
-                    RootValuesActions.savingsUpdated({ newSavingsValue: action.updatedValue })
-                  );
-
-                case RootValueType.FreeMoney:
-                  return of(
-                    ActivityLogActions.activityLogRecordRemoved({
-                      recordId: action.record.id,
-                    }),
-                    RootValuesActions.freeMoneyUpdated({
-                      newFreeMoneyValue: action.updatedValue,
-                    })
-                  );
-              }
-            }
-
-            return of(
-              ActivityLogActions.activityLogRecordRemoved({
-                recordId: action.record.id,
-              })
+              }),
+              CategoriesActions.categoryValueChanged({ updatedCategory: action.updatedCategory })
             );
           }),
           catchError((error) => {

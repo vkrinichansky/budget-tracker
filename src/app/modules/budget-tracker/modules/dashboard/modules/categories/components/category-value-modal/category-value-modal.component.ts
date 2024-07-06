@@ -3,11 +3,12 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable, filter, take } from 'rxjs';
 import { CategoryValueModalData } from '../../models';
-import { CategoriesFacadeService, Category } from '@budget-tracker/data';
+import { Account, AccountsFacadeService, CategoriesFacadeService, Category } from '@budget-tracker/data';
 
 enum FormFields {
   ValueToAdd = 'valueToAdd',
   Note = 'note',
+  AccountToUse = 'accountToUse',
 }
 
 @Component({
@@ -25,12 +26,13 @@ export class CategoryValueModalComponent implements OnInit {
       Validators.pattern(new RegExp(/^[0-9]+$/)),
     ]),
     [FormFields.Note]: new FormControl(null, [Validators.maxLength(100)]),
+    [FormFields.AccountToUse]: new FormControl('', [Validators.required]),
   });
 
   loading$: Observable<boolean>;
   success$: Observable<boolean>;
-
   category$: Observable<Category>;
+  accounts$: Observable<Account[]>;
 
   get isFormValid(): boolean {
     return this.form.valid;
@@ -55,7 +57,8 @@ export class CategoryValueModalComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: CategoryValueModalData,
     private dialogRef: MatDialogRef<CategoryValueModalComponent>,
-    private categoriesFacade: CategoriesFacadeService
+    private categoriesFacade: CategoriesFacadeService,
+    private accountsFacade: AccountsFacadeService
   ) {}
 
   ngOnInit(): void {
@@ -73,15 +76,17 @@ export class CategoryValueModalComponent implements OnInit {
   submitClick(): void {
     this.categoriesFacade.changeCategoryValue(
       this.data.categoryId,
+      this.form.controls[FormFields.AccountToUse].value,
       parseInt(this.form.controls[FormFields.ValueToAdd].value),
       this.form.controls[FormFields.Note].value
     );
   }
 
   private initListeners(): void {
+    this.category$ = this.categoriesFacade.getCategoryById(this.data.categoryId);
+    this.accounts$ = this.accountsFacade.getAllAccounts();
     this.loading$ = this.categoriesFacade.getCategoryValueChangeInProgress();
     this.success$ = this.categoriesFacade.getCategoryValueChangeSuccess();
-    this.category$ = this.categoriesFacade.getCategoryById(this.data.categoryId);
 
     this.success$
       .pipe(

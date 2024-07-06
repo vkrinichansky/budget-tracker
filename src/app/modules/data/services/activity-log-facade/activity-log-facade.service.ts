@@ -12,22 +12,20 @@ import {
   ActivityLogRecordUnitedType,
   Category,
   BudgetType,
-  RootValueChangeRecord,
-  RootValueType,
-  RootValueActionType,
+  Account,
 } from '../../models';
 import { Dictionary } from '@ngrx/entity';
 import { CategoriesFacadeService } from '../categories-facade/categories-facade.service';
-import { RootValuesFacadeService } from '../root-values-facade/root-values-facade.service';
 import { isPreviousMonth } from '@budget-tracker/utils';
+import { AccountsFacadeService } from '../accounts-facade/accounts-facade.service';
 
 @Injectable()
 export class ActivityLogFacadeService {
   constructor(
     private store: Store,
     private languageService: LanguageService,
-    private categoryFacade: CategoriesFacadeService,
-    private rootValuesFacade: RootValuesFacadeService
+    private categoriesFacade: CategoriesFacadeService,
+    private accountsFacade: AccountsFacadeService
   ) {}
 
   getActivityLogDictionary(): Observable<Dictionary<ActivityLogRecordUnitedType>> {
@@ -101,98 +99,59 @@ export class ActivityLogFacadeService {
     this.store.dispatch(ActivityLogActions.removeRecord({ recordId }));
   }
 
-  async removeCategoryValueChangeRecord(recordId: string, shouldRevertChangesMadeByRecord?: boolean): Promise<void> {
+  async removeCategoryValueChangeRecord(recordId: string): Promise<void> {
     const record: CategoryValueChangeRecord = await firstValueFrom(
       this.getActivityLogDictionary().pipe(map((dictionary) => dictionary[recordId] as CategoryValueChangeRecord))
     );
+    const category = structuredClone(await firstValueFrom(this.categoriesFacade.getCategoryById(record.categoryId)));
+    const account = structuredClone(await firstValueFrom(this.accountsFacade.getAccountById(record.accountId)));
 
     let updatedCategory: Category;
-    let updatedBalanceValue: number;
+    let updatedAccount: Account;
 
-    if (shouldRevertChangesMadeByRecord) {
-      updatedBalanceValue = await firstValueFrom(
-        this.rootValuesFacade.getFullBalanceValue().pipe(
-          map((fullBalance) => {
-            switch (record.budgetType) {
-              case BudgetType.Income:
-                if (fullBalance - record.value < 0) {
-                  return 0;
-                }
-
-                return fullBalance - record.value;
-
-              case BudgetType.Expense:
-                return fullBalance + record.value;
-            }
-          })
-        )
-      );
-
-      updatedCategory = await this.resolveRecordRelatedUpdatedCategory(record);
+    if (category.value - record.value < 0) {
+      updatedCategory = {
+        ...category,
+        value: 0,
+      };
+    } else {
+      updatedCategory = {
+        ...category,
+        value: category.value - record.value,
+      };
     }
 
-    this.store.dispatch(
-      ActivityLogActions.removeCategoryValueChangeRecord({
-        record,
-        updatedBalanceValue,
-        updatedCategory,
-      })
-    );
-  }
-
-  async removeRootValueChangeRecord(recordId: string, shouldRevertChangesMadeByRecord?: boolean): Promise<void> {
-    const record: RootValueChangeRecord = await firstValueFrom(
-      this.getActivityLogDictionary().pipe(map((dictionary) => dictionary[recordId] as RootValueChangeRecord))
-    );
-
-    let valueToEdit: number;
-    let updatedValue: number;
-
-    if (shouldRevertChangesMadeByRecord) {
-      switch (record.valueType) {
-        case RootValueType.Balance:
-          valueToEdit = await firstValueFrom(this.rootValuesFacade.getFullBalanceValue());
-
-          break;
-
-        case RootValueType.Savings:
-          valueToEdit = await firstValueFrom(this.rootValuesFacade.getSavingsValue());
-
-          break;
-
-        case RootValueType.FreeMoney:
-          valueToEdit = await firstValueFrom(this.rootValuesFacade.getFreeMoneyValue());
-
-          break;
-      }
-
-      switch (record.actionType) {
-        case RootValueActionType.Increase:
-          if (valueToEdit - record.value < 0) {
-            updatedValue = 0;
+    if (account) {
+      switch (record.budgetType) {
+        case BudgetType.Income:
+          if (account.value - record.value < 0) {
+            updatedAccount = {
+              ...account,
+              value: 0,
+            };
           } else {
-            updatedValue = valueToEdit - record.value;
+            updatedAccount = {
+              ...account,
+              value: account.value - record.value,
+            };
           }
 
           break;
 
-        case RootValueActionType.Decrease:
-          updatedValue = valueToEdit + record.value;
-
-          break;
-
-        case RootValueActionType.Edit:
-          updatedValue = record.oldValue;
+        case BudgetType.Expense:
+          updatedAccount = {
+            ...account,
+            value: account.value + record.value,
+          };
 
           break;
       }
     }
-
     this.store.dispatch(
-      ActivityLogActions.removeRootValueChangeRecord({
+      ActivityLogActions.removeCategoryValueChangeRecord({
         record,
-        updatedValue,
-        valueType: record.valueType,
+        updatedAccount,
+        updatedCategory,
       })
     );
   }
@@ -207,20 +166,6 @@ export class ActivityLogFacadeService {
     );
 
     this.store.dispatch(ActivityLogActions.bulkRecordsRemove({ records }));
-  }
-
-  private async resolveRecordRelatedUpdatedCategory(record: CategoryValueChangeRecord): Promise<Category> {
-    const category = await firstValueFrom(this.categoryFacade.getCategoryById(record.categoryId));
-    let updatedCategory = structuredClone(category);
-
-    const newValue = updatedCategory.value - record.value < 0 ? 0 : updatedCategory.value - record.value;
-
-    updatedCategory = {
-      ...updatedCategory,
-      value: newValue,
-    };
-
-    return updatedCategory;
   }
 
   private getActivityLogByDaysDictionary(activityLog: ActivityLog): ActivityLogGroupedByDateDictionary {

@@ -1,10 +1,15 @@
 import { BudgetType } from './budget-type.enum';
 
 export enum ActivityLogRecordType {
-  RootValueChange = 'root value change',
-  CategoryManagement = 'category management',
-  CategoryValueChange = 'category value change',
-  CategoriesReset = 'categories reset',
+  CategoryManagement = 'category-management',
+  CategoryValueChange = 'category-value-change',
+  CategoriesReset = 'categories-reset',
+  AccountValueEdit = 'account-value-edit',
+}
+
+export enum CategoryManagementActionType {
+  Add = 'add',
+  Remove = 'remove',
 }
 
 export interface ActivityLogRecord {
@@ -14,30 +19,12 @@ export interface ActivityLogRecord {
   recordType: ActivityLogRecordType;
 }
 
-export enum RootValueActionType {
-  Increase = 'increase',
-  Decrease = 'decrease',
-  Edit = 'edit',
-}
-
-export enum RootValueType {
-  Balance = 'balance',
-  Savings = 'savings',
-  FreeMoney = 'freeMoney',
-}
-
-export interface RootValueChangeRecord extends ActivityLogRecord {
-  actionType: RootValueActionType;
-  valueType: RootValueType;
-  value?: number;
-  oldValue?: number;
-  newValue?: number;
-  note?: string;
-}
-
-export enum CategoryManagementActionType {
-  Add = 'add',
-  Remove = 'remove',
+export interface AccountValueEditRecord extends ActivityLogRecord {
+  accountId: string;
+  accountName: string;
+  oldValue: number;
+  newValue: number;
+  note: string;
 }
 
 export interface CategoryManagementRecord extends ActivityLogRecord {
@@ -49,6 +36,8 @@ export interface CategoryManagementRecord extends ActivityLogRecord {
 export interface CategoryValueChangeRecord extends ActivityLogRecord {
   categoryId: string;
   categoryName: string;
+  accountId: string;
+  accountName: string;
   value: number;
   budgetType: BudgetType;
   note: string;
@@ -59,7 +48,7 @@ export interface CategoriesResetRecord extends ActivityLogRecord {
 }
 
 export type ActivityLogRecordUnitedType =
-  | RootValueChangeRecord
+  | AccountValueEditRecord
   | CategoryManagementRecord
   | CategoryValueChangeRecord
   | CategoriesResetRecord;

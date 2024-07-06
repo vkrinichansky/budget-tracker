@@ -242,6 +242,35 @@ textarea {
   }
 }
 
+// RADIO BUTTON
+.mat-mdc-radio-button {
+  .mdc-radio__background {
+    &::before {
+      @apply bg-transparent #{!important};
+    }
+  }
+
+  .mdc-radio .mdc-radio__native-control:enabled:not(:checked) + .mdc-radio__background .mdc-radio__outer-circle {
+    @apply border-grey #{!important};
+  }
+
+  .mdc-radio:hover .mdc-radio__native-control:enabled:not(:checked) + .mdc-radio__background .mdc-radio__outer-circle {
+    @apply border-charcoal #{!important};
+  }
+
+  .mdc-radio .mdc-radio__native-control:enabled:checked + .mdc-radio__background .mdc-radio__outer-circle {
+    @apply border-dark-green #{!important};
+  }
+
+  .mdc-radio .mdc-radio__native-control:enabled + .mdc-radio__background .mdc-radio__inner-circle {
+    @apply border-dark-green bg-dark-green #{!important};
+  }
+
+  .mdc-label {
+    @apply font-main text-base text-charcoal #{!important};
+  }
+}
+
 // COLOR PICKER
 ngx-colors {
   @apply cursor-pointer;

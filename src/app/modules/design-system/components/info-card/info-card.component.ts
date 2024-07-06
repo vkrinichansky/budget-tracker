@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, TemplateRef } from '@angular/core';
 import { ColorScheme, BgColorScheme, MenuAction } from '../../models';
 import { isMobileWidth } from '@budget-tracker/utils';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-info-card',
@@ -10,6 +11,19 @@ import { isMobileWidth } from '@budget-tracker/utils';
 })
 export class InfoCardComponent {
   @HostBinding('class')
+  private get classes(): string {
+    return this.shouldUseCssStyles ? '' : this.colorScheme;
+  }
+
+  @HostBinding('style')
+  private get myStyle(): SafeStyle {
+    if (this.shouldUseCssStyles) {
+      return this.sanitizer.bypassSecurityTrustStyle(`background-color: ${this.hexBgColor}`);
+    }
+
+    return '';
+  }
+
   @Input()
   colorScheme: BgColorScheme = 'white';
 
@@ -26,25 +40,42 @@ export class InfoCardComponent {
   additionalSecondaryText: string;
 
   @Input()
-  twoLine = false;
+  twoLine: boolean;
 
   @Input()
   iconName: string;
 
   @Input()
-  iconBGClass = 'bg-white';
+  iconBgClass = 'bg-white';
 
   @Input()
   iconColorClass = 'text-charcoal';
 
   @Input()
-  shouldDisableMenu = false;
+  shouldDisableMenu: boolean;
+
+  @Input()
+  shouldUseCssStyles: boolean;
+
+  @Input()
+  hexBgColor = '';
+
+  @Input()
+  hexTextColor = '';
 
   @Input()
   tooltip: TemplateRef<unknown> | string;
 
   @Input()
   menuActions: MenuAction[];
+
+  get iconClasses(): string {
+    return this.shouldUseCssStyles ? '' : `${this.iconBgClass} ${this.iconColorClass}`;
+  }
+
+  get isMobile(): boolean {
+    return isMobileWidth();
+  }
 
   get menuColorScheme(): ColorScheme {
     switch (this.colorScheme) {
@@ -57,7 +88,5 @@ export class InfoCardComponent {
     }
   }
 
-  get isMobile(): boolean {
-    return isMobileWidth();
-  }
+  constructor(private sanitizer: DomSanitizer) {}
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { SnackbarHandlerService } from '@budget-tracker/shared';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, delay, from, map, mergeMap, of, switchMap } from 'rxjs';
-import { ActivityLogActions, CategoriesActions, RootValuesActions } from '../actions';
+import { AccountsActions, ActivityLogActions, CategoriesActions } from '../actions';
 import { CategoriesService } from '../../services';
 
 @Injectable()
@@ -93,7 +93,7 @@ export class CategoriesEffects {
         from(
           this.categoriesService.changeCategoryValue(
             action.updatedCategory,
-            action.newBalanceValue,
+            action.updatedAccount,
             action.activityLogRecord
           )
         ).pipe(
@@ -104,10 +104,12 @@ export class CategoriesEffects {
               CategoriesActions.categoryValueChanged({
                 updatedCategory: action.updatedCategory,
               }),
+              AccountsActions.accountValueEdited({
+                updatedAccount: action.updatedAccount,
+              }),
               ActivityLogActions.recordAdded({
                 record: action.activityLogRecord,
-              }),
-              RootValuesActions.balanceUpdated({ newBalanceValue: action.newBalanceValue })
+              })
             );
           }),
           catchError((error) => {

@@ -1,0 +1,13 @@
+<div class="flex gap-x-2 items-start w-full">
+  <app-info-card
+    class="flex-1"
+    [iconName]="account.icon"
+    [primaryText]="account.value"
+    [secondaryText]="account.name"
+    [shouldUseCssStyles]="true"
+    [hexBgColor]="account.bgColor"
+    [hexTextColor]="account.textColor"
+  ></app-info-card>
+
+  <app-menu [menuActions]="menuActions"></app-menu>
+</div>

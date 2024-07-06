@@ -49,11 +49,6 @@ export class AuthService {
       budget: {
         categories: {},
         accounts: {},
-        rootValues: {
-          balance: 0,
-          savings: 0,
-          freeMoney: 0,
-        },
         activityLog: [],
       },
       statistics: {

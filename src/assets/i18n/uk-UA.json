@@ -32,68 +32,29 @@
         "tooltip": "Full balance is the sum of all your accounts"
       },
       "accounts": {
-        "title": "Рахунки",
+        "title": "Рахунки ({{ accountsAmount }})",
         "hoverTip": "Ваші рахунки (натисніть)"
+      },
+      "accountCard": {
+        "menu": {
+          "editValue": "Edit"
+        }
       }
     },
 
-    "infoCardValueModal": {
+    "accountValueEditModal": {
+      "subtitle": "Редагування значення рахунку",
       "cancel": "Вихід",
       "noteInputTitle": "Примітка",
-      "balance": {
-        "title": "Баланс",
-        "increase": "Збільшити",
-        "decrease": "Зменшити",
-        "edit": "Редагувати"
-      },
-      "savings": {
-        "title": "Збереження",
-        "increase": "Збільшити",
-        "decrease": "Зменшити",
-        "edit": "Редагувати"
-      },
-      "freeMoney": {
-        "title": "Вільні гроші",
-        "increase": "Збільшити",
-        "decrease": "Зменшити",
-        "edit": "Редагувати"
-      },
-      "subtitle": {
-        "increase": "Збільшення",
-        "decrease": "Зменшення",
-        "edit": "Редагування"
-      }
+      "editButton": "Редагувати"
+    },
+
+    "accountsListModal": {
+      "title": "Accounts ({{ accountsAmount }})"
     },
 
     "activityLog": {
       "title": "Журнал активності",
-
-      "rootValueChangeRecord": {
-        "title": {
-          "balance": "Баланс",
-          "savings": "Збереження",
-          "freeMoney": "Вільні гроші"
-        },
-        "removeConfirmationQuestion": "Ви хочете видалити цей запис?",
-        "removeConfirmationCheckboxText": "Також відмінити зміни, зроблені цим записом",
-        "removeConfirmationRemark": {
-          "balance": {
-            "increase": "<span class='font-bold'>Баланс</span> буде зменшено на <span class='font-bold'>{{ value }}</span>",
-            "decrease": "<span class='font-bold'>Баланс</span> буде збільшено на <span class='font-bold'>{{ value }}</span>",
-            "edit": "Значення <span class='font-bold'>балансу</span> буде <span class='font-bold'>{{ value }}</span>"
-          },
-          "savings": {
-            "increase": "<span class='font-bold'>Збереження</span> буде зменшено на <span class='font-bold'>{{ value }}</span>",
-            "decrease": "<span class='font-bold'>Збереження</span> буде збільшено на <span class='font-bold'>{{ value }}</span>",
-            "edit": "Значення <span class='font-bold'>збережень</span> буде <span class='font-bold'>{{ value }}</span>"
-          },
-          "freeMoney": {
-            "increase": "<span class='font-bold'>Вільні гроші</span> буде зменшено на <span class='font-bold'>{{ value }}</span>",
-            "decrease": "<span class='font-bold'>Вільні гроші</span> буде збільшено на <span class='font-bold'>{{ value }}</span>",
-            "edit": "Значення <span class='font-bold'>вільних грошей</span> буде <span class='font-bold'>{{ value }}</span>"
-          }
-        }
-      },
 
       "categoryManagementRecord": {
         "categoryAdded": {
@@ -118,10 +79,7 @@
       "categoryValueChangeRecord": {
         "removeConfirmationQuestion": "Ви хочете видалити цей запис?",
         "removeConfirmationCheckboxText": "Також відмінити зміни, зроблені цим записом",
-        "removeConfirmationRemark": {
-          "income": "<span class='font-bold'>{{ value }}</span> буде вирахувано з <span class='font-bold'>Балансу</span> і категорії <span class='font-bold'>{{ categoryName }}</span>",
-          "expense": "<span class='font-bold'>{{ value }}</span> буде додано до <span class='font-bold'>Балансу</span> і вирахувано з категорії <span class='font-bold'>{{ categoryName }}</span>"
-        }
+        "removeConfirmationRemark": "Ця дія відмінить зроблені цим записом зміни і вплине на рахунок <span class='font-bold'>{{ accountName }}</span> і категорію <span class='font-bold'>{{ categoryName }}</span>"
       },
 
       "emptyStateText": "Немає данних для відображення",
@@ -206,7 +164,8 @@
       "cancel": "Вихід",
       "add": "Додати",
       "valueToAddTitle": "Значення",
-      "noteTitle": "Примітка"
+      "noteTitle": "Примітка",
+      "accountsTitle": "Використати рахунок:"
     }
   },
 
@@ -271,13 +230,16 @@
     "dataResetSnackbar": {
       "message": "Категорії було скинуто!",
       "buttonText": "Добре"
+    },
+    "accountValueEdited": {
+      "message": "Значення рахунку було змінено успішно!",
+      "buttonText": "Добре"
     }
   },
 
   "formErrors": {
     "required": "Обов'язкове для заповнення",
     "minValue": "Мінімальне значення - {{ minValue }}",
-    "maxValue": "Максимальне значення - {{ maxValue }}",
     "noteTooLong": "Примітка занадто велика, макс. довжина - 100",
     "editError": "Значення після редагування має бути іншим",
     "invalidColor": "Колір введено невірно",

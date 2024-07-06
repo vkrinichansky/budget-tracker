@@ -1,7 +1,12 @@
-<app-base-modal [titleTranslationKey]="title" [subtitleTranslationKey]="subtitle" [footerTemplate]="footer">
+<app-base-modal
+  *ngVar="account$ | async as account"
+  [titleTranslationKey]="account.name"
+  [subtitleTranslationKey]="buildTranslationKey('subtitle')"
+  [footerTemplate]="footer"
+>
   <form class="flex flex-col" [formGroup]="form">
     <mat-form-field>
-      <mat-label>{{ title | translate }}</mat-label>
+      <mat-label>{{ account.name | translate }}</mat-label>
       <input #valueInput matInput [formControlName]="formFields.Value" [type]="'number'" />
 
       @if (hasRequiredError) {
@@ -10,12 +15,6 @@
 
       @if (hasMinValueError) {
         <mat-error>{{ 'formErrors.minValue' | translate: { minValue: 1 } }}</mat-error>
-      }
-
-      @if (hasMaxValueError) {
-        <mat-error>
-          {{ 'formErrors.maxValue' | translate: { maxValue: initialValue } }}
-        </mat-error>
       }
 
       @if (hasEditError) {
@@ -38,9 +37,9 @@
   <app-button
     [buttonSizeX]="'big'"
     [colorScheme]="'charcoal'"
-    [text]="mainButtonText | translate"
+    [text]="buildTranslationKey('editButton') | translate"
     [disabled]="!isFormValid"
     [loading]="(loading$ | async) || (success$ | async)"
-    (click)="resolveSubmitAction()"
+    (click)="submitAction()"
   ></app-button>
 </ng-template>
