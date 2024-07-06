@@ -1,36 +1,9 @@
 <app-base-modal [titleTranslationKey]="title" [footerTemplate]="footer">
   <form class="flex flex-col" [formGroup]="form">
-    <mat-form-field>
-      <mat-label>{{ buildTranslationKey('categoryIconTitle') | translate }}</mat-label>
-      <mat-select
-        [disableRipple]="true"
-        [formControlName]="formFields.CategoryIcon"
-        (selectionChange)="setCategoryNameToInput($event.value)"
-      >
-        <mat-select-trigger>
-          <span class="flex justify-start items-center text-charcoal gap-x-1.5 font-main">
-            <svg-icon [iconName]="selectedIcon"></svg-icon>
-            <span>{{ selectedIconTitle | translate }}</span>
-          </span>
-        </mat-select-trigger>
-
-        @for (option of options; track option) {
-          <mat-option [value]="option">
-            <app-button
-              class="overflow-hidden"
-              [iconName]="option.icon"
-              [text]="option.textTranslationKey | translate"
-              [buttonSizeX]="'full'"
-              [align]="'start'"
-            ></app-button>
-          </mat-option>
-        }
-      </mat-select>
-
-      @if (hasCategoryIconRequiredError) {
-        <mat-error>{{ 'formErrors.required' | translate }}</mat-error>
-      }
-    </mat-form-field>
+    <icon-picker
+      [label]="buildTranslationKey('categoryIconTitle') | translate"
+      [formControlName]="formFields.CategoryIcon"
+    ></icon-picker>
 
     <mat-form-field>
       <mat-label>{{ buildTranslationKey('categoryNameTitle') | translate }}</mat-label>

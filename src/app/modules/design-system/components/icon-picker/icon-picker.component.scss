@@ -1,0 +1,9 @@
+::ng-deep {
+  .icon-picker-panel {
+    @apply flex-row flex-wrap gap-2 #{!important};
+
+    .mdc-list-item__primary-text {
+      @apply w-auto m-0 #{!important};
+    }
+  }
+}

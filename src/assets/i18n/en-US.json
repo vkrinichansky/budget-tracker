@@ -269,25 +269,5 @@
   "lostConnectionMessage": {
     "message": "It seems like you are offline. Please, check your internet connection.",
     "button": "Reload"
-  },
-
-  "categoryIcons": {
-    "housing": "Housing",
-    "food": "Food",
-    "health": "Health",
-    "clothes": "Clothes",
-    "entertainment": "Entertainment",
-    "transport": "Transport",
-    "car": "Car",
-    "everydayLife": "Everyday life",
-    "rest": "Rest",
-    "work": "Work",
-    "presents": "Presents",
-    "utilities": "Utilities",
-    "tech": "Tech",
-    "internet": "Communication and internet",
-    "subscriptions": "Subscriptions",
-    "beauty": "Beauty",
-    "charity": "Charity"
   }
 }

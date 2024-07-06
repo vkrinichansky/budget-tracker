@@ -20,8 +20,13 @@ export class AccountCardComponent {
       action: () => this.accountValueEditModalService.openEditAccountValueModal(this.account.id),
     },
   ];
+
   @Input()
   account: Account;
+
+  get primaryText(): string {
+    return `${this.account.value} ${this.account.currency.symbol}`;
+  }
 
   constructor(private accountValueEditModalService: AccountsValueEditModalService) {}
 

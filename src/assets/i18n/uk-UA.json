@@ -272,25 +272,5 @@
   "lostConnectionMessage": {
     "message": "Здається, ви офлайн. Перевірте підключення до Інтернету.",
     "button": "Перезавантажити"
-  },
-
-  "categoryIcons": {
-    "housing": "Житло",
-    "food": "Їжа",
-    "health": "Здоров'я",
-    "clothes": "Речі",
-    "entertainment": "Розваги",
-    "transport": "Транспорт",
-    "car": "Авто",
-    "everydayLife": "Побут",
-    "rest": "Відпочинок",
-    "work": "Робота",
-    "presents": "Подарунки",
-    "utilities": "Комунальні",
-    "tech": "Техніка",
-    "internet": "Зв'язок та інтернет",
-    "subscriptions": "Підписки",
-    "beauty": "Краса",
-    "charity": "Благодійність"
   }
 }
