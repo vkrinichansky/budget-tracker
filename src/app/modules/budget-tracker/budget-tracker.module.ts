@@ -7,9 +7,11 @@ import { AuthCoreModule } from '@budget-tracker/auth';
 import { NavigationBarModule } from '@budget-tracker/navigation-bar';
 import { InitDataGuard } from './guards';
 import { SharedModule } from '@budget-tracker/shared';
+import { LostConnectionMessageComponent } from './components';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  declarations: [BudgetTrackerComponent],
+  declarations: [BudgetTrackerComponent, LostConnectionMessageComponent],
   imports: [
     CommonModule,
     BudgetTrackerRoutingModule,
@@ -17,6 +19,7 @@ import { SharedModule } from '@budget-tracker/shared';
     AuthCoreModule,
     NavigationBarModule,
     SharedModule,
+    TranslateModule,
   ],
   providers: [InitDataGuard],
 })

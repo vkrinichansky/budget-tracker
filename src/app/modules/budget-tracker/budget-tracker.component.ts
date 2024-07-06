@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DataInitFacadeService } from '@budget-tracker/data';
+import { LostConnectionService } from '@budget-tracker/utils';
 import { Observable } from 'rxjs';
-import { LostConnectionService } from '../shared/services';
 
 @Component({
   selector: 'app-budget-tracker',
