@@ -1,5 +1,3 @@
-export const CurrencyLSKey = 'currency';
-
 export enum CurrenciesEnum {
   UAH = 'uah',
   USD = 'usd',

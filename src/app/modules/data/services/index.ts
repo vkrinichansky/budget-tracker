@@ -11,3 +11,6 @@ export { AccountsFacadeService } from './accounts-facade/accounts-facade.service
 export { AccountsService } from './accounts-service/accounts.service';
 
 export { StatisticsFacadeService } from './statistics-facade/statistics-facade.service';
+
+export { MetadataFacadeService } from './metadata-facade/metadata-facade.service';
+export { MetadataService } from './metadata-service/metadata.service';

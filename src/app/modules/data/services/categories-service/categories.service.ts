@@ -56,8 +56,8 @@ export class CategoriesService {
     activityLogRecord: CategoryValueChangeRecord
   ): Promise<void> {
     return updateDoc(this.getDocRef(), {
-      [`${CATEGORIES_PATH}.${updatedCategory.id}`]: updatedCategory,
-      [`${ACCOUNTS_PATH}.${updatedAccount.id}`]: updatedAccount,
+      [`${CATEGORIES_PATH}.${updatedCategory.id}.value`]: updatedCategory.value,
+      [`${ACCOUNTS_PATH}.${updatedAccount.id}.value`]: updatedAccount.value,
       [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
     });
   }

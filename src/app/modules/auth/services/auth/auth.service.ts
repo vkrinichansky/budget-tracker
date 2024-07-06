@@ -12,9 +12,9 @@ import {
 } from '@angular/fire/auth';
 import { setPersistence, browserLocalPersistence } from '@firebase/auth';
 import { map, Observable } from 'rxjs';
-import { BudgetTrackerState } from '@budget-tracker/data';
+import { BudgetTrackerState, UserMetadata } from '@budget-tracker/data';
 import { collection, doc, Firestore, setDoc } from '@angular/fire/firestore';
-import { getMonthAndYearString } from '@budget-tracker/utils';
+import { CurrenciesEnum, getMonthAndYearString, LanguagesEnum } from '@budget-tracker/utils';
 
 @Injectable()
 export class AuthService {
@@ -45,7 +45,7 @@ export class AuthService {
   }
 
   async setUserData(userId: string): Promise<void> {
-    const data: BudgetTrackerState = {
+    const userData: BudgetTrackerState = {
       budget: {
         categories: {},
         accounts: {},
@@ -58,6 +58,12 @@ export class AuthService {
       shouldDoReset: true,
     };
 
-    return await setDoc(doc(collection(this.firestore, `userData`), userId), data);
+    const userMetadata: UserMetadata = {
+      currency: CurrenciesEnum.USD,
+      language: LanguagesEnum.English,
+    };
+
+    await setDoc(doc(collection(this.firestore, `userData`), userId), userData);
+    await setDoc(doc(collection(this.firestore, `userMetadata`), userId), userMetadata);
   }
 }

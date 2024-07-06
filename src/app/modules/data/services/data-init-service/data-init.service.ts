@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { arrayUnion, collection, doc, DocumentReference, Firestore, getDoc, updateDoc } from '@angular/fire/firestore';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { firstValueFrom, from, map, switchMap } from 'rxjs';
-import { BudgetTrackerState, CategoriesResetRecord, StatisticsSnapshot } from '../../models';
+import { BudgetTrackerState, CategoriesResetRecord, StatisticsSnapshot, UserMetadata } from '../../models';
 import { Auth } from '@angular/fire/auth';
 
 const CATEGORIES_PATH = 'budget.categories';
@@ -23,6 +23,15 @@ export class DataInitService {
       this.authFacade.getUserId().pipe(
         switchMap((userId) => from(getDoc(doc(collection(this.firestore, 'userData'), userId)))),
         map((data) => data.data() as BudgetTrackerState)
+      )
+    );
+  }
+
+  async initMetadata(): Promise<UserMetadata> {
+    return await firstValueFrom(
+      this.authFacade.getUserId().pipe(
+        switchMap((userId) => from(getDoc(doc(collection(this.firestore, 'userMetadata'), userId)))),
+        map((data) => data.data() as UserMetadata)
       )
     );
   }

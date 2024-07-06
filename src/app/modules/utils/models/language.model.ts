@@ -1,5 +1,3 @@
-export const LanguageLSKey = 'language';
-
 export enum LanguagesEnum {
   English = 'en-US',
   Ukrainian = 'uk-UA',

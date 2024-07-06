@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Account, AccountValueEditRecord } from '../../models';
+import { AccountValueEditRecord } from '../../models';
 import { Auth } from '@angular/fire/auth';
 import { arrayUnion, collection, doc, DocumentReference, Firestore, updateDoc } from '@angular/fire/firestore';
 

@@ -2,10 +2,16 @@ import { Injectable } from '@angular/core';
 import { AuthActions } from '@budget-tracker/auth';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { from, map, of, switchMap, tap } from 'rxjs';
+import { combineLatest, from, map, of, switchMap, tap } from 'rxjs';
 import { AccountsActions, ActivityLogActions, CategoriesActions, DataInitActions, StatisticsActions } from '../actions';
-import { CategoriesService, DataInitService } from '../../services';
-import { getMonthAndYearString, getPreviousMonthTime, SnackbarHandlerService } from '@budget-tracker/utils';
+import { DataInitService } from '../../services';
+import {
+  CurrencyService,
+  getMonthAndYearString,
+  getPreviousMonthTime,
+  LanguageService,
+  SnackbarHandlerService,
+} from '@budget-tracker/utils';
 import {
   ActivityLogRecordType,
   BudgetTrackerState,
@@ -21,15 +27,21 @@ export class DataInitEffects {
     private actions$: Actions,
     private dataInitService: DataInitService,
     private store: Store,
-    private categoryService: CategoriesService,
-    private snackbarHandler: SnackbarHandlerService
+    private snackbarHandler: SnackbarHandlerService,
+    private currencyService: CurrencyService,
+    private languageService: LanguageService
   ) {}
 
   init$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DataInitActions.init),
-      switchMap(() => from(this.dataInitService.initData())),
-      map((data) => {
+      switchMap(() =>
+        combineLatest([from(this.dataInitService.initData()), from(this.dataInitService.initMetadata())])
+      ),
+      map(([data, metadata]) => {
+        this.currencyService.setCurrentCurrency(metadata.currency);
+        this.languageService.setCurrentLanguage(metadata.language);
+
         if (data.resetDate !== getMonthAndYearString() && data.shouldDoReset) {
           return DataInitActions.resetData({ data });
         }

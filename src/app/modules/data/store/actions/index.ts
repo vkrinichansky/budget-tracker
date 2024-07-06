@@ -3,3 +3,4 @@ export { CategoriesActions } from './categories.actions';
 export { DataInitActions } from './data-init.actions';
 export { StatisticsActions } from './statistics.actions';
 export { AccountsActions } from './accounts.actions';
+export { MetadataActions } from './metadata.actions';

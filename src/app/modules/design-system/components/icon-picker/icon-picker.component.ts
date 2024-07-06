@@ -49,6 +49,7 @@ export class IconPickerComponent implements ControlValueAccessor {
     this.onChange(value);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onChange = (value: string) => {};
 
   writeValue(value: string): void {

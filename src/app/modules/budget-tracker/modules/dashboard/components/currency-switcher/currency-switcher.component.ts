@@ -1,13 +1,15 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { MetadataFacadeService } from '@budget-tracker/data';
 import { MenuAction } from '@budget-tracker/design-system';
 import { CurrenciesEnum, CurrencyService, predefinedCurrenciesDictionary } from '@budget-tracker/utils';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-currency-switcher',
   templateUrl: './currency-switcher.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CurrencySwitcherComponent {
+export class CurrencySwitcherComponent implements OnInit {
   readonly currentCurrency = this.currencyService.getCurrentCurrency();
   readonly currentLanguageText = `${predefinedCurrenciesDictionary[this.currentCurrency].code} (${
     predefinedCurrenciesDictionary[this.currentCurrency].symbol
@@ -15,7 +17,16 @@ export class CurrencySwitcherComponent {
   readonly menuActions = this.getMenuActions();
   readonly icon = predefinedCurrenciesDictionary[this.currentCurrency].icon;
 
-  constructor(private currencyService: CurrencyService) {}
+  isLoading$: Observable<boolean>;
+
+  constructor(
+    private currencyService: CurrencyService,
+    private metadataFacade: MetadataFacadeService
+  ) {}
+
+  ngOnInit(): void {
+    this.isLoading$ = this.metadataFacade.getCurrencyChangingInProgress();
+  }
 
   buildTranslationKey(key: string): string {
     return `currencySwitcher.${key}`;
@@ -25,7 +36,7 @@ export class CurrencySwitcherComponent {
     return Object.keys(predefinedCurrenciesDictionary).map((key) => ({
       icon: predefinedCurrenciesDictionary[key].icon,
       translationKey: `currencies.${key}`,
-      action: () => this.currencyService.setCurrencyToLS(key as CurrenciesEnum, true),
+      action: () => this.metadataFacade.changeCurrency(key as CurrenciesEnum),
       disabled: key === this.currentCurrency,
     }));
   }
