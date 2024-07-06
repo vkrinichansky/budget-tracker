@@ -1,7 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { LanguageService } from '../../services';
 import { MenuAction } from '@budget-tracker/design-system';
-import { LanguagesEnum, PredefinedLanguages } from '../../models';
+import { PredefinedLanguages, LanguageService, LanguagesEnum } from '@budget-tracker/shared';
 
 @Component({
   selector: 'app-language-switcher',
