@@ -12,6 +12,6 @@ import { CurrencyPipe } from './pipes';
   declarations: [CurrencyPipe, LostConnectionMessageComponent],
   imports: [CommonModule, MatSnackBarModule, TranslateModule, DesignSystemModule, MatTooltipModule],
   exports: [CurrencyPipe, LostConnectionMessageComponent],
-  providers: [NavigatorService, SnackbarHandlerService, CurrencyPipe, LostConnectionService, Location],
+  providers: [NavigatorService, SnackbarHandlerService, CurrencyPipe, LostConnectionService],
 })
 export class SharedModule {}
