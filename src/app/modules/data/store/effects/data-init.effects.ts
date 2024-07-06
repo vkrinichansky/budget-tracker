@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { from, map, of, switchMap, tap } from 'rxjs';
 import { AccountsActions, ActivityLogActions, CategoriesActions, DataInitActions, StatisticsActions } from '../actions';
 import { CategoriesService, DataInitService } from '../../services';
-import { getMonthAndYearString, getPreviousMonthTime } from '@budget-tracker/utils';
+import { getMonthAndYearString, getPreviousMonthTime, SnackbarHandlerService } from '@budget-tracker/utils';
 import {
   ActivityLogRecordType,
   BudgetTrackerState,
@@ -14,7 +14,6 @@ import {
   StatisticsSnapshot,
 } from '../../models';
 import { v4 as uuid } from 'uuid';
-import { SnackbarHandlerService } from '@budget-tracker/shared';
 
 @Injectable()
 export class DataInitEffects {

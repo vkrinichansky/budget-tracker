@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { SnackbarHandlerService } from '@budget-tracker/shared';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { mergeMap, from, switchMap, of, catchError, filter, take } from 'rxjs';
 import { AccountsActions, ActivityLogActions, CategoriesActions } from '../actions';
 import { Store } from '@ngrx/store';
 import { ActivityLogSelectors } from '../selectors';
 import { ActivityLogService } from '../../services';
+import { SnackbarHandlerService } from '@budget-tracker/utils';
 
 @Injectable()
 export class ActivityLogEffects {

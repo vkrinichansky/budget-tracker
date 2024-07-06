@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { User as FirebaseUser } from '@angular/fire/auth';
-import { SnackbarHandlerService } from '@budget-tracker/shared';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, filter, of, switchMap, take, tap } from 'rxjs';
 import { from, map, mergeMap } from 'rxjs';
 import { User } from '../../models';
 import { AuthService } from '../../services';
 import { AuthActions } from '../actions';
-import { NavigatorService } from '@budget-tracker/utils';
+import { NavigatorService, SnackbarHandlerService } from '@budget-tracker/utils';
 
 @Injectable()
 export class AuthEffects {

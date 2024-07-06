@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BudgetType } from '@budget-tracker/data';
 import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
@@ -81,7 +80,7 @@ export class SnackbarHandlerService {
     );
   }
 
-  showCategoriesResetSnackbar(budgetType: BudgetType): void {
+  showCategoriesResetSnackbar(budgetType: string): void {
     this.openSnackBarWithCloseDelay(
       this.translateService.instant(this.buildTranslationKey(`categoriesResetSnackbar.${budgetType}`)),
       this.translateService.instant(this.buildTranslationKey('categoriesResetSnackbar.buttonText'))
