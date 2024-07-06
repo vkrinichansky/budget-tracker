@@ -253,20 +253,22 @@
   },
 
   "languageSwitcher": {
-    "tooltip": "Мова",
-    "languages": {
-      "english": "Англійська",
-      "ukrainian": "Українська"
-    }
+    "tooltip": "Мова"
+  },
+
+  "languages": {
+    "en-US": "Англійська",
+    "uk-UA": "Українська"
   },
 
   "currencySwitcher": {
-    "tooltip": "Валюта",
-    "currencies": {
-      "hryvnia": "Гривня (₴)",
-      "dollar": "Долар ($)",
-      "euro": "Євро (€)"
-    }
+    "tooltip": "Валюта"
+  },
+
+  "currencies": {
+    "uah": "Гривня (₴)",
+    "usd": "Долар ($)",
+    "eur": "Євро (€)"
   },
 
   "lostConnectionMessage": {

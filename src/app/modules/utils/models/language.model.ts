@@ -5,24 +5,21 @@ export enum LanguagesEnum {
   Ukrainian = 'uk-UA',
 }
 
-export interface LanguageSwitcherData {
-  [key: string]: {
-    translationKey: string;
-    short: string;
-    icon: string;
-  };
+export interface Language {
+  id: string;
+  code: string;
+  icon: string;
 }
 
-export const PredefinedLanguages: LanguageSwitcherData = {
+export const predefinedLanguagesDictionary: Record<string, Language> = {
   [LanguagesEnum.English]: {
-    translationKey: 'english',
-    short: 'EN',
+    id: LanguagesEnum.English,
+    code: 'EN',
     icon: 'ukFlag',
   },
   [LanguagesEnum.Ukrainian]: {
-    translationKey: 'ukrainian',
-    short: 'UA',
-
+    id: LanguagesEnum.Ukrainian,
+    code: 'UA',
     icon: 'uaFlag',
   },
 };

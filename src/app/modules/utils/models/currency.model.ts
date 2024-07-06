@@ -1,39 +1,35 @@
 export const CurrencyLSKey = 'currency';
 
 export enum CurrenciesEnum {
-  Hryvnia = 'uah',
-  Dollar = 'usd',
-  Euro = 'eur',
+  UAH = 'uah',
+  USD = 'usd',
+  EUR = 'eur',
 }
 
-export const CurrencySymbolMapping = {
-  [CurrenciesEnum.Hryvnia]: '₴',
-  [CurrenciesEnum.Dollar]: '$',
-  [CurrenciesEnum.Euro]: '€',
-};
-
-export interface CurrencySwitcherData {
-  [key: string]: {
-    translationKey: string;
-    short: string;
-    icon: string;
-  };
+export interface Currency {
+  id: string; // usd
+  code: string; // USD
+  icon: string; // flag
+  symbol: string; // $
 }
 
-export const PredefinedCurrencies: CurrencySwitcherData = {
-  [CurrenciesEnum.Hryvnia]: {
-    translationKey: 'hryvnia',
-    short: 'UAH',
+export const predefinedCurrenciesDictionary: Record<string, Currency> = {
+  [CurrenciesEnum.UAH]: {
+    id: CurrenciesEnum.UAH,
+    code: 'UAH',
     icon: 'uaFlag',
+    symbol: '₴',
   },
-  [CurrenciesEnum.Dollar]: {
-    translationKey: 'dollar',
-    short: 'USD',
+  [CurrenciesEnum.USD]: {
+    id: CurrenciesEnum.USD,
+    code: 'USD',
     icon: 'usFlag',
+    symbol: '$',
   },
-  [CurrenciesEnum.Euro]: {
-    translationKey: 'euro',
-    short: 'EUR',
+  [CurrenciesEnum.EUR]: {
+    id: CurrenciesEnum.EUR,
+    code: 'EUR',
     icon: 'euFlag',
+    symbol: '€',
   },
 };

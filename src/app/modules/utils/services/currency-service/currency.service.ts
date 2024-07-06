@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CurrenciesEnum, CurrencyLSKey, CurrencySymbolMapping } from '../../models';
+import { CurrenciesEnum, CurrencyLSKey, predefinedCurrenciesDictionary } from '../../models';
 
 @Injectable({
   providedIn: 'root',
@@ -22,8 +22,8 @@ export class CurrencyService {
       this.setCurrentCurrency(language as CurrenciesEnum);
       return;
     }
-    this.setCurrencyToLS(CurrenciesEnum.Dollar);
-    this.setCurrentCurrency(CurrenciesEnum.Dollar);
+    this.setCurrencyToLS(CurrenciesEnum.USD);
+    this.setCurrentCurrency(CurrenciesEnum.USD);
   }
 
   setCurrentCurrency(currency: CurrenciesEnum): void {
@@ -35,6 +35,6 @@ export class CurrencyService {
   }
 
   getCurrencySymbol(): string {
-    return CurrencySymbolMapping[this._currency];
+    return predefinedCurrenciesDictionary[this._currency].symbol;
   }
 }

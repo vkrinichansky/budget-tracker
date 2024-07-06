@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MenuAction } from '@budget-tracker/design-system';
-import { PredefinedLanguages, LanguageService, LanguagesEnum } from '@budget-tracker/utils';
+import { LanguageService, LanguagesEnum, predefinedLanguagesDictionary } from '@budget-tracker/utils';
 
 @Component({
   selector: 'app-language-switcher',
@@ -9,9 +9,9 @@ import { PredefinedLanguages, LanguageService, LanguagesEnum } from '@budget-tra
 })
 export class LanguageSwitcherComponent {
   readonly currentLanguage = this.languageService.getCurrentLanguage();
-  readonly currentLanguageText = PredefinedLanguages[this.currentLanguage].short;
+  readonly currentLanguageText = predefinedLanguagesDictionary[this.currentLanguage].code;
   readonly menuActions: MenuAction[] = this.getMenuActions();
-  readonly icon = PredefinedLanguages[this.currentLanguage].icon;
+  readonly icon = predefinedLanguagesDictionary[this.currentLanguage].icon;
 
   constructor(private languageService: LanguageService) {}
 
@@ -20,9 +20,9 @@ export class LanguageSwitcherComponent {
   }
 
   private getMenuActions(): MenuAction[] {
-    return Object.keys(PredefinedLanguages).map((key) => ({
-      icon: PredefinedLanguages[key].icon,
-      translationKey: this.buildTranslationKey(`languages.${PredefinedLanguages[key].translationKey}`),
+    return Object.keys(predefinedLanguagesDictionary).map((key) => ({
+      icon: predefinedLanguagesDictionary[key].icon,
+      translationKey: `languages.${key}`,
       action: () => this.languageService.setLanguageToLS(key as LanguagesEnum, true),
       disabled: key === this.currentLanguage,
     }));

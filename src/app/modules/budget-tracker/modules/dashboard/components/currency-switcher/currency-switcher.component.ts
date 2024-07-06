@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MenuAction } from '@budget-tracker/design-system';
-import { CurrenciesEnum, CurrencyService, CurrencySymbolMapping, PredefinedCurrencies } from '@budget-tracker/utils';
+import { CurrenciesEnum, CurrencyService, predefinedCurrenciesDictionary } from '@budget-tracker/utils';
 
 @Component({
   selector: 'app-currency-switcher',
@@ -9,11 +9,11 @@ import { CurrenciesEnum, CurrencyService, CurrencySymbolMapping, PredefinedCurre
 })
 export class CurrencySwitcherComponent {
   readonly currentCurrency = this.currencyService.getCurrentCurrency();
-  readonly currentLanguageText = `${PredefinedCurrencies[this.currentCurrency].short} (${
-    CurrencySymbolMapping[this.currentCurrency]
+  readonly currentLanguageText = `${predefinedCurrenciesDictionary[this.currentCurrency].code} (${
+    predefinedCurrenciesDictionary[this.currentCurrency].symbol
   })`;
   readonly menuActions = this.getMenuActions();
-  readonly icon = PredefinedCurrencies[this.currentCurrency].icon;
+  readonly icon = predefinedCurrenciesDictionary[this.currentCurrency].icon;
 
   constructor(private currencyService: CurrencyService) {}
 
@@ -22,9 +22,9 @@ export class CurrencySwitcherComponent {
   }
 
   private getMenuActions(): MenuAction[] {
-    return Object.keys(PredefinedCurrencies).map((key) => ({
-      icon: PredefinedCurrencies[key].icon,
-      translationKey: this.buildTranslationKey(`currencies.${PredefinedCurrencies[key].translationKey}`),
+    return Object.keys(predefinedCurrenciesDictionary).map((key) => ({
+      icon: predefinedCurrenciesDictionary[key].icon,
+      translationKey: `currencies.${key}`,
       action: () => this.currencyService.setCurrencyToLS(key as CurrenciesEnum, true),
       disabled: key === this.currentCurrency,
     }));
