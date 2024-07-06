@@ -13,7 +13,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { UtilsModule } from '@budget-tracker/utils';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { SharedModule } from '@budget-tracker/shared';
 import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
@@ -24,7 +23,6 @@ import { MatMenuModule } from '@angular/material/menu';
     UtilsModule,
     ScrollingModule,
     MatTooltipModule,
-    SharedModule,
     MatMenuModule,
   ],
   declarations: [

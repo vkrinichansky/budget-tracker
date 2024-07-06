@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { LanguageService } from '@budget-tracker/shared';
 import { Store } from '@ngrx/store';
 import { Observable, firstValueFrom, map } from 'rxjs';
 import { ActivityLogActions, ActivityLogSelectors } from '../../store';
@@ -16,7 +15,7 @@ import {
 } from '../../models';
 import { Dictionary } from '@ngrx/entity';
 import { CategoriesFacadeService } from '../categories-facade/categories-facade.service';
-import { isPreviousMonth } from '@budget-tracker/utils';
+import { isPreviousMonth, LanguageService } from '@budget-tracker/utils';
 import { AccountsFacadeService } from '../accounts-facade/accounts-facade.service';
 
 @Injectable()

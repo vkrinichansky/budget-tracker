@@ -14,7 +14,6 @@ import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataModule } from '@budget-tracker/data';
-import { SharedModule } from '@budget-tracker/shared';
 import { UtilsModule } from '@budget-tracker/utils';
 import { MatInputModule } from '@angular/material/input';
 
@@ -36,7 +35,6 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     MatInputModule,
     DataModule,
-    SharedModule,
     UtilsModule,
   ],
   exports: [

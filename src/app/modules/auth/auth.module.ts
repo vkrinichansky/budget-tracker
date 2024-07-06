@@ -10,8 +10,8 @@ import { AuthFacadeService, AuthService } from './services';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './store/effects';
 import { AuthGuard, SecureInnerPagesGuard } from './guards';
-import { SharedModule } from '@budget-tracker/shared';
 import { DataModule } from '@budget-tracker/data';
+import { UtilsModule } from '@budget-tracker/utils';
 
 @NgModule({
   declarations: [AuthPageComponent],
@@ -22,8 +22,8 @@ import { DataModule } from '@budget-tracker/data';
     TranslateModule,
     StoreModule.forFeature(authFeature),
     EffectsModule.forFeature([AuthEffects]),
-    SharedModule,
     DataModule,
+    UtilsModule,
   ],
   providers: [AuthService, AuthFacadeService, AuthGuard, SecureInnerPagesGuard],
 })

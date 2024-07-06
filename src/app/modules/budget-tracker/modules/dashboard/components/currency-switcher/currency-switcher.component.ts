@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MenuAction } from '@budget-tracker/design-system';
-import { PredefinedCurrencies, CurrencySymbolMapping, CurrencyService, CurrenciesEnum } from '@budget-tracker/shared';
+import { CurrenciesEnum, CurrencyService, CurrencySymbolMapping, PredefinedCurrencies } from '@budget-tracker/utils';
 
 @Component({
   selector: 'app-currency-switcher',

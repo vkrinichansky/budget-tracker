@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { CurrencyService, LanguageService } from '@budget-tracker/shared';
+import { CurrencyService, LanguageService } from '@budget-tracker/utils';
 
 @Component({
   selector: 'app-root',

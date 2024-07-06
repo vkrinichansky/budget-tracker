@@ -5,8 +5,7 @@ import { ChartData, ChartOptions } from 'chart.js';
 import { CategoryModalsService } from '../../services';
 import { ChartJSTooltipConfig, ConfirmationModalService, MainPalette, MenuAction } from '@budget-tracker/design-system';
 import { CategoriesFacadeService } from '@budget-tracker/data';
-import { CurrencyPipe } from '@budget-tracker/shared';
-import { isMobileWidth } from '@budget-tracker/utils';
+import { CurrencyPipe, isMobileWidth } from '@budget-tracker/utils';
 
 type TabType = 'list' | 'chart';
 
