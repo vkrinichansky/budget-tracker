@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import {
   IncomeInfoCardComponent,
   ExpenseInfoCardComponent,
-  BalanceInfoCardComponent,
   AccountsInfoCardComponent,
   AccountsListModalComponent,
   AccountCardComponent,
   AccountValueEditModalComponent,
   AddAccountModalComponent,
+  FullBalanceInfoCardComponent,
+  CurrentMonthBalanceInfoCardComponent,
 } from './components';
 import { AccountsListModalService, AccountsValueEditModalService, AddAccountModalService } from './services';
 import { DesignSystemModule } from '@budget-tracker/design-system';
@@ -22,12 +23,13 @@ import { MatInputModule } from '@angular/material/input';
   declarations: [
     IncomeInfoCardComponent,
     ExpenseInfoCardComponent,
-    BalanceInfoCardComponent,
+    FullBalanceInfoCardComponent,
     AccountsInfoCardComponent,
     AccountsListModalComponent,
     AccountCardComponent,
     AccountValueEditModalComponent,
     AddAccountModalComponent,
+    CurrentMonthBalanceInfoCardComponent,
   ],
   imports: [
     CommonModule,
@@ -42,11 +44,12 @@ import { MatInputModule } from '@angular/material/input';
   exports: [
     IncomeInfoCardComponent,
     ExpenseInfoCardComponent,
-    BalanceInfoCardComponent,
+    FullBalanceInfoCardComponent,
     AccountsInfoCardComponent,
     AccountsListModalComponent,
     AccountCardComponent,
     AddAccountModalComponent,
+    CurrentMonthBalanceInfoCardComponent,
   ],
   providers: [AccountsValueEditModalService, AccountsListModalService, AddAccountModalService],
 })

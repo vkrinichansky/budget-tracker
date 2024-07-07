@@ -50,7 +50,7 @@ export const ChartPalette = [
 ];
 
 export type ColorScheme = 'charcoal' | 'green' | 'transparent-light' | 'transparent-dark' | 'active-navigation-item';
-export type BgColorScheme = 'white' | 'green' | 'charcoal';
+export type BgColorScheme = 'white' | 'dark-green' | 'charcoal' | 'green' | 'red';
 
 export type IconSize = 'small' | 'medium' | 'big' | 'auto' | 'full-width';
 export type ButtonSize = 'tiny' | 'small' | 'medium' | 'px100' | 'big' | 'large' | 'full' | 'auto';

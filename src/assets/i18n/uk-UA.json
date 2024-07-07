@@ -18,13 +18,11 @@
       "expense": {
         "title": "Витрати"
       },
+      "currentMonthBalance": {
+        "title": "Баланс за місяць"
+      },
       "fullBalance": {
-        "fullBalance": "Повний баланс",
-        "menu": {
-          "increase": "Збільшити",
-          "decrease": "Зменшити",
-          "edit": "Редагувати"
-        },
+        "title": "Повний баланс",
         "tooltip": "Full balance is the sum of all your accounts"
       },
       "accounts": {

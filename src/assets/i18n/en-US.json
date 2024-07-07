@@ -18,13 +18,12 @@
       "expense": {
         "title": "Expense"
       },
+      "currentMonthBalance": {
+        "title": "Current month balance"
+      },
       "fullBalance": {
-        "fullBalance": "Full balance",
-        "menu": {
-          "increase": "Increase",
-          "decrease": "Decrease",
-          "edit": "Edit"
-        },
+        "title": "Full balance",
+
         "tooltip": "Full balance is the sum of all your accounts"
       },
       "accounts": {

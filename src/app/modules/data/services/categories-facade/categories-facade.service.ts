@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, firstValueFrom, map } from 'rxjs';
+import { Observable, combineLatest, firstValueFrom, map } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { ActivityLogSelectors, CategoriesActions, CategoriesSelectors } from '../../store';
 import {
@@ -57,6 +57,12 @@ export class CategoriesFacadeService {
 
   getExpenseValue(): Observable<number> {
     return this.store.select(CategoriesSelectors.expenseValueSelector);
+  }
+
+  getCurrentMonthBalance(): Observable<number> {
+    return combineLatest([this.getIncomeValue(), this.getExpenseValue()]).pipe(
+      map(([income, expense]) => income - expense)
+    );
   }
 
   getCategoriesAccordingToBudgetType(budgetType: BudgetType): Observable<Category[]> {

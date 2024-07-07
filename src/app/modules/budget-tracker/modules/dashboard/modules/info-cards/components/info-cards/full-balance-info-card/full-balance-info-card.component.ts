@@ -3,11 +3,11 @@ import { Observable } from 'rxjs';
 import { AccountsFacadeService } from '@budget-tracker/data';
 
 @Component({
-  selector: 'app-balance-info-card',
-  templateUrl: './balance-info-card.component.html',
+  selector: 'app-full-balance-info-card',
+  templateUrl: './full-balance-info-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BalanceInfoCardComponent implements OnInit {
+export class FullBalanceInfoCardComponent implements OnInit {
   fullBalance$: Observable<number>;
 
   constructor(private accountsFacade: AccountsFacadeService) {}

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BalanceInfoCardComponent } from './balance-info-card.component';
+import { BalanceInfoCardComponent } from './full-balance-info-card.component';
 
 describe('BalanceInfoCardComponent', () => {
   let component: BalanceInfoCardComponent;

@@ -81,6 +81,8 @@ export class InfoCardComponent {
     switch (this.colorScheme) {
       case 'charcoal':
       case 'green':
+      case 'dark-green':
+      case 'red':
         return 'transparent-light';
 
       case 'white':
