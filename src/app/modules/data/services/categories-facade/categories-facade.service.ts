@@ -6,7 +6,7 @@ import { ActivityLogSelectors, CategoriesActions, CategoriesSelectors } from '..
 import {
   Category,
   CategoryManagementRecord,
-  CategoryManagementActionType,
+  EntityManagementActionType,
   ActivityLogRecordType,
   BudgetType,
   CategoryValueChangeRecord,
@@ -73,7 +73,7 @@ export class CategoriesFacadeService {
   addCategory(category: Category): void {
     const addCategoryRecord: CategoryManagementRecord = {
       id: uuid(),
-      actionType: CategoryManagementActionType.Add,
+      actionType: EntityManagementActionType.Add,
       budgetType: category.budgetType,
       categoryName: category.name,
       date: new Date().getTime(),
@@ -100,7 +100,7 @@ export class CategoriesFacadeService {
 
     const removeCategoryRecord: CategoryManagementRecord = {
       id: uuid(),
-      actionType: CategoryManagementActionType.Remove,
+      actionType: EntityManagementActionType.Remove,
       budgetType: category.budgetType,
       categoryName: category.name,
       date: new Date().getTime(),

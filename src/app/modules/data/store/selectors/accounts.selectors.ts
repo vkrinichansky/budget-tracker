@@ -22,10 +22,22 @@ const editAccountValueSucceedSelector = createSelector(
   (state) => state.accountValueEdit.success
 );
 
+const accountManagementInProgressSelector = createSelector(
+  accountsStateSelector,
+  (state) => state.accountManagement.inProgress
+);
+
+const accountManagementSuccessSelector = createSelector(
+  accountsStateSelector,
+  (state) => state.accountManagement.success
+);
+
 export const AccountsSelectors = {
   accountsStateSelector,
   allAccountsSelector,
   accountByIdSelector,
   editAccountValueInProgressSelector,
   editAccountValueSucceedSelector,
+  accountManagementInProgressSelector,
+  accountManagementSuccessSelector,
 };

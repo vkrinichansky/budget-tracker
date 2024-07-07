@@ -10,6 +10,10 @@ export interface AccountsState {
     error: boolean;
     inProgress: boolean;
   };
+  accountManagement: {
+    inProgress: boolean;
+    success: boolean;
+  };
 }
 
 function selectAccountId(account: Account) {
@@ -27,6 +31,10 @@ const initialState: AccountsState = {
     error: false,
     inProgress: false,
   },
+  accountManagement: {
+    success: false,
+    inProgress: false,
+  },
 };
 
 const adapterReducer = createReducer(
@@ -34,6 +42,39 @@ const adapterReducer = createReducer(
   on(AccountsActions.accountsLoaded, (state, action) => ({
     ...state,
     accounts: accountEntityAdapter.addMany(action.accounts, state.accounts),
+  })),
+
+  on(AccountsActions.addAccount, (state) => ({
+    ...state,
+    accountManagement: {
+      inProgress: true,
+      success: false,
+    },
+  })),
+
+  on(AccountsActions.accountAdded, (state, action) => ({
+    ...state,
+    accounts: accountEntityAdapter.addOne(action.account, state.accounts),
+    accountManagement: {
+      inProgress: false,
+      success: true,
+    },
+  })),
+
+  on(AccountsActions.addAccountFail, (state) => ({
+    ...state,
+    accountManagement: {
+      inProgress: false,
+      success: false,
+    },
+  })),
+
+  on(AccountsActions.resetAccountManagementProp, (state) => ({
+    ...state,
+    accountManagement: {
+      inProgress: false,
+      success: false,
+    },
   })),
 
   on(AccountsActions.editAccountValue, (state) => ({

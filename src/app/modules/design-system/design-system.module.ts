@@ -17,6 +17,7 @@ import {
   BaseModalComponent,
   ColorPickerComponent,
   IconPickerComponent,
+  CustomSelectComponent,
 } from './components';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -67,6 +68,7 @@ import { MatSelectModule } from '@angular/material/select';
     BaseModalComponent,
     ColorPickerComponent,
     IconPickerComponent,
+    CustomSelectComponent,
   ],
   exports: [
     SvgIconComponent,
@@ -84,6 +86,7 @@ import { MatSelectModule } from '@angular/material/select';
     BaseModalComponent,
     ColorPickerComponent,
     IconPickerComponent,
+    CustomSelectComponent,
   ],
   providers: [ConfirmationModalService],
 })

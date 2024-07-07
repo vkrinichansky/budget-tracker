@@ -1,10 +1,5 @@
-<app-base-modal [titleTranslationKey]="buildTranslationKey('title')">
+<app-base-modal [titleTranslationKey]="buildTranslationKey('title')" [footerTemplate]="footer">
   <form class="flex flex-col" [formGroup]="form">
-    <icon-picker
-      [label]="buildTranslationKey('accountIconTitle') | translate"
-      [formControlName]="formFields.AccountIcon"
-    ></icon-picker>
-
     <mat-form-field>
       <mat-label>{{ buildTranslationKey('accountNameTitle') | translate }}</mat-label>
       <input matInput [formControlName]="formFields.AccountName" />
@@ -22,6 +17,28 @@
       }
     </mat-form-field>
 
+    <mat-form-field>
+      <mat-label>{{ buildTranslationKey('accountValueTitle') | translate }}</mat-label>
+      <input #valueInput matInput [formControlName]="formFields.AccountValue" />
+
+      @if (hasRequiredError) {
+        <mat-error>{{ 'formErrors.required' | translate }}</mat-error>
+      }
+
+      @if (hasMinValueError) {
+        <mat-error>{{ 'formErrors.minValue' | translate: { minValue: 1 } }}</mat-error>
+      }
+
+      @if (hasNumberPatternError) {
+        <mat-error>{{ 'formErrors.numberPattern' | translate }}</mat-error>
+      }
+    </mat-form-field>
+
+    <icon-picker
+      [label]="buildTranslationKey('accountIconTitle') | translate"
+      [formControlName]="formFields.AccountIcon"
+    ></icon-picker>
+
     <color-picker
       [label]="buildTranslationKey('accountBgColorTitle') | translate"
       [formControlName]="formFields.AccountBgColor"
@@ -32,9 +49,18 @@
       [formControlName]="formFields.AccountTextColor"
     ></color-picker>
 
+    <custom-select
+      [label]="buildTranslationKey('accountCurrencyTitle') | translate"
+      [formControlName]="formFields.AccountCurrency"
+      [options]="options"
+      [idSelector]="idSelector"
+      [displayValueSelector]="displayValueSelector"
+      [iconSelector]="iconSelector"
+    ></custom-select>
+
     <app-info-card
-      class="mt-4"
-      [primaryText]="0"
+      class="mt-4 !py-2 !h-20"
+      [primaryText]="(form.controls[formFields.AccountValue].value || 0) + selectedCurrencySymbol"
       [secondaryText]="form.controls[formFields.AccountName].value"
       [iconName]="form.controls[formFields.AccountIcon].value"
       [hexBgColor]="form.controls[formFields.AccountBgColor].value || '#F0F2F2'"
@@ -43,3 +69,14 @@
     ></app-info-card>
   </form>
 </app-base-modal>
+
+<ng-template #footer>
+  <app-button
+    [colorScheme]="'charcoal'"
+    [text]="buildTranslationKey('addAccount') | translate"
+    [buttonSizeX]="'big'"
+    [disabled]="!isFormValid"
+    [loading]="loading$ | async"
+    (click)="submitClick()"
+  ></app-button>
+</ng-template>

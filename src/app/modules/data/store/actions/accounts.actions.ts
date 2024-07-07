@@ -1,8 +1,19 @@
 import { createAction, props } from '@ngrx/store';
-import { Account, AccountValueEditRecord } from '../../models';
+import { Account, AccountManagementRecord, AccountValueEditRecord } from '../../models';
 
 export const AccountsActions = {
   accountsLoaded: createAction('[Accounts] Accounts loaded', props<{ accounts: Account[] }>()),
+
+  addAccount: createAction(
+    '[Accounts] Add account',
+    props<{ account: Account; activityLogRecord: AccountManagementRecord }>()
+  ),
+
+  accountAdded: createAction('[Accounts] Account added', props<{ account: Account }>()),
+
+  addAccountFail: createAction('[Accounts] Add account fail'),
+
+  resetAccountManagementProp: createAction('[Accounts] Reset account management prop'),
 
   editAccountValue: createAction(
     '[Accounts] Edit account value',

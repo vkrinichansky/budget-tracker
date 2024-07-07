@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AccountValueEditRecord } from '../../models';
+import { Account, AccountManagementRecord, AccountValueEditRecord } from '../../models';
 import { Auth } from '@angular/fire/auth';
 import { arrayUnion, collection, doc, DocumentReference, Firestore, updateDoc } from '@angular/fire/firestore';
 
@@ -12,6 +12,13 @@ export class AccountsService {
     private firestore: Firestore,
     private afAuth: Auth
   ) {}
+
+  addAccount(account: Account, activityLogRecord: AccountManagementRecord): Promise<void> {
+    return updateDoc(this.getDocRef(), {
+      [`${ACCOUNTS_PATH}.${account.id}`]: account,
+      [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
+    });
+  }
 
   editAccountValue(accountId: string, newValue: number, activityLogRecord: AccountValueEditRecord): Promise<void> {
     return updateDoc(this.getDocRef(), {

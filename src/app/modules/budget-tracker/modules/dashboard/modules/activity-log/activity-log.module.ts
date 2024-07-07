@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
+  AccountManagementRecordComponent,
   AccountValueEditRecordComponent,
   ActivityLogComponent,
   ActivityLogRemoveMenuComponent,
@@ -32,6 +33,7 @@ import { MatMenuModule } from '@angular/material/menu';
     CategoriesResetRecordComponent,
     AccountValueEditRecordComponent,
     ActivityLogRemoveMenuComponent,
+    AccountManagementRecordComponent,
   ],
 
   exports: [ActivityLogComponent],

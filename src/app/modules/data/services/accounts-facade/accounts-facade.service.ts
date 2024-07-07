@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { firstValueFrom, map, Observable } from 'rxjs';
-import { Account, AccountValueEditRecord, ActivityLogRecordType } from '../../models';
+import {
+  Account,
+  AccountManagementRecord,
+  AccountValueEditRecord,
+  ActivityLogRecordType,
+  EntityManagementActionType,
+} from '../../models';
 import { Store } from '@ngrx/store';
 import { AccountsActions, AccountsSelectors } from '../../store';
 import { v4 as uuid } from 'uuid';
@@ -51,5 +57,26 @@ export class AccountsFacadeService {
 
   getEditAccountValueSucceed(): Observable<boolean> {
     return this.store.select(AccountsSelectors.editAccountValueSucceedSelector);
+  }
+
+  addAccount(account: Account): void {
+    const addAccountRecord: AccountManagementRecord = {
+      id: uuid(),
+      actionType: EntityManagementActionType.Add,
+      accountName: account.name,
+      date: new Date().getTime(),
+      icon: account.icon,
+      recordType: ActivityLogRecordType.AccountManagement,
+    };
+
+    this.store.dispatch(AccountsActions.addAccount({ account, activityLogRecord: addAccountRecord }));
+  }
+
+  getAccountManagementInProgress(): Observable<boolean> {
+    return this.store.select(AccountsSelectors.accountManagementInProgressSelector);
+  }
+
+  getAccountManagementSuccess(): Observable<boolean> {
+    return this.store.select(AccountsSelectors.accountManagementSuccessSelector);
   }
 }

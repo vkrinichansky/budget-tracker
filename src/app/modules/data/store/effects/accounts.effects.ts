@@ -14,6 +14,34 @@ export class AccountsEffects {
     private accountService: AccountsService
   ) {}
 
+  addCategory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AccountsActions.addAccount),
+      mergeMap((action) =>
+        from(this.accountService.addAccount(action.account, action.activityLogRecord)).pipe(
+          switchMap(() => {
+            this.snackbarHandler.showAccountAddedSnackbar();
+
+            return of(
+              AccountsActions.accountAdded({
+                account: action.account,
+              }),
+
+              ActivityLogActions.recordAdded({
+                record: action.activityLogRecord,
+              })
+            );
+          }),
+          catchError((error) => {
+            this.snackbarHandler.showErrorSnackbar(error);
+
+            return of(AccountsActions.addAccountFail());
+          })
+        )
+      )
+    )
+  );
+
   editAccountValue$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AccountsActions.editAccountValue),
@@ -38,6 +66,14 @@ export class AccountsEffects {
           })
         )
       )
+    )
+  );
+
+  resetCategoryManagementProp$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AccountsActions.accountAdded, AccountsActions.addAccountFail),
+      delay(1000),
+      map(() => AccountsActions.resetAccountManagementProp())
     )
   );
 

@@ -4,10 +4,11 @@ export enum ActivityLogRecordType {
   CategoryManagement = 'category-management',
   CategoryValueChange = 'category-value-change',
   CategoriesReset = 'categories-reset',
+  AccountManagement = 'account-management',
   AccountValueEdit = 'account-value-edit',
 }
 
-export enum CategoryManagementActionType {
+export enum EntityManagementActionType {
   Add = 'add',
   Remove = 'remove',
 }
@@ -19,6 +20,11 @@ export interface ActivityLogRecord {
   recordType: ActivityLogRecordType;
 }
 
+export interface AccountManagementRecord extends ActivityLogRecord {
+  actionType: EntityManagementActionType;
+  accountName: string;
+}
+
 export interface AccountValueEditRecord extends ActivityLogRecord {
   accountId: string;
   accountName: string;
@@ -28,7 +34,7 @@ export interface AccountValueEditRecord extends ActivityLogRecord {
 }
 
 export interface CategoryManagementRecord extends ActivityLogRecord {
-  actionType: CategoryManagementActionType;
+  actionType: EntityManagementActionType;
   categoryName: string;
   budgetType: BudgetType;
 }
@@ -48,6 +54,7 @@ export interface CategoriesResetRecord extends ActivityLogRecord {
 }
 
 export type ActivityLogRecordUnitedType =
+  | AccountManagementRecord
   | AccountValueEditRecord
   | CategoryManagementRecord
   | CategoryValueChangeRecord

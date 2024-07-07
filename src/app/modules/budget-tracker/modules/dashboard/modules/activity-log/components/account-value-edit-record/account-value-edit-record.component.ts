@@ -18,9 +18,7 @@ export class AccountValueEditRecordComponent implements OnInit {
   ngOnInit(): void {
     this.isRecordRemoving$ = this.activityLogFacade.isActivityLogRecordRemoving(this.record.id);
   }
-  buildTranslationKey(key: string): string {
-    return `dashboard.activityLog.rootValueChangeRecord.${key}`;
-  }
+
   removeHandler(): void {
     this.activityLogFacade.removeActivityLogRecord(this.record.id);
   }

@@ -1,17 +1,17 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { ActivityLogFacadeService, EntityManagementActionType, CategoryManagementRecord } from '@budget-tracker/data';
+import { ActivityLogFacadeService, EntityManagementActionType, AccountManagementRecord } from '@budget-tracker/data';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-category-management-record',
-  templateUrl: './category-management-record.component.html',
+  selector: 'app-account-management-record',
+  templateUrl: './account-management-record.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CategoryManagementRecordComponent implements OnInit {
+export class AccountManagementRecordComponent implements OnInit {
   readonly actionType = EntityManagementActionType;
 
   @Input()
-  record: CategoryManagementRecord;
+  record: AccountManagementRecord;
 
   isRecordRemoving$: Observable<boolean>;
 
@@ -22,7 +22,7 @@ export class CategoryManagementRecordComponent implements OnInit {
   }
 
   buildTranslationKey(key: string): string {
-    return `dashboard.activityLog.categoryManagementRecord.${key}`;
+    return `dashboard.activityLog.accountManagementRecord.${key}`;
   }
 
   removeRecord(): void {

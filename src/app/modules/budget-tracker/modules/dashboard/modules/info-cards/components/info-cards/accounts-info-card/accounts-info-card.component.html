@@ -28,6 +28,6 @@
     [colorScheme]="'transparent-light'"
     [buttonSizeX]="'small'"
     [buttonSizeY]="'small'"
-    (click)="openAddAccountModalService()"
+    (click)="openAddAccountModalService(); $event.stopPropagation()"
   ></app-button>
 </div>

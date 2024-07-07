@@ -36,16 +36,7 @@ export class AddCategoryModalComponent implements OnInit {
   title: string;
 
   loading$: Observable<boolean>;
-
   success$: Observable<boolean>;
-
-  get selectedIcon(): string {
-    return this.form.controls[FormFields.CategoryIcon].value?.icon;
-  }
-
-  get selectedIconTitle(): string {
-    return this.form.controls[FormFields.CategoryIcon].value?.textTranslationKey;
-  }
 
   get isFormValid(): boolean {
     return this.form.valid;

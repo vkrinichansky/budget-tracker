@@ -94,6 +94,13 @@ export class SnackbarHandlerService {
     );
   }
 
+  showAccountAddedSnackbar(): void {
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant(this.buildTranslationKey('accountAddedSnackbar.message')),
+      this.translateService.instant(this.buildTranslationKey('accountAddedSnackbar.buttonText'))
+    );
+  }
+
   showAccountValueEditedSnackbar(): void {
     this.openSnackBarWithCloseDelay(
       this.translateService.instant(this.buildTranslationKey('accountValueEdited.message')),

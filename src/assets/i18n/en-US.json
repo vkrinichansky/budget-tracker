@@ -45,10 +45,13 @@
 
     "addAccountModal": {
       "title": "Add account",
-      "accountIconTitle": "Account icon",
       "accountNameTitle": "Account name",
+      "accountValueTitle": "Account value",
+      "accountIconTitle": "Account icon",
       "accountBgColorTitle": "Background",
       "accountTextColorTitle": "Text color",
+      "accountCurrencyTitle": "Account currency",
+      "addAccount": "Add account",
       "accountExistsError": "Such account already exists",
       "accountNameLengthError": "Max account name length is 20"
     },
@@ -66,6 +69,13 @@
 
     "activityLog": {
       "title": "Activity log",
+
+      "accountManagementRecord": {
+        "accountAdded": "<b>{{ accountName }}</b> account was added",
+        "accountRemoved": {
+          "budgetType": "<b>{{ accountName }}</b> account was removed"
+        }
+      },
 
       "categoryManagementRecord": {
         "categoryAdded": {
@@ -243,6 +253,10 @@
     },
     "accountValueEdited": {
       "message": "Account value was edited successfully!",
+      "buttonText": "Got it"
+    },
+    "accountAddedSnackbar": {
+      "message": "Account was added successfully!",
       "buttonText": "Got it"
     }
   },
