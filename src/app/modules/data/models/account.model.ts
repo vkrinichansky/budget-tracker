@@ -8,5 +8,4 @@ export interface Account {
   icon: string;
   bgColor: string;
   textColor: string;
-  isForeignCurrency: boolean;
 }

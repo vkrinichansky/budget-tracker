@@ -8,8 +8,9 @@ import {
   AccountsListModalComponent,
   AccountCardComponent,
   AccountValueEditModalComponent,
+  AddAccountModalComponent,
 } from './components';
-import { AccountsListModalService, AccountsValueEditModalService } from './services';
+import { AccountsListModalService, AccountsValueEditModalService, AddAccountModalService } from './services';
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -26,6 +27,7 @@ import { MatInputModule } from '@angular/material/input';
     AccountsListModalComponent,
     AccountCardComponent,
     AccountValueEditModalComponent,
+    AddAccountModalComponent,
   ],
   imports: [
     CommonModule,
@@ -44,7 +46,8 @@ import { MatInputModule } from '@angular/material/input';
     AccountsInfoCardComponent,
     AccountsListModalComponent,
     AccountCardComponent,
+    AddAccountModalComponent,
   ],
-  providers: [AccountsValueEditModalService, AccountsListModalService],
+  providers: [AccountsValueEditModalService, AccountsListModalService, AddAccountModalService],
 })
 export class InfoCardsModule {}

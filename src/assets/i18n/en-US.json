@@ -32,7 +32,8 @@
         "tooltip": "Full balance is the sum of all your accounts"
       },
       "accounts": {
-        "title": "Accounts ({{ accountsAmount }})",
+        "title": "Accounts",
+        "titleWithAmount": "Accounts ({{ accountsAmount }})",
         "hoverTip": "Click to see your accounts"
       },
       "accountCard": {
@@ -40,6 +41,16 @@
           "editValue": "Edit"
         }
       }
+    },
+
+    "addAccountModal": {
+      "title": "Add account",
+      "accountIconTitle": "Account icon",
+      "accountNameTitle": "Account name",
+      "accountBgColorTitle": "Background",
+      "accountTextColorTitle": "Text color",
+      "accountExistsError": "Such account already exists",
+      "accountNameLengthError": "Max account name length is 20"
     },
 
     "accountValueEditModal": {
@@ -156,6 +167,7 @@
       "categoryExistsError": "Such category already exists",
       "categoryNameLengthError": "Max category name length is 25"
     },
+
     "categoryValueModal": {
       "subtitle": "Add value to category",
       "cancel": "Cancel",
@@ -168,6 +180,7 @@
 
   "statistics": {
     "pageTitle": "Statistics",
+
     "monthlyStatistics": {
       "title": "Monthly",
       "chartActions": {

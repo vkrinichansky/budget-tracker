@@ -19,11 +19,7 @@ export class AccountsFacadeService {
 
   getFullBallance(): Observable<number> {
     return this.getAllAccounts().pipe(
-      map((accounts) =>
-        accounts
-          .filter((account) => !account.isForeignCurrency)
-          .reduce((fullBalance, account) => fullBalance + account.value, 0)
-      )
+      map((accounts) => accounts.reduce((fullBalance, account) => fullBalance + account.value, 0))
     );
   }
 

@@ -32,7 +32,8 @@
         "tooltip": "Full balance is the sum of all your accounts"
       },
       "accounts": {
-        "title": "Рахунки ({{ accountsAmount }})",
+        "title": "Рахунки",
+        "titleWithAmount": "Рахунки ({{ accountsAmount }})",
         "hoverTip": "Ваші рахунки (натисніть)"
       },
       "accountCard": {
@@ -40,6 +41,16 @@
           "editValue": "Edit"
         }
       }
+    },
+
+    "addAccountModal": {
+      "title": "Додати рахунок",
+      "accountIconTitle": "Значок рахунку",
+      "accountNameTitle": "Назва рахунку",
+      "accountBgColorTitle": "Фон",
+      "accountTextColorTitle": "Колір тексту",
+      "accountExistsError": "Такий рахунок вже існує",
+      "accountNameLengthError": "Макс. довжина імені рахунку - 20"
     },
 
     "accountValueEditModal": {
@@ -152,7 +163,7 @@
         "title": "Додати категорію до витрат"
       },
       "categoryIconTitle": "Значок категорії",
-      "categoryNameTitle": "Імя категорії",
+      "categoryNameTitle": "Назва категорії",
       "categoryColorTitle": "Колір категорії",
       "cancel": "Вихід",
       "addCategory": "Додати",

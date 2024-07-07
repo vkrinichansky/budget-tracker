@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-accounts-list-modal',
   templateUrl: './accounts-list-modal.component.html',
-  styleUrl: './accounts-list-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountsListModalComponent implements OnInit {

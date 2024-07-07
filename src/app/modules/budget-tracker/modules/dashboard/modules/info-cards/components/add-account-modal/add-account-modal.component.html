@@ -1,0 +1,45 @@
+<app-base-modal [titleTranslationKey]="buildTranslationKey('title')">
+  <form class="flex flex-col" [formGroup]="form">
+    <icon-picker
+      [label]="buildTranslationKey('accountIconTitle') | translate"
+      [formControlName]="formFields.AccountIcon"
+    ></icon-picker>
+
+    <mat-form-field>
+      <mat-label>{{ buildTranslationKey('accountNameTitle') | translate }}</mat-label>
+      <input matInput [formControlName]="formFields.AccountName" />
+
+      @if (hasAccountNameRequiredError) {
+        <mat-error>{{ 'formErrors.required' | translate }}</mat-error>
+      }
+
+      @if (hasMaxLengthError) {
+        <mat-error>{{ buildTranslationKey('accountNameLengthError') | translate }}</mat-error>
+      }
+
+      @if (hasAccountExistsError) {
+        <mat-error>{{ buildTranslationKey('accountExistsError') | translate }}</mat-error>
+      }
+    </mat-form-field>
+
+    <color-picker
+      [label]="buildTranslationKey('accountBgColorTitle') | translate"
+      [formControlName]="formFields.AccountBgColor"
+    ></color-picker>
+
+    <color-picker
+      [label]="buildTranslationKey('accountTextColorTitle') | translate"
+      [formControlName]="formFields.AccountTextColor"
+    ></color-picker>
+
+    <app-info-card
+      class="mt-4"
+      [primaryText]="0"
+      [secondaryText]="form.controls[formFields.AccountName].value"
+      [iconName]="form.controls[formFields.AccountIcon].value"
+      [hexBgColor]="form.controls[formFields.AccountBgColor].value || '#F0F2F2'"
+      [hexTextColor]="form.controls[formFields.AccountTextColor].value || '#2C4251'"
+      [shouldUseCssStyles]="true"
+    ></app-info-card>
+  </form>
+</app-base-modal>

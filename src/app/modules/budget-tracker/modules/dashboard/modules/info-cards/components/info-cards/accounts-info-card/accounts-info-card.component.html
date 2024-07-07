@@ -3,20 +3,31 @@
   class="wrapper relative rounded-lg overflow-hidden"
   [ngClass]="{
     'cursor-pointer': accountsAmount,
-    'cursor-default pointer-events-none': !accountsAmount
+    'cursor-default ': !accountsAmount
   }"
 >
   <app-info-card
     [iconName]="'creditcard-folder'"
     [iconColorClass]="'text-dark-green'"
     [colorScheme]="'green'"
-    [primaryText]="buildTranslationKey('title') | translate: { accountsAmount }"
+    [primaryText]="buildTranslationKey(accountsAmount ? 'titleWithAmount' : 'title') | translate: { accountsAmount }"
   >
   </app-info-card>
 
-  <span
-    class="tip absolute left-0 bottom-0 w-full h-7 bg-hover-black flex justify-center items-center font-main text-white"
-  >
-    {{ buildTranslationKey('hoverTip') | translate }}</span
-  >
+  @if (accountsAmount) {
+    <span
+      class="tip absolute left-0 bottom-0 w-full h-7 bg-hover-black flex justify-center items-center font-main text-white"
+    >
+      {{ buildTranslationKey('hoverTip') | translate }}
+    </span>
+  }
+
+  <app-button
+    class="absolute top-2 right-2"
+    [iconName]="'plus'"
+    [colorScheme]="'transparent-light'"
+    [buttonSizeX]="'small'"
+    [buttonSizeY]="'small'"
+    (click)="openAddAccountModalService()"
+  ></app-button>
 </div>
