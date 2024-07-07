@@ -6,6 +6,7 @@ import { Account, AccountsFacadeService, Currency, predefinedCurrenciesDictionar
 import { TranslateService } from '@ngx-translate/core';
 import { combineLatest, map, filter, tap, Observable, take } from 'rxjs';
 import { v4 as uuid } from 'uuid';
+import { AccountsListModalService } from '../../services';
 
 enum FormFields {
   AccountName = 'accountName',
@@ -28,16 +29,16 @@ export class AddAccountModalComponent implements OnInit {
   readonly formFields = FormFields;
 
   readonly form: FormGroup = new FormGroup({
-    [FormFields.AccountName]: new FormControl('', [Validators.required, Validators.maxLength(20)]),
+    [FormFields.AccountName]: new FormControl(null, [Validators.required, Validators.maxLength(20)]),
     [FormFields.AccountValue]: new FormControl(null, [
       Validators.required,
       Validators.min(1),
       Validators.pattern(new RegExp(/^[0-9]+$/)),
     ]),
     [FormFields.AccountIcon]: new FormControl(null, [Validators.required]),
-    [FormFields.AccountBgColor]: new FormControl('', [Validators.required]),
-    [FormFields.AccountTextColor]: new FormControl('', [Validators.required]),
-    [FormFields.AccountCurrency]: new FormControl('', [Validators.required]),
+    [FormFields.AccountBgColor]: new FormControl(null, [Validators.required]),
+    [FormFields.AccountTextColor]: new FormControl(null, [Validators.required]),
+    [FormFields.AccountCurrency]: new FormControl(null, [Validators.required]),
   });
 
   readonly options: Currency[] = Object.values(predefinedCurrenciesDictionary);
@@ -91,7 +92,8 @@ export class AddAccountModalComponent implements OnInit {
     private accountsFacade: AccountsFacadeService,
     private destroyRef: DestroyRef,
     private translateService: TranslateService,
-    private dialogRef: MatDialogRef<AddAccountModalComponent>
+    private dialogRef: MatDialogRef<AddAccountModalComponent>,
+    private accountsListModalService: AccountsListModalService
   ) {}
 
   ngOnInit(): void {
@@ -128,7 +130,10 @@ export class AddAccountModalComponent implements OnInit {
         filter((isSuccess) => !!isSuccess),
         take(1)
       )
-      .subscribe(() => this.dialogRef.close());
+      .subscribe(() => {
+        this.dialogRef.close();
+        this.accountsListModalService.openAccountsListModal();
+      });
   }
 
   private subscribeToCategoryNameChanges(): void {

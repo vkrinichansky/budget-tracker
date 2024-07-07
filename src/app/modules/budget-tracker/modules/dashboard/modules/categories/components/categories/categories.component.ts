@@ -142,7 +142,7 @@ export class CategoriesComponent implements OnInit {
           {
             icon: 'eraser',
             translationKey: this.buildTranslationKey('income.menu.resetCategories'),
-            disabledObs: this.categoriesFacade.areIncomeCategoriesAllReset().pipe(map((areReset) => areReset)),
+            disabledObs: this.categoriesFacade.areIncomeCategoriesAllReset(),
             action: () =>
               this.confirmationModalService.openConfirmationModal(
                 {
@@ -164,7 +164,7 @@ export class CategoriesComponent implements OnInit {
           {
             icon: 'eraser',
             translationKey: this.buildTranslationKey('expense.menu.resetCategories'),
-            disabledObs: this.categoriesFacade.areExpenseCategoriesAllReset().pipe(map((areReset) => areReset)),
+            disabledObs: this.categoriesFacade.areExpenseCategoriesAllReset(),
             action: () =>
               this.confirmationModalService.openConfirmationModal(
                 {

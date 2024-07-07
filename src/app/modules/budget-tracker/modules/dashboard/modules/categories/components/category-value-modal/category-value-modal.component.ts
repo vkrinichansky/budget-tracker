@@ -29,6 +29,10 @@ export class CategoryValueModalComponent implements OnInit {
     [FormFields.AccountToUse]: new FormControl('', [Validators.required]),
   });
 
+  readonly idSelector = (account: Account) => account.id;
+  readonly iconSelector = (account: Account) => account.icon;
+  readonly displayValueSelector = (account: Account) => `${account.name} (${account.value} ${account.currency.symbol})`;
+
   loading$: Observable<boolean>;
   success$: Observable<boolean>;
   category$: Observable<Category>;
@@ -76,7 +80,7 @@ export class CategoryValueModalComponent implements OnInit {
   submitClick(): void {
     this.categoriesFacade.changeCategoryValue(
       this.data.categoryId,
-      this.form.controls[FormFields.AccountToUse].value,
+      this.form.controls[FormFields.AccountToUse].value.id,
       parseInt(this.form.controls[FormFields.ValueToAdd].value),
       this.form.controls[FormFields.Note].value
     );

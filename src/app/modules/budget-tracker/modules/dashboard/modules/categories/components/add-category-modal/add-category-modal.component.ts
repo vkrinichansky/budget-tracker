@@ -27,8 +27,8 @@ export class AddCategoryModalComponent implements OnInit {
 
   readonly form: FormGroup = new FormGroup({
     [FormFields.CategoryIcon]: new FormControl(null, [Validators.required]),
-    [FormFields.CategoryName]: new FormControl('', [Validators.required, Validators.maxLength(50)]),
-    [FormFields.CategoryColorPicker]: new FormControl('', [Validators.required]),
+    [FormFields.CategoryName]: new FormControl(null, [Validators.required, Validators.maxLength(25)]),
+    [FormFields.CategoryColorPicker]: new FormControl(null, [Validators.required]),
   });
 
   budgetType: BudgetType;

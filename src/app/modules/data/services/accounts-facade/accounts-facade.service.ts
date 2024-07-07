@@ -33,6 +33,10 @@ export class AccountsFacadeService {
     return this.getAllAccounts().pipe(map((accounts) => accounts.length));
   }
 
+  getAccountsExist(): Observable<boolean> {
+    return this.getAccountsAmount().pipe(map((amount) => !!amount));
+  }
+
   async editAccountValue(accountId: string, newValue: number, note: string): Promise<void> {
     const account = await firstValueFrom(this.getAccountById(accountId));
 
