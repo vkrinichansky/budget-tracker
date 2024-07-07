@@ -1,7 +1,11 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { MetadataFacadeService } from '@budget-tracker/data';
+import {
+  LanguagesEnum,
+  LanguageService,
+  MetadataFacadeService,
+  predefinedLanguagesDictionary,
+} from '@budget-tracker/data';
 import { MenuAction } from '@budget-tracker/design-system';
-import { LanguagesEnum, LanguageService, predefinedLanguagesDictionary } from '@budget-tracker/utils';
 import { Observable } from 'rxjs';
 
 @Component({

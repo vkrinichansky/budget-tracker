@@ -15,8 +15,9 @@ import {
 } from '../../models';
 import { Dictionary } from '@ngrx/entity';
 import { CategoriesFacadeService } from '../categories-facade/categories-facade.service';
-import { isPreviousMonth, LanguageService } from '@budget-tracker/utils';
+import { isPreviousMonth } from '@budget-tracker/utils';
 import { AccountsFacadeService } from '../accounts-facade/accounts-facade.service';
+import { LanguageService } from '../language-service/language.service';
 
 @Injectable()
 export class ActivityLogFacadeService {

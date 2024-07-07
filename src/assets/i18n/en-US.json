@@ -1,8 +1,4 @@
 {
-  "auth": {
-    "signInWithGoogle": "Sign in with Google"
-  },
-
   "navigationBar": {
     "itemTooltip": {
       "home": "Home",

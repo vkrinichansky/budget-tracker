@@ -4,19 +4,14 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { combineLatest, from, map, of, switchMap, tap } from 'rxjs';
 import { AccountsActions, ActivityLogActions, CategoriesActions, DataInitActions, StatisticsActions } from '../actions';
-import { DataInitService } from '../../services';
-import {
-  CurrencyService,
-  getMonthAndYearString,
-  getPreviousMonthTime,
-  LanguageService,
-  SnackbarHandlerService,
-} from '@budget-tracker/utils';
+import { CurrencyService, DataInitService, LanguageService } from '../../services';
+import { getMonthAndYearString, getPreviousMonthTime, SnackbarHandlerService } from '@budget-tracker/utils';
 import {
   ActivityLogRecordType,
   BudgetTrackerState,
   BudgetType,
   CategoriesResetRecord,
+  CurrenciesEnum,
   StatisticsSnapshot,
 } from '../../models';
 import { v4 as uuid } from 'uuid';
@@ -39,7 +34,7 @@ export class DataInitEffects {
         combineLatest([from(this.dataInitService.initData()), from(this.dataInitService.initMetadata())])
       ),
       map(([data, metadata]) => {
-        this.currencyService.setCurrentCurrency(metadata.currency);
+        this.currencyService.setCurrentCurrency(metadata.currency as CurrenciesEnum);
         this.languageService.setCurrentLanguage(metadata.language);
 
         if (data.resetDate !== getMonthAndYearString() && data.shouldDoReset) {

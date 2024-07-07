@@ -5,7 +5,7 @@ import { ChartData, ChartDataset } from 'chart.js';
 import { MainPalette } from '@budget-tracker/design-system';
 import { Store } from '@ngrx/store';
 import { CategoriesSelectors, StatisticsSelectors } from '../../store';
-import { LanguageService } from '@budget-tracker/utils';
+import { LanguageService } from '../language-service/language.service';
 
 @Injectable()
 export class StatisticsFacadeService {

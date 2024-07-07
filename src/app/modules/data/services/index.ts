@@ -1,3 +1,6 @@
+export { CurrencyService } from './currency-service/currency.service';
+export { LanguageService } from './language-service/language.service';
+
 export { ActivityLogFacadeService } from './activity-log-facade/activity-log-facade.service';
 export { ActivityLogService } from './activity-log-service/activity-log.service';
 

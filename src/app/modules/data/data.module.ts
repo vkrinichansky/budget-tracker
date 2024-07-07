@@ -24,9 +24,10 @@ import {
   StatisticsFacadeService,
 } from './services';
 import { EffectsModule } from '@ngrx/effects';
+import { CurrencyPipe } from './pipes';
 
 @NgModule({
-  declarations: [],
+  declarations: [CurrencyPipe],
   imports: [
     CommonModule,
     StoreModule.forFeature(featureKey, reducers),
@@ -50,6 +51,8 @@ import { EffectsModule } from '@ngrx/effects';
     AccountsService,
     MetadataFacadeService,
     MetadataService,
+    CurrencyPipe,
   ],
+  exports: [CurrencyPipe],
 })
 export class DataModule {}

@@ -7,3 +7,5 @@ export { Category } from './category.model';
 export * from './activity-log.model';
 export * from './statistics.model';
 export * from './account.model';
+export * from './currency.model';
+export * from './language.model';

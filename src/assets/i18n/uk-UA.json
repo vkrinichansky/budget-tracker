@@ -1,8 +1,4 @@
 {
-  "auth": {
-    "signInWithGoogle": "Увійти з Google"
-  },
-
   "navigationBar": {
     "itemTooltip": {
       "home": "Домашня",

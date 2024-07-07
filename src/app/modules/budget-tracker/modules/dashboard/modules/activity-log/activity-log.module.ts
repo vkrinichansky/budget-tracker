@@ -15,6 +15,7 @@ import { UtilsModule } from '@budget-tracker/utils';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
+import { DataModule } from '@budget-tracker/data';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { MatMenuModule } from '@angular/material/menu';
     ScrollingModule,
     MatTooltipModule,
     MatMenuModule,
+    DataModule,
   ],
   declarations: [
     ActivityLogComponent,

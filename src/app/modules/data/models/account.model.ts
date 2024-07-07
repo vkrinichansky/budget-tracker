@@ -1,4 +1,4 @@
-import { Currency } from '@budget-tracker/utils';
+import { Currency } from './currency.model';
 
 export interface Account {
   id: string;

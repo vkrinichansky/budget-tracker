@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { collection, doc, DocumentReference, Firestore, updateDoc } from '@angular/fire/firestore';
-import { CurrenciesEnum, LanguagesEnum } from '@budget-tracker/utils';
+import { CurrenciesEnum, LanguagesEnum } from '../../models';
 
 @Injectable()
 export class MetadataService {
