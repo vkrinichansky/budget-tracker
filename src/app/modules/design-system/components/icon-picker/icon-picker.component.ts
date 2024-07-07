@@ -80,6 +80,12 @@ export class IconPickerComponent implements ControlValueAccessor {
       'tv',
       'flower',
       'heart',
+      'card-dollar',
+      'card-euro',
+      'creditcard',
+      'money-multiple',
+      'safe',
+      'wallet',
     ];
   }
 }
