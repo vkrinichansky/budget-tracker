@@ -109,7 +109,7 @@ export class AddAccountModalComponent implements OnInit {
   submitClick(): void {
     const account: Account = {
       id: uuid(),
-      value: this.form.controls[FormFields.AccountValue].value,
+      value: parseInt(this.form.controls[FormFields.AccountValue].value),
       icon: this.form.controls[FormFields.AccountIcon].value,
       name: this.form.controls[FormFields.AccountName].value,
       bgColor: this.form.controls[FormFields.AccountBgColor].value,

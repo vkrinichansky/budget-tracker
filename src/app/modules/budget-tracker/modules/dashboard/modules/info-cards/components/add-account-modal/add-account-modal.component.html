@@ -34,6 +34,15 @@
       }
     </mat-form-field>
 
+    <custom-select
+      [label]="buildTranslationKey('accountCurrencyTitle') | translate"
+      [formControlName]="formFields.AccountCurrency"
+      [options]="options"
+      [idSelector]="idSelector"
+      [displayValueSelector]="displayValueSelector"
+      [iconSelector]="iconSelector"
+    ></custom-select>
+
     <icon-picker
       [label]="buildTranslationKey('accountIconTitle') | translate"
       [formControlName]="formFields.AccountIcon"
@@ -49,18 +58,9 @@
       [formControlName]="formFields.AccountTextColor"
     ></color-picker>
 
-    <custom-select
-      [label]="buildTranslationKey('accountCurrencyTitle') | translate"
-      [formControlName]="formFields.AccountCurrency"
-      [options]="options"
-      [idSelector]="idSelector"
-      [displayValueSelector]="displayValueSelector"
-      [iconSelector]="iconSelector"
-    ></custom-select>
-
     <app-info-card
       class="mt-4 !py-2 !h-20"
-      [primaryText]="(form.controls[formFields.AccountValue].value || 0) + selectedCurrencySymbol"
+      [primaryText]="(form.controls[formFields.AccountValue].value || 0) + ' ' + selectedCurrencySymbol"
       [secondaryText]="form.controls[formFields.AccountName].value"
       [iconName]="form.controls[formFields.AccountIcon].value"
       [hexBgColor]="form.controls[formFields.AccountBgColor].value || '#F0F2F2'"
