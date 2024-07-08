@@ -6,9 +6,15 @@
   (remove)="removeHandler()"
 >
   <span class="flex justify-between">
-    <span class="font-main text-charcoal text-base">
-      {{ record.categoryName }}
-    </span>
+    <div class="flex flex-col">
+      <span class="font-main text-charcoal text-base">
+        {{ record.categoryName }}
+      </span>
+
+      <span class="font-main font-bold text-blue text-xs">
+        {{ record.accountName }}
+      </span>
+    </div>
 
     @switch (record.budgetType) {
       @case (budgetType.Income) {

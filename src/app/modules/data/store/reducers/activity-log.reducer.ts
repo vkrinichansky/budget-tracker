@@ -48,11 +48,6 @@ const adapterReducer = createReducer(
     removingRecordsIds: [...state.removingRecordsIds, action.record.id],
   })),
 
-  on(ActivityLogActions.removeRootValueChangeRecord, (state, action) => ({
-    ...state,
-    removingRecordsIds: [...state.removingRecordsIds, action.record.id],
-  })),
-
   on(ActivityLogActions.activityLogRecordRemoved, (state, action) => ({
     ...state,
     activityLogRecords: activityLogRecordsEntityAdapter.removeOne(action.recordId, state.activityLogRecords),

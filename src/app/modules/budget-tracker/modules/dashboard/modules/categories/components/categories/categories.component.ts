@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
-import { BudgetType, Category } from '@budget-tracker/data';
+import { BudgetType, Category, CurrencyPipe } from '@budget-tracker/data';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { ChartData, ChartOptions } from 'chart.js';
 import { CategoryModalsService } from '../../services';
 import { ChartJSTooltipConfig, ConfirmationModalService, MainPalette, MenuAction } from '@budget-tracker/design-system';
 import { CategoriesFacadeService } from '@budget-tracker/data';
-import { CurrencyPipe } from '@budget-tracker/shared';
 import { isMobileWidth } from '@budget-tracker/utils';
 
 type TabType = 'list' | 'chart';
@@ -143,7 +142,7 @@ export class CategoriesComponent implements OnInit {
           {
             icon: 'eraser',
             translationKey: this.buildTranslationKey('income.menu.resetCategories'),
-            disabledObs: this.categoriesFacade.areIncomeCategoriesAllReset().pipe(map((areReset) => areReset)),
+            disabledObs: this.categoriesFacade.areIncomeCategoriesAllReset(),
             action: () =>
               this.confirmationModalService.openConfirmationModal(
                 {
@@ -165,7 +164,7 @@ export class CategoriesComponent implements OnInit {
           {
             icon: 'eraser',
             translationKey: this.buildTranslationKey('expense.menu.resetCategories'),
-            disabledObs: this.categoriesFacade.areExpenseCategoriesAllReset().pipe(map((areReset) => areReset)),
+            disabledObs: this.categoriesFacade.areExpenseCategoriesAllReset(),
             action: () =>
               this.confirmationModalService.openConfirmationModal(
                 {

@@ -10,8 +10,8 @@ import {
 } from '@angular/core';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
 import { CategoryModalsService } from '../../services';
-import { CategoriesFacadeService, Category } from '@budget-tracker/data';
-import { Observable, firstValueFrom } from 'rxjs';
+import { AccountsFacadeService, CategoriesFacadeService, Category } from '@budget-tracker/data';
+import { Observable, firstValueFrom, map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -25,6 +25,7 @@ export class CategoryItemComponent implements OnInit {
   categoryId: string;
 
   category$: Observable<Category>;
+  shouldDisableAddValueAction$: Observable<boolean>;
 
   menuActions: MenuAction[];
 
@@ -36,17 +37,25 @@ export class CategoryItemComponent implements OnInit {
     private confirmationModalService: ConfirmationModalService,
     private categoryModalsService: CategoryModalsService,
     private destroyRef: DestroyRef,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private accountsFacade: AccountsFacadeService
   ) {}
 
   ngOnInit(): void {
-    this.category$ = this.categoriesFacade.getCategoryById(this.categoryId);
+    this.initListeners();
     this.menuActions = this.initMenuActions();
     this.initIsCategoryRemoving();
   }
 
   buildTranslationKey(key: string): string {
     return `dashboard.categories.categoryItem.${key}`;
+  }
+
+  private initListeners(): void {
+    this.category$ = this.categoriesFacade.getCategoryById(this.categoryId);
+    this.shouldDisableAddValueAction$ = this.accountsFacade
+      .getAccountsExist()
+      .pipe(map((accountsExist) => !accountsExist));
   }
 
   private initIsCategoryRemoving(): void {
@@ -60,8 +69,10 @@ export class CategoryItemComponent implements OnInit {
   }
 
   @HostListener('click')
-  private openCategoryValueModal(): void {
-    this.categoryModalsService.openCategoryValueModal(this.categoryId);
+  private async openCategoryValueModal(): Promise<void> {
+    if (!(await firstValueFrom(this.shouldDisableAddValueAction$))) {
+      this.categoryModalsService.openCategoryValueModal(this.categoryId);
+    }
   }
 
   private initMenuActions(): MenuAction[] {
@@ -69,6 +80,7 @@ export class CategoryItemComponent implements OnInit {
       {
         icon: 'plus',
         translationKey: this.buildTranslationKey('menu.addValue'),
+        disabledObs: this.shouldDisableAddValueAction$,
         action: () => this.openCategoryValueModal(),
       },
       {

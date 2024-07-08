@@ -5,7 +5,8 @@ import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActivityLogModule, CategoriesModule, InfoCardsModule } from './modules';
 import { DashboardComponent } from './dashboard.component';
-import { SharedModule } from '@budget-tracker/shared';
+import { CurrencySwitcherComponent, LanguageSwitcherComponent } from './components';
+import { UtilsModule } from '@budget-tracker/utils';
 
 const routes: Routes = [
   {
@@ -15,7 +16,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [DashboardComponent, CurrencySwitcherComponent, LanguageSwitcherComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -24,7 +25,7 @@ const routes: Routes = [
     InfoCardsModule,
     ActivityLogModule,
     CategoriesModule,
-    SharedModule,
+    UtilsModule,
   ],
 })
 export class DashboardModule {}

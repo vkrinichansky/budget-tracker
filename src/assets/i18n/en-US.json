@@ -1,8 +1,4 @@
 {
-  "auth": {
-    "signInWithGoogle": "Sign in with Google"
-  },
-
   "navigationBar": {
     "itemTooltip": {
       "home": "Home",
@@ -22,90 +18,58 @@
       "expense": {
         "title": "Expense"
       },
-      "balance": {
-        "fullBalance": "Full balance (FB)",
-        "currentBalance": "Current balance (CB)",
+      "currentMonthBalance": {
+        "title": "Current month balance"
+      },
+      "fullBalance": {
+        "title": "Full balance",
+
+        "tooltip": "Full balance is the sum of all your accounts"
+      },
+      "accounts": {
+        "title": "Accounts",
+        "titleWithAmount": "Accounts ({{ accountsAmount }})",
+        "hoverTip": "Click to see your accounts"
+      },
+      "accountCard": {
         "menu": {
-          "increase": "Increase",
-          "decrease": "Decrease",
-          "edit": "Edit"
+          "editValue": "Edit",
+          "remove": "Remove"
         },
-        "tooltip": "Balance calculation:<br>FB = CB + S + FM"
-      },
-      "savings": {
-        "title": "Savings (S)",
-        "menu": {
-          "increase": "Increase",
-          "decrease": "Decrease",
-          "edit": "Edit"
-        }
-      },
-      "freeMoney": {
-        "title": "Free money (FM)",
-        "menu": {
-          "increase": "Increase",
-          "decrease": "Decrease",
-          "edit": "Edit"
-        }
+        "removeConfirmationQuestion": "Do you want to remove <b>{{ accountName }}</b> account?"
       }
     },
 
-    "infoCardValueModal": {
+    "addAccountModal": {
+      "title": "Add account",
+      "accountNameTitle": "Account name",
+      "accountValueTitle": "Account value",
+      "accountIconTitle": "Account icon",
+      "accountBgColorTitle": "Background",
+      "accountTextColorTitle": "Text color",
+      "accountCurrencyTitle": "Account currency",
+      "addAccount": "Add account",
+      "accountExistsError": "Such account already exists",
+      "accountNameLengthError": "Max account name length is 20"
+    },
+
+    "accountValueEditModal": {
+      "subtitle": "Edit account value",
       "cancel": "Cancel",
       "noteInputTitle": "Note",
-      "balance": {
-        "title": "Balance",
-        "increase": "Increase",
-        "decrease": "Decrease",
-        "edit": "Edit"
-      },
-      "savings": {
-        "title": "Savings",
-        "increase": "Increase",
-        "decrease": "Decrease",
-        "edit": "Edit"
-      },
-      "freeMoney": {
-        "title": "Free money",
-        "increase": "Increase",
-        "decrease": "Decrease",
-        "edit": "Edit"
-      },
-      "subtitle": {
-        "increase": "Increase",
-        "decrease": "Decrease",
-        "edit": "Edit"
-      }
+      "editButton": "Edit"
+    },
+
+    "accountsListModal": {
+      "title": "Accounts ({{ accountsAmount }})"
     },
 
     "activityLog": {
       "title": "Activity log",
 
-      "rootValueChangeRecord": {
-        "title": {
-          "balance": "Balance",
-          "savings": "Savings",
-          "freeMoney": "Free money"
-        },
-        "removeConfirmationQuestion": "Are you sure you want to remove this record?",
-        "removeConfirmationCheckboxText": "Also revert changes made by this record",
-        "removeConfirmationRemark": {
-          "balance": {
-            "increase": "<span class='font-bold'>Balance</span> will be decreased by <span class='font-bold'>{{ value }}</span>",
-            "decrease": "<span class='font-bold'>Balance</span> will be increased by <span class='font-bold'>{{ value }}</span>",
-            "edit": "<span class='font-bold'>Balance</span> value will be <span class='font-bold'>{{ value }}</span>"
-          },
-          "savings": {
-            "increase": "<span class='font-bold'>Savings</span> will be decreased by <span class='font-bold'>{{ value }}</span>",
-            "decrease": "<span class='font-bold'>Savings</span> will be increased by <span class='font-bold'>{{ value }}</span>",
-            "edit": "<span class='font-bold'>Savings</span> value will be <span class='font-bold'>{{ value }}</span>"
-          },
-          "freeMoney": {
-            "increase": "<span class='font-bold'>Free money</span> will be decreased by <span class='font-bold'>{{ value }}</span>",
-            "decrease": "<span class='font-bold'>Free money</span> will be increased by <span class='font-bold'>{{ value }}</span>",
-            "edit": "<span class='font-bold'>Free money</span> value will be <span class='font-bold'>{{ value }}</span>"
-          }
-        }
+      "accountManagementRecord": {
+        "accountAdded": "<b>{{ accountName }}</b> account was added",
+        "accountRemoved": "<b>{{ accountName }}</b> account was removed"
       },
 
       "categoryManagementRecord": {
@@ -130,11 +94,7 @@
 
       "categoryValueChangeRecord": {
         "removeConfirmationQuestion": "Are you sure you want to remove this record?",
-        "removeConfirmationCheckboxText": "Also revert changes made by this record",
-        "removeConfirmationRemark": {
-          "income": "<span class='font-bold'>{{ value }}</span> will be deducted from <span class='font-bold'>Balance</span> and <span class='font-bold'>{{ categoryName }}</span> category",
-          "expense": "<span class='font-bold'>{{ value }}</span> will be added to <span class='font-bold'>Balance</span> and deducted from <span class='font-bold'>{{ categoryName }}</span> category"
-        }
+        "removeConfirmationRemark": "This action will revert changes made by this record and will affect <span class='font-bold'>{{ accountName }}</span> account and <span class='font-bold'>{{ categoryName }}</span> category"
       },
 
       "emptyStateText": "No data to display yet",
@@ -212,17 +172,20 @@
       "categoryExistsError": "Such category already exists",
       "categoryNameLengthError": "Max category name length is 25"
     },
+
     "categoryValueModal": {
       "subtitle": "Add value to category",
       "cancel": "Cancel",
       "add": "Add",
       "valueToAddTitle": "Value to add",
-      "noteTitle": "Note"
+      "noteTitle": "Note",
+      "accountsTitle": "Account to use"
     }
   },
 
   "statistics": {
     "pageTitle": "Statistics",
+
     "monthlyStatistics": {
       "title": "Monthly",
       "chartActions": {
@@ -282,13 +245,24 @@
     "dataResetSnackbar": {
       "message": "Categories were reset!",
       "buttonText": "Got it"
+    },
+    "accountValueEdited": {
+      "message": "Account value was edited successfully!",
+      "buttonText": "Got it"
+    },
+    "accountAddedSnackbar": {
+      "message": "Account was added successfully!",
+      "buttonText": "Got it"
+    },
+    "accountRemovedSnackbar": {
+      "message": "Account was removed successfully!",
+      "buttonText": "Got it"
     }
   },
 
   "formErrors": {
     "required": "Field is required",
     "minValue": "Minimal value is {{ minValue }}",
-    "maxValue": "Minimal value is {{ maxValue }}",
     "noteTooLong": "Note is too long, max length is 100",
     "editError": "Value must be different after edit",
     "invalidColor": "The color is invalid",
@@ -302,44 +276,26 @@
   },
 
   "languageSwitcher": {
-    "tooltip": "Language",
-    "languages": {
-      "english": "English",
-      "ukrainian": "Ukrainian"
-    }
+    "tooltip": "Language"
+  },
+
+  "languages": {
+    "en-US": "English",
+    "uk-UA": "Ukrainian"
   },
 
   "currencySwitcher": {
-    "tooltip": "Currency",
-    "currencies": {
-      "hryvnia": "Hryvnia (₴)",
-      "dollar": "Dollar ($)",
-      "euro": "Euro (€)"
-    }
+    "tooltip": "Currency"
+  },
+
+  "currencies": {
+    "uah": "Hryvnia (₴)",
+    "usd": "Dollar ($)",
+    "eur": "Euro (€)"
   },
 
   "lostConnectionMessage": {
     "message": "It seems like you are offline. Please, check your internet connection.",
     "button": "Reload"
-  },
-
-  "categoryIcons": {
-    "housing": "Housing",
-    "food": "Food",
-    "health": "Health",
-    "clothes": "Clothes",
-    "entertainment": "Entertainment",
-    "transport": "Transport",
-    "car": "Car",
-    "everydayLife": "Everyday life",
-    "rest": "Rest",
-    "work": "Work",
-    "presents": "Presents",
-    "utilities": "Utilities",
-    "tech": "Tech",
-    "internet": "Communication and internet",
-    "subscriptions": "Subscriptions",
-    "beauty": "Beauty",
-    "charity": "Charity"
   }
 }

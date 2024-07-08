@@ -64,15 +64,22 @@
 
 <ng-template #recordItem let-item="item">
   @switch (item.recordType) {
-    @case (recordType.RootValueChange) {
-      <app-root-value-change-record class="w-full" [record]="item"></app-root-value-change-record>
+    @case (recordType.AccountManagement) {
+      <app-account-management-record class="w-full" [record]="item"></app-account-management-record>
     }
+
+    @case (recordType.AccountValueEdit) {
+      <app-account-value-edit-record class="w-full" [record]="item"></app-account-value-edit-record>
+    }
+
     @case (recordType.CategoryManagement) {
       <app-category-management-record class="w-full" [record]="item"></app-category-management-record>
     }
+
     @case (recordType.CategoryValueChange) {
       <app-category-value-change-record class="w-full" [record]="item"></app-category-value-change-record>
     }
+
     @case (recordType.CategoriesReset) {
       <app-categories-reset-record class="w-full" [record]="item"></app-categories-reset-record>
     }

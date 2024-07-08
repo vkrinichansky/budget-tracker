@@ -1,6 +1,6 @@
 <div mat-dialog-title class="!flex !justify-between !items-center !gap-x-4">
   <div>
-    <h1>{{ titleTranslationKey | translate }}</h1>
+    <h1>{{ titleTranslationKey | translate: titleTranslationParams }}</h1>
 
     @if (subtitleTranslationKey) {
       <h2 class="text-sm">{{ subtitleTranslationKey | translate }}</h2>

@@ -16,6 +16,8 @@ import {
   FullsizeLoaderComponent,
   BaseModalComponent,
   ColorPickerComponent,
+  IconPickerComponent,
+  CustomSelectComponent,
 } from './components';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -29,6 +31,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxColorsModule } from 'ngx-colors';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   imports: [
@@ -44,6 +47,7 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     NgxColorsModule,
     MatInputModule,
+    MatSelectModule,
   ],
 
   declarations: [
@@ -63,6 +67,8 @@ import { MatInputModule } from '@angular/material/input';
     FullsizeLoaderComponent,
     BaseModalComponent,
     ColorPickerComponent,
+    IconPickerComponent,
+    CustomSelectComponent,
   ],
   exports: [
     SvgIconComponent,
@@ -79,6 +85,8 @@ import { MatInputModule } from '@angular/material/input';
     FullsizeLoaderComponent,
     BaseModalComponent,
     ColorPickerComponent,
+    IconPickerComponent,
+    CustomSelectComponent,
   ],
   providers: [ConfirmationModalService],
 })

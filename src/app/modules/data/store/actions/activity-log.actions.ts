@@ -1,12 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import {
-  ActivityLogRecordUnitedType,
-  ActivityLog,
-  CategoryValueChangeRecord,
-  Category,
-  RootValueChangeRecord,
-  RootValueType,
-} from '../../models';
+import { ActivityLogRecordUnitedType, ActivityLog, CategoryValueChangeRecord, Category, Account } from '../../models';
 
 export const ActivityLogActions = {
   recordAdded: createAction('[ActivityLog] Record added', props<{ record: ActivityLogRecordUnitedType }>()),
@@ -21,17 +14,8 @@ export const ActivityLogActions = {
     '[ActivityLog] Remove category value change record',
     props<{
       record: CategoryValueChangeRecord;
-      updatedBalanceValue: number;
+      updatedAccount: Account;
       updatedCategory: Category;
-    }>()
-  ),
-
-  removeRootValueChangeRecord: createAction(
-    '[ActivityLog] Remove root value change record',
-    props<{
-      record: RootValueChangeRecord;
-      updatedValue: number;
-      valueType: RootValueType;
     }>()
   ),
 

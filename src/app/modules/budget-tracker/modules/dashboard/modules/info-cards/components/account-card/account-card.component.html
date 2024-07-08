@@ -1,0 +1,14 @@
+<div class="flex gap-x-2 items-start w-full">
+  <app-info-card
+    class="flex-1"
+    [iconName]="account.icon"
+    [primaryText]="primaryText"
+    [secondaryText]="isAccountWithForeignCurrency ? accountValueInBaseCurrency : account.name"
+    [tertiaryText]="isAccountWithForeignCurrency ? account.name : null"
+    [shouldUseCssStyles]="true"
+    [hexBgColor]="account.bgColor"
+    [hexTextColor]="account.textColor"
+    [menuActions]="menuActions"
+    [menuLoading]="isAccountRemoving$ | async"
+  ></app-info-card>
+</div>

@@ -3,10 +3,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BudgetType, Category } from '@budget-tracker/data';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
 import { v4 as uuid } from 'uuid';
 import { Observable, combineLatest, filter, map, take, tap } from 'rxjs';
-import { AddCategoryModalData, CategoryIconForSelect, PredefinedCategoryIcons } from '../../models';
+import { AddCategoryModalData } from '../../models';
 import { CategoriesFacadeService } from '@budget-tracker/data';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -26,12 +25,10 @@ export class AddCategoryModalComponent implements OnInit {
 
   readonly formFields = FormFields;
 
-  readonly options = PredefinedCategoryIcons;
-
   readonly form: FormGroup = new FormGroup({
     [FormFields.CategoryIcon]: new FormControl(null, [Validators.required]),
-    [FormFields.CategoryName]: new FormControl('', [Validators.required, Validators.maxLength(50)]),
-    [FormFields.CategoryColorPicker]: new FormControl('', [Validators.required]),
+    [FormFields.CategoryName]: new FormControl(null, [Validators.required, Validators.maxLength(25)]),
+    [FormFields.CategoryColorPicker]: new FormControl(null, [Validators.required]),
   });
 
   budgetType: BudgetType;
@@ -39,16 +36,7 @@ export class AddCategoryModalComponent implements OnInit {
   title: string;
 
   loading$: Observable<boolean>;
-
   success$: Observable<boolean>;
-
-  get selectedIcon(): string {
-    return this.form.controls[FormFields.CategoryIcon].value?.icon;
-  }
-
-  get selectedIconTitle(): string {
-    return this.form.controls[FormFields.CategoryIcon].value?.textTranslationKey;
-  }
 
   get isFormValid(): boolean {
     return this.form.valid;
@@ -73,7 +61,6 @@ export class AddCategoryModalComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: AddCategoryModalData,
     private dialogRef: MatDialogRef<AddCategoryModalComponent>,
-    private translateService: TranslateService,
     private categoriesFacade: CategoriesFacadeService,
     private destroyRef: DestroyRef
   ) {}
@@ -84,17 +71,13 @@ export class AddCategoryModalComponent implements OnInit {
     this.subscribeToCategoryNameChanges();
   }
 
-  setCategoryNameToInput(value: CategoryIconForSelect) {
-    this.form.controls[FormFields.CategoryName].setValue(this.translateService.instant(value.textTranslationKey));
-  }
-
   buildTranslationKey(key: string): string {
     return `dashboard.addCategoryModal.${key}`;
   }
 
   submitClick(): void {
     const category: Category = {
-      icon: this.form.controls[FormFields.CategoryIcon].value.icon,
+      icon: this.form.controls[FormFields.CategoryIcon].value,
       name: this.form.controls[FormFields.CategoryName].value,
       hexColor: this.form.controls[FormFields.CategoryColorPicker].value,
       value: 0,

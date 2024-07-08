@@ -1,3 +1,4 @@
+import { Account } from './account.model';
 import { ActivityLog } from './activity-log.model';
 import { Category } from './category.model';
 import { Statistics } from './statistics.model';
@@ -8,10 +9,8 @@ export interface BudgetTrackerState {
       [categoryId: string]: Category;
     };
 
-    rootValues: {
-      balance: number;
-      savings: number;
-      freeMoney: number;
+    accounts: {
+      [accountId: string]: Account;
     };
 
     activityLog: ActivityLog;

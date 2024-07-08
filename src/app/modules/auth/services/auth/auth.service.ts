@@ -12,7 +12,6 @@ import {
 } from '@angular/fire/auth';
 import { setPersistence, browserLocalPersistence } from '@firebase/auth';
 import { map, Observable } from 'rxjs';
-import { BudgetTrackerState } from '@budget-tracker/data';
 import { collection, doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { getMonthAndYearString } from '@budget-tracker/utils';
 
@@ -45,14 +44,10 @@ export class AuthService {
   }
 
   async setUserData(userId: string): Promise<void> {
-    const data: BudgetTrackerState = {
+    const userData: unknown = {
       budget: {
         categories: {},
-        rootValues: {
-          balance: 0,
-          savings: 0,
-          freeMoney: 0,
-        },
+        accounts: {},
         activityLog: [],
       },
       statistics: {
@@ -62,6 +57,12 @@ export class AuthService {
       shouldDoReset: true,
     };
 
-    return await setDoc(doc(collection(this.firestore, `userData`), userId), data);
+    const userMetadata: unknown = {
+      currency: 'usd',
+      language: 'en-US',
+    };
+
+    await setDoc(doc(collection(this.firestore, `userData`), userId), userData);
+    await setDoc(doc(collection(this.firestore, `userMetadata`), userId), userMetadata);
   }
 }

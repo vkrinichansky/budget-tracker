@@ -183,4 +183,12 @@
       @apply text-white;
     }
   }
+
+  &.active-transparent-dark {
+    @apply bg-hover-black text-charcoal;
+
+    svg-icon {
+      @apply text-charcoal;
+    }
+  }
 }

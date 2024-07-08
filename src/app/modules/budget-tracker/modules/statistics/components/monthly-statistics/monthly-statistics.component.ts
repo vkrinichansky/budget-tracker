@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { CurrencyPipe } from '@budget-tracker/shared';
 import { ChartData, ChartOptions, ScaleOptionsByType, TooltipItem } from 'chart.js';
 import { Observable } from 'rxjs';
 import { ChartJSTooltipConfig, MainPalette } from '@budget-tracker/design-system';
 import { BaseChartDirective } from 'ng2-charts';
-import { StatisticsFacadeService } from '@budget-tracker/data';
+import { CurrencyPipe, StatisticsFacadeService } from '@budget-tracker/data';
 import { TranslateService } from '@ngx-translate/core';
 import { isMobileWidth } from '@budget-tracker/utils';
 

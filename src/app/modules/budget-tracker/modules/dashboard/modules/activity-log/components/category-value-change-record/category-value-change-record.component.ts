@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { ActivityLogFacadeService, BudgetType, CategoryValueChangeRecord } from '@budget-tracker/data';
-import { ConfirmationModalService, ConfirmationModalTranslationData } from '@budget-tracker/design-system';
+import { ConfirmationModalService } from '@budget-tracker/design-system';
 import { isPreviousMonth } from '@budget-tracker/utils';
 import { Observable } from 'rxjs';
 
@@ -31,25 +31,17 @@ export class CategoryValueChangeRecordComponent implements OnInit {
   }
 
   removeHandler(): void {
-    let translation: ConfirmationModalTranslationData = {
-      questionTranslationKey: this.buildTranslationKey('removeConfirmationQuestion'),
-    };
-
-    if (!isPreviousMonth(this.record.date)) {
-      translation = {
-        ...translation,
-        checkboxTranslationKey: this.buildTranslationKey('removeConfirmationCheckboxText'),
-        remarkTranslationKey: this.buildTranslationKey(`removeConfirmationRemark.${this.record.budgetType}`),
-        remarkTranslationParams: { value: this.record.value, categoryName: this.record.categoryName },
-      };
+    if (isPreviousMonth(this.record.date)) {
+      this.activityLogFacade.removeActivityLogRecord(this.record.id);
+    } else {
+      this.confirmationModalService.openConfirmationModal(
+        {
+          questionTranslationKey: this.buildTranslationKey('removeConfirmationQuestion'),
+          remarkTranslationKey: this.buildTranslationKey(`removeConfirmationRemark`),
+          remarkTranslationParams: { accountName: this.record.accountName, categoryName: this.record.categoryName },
+        },
+        () => this.activityLogFacade.removeCategoryValueChangeRecord(this.record.id)
+      );
     }
-    this.confirmationModalService.openConfirmationModal(
-      translation,
-      isPreviousMonth(this.record.date)
-        ? () => this.activityLogFacade.removeCategoryValueChangeRecord(this.record.id)
-        : (shouldRevertChangesMadeByRecord) =>
-            this.activityLogFacade.removeCategoryValueChangeRecord(this.record.id, shouldRevertChangesMadeByRecord),
-      !isPreviousMonth(this.record.date)
-    );
   }
 }

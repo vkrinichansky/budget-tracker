@@ -1,4 +1,5 @@
 <app-base-modal
+  *ngVar="accounts$ | async as accounts"
   [titleTranslationKey]="(category$ | async)?.name"
   [subtitleTranslationKey]="buildTranslationKey('subtitle')"
   [footerTemplate]="footer"
@@ -20,6 +21,15 @@
         <mat-error>{{ 'formErrors.numberPattern' | translate }}</mat-error>
       }
     </mat-form-field>
+
+    <custom-select
+      [label]="buildTranslationKey('accountsTitle') | translate"
+      [formControlName]="formFieldsEnum.AccountToUse"
+      [options]="accounts"
+      [idSelector]="idSelector"
+      [displayValueSelector]="displayValueSelector"
+      [iconSelector]="iconSelector"
+    ></custom-select>
 
     <mat-form-field>
       <mat-label>{{ buildTranslationKey('noteTitle') | translate }}</mat-label>

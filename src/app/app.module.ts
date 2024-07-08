@@ -80,7 +80,7 @@ Chart.register(zoomPlugin);
       useValue: {
         ...new MatDialogConfig(),
         width: '400px',
-        position: { top: '70px' },
+        position: { top: '30px' },
         autoFocus: false,
       } as MatDialogConfig,
     },

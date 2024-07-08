@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { ActivityLogFacadeService, CategoryManagementActionType, CategoryManagementRecord } from '@budget-tracker/data';
+import { ActivityLogFacadeService, EntityManagementActionType, CategoryManagementRecord } from '@budget-tracker/data';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryManagementRecordComponent implements OnInit {
-  readonly actionType = CategoryManagementActionType;
+  readonly actionType = EntityManagementActionType;
 
   @Input()
   record: CategoryManagementRecord;

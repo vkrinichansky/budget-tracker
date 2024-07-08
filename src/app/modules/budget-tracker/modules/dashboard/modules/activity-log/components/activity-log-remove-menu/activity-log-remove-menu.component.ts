@@ -30,14 +30,15 @@ export class ActivityLogRemoveMenuComponent implements OnInit {
         tooltipTranslationKey: this.buildTranslationKey('categoriesReset.tooltip'),
         tooltipPosition: this.tooltipPosition,
       },
-      {
-        nameOrTranslationKey: this.buildTranslationKey('rootValueChange.text'),
-        checked: false,
-        value: ActivityLogRecordType.RootValueChange,
-        infoIconType: 'info',
-        tooltipTranslationKey: this.buildTranslationKey('rootValueChange.tooltip'),
-        tooltipPosition: this.tooltipPosition,
-      },
+      // replace with account AL types
+      // {
+      //   nameOrTranslationKey: this.buildTranslationKey('rootValueChange.text'),
+      //   checked: false,
+      //   value: ActivityLogRecordType.RootValueChange,
+      //   infoIconType: 'info',
+      //   tooltipTranslationKey: this.buildTranslationKey('rootValueChange.tooltip'),
+      //   tooltipPosition: this.tooltipPosition,
+      // },
       {
         nameOrTranslationKey: this.buildTranslationKey('categoryValueChange.text'),
         checked: false,

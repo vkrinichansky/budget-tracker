@@ -1,5 +1,11 @@
 import { createAction, props } from '@ngrx/store';
-import { CategoriesResetRecord, Category, CategoryManagementRecord, CategoryValueChangeRecord } from '../../models';
+import {
+  Account,
+  CategoriesResetRecord,
+  Category,
+  CategoryManagementRecord,
+  CategoryValueChangeRecord,
+} from '../../models';
 
 enum CategoriesActionsType {
   CategoriesLoaded = '[Categories] Categories loaded',
@@ -58,7 +64,7 @@ export const CategoriesActions = {
     CategoriesActionsType.ChangeCategoryValue,
     props<{
       updatedCategory: Category;
-      newBalanceValue: number;
+      updatedAccount: Account;
       activityLogRecord: CategoryValueChangeRecord;
     }>()
   ),

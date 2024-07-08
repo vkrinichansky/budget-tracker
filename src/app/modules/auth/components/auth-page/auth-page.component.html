@@ -3,7 +3,7 @@
 <app-button
   [iconName]="'google'"
   [colorScheme]="'green'"
-  [text]="buildTranslationKey('signInWithGoogle') | translate"
+  [text]="'Sign in with Google'"
   [loading]="authLoading$ | async"
   [buttonSizeX]="'large'"
   (click)="googleLogin()"

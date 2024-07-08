@@ -1,0 +1,44 @@
+<app-generic-activity-log-record
+  [icon]="record.icon"
+  [date]="record.date"
+  [loading]="isRecordRemoving$ | async"
+  (remove)="removeRecord()"
+>
+  @switch (record.actionType) {
+    @case (actionType.Add) {
+      <ng-container
+        *ngTemplateOutlet="
+          template;
+          context: {
+            content: buildTranslationKey('accountAdded') | translate: { accountName: record.accountName }
+          }
+        "
+      ></ng-container>
+    }
+
+    @case (actionType.Remove) {
+      <ng-container
+        *ngTemplateOutlet="
+          template;
+          context: {
+            content: buildTranslationKey('accountRemoved') | translate: { accountName: record.accountName }
+          }
+        "
+      ></ng-container>
+    }
+  }
+</app-generic-activity-log-record>
+
+<ng-template #template let-content="content">
+  <span
+    class="block truncate"
+    customTooltip
+    [tooltipTemplate]="template"
+    [showTooltipOnlyOnOverflow]="true"
+    [innerHTML]="content"
+  >
+    <ng-template #template>
+      <span [innerHTML]="content"></span>
+    </ng-template>
+  </span>
+</ng-template>

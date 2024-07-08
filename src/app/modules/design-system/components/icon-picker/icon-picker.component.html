@@ -1,0 +1,33 @@
+<mat-form-field class="w-full">
+  <mat-label>{{ label }}</mat-label>
+  <mat-select
+    [disableRipple]="true"
+    [formControl]="formControl"
+    [hideSingleSelectionIndicator]="true"
+    [panelClass]="'icon-picker-panel'"
+    (ngModelChange)="valueChanged($event)"
+  >
+    <mat-select-trigger>
+      <span class="flex justify-start items-center text-charcoal gap-x-1.5 font-main">
+        <svg-icon [iconName]="formControl.value"></svg-icon>
+      </span>
+    </mat-select-trigger>
+
+    @for (icon of icons; track icon) {
+      <mat-option [value]="icon">
+        <app-button
+          class="overflow-hidden"
+          [iconName]="icon"
+          [buttonSizeX]="'medium'"
+          [buttonSizeY]="'medium'"
+          [active]="icon === formControl?.value"
+          [activeColorScheme]="'transparent-dark'"
+        ></app-button>
+      </mat-option>
+    }
+  </mat-select>
+
+  @if (hasRequiredError) {
+    <mat-error>{{ 'formErrors.required' | translate }}</mat-error>
+  }
+</mat-form-field>
