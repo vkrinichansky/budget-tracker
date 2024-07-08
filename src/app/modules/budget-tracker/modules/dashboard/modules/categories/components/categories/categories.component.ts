@@ -136,12 +136,12 @@ export class CategoriesComponent implements OnInit {
         this.menuActions = [
           {
             icon: 'plus',
-            translationKey: this.buildTranslationKey('income.menu.addCategory'),
+            translationKey: 'dashboard.categories.menu.addCategory',
             action: () => this.categoryModalsService.openAddIncomeCategoryModal(),
           },
           {
             icon: 'eraser',
-            translationKey: this.buildTranslationKey('income.menu.resetCategories'),
+            translationKey: 'dashboard.categories.menu.resetCategories',
             disabledObs: this.categoriesFacade.areIncomeCategoriesAllReset(),
             action: () =>
               this.confirmationModalService.openConfirmationModal(
@@ -158,12 +158,12 @@ export class CategoriesComponent implements OnInit {
         this.menuActions = [
           {
             icon: 'plus',
-            translationKey: this.buildTranslationKey('expense.menu.addCategory'),
+            translationKey: 'dashboard.categories.menu.addCategory',
             action: () => this.categoryModalsService.openAddExpenseCategoryModal(),
           },
           {
             icon: 'eraser',
-            translationKey: this.buildTranslationKey('expense.menu.resetCategories'),
+            translationKey: 'dashboard.categories.menu.resetCategories',
             disabledObs: this.categoriesFacade.areExpenseCategoriesAllReset(),
             action: () =>
               this.confirmationModalService.openConfirmationModal(

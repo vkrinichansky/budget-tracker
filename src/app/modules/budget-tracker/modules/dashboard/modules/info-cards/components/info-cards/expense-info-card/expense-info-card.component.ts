@@ -15,8 +15,4 @@ export class ExpenseInfoCardComponent implements OnInit {
   ngOnInit(): void {
     this.expense$ = this.categoriesFacade.getExpenseValue();
   }
-
-  buildTranslationKey(key: string): string {
-    return `dashboard.infoCards.expense.${key}`;
-  }
 }

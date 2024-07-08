@@ -4,122 +4,77 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class SnackbarHandlerService {
-  private readonly rootTranslationKey = 'snackbars';
   constructor(
     private snackBar: MatSnackBar,
     private translateService: TranslateService
   ) {}
 
   showGeneralErrorSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant(this.buildTranslationKey('errorSnackbar.message')),
-      this.translateService.instant(this.buildTranslationKey('errorSnackbar.buttonText'))
-    );
+    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.errorSnackbar'));
   }
 
   showErrorSnackbar(error: string): void {
-    this.openSnackBarWithCloseDelay(
-      error,
-      this.translateService.instant(this.buildTranslationKey('errorSnackbar.buttonText'))
-    );
+    this.openSnackBarWithCloseDelay(error, this.translateService.instant('snackbars.defaultOkButtonText'));
   }
 
   showBalanceEditedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant(this.buildTranslationKey('balanceEditedSnackbar.message')),
-      this.translateService.instant(this.buildTranslationKey('balanceEditedSnackbar.buttonText'))
-    );
+    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.balanceEditedSnackbar'));
   }
 
   showSavingsEditedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant(this.buildTranslationKey('savingsEditedSnackbar.message')),
-      this.translateService.instant(this.buildTranslationKey('savingsEditedSnackbar.buttonText'))
-    );
+    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.savingsEditedSnackbar'));
   }
 
   showFreeMoneyEditedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant(this.buildTranslationKey('freeMoneyEditedSnackbar.message')),
-      this.translateService.instant(this.buildTranslationKey('freeMoneyEditedSnackbar.buttonText'))
-    );
+    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.freeMoneyEditedSnackbar'));
   }
 
   showCategoryAddedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant(this.buildTranslationKey('categoryAddedSnackbar.message')),
-      this.translateService.instant(this.buildTranslationKey('categoryAddedSnackbar.buttonText'))
-    );
+    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.categoryAddedSnackbar'));
   }
 
   showCategoryRemovedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant(this.buildTranslationKey('categoryRemovedSnackbar.message')),
-      this.translateService.instant(this.buildTranslationKey('categoryRemovedSnackbar.buttonText'))
-    );
+    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.categoryRemovedSnackbar'));
   }
 
   showActivityLogRecordRemovedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant(this.buildTranslationKey('activityLogRecordRemoved.message')),
-      this.translateService.instant(this.buildTranslationKey('activityLogRecordRemoved.buttonText'))
-    );
+    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.activityLogRecordRemoved'));
   }
 
   showBulkActivityLogRecordsRemovedSnackbar(): void {
     this.openSnackBarWithCloseDelay(
-      this.translateService.instant(this.buildTranslationKey('bulkActivityLogRecordsRemoved.recordsByTypesRemoved')),
-      this.translateService.instant(this.buildTranslationKey('activityLogRecordRemoved.buttonText'))
+      this.translateService.instant('snackbars.bulkActivityLogRecordsRemoved.recordsByTypesRemoved')
     );
   }
 
   showCategoryValueChangedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant(this.buildTranslationKey('categoryValueChangedSnackbar.message')),
-      this.translateService.instant(this.buildTranslationKey('categoryValueChangedSnackbar.buttonText'))
-    );
+    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.categoryValueChangedSnackbar'));
   }
 
   showCategoriesResetSnackbar(budgetType: string): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant(this.buildTranslationKey(`categoriesResetSnackbar.${budgetType}`)),
-      this.translateService.instant(this.buildTranslationKey('categoriesResetSnackbar.buttonText'))
-    );
+    this.openSnackBarWithCloseDelay(this.translateService.instant(`snackbars.categoriesResetSnackbar.${budgetType}`));
   }
 
   showDataResetSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant(this.buildTranslationKey('dataResetSnackbar.message')),
-      this.translateService.instant(this.buildTranslationKey('dataResetSnackbar.buttonText'))
-    );
+    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.dataResetSnackbar'));
   }
 
   showAccountAddedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant(this.buildTranslationKey('accountAddedSnackbar.message')),
-      this.translateService.instant(this.buildTranslationKey('accountAddedSnackbar.buttonText'))
-    );
+    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.accountAddedSnackbar'));
   }
 
   showAccountRemovedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant(this.buildTranslationKey('accountRemovedSnackbar.message')),
-      this.translateService.instant(this.buildTranslationKey('accountRemovedSnackbar.buttonText'))
-    );
+    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.accountRemovedSnackbar'));
   }
 
   showAccountValueEditedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant(this.buildTranslationKey('accountValueEdited.message')),
-      this.translateService.instant(this.buildTranslationKey('accountValueEdited.buttonText'))
-    );
+    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.accountValueEdited'));
   }
 
-  private buildTranslationKey(key: string): string {
-    return `${this.rootTranslationKey}.${key}`;
-  }
-
-  private openSnackBarWithCloseDelay(message: string, action: string): void {
+  private openSnackBarWithCloseDelay(
+    message: string,
+    action: string = this.translateService.instant('snackbars.defaultOkButtonText')
+  ): void {
     this.snackBar.open(message, action, { duration: 3000 });
   }
 }

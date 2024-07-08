@@ -16,8 +16,4 @@ export class CurrentMonthBalanceInfoCardComponent implements OnInit {
   ngOnInit(): void {
     this.currentMonthBalance$ = this.categoriesFacade.getCurrentMonthBalance();
   }
-
-  buildTranslationKey(key: string): string {
-    return `dashboard.infoCards.currentMonthBalance.${key}`;
-  }
 }

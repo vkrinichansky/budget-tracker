@@ -15,8 +15,4 @@ export class IncomeInfoCardComponent implements OnInit {
   ngOnInit(): void {
     this.income$ = this.categoriesFacade.getIncomeValue();
   }
-
-  buildTranslationKey(key: string): string {
-    return `dashboard.infoCards.income.${key}`;
-  }
 }
