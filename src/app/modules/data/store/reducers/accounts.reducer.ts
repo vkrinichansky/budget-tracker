@@ -14,6 +14,7 @@ export interface AccountsState {
     inProgress: boolean;
     success: boolean;
   };
+  removingAccountsIds: string[];
 }
 
 function selectAccountId(account: Account) {
@@ -35,6 +36,7 @@ const initialState: AccountsState = {
     success: false,
     inProgress: false,
   },
+  removingAccountsIds: [],
 };
 
 const adapterReducer = createReducer(
@@ -67,6 +69,34 @@ const adapterReducer = createReducer(
       inProgress: false,
       success: false,
     },
+  })),
+
+  on(AccountsActions.removeAccount, (state, action) => ({
+    ...state,
+    accountManagement: {
+      inProgress: true,
+      success: false,
+    },
+    removingAccountsIds: [...state.removingAccountsIds, action.accountId],
+  })),
+
+  on(AccountsActions.accountRemoved, (state, action) => ({
+    ...state,
+    accounts: accountEntityAdapter.removeOne(action.accountId, state.accounts),
+    categoryManagement: {
+      inProgress: false,
+      success: true,
+    },
+    removingAccountsIds: state.removingAccountsIds.filter((id) => id !== action.accountId),
+  })),
+
+  on(AccountsActions.removeAccountFail, (state, action) => ({
+    ...state,
+    categoryManagement: {
+      inProgress: false,
+      success: false,
+    },
+    removingCategoriesIds: state.removingAccountsIds.filter((id) => id !== action.accountId),
   })),
 
   on(AccountsActions.resetAccountManagementProp, (state) => ({

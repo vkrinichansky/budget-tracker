@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { AuthActions } from '@budget-tracker/auth';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { combineLatest, from, map, of, switchMap, tap } from 'rxjs';
+import { combineLatest, from, map, of, switchMap, take, tap } from 'rxjs';
 import { AccountsActions, ActivityLogActions, CategoriesActions, DataInitActions, StatisticsActions } from '../actions';
-import { CurrencyService, DataInitService, LanguageService } from '../../services';
+import { CurrencyExchangeService, CurrencyService, DataInitService, LanguageService } from '../../services';
 import { getMonthAndYearString, getPreviousMonthTime, SnackbarHandlerService } from '@budget-tracker/utils';
 import {
   ActivityLogRecordType,
@@ -12,6 +12,7 @@ import {
   BudgetType,
   CategoriesResetRecord,
   CurrenciesEnum,
+  CurrencyExchangeRate,
   StatisticsSnapshot,
 } from '../../models';
 import { v4 as uuid } from 'uuid';
@@ -24,18 +25,30 @@ export class DataInitEffects {
     private store: Store,
     private snackbarHandler: SnackbarHandlerService,
     private currencyService: CurrencyService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private currencyExchangeService: CurrencyExchangeService
   ) {}
 
   init$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DataInitActions.init),
       switchMap(() =>
-        combineLatest([from(this.dataInitService.initData()), from(this.dataInitService.initMetadata())])
+        combineLatest([
+          from(this.dataInitService.initData()),
+          from(this.dataInitService.initMetadata()).pipe(
+            switchMap((metadata) =>
+              this.dataInitService
+                .getCurrencyExchangeRate(metadata.currency)
+                .pipe(take(1))
+                .pipe(switchMap((exchangeRate) => of({ metadata, exchangeRate })))
+            )
+          ),
+        ])
       ),
-      map(([data, metadata]) => {
+      map(([data, { metadata, exchangeRate }]) => {
         this.currencyService.setCurrentCurrency(metadata.currency as CurrenciesEnum);
         this.languageService.setCurrentLanguage(metadata.language);
+        this.currencyExchangeService.setCurrentExchangeRate(exchangeRate[metadata.currency] as CurrencyExchangeRate);
 
         if (data.resetDate !== getMonthAndYearString() && data.shouldDoReset) {
           return DataInitActions.resetData({ data });

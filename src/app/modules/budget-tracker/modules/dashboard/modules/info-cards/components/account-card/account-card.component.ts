@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
-import { Account } from '@budget-tracker/data';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
+import { Account, AccountsFacadeService, CurrencyExchangeService, CurrencyService } from '@budget-tracker/data';
 import { AccountsValueEditModalService } from '../../services';
-import { MenuAction } from '@budget-tracker/design-system';
+import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-account-card',
@@ -9,7 +10,7 @@ import { MenuAction } from '@budget-tracker/design-system';
   styleUrl: './account-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AccountCardComponent {
+export class AccountCardComponent implements OnInit {
   @HostBinding('class')
   private readonly classes = 'block';
 
@@ -19,16 +20,54 @@ export class AccountCardComponent {
       translationKey: this.buildTranslationKey('menu.editValue'),
       action: () => this.accountValueEditModalService.openEditAccountValueModal(this.account.id),
     },
+
+    {
+      icon: 'delete-bin',
+      translationKey: this.buildTranslationKey('menu.remove'),
+      action: () => {
+        this.confirmationModalService.openConfirmationModal(
+          {
+            questionTranslationKey: this.buildTranslationKey('removeConfirmationQuestion'),
+            questionTranslationParams: {
+              accountName: this.account.name,
+            },
+          },
+          () => this.accountsFacade.removeAccount(this.account.id)
+        );
+      },
+    },
   ];
 
   @Input()
   account: Account;
 
+  isAccountRemoving$: Observable<boolean>;
+
   get primaryText(): string {
     return `${this.account.value} ${this.account.currency.symbol}`;
   }
 
-  constructor(private accountValueEditModalService: AccountsValueEditModalService) {}
+  get isAccountWithForeignCurrency(): boolean {
+    return this.account.currency.id !== this.currencyService.getCurrentCurrency();
+  }
+
+  get accountValueInBaseCurrency(): string {
+    return `${Math.round(
+      this.account.value / this.currencyExchangeService.getCurrentExchangeRate()[this.account.currency.id]
+    ).toString()} ${this.currencyService.getCurrencySymbol()}`;
+  }
+
+  constructor(
+    private accountValueEditModalService: AccountsValueEditModalService,
+    private currencyService: CurrencyService,
+    private currencyExchangeService: CurrencyExchangeService,
+    private accountsFacade: AccountsFacadeService,
+    private confirmationModalService: ConfirmationModalService
+  ) {}
+
+  ngOnInit(): void {
+    this.isAccountRemoving$ = this.accountsFacade.isAccountRemoving(this.account.id);
+  }
 
   buildTranslationKey(key: string): string {
     return `dashboard.infoCards.accountCard.${key}`;

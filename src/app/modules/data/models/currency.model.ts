@@ -11,6 +11,15 @@ export interface Currency {
   symbol: string; // $
 }
 
+export interface CurrencyExchangeRate {
+  [currencyCode: string]: number;
+}
+
+export interface ExchangeEndpointResponse {
+  date: string;
+  [currencyCode: string]: CurrencyExchangeRate | string;
+}
+
 export const predefinedCurrenciesDictionary: Record<string, Currency> = {
   [CurrenciesEnum.UAH]: {
     id: CurrenciesEnum.UAH,

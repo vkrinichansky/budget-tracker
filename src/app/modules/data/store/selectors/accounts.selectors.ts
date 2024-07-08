@@ -32,6 +32,8 @@ const accountManagementSuccessSelector = createSelector(
   (state) => state.accountManagement.success
 );
 
+const selectAccountsRemovingIds = createSelector(accountsStateSelector, (state) => state.removingAccountsIds);
+
 export const AccountsSelectors = {
   accountsStateSelector,
   allAccountsSelector,
@@ -40,4 +42,5 @@ export const AccountsSelectors = {
   editAccountValueSucceedSelector,
   accountManagementInProgressSelector,
   accountManagementSuccessSelector,
+  selectAccountsRemovingIds,
 };

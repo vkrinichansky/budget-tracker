@@ -33,8 +33,10 @@
       },
       "accountCard": {
         "menu": {
-          "editValue": "Edit"
-        }
+          "editValue": "Edit",
+          "remove": "Remove"
+        },
+        "removeConfirmationQuestion": "Do you want to remove <b>{{ accountName }}</b> account?"
       }
     },
 
@@ -67,9 +69,7 @@
 
       "accountManagementRecord": {
         "accountAdded": "<b>{{ accountName }}</b> account was added",
-        "accountRemoved": {
-          "budgetType": "<b>{{ accountName }}</b> account was removed"
-        }
+        "accountRemoved": "<b>{{ accountName }}</b> account was removed"
       },
 
       "categoryManagementRecord": {
@@ -252,6 +252,10 @@
     },
     "accountAddedSnackbar": {
       "message": "Account was added successfully!",
+      "buttonText": "Got it"
+    },
+    "accountRemovedSnackbar": {
+      "message": "Account was removed successfully!",
       "buttonText": "Got it"
     }
   },

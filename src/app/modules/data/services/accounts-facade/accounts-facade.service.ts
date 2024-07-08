@@ -10,10 +10,16 @@ import {
 import { Store } from '@ngrx/store';
 import { AccountsActions, AccountsSelectors } from '../../store';
 import { v4 as uuid } from 'uuid';
+import { CurrencyService } from '../currency-service/currency.service';
+import { CurrencyExchangeService } from '../currency-exchange-service/currency-exchange.service';
 
 @Injectable()
 export class AccountsFacadeService {
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private currencyService: CurrencyService,
+    private currencyExchangeService: CurrencyExchangeService
+  ) {}
 
   getAllAccounts(): Observable<Account[]> {
     return this.store.select(AccountsSelectors.allAccountsSelector);
@@ -25,7 +31,16 @@ export class AccountsFacadeService {
 
   getFullBallance(): Observable<number> {
     return this.getAllAccounts().pipe(
-      map((accounts) => accounts.reduce((fullBalance, account) => fullBalance + account.value, 0))
+      map((accounts) =>
+        accounts.reduce(
+          (fullBalance, account) =>
+            account.currency.id === this.currencyService.getCurrentCurrency()
+              ? fullBalance + account.value
+              : fullBalance +
+                Math.round(account.value / this.currencyExchangeService.getCurrentExchangeRate()[account.currency.id]),
+          0
+        )
+      )
     );
   }
 
@@ -74,6 +89,32 @@ export class AccountsFacadeService {
     };
 
     this.store.dispatch(AccountsActions.addAccount({ account, activityLogRecord: addAccountRecord }));
+  }
+
+  async removeAccount(accountId: string): Promise<void> {
+    const account: Account = await firstValueFrom(this.getAccountById(accountId));
+
+    const removeAccountRecord: AccountManagementRecord = {
+      id: uuid(),
+      actionType: EntityManagementActionType.Remove,
+      accountName: account.name,
+      date: new Date().getTime(),
+      icon: account.icon,
+      recordType: ActivityLogRecordType.AccountManagement,
+    };
+
+    this.store.dispatch(
+      AccountsActions.removeAccount({
+        accountId,
+        activityLogRecord: removeAccountRecord,
+      })
+    );
+  }
+
+  isAccountRemoving(categoryId: string): Observable<boolean> {
+    return this.store
+      .select(AccountsSelectors.selectAccountsRemovingIds)
+      .pipe(map((removingAccountsIds) => removingAccountsIds.includes(categoryId)));
   }
 
   getAccountManagementInProgress(): Observable<boolean> {

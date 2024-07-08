@@ -3,11 +3,12 @@
     class="flex-1"
     [iconName]="account.icon"
     [primaryText]="primaryText"
-    [secondaryText]="account.name"
+    [secondaryText]="isAccountWithForeignCurrency ? accountValueInBaseCurrency : account.name"
+    [tertiaryText]="isAccountWithForeignCurrency ? account.name : null"
     [shouldUseCssStyles]="true"
     [hexBgColor]="account.bgColor"
     [hexTextColor]="account.textColor"
+    [menuActions]="menuActions"
+    [menuLoading]="isAccountRemoving$ | async"
   ></app-info-card>
-
-  <app-menu [menuActions]="menuActions"></app-menu>
 </div>

@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Account, AccountManagementRecord, AccountValueEditRecord } from '../../models';
 import { Auth } from '@angular/fire/auth';
-import { arrayUnion, collection, doc, DocumentReference, Firestore, updateDoc } from '@angular/fire/firestore';
+import {
+  arrayUnion,
+  collection,
+  deleteField,
+  doc,
+  DocumentReference,
+  Firestore,
+  updateDoc,
+} from '@angular/fire/firestore';
 
 const ACCOUNTS_PATH = 'budget.accounts';
 const ACTIVITY_LOG_PATH = 'budget.activityLog';
@@ -16,6 +24,13 @@ export class AccountsService {
   addAccount(account: Account, activityLogRecord: AccountManagementRecord): Promise<void> {
     return updateDoc(this.getDocRef(), {
       [`${ACCOUNTS_PATH}.${account.id}`]: account,
+      [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
+    });
+  }
+
+  async removeAccount(accountId: string, activityLogRecord: AccountManagementRecord): Promise<void> {
+    return updateDoc(this.getDocRef(), {
+      [`${ACCOUNTS_PATH}.${accountId}`]: deleteField(),
       [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
     });
   }

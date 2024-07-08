@@ -34,13 +34,13 @@ export class InfoCardComponent {
   secondaryText: string;
 
   @Input()
+  tertiaryText: string;
+
+  @Input()
   additionalPrimaryText: string;
 
   @Input()
   additionalSecondaryText: string;
-
-  @Input()
-  twoLine: boolean;
 
   @Input()
   iconName: string;
@@ -68,6 +68,9 @@ export class InfoCardComponent {
 
   @Input()
   menuActions: MenuAction[];
+
+  @Input()
+  menuLoading: boolean;
 
   get iconClasses(): string {
     return this.shouldUseCssStyles ? '' : `${this.iconBgClass} ${this.iconColorClass}`;

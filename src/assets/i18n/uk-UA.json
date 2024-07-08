@@ -32,8 +32,10 @@
       },
       "accountCard": {
         "menu": {
-          "editValue": "Edit"
-        }
+          "editValue": "Редагувати",
+          "remove": "Видалити"
+        },
+        "removeConfirmationQuestion": "Ви хочете видалити рахунок <b>{{ accountName }}</b>?"
       }
     },
 
@@ -66,9 +68,7 @@
 
       "accountManagementRecord": {
         "accountAdded": "Рахунок <b>{{ accountName }}</b> було додано",
-        "accountRemoved": {
-          "budgetType": "Рахунок <b>{{ accountName }}</b> було видалено"
-        }
+        "accountRemoved": "Рахунок <b>{{ accountName }}</b> було видалено"
       },
 
       "categoryManagementRecord": {
@@ -252,6 +252,10 @@
     },
     "accountAddedSnackbar": {
       "message": "Рахунок було додано успішно!",
+      "buttonText": "Добре"
+    },
+    "accountRemovedSnackbar": {
+      "message": "Рахунок було видалено успішно!",
       "buttonText": "Добре"
     }
   },

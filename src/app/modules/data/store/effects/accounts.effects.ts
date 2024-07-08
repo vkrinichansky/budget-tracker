@@ -14,7 +14,7 @@ export class AccountsEffects {
     private accountService: AccountsService
   ) {}
 
-  addCategory$ = createEffect(() =>
+  addAccount$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AccountsActions.addAccount),
       mergeMap((action) =>
@@ -36,6 +36,33 @@ export class AccountsEffects {
             this.snackbarHandler.showErrorSnackbar(error);
 
             return of(AccountsActions.addAccountFail());
+          })
+        )
+      )
+    )
+  );
+
+  removeAccount$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AccountsActions.removeAccount),
+      mergeMap((action) =>
+        from(this.accountService.removeAccount(action.accountId, action.activityLogRecord)).pipe(
+          switchMap(() => {
+            this.snackbarHandler.showCategoryRemovedSnackbar();
+
+            return of(
+              AccountsActions.accountRemoved({
+                accountId: action.accountId,
+              }),
+              ActivityLogActions.recordAdded({
+                record: action.activityLogRecord,
+              })
+            );
+          }),
+          catchError((error) => {
+            this.snackbarHandler.showErrorSnackbar(error);
+
+            return of(AccountsActions.removeAccountFail({ accountId: action.accountId }));
           })
         )
       )
@@ -71,7 +98,12 @@ export class AccountsEffects {
 
   resetCategoryManagementProp$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AccountsActions.accountAdded, AccountsActions.addAccountFail),
+      ofType(
+        AccountsActions.accountAdded,
+        AccountsActions.addAccountFail,
+        AccountsActions.accountRemoved,
+        AccountsActions.removeAccountFail
+      ),
       delay(1000),
       map(() => AccountsActions.resetAccountManagementProp())
     )

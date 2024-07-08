@@ -101,6 +101,13 @@ export class SnackbarHandlerService {
     );
   }
 
+  showAccountRemovedSnackbar(): void {
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant(this.buildTranslationKey('accountRemovedSnackbar.message')),
+      this.translateService.instant(this.buildTranslationKey('accountRemovedSnackbar.buttonText'))
+    );
+  }
+
   showAccountValueEditedSnackbar(): void {
     this.openSnackBarWithCloseDelay(
       this.translateService.instant(this.buildTranslationKey('accountValueEdited.message')),
