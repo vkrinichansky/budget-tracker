@@ -3,7 +3,9 @@ import { map, Observable } from 'rxjs';
 import { AuthFacadeService } from '../../services';
 import { NavigatorService } from '@budget-tracker/utils';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthGuard {
   constructor(
     private authFacade: AuthFacadeService,

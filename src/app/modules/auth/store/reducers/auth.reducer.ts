@@ -27,7 +27,7 @@ export const authFeature = createFeature({
 
     on(AuthActions.authenticated, (state, action) => ({
       ...state,
-      user: { ...action.user },
+      user: action.user,
       loading: false,
       loaded: true,
     })),

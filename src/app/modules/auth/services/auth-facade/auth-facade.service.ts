@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { filter, firstValueFrom, map } from 'rxjs';
 import { Observable } from 'rxjs';
-import { User } from '../../../models';
-import { AuthActions, AuthSelectors } from '../../../store';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../auth-service/auth.service';
+import { AuthActions, AuthSelectors } from '../../store';
+import { User } from '../../models';
 
 @Injectable()
 export class AuthFacadeService {
