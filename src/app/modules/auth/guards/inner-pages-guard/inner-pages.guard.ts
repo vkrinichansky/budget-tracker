@@ -19,7 +19,7 @@ export class SecureInnerPagesGuard {
           return true;
         }
 
-        this.navigator.navigateToBudgetTracker();
+        this.navigator.navigateToDashboard();
         return false;
       })
     );

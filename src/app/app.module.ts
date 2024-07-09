@@ -16,7 +16,7 @@ import { AuthCoreModule } from './modules/auth/auth.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { CustomErrorStateMatcher } from '@budget-tracker/utils';
+import { CustomErrorStateMatcher, UtilsModule } from '@budget-tracker/utils';
 import { Chart } from 'chart.js';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -25,6 +25,8 @@ import 'hammerjs';
 import 'chartjs-plugin-zoom';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig } from '@angular/material/dialog';
+import { DesignSystemModule } from '@budget-tracker/design-system';
+import { NavigationBarModule } from '@budget-tracker/navigation-bar';
 Chart.register(zoomPlugin);
 
 @NgModule({
@@ -32,6 +34,12 @@ Chart.register(zoomPlugin);
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
+    AuthCoreModule,
+    BrowserAnimationsModule,
+    DesignSystemModule,
+    NavigationBarModule,
+    UtilsModule,
     provideFirebaseApp(() => initializeApp(isDevMode() ? devEnv.firebaseConfig : prodEnv.firebaseConfig)),
     provideAuth(() => getAuth(getApp())),
     provideFirestore(() => getFirestore()),
@@ -48,7 +56,7 @@ Chart.register(zoomPlugin);
         },
       }
     ),
-    HttpClientModule,
+
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -58,8 +66,6 @@ Chart.register(zoomPlugin);
     }),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode(), connectInZone: true }),
-    AuthCoreModule,
-    BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable

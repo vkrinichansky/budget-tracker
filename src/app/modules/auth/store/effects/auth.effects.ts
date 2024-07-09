@@ -83,7 +83,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.authenticated),
         filter((action) => !!action?.shouldRedirect),
-        tap(() => this.navigator.navigateToBudgetTracker())
+        tap(() => this.navigator.navigateToDashboard())
       ),
     { dispatch: false }
   );
