@@ -6,12 +6,11 @@ import { DesignSystemModule } from '@budget-tracker/design-system';
 import { AuthCoreModule } from '@budget-tracker/auth';
 import { NavigationBarModule } from '@budget-tracker/navigation-bar';
 import { InitDataGuard } from './guards';
-import { LostConnectionMessageComponent } from './components';
 import { TranslateModule } from '@ngx-translate/core';
 import { UtilsModule } from '@budget-tracker/utils';
 
 @NgModule({
-  declarations: [BudgetTrackerComponent, LostConnectionMessageComponent],
+  declarations: [BudgetTrackerComponent],
   imports: [
     CommonModule,
     BudgetTrackerRoutingModule,
