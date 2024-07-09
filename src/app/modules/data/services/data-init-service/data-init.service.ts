@@ -3,7 +3,7 @@ import { arrayUnion, collection, doc, DocumentReference, Firestore, getDoc, upda
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { firstValueFrom, from, map, Observable, switchMap } from 'rxjs';
 import {
-  BudgetTrackerState,
+  AppDatabaseStructure,
   CategoriesResetRecord,
   ExchangeEndpointResponse,
   StatisticsSnapshot,
@@ -26,11 +26,11 @@ export class DataInitService {
     private http: HttpClient
   ) {}
 
-  async initData(): Promise<BudgetTrackerState> {
+  async initData(): Promise<AppDatabaseStructure> {
     return await firstValueFrom(
       this.authFacade.getUserId().pipe(
         switchMap((userId) => from(getDoc(doc(collection(this.firestore, 'userData'), userId)))),
-        map((data) => data.data() as BudgetTrackerState)
+        map((data) => data.data() as AppDatabaseStructure)
       )
     );
   }
@@ -45,7 +45,7 @@ export class DataInitService {
   }
 
   resetData(
-    data: BudgetTrackerState,
+    data: AppDatabaseStructure,
     activityLogRecords: CategoriesResetRecord[],
     statisticsSnapshot: StatisticsSnapshot,
     date: string

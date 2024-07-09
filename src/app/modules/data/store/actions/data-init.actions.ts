@@ -1,10 +1,10 @@
 import { createAction, props } from '@ngrx/store';
-import { BudgetTrackerState } from '../../models';
+import { AppDatabaseStructure } from '../../models';
 
 export const DataInitActions = {
   init: createAction('[Data init] Init'),
   clean: createAction('[Data init] Clean state'),
   dataLoaded: createAction('[Data init] Data loaded'),
   resetDateLoaded: createAction('[Data init] Reset date loaded', props<{ resetDate: string }>()),
-  resetData: createAction('[Data init] Reset data', props<{ data: BudgetTrackerState }>()),
+  resetData: createAction('[Data init] Reset data', props<{ data: AppDatabaseStructure }>()),
 };

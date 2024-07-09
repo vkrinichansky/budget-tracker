@@ -5,9 +5,7 @@
 
   <div class="animated-route main w-full bg-dirty-white relative" [class.p-6]="data.isLoggedIn">
     @if (data.isLoading) {
-      <div class="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-dirty-white z-50">
-        <app-loader [colorMode]="'dark'" [size]="'main-loader'"></app-loader>
-      </div>
+      <app-fullsize-loader></app-fullsize-loader>
     } @else {
       <router-outlet></router-outlet>
     }

@@ -3,7 +3,7 @@ import { ActivityLog } from './activity-log.model';
 import { Category } from './category.model';
 import { Statistics } from './statistics.model';
 
-export interface BudgetTrackerState {
+export interface AppDatabaseStructure {
   budget: {
     categories: {
       [categoryId: string]: Category;
