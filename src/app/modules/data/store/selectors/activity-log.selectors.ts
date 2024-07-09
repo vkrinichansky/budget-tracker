@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { dataFeatureSelector } from './feature.selector';
+import { ActivityLogRecordType, CategoryValueChangeRecord } from '../../models';
 
 const activityLogStateSelector = createSelector(
   dataFeatureSelector,
@@ -25,6 +26,14 @@ const isBulkRecordsRemovingInProgressSelector = createSelector(
   (state) => state.bulkRecordsRemove
 );
 
+const relatedCategoryValueChangeRecordsByCategoryIdSelector = (categoryId: string) =>
+  createSelector(activityLogSelector, (activityLog) =>
+    activityLog
+      .filter((record) => record.recordType === ActivityLogRecordType.CategoryValueChange)
+      .map((record) => record as CategoryValueChangeRecord)
+      .filter((record) => record.categoryId === categoryId)
+  );
+
 export const ActivityLogSelectors = {
   activityLogStateSelector,
   activityLogSelector,
@@ -32,4 +41,5 @@ export const ActivityLogSelectors = {
   selectRecordByIdSelector,
   activityLogDictionarySelector,
   isBulkRecordsRemovingInProgressSelector,
+  relatedCategoryValueChangeRecordsByCategoryIdSelector,
 };
