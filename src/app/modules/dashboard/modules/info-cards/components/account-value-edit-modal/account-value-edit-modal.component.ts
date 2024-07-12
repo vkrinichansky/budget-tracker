@@ -58,6 +58,10 @@ export class AccountValueEditModalComponent implements OnInit, AfterViewInit {
     return this.form.controls[FormFields.Note].hasError('maxlength');
   }
 
+  get hasNumberPatternError(): boolean {
+    return this.form.controls[FormFields.Value].hasError('pattern');
+  }
+
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: AccountValueEditModalData,
     private dialogRef: MatDialogRef<AccountValueEditModalComponent>,
@@ -106,7 +110,11 @@ export class AccountValueEditModalComponent implements OnInit, AfterViewInit {
 
   private initForm(): void {
     this.form = new FormGroup({
-      [FormFields.Value]: new FormControl(null, [Validators.required, Validators.min(0)]),
+      [FormFields.Value]: new FormControl(null, [
+        Validators.required,
+        Validators.min(0),
+        Validators.pattern(new RegExp(/^[0-9]+$/)),
+      ]),
       [FormFields.Note]: new FormControl('', [Validators.maxLength(100)]),
     });
   }

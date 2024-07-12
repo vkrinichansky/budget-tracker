@@ -18,7 +18,9 @@ export class InfoCardComponent {
   @HostBinding('style')
   private get myStyle(): SafeStyle {
     if (this.shouldUseCssStyles) {
-      return this.sanitizer.bypassSecurityTrustStyle(`background-color: ${this.hexBgColor}`);
+      return this.sanitizer.bypassSecurityTrustStyle(
+        `background-color: ${this.hexBgColor}; color: ${this.hexTextColor}`
+      );
     }
 
     return '';

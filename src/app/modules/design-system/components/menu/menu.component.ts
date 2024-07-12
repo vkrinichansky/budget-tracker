@@ -11,19 +11,19 @@ export class MenuComponent {
   colorScheme: ColorScheme = 'transparent-dark';
 
   @Input()
-  menuActions: MenuAction[];
+  buttonSizeX: ButtonSize = 'small';
+
+  @Input()
+  buttonSizeY: ButtonSize = 'small';
 
   @Input()
   icon = 'menu';
 
   @Input()
+  menuActions: MenuAction[];
+
+  @Input()
   text: string;
-
-  @Input()
-  buttonSizeX: ButtonSize = 'small';
-
-  @Input()
-  buttonSizeY: ButtonSize = 'small';
 
   @Input()
   menuDisabled: boolean;

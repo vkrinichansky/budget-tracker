@@ -30,16 +30,10 @@ export class AccountsFacadeService {
   }
 
   getFullBallance(): Observable<number> {
-    return this.getAllAccounts().pipe(
-      map((accounts) =>
-        accounts.reduce(
-          (fullBalance, account) =>
-            account.currency.id === this.currencyService.getCurrentCurrency()
-              ? fullBalance + account.value
-              : fullBalance +
-                Math.round(account.value / this.currencyExchangeService.getCurrentExchangeRate()[account.currency.id]),
-          0
-        )
+    return this.store.select(
+      AccountsSelectors.fullBalanceSelector(
+        this.currencyService.getCurrentCurrency(),
+        this.currencyExchangeService.getCurrentExchangeRate()
       )
     );
   }
@@ -112,9 +106,7 @@ export class AccountsFacadeService {
   }
 
   isAccountRemoving(categoryId: string): Observable<boolean> {
-    return this.store
-      .select(AccountsSelectors.selectAccountsRemovingIds)
-      .pipe(map((removingAccountsIds) => removingAccountsIds.includes(categoryId)));
+    return this.store.select(AccountsSelectors.isAccountRemovingSelector(categoryId));
   }
 
   getAccountManagementInProgress(): Observable<boolean> {

@@ -98,12 +98,7 @@ export class AccountsEffects {
 
   resetCategoryManagementProp$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(
-        AccountsActions.accountAdded,
-        AccountsActions.addAccountFail,
-        AccountsActions.accountRemoved,
-        AccountsActions.removeAccountFail
-      ),
+      ofType(AccountsActions.accountAdded, AccountsActions.accountRemoved),
       delay(1000),
       map(() => AccountsActions.resetAccountManagementProp())
     )
@@ -111,7 +106,7 @@ export class AccountsEffects {
 
   resetAccountValueEditProp$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AccountsActions.accountValueEdited, AccountsActions.editAccountValueFail),
+      ofType(AccountsActions.accountValueEdited),
       delay(1000),
       map(() => AccountsActions.resetAccountValueEditProp())
     )

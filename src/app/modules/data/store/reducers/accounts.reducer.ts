@@ -7,7 +7,6 @@ export interface AccountsState {
   accounts: EntityState<Account>;
   accountValueEdit: {
     success: boolean;
-    error: boolean;
     inProgress: boolean;
   };
   accountManagement: {
@@ -29,7 +28,6 @@ const initialState: AccountsState = {
   accounts: accountEntityAdapter.getInitialState({}),
   accountValueEdit: {
     success: false,
-    error: false,
     inProgress: false,
   },
   accountManagement: {
@@ -111,7 +109,6 @@ const adapterReducer = createReducer(
     ...state,
     accountValueEdit: {
       inProgress: true,
-      error: false,
       success: false,
     },
   })),
@@ -124,7 +121,6 @@ const adapterReducer = createReducer(
     ),
     accountValueEdit: {
       inProgress: false,
-      error: false,
       success: true,
     },
   })),
@@ -133,7 +129,6 @@ const adapterReducer = createReducer(
     ...state,
     accountValueEdit: {
       inProgress: false,
-      error: true,
       success: false,
     },
   })),
@@ -142,7 +137,6 @@ const adapterReducer = createReducer(
     ...state,
     accountValueEdit: {
       inProgress: false,
-      error: false,
       success: false,
     },
   })),

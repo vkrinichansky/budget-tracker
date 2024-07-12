@@ -1,0 +1,9 @@
+::ng-deep {
+  @media (max-width: 480px) {
+    .accounts-list-modal {
+      .mat-mdc-dialog-content {
+        max-height: 100% !important;
+      }
+    }
+  }
+}

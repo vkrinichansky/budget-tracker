@@ -4,14 +4,11 @@ import { Observable, firstValueFrom, map } from 'rxjs';
 import { ActivityLogActions, ActivityLogSelectors } from '../../store';
 import {
   ActivityLog,
-  ActivityLogGroupedByDate,
+  ActivityLogGroupedByDay,
   CategoryValueChangeRecord,
-  ActivityLogGroupedByDateDictionary,
   ActivityLogRecordType,
   ActivityLogRecordUnitedType,
-  Category,
   BudgetType,
-  Account,
 } from '../../models';
 import { Dictionary } from '@ngrx/entity';
 import { CategoriesFacadeService } from '../categories-facade/categories-facade.service';
@@ -37,41 +34,13 @@ export class ActivityLogFacadeService {
   }
 
   getActivityLogTypes(): Observable<ActivityLogRecordType[]> {
-    return this.getActivityLog().pipe(
-      map((activityLog) => [
-        ...new Set(activityLog.filter((record) => isPreviousMonth(record.date)).map((record) => record.recordType)),
-      ])
-    );
+    return this.store.select(ActivityLogSelectors.activityLogTypesSelector);
   }
 
-  getActivityLogGroupedByDays(): Observable<ActivityLogGroupedByDate[]> {
-    return this.getActivityLog().pipe(
-      map((activityLog) => this.getActivityLogByDaysDictionary(activityLog)),
-      map((activityLogDictionary) => {
-        return Object.keys(activityLogDictionary).map((dateKey) => {
-          const allRecords = activityLogDictionary[dateKey].sort(
-            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-          );
+  getActivityLogGroupedByDays(): Observable<ActivityLogGroupedByDay[]> {
+    const language = this.languageService.getCurrentLanguage();
 
-          const categoryValueChangeRecords: CategoryValueChangeRecord[] =
-            this.filterOnlyCategoryValueChangeRecords(allRecords);
-
-          const incomeCategoryValueChangeRecordsSum: number = categoryValueChangeRecords
-            .filter((record) => record.budgetType === BudgetType.Income)
-            .reduce((sum, record) => sum + record.value, 0);
-
-          const expenseCategoryValueChangeRecordsSum: number = categoryValueChangeRecords
-            .filter((record) => record.budgetType === BudgetType.Expense)
-            .reduce((sum, record) => sum + record.value, 0);
-
-          return {
-            date: dateKey,
-            records: allRecords,
-            sumOfCategoryValueChangeRecords: incomeCategoryValueChangeRecordsSum - expenseCategoryValueChangeRecordsSum,
-          };
-        });
-      })
-    );
+    return this.store.select(ActivityLogSelectors.activityLogGroupedByDaysSelector(language));
   }
 
   getPreviousMonthsRecords(): Observable<ActivityLog> {
@@ -85,9 +54,7 @@ export class ActivityLogFacadeService {
   }
 
   isActivityLogRecordRemoving(recordId: string): Observable<boolean> {
-    return this.store
-      .select(ActivityLogSelectors.removingRecordsIdsSelector)
-      .pipe(map((removingRecordsIds) => removingRecordsIds.includes(recordId)));
+    return this.store.select(ActivityLogSelectors.isActivityLogRecordRemovingSelector(recordId));
   }
 
   isBulkRecordsRemovingInProgress(): Observable<boolean> {
@@ -106,91 +73,40 @@ export class ActivityLogFacadeService {
     const category = structuredClone(await firstValueFrom(this.categoriesFacade.getCategoryById(record.categoryId)));
     const account = structuredClone(await firstValueFrom(this.accountsFacade.getAccountById(record.accountId)));
 
-    let updatedCategory: Category;
-    let updatedAccount: Account;
+    const updatedCategoryValue = category.value - record.value < 0 ? 0 : category.value - record.value;
 
-    if (category.value - record.value < 0) {
-      updatedCategory = {
-        ...category,
-        value: 0,
-      };
-    } else {
-      updatedCategory = {
-        ...category,
-        value: category.value - record.value,
-      };
-    }
+    let updatedAccountValue: number = null;
 
     if (account) {
       switch (record.budgetType) {
         case BudgetType.Income:
-          if (account.value - record.value < 0) {
-            updatedAccount = {
-              ...account,
-              value: 0,
-            };
-          } else {
-            updatedAccount = {
-              ...account,
-              value: account.value - record.value,
-            };
-          }
+          updatedAccountValue = account.value - record.value < 0 ? 0 : account.value - record.value;
 
           break;
 
         case BudgetType.Expense:
-          updatedAccount = {
-            ...account,
-            value: account.value + record.value,
-          };
+          updatedAccountValue = account.value + record.value;
 
           break;
       }
     }
+
     this.store.dispatch(
       ActivityLogActions.removeCategoryValueChangeRecord({
         record,
-        updatedAccount,
-        updatedCategory,
+        updatedAccountId: record.accountId,
+        updatedAccountValue,
+        updatedCategoryId: record.categoryId,
+        updatedCategoryValue,
       })
     );
   }
 
   async removeRecordsBySelectedTypes(selectedTypes: ActivityLogRecordType[]): Promise<void> {
     const records = await firstValueFrom(
-      this.getActivityLog().pipe(
-        map((records) =>
-          records.filter((record) => selectedTypes.includes(record.recordType) && isPreviousMonth(record.date))
-        )
-      )
+      this.store.select(ActivityLogSelectors.recordsWithSelectedTypesSelector(selectedTypes))
     );
 
     this.store.dispatch(ActivityLogActions.bulkRecordsRemove({ records }));
-  }
-
-  private getActivityLogByDaysDictionary(activityLog: ActivityLog): ActivityLogGroupedByDateDictionary {
-    const language = this.languageService.getCurrentLanguage();
-
-    return activityLog
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .reduce((group, record) => {
-        const date = new Date(record.date);
-        const dateKey = date.toLocaleDateString(language, {
-          weekday: 'short',
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-        });
-
-        group[dateKey] = group[dateKey] ?? [];
-        group[dateKey].push(record);
-        return group;
-      }, {} as ActivityLogGroupedByDateDictionary);
-  }
-
-  private filterOnlyCategoryValueChangeRecords(activityLog: ActivityLog): CategoryValueChangeRecord[] {
-    return activityLog
-      .filter((activityLogRecord) => activityLogRecord.recordType === ActivityLogRecordType.CategoryValueChange)
-      .map((record) => record as CategoryValueChangeRecord);
   }
 }

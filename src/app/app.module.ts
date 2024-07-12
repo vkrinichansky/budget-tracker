@@ -16,7 +16,7 @@ import { AuthCoreModule } from './modules/auth/auth.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { CustomErrorStateMatcher, UtilsModule } from '@budget-tracker/utils';
+import { CustomErrorStateMatcher, isMobileWidth, UtilsModule } from '@budget-tracker/utils';
 import { Chart } from 'chart.js';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { ServiceWorkerModule } from '@angular/service-worker';

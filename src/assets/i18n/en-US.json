@@ -54,7 +54,8 @@
     },
 
     "accountsListModal": {
-      "title": "Accounts ({{ accountsAmount }})"
+      "title": "Accounts ({{ accountsAmount }})",
+      "closeButton": "Close"
     },
 
     "activityLog": {

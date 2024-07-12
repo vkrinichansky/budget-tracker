@@ -7,7 +7,7 @@
   <form class="flex flex-col" [formGroup]="form">
     <mat-form-field>
       <mat-label>{{ account.name | translate }}</mat-label>
-      <input #valueInput matInput [formControlName]="formFields.Value" [type]="'number'" />
+      <input #valueInput matInput [formControlName]="formFields.Value" />
 
       @if (hasRequiredError) {
         <mat-error>{{ 'formErrors.required' | translate }}</mat-error>
@@ -19,6 +19,10 @@
 
       @if (hasEditError) {
         <mat-error>{{ 'formErrors.editError' | translate }}</mat-error>
+      }
+
+      @if (hasNumberPatternError) {
+        <mat-error>{{ 'formErrors.numberPattern' | translate }}</mat-error>
       }
     </mat-form-field>
 
@@ -38,7 +42,7 @@
     [buttonSizeX]="'big'"
     [colorScheme]="'charcoal'"
     [text]="buildTranslationKey('editButton') | translate"
-    [disabled]="!isFormValid"
+    [disabled]="!isFormValid || initialValue === form.controls[formFields.Value].value"
     [loading]="(loading$ | async) || (success$ | async)"
     (click)="submitAction()"
   ></app-button>

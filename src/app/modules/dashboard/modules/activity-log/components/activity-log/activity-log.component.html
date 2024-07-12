@@ -11,7 +11,7 @@
         *ngVar="data.isBulkRecordsRemovingInProgress || data.shouldDisableRemoveButton as disabled"
         customTooltip
         [tooltipText]="buildTranslationKey(disabled ? 'removeMenuDisabledTooltip' : 'removeMenuTooltip') | translate"
-        [position]="'left'"
+        [position]="['left']"
         [disabled]="disabled"
       ></app-activity-log-remove-menu>
     }

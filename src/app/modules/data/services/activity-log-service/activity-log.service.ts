@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { arrayRemove, collection, doc, DocumentReference, Firestore, updateDoc } from '@angular/fire/firestore';
-import { Account, ActivityLogRecordUnitedType, Category, CategoryValueChangeRecord } from '../../models';
+import { ActivityLogRecordUnitedType, CategoryValueChangeRecord } from '../../models';
 import { Auth } from '@angular/fire/auth';
 
 const ACTIVITY_LOG_PATH = 'budget.activityLog';
@@ -22,20 +22,22 @@ export class ActivityLogService {
 
   removeCategoryValueChangeRecord(
     record: CategoryValueChangeRecord,
-    updatedAccount: Account,
-    updatedCategory: Category
+    updatedAccountId: string,
+    updatedAccountValue: number,
+    updatedCategoryId: string,
+    updatedCategoryValue: number
   ): Promise<void> {
-    if (updatedAccount) {
+    if (updatedAccountValue !== null) {
       return updateDoc(this.getDocRef(), {
         [`${ACTIVITY_LOG_PATH}`]: arrayRemove(record),
-        [`${CATEGORIES_PATH}.${updatedCategory.id}`]: updatedCategory,
-        [`${ACCOUNTS_PATH}.${updatedAccount.id}`]: updatedAccount,
+        [`${CATEGORIES_PATH}.${updatedCategoryId}.value`]: updatedCategoryValue,
+        [`${ACCOUNTS_PATH}.${updatedAccountId}.value`]: updatedAccountValue,
       });
     }
 
     return updateDoc(this.getDocRef(), {
       [`${ACTIVITY_LOG_PATH}`]: arrayRemove(record),
-      [`${CATEGORIES_PATH}.${updatedCategory.id}`]: updatedCategory,
+      [`${CATEGORIES_PATH}.${updatedCategoryId}.value`]: updatedCategoryValue,
     });
   }
 

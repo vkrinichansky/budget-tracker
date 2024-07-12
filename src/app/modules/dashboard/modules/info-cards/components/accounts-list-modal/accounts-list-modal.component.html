@@ -1,7 +1,8 @@
 <app-base-modal
   *ngVar="accounts$ | async as accounts"
-  [titleTranslationKey]="buildTranslationKey('title')"
+  [titleTranslationKey]="'dashboard.accountsListModal.title'"
   [titleTranslationParams]="{ accountsAmount: accounts?.length }"
+  [footerTemplate]="footer"
 >
   <div class="flex flex-col gap-4">
     @for (account of accounts; track account.id) {
@@ -9,3 +10,13 @@
     }
   </div>
 </app-base-modal>
+
+<ng-template #footer>
+  <app-button
+    [colorScheme]="'charcoal'"
+    [text]="'dashboard.accountsListModal.closeButton' | translate"
+    [buttonSizeX]="'px100'"
+    (click)="closeModal()"
+  >
+  </app-button>
+</ng-template>
