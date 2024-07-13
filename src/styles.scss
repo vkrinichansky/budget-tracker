@@ -61,6 +61,10 @@ body {
       @apply hidden;
     }
   }
+
+  .mdc-dialog__surface {
+    @apply rounded-md #{!important};
+  }
 }
 
 .mat-mdc-dialog-actions {

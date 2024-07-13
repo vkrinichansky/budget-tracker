@@ -1,0 +1,15 @@
+:host {
+  &.use-current-color {
+    & > app-button {
+      color: currentColor !important;
+
+      &:hover {
+        background-color: color-mix(in srgb, currentColor 15%, transparent);
+      }
+    }
+
+    & > app-button.transparent-dark svg-icon {
+      color: currentColor !important;
+    }
+  }
+}

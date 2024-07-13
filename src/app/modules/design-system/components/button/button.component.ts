@@ -15,7 +15,7 @@ export class ButtonComponent {
     ${this.align}
     ${this.buttonSizeClasses}
     ${this.activeStateClass}
-    ${this.colorScheme}`;
+    ${this.colorSchemeClass}`;
   }
 
   private get buttonSizeClasses(): string {
@@ -24,6 +24,10 @@ export class ButtonComponent {
 
   private get activeStateClass(): string {
     return `${this.active ? 'active-' + this.activeColorScheme : ''}`;
+  }
+
+  private get colorSchemeClass(): string {
+    return `${this.colorScheme ? this.colorScheme : ''}`;
   }
 
   @HostBinding('class.loading')
@@ -53,16 +57,16 @@ export class ButtonComponent {
   buttonSizeY: ButtonSize = 'medium';
 
   @Input()
-  text = '';
-
-  @Input()
-  iconName: string;
-
-  @Input()
   colorScheme: ColorScheme = 'transparent-dark';
 
   @Input()
   align: 'center' | 'start' = 'center';
+
+  @Input()
+  text = '';
+
+  @Input()
+  iconName: string;
 
   get loaderColorMode(): 'dark' | 'light' {
     switch (this.colorScheme) {
