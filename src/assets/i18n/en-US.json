@@ -208,7 +208,8 @@
     "dataResetSnackbar": "Categories were reset!",
     "accountValueEdited": "Account value was edited successfully!",
     "accountAddedSnackbar": "Account was added successfully!",
-    "accountRemovedSnackbar": "Account was removed successfully!"
+    "accountRemovedSnackbar": "Account was removed successfully!",
+    "accountOrderChangedSnackbar": "Accounts were sorted successfully!"
   },
 
   "formErrors": {

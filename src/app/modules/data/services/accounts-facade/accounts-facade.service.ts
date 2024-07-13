@@ -61,7 +61,13 @@ export class AccountsFacadeService {
       recordType: ActivityLogRecordType.AccountValueEdit,
     };
 
-    this.store.dispatch(AccountsActions.editAccountValue({ accountId, newValue, activityLogRecord }));
+    this.store.dispatch(
+      AccountsActions.editAccountValue({
+        accountId,
+        newValue,
+        activityLogRecord,
+      })
+    );
   }
 
   getEditAccountValueInProgress(): Observable<boolean> {
@@ -72,7 +78,7 @@ export class AccountsFacadeService {
     return this.store.select(AccountsSelectors.editAccountValueSucceedSelector);
   }
 
-  addAccount(account: Account): void {
+  async addAccount(account: Account): Promise<void> {
     const addAccountRecord: AccountManagementRecord = {
       id: uuid(),
       actionType: EntityManagementActionType.Add,
@@ -82,7 +88,27 @@ export class AccountsFacadeService {
       recordType: ActivityLogRecordType.AccountManagement,
     };
 
-    this.store.dispatch(AccountsActions.addAccount({ account, activityLogRecord: addAccountRecord }));
+    const updatedAccountsOrder: Record<string, number> = await firstValueFrom(
+      this.getAllAccounts().pipe(
+        map((accounts) =>
+          accounts.reduce(
+            (result, account) => ({
+              ...result,
+              [account.id]: account.order + 1,
+            }),
+            {} as Record<string, number>
+          )
+        )
+      )
+    );
+
+    this.store.dispatch(
+      AccountsActions.addAccount({
+        account,
+        activityLogRecord: addAccountRecord,
+        updatedAccountsOrder,
+      })
+    );
   }
 
   async removeAccount(accountId: string): Promise<void> {
@@ -97,12 +123,31 @@ export class AccountsFacadeService {
       recordType: ActivityLogRecordType.AccountManagement,
     };
 
+    const updatedAccountsOrder = await firstValueFrom(
+      this.getAllAccounts().pipe(
+        map((accounts) =>
+          accounts.slice(account.order + 1).reduce(
+            (result, account) => ({
+              ...result,
+              [account.id]: account.order - 1,
+            }),
+            {} as Record<string, number>
+          )
+        )
+      )
+    );
+
     this.store.dispatch(
       AccountsActions.removeAccount({
         accountId,
         activityLogRecord: removeAccountRecord,
+        updatedAccountsOrder,
       })
     );
+  }
+
+  bulkAccountChangeOrder(updatedAccountsOrder: Record<string, number>): void {
+    this.store.dispatch(AccountsActions.bulkAccountChangeOrder({ updatedAccountsOrder }));
   }
 
   isAccountRemoving(categoryId: string): Observable<boolean> {
@@ -115,5 +160,9 @@ export class AccountsFacadeService {
 
   getAccountManagementSuccess(): Observable<boolean> {
     return this.store.select(AccountsSelectors.accountManagementSuccessSelector);
+  }
+
+  getOrderChangingInProgress(): Observable<boolean> {
+    return this.store.select(AccountsSelectors.orderChangingInProgressSelector);
   }
 }

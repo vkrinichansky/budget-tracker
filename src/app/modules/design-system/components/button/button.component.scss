@@ -13,6 +13,26 @@
     }
   }
 
+  &.use-current-color {
+    color: currentColor;
+
+    svg-icon {
+      color: currentColor;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: color-mix(in srgb, currentColor 15%, transparent);
+      }
+    }
+
+    @media (hover: none) {
+      &:active {
+        background-color: color-mix(in srgb, currentColor 15%, transparent);
+      }
+    }
+  }
+
   // STATES
   &.loading,
   &.disabled,

@@ -4,7 +4,6 @@ import { ButtonSize, ColorScheme, MenuAction } from '../../models';
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrl: './menu.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent {

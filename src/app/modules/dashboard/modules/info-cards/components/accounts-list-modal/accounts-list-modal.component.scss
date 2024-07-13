@@ -1,9 +1,15 @@
+:host {
+  .cdk-drag-placeholder {
+    opacity: 0;
+  }
+
+  .container.cdk-drop-list-dragging .container-item:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
 ::ng-deep {
-  @media (max-width: 480px) {
-    .accounts-list-modal {
-      .mat-mdc-dialog-content {
-        max-height: 100% !important;
-      }
-    }
+  app-account-card.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }
 }

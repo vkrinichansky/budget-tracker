@@ -1,5 +1,10 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
-import { Account, AccountsFacadeService, CurrencyExchangeService, CurrencyService } from '@budget-tracker/data';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import {
+  Account,
+  AccountsFacadeService,
+  CurrencyExchangeService,
+  CurrencyService,
+} from '@budget-tracker/data';
 import { AccountsValueEditModalService } from '../../services';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
 import { Observable } from 'rxjs';
@@ -11,9 +16,6 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountCardComponent implements OnInit {
-  @HostBinding('class')
-  private readonly classes = 'block';
-
   readonly menuActions: MenuAction[] = [
     {
       icon: 'edit',
@@ -41,6 +43,9 @@ export class AccountCardComponent implements OnInit {
   @Input()
   account: Account;
 
+  @Input()
+  shouldDisableDragButton: boolean;
+
   isAccountRemoving$: Observable<boolean>;
 
   get primaryText(): string {
@@ -53,7 +58,8 @@ export class AccountCardComponent implements OnInit {
 
   get accountValueInBaseCurrency(): string {
     return `${Math.round(
-      this.account.value / this.currencyExchangeService.getCurrentExchangeRate()[this.account.currency.id]
+      this.account.value /
+        this.currencyExchangeService.getCurrentExchangeRate()[this.account.currency.id]
     ).toString()} ${this.currencyService.getCurrencySymbol()}`;
   }
 

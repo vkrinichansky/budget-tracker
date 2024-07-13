@@ -30,6 +30,10 @@ export class ButtonComponent {
     return `${this.colorScheme ? this.colorScheme : ''}`;
   }
 
+  @HostBinding('class.use-current-color')
+  @Input()
+  shouldUseCurrentColor: boolean;
+
   @HostBinding('class.loading')
   @Input()
   loading: boolean;

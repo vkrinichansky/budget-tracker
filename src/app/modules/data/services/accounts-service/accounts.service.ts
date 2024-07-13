@@ -21,24 +21,59 @@ export class AccountsService {
     private afAuth: Auth
   ) {}
 
-  addAccount(account: Account, activityLogRecord: AccountManagementRecord): Promise<void> {
+  addAccount(
+    account: Account,
+    activityLogRecord: AccountManagementRecord,
+    updatedAccountsOrder: Record<string, number>
+  ): Promise<void> {
+    const payload = Object.entries(updatedAccountsOrder).reduce(
+      (result, entry) => ({ ...result, [`${ACCOUNTS_PATH}.${entry[0]}.order`]: entry[1] }),
+      {}
+    );
+
     return updateDoc(this.getDocRef(), {
       [`${ACCOUNTS_PATH}.${account.id}`]: account,
       [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
+      ...payload,
     });
   }
 
-  async removeAccount(accountId: string, activityLogRecord: AccountManagementRecord): Promise<void> {
+  async removeAccount(
+    accountId: string,
+    activityLogRecord: AccountManagementRecord,
+    updatedAccountsOrder: Record<string, number>
+  ): Promise<void> {
+    const payload = Object.entries(updatedAccountsOrder).reduce(
+      (result, entry) => ({ ...result, [`${ACCOUNTS_PATH}.${entry[0]}.order`]: entry[1] }),
+      {}
+    );
+
     return updateDoc(this.getDocRef(), {
       [`${ACCOUNTS_PATH}.${accountId}`]: deleteField(),
       [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
+      ...payload,
     });
   }
 
-  editAccountValue(accountId: string, newValue: number, activityLogRecord: AccountValueEditRecord): Promise<void> {
+  editAccountValue(
+    accountId: string,
+    newValue: number,
+    activityLogRecord: AccountValueEditRecord
+  ): Promise<void> {
     return updateDoc(this.getDocRef(), {
       [`${ACCOUNTS_PATH}.${accountId}.value`]: newValue,
       [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
+    });
+  }
+
+  bulkAccountChangeOrder(updatedAccountsOrder: Record<string, number>): Promise<void> {
+    const payload = Object.entries(updatedAccountsOrder).reduce(
+      (result, entry) => ({ ...result, [`${ACCOUNTS_PATH}.${entry[0]}.order`]: entry[1] }),
+      {}
+    );
+
+    return updateDoc(this.getDocRef(), {
+      ...payload,
     });
   }
 

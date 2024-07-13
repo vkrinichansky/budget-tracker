@@ -71,6 +71,10 @@ export class SnackbarHandlerService {
     this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.accountValueEdited'));
   }
 
+  showAccountOrderChangedSnackbar(): void {
+    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.accountOrderChangedSnackbar'));
+  }
+
   private openSnackBarWithCloseDelay(
     message: string,
     action: string = this.translateService.instant('snackbars.defaultOkButtonText')

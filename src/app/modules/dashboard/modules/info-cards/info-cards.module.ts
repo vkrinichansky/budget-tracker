@@ -18,6 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataModule } from '@budget-tracker/data';
 import { UtilsModule } from '@budget-tracker/utils';
 import { MatInputModule } from '@angular/material/input';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { MatInputModule } from '@angular/material/input';
     MatInputModule,
     DataModule,
     UtilsModule,
+    DragDropModule,
   ],
   exports: [
     IncomeInfoCardComponent,

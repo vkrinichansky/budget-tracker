@@ -116,6 +116,7 @@ export class AddAccountModalComponent implements OnInit {
       bgColor: this.form.controls[FormFields.AccountBgColor].value,
       textColor: this.form.controls[FormFields.AccountTextColor].value,
       currency: this.form.controls[FormFields.AccountCurrency].value,
+      order: 0,
     };
 
     this.accountsFacade.addAccount(account);

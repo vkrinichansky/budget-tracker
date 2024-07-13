@@ -208,7 +208,8 @@
     "dataResetSnackbar": "Категорії було скинуто!",
     "accountValueEdited": "Значення рахунку було змінено успішно!",
     "accountAddedSnackbar": "Рахунок було додано успішно!",
-    "accountRemovedSnackbar": "Рахунок було видалено успішно!"
+    "accountRemovedSnackbar": "Рахунок було видалено успішно!",
+    "accountOrderChangedSnackbar": "Рахунки було відсортовано успішно!"
   },
 
   "formErrors": {

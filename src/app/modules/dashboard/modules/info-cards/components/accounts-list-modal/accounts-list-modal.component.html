@@ -4,9 +4,28 @@
   [titleTranslationParams]="{ accountsAmount: accounts?.length }"
   [footerTemplate]="footer"
 >
-  <div class="flex flex-col gap-4">
+  <div
+    cdkDropList
+    cdkScrollable
+    [cdkDropListLockAxis]="'y'"
+    [cdkDropListAutoScrollDisabled]="false"
+    [cdkDropListAutoScrollStep]="10"
+    [cdkDropListDisabled]="accounts?.length === 1"
+    class="container flex flex-col gap-4 relative"
+    (cdkDropListDropped)="orderChanged($event)"
+  >
     @for (account of accounts; track account.id) {
-      <app-account-card [account]="account"></app-account-card>
+      <app-account-card
+        cdkDrag
+        cdkDragBoundary=".container"
+        class="container-item"
+        [account]="account"
+        [shouldDisableDragButton]="accounts?.length === 1"
+      ></app-account-card>
+    }
+
+    @if (changeOrderInProgress$ | async) {
+      <app-fullsize-loader [colorMode]="'light'"></app-fullsize-loader>
     }
   </div>
 </app-base-modal>

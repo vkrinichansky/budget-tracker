@@ -7,7 +7,7 @@ const accountsStateSelector = createSelector(dataFeatureSelector, (dataFeatureSt
 const allAccountsDictionarySelector = createSelector(accountsStateSelector, (state) => state.accounts.entities);
 
 const allAccountsSelector = createSelector(allAccountsDictionarySelector, (accountsDictionary) =>
-  Object.values(accountsDictionary)
+  Object.values(accountsDictionary).sort((a, b) => a.order - b.order)
 );
 
 const accountByIdSelector = (accountId: string) =>
@@ -47,6 +47,8 @@ const fullBalanceSelector = (currency: CurrenciesEnum, currencyExchangeRate: Cur
     )
   );
 
+const orderChangingInProgressSelector = createSelector(accountsStateSelector, (state) => state.orderChangingInProgress);
+
 export const AccountsSelectors = {
   accountsStateSelector,
   allAccountsSelector,
@@ -57,4 +59,5 @@ export const AccountsSelectors = {
   accountManagementSuccessSelector,
   isAccountRemovingSelector,
   fullBalanceSelector,
+  orderChangingInProgressSelector,
 };
