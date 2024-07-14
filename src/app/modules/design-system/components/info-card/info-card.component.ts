@@ -12,13 +12,15 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 export class InfoCardComponent {
   @HostBinding('class')
   private get classes(): string {
-    return this.shouldUseCssStyles ? '' : this.colorScheme;
+    return this.shouldUseCustomColors ? '' : this.colorScheme;
   }
 
   @HostBinding('style')
   private get myStyle(): SafeStyle {
-    if (this.shouldUseCssStyles) {
-      return this.sanitizer.bypassSecurityTrustStyle(`background-color: ${this.hexBgColor}`);
+    if (this.shouldUseCustomColors) {
+      return this.sanitizer.bypassSecurityTrustStyle(
+        `background-color: ${this.hexBgColor}; color: ${this.hexTextColor}`
+      );
     }
 
     return '';
@@ -26,6 +28,18 @@ export class InfoCardComponent {
 
   @Input()
   colorScheme: BgColorScheme = 'white';
+
+  @Input()
+  iconBgClass = 'bg-white';
+
+  @Input()
+  iconColorClass = 'text-charcoal';
+
+  @Input()
+  hexBgColor = '';
+
+  @Input()
+  hexTextColor = '';
 
   @Input()
   primaryText: string | number;
@@ -46,22 +60,10 @@ export class InfoCardComponent {
   iconName: string;
 
   @Input()
-  iconBgClass = 'bg-white';
-
-  @Input()
-  iconColorClass = 'text-charcoal';
-
-  @Input()
   shouldDisableMenu: boolean;
 
   @Input()
-  shouldUseCssStyles: boolean;
-
-  @Input()
-  hexBgColor = '';
-
-  @Input()
-  hexTextColor = '';
+  shouldUseCustomColors: boolean;
 
   @Input()
   tooltip: TemplateRef<unknown> | string;
@@ -73,7 +75,7 @@ export class InfoCardComponent {
   menuLoading: boolean;
 
   get iconClasses(): string {
-    return this.shouldUseCssStyles ? '' : `${this.iconBgClass} ${this.iconColorClass}`;
+    return this.shouldUseCustomColors ? '' : `${this.iconBgClass} ${this.iconColorClass}`;
   }
 
   get isMobile(): boolean {

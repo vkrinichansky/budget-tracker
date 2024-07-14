@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { ActivityLogSelectors } from '../selectors';
 import { ActivityLogService } from '../../services';
 import { SnackbarHandlerService } from '@budget-tracker/utils';
+import { Account, Category } from '../../models';
 
 @Injectable()
 export class ActivityLogEffects {
@@ -53,20 +54,28 @@ export class ActivityLogEffects {
         from(
           this.activityLogService.removeCategoryValueChangeRecord(
             action.record,
-            action.updatedAccount,
-            action.updatedCategory
+            action.updatedAccountId,
+            action.updatedAccountValue,
+            action.updatedCategoryId,
+            action.updatedCategoryValue
           )
         ).pipe(
           switchMap(() => {
             this.snackbarHandler.showActivityLogRecordRemovedSnackbar();
 
-            if (action.updatedAccount) {
+            const updatedCategory = { id: action.updatedCategoryId, value: action.updatedCategoryValue } as Category;
+
+            if (action.updatedAccountValue !== null) {
               return of(
                 ActivityLogActions.activityLogRecordRemoved({
                   recordId: action.record.id,
                 }),
-                CategoriesActions.categoryValueChanged({ updatedCategory: action.updatedCategory }),
-                AccountsActions.accountValueEdited({ updatedAccount: action.updatedAccount })
+                CategoriesActions.categoryValueChanged({
+                  updatedCategory,
+                }),
+                AccountsActions.accountValueEdited({
+                  updatedAccount: { id: action.updatedAccountId, value: action.updatedAccountValue } as Account,
+                })
               );
             }
 
@@ -74,7 +83,7 @@ export class ActivityLogEffects {
               ActivityLogActions.activityLogRecordRemoved({
                 recordId: action.record.id,
               }),
-              CategoriesActions.categoryValueChanged({ updatedCategory: action.updatedCategory })
+              CategoriesActions.categoryValueChanged({ updatedCategory })
             );
           }),
           catchError((error) => {

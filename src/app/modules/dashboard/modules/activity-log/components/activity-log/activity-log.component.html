@@ -1,0 +1,87 @@
+<ng-container
+  *ngVar="{
+    isEmpty: isEmpty$ | async,
+    isBulkRecordsRemovingInProgress: isBulkRecordsRemovingInProgress$ | async,
+    shouldDisableRemoveButton: shouldDisableRemoveButton$ | async
+  } as data"
+>
+  <app-page-header class="text-xl bg-transparent" [title]="buildTranslationKey('title') | translate">
+    @if (!data.isEmpty) {
+      <app-activity-log-remove-menu
+        *ngVar="data.isBulkRecordsRemovingInProgress || data.shouldDisableRemoveButton as disabled"
+        customTooltip
+        [tooltipText]="buildTranslationKey(disabled ? 'removeMenuDisabledTooltip' : 'removeMenuTooltip') | translate"
+        [position]="['left']"
+        [disabled]="disabled"
+      ></app-activity-log-remove-menu>
+    }
+  </app-page-header>
+
+  <div
+    class="flex flex-col overflow-hidden h-full w-full relative"
+    [class.justify-center]="data.isEmpty"
+    [class.items-center]="data.isEmpty"
+  >
+    @if (data.isBulkRecordsRemovingInProgress) {
+      <app-fullsize-loader></app-fullsize-loader>
+    }
+
+    @if (data.isEmpty) {
+      <span class="font-main font-bold text-charcoal text-lg text-center">
+        {{ buildTranslationKey('emptyStateText') | translate }}
+      </span>
+    }
+
+    @if (!data.isEmpty) {
+      <cdk-virtual-scroll-viewport itemSize="66" class="h-full w-full !overflow-x-hidden">
+        <div
+          *cdkVirtualFor="let item of itemsToRender$ | async; trackBy: trackBy.bind(this); templateCacheSize: 0"
+          class="h-16.5 flex items-center w-full"
+        >
+          <ng-container
+            *ngTemplateOutlet="isItemDateObject(item) ? dateItem : recordItem; context: { item: item }"
+          ></ng-container>
+        </div>
+      </cdk-virtual-scroll-viewport>
+    }
+  </div>
+</ng-container>
+
+<ng-template #dateItem let-item="item">
+  <div class="flex justify-between items-center h-full w-full font-main text-grey text-base bg-white font-bold">
+    <span>
+      {{ item.date }}
+    </span>
+
+    <span [class.text-dark-green]="item.sum > 0" [class.text-red]="item.sum < 0">
+      @if (item.sum > 0) {
+        &plus;
+      }
+      {{ item.sum | currencySymbol }}
+    </span>
+  </div>
+</ng-template>
+
+<ng-template #recordItem let-item="item">
+  @switch (item.recordType) {
+    @case (recordType.AccountManagement) {
+      <app-account-management-record class="w-full" [record]="item"></app-account-management-record>
+    }
+
+    @case (recordType.AccountValueEdit) {
+      <app-account-value-edit-record class="w-full" [record]="item"></app-account-value-edit-record>
+    }
+
+    @case (recordType.CategoryManagement) {
+      <app-category-management-record class="w-full" [record]="item"></app-category-management-record>
+    }
+
+    @case (recordType.CategoryValueChange) {
+      <app-category-value-change-record class="w-full" [record]="item"></app-category-value-change-record>
+    }
+
+    @case (recordType.CategoriesReset) {
+      <app-categories-reset-record class="w-full" [record]="item"></app-categories-reset-record>
+    }
+  }
+</ng-template>

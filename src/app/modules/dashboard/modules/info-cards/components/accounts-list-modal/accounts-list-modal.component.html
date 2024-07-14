@@ -1,0 +1,41 @@
+<app-base-modal
+  *ngVar="accounts$ | async as accounts"
+  [titleTranslationKey]="'dashboard.accountsListModal.title'"
+  [titleTranslationParams]="{ accountsAmount: accounts?.length }"
+  [footerTemplate]="footer"
+>
+  <div
+    cdkDropList
+    cdkScrollable
+    [cdkDropListLockAxis]="'y'"
+    [cdkDropListAutoScrollDisabled]="false"
+    [cdkDropListAutoScrollStep]="10"
+    [cdkDropListDisabled]="accounts?.length === 1"
+    class="container flex flex-col gap-4 relative"
+    (cdkDropListDropped)="orderChanged($event)"
+  >
+    @for (account of accounts; track account.id) {
+      <app-account-card
+        cdkDrag
+        cdkDragBoundary=".container"
+        class="container-item"
+        [account]="account"
+        [shouldDisableDragButton]="accounts?.length === 1"
+      ></app-account-card>
+    }
+
+    @if (changeOrderInProgress$ | async) {
+      <app-fullsize-loader [colorMode]="'light'" [placement]="'start'"></app-fullsize-loader>
+    }
+  </div>
+</app-base-modal>
+
+<ng-template #footer>
+  <app-button
+    [colorScheme]="'charcoal'"
+    [text]="'dashboard.accountsListModal.closeButton' | translate"
+    [buttonSizeX]="'px100'"
+    (click)="closeModal()"
+  >
+  </app-button>
+</ng-template>

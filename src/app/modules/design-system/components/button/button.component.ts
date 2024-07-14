@@ -9,6 +9,31 @@ import { ButtonSize, ColorScheme } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
+  @HostBinding('class')
+  private get classes(): string {
+    return `flex rounded overflow-hidden
+    ${this.align}
+    ${this.buttonSizeClasses}
+    ${this.activeStateClass}
+    ${this.colorSchemeClass}`;
+  }
+
+  private get buttonSizeClasses(): string {
+    return `${this.buttonSizeX}-x ${this.buttonSizeY}-y`;
+  }
+
+  private get activeStateClass(): string {
+    return `${this.active ? 'active-' + this.activeColorScheme : ''}`;
+  }
+
+  private get colorSchemeClass(): string {
+    return `${this.colorScheme ? this.colorScheme : ''}`;
+  }
+
+  @HostBinding('class.use-current-color')
+  @Input()
+  shouldUseCurrentColor: boolean;
+
   @HostBinding('class.loading')
   @Input()
   loading: boolean;
@@ -22,15 +47,12 @@ export class ButtonComponent {
   @Input()
   active = false;
 
+  @HostBinding('class.mobile-click-effect')
+  @Input()
+  shouldDisplayMobileClickEffect = true;
+
   @Input()
   activeColorScheme: ColorScheme = 'green';
-
-  @HostBinding('class')
-  private get classes(): string {
-    return `flex rounded overflow-hidden ${this.buttonSizeX}-x ${this.buttonSizeY}-y ${this.colorScheme} ${
-      this.active ? 'active-' + this.activeColorScheme : ''
-    } ${this.align}`;
-  }
 
   @Input()
   buttonSizeX: ButtonSize = 'medium';
@@ -39,20 +61,16 @@ export class ButtonComponent {
   buttonSizeY: ButtonSize = 'medium';
 
   @Input()
-  text = '';
-
-  @Input()
-  iconName: string;
-
-  @Input()
   colorScheme: ColorScheme = 'transparent-dark';
 
   @Input()
   align: 'center' | 'start' = 'center';
 
-  @HostBinding('class.mobile-click-effect')
   @Input()
-  shouldDisplayMobileClickEffect = true;
+  text = '';
+
+  @Input()
+  iconName: string;
 
   get loaderColorMode(): 'dark' | 'light' {
     switch (this.colorScheme) {

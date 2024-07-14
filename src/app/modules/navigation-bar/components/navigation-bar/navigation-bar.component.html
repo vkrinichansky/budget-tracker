@@ -1,5 +1,5 @@
 <div class="nav-container">
-  <svg-icon class="logo text-white" [iconName]="'small-logo'" [size]="'big'"></svg-icon>
+  <svg-icon class="logo" [iconName]="'small-logo'" [size]="'big'"></svg-icon>
 
   <span class="dots flex gap-x-1 my-4">
     <span class="w-1 h-1 bg-white rounded-full"></span>
@@ -14,13 +14,13 @@
 
 <app-button
   customTooltip
-  [tooltipText]="buildTranslationKey('itemTooltip.logout') | translate"
-  [position]="'right'"
+  [tooltipText]="'navigationBar.itemTooltip.logout' | translate"
+  [position]="['right']"
   [tooltipBgColor]="'green'"
   [dontDisplayOnScreenWidth]="true"
   [iconName]="'logout'"
   [colorScheme]="'transparent-light'"
-  [buttonSizeY]="'small'"
-  [buttonSizeX]="'small'"
+  [buttonSizeY]="'medium'"
+  [buttonSizeX]="'medium'"
   (click)="logOut()"
 ></app-button>

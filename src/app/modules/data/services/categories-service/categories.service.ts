@@ -10,13 +10,7 @@ import {
   DocumentReference,
   deleteField,
 } from '@angular/fire/firestore';
-import {
-  Category,
-  CategoryManagementRecord,
-  CategoryValueChangeRecord,
-  CategoriesResetRecord,
-  Account,
-} from '../../models';
+import { Category, CategoryManagementRecord, CategoryValueChangeRecord, CategoriesResetRecord } from '../../models';
 
 const CATEGORIES_PATH = 'budget.categories';
 const ACTIVITY_LOG_PATH = 'budget.activityLog';
@@ -37,34 +31,37 @@ export class CategoriesService {
   }
 
   async removeCategory(
-    category: Category,
+    categoryId: string,
     activityLogRecord: CategoryManagementRecord,
     recordsToRemove: CategoryValueChangeRecord[]
   ): Promise<void> {
     await updateDoc(this.getDocRef(), {
-      [`${CATEGORIES_PATH}.${category.id}`]: deleteField(),
+      [`${CATEGORIES_PATH}.${categoryId}`]: deleteField(),
       [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
     });
-    return await updateDoc(this.getDocRef(), {
+
+    await updateDoc(this.getDocRef(), {
       [`${ACTIVITY_LOG_PATH}`]: arrayRemove(...recordsToRemove),
     });
   }
 
   changeCategoryValue(
-    updatedCategory: Category,
-    updatedAccount: Account,
+    updatedCategoryId: string,
+    updatedCategoryValue: number,
+    updatedAccountId: string,
+    updatedAccountValue: number,
     activityLogRecord: CategoryValueChangeRecord
   ): Promise<void> {
     return updateDoc(this.getDocRef(), {
-      [`${CATEGORIES_PATH}.${updatedCategory.id}.value`]: updatedCategory.value,
-      [`${ACCOUNTS_PATH}.${updatedAccount.id}.value`]: updatedAccount.value,
+      [`${CATEGORIES_PATH}.${updatedCategoryId}.value`]: updatedCategoryValue,
+      [`${ACCOUNTS_PATH}.${updatedAccountId}.value`]: updatedAccountValue,
       [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
     });
   }
 
-  resetCategories(updatedCategories: Category[], activityLogRecord: CategoriesResetRecord): Promise<void> {
-    const updatedCategoriesDictionary = updatedCategories.reduce(
-      (result, category) => ({ ...result, [`${CATEGORIES_PATH}.${category.id}`]: category }),
+  resetCategories(categoriesIdsToReset: string[], activityLogRecord: CategoriesResetRecord): Promise<void> {
+    const updatedCategoriesDictionary = categoriesIdsToReset.reduce(
+      (result, categoryId) => ({ ...result, [`${CATEGORIES_PATH}.${categoryId}.value`]: 0 }),
       {}
     );
 

@@ -7,7 +7,6 @@ export interface AccountsState {
   accounts: EntityState<Account>;
   accountValueEdit: {
     success: boolean;
-    error: boolean;
     inProgress: boolean;
   };
   accountManagement: {
@@ -15,6 +14,7 @@ export interface AccountsState {
     success: boolean;
   };
   removingAccountsIds: string[];
+  orderChangingInProgress: boolean;
 }
 
 function selectAccountId(account: Account) {
@@ -29,7 +29,6 @@ const initialState: AccountsState = {
   accounts: accountEntityAdapter.getInitialState({}),
   accountValueEdit: {
     success: false,
-    error: false,
     inProgress: false,
   },
   accountManagement: {
@@ -37,6 +36,7 @@ const initialState: AccountsState = {
     inProgress: false,
   },
   removingAccountsIds: [],
+  orderChangingInProgress: false,
 };
 
 const adapterReducer = createReducer(
@@ -54,14 +54,27 @@ const adapterReducer = createReducer(
     },
   })),
 
-  on(AccountsActions.accountAdded, (state, action) => ({
-    ...state,
-    accounts: accountEntityAdapter.addOne(action.account, state.accounts),
-    accountManagement: {
-      inProgress: false,
-      success: true,
-    },
-  })),
+  on(AccountsActions.accountAdded, (state, action) => {
+    const updatedAccounts: Account[] = [
+      action.account,
+      ...Object.keys(action.updatedAccountsOrder).map(
+        (key) =>
+          ({
+            id: key,
+            order: action.updatedAccountsOrder[key],
+          }) as Account
+      ),
+    ];
+
+    return {
+      ...state,
+      accounts: accountEntityAdapter.upsertMany(updatedAccounts, state.accounts),
+      accountManagement: {
+        inProgress: false,
+        success: true,
+      },
+    };
+  }),
 
   on(AccountsActions.addAccountFail, (state) => ({
     ...state,
@@ -80,15 +93,28 @@ const adapterReducer = createReducer(
     removingAccountsIds: [...state.removingAccountsIds, action.accountId],
   })),
 
-  on(AccountsActions.accountRemoved, (state, action) => ({
-    ...state,
-    accounts: accountEntityAdapter.removeOne(action.accountId, state.accounts),
-    categoryManagement: {
-      inProgress: false,
-      success: true,
-    },
-    removingAccountsIds: state.removingAccountsIds.filter((id) => id !== action.accountId),
-  })),
+  on(AccountsActions.accountRemoved, (state, action) => {
+    const updatedState = {
+      ...state,
+      accounts: accountEntityAdapter.removeOne(action.accountId, state.accounts),
+      categoryManagement: {
+        inProgress: false,
+        success: true,
+      },
+      removingAccountsIds: state.removingAccountsIds.filter((id) => id !== action.accountId),
+    };
+
+    return {
+      ...updatedState,
+      accounts: accountEntityAdapter.updateMany(
+        Object.entries(action.updatedAccountsOrder).map((entry) => ({
+          changes: { order: entry[1] },
+          id: entry[0],
+        })),
+        updatedState.accounts
+      ),
+    };
+  }),
 
   on(AccountsActions.removeAccountFail, (state, action) => ({
     ...state,
@@ -111,7 +137,6 @@ const adapterReducer = createReducer(
     ...state,
     accountValueEdit: {
       inProgress: true,
-      error: false,
       success: false,
     },
   })),
@@ -124,7 +149,6 @@ const adapterReducer = createReducer(
     ),
     accountValueEdit: {
       inProgress: false,
-      error: false,
       success: true,
     },
   })),
@@ -133,7 +157,6 @@ const adapterReducer = createReducer(
     ...state,
     accountValueEdit: {
       inProgress: false,
-      error: true,
       success: false,
     },
   })),
@@ -142,9 +165,30 @@ const adapterReducer = createReducer(
     ...state,
     accountValueEdit: {
       inProgress: false,
-      error: false,
       success: false,
     },
+  })),
+
+  on(AccountsActions.setOrderChangingInProgressToTrue, (state) => ({
+    ...state,
+    orderChangingInProgress: true,
+  })),
+
+  on(AccountsActions.bulkAccountOrderChanged, (state, action) => ({
+    ...state,
+    accounts: accountEntityAdapter.updateMany(
+      Object.entries(action.updatedAccountsOrder).map((entry) => ({
+        changes: { order: entry[1] },
+        id: entry[0],
+      })),
+      state.accounts
+    ),
+    orderChangingInProgress: false,
+  })),
+
+  on(AccountsActions.bulkAccountChangeOrderFail, (state) => ({
+    ...state,
+    orderChangingInProgress: false,
   })),
 
   on(AccountsActions.clean, () => initialState)

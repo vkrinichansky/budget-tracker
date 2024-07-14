@@ -6,10 +6,17 @@ export const AccountsActions = {
 
   addAccount: createAction(
     '[Accounts] Add account',
-    props<{ account: Account; activityLogRecord: AccountManagementRecord }>()
+    props<{
+      account: Account;
+      activityLogRecord: AccountManagementRecord;
+      updatedAccountsOrder: Record<string, number>;
+    }>()
   ),
 
-  accountAdded: createAction('[Accounts] Account added', props<{ account: Account }>()),
+  accountAdded: createAction(
+    '[Accounts] Account added',
+    props<{ account: Account; updatedAccountsOrder: Record<string, number> }>()
+  ),
 
   addAccountFail: createAction('[Accounts] Add account fail'),
 
@@ -18,10 +25,14 @@ export const AccountsActions = {
     props<{
       accountId: string;
       activityLogRecord: AccountManagementRecord;
+      updatedAccountsOrder: Record<string, number>;
     }>()
   ),
 
-  accountRemoved: createAction('[Accounts] Account removed', props<{ accountId: string }>()),
+  accountRemoved: createAction(
+    '[Accounts] Account removed',
+    props<{ accountId: string; updatedAccountsOrder: Record<string, number> }>()
+  ),
 
   removeAccountFail: createAction('[Accounts] Remove account fail', props<{ accountId: string }>()),
 
@@ -32,11 +43,30 @@ export const AccountsActions = {
     props<{ accountId: string; newValue: number; activityLogRecord: AccountValueEditRecord }>()
   ),
 
-  accountValueEdited: createAction('[Accounts] Account value edited', props<{ updatedAccount: Account }>()),
+  accountValueEdited: createAction(
+    '[Accounts] Account value edited',
+    props<{ updatedAccount: Account }>()
+  ),
 
   editAccountValueFail: createAction('[Accounts] Edit account value fail'),
 
   resetAccountValueEditProp: createAction('[Accounts] Reset account value edit prop'),
+
+  bulkAccountChangeOrder: createAction(
+    '[Accounts] Bulk account change order',
+    props<{
+      updatedAccountsOrder: Record<string, number>;
+    }>()
+  ),
+
+  bulkAccountOrderChanged: createAction(
+    '[Accounts] Bulk account order changed',
+    props<{ updatedAccountsOrder: Record<string, number> }>()
+  ),
+
+  bulkAccountChangeOrderFail: createAction('[Accounts] Bulk account change order fail'),
+
+  setOrderChangingInProgressToTrue: createAction('[Accounts] Set OrderChangingInProgress to true'),
 
   clean: createAction('[Accounts] Clean state'),
 };

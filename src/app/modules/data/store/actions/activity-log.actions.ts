@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { ActivityLogRecordUnitedType, ActivityLog, CategoryValueChangeRecord, Category, Account } from '../../models';
+import { ActivityLogRecordUnitedType, ActivityLog, CategoryValueChangeRecord } from '../../models';
 
 export const ActivityLogActions = {
   recordAdded: createAction('[ActivityLog] Record added', props<{ record: ActivityLogRecordUnitedType }>()),
@@ -14,8 +14,10 @@ export const ActivityLogActions = {
     '[ActivityLog] Remove category value change record',
     props<{
       record: CategoryValueChangeRecord;
-      updatedAccount: Account;
-      updatedCategory: Category;
+      updatedAccountId: string;
+      updatedAccountValue: number;
+      updatedCategoryId: string;
+      updatedCategoryValue: number;
     }>()
   ),
 

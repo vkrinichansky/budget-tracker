@@ -5,7 +5,10 @@ const dataInitStateSelector = createSelector(dataFeatureSelector, (dataFeatureSt
 
 const dataLoadingSelector = createSelector(dataInitStateSelector, (state) => state.isDataLoading);
 
+const dataLoadedSelector = createSelector(dataInitStateSelector, (state) => state.isDataLoaded);
+
 export const DataInitSelectors = {
-  budgetTrackerStateSelector: dataInitStateSelector,
+  dataInitStateSelector,
   dataLoadingSelector,
+  dataLoadedSelector,
 };

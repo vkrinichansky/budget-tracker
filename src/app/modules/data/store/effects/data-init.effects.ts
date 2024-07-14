@@ -8,7 +8,7 @@ import { CurrencyExchangeService, CurrencyService, DataInitService, LanguageServ
 import { getMonthAndYearString, getPreviousMonthTime, SnackbarHandlerService } from '@budget-tracker/utils';
 import {
   ActivityLogRecordType,
-  BudgetTrackerState,
+  AppDatabaseStructure,
   BudgetType,
   CategoriesResetRecord,
   CurrenciesEnum,
@@ -79,7 +79,7 @@ export class DataInitEffects {
       switchMap(({ resetData, activityLogRecords, statisticsSnapshot, date, initialData }) =>
         from(this.dataInitService.resetData(resetData, activityLogRecords, statisticsSnapshot, date)).pipe(
           tap(() => {
-            const resultResetData: BudgetTrackerState = {
+            const resultResetData: AppDatabaseStructure = {
               ...resetData,
               budget: { ...resetData.budget, activityLog: [...resetData.budget.activityLog, ...activityLogRecords] },
               statistics: {
@@ -112,8 +112,8 @@ export class DataInitEffects {
     )
   );
 
-  private getResetData(data: BudgetTrackerState): {
-    resetData: BudgetTrackerState;
+  private getResetData(data: AppDatabaseStructure): {
+    resetData: AppDatabaseStructure;
     activityLogRecords: CategoriesResetRecord[];
   } {
     const resetData = structuredClone(data);
@@ -137,7 +137,7 @@ export class DataInitEffects {
     return { resetData, activityLogRecords };
   }
 
-  private setStates(data: BudgetTrackerState) {
+  private setStates(data: AppDatabaseStructure) {
     const categories = Object.values(data.budget.categories);
     const accounts = Object.values(data.budget.accounts);
     const activityLog = [...data.budget.activityLog];

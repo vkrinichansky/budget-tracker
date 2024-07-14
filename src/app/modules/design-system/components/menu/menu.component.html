@@ -2,12 +2,13 @@
   mat-button
   [matMenuTriggerFor]="menu"
   [iconName]="icon"
-  [colorScheme]="colorScheme"
+  [colorScheme]="resolveColorScheme"
   [buttonSizeY]="buttonSizeY"
   [buttonSizeX]="buttonSizeX"
   [text]="text"
   [disabled]="menuDisabled"
   [loading]="loading"
+  [shouldUseCurrentColor]="shouldUseCurrentColor"
 ></app-button>
 
 <mat-menu #menu="matMenu">

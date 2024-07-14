@@ -1,0 +1,7 @@
+<app-info-card
+  [iconBgClass]="'bg-light-red'"
+  [iconColorClass]="'text-red'"
+  [iconName]="'arrow-down'"
+  [primaryText]="expense$ | async | currencySymbol"
+  [secondaryText]="'dashboard.infoCards.expense' | translate"
+></app-info-card>

@@ -1,10 +1,12 @@
 <div class="absolute right-2 top-2 flex flex-col gap-1 items-center">
   @if (menuActions?.length) {
     <app-menu
+      [style.color]="hexTextColor"
       [colorScheme]="menuColorScheme"
       [menuActions]="menuActions"
       [menuDisabled]="shouldDisableMenu"
       [loading]="menuLoading"
+      [shouldUseCurrentColor]="shouldUseCustomColors"
     ></app-menu>
   }
 
@@ -20,7 +22,7 @@
   [iconName]="iconName"
 ></svg-icon-with-bg>
 
-<div class="flex flex-1 flex-col" [style.color]="hexTextColor">
+<div class="flex flex-1 flex-col">
   @if (primaryText) {
     <span class="primary font-main font-bold text-xl"> {{ primaryText }}</span>
   }

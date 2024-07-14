@@ -12,15 +12,9 @@
     "pageTitle": "Дошка",
 
     "infoCards": {
-      "income": {
-        "title": "Дохід"
-      },
-      "expense": {
-        "title": "Витрати"
-      },
-      "currentMonthBalance": {
-        "title": "Баланс за місяць"
-      },
+      "income": "Дохід",
+      "expense": "Витрати",
+      "currentMonthBalance": "Баланс за місяць",
       "fullBalance": {
         "title": "Повний баланс",
         "tooltip": "Full balance is the sum of all your accounts"
@@ -60,7 +54,8 @@
     },
 
     "accountsListModal": {
-      "title": "Accounts ({{ accountsAmount }})"
+      "title": "Accounts ({{ accountsAmount }})",
+      "closeButton": "Вихід"
     },
 
     "activityLog": {
@@ -93,11 +88,10 @@
 
       "categoryValueChangeRecord": {
         "removeConfirmationQuestion": "Ви хочете видалити цей запис?",
-        "removeConfirmationCheckboxText": "Також відмінити зміни, зроблені цим записом",
         "removeConfirmationRemark": "Ця дія відмінить зроблені цим записом зміни і вплине на рахунок <span class='font-bold'>{{ accountName }}</span> і категорію <span class='font-bold'>{{ categoryName }}</span>"
       },
 
-      "emptyStateText": "Немає данних для відображення",
+      "emptyStateText": "Немає даних для відображення",
       "removeMenuTooltip": "Видалення записів за типом",
       "removeMenuDisabledTooltip": "Ви можете використовувати масове видалення лише якщо є записи з попередніх місяців. Для видалення записів поточного місяця використовуйте кнопку видалення на конкретному записі",
 
@@ -127,21 +121,17 @@
     "categories": {
       "income": {
         "title": "Дохід",
-        "resetConfirmationQuestion": "Ви хочете скинути всі категорії <b>доходів</b>?",
-        "menu": {
-          "addCategory": "Додати категорію",
-          "resetCategories": "Скинути категорії"
-        }
+        "resetConfirmationQuestion": "Ви хочете скинути всі категорії <b>доходів</b>?"
       },
       "expense": {
         "title": "Витрати",
-        "resetConfirmationQuestion": "Ви хочете скинути всі категорії <b>витрат</b>?",
-        "menu": {
-          "addCategory": "Додати категорію",
-          "resetCategories": "Скинути категорії"
-        }
+        "resetConfirmationQuestion": "Ви хочете скинути всі категорії <b>витрат</b>?"
       },
-      "emptyStateText": "Немає данних для відображення",
+      "menu": {
+        "addCategory": "Додати категорію",
+        "resetCategories": "Скинути категорії"
+      },
+      "emptyStateText": "Немає даних для відображення",
 
       "tabs": {
         "list": "Список",
@@ -174,6 +164,7 @@
       "categoryExistsError": "Така категорія вже існує",
       "categoryNameLengthError": "Макс. довжина імені категорії - 25"
     },
+
     "categoryValueModal": {
       "subtitle": "Додати значення до категорії",
       "cancel": "Вихід",
@@ -200,64 +191,25 @@
   },
 
   "snackbars": {
-    "errorSnackbar": {
-      "message": "Щось пішло не так! Будь ласка, спробуйте ще.",
-      "buttonText": "Добре"
-    },
-    "balanceEditedSnackbar": {
-      "message": "Баланс оновлено успішно!",
-      "buttonText": "Добре"
-    },
-    "savingsEditedSnackbar": {
-      "message": "Збереження оновлено успішно!",
-      "buttonText": "Добре"
-    },
-    "freeMoneyEditedSnackbar": {
-      "message": "Вільні гроші оновлено успішно!",
-      "buttonText": "Добре"
-    },
-    "categoryAddedSnackbar": {
-      "message": "Категорію було додано успішно!",
-      "buttonText": "Добре"
-    },
-    "categoryRemovedSnackbar": {
-      "message": "Категорію було видалено успішно!",
-      "buttonText": "Добре"
-    },
-    "activityLogRecordRemoved": {
-      "message": "Запис журналу активності було видалено успішно!",
-      "buttonText": "Добре"
-    },
-    "bulkActivityLogRecordsRemoved": {
-      "allRecordsRemoved": "Всі записи журналу активності було видалено успішно!",
-      "recordsByTypesRemoved": "Записи журналу активності обраних типів було видалено успішно!",
-      "buttonText": "Добре"
-    },
-    "categoryValueChangedSnackbar": {
-      "message": "Значення категорії було змінено успішно!",
-      "buttonText": "Добре"
-    },
+    "defaultOkButtonText": "Добре",
+    "errorSnackbar": "Щось пішло не так! Будь ласка, спробуйте ще.",
+    "balanceEditedSnackbar": "Баланс оновлено успішно!",
+    "savingsEditedSnackbar": "Збереження оновлено успішно!",
+    "freeMoneyEditedSnackbar": "Вільні гроші оновлено успішно!",
+    "categoryAddedSnackbar": "Категорію було додано успішно!",
+    "categoryRemovedSnackbar": "Категорію було видалено успішно!",
+    "activityLogRecordRemoved": "Запис журналу активності було видалено успішно!",
+    "bulkActivityLogRecordsRemoved": "Записи журналу активності обраних типів було видалено успішно!",
+    "categoryValueChangedSnackbar": "Значення категорії було змінено успішно!",
     "categoriesResetSnackbar": {
       "income": "Категорії доходів було скинуто успішно!",
-      "expense": "Категорії витрат було скинуто успішно!",
-      "buttonText": "Добре"
+      "expense": "Категорії витрат було скинуто успішно!"
     },
-    "dataResetSnackbar": {
-      "message": "Категорії було скинуто!",
-      "buttonText": "Добре"
-    },
-    "accountValueEdited": {
-      "message": "Значення рахунку було змінено успішно!",
-      "buttonText": "Добре"
-    },
-    "accountAddedSnackbar": {
-      "message": "Рахунок було додано успішно!",
-      "buttonText": "Добре"
-    },
-    "accountRemovedSnackbar": {
-      "message": "Рахунок було видалено успішно!",
-      "buttonText": "Добре"
-    }
+    "dataResetSnackbar": "Категорії було скинуто!",
+    "accountValueEdited": "Значення рахунку було змінено успішно!",
+    "accountAddedSnackbar": "Рахунок було додано успішно!",
+    "accountRemovedSnackbar": "Рахунок було видалено успішно!",
+    "accountOrderChangedSnackbar": "Рахунки було відсортовано успішно!"
   },
 
   "formErrors": {

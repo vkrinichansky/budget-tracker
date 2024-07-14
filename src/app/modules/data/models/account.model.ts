@@ -8,4 +8,5 @@ export interface Account {
   icon: string;
   bgColor: string;
   textColor: string;
+  order: number;
 }

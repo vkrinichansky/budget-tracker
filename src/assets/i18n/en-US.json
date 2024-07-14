@@ -12,18 +12,11 @@
     "pageTitle": "Dashboard",
 
     "infoCards": {
-      "income": {
-        "title": "Income"
-      },
-      "expense": {
-        "title": "Expense"
-      },
-      "currentMonthBalance": {
-        "title": "Current month balance"
-      },
+      "income": "Income",
+      "expense": "Expense",
+      "currentMonthBalance": "Current month balance",
       "fullBalance": {
         "title": "Full balance",
-
         "tooltip": "Full balance is the sum of all your accounts"
       },
       "accounts": {
@@ -61,7 +54,8 @@
     },
 
     "accountsListModal": {
-      "title": "Accounts ({{ accountsAmount }})"
+      "title": "Accounts ({{ accountsAmount }})",
+      "closeButton": "Close"
     },
 
     "activityLog": {
@@ -127,20 +121,17 @@
     "categories": {
       "income": {
         "title": "Income",
-        "resetConfirmationQuestion": "Do you want to reset all <b>income</b> categories' values?",
-        "menu": {
-          "addCategory": "Add category",
-          "resetCategories": "Reset categories"
-        }
+        "resetConfirmationQuestion": "Do you want to reset all <b>income</b> categories' values?"
       },
       "expense": {
         "title": "Expense",
-        "resetConfirmationQuestion": "Do you want to reset all <b>expense</b> categories' values?",
-        "menu": {
-          "addCategory": "Add category",
-          "resetCategories": "Reset categories"
-        }
+        "resetConfirmationQuestion": "Do you want to reset all <b>expense</b> categories' values?"
       },
+      "menu": {
+        "addCategory": "Add category",
+        "resetCategories": "Reset categories"
+      },
+
       "emptyStateText": "No data to display yet",
       "tabs": {
         "list": "List",
@@ -200,64 +191,25 @@
   },
 
   "snackbars": {
-    "errorSnackbar": {
-      "message": "Something went wrong! Please, try again.",
-      "buttonText": "Got it"
-    },
-    "balanceEditedSnackbar": {
-      "message": "Balance was updated successfully!",
-      "buttonText": "Got it"
-    },
-    "savingsEditedSnackbar": {
-      "message": "Savings were updated successfully!",
-      "buttonText": "Got it"
-    },
-    "freeMoneyEditedSnackbar": {
-      "message": "Free money were updated successfully!",
-      "buttonText": "Got it"
-    },
-    "categoryAddedSnackbar": {
-      "message": "Category was added successfully!",
-      "buttonText": "Got it"
-    },
-    "categoryRemovedSnackbar": {
-      "message": "Category was removed successfully!",
-      "buttonText": "Got it"
-    },
-    "activityLogRecordRemoved": {
-      "message": "Activity log record was removed successfully!",
-      "buttonText": "Got it"
-    },
-    "bulkActivityLogRecordsRemoved": {
-      "allRecordsRemoved": "All activity log records were removed successfully!",
-      "recordsByTypesRemoved": "Activity log records with selected types were removed successfully!",
-      "buttonText": "Got it"
-    },
-    "categoryValueChangedSnackbar": {
-      "message": "Category value was changed successfully!",
-      "buttonText": "Got it"
-    },
+    "defaultOkButtonText": "Got it",
+    "errorSnackbar": "Something went wrong! Please, try again.",
+    "balanceEditedSnackbar": "Balance was updated successfully!",
+    "savingsEditedSnackbar": "Savings were updated successfully!",
+    "freeMoneyEditedSnackbar": "Free money were updated successfully!",
+    "categoryAddedSnackbar": "Category was added successfully!",
+    "categoryRemovedSnackbar": "Category was removed successfully!",
+    "activityLogRecordRemoved": "Activity log record was removed successfully!",
+    "bulkActivityLogRecordsRemoved": "Activity log records with selected types were removed successfully!",
+    "categoryValueChangedSnackbar": "Category value was changed successfully!",
     "categoriesResetSnackbar": {
       "income": "Income categories were reset successfully!",
-      "expense": "Expense categories were reset successfully!",
-      "buttonText": "Got it"
+      "expense": "Expense categories were reset successfully!"
     },
-    "dataResetSnackbar": {
-      "message": "Categories were reset!",
-      "buttonText": "Got it"
-    },
-    "accountValueEdited": {
-      "message": "Account value was edited successfully!",
-      "buttonText": "Got it"
-    },
-    "accountAddedSnackbar": {
-      "message": "Account was added successfully!",
-      "buttonText": "Got it"
-    },
-    "accountRemovedSnackbar": {
-      "message": "Account was removed successfully!",
-      "buttonText": "Got it"
-    }
+    "dataResetSnackbar": "Categories were reset!",
+    "accountValueEdited": "Account value was edited successfully!",
+    "accountAddedSnackbar": "Account was added successfully!",
+    "accountRemovedSnackbar": "Account was removed successfully!",
+    "accountOrderChangedSnackbar": "Accounts were sorted successfully!"
   },
 
   "formErrors": {

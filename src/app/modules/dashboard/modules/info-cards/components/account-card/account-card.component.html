@@ -1,0 +1,26 @@
+<div class="w-full relative">
+  <app-info-card
+    class="flex-1"
+    [iconName]="account.icon"
+    [primaryText]="primaryText"
+    [secondaryText]="isAccountWithForeignCurrency ? accountValueInBaseCurrency : account.name"
+    [tertiaryText]="isAccountWithForeignCurrency ? account.name : null"
+    [shouldUseCustomColors]="true"
+    [hexBgColor]="account.bgColor"
+    [hexTextColor]="account.textColor"
+    [menuActions]="menuActions"
+    [menuLoading]="isAccountRemoving$ | async"
+  ></app-info-card>
+
+  <app-button
+    cdkDragHandle
+    class="drag-button absolute right-2 top-12"
+    [style.color]="account.textColor"
+    [buttonSizeX]="'small'"
+    [buttonSizeY]="'small'"
+    [iconName]="'drag-handle'"
+    [colorScheme]="null"
+    [shouldUseCurrentColor]="true"
+    [disabled]="shouldDisableDragButton"
+  ></app-button>
+</div>

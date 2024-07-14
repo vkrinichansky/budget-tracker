@@ -1,12 +1,13 @@
 import { createSelector } from '@ngrx/store';
 import { dataFeatureSelector } from './feature.selector';
+import { CurrenciesEnum, CurrencyExchangeRate } from '../../models';
 
 const accountsStateSelector = createSelector(dataFeatureSelector, (dataFeatureState) => dataFeatureState.accountsState);
 
 const allAccountsDictionarySelector = createSelector(accountsStateSelector, (state) => state.accounts.entities);
 
 const allAccountsSelector = createSelector(allAccountsDictionarySelector, (accountsDictionary) =>
-  Object.values(accountsDictionary)
+  Object.values(accountsDictionary).sort((a, b) => a.order - b.order)
 );
 
 const accountByIdSelector = (accountId: string) =>
@@ -32,7 +33,21 @@ const accountManagementSuccessSelector = createSelector(
   (state) => state.accountManagement.success
 );
 
-const selectAccountsRemovingIds = createSelector(accountsStateSelector, (state) => state.removingAccountsIds);
+const isAccountRemovingSelector = (accountId: string) =>
+  createSelector(accountsStateSelector, (state) => state.removingAccountsIds.includes(accountId));
+
+const fullBalanceSelector = (currency: CurrenciesEnum, currencyExchangeRate: CurrencyExchangeRate) =>
+  createSelector(allAccountsSelector, (allAccounts) =>
+    allAccounts.reduce(
+      (fullBalance, account) =>
+        account.currency.id === currency
+          ? fullBalance + account.value
+          : fullBalance + Math.round(account.value / currencyExchangeRate[account.currency.id]),
+      0
+    )
+  );
+
+const orderChangingInProgressSelector = createSelector(accountsStateSelector, (state) => state.orderChangingInProgress);
 
 export const AccountsSelectors = {
   accountsStateSelector,
@@ -42,5 +57,7 @@ export const AccountsSelectors = {
   editAccountValueSucceedSelector,
   accountManagementInProgressSelector,
   accountManagementSuccessSelector,
-  selectAccountsRemovingIds,
+  isAccountRemovingSelector,
+  fullBalanceSelector,
+  orderChangingInProgressSelector,
 };
