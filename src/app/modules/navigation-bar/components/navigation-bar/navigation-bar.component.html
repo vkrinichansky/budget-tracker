@@ -14,13 +14,13 @@
 
 <app-button
   customTooltip
-  [tooltipText]="buildTranslationKey('itemTooltip.logout') | translate"
+  [tooltipText]="'navigationBar.itemTooltip.logout' | translate"
   [position]="['right']"
   [tooltipBgColor]="'green'"
   [dontDisplayOnScreenWidth]="true"
   [iconName]="'logout'"
   [colorScheme]="'transparent-light'"
-  [buttonSizeY]="'small'"
-  [buttonSizeX]="'small'"
+  [buttonSizeY]="'medium'"
+  [buttonSizeX]="'medium'"
   (click)="logOut()"
 ></app-button>

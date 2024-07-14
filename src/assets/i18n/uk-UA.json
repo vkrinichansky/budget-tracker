@@ -91,7 +91,7 @@
         "removeConfirmationRemark": "Ця дія відмінить зроблені цим записом зміни і вплине на рахунок <span class='font-bold'>{{ accountName }}</span> і категорію <span class='font-bold'>{{ categoryName }}</span>"
       },
 
-      "emptyStateText": "Немає данних для відображення",
+      "emptyStateText": "Немає даних для відображення",
       "removeMenuTooltip": "Видалення записів за типом",
       "removeMenuDisabledTooltip": "Ви можете використовувати масове видалення лише якщо є записи з попередніх місяців. Для видалення записів поточного місяця використовуйте кнопку видалення на конкретному записі",
 
@@ -131,7 +131,7 @@
         "addCategory": "Додати категорію",
         "resetCategories": "Скинути категорії"
       },
-      "emptyStateText": "Немає данних для відображення",
+      "emptyStateText": "Немає даних для відображення",
 
       "tabs": {
         "list": "Список",
