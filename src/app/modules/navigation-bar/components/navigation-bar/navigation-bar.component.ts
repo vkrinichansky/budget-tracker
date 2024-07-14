@@ -47,6 +47,11 @@ export class NavigationBarComponent implements OnInit {
         tooltipTranslationKey: 'navigationBar.itemTooltip.statistics',
         routerLink: AppRoutes.Statistics,
       },
+      {
+        iconName: 'settings',
+        tooltipTranslationKey: 'navigationBar.itemTooltip.settings',
+        routerLink: AppRoutes.Settings,
+      },
     ];
 
     this.navigationBarItems$.next(items);

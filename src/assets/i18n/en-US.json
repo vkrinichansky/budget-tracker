@@ -3,6 +3,7 @@
     "itemTooltip": {
       "home": "Home",
       "statistics": "Statistics",
+      "settings": "Settings",
       "logout": "Logout"
     },
     "logoutConfirmation": "Are you sure you want to log out?"

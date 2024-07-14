@@ -3,6 +3,7 @@
     "itemTooltip": {
       "home": "Домашня",
       "statistics": "Статистика",
+      "settings": "Налаштування",
       "logout": "Вихід"
     },
     "logoutConfirmation": "Ви впевнені, що хочете вийти?"
