@@ -24,8 +24,8 @@
       ></app-account-card>
     }
 
-    @if (changeOrderInProgress$ | async) {
-      <app-fullsize-loader [colorMode]="'light'"></app-fullsize-loader>
+    @if (true) {
+      <app-fullsize-loader [colorMode]="'light'" [placement]="'start'"></app-fullsize-loader>
     }
   </div>
 </app-base-modal>
