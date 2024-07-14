@@ -1,8 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-
 @tailwind base;
 @tailwind utilities;
+
+/* inter-regular - cyrillic-ext_latin-ext */
+@font-face {
+  font-display: swap;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./assets/fonts/inter-v13-cyrillic-ext_latin-ext-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* inter-700 - cyrillic-ext_latin-ext */
+@font-face {
+  font-display: swap;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./assets/fonts/inter-v13-cyrillic-ext_latin-ext-700.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
 
 * {
   -webkit-tap-highlight-color: transparent;
@@ -208,7 +223,9 @@ textarea {
 
       &:hover {
         @media (hover: hover) {
-          .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate='true'])
+          .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not(
+              [data-indeterminate='true']
+            )
             ~ .mdc-checkbox__background {
             @apply border-charcoal #{!important};
           }
