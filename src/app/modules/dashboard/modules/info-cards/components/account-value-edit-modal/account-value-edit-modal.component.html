@@ -1,39 +1,26 @@
 <app-base-modal
   *ngVar="account$ | async as account"
   [titleTranslationKey]="account.name"
-  [subtitleTranslationKey]="buildTranslationKey('subtitle')"
+  [subtitleTranslationKey]="'dashboard.accountValueEditModal.subtitle'"
   [footerTemplate]="footer"
 >
-  <form class="flex flex-col" [formGroup]="form">
-    <mat-form-field>
-      <mat-label>{{ account.name | translate }}</mat-label>
-      <input #valueInput matInput [formControlName]="formFields.Value" />
+  <form class="flex flex-col gap-y-2" [formGroup]="form">
+    <custom-input
+      [label]="'dashboard.accountValueEditModal.valueInputLabel' | translate"
+      [formControlName]="formFields.Value"
+      [required]="true"
+      [minValue]="0"
+      [type]="'number'"
+      [preventSameValue]="true"
+      [initialValue]="account.value"
+    ></custom-input>
 
-      @if (hasRequiredError) {
-        <mat-error>{{ 'formErrors.required' | translate }}</mat-error>
-      }
-
-      @if (hasMinValueError) {
-        <mat-error>{{ 'formErrors.minValue' | translate: { minValue: 1 } }}</mat-error>
-      }
-
-      @if (hasEditError) {
-        <mat-error>{{ 'formErrors.editError' | translate }}</mat-error>
-      }
-
-      @if (hasNumberPatternError) {
-        <mat-error>{{ 'formErrors.numberPattern' | translate }}</mat-error>
-      }
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>{{ buildTranslationKey('noteInputTitle') | translate }}</mat-label>
-      <textarea matInput rows="3" [formControlName]="formFields.Note"></textarea>
-
-      @if (hasMaxLengthError) {
-        <mat-error>{{ 'formErrors.noteTooLong' | translate }}</mat-error>
-      }
-    </mat-form-field>
+    <custom-textarea
+      [label]="'dashboard.accountValueEditModal.noteInputLabel' | translate"
+      [formControlName]="formFields.Note"
+      [maxLength]="100"
+      [displayCharCounter]="true"
+    ></custom-textarea>
   </form>
 </app-base-modal>
 
@@ -41,8 +28,8 @@
   <app-button
     [buttonSizeX]="'big'"
     [colorScheme]="'charcoal'"
-    [text]="buildTranslationKey('editButton') | translate"
-    [disabled]="!isFormValid || initialValue === form.controls[formFields.Value].value"
+    [text]="'dashboard.accountValueEditModal.editButton' | translate"
+    [disabled]="isSubmitButtonDisabled"
     [loading]="(loading$ | async) || (success$ | async)"
     (click)="submitAction()"
   ></app-button>

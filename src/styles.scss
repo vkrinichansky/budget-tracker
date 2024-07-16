@@ -33,6 +33,15 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
+// SCROLLBAR
+::-webkit-scrollbar {
+  @apply w-1.5;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-hover-black border border-solid border-transparent rounded-full bg-clip-padding;
+}
+
 // SNACKBAR
 .mat-mdc-snack-bar-container {
   .mdc-snackbar__surface {
@@ -78,7 +87,7 @@ body {
   }
 
   .mdc-dialog__surface {
-    @apply rounded-md #{!important};
+    @apply rounded-md shadow-none #{!important};
   }
 }
 
@@ -88,62 +97,6 @@ body {
 
 .mat-mdc-dialog-content {
   @apply flex flex-col #{!important};
-}
-
-mat-form-field {
-  &.no-click:hover {
-    .mat-mdc-text-field-wrapper .mat-mdc-form-field-focus-overlay {
-      opacity: 0.04 !important;
-    }
-
-    * {
-      @apply pointer-events-none #{!important};
-    }
-  }
-}
-
-.mdc-text-field--filled {
-  .mdc-line-ripple::after {
-    @apply border-b-charcoal #{!important};
-  }
-
-  &:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
-    @apply border-b-blue #{!important};
-  }
-
-  &:not(.mdc-text-field--disabled):hover .mdc-line-ripple::before {
-    @apply border-b-charcoal #{!important};
-  }
-}
-
-.mdc-text-field .mdc-text-field__input {
-  @apply caret-charcoal font-main #{!important};
-}
-
-.mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
-  @apply text-charcoal #{!important};
-}
-
-.mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
-  @apply text-grey #{!important};
-}
-
-.mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-floating-label {
-  @apply text-red #{!important};
-}
-
-textarea {
-  resize: none !important;
-}
-
-// SCROLLBAR
-
-::-webkit-scrollbar {
-  @apply w-1.5;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-hover-black border border-solid border-transparent rounded-full bg-clip-padding;
 }
 
 // SELECT
@@ -250,23 +203,6 @@ textarea {
 
   app-button {
     @apply rounded-none #{!important};
-  }
-}
-
-// COLOR PICKER
-ngx-colors {
-  @apply cursor-pointer;
-
-  .preview {
-    @apply w-10 h-10;
-
-    .preview-background {
-      @apply w-full h-full;
-
-      .circle {
-        @apply w-full h-full #{!important};
-      }
-    }
   }
 }
 

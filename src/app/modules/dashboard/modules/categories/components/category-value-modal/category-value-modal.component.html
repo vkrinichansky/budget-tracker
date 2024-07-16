@@ -1,44 +1,34 @@
 <app-base-modal
   *ngVar="accounts$ | async as accounts"
   [titleTranslationKey]="(category$ | async)?.name"
-  [subtitleTranslationKey]="buildTranslationKey('subtitle')"
+  [subtitleTranslationKey]="'dashboard.categoryValueModal.subtitle'"
   [footerTemplate]="footer"
 >
-  <form class="flex flex-col" [formGroup]="form">
-    <mat-form-field>
-      <mat-label>{{ buildTranslationKey('valueToAddTitle') | translate }}</mat-label>
-      <input #valueInput matInput [formControlName]="formFieldsEnum.ValueToAdd" />
-
-      @if (hasRequiredError) {
-        <mat-error>{{ 'formErrors.required' | translate }}</mat-error>
-      }
-
-      @if (hasMinValueError) {
-        <mat-error>{{ 'formErrors.minValue' | translate: { minValue: 1 } }}</mat-error>
-      }
-
-      @if (hasNumberPatternError) {
-        <mat-error>{{ 'formErrors.numberPattern' | translate }}</mat-error>
-      }
-    </mat-form-field>
+  <form class="flex flex-col gap-y-2" [formGroup]="form">
+    <custom-input
+      [label]="'dashboard.categoryValueModal.valueToAddTitle' | translate"
+      [required]="true"
+      [minValue]="1"
+      [type]="'number'"
+      [formControlName]="formFieldsEnum.ValueToAdd"
+    ></custom-input>
 
     <custom-select
-      [label]="buildTranslationKey('accountsTitle') | translate"
+      [label]="'dashboard.categoryValueModal.accountsTitle' | translate"
       [formControlName]="formFieldsEnum.AccountToUse"
       [options]="accounts"
       [idSelector]="idSelector"
       [displayValueSelector]="displayValueSelector"
       [iconSelector]="iconSelector"
+      [required]="true"
     ></custom-select>
 
-    <mat-form-field>
-      <mat-label>{{ buildTranslationKey('noteTitle') | translate }}</mat-label>
-      <textarea matInput rows="3" [formControlName]="formFieldsEnum.Note"></textarea>
-
-      @if (hasMaxLengthError) {
-        <mat-error>{{ 'formErrors.noteTooLong' | translate }}</mat-error>
-      }
-    </mat-form-field>
+    <custom-textarea
+      [label]="'dashboard.categoryValueModal.noteTitle' | translate"
+      [formControlName]="formFieldsEnum.Note"
+      [maxLength]="100"
+      [displayCharCounter]="true"
+    ></custom-textarea>
   </form>
 </app-base-modal>
 
@@ -46,9 +36,9 @@
   <app-button
     [buttonSizeX]="'px100'"
     [colorScheme]="'charcoal'"
-    [text]="buildTranslationKey('add') | translate"
+    [text]="'dashboard.categoryValueModal.add' | translate"
     [loading]="loading$ | async"
-    [disabled]="!isFormValid"
+    [disabled]="form?.invalid"
     (click)="submitClick()"
   ></app-button>
 </ng-template>

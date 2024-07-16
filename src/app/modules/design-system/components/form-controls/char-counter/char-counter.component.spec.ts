@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IconPickerComponent } from './icon-picker.component';
+import { CharCounterComponent } from './char-counter.component';
 
-describe('IconPickerComponent', () => {
-  let component: IconPickerComponent;
-  let fixture: ComponentFixture<IconPickerComponent>;
+describe('CharCounterComponent', () => {
+  let component: CharCounterComponent;
+  let fixture: ComponentFixture<CharCounterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IconPickerComponent]
+      imports: [CharCounterComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(IconPickerComponent);
+    fixture = TestBed.createComponent(CharCounterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

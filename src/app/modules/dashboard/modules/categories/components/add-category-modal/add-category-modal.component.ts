@@ -4,7 +4,7 @@ import { BudgetType, Category } from '@budget-tracker/data';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { v4 as uuid } from 'uuid';
-import { Observable, combineLatest, filter, map, take, tap } from 'rxjs';
+import { Observable, filter, take } from 'rxjs';
 import { AddCategoryModalData } from '../../models';
 import { CategoriesFacadeService } from '@budget-tracker/data';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -22,14 +22,20 @@ enum FormFields {
 })
 export class AddCategoryModalComponent implements OnInit {
   private categories$: Observable<Category[]>;
+  private categories: Category[];
 
   readonly formFields = FormFields;
 
   readonly form: FormGroup = new FormGroup({
-    [FormFields.CategoryIcon]: new FormControl(null, [Validators.required]),
-    [FormFields.CategoryName]: new FormControl(null, [Validators.required, Validators.maxLength(25)]),
-    [FormFields.CategoryColorPicker]: new FormControl(null, [Validators.required]),
+    [FormFields.CategoryIcon]: new FormControl(null, Validators.required),
+    [FormFields.CategoryName]: new FormControl(null),
+    [FormFields.CategoryColorPicker]: new FormControl(null),
   });
+
+  readonly categoryExistsValidator = (value: string) =>
+    this.categories
+      .map((category) => category.name.toLowerCase().trim())
+      .includes(value.toLowerCase().trim());
 
   budgetType: BudgetType;
 
@@ -42,22 +48,6 @@ export class AddCategoryModalComponent implements OnInit {
     return this.form.valid;
   }
 
-  get hasCategoryIconRequiredError(): boolean {
-    return this.form.controls[FormFields.CategoryIcon].hasError('required');
-  }
-
-  get hasCategoryNameRequiredError(): boolean {
-    return this.form.controls[FormFields.CategoryName].hasError('required');
-  }
-
-  get hasMaxLengthError(): boolean {
-    return this.form.controls[FormFields.CategoryName].hasError('maxlength');
-  }
-
-  get hasCategoryExistsError(): boolean {
-    return this.form.controls[FormFields.CategoryName].hasError('categoryExists');
-  }
-
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: AddCategoryModalData,
     private dialogRef: MatDialogRef<AddCategoryModalComponent>,
@@ -68,11 +58,6 @@ export class AddCategoryModalComponent implements OnInit {
   ngOnInit(): void {
     this.initDataAccordingToBudgetType();
     this.initListeners();
-    this.subscribeToCategoryNameChanges();
-  }
-
-  buildTranslationKey(key: string): string {
-    return `dashboard.addCategoryModal.${key}`;
   }
 
   submitClick(): void {
@@ -93,12 +78,12 @@ export class AddCategoryModalComponent implements OnInit {
 
     switch (this.budgetType) {
       case BudgetType.Income:
-        this.title = this.buildTranslationKey(`${BudgetType.Income}.title`);
+        this.title = `dashboard.addCategoryModal.${BudgetType.Income}.title`;
         this.categories$ = this.categoriesFacade.getIncomeCategories();
         break;
 
       case BudgetType.Expense:
-        this.title = this.buildTranslationKey(`${BudgetType.Expense}.title`);
+        this.title = `dashboard.addCategoryModal.${BudgetType.Expense}.title`;
         this.categories$ = this.categoriesFacade.getExpenseCategories();
         break;
     }
@@ -114,18 +99,9 @@ export class AddCategoryModalComponent implements OnInit {
         take(1)
       )
       .subscribe(() => this.dialogRef.close());
-  }
 
-  private subscribeToCategoryNameChanges(): void {
-    combineLatest([this.categories$, this.form.controls[FormFields.CategoryName].valueChanges])
-      .pipe(
-        map(([categories, categoryName]) =>
-          categories.map((category) => category.name.toLowerCase()).includes(categoryName.toLowerCase().trim())
-        ),
-        filter((shouldDisable) => !!shouldDisable),
-        tap(() => this.form.controls[FormFields.CategoryName].setErrors({ categoryExists: true })),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
+    this.categories$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((categories) => (this.categories = categories));
   }
 }

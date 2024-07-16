@@ -1,30 +1,75 @@
-<mat-form-field class="w-full">
-  <mat-label>{{ label }}</mat-label>
-  <mat-select [disableRipple]="true" [formControl]="formControl" (ngModelChange)="valueChanged($event)">
-    <mat-select-trigger>
-      <span class="flex justify-start items-center text-charcoal gap-x-1.5 font-main">
-        <svg-icon [iconName]="formControl.value && iconSelector(formControl.value)"></svg-icon>
-        <span>{{ formControl.value && displayValueSelector(formControl.value) }}</span>
-      </span>
-    </mat-select-trigger>
+<control-label
+  class="mb-1"
+  [for]="'select'"
+  [required]="true"
+  [label]="label"
+  (click)="toggleDropdown(trigger)"
+></control-label>
 
-    @for (option of options; track idSelector(option)) {
-      <mat-option [value]="option">
+<div
+  #trigger
+  class="font-main text-base relative cursor-pointer border-2 border-solid rounded-md h-12 group-hover:border-charcoal px-3 flex justify-start items-center gap-x-1.5"
+  [ngClass]="{
+    'border-red group-hover:border-red rounded-b-none': formControl.invalid && isErrorState(),
+    'border-grey': !isOpen,
+    'border-charcoal': isOpen
+  }"
+  [id]="'select'"
+  (click)="toggleDropdown(trigger)"
+>
+  @if (formControl.value) {
+    <span class="text-charcoal flex gap-x-2 items-center">
+      @if (getIcon) {
+        <svg-icon [iconName]="formControl.value && getIcon(formControl.value)"></svg-icon>
+      }
+
+      @if (displayValueSelector) {
+        <span>{{ formControl.value && displayValueSelector(formControl.value) }}</span>
+      }
+    </span>
+  }
+
+  <svg-icon
+    class="group-hover:text-charcoal absolute top-1/2 right-2 -translate-y-2.5"
+    [ngClass]="{
+      'text-red group-hover:text-red': formControl.invalid && isErrorState(),
+      'text-charcoal': isOpen,
+      'text-grey': !isOpen
+    }"
+    [iconName]="'chevron'"
+  ></svg-icon>
+</div>
+
+@if (isErrorState()) {
+  <div class="flex flex-col gap-y-1 w-full pt-1 px-1.5 pb-1.5 rounded-b-md bg-red">
+    @if (hasRequiredError) {
+      <control-error>{{ 'formErrors.required' | translate }}</control-error>
+    }
+  </div>
+}
+
+<ng-template #optionsTemplate>
+  <div @dropdown class="bg-white rounded-md border-2 border-solid border-charcoal w-full max-h-50">
+    <div
+      class="flex gap-y-1 p-2 h-full rounded-md overflow-y-auto"
+      [ngClass]="{
+        'flex-col': !iconPickerMode,
+        'flex-wrap gap-x-1': iconPickerMode
+      }"
+    >
+      @for (option of dropdownOptions; track getId(option)) {
         <app-button
           class="overflow-hidden"
-          [iconName]="iconSelector(option)"
-          [buttonSizeX]="'full'"
+          [iconName]="getIcon(option)"
+          [buttonSizeX]="iconPickerMode ? 'medium' : 'full'"
           [buttonSizeY]="'medium'"
-          [active]="formControl?.value && idSelector(option) === idSelector(formControl?.value)"
+          [active]="formControl?.value && getId(option) === getId(formControl?.value)"
           [activeColorScheme]="'transparent-dark'"
-          [text]="displayValueSelector(option)"
-          [align]="'start'"
+          [text]="displayValueSelector ? displayValueSelector(option) : null"
+          [align]="iconPickerMode ? 'center' : 'start'"
+          (click)="valueChanged(option)"
         ></app-button>
-      </mat-option>
-    }
-  </mat-select>
-
-  @if (hasRequiredError) {
-    <mat-error>{{ 'formErrors.required' | translate }}</mat-error>
-  }
-</mat-form-field>
+      }
+    </div>
+  </div>
+</ng-template>

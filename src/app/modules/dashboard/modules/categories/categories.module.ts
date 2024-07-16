@@ -17,7 +17,6 @@ import { NgChartsModule } from 'ng2-charts';
 import { DataModule } from '@budget-tracker/data';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 @NgModule({
   imports: [
@@ -26,7 +25,6 @@ import { MatRadioModule } from '@angular/material/radio';
     TranslateModule,
     FormsModule,
     ReactiveFormsModule,
-    MatInputModule,
     MatSelectModule,
     UtilsModule,
     MatTooltipModule,
@@ -36,7 +34,12 @@ import { MatRadioModule } from '@angular/material/radio';
     MatButtonToggleModule,
     MatRadioModule,
   ],
-  declarations: [CategoriesComponent, AddCategoryModalComponent, CategoryItemComponent, CategoryValueModalComponent],
+  declarations: [
+    CategoriesComponent,
+    AddCategoryModalComponent,
+    CategoryItemComponent,
+    CategoryValueModalComponent,
+  ],
   providers: [CategoryModalsService],
   exports: [CategoriesComponent],
 })

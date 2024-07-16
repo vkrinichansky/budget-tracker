@@ -1,30 +1,25 @@
 <app-base-modal [titleTranslationKey]="title" [footerTemplate]="footer">
-  <form class="flex flex-col" [formGroup]="form">
-    <icon-picker
-      [label]="buildTranslationKey('categoryIconTitle') | translate"
+  <form class="flex flex-col gap-y-2" [formGroup]="form">
+    <custom-input
+      [label]="'dashboard.addCategoryModal.categoryNameTitle' | translate"
+      [formControlName]="formFields.CategoryName"
+      [required]="true"
+      [maxLength]="25"
+      [entityExistsValidator]="categoryExistsValidator"
+      [displayCharCounter]="true"
+    ></custom-input>
+
+    <custom-select
+      [label]="'dashboard.addCategoryModal.categoryIconTitle' | translate"
       [formControlName]="formFields.CategoryIcon"
-    ></icon-picker>
-
-    <mat-form-field>
-      <mat-label>{{ buildTranslationKey('categoryNameTitle') | translate }}</mat-label>
-      <input matInput [formControlName]="formFields.CategoryName" />
-
-      @if (hasCategoryNameRequiredError) {
-        <mat-error>{{ 'formErrors.required' | translate }}</mat-error>
-      }
-
-      @if (hasMaxLengthError) {
-        <mat-error>{{ buildTranslationKey('categoryNameLengthError') | translate }}</mat-error>
-      }
-
-      @if (hasCategoryExistsError) {
-        <mat-error>{{ buildTranslationKey('categoryExistsError') | translate }}</mat-error>
-      }
-    </mat-form-field>
+      [required]="true"
+      [iconPickerMode]="true"
+    ></custom-select>
 
     <color-picker
-      [label]="buildTranslationKey('categoryColorTitle') | translate"
+      [label]="'dashboard.addCategoryModal.categoryColorTitle' | translate"
       [formControlName]="formFields.CategoryColorPicker"
+      [required]="true"
     ></color-picker>
   </form>
 </app-base-modal>
@@ -32,7 +27,7 @@
 <ng-template #footer>
   <app-button
     [colorScheme]="'charcoal'"
-    [text]="buildTranslationKey('addCategory') | translate"
+    [text]="'dashboard.addCategoryModal.addCategory' | translate"
     [buttonSizeX]="'big'"
     [disabled]="!isFormValid"
     [loading]="loading$ | async"

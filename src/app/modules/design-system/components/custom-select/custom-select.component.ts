@@ -1,5 +1,23 @@
-import { ChangeDetectionStrategy, Component, forwardRef, Input } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  forwardRef,
+  HostBinding,
+  Input,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { GenericCustomControlComponent } from '../form-controls/generic-custom-control/generic-custom-control.component';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { take } from 'rxjs';
+import { IconsForUser } from '../../models';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -14,17 +32,25 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from
       multi: true,
     },
   ],
+  animations: [
+    trigger('dropdown', [
+      transition(':enter', [style({ maxHeight: 0 }), animate(100, style({ maxHeight: '200px' }))]),
+      transition(':leave', [style({ maxHeight: '200px' }), animate(100, style({ maxHeight: 0 }))]),
+    ]),
+  ],
 })
-export class CustomSelectComponent implements ControlValueAccessor {
-  private _value: unknown;
+export class CustomSelectComponent extends GenericCustomControlComponent {
+  @HostBinding('class')
+  private readonly classes = 'group flex flex-col';
 
-  readonly formControl = new FormControl(null, [Validators.required]);
-
-  @Input()
-  label: string;
+  @ViewChild('optionsTemplate')
+  private optionsTemplate: TemplateRef<unknown>;
 
   @Input()
   options: unknown[];
+
+  @Input()
+  iconPickerMode: boolean;
 
   @Input()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -38,62 +64,82 @@ export class CustomSelectComponent implements ControlValueAccessor {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   iconSelector: (option: any) => string;
 
-  @Input()
-  set option(value: unknown) {
-    this.writeValue(value);
+  overlayRef: OverlayRef;
+
+  isOpen: boolean;
+
+  get dropdownOptions(): unknown[] {
+    if (this.iconPickerMode) {
+      return IconsForUser;
+    }
+
+    return this.options;
   }
 
-  set value(value: unknown) {
-    this._value = value;
-    this.formControl.setValue(value, { emitEvent: false });
+  constructor(
+    private overlay: Overlay,
+    private viewContainerRef: ViewContainerRef,
+    private cd: ChangeDetectorRef,
+    protected override destroyRef: DestroyRef
+  ) {
+    super(destroyRef);
   }
 
-  get value(): unknown {
-    return this._value;
+  toggleDropdown(trigger?: HTMLElement): void {
+    if (this.overlayRef && this.overlayRef.hasAttached()) {
+      this.overlayRef.detach();
+      this.isOpen = false;
+    } else {
+      const positionStrategy = this.overlay
+        .position()
+        .flexibleConnectedTo(trigger)
+        .withPositions([
+          {
+            originX: 'start',
+            originY: 'bottom',
+            overlayX: 'start',
+            overlayY: 'top',
+            offsetY: 2,
+          },
+        ]);
+
+      this.overlayRef = this.overlay.create({
+        positionStrategy,
+        hasBackdrop: true,
+        backdropClass: 'opacity-0',
+        width: trigger.offsetWidth,
+      });
+
+      const portal = new TemplatePortal(this.optionsTemplate, this.viewContainerRef);
+      this.overlayRef.attach(portal);
+
+      this.overlayRef
+        .backdropClick()
+        .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+        .subscribe(() => {
+          this.overlayRef.detach();
+          this.isOpen = false;
+          this.formControl.markAsTouched();
+          this.cd.detectChanges();
+        });
+
+      this.isOpen = true;
+    }
+
+    this.cd.detectChanges();
   }
 
-  get hasRequiredError(): boolean {
-    return this.formControl.hasError('required');
+  getId(option: unknown): string {
+    return typeof option === 'string' ? option : this.displayValueSelector(option);
   }
 
-  registerOnTouched(): void {}
-  setDisabledState?(): void {}
+  getIcon(option: unknown): string {
+    return typeof option === 'string' ? option : this.iconSelector(option);
+  }
 
-  valueChanged(value: unknown) {
+  override valueChanged(value: unknown) {
     this.onChange(value);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onChange = (value: unknown) => {};
-
-  writeValue(value: unknown): void {
-    this.value = value;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  private getIcons(): string[] {
-    return [
-      'home',
-      'basket',
-      'pill',
-      'clothes',
-      'entertainment',
-      'bus',
-      'car',
-      'bath',
-      'rest',
-      'work',
-      'cake',
-      'lamp',
-      'laptop',
-      'internet',
-      'tv',
-      'flower',
-      'heart',
-    ];
+    this.formControl.setValue(value, { emitEvent: false });
+    this.toggleDropdown();
   }
 }

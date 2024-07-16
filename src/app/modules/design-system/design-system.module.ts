@@ -16,8 +16,12 @@ import {
   FullsizeLoaderComponent,
   BaseModalComponent,
   ColorPickerComponent,
-  IconPickerComponent,
   CustomSelectComponent,
+  CustomInputComponent,
+  ControlLabelComponent,
+  ControlErrorComponent,
+  CustomTextareaComponent,
+  CharCounterComponent,
 } from './components';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -30,8 +34,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxColorsModule } from 'ngx-colors';
-import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { PortalModule } from '@angular/cdk/portal';
 
 @NgModule({
   imports: [
@@ -46,8 +51,9 @@ import { MatSelectModule } from '@angular/material/select';
     FormsModule,
     MatFormFieldModule,
     NgxColorsModule,
-    MatInputModule,
     MatSelectModule,
+    OverlayModule,
+    PortalModule,
   ],
 
   declarations: [
@@ -66,9 +72,13 @@ import { MatSelectModule } from '@angular/material/select';
     CheckboxGroupComponent,
     FullsizeLoaderComponent,
     BaseModalComponent,
-    ColorPickerComponent,
-    IconPickerComponent,
     CustomSelectComponent,
+    CustomInputComponent,
+    ControlErrorComponent,
+    ControlLabelComponent,
+    ColorPickerComponent,
+    CustomTextareaComponent,
+    CharCounterComponent,
   ],
   exports: [
     SvgIconComponent,
@@ -84,9 +94,13 @@ import { MatSelectModule } from '@angular/material/select';
     CheckboxGroupComponent,
     FullsizeLoaderComponent,
     BaseModalComponent,
-    ColorPickerComponent,
-    IconPickerComponent,
     CustomSelectComponent,
+    CustomInputComponent,
+    ControlErrorComponent,
+    ControlLabelComponent,
+    ColorPickerComponent,
+    CustomTextareaComponent,
+    CharCounterComponent,
   ],
   providers: [ConfirmationModalService],
 })

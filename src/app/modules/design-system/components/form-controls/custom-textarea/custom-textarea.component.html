@@ -1,0 +1,35 @@
+<control-label
+  class="mb-1"
+  [label]="label"
+  [required]="required"
+  [for]="'textarea'"
+></control-label>
+
+<textarea
+  class="cursor-pointer border-2 border-solid border-grey rounded-md px-3 py-2 font-main text-charcoal group-hover:border-charcoal focus:border-2 focus:border-charcoal outline-none resize-none"
+  [ngClass]="{
+    'border-red group-hover:border-red focus:border-red rounded-b-none':
+      formControl.invalid && isErrorState()
+  }"
+  [id]="'textarea'"
+  [autocomplete]="'off'"
+  [rows]="rows"
+  [formControl]="formControl"
+  [maxlength]="maxLength"
+  (ngModelChange)="valueChanged($event)"
+></textarea>
+
+@if (!isErrorState() && displayCharCounter && maxLength) {
+  <char-counter
+    [currentAmount]="formControl?.value?.length || 0"
+    [maxLength]="maxLength"
+  ></char-counter>
+}
+
+@if (isErrorState()) {
+  <div class="flex flex-col gap-y-1 w-full pt-1 px-1.5 pb-1.5 rounded-b-md bg-red">
+    @if (hasRequiredError) {
+      <control-error>{{ 'formErrors.required' | translate }}</control-error>
+    }
+  </div>
+}

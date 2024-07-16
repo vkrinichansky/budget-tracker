@@ -12,6 +12,6 @@ export { CustomTooltipComponent } from './custom-tooltip/custom-tooltip.componen
 export { CheckboxGroupComponent } from './checkbox-group/checkbox-group.component';
 export { FullsizeLoaderComponent } from './fullsize-loader/fullsize-loader.component';
 export { BaseModalComponent } from './base-modal/base-modal.component';
-export { ColorPickerComponent } from './color-picker/color-picker.component';
-export { IconPickerComponent } from './icon-picker/icon-picker.component';
 export { CustomSelectComponent } from './custom-select/custom-select.component';
+
+export * from './form-controls';
