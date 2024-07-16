@@ -74,6 +74,7 @@ module.exports = {
       maxWidth: {
         ...convertPixelsIntoRems(200), // 200px,
         ...convertPixelsIntoRems(256), // 256px,
+        '1/2': '50%',
       },
       minHeight: {
         ...convertPixelsIntoRems(36), // 36px,

@@ -1,5 +1,18 @@
 <app-base-modal [titleTranslationKey]="'dashboard.addAccountModal.title'" [footerTemplate]="footer">
-  <form class="flex flex-col gap-y-2" [formGroup]="form">
+  <form class="flex flex-col gap-y-2 h-full" [formGroup]="form">
+    <div class="sticky top-0 pb-4 bg-white -mx-6 px-6 z-10">
+      <app-info-card
+        [primaryText]="
+          (form.controls[formFields.AccountValue].value || 0) + ' ' + selectedCurrencySymbol
+        "
+        [secondaryText]="form.controls[formFields.AccountName].value"
+        [iconName]="form.controls[formFields.AccountIcon].value"
+        [hexBgColor]="form.controls[formFields.AccountBgColor].value || '#F0F2F2'"
+        [hexTextColor]="form.controls[formFields.AccountTextColor].value || '#2C4251'"
+        [shouldUseCustomColors]="true"
+      ></app-info-card>
+    </div>
+
     <custom-input
       [label]="'dashboard.addAccountModal.accountNameTitle' | translate"
       [formControlName]="formFields.AccountName"
@@ -44,18 +57,6 @@
       [formControlName]="formFields.AccountTextColor"
       [required]="true"
     ></color-picker>
-
-    <app-info-card
-      class="mt-4 !py-2 !h-20"
-      [primaryText]="
-        (form.controls[formFields.AccountValue].value || 0) + ' ' + selectedCurrencySymbol
-      "
-      [secondaryText]="form.controls[formFields.AccountName].value"
-      [iconName]="form.controls[formFields.AccountIcon].value"
-      [hexBgColor]="form.controls[formFields.AccountBgColor].value || '#F0F2F2'"
-      [hexTextColor]="form.controls[formFields.AccountTextColor].value || '#2C4251'"
-      [shouldUseCustomColors]="true"
-    ></app-info-card>
   </form>
 </app-base-modal>
 

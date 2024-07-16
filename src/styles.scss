@@ -42,6 +42,41 @@ body {
   @apply bg-hover-black border border-solid border-transparent rounded-full bg-clip-padding;
 }
 
+// FORM CONTROL
+.form-control {
+  @apply font-main text-base text-charcoal;
+  @apply border-2 border-solid border-grey rounded-md group-hover:border-charcoal;
+}
+
+.form-control-error {
+  @apply border-red group-hover:border-red rounded-b-none;
+}
+
+input,
+.custom-select,
+.color-picker {
+  @apply h-12;
+}
+
+input,
+textarea,
+.custom-select {
+  @apply px-3;
+}
+
+input,
+textarea {
+  @apply focus:border-charcoal outline-none;
+
+  &.form-control-error {
+    @apply focus:border-red;
+  }
+}
+
+textarea {
+  @apply py-2 resize-none;
+}
+
 // SNACKBAR
 .mat-mdc-snack-bar-container {
   .mdc-snackbar__surface {
@@ -97,61 +132,6 @@ body {
 
 .mat-mdc-dialog-content {
   @apply flex flex-col #{!important};
-}
-
-// SELECT
-.mat-mdc-select-panel {
-  @apply p-1 flex flex-col gap-y-1 box-content #{!important};
-}
-
-.mat-mdc-option {
-  @apply p-0 min-h-9 #{!important};
-}
-
-.mat-mdc-option:hover:not(.mdc-list-item--disabled) {
-  @apply hover:bg-transparent #{!important};
-}
-
-.mdc-list-item__primary-text {
-  @apply w-full #{!important};
-}
-
-.mat-mdc-option.mdc-list-item {
-  @apply mb-0;
-}
-
-.mat-mdc-option.mat-mdc-option-active {
-  @apply bg-transparent #{!important};
-}
-
-.mat-primary {
-  .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-minimal::after,
-  .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-minimal::after {
-    @apply text-charcoal #{!important};
-  }
-}
-
-.mat-mdc-select-arrow {
-  @apply text-charcoal #{!important};
-}
-
-.mat-mdc-form-field {
-  .mat-mdc-select.mat-mdc-select-invalid .mat-mdc-select-arrow {
-    @apply text-red #{!important};
-  }
-}
-
-.mdc-floating-label {
-  @apply font-main #{!important};
-}
-
-// MAT ERRORS
-.mat-mdc-form-field-error {
-  @apply font-main #{!important};
-}
-
-.mat-mdc-form-field-error-wrapper {
-  @apply p-0 #{!important};
 }
 
 // MAT CHECKBOX

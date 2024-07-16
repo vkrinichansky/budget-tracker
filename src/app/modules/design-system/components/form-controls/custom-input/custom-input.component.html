@@ -3,10 +3,9 @@
 }
 
 <input
-  class="cursor-pointer border-2 border-solid border-grey rounded-md h-12 px-3 font-main text-charcoal group-hover:border-charcoal focus:border-2 focus:border-charcoal outline-none"
+  class="form-control"
   [ngClass]="{
-    'border-red group-hover:border-red focus:border-red rounded-b-none':
-      formControl.invalid && isErrorState()
+    'form-control-error': formControl.invalid && isErrorState()
   }"
   [id]="'input'"
   [autocomplete]="'off'"

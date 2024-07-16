@@ -9,9 +9,9 @@
 <div
   #colorPicker
   ngx-colors-trigger
-  class="cursor-pointer border-2 border-solid border-grey rounded-md h-12 group-hover:border-charcoal focus:border-charcoal"
+  class="color-picker form-control"
   [ngClass]="{
-    'border-red group-hover:border-red rounded-b-none': formControl.invalid && isErrorState()
+    'form-control-error': formControl.invalid && isErrorState()
   }"
   [id]="'color-picker'"
   [style.backgroundColor]="formControl.value || 'white'"

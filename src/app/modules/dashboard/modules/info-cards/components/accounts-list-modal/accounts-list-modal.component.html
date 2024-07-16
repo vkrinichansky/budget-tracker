@@ -7,11 +7,11 @@
   <div
     cdkDropList
     cdkScrollable
+    class="container"
     [cdkDropListLockAxis]="'y'"
     [cdkDropListAutoScrollDisabled]="false"
     [cdkDropListAutoScrollStep]="10"
     [cdkDropListDisabled]="accounts?.length === 1"
-    class="container flex flex-col gap-4 relative"
     (cdkDropListDropped)="orderChanged($event)"
   >
     @for (account of accounts; track account.id) {

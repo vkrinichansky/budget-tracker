@@ -6,10 +6,9 @@
 ></control-label>
 
 <textarea
-  class="cursor-pointer border-2 border-solid border-grey rounded-md px-3 py-2 font-main text-charcoal group-hover:border-charcoal focus:border-2 focus:border-charcoal outline-none resize-none"
+  class="form-control"
   [ngClass]="{
-    'border-red group-hover:border-red focus:border-red rounded-b-none':
-      formControl.invalid && isErrorState()
+    'form-control-error': formControl.invalid && isErrorState()
   }"
   [id]="'textarea'"
   [autocomplete]="'off'"

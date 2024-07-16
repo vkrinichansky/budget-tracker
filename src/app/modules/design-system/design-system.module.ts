@@ -24,7 +24,6 @@ import {
   CharCounterComponent,
 } from './components';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmationModalService } from './services';
@@ -32,9 +31,7 @@ import { UtilsModule } from '@budget-tracker/utils';
 import { TooltipRendererDirective } from './directives';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxColorsModule } from 'ngx-colors';
-import { MatSelectModule } from '@angular/material/select';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
 
@@ -42,16 +39,13 @@ import { PortalModule } from '@angular/cdk/portal';
   imports: [
     CommonModule,
     MatMenuModule,
-    MatTooltipModule,
     MatDialogModule,
     TranslateModule,
     UtilsModule,
     MatCheckboxModule,
     ReactiveFormsModule,
     FormsModule,
-    MatFormFieldModule,
     NgxColorsModule,
-    MatSelectModule,
     OverlayModule,
     PortalModule,
   ],
