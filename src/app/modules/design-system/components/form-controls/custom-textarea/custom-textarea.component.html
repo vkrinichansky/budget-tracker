@@ -1,16 +1,11 @@
-<control-label
-  class="mb-1"
-  [label]="label"
-  [required]="required"
-  [for]="'textarea'"
-></control-label>
+<control-label class="mb-1" [label]="label" [required]="isRequired" [for]="id"></control-label>
 
 <textarea
   class="form-control"
   [ngClass]="{
     'form-control-error': formControl.invalid && isErrorState()
   }"
-  [id]="'textarea'"
+  [id]="id"
   [autocomplete]="'off'"
   [rows]="rows"
   [formControl]="formControl"

@@ -1,6 +1,6 @@
 <control-label
   class="mb-1"
-  [for]="'color-picker'"
+  [for]="id"
   [required]="true"
   [label]="label"
   (click)="openPanel()"
@@ -13,7 +13,7 @@
   [ngClass]="{
     'form-control-error': formControl.invalid && isErrorState()
   }"
-  [id]="'color-picker'"
+  [id]="id"
   [style.backgroundColor]="formControl.value || 'white'"
   [hideTextInput]="true"
   [hideColorPicker]="true"

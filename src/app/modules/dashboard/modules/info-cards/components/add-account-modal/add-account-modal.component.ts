@@ -35,10 +35,10 @@ export class AddAccountModalComponent implements OnInit {
   readonly form: FormGroup = new FormGroup({
     [FormFields.AccountName]: new FormControl(null),
     [FormFields.AccountValue]: new FormControl(null),
-    [FormFields.AccountIcon]: new FormControl(null, [Validators.required]),
+    [FormFields.AccountIcon]: new FormControl(null),
     [FormFields.AccountBgColor]: new FormControl(null),
     [FormFields.AccountTextColor]: new FormControl(null),
-    [FormFields.AccountCurrency]: new FormControl(null, [Validators.required]),
+    [FormFields.AccountCurrency]: new FormControl(null),
   });
 
   readonly options: Currency[] = Object.values(predefinedCurrenciesDictionary);

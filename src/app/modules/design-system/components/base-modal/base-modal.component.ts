@@ -22,6 +22,9 @@ export class BaseModalComponent {
   @Input()
   footerTemplate: TemplateRef<unknown>;
 
+  @Input()
+  loading: boolean;
+
   constructor(private dialogRef: MatDialogRef<BaseModalComponent>) {}
 
   cancelClick(): void {

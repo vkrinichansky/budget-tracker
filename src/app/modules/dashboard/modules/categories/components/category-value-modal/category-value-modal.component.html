@@ -7,7 +7,7 @@
   <form class="flex flex-col gap-y-2" [formGroup]="form">
     <custom-input
       [label]="'dashboard.categoryValueModal.valueToAddTitle' | translate"
-      [required]="true"
+      [isRequired]="true"
       [minValue]="1"
       [type]="'number'"
       [formControlName]="formFieldsEnum.ValueToAdd"
@@ -20,7 +20,7 @@
       [idSelector]="idSelector"
       [displayValueSelector]="displayValueSelector"
       [iconSelector]="iconSelector"
-      [required]="true"
+      [isRequired]="true"
     ></custom-select>
 
     <custom-textarea

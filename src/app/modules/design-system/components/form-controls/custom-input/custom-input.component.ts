@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, forwardRef, HostBinding, Input } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GenericCustomControlComponent } from '../generic-custom-control/generic-custom-control.component';
 
 @Component({
@@ -10,6 +10,11 @@ import { GenericCustomControlComponent } from '../generic-custom-control/generic
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => CustomInputComponent),
+      multi: true,
+    },
+    {
+      provide: NG_VALIDATORS,
       useExisting: forwardRef(() => CustomInputComponent),
       multi: true,
     },

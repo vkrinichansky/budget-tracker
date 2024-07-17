@@ -10,7 +10,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GenericCustomControlComponent } from '../form-controls/generic-custom-control/generic-custom-control.component';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
@@ -28,6 +28,11 @@ import { IconsForUser } from '../../models';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => CustomSelectComponent),
+      multi: true,
+    },
+    {
+      provide: NG_VALIDATORS,
       useExisting: forwardRef(() => CustomSelectComponent),
       multi: true,
     },
@@ -79,10 +84,10 @@ export class CustomSelectComponent extends GenericCustomControlComponent {
   constructor(
     private overlay: Overlay,
     private viewContainerRef: ViewContainerRef,
-    private cd: ChangeDetectorRef,
+    protected override cd: ChangeDetectorRef,
     protected override destroyRef: DestroyRef
   ) {
-    super(destroyRef);
+    super(destroyRef, cd);
   }
 
   toggleDropdown(trigger?: HTMLElement): void {
@@ -140,6 +145,7 @@ export class CustomSelectComponent extends GenericCustomControlComponent {
   override valueChanged(value: unknown) {
     this.onChange(value);
     this.formControl.setValue(value, { emitEvent: false });
+    this.formControl.updateValueAndValidity();
     this.toggleDropdown();
   }
 }

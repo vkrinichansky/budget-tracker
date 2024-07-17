@@ -6,7 +6,7 @@ import {
   ViewChild,
   forwardRef,
 } from '@angular/core';
-import { FormControl, Validators, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormControl, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { isMobileWidth } from '@budget-tracker/utils';
 import { NgxColorsTriggerDirective } from 'ngx-colors';
 import { GenericCustomControlComponent } from '../generic-custom-control/generic-custom-control.component';
@@ -19,6 +19,11 @@ import { GenericCustomControlComponent } from '../generic-custom-control/generic
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ColorPickerComponent),
+      multi: true,
+    },
+    {
+      provide: NG_VALIDATORS,
       useExisting: forwardRef(() => ColorPickerComponent),
       multi: true,
     },

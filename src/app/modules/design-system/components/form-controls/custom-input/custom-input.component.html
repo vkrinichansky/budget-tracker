@@ -1,5 +1,5 @@
 @if (label) {
-  <control-label class="mb-1" [label]="label" [required]="required" [for]="'input'"></control-label>
+  <control-label class="mb-1" [label]="label" [required]="isRequired" [for]="id"></control-label>
 }
 
 <input
@@ -7,7 +7,7 @@
   [ngClass]="{
     'form-control-error': formControl.invalid && isErrorState()
   }"
-  [id]="'input'"
+  [id]="id"
   [autocomplete]="'off'"
   [type]="type"
   [appPreventInvalidChars]="type === 'number' ? ['e', 'E', '-', '.'] : []"

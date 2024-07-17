@@ -15,47 +15,53 @@
 
     <custom-input
       [label]="'dashboard.addAccountModal.accountNameTitle' | translate"
+      [id]="formFields.AccountName"
       [formControlName]="formFields.AccountName"
-      [required]="true"
+      [isRequired]="true"
       [maxLength]="20"
       [displayCharCounter]="true"
     ></custom-input>
 
     <custom-input
+      [id]="formFields.AccountValue"
       [formControlName]="formFields.AccountValue"
       [label]="'dashboard.addAccountModal.accountValueTitle' | translate"
-      [required]="true"
+      [isRequired]="true"
       [minValue]="1"
       [type]="'number'"
     ></custom-input>
 
     <custom-select
+      [id]="formFields.AccountCurrency"
       [label]="'dashboard.addAccountModal.accountCurrencyTitle' | translate"
       [formControlName]="formFields.AccountCurrency"
       [options]="options"
       [idSelector]="currencyIdSelector"
       [displayValueSelector]="currencyDisplayValueSelector"
       [iconSelector]="currencyIconSelector"
-      [required]="true"
+      [isRequired]="true"
     ></custom-select>
 
     <custom-select
+      [id]="formFields.AccountIcon"
       [label]="'dashboard.addAccountModal.accountIconTitle' | translate"
       [formControlName]="formFields.AccountIcon"
-      [required]="true"
+      [isRequired]="true"
       [iconPickerMode]="true"
     ></custom-select>
 
     <color-picker
+      [id]="formFields.AccountBgColor"
       [label]="'dashboard.addAccountModal.accountBgColorTitle' | translate"
       [formControlName]="formFields.AccountBgColor"
-      [required]="true"
+      [isRequired]="true"
     ></color-picker>
 
     <color-picker
+      [id]="formFields.AccountTextColor"
       [label]="'dashboard.addAccountModal.accountTextColorTitle' | translate"
       [formControlName]="formFields.AccountTextColor"
-      [required]="true"
+      [isRequired]="true"
     ></color-picker>
   </form>
 </app-base-modal>

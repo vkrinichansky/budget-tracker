@@ -1,25 +1,28 @@
 <app-base-modal [titleTranslationKey]="title" [footerTemplate]="footer">
   <form class="flex flex-col gap-y-2" [formGroup]="form">
     <custom-input
+      [id]="formFields.CategoryName"
       [label]="'dashboard.addCategoryModal.categoryNameTitle' | translate"
       [formControlName]="formFields.CategoryName"
-      [required]="true"
+      [isRequired]="true"
       [maxLength]="25"
       [entityExistsValidator]="categoryExistsValidator"
       [displayCharCounter]="true"
     ></custom-input>
 
     <custom-select
+      [id]="formFields.CategoryIcon"
       [label]="'dashboard.addCategoryModal.categoryIconTitle' | translate"
       [formControlName]="formFields.CategoryIcon"
-      [required]="true"
+      [isRequired]="true"
       [iconPickerMode]="true"
     ></custom-select>
 
     <color-picker
+      [id]="formFields.CategoryColorPicker"
       [label]="'dashboard.addCategoryModal.categoryColorTitle' | translate"
       [formControlName]="formFields.CategoryColorPicker"
-      [required]="true"
+      [isRequired]="true"
     ></color-picker>
   </form>
 </app-base-modal>

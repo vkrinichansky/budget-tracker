@@ -1,6 +1,6 @@
 <control-label
   class="mb-1"
-  [for]="'select'"
+  [for]="id"
   [required]="true"
   [label]="label"
   (click)="toggleDropdown(trigger)"
@@ -14,7 +14,7 @@
     'border-grey': !isOpen,
     'border-charcoal': isOpen
   }"
-  [id]="'select'"
+  [id]="id"
   (click)="toggleDropdown(trigger)"
 >
   @if (formControl.value) {

@@ -45,7 +45,7 @@ body {
 // FORM CONTROL
 .form-control {
   @apply font-main text-base text-charcoal;
-  @apply border-2 border-solid border-grey rounded-md group-hover:border-charcoal;
+  @apply border-2 border-solid border-black-transparent rounded-md group-hover:border-charcoal;
 }
 
 .form-control-error {
