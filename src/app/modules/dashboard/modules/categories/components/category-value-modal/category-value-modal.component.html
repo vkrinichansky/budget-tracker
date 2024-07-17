@@ -6,6 +6,7 @@
 >
   <form class="flex flex-col gap-y-2" [formGroup]="form">
     <custom-input
+      [id]="formFieldsEnum.ValueToAdd"
       [label]="'dashboard.categoryValueModal.valueToAddTitle' | translate"
       [isRequired]="true"
       [minValue]="1"
@@ -14,6 +15,7 @@
     ></custom-input>
 
     <custom-select
+      [id]="formFieldsEnum.AccountToUse"
       [label]="'dashboard.categoryValueModal.accountsTitle' | translate"
       [formControlName]="formFieldsEnum.AccountToUse"
       [options]="accounts"
@@ -24,6 +26,7 @@
     ></custom-select>
 
     <custom-textarea
+      [id]="formFieldsEnum.Note"
       [label]="'dashboard.categoryValueModal.noteTitle' | translate"
       [formControlName]="formFieldsEnum.Note"
       [maxLength]="100"
