@@ -6,12 +6,14 @@
   [buttonSizeY]="'small'"
   [buttonSizeX]="'small'"
   [disabled]="disabled"
+  (onMenuOpen)="setMenuClosed(false)"
 ></app-button>
 
 <mat-menu #menu="matMenu" (close)="removeRecordsWithSelectedTypes(checkbox.checkboxGroup)">
   <app-checkbox-group
     #checkbox
     [checkboxGroup]="checkboxGroup$ | async"
+    [menuClosed]="menuClosed$ | async"
     (click)="$event.stopPropagation()"
   ></app-checkbox-group>
 </mat-menu>

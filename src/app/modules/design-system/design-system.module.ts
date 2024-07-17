@@ -23,6 +23,7 @@ import {
   CustomTextareaComponent,
   CharCounterComponent,
   ButtonToggleComponent,
+  CheckboxComponent,
 } from './components';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -30,7 +31,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmationModalService } from './services';
 import { UtilsModule } from '@budget-tracker/utils';
 import { TooltipRendererDirective } from './directives';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxColorsModule } from 'ngx-colors';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -43,7 +43,6 @@ import { PortalModule } from '@angular/cdk/portal';
     MatDialogModule,
     TranslateModule,
     UtilsModule,
-    MatCheckboxModule,
     ReactiveFormsModule,
     FormsModule,
     NgxColorsModule,
@@ -75,6 +74,7 @@ import { PortalModule } from '@angular/cdk/portal';
     CustomTextareaComponent,
     CharCounterComponent,
     ButtonToggleComponent,
+    CheckboxComponent,
   ],
   exports: [
     SvgIconComponent,
@@ -98,6 +98,7 @@ import { PortalModule } from '@angular/cdk/portal';
     CustomTextareaComponent,
     CharCounterComponent,
     ButtonToggleComponent,
+    CheckboxComponent,
   ],
   providers: [ConfirmationModalService],
 })

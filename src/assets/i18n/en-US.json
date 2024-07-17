@@ -106,13 +106,17 @@
           "text": "Categories reset",
           "tooltip": "Manual and monthly categories reset"
         },
-        "rootValueChange": {
-          "text": "Root value change",
-          "tooltip": "Balance, savings and free money values changing"
-        },
         "categoryValueChange": {
           "text": "Category value change",
           "tooltip": "Income and expense categories value changing"
+        },
+        "accountManagement": {
+          "text": "Account management",
+          "tooltip": "Adding and removing accounts"
+        },
+        "accountValueEdit": {
+          "text": "Account value edit",
+          "tooltip": "Account value changing"
         },
         "removeConfirmationQuestion": "Are you sure you want to remove records of selected types?",
         "removeConfirmationRemark": "This action won't affect current month records"

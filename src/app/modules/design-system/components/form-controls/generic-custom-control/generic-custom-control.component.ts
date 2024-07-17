@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { debounceTime, tap } from 'rxjs';
 
-type valueType = string | number | unknown;
+type valueType = string | number | boolean | unknown;
 
 enum CustomErrors {
   SameValue = 'sameValue',
