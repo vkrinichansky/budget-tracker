@@ -11,13 +11,13 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { GenericCustomControlComponent } from '../form-controls/generic-custom-control/generic-custom-control.component';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { take } from 'rxjs';
-import { IconsForUser } from '../../models';
+import { GenericCustomControlComponent } from '../generic-custom-control/generic-custom-control.component';
+import { IconsForUser } from '../../../models';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
