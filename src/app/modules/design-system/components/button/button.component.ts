@@ -11,7 +11,7 @@ import { ButtonSize, ColorScheme } from '../../models';
 export class ButtonComponent {
   @HostBinding('class')
   private get classes(): string {
-    return `flex rounded overflow-hidden
+    return `flex  overflow-hidden
     ${this.align}
     ${this.buttonSizeClasses}
     ${this.activeStateClass}
@@ -50,6 +50,10 @@ export class ButtonComponent {
   @HostBinding('class.mobile-click-effect')
   @Input()
   shouldDisplayMobileClickEffect = true;
+
+  @HostBinding('class.rounded-md')
+  @Input()
+  rounded = true;
 
   @Input()
   activeColorScheme: ColorScheme = 'green';

@@ -22,6 +22,7 @@ import {
   ControlErrorComponent,
   CustomTextareaComponent,
   CharCounterComponent,
+  ButtonToggleComponent,
 } from './components';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -73,6 +74,7 @@ import { PortalModule } from '@angular/cdk/portal';
     ColorPickerComponent,
     CustomTextareaComponent,
     CharCounterComponent,
+    ButtonToggleComponent,
   ],
   exports: [
     SvgIconComponent,
@@ -95,6 +97,7 @@ import { PortalModule } from '@angular/cdk/portal';
     ColorPickerComponent,
     CustomTextareaComponent,
     CharCounterComponent,
+    ButtonToggleComponent,
   ],
   providers: [ConfirmationModalService],
 })

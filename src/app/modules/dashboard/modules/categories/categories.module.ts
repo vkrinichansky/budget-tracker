@@ -14,7 +14,6 @@ import { UtilsModule } from '@budget-tracker/utils';
 import { NgChartsModule } from 'ng2-charts';
 import { DataModule } from '@budget-tracker/data';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 @NgModule({
   imports: [
     CommonModule,
@@ -26,7 +25,6 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     NgChartsModule,
     DataModule,
     ScrollingModule,
-    MatButtonToggleModule,
   ],
   declarations: [
     CategoriesComponent,
