@@ -25,11 +25,14 @@ import {
   ButtonToggleComponent,
   CheckboxComponent,
 } from './components';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DEFAULT_OPTIONS,
+  MatDialogConfig,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmationModalService } from './services';
-import { UtilsModule } from '@budget-tracker/utils';
+import { isMobileWidth, UtilsModule } from '@budget-tracker/utils';
 import { TooltipRendererDirective } from './directives';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxColorsModule } from 'ngx-colors';
@@ -39,7 +42,6 @@ import { PortalModule } from '@angular/cdk/portal';
 @NgModule({
   imports: [
     CommonModule,
-    MatMenuModule,
     MatDialogModule,
     TranslateModule,
     UtilsModule,
@@ -100,6 +102,19 @@ import { PortalModule } from '@angular/cdk/portal';
     ButtonToggleComponent,
     CheckboxComponent,
   ],
-  providers: [ConfirmationModalService],
+  providers: [
+    ConfirmationModalService,
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {
+        ...new MatDialogConfig(),
+        width: '500px',
+        maxWidth: isMobileWidth() ? '100%' : '500px',
+        maxHeight: isMobileWidth() ? '100%' : '90vh',
+        position: isMobileWidth() ? { top: '0' } : { top: '30px' },
+        autoFocus: false,
+      } as MatDialogConfig,
+    },
+  ],
 })
 export class DesignSystemModule {}

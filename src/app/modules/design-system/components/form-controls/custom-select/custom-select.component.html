@@ -3,7 +3,7 @@
   [for]="id"
   [required]="true"
   [label]="label"
-  (click)="toggleDropdown(trigger)"
+  (click)="toggleDropdown()"
 ></control-label>
 
 <div
@@ -15,7 +15,7 @@
     'border-charcoal': isOpen
   }"
   [id]="id"
-  (click)="toggleDropdown(trigger)"
+  (click)="toggleDropdown()"
 >
   @if (formControl.value) {
     <span class="text-charcoal flex gap-x-2 items-center">

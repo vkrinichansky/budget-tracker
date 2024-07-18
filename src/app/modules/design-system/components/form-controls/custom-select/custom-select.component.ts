@@ -1,8 +1,10 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   DestroyRef,
+  ElementRef,
   forwardRef,
   HostBinding,
   Input,
@@ -44,12 +46,15 @@ import { IconsForUser } from '../../../models';
     ]),
   ],
 })
-export class CustomSelectComponent extends GenericCustomControlComponent {
+export class CustomSelectComponent extends GenericCustomControlComponent implements AfterViewInit {
   @HostBinding('class')
   private readonly classes = 'group flex flex-col';
 
   @ViewChild('optionsTemplate')
   private optionsTemplate: TemplateRef<unknown>;
+
+  @ViewChild('trigger', { static: true })
+  private trigger: ElementRef<HTMLElement>;
 
   @Input()
   options: unknown[];
@@ -90,44 +95,44 @@ export class CustomSelectComponent extends GenericCustomControlComponent {
     super(destroyRef, cd);
   }
 
-  toggleDropdown(trigger?: HTMLElement): void {
+  ngAfterViewInit(): void {
+    const positionStrategy = this.overlay
+      .position()
+      .flexibleConnectedTo(this.trigger.nativeElement)
+      .withPositions([
+        {
+          originX: 'start',
+          originY: 'bottom',
+          overlayX: 'start',
+          overlayY: 'top',
+          offsetY: 2,
+        },
+      ]);
+
+    this.overlayRef = this.overlay.create({
+      positionStrategy,
+      hasBackdrop: true,
+      width: this.trigger.nativeElement.offsetWidth,
+    });
+
+    this.overlayRef
+      .backdropClick()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.overlayRef.detach();
+        this.isOpen = false;
+        this.formControl.markAsTouched();
+        this.cd.detectChanges();
+      });
+  }
+
+  toggleDropdown(): void {
     if (this.overlayRef && this.overlayRef.hasAttached()) {
       this.overlayRef.detach();
       this.isOpen = false;
     } else {
-      const positionStrategy = this.overlay
-        .position()
-        .flexibleConnectedTo(trigger)
-        .withPositions([
-          {
-            originX: 'start',
-            originY: 'bottom',
-            overlayX: 'start',
-            overlayY: 'top',
-            offsetY: 2,
-          },
-        ]);
-
-      this.overlayRef = this.overlay.create({
-        positionStrategy,
-        hasBackdrop: true,
-        backdropClass: 'opacity-0',
-        width: trigger.offsetWidth,
-      });
-
       const portal = new TemplatePortal(this.optionsTemplate, this.viewContainerRef);
       this.overlayRef.attach(portal);
-
-      this.overlayRef
-        .backdropClick()
-        .pipe(take(1), takeUntilDestroyed(this.destroyRef))
-        .subscribe(() => {
-          this.overlayRef.detach();
-          this.isOpen = false;
-          this.formControl.markAsTouched();
-          this.cd.detectChanges();
-        });
-
       this.isOpen = true;
     }
 
