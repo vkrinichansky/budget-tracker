@@ -32,7 +32,7 @@
     [colorScheme]="'charcoal'"
     [text]="'dashboard.addCategoryModal.addCategory' | translate"
     [buttonSizeX]="'big'"
-    [disabled]="!isFormValid"
+    [disabled]="this.form?.invalid"
     [loading]="loading$ | async"
     (click)="submitClick()"
   ></app-button>

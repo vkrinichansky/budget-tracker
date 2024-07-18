@@ -64,11 +64,11 @@ export class MenuComponent implements AfterViewInit {
 
   @Output()
   // eslint-disable-next-line @angular-eslint/no-output-native
-  close = new EventEmitter();
+  close = new EventEmitter<void>();
 
   @Output()
   // eslint-disable-next-line @angular-eslint/no-output-native
-  open = new EventEmitter();
+  open = new EventEmitter<void>();
 
   get resolveColorScheme(): ColorScheme {
     return this.shouldUseCurrentColor ? null : this.colorScheme;

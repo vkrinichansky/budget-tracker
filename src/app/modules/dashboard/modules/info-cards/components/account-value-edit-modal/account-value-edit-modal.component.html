@@ -6,6 +6,7 @@
 >
   <form class="flex flex-col gap-y-2" [formGroup]="form">
     <custom-input
+      [id]="formFields.Value"
       [label]="'dashboard.accountValueEditModal.valueInputLabel' | translate"
       [formControlName]="formFields.Value"
       [isRequired]="true"
@@ -16,6 +17,7 @@
     ></custom-input>
 
     <custom-textarea
+      [id]="formFields.Note"
       [label]="'dashboard.accountValueEditModal.noteInputLabel' | translate"
       [formControlName]="formFields.Note"
       [maxLength]="100"

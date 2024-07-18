@@ -22,7 +22,7 @@ import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class CustomTextareaComponent extends GenericCustomControlComponent {
   @HostBinding('class')
-  private readonly classes = 'group flex flex-col';
+  private readonly classes = 'group';
 
   @Input()
   rows = 3;

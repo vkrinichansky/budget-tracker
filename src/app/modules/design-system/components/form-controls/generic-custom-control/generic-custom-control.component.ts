@@ -91,16 +91,6 @@ export class GenericCustomControlComponent implements ControlValueAccessor, Vali
     this.initFormControlListener();
   }
 
-  handleValidators() {
-    if (this.isRequired) {
-      this.formControl.addValidators(Validators.required);
-    }
-
-    if (this.minValue !== undefined) {
-      this.formControl.addValidators(Validators.min(this.minValue));
-    }
-  }
-
   valueChanged(value: valueType) {
     this.onChange(value);
   }
@@ -133,6 +123,16 @@ export class GenericCustomControlComponent implements ControlValueAccessor, Vali
   registerOnValidatorChange?(): void {}
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onChange = (value: valueType) => {};
+
+  private handleValidators() {
+    if (this.isRequired) {
+      this.formControl.addValidators(Validators.required);
+    }
+
+    if (this.minValue !== undefined) {
+      this.formControl.addValidators(Validators.min(this.minValue));
+    }
+  }
 
   private initFormControlListener(): void {
     if (this.preventSameValue || this.entityExistsValidator) {

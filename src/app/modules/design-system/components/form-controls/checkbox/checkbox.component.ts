@@ -15,7 +15,6 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'checkbox',
   templateUrl: './checkbox.component.html',
-  styleUrl: './checkbox.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {

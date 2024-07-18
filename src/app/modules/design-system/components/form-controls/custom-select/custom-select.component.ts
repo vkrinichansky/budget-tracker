@@ -17,7 +17,6 @@ import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { take } from 'rxjs';
 import { GenericCustomControlComponent } from '../generic-custom-control/generic-custom-control.component';
 import { IconsForUser } from '../../../models';
 
@@ -25,7 +24,6 @@ import { IconsForUser } from '../../../models';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'custom-select',
   templateUrl: './custom-select.component.html',
-  styleUrl: './custom-select.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
@@ -48,7 +46,7 @@ import { IconsForUser } from '../../../models';
 })
 export class CustomSelectComponent extends GenericCustomControlComponent implements AfterViewInit {
   @HostBinding('class')
-  private readonly classes = 'group flex flex-col';
+  private readonly classes = 'group';
 
   @ViewChild('optionsTemplate')
   private optionsTemplate: TemplateRef<unknown>;

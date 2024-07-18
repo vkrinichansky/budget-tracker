@@ -43,6 +43,13 @@ body {
 }
 
 // FORM CONTROL
+custom-input,
+custom-textarea,
+custom-select,
+color-picker {
+  @apply flex flex-col;
+}
+
 .form-control {
   @apply font-main text-base text-charcoal;
   @apply border-2 border-solid border-black-transparent rounded-md group-hover:border-charcoal;
@@ -92,25 +99,6 @@ textarea {
   }
 }
 
-// MENU
-.mat-mdc-menu-item {
-  &.mdc-list-item {
-    @apply font-main text-base p-0 #{!important};
-  }
-
-  &:hover:not([disabled]) {
-    @apply hover:bg-hover-black #{!important};
-  }
-
-  &[disabled] {
-    @apply opacity-100 #{!important};
-  }
-}
-
-.mat-mdc-menu-content {
-  @apply flex flex-col gap-y-2 p-1 #{!important};
-}
-
 // DIALOG
 .mat-mdc-dialog-container {
   .mdc-dialog__title {
@@ -124,51 +112,11 @@ textarea {
   .mdc-dialog__surface {
     @apply rounded-md shadow-none #{!important};
   }
-}
 
-.mat-mdc-dialog-actions {
-  @apply flex items-center justify-end gap-x-4 #{!important};
-}
-
-.mat-mdc-dialog-content {
-  @apply flex flex-col #{!important};
-}
-
-// MAT CHECKBOX
-.mat-mdc-checkbox {
-  .mdc-checkbox {
-    .mdc-checkbox__background {
-      @apply border-grey #{!important};
+  app-base-modal {
+    .mat-mdc-dialog-actions {
+      @apply flex items-center justify-end gap-x-4 #{!important};
     }
-
-    .mdc-checkbox__ripple {
-      @apply hidden #{!important};
-    }
-
-    .mdc-checkbox__native-control:enabled {
-      &:checked ~ .mdc-checkbox__background {
-        @apply border-dark-green bg-dark-green #{!important};
-      }
-
-      &:indeterminate ~ .mdc-checkbox__background {
-        @apply border-dark-green bg-dark-green #{!important};
-      }
-
-      &:hover {
-        @media (hover: hover) {
-          .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not(
-              [data-indeterminate='true']
-            )
-            ~ .mdc-checkbox__background {
-            @apply border-charcoal #{!important};
-          }
-        }
-      }
-    }
-  }
-
-  .mdc-label {
-    @apply font-main #{!important};
   }
 }
 

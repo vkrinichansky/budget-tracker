@@ -27,7 +27,7 @@ export class AddCategoryModalComponent implements OnInit {
   readonly formFields = FormFields;
 
   readonly form: FormGroup = new FormGroup({
-    [FormFields.CategoryIcon]: new FormControl(null, Validators.required),
+    [FormFields.CategoryIcon]: new FormControl(null),
     [FormFields.CategoryName]: new FormControl(null),
     [FormFields.CategoryColorPicker]: new FormControl(null),
   });
@@ -43,10 +43,6 @@ export class AddCategoryModalComponent implements OnInit {
 
   loading$: Observable<boolean>;
   success$: Observable<boolean>;
-
-  get isFormValid(): boolean {
-    return this.form.valid;
-  }
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: AddCategoryModalData,
@@ -96,7 +92,8 @@ export class AddCategoryModalComponent implements OnInit {
     this.success$
       .pipe(
         filter((isSuccess) => !!isSuccess),
-        take(1)
+        take(1),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(() => this.dialogRef.close());
 

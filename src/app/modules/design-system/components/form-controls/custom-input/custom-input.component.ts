@@ -22,7 +22,7 @@ import { GenericCustomControlComponent } from '../generic-custom-control/generic
 })
 export class CustomInputComponent extends GenericCustomControlComponent {
   @HostBinding('class')
-  private readonly classes = 'group flex flex-col';
+  private readonly classes = 'group';
 
   @Input()
   type: 'text' | 'number' = 'text';
