@@ -49,7 +49,8 @@
     "accountValueEditModal": {
       "subtitle": "Редагування значення рахунку",
       "cancel": "Вихід",
-      "noteInputTitle": "Примітка",
+      "valueInputLabel": "Значення",
+      "noteInputLabel": "Примітка",
       "editButton": "Редагувати"
     },
 
@@ -112,6 +113,14 @@
         "categoryValueChange": {
           "text": "Зміна значень категорій",
           "tooltip": "Зміна значень категорій розходів та доходів"
+        },
+        "accountManagement": {
+          "text": "Менеджмент рахунків",
+          "tooltip": "Додавання та видалення рахунків"
+        },
+        "accountValueEdit": {
+          "text": "Зміна значень рахунків",
+          "tooltip": "Зміна значень рахунків"
         },
         "removeConfirmationQuestion": "Ви хочете видалити записи обраних типів?",
         "removeConfirmationRemark": "Ця дія не вплине на записи поточного місяця"
@@ -215,10 +224,9 @@
   "formErrors": {
     "required": "Обов'язкове для заповнення",
     "minValue": "Мінімальне значення - {{ minValue }}",
-    "noteTooLong": "Примітка занадто велика, макс. довжина - 100",
-    "editError": "Значення після редагування має бути іншим",
-    "invalidColor": "Колір введено невірно",
-    "numberPattern": "Введене значення повинне бути цілим числом"
+    "maxLength": "Макс. довжина - 100",
+    "sameValue": "Значення після редагування має бути іншим",
+    "entityExists": "Ця назва вже використовується"
   },
 
   "confirmationModal": {

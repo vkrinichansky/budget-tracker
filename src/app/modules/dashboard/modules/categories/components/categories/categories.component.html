@@ -8,7 +8,7 @@
 >
   <app-page-header class="text-xl bg-transparent" [title]="title | translate">
     <div class="flex items-center gap-x-2">
-      <mat-button-toggle-group appearance="legacy">
+      <button-toggle>
         <app-button
           [activeColorScheme]="'charcoal'"
           [text]="buildTranslationKey('tabs.list') | translate"
@@ -16,6 +16,7 @@
           [buttonSizeY]="'full'"
           [active]="data.currentTab === 'list'"
           [shouldDisplayMobileClickEffect]="false"
+          [rounded]="false"
           (click)="setTab('list')"
         ></app-button>
 
@@ -27,9 +28,11 @@
           [disabled]="data.areAllCategoriesReset"
           [active]="data.currentTab === 'chart'"
           [shouldDisplayMobileClickEffect]="false"
+          [rounded]="false"
           (click)="setTab('chart')"
         ></app-button>
-      </mat-button-toggle-group>
+      </button-toggle>
+
       <app-menu [colorScheme]="'transparent-dark'" [menuActions]="menuActions"></app-menu>
     </div>
   </app-page-header>
@@ -47,7 +50,11 @@
       @case ('list') {
         <cdk-virtual-scroll-viewport itemSize="60" class="h-full">
           <div
-            *cdkVirtualFor="let category of categories$ | async; trackBy: trackBy.bind(this); templateCacheSize: 0"
+            *cdkVirtualFor="
+              let category of categories$ | async;
+              trackBy: trackBy.bind(this);
+              templateCacheSize: 0
+            "
             class="h-15 flex items-center"
           >
             <app-category-item class="w-full" [categoryId]="category.id"></app-category-item>
@@ -56,7 +63,13 @@
       }
       @case ('chart') {
         <div class="w-full h-full flex flex-1 items-center justify-center overflow-hidden">
-          <canvas baseChart class="h-full" [type]="'doughnut'" [data]="chartData$ | async" [options]="chartOptions">
+          <canvas
+            baseChart
+            class="h-full"
+            [type]="'doughnut'"
+            [data]="chartData$ | async"
+            [options]="chartOptions"
+          >
           </canvas>
         </div>
       }

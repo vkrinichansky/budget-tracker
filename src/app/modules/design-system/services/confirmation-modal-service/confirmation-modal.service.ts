@@ -18,6 +18,11 @@ export class ConfirmationModalService {
       shouldConsiderCheckbox,
     };
 
-    this.dialog.open(ConfirmationModalComponent, { data, position: {} });
+    this.dialog.open(ConfirmationModalComponent, {
+      data,
+      maxWidth: '400px',
+      width: '400px',
+      position: {},
+    });
   }
 }

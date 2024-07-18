@@ -13,8 +13,6 @@ import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
 import { UtilsModule } from '@budget-tracker/utils';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatMenuModule } from '@angular/material/menu';
 import { DataModule } from '@budget-tracker/data';
 
 @NgModule({
@@ -24,8 +22,6 @@ import { DataModule } from '@budget-tracker/data';
     TranslateModule,
     UtilsModule,
     ScrollingModule,
-    MatTooltipModule,
-    MatMenuModule,
     DataModule,
   ],
   declarations: [

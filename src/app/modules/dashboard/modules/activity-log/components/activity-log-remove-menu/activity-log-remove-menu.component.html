@@ -1,17 +1,14 @@
-<app-button
-  mat-button
-  [matMenuTriggerFor]="menu"
-  [iconName]="'delete-bin'"
-  [colorScheme]="'transparent-dark'"
-  [buttonSizeY]="'small'"
-  [buttonSizeX]="'small'"
-  [disabled]="disabled"
-></app-button>
-
-<mat-menu #menu="matMenu" (close)="removeRecordsWithSelectedTypes(checkbox.checkboxGroup)">
+<app-menu
+  [icon]="'delete-bin'"
+  [useContent]="true"
+  [menuDisabled]="disabled"
+  (open)="setMenuClosed(false)"
+  (close)="removeRecordsWithSelectedTypes(checkbox.checkboxGroup)"
+>
   <app-checkbox-group
     #checkbox
     [checkboxGroup]="checkboxGroup$ | async"
+    [menuClosed]="menuClosed$ | async"
     (click)="$event.stopPropagation()"
   ></app-checkbox-group>
-</mat-menu>
+</app-menu>

@@ -15,10 +15,8 @@ import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { AuthCoreModule } from './modules/auth/auth.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { CustomErrorStateMatcher, UtilsModule } from '@budget-tracker/utils';
+import { isMobileWidth, UtilsModule } from '@budget-tracker/utils';
 import { Chart } from 'chart.js';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig } from '@angular/material/dialog';
 import { DesignSystemModule } from '@budget-tracker/design-system';
@@ -41,7 +39,9 @@ Chart.register(zoomPlugin);
     NavigationBarModule,
     BrowserAnimationsModule,
     UtilsModule,
-    provideFirebaseApp(() => initializeApp(isDevMode() ? devEnv.firebaseConfig : prodEnv.firebaseConfig)),
+    provideFirebaseApp(() =>
+      initializeApp(isDevMode() ? devEnv.firebaseConfig : prodEnv.firebaseConfig)
+    ),
     provideAuth(() => getAuth(getApp())),
     provideFirestore(() => getFirestore()),
     StoreModule.forRoot(
@@ -73,24 +73,6 @@ Chart.register(zoomPlugin);
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
-  ],
-  providers: [
-    { provide: ErrorStateMatcher, useClass: CustomErrorStateMatcher },
-    {
-      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: {
-        subscriptSizing: 'dynamic',
-      },
-    },
-    {
-      provide: MAT_DIALOG_DEFAULT_OPTIONS,
-      useValue: {
-        ...new MatDialogConfig(),
-        width: '400px',
-        position: { top: '30px' },
-        autoFocus: false,
-      } as MatDialogConfig,
-    },
   ],
   bootstrap: [AppComponent],
 })

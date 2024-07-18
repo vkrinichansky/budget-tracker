@@ -49,7 +49,8 @@
     "accountValueEditModal": {
       "subtitle": "Edit account value",
       "cancel": "Cancel",
-      "noteInputTitle": "Note",
+      "valueInputLabel": "Value",
+      "noteInputLabel": "Note",
       "editButton": "Edit"
     },
 
@@ -105,13 +106,17 @@
           "text": "Categories reset",
           "tooltip": "Manual and monthly categories reset"
         },
-        "rootValueChange": {
-          "text": "Root value change",
-          "tooltip": "Balance, savings and free money values changing"
-        },
         "categoryValueChange": {
           "text": "Category value change",
           "tooltip": "Income and expense categories value changing"
+        },
+        "accountManagement": {
+          "text": "Account management",
+          "tooltip": "Adding and removing accounts"
+        },
+        "accountValueEdit": {
+          "text": "Account value edit",
+          "tooltip": "Account value changing"
         },
         "removeConfirmationQuestion": "Are you sure you want to remove records of selected types?",
         "removeConfirmationRemark": "This action won't affect current month records"
@@ -214,11 +219,10 @@
 
   "formErrors": {
     "required": "Field is required",
-    "minValue": "Minimal value is {{ minValue }}",
-    "noteTooLong": "Note is too long, max length is 100",
-    "editError": "Value must be different after edit",
-    "invalidColor": "The color is invalid",
-    "numberPattern": "Input should be integer"
+    "minValue": "Minimal value - {{ minValue }}",
+    "maxLength": "Max length - {{ maxLength }}",
+    "sameValue": "Value must be different after edit",
+    "entityExists": "Entity with such name already exists"
   },
 
   "confirmationModal": {
