@@ -1,10 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import {
-  Account,
-  AccountsFacadeService,
-  CurrencyExchangeService,
-  CurrencyService,
-} from '@budget-tracker/data';
+import { Account, AccountsFacadeService, CurrencyService } from '@budget-tracker/data';
 import { AccountsValueEditModalService } from '../../services';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
 import { Observable } from 'rxjs';
@@ -58,15 +53,13 @@ export class AccountCardComponent implements OnInit {
 
   get accountValueInBaseCurrency(): string {
     return `${Math.round(
-      this.account.value /
-        this.currencyExchangeService.getCurrentExchangeRate()[this.account.currency.id]
+      this.currencyService.getConvertedValueForAccount(this.account)
     ).toString()} ${this.currencyService.getCurrencySymbol()}`;
   }
 
   constructor(
     private accountValueEditModalService: AccountsValueEditModalService,
     private currencyService: CurrencyService,
-    private currencyExchangeService: CurrencyExchangeService,
     private accountsFacade: AccountsFacadeService,
     private confirmationModalService: ConfirmationModalService
   ) {}

@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, DestroyRef, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  HostBinding,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   ControlValueAccessor,
@@ -33,6 +40,10 @@ export class GenericCustomControlComponent implements ControlValueAccessor, Vali
 
   @Input()
   isRequired: boolean;
+
+  @HostBinding('class.disabled')
+  @Input()
+  isDisabled: boolean;
 
   @Input()
   minValue: number;

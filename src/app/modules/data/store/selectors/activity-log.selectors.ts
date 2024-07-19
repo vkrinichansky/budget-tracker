@@ -29,7 +29,9 @@ const isActivityLogRecordRemovingSelector = (recordId: string) =>
   createSelector(activityLogStateSelector, (state) => state.removingRecordsIds.includes(recordId));
 
 const selectRecordByIdSelector = (recordId: string) =>
-  createSelector(activityLogSelector, (activityLog) => activityLog.find((record) => record.id === recordId));
+  createSelector(activityLogSelector, (activityLog) =>
+    activityLog.find((record) => record.id === recordId)
+  );
 
 const isBulkRecordsRemovingInProgressSelector = createSelector(
   activityLogStateSelector,
@@ -41,11 +43,13 @@ const relatedCategoryValueChangeRecordsByCategoryIdSelector = (categoryId: strin
     activityLog
       .filter((record) => record.recordType === ActivityLogRecordType.CategoryValueChange)
       .map((record) => record as CategoryValueChangeRecord)
-      .filter((record) => record.categoryId === categoryId)
+      .filter((record) => record.category.id === categoryId)
   );
 
 const activityLogTypesSelector = createSelector(activityLogSelector, (activityLog) => [
-  ...new Set(activityLog.filter((record) => isPreviousMonth(record.date)).map((record) => record.recordType)),
+  ...new Set(
+    activityLog.filter((record) => isPreviousMonth(record.date)).map((record) => record.recordType)
+  ),
 ]);
 
 const activityLogGroupedByDaysSelector = (language: string) =>
@@ -57,7 +61,9 @@ const activityLogGroupedByDaysSelector = (language: string) =>
 
 const recordsWithSelectedTypesSelector = (selectedTypes: ActivityLogRecordType[]) =>
   createSelector(activityLogSelector, (activityLog) =>
-    activityLog.filter((record) => selectedTypes.includes(record.recordType) && isPreviousMonth(record.date))
+    activityLog.filter(
+      (record) => selectedTypes.includes(record.recordType) && isPreviousMonth(record.date)
+    )
   );
 
 export const ActivityLogSelectors = {
@@ -73,7 +79,10 @@ export const ActivityLogSelectors = {
   recordsWithSelectedTypesSelector,
 };
 
-function getActivityLogByDaysDictionary(activityLog: ActivityLog, language: string): ActivityLogGroupedByDayDictionary {
+function getActivityLogByDaysDictionary(
+  activityLog: ActivityLog,
+  language: string
+): ActivityLogGroupedByDayDictionary {
   return activityLog
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .reduce((group, record) => {
@@ -100,21 +109,25 @@ function getActivityLogGroupedByDay(
     );
 
     const categoryValueChangeRecords: CategoryValueChangeRecord[] = allRecords
-      .filter((activityLogRecord) => activityLogRecord.recordType === ActivityLogRecordType.CategoryValueChange)
+      .filter(
+        (activityLogRecord) =>
+          activityLogRecord.recordType === ActivityLogRecordType.CategoryValueChange
+      )
       .map((record) => record as CategoryValueChangeRecord);
 
     const incomeCategoryValueChangeRecordsSum: number = categoryValueChangeRecords
       .filter((record) => record.budgetType === BudgetType.Income)
-      .reduce((sum, record) => sum + record.value, 0);
+      .reduce((sum, record) => sum + record.convertedValue, 0);
 
     const expenseCategoryValueChangeRecordsSum: number = categoryValueChangeRecords
       .filter((record) => record.budgetType === BudgetType.Expense)
-      .reduce((sum, record) => sum + record.value, 0);
+      .reduce((sum, record) => sum + record.convertedValue, 0);
 
     return {
       date: dateKey,
       records: allRecords,
-      sumOfCategoryValueChangeRecords: incomeCategoryValueChangeRecordsSum - expenseCategoryValueChangeRecordsSum,
+      sumOfCategoryValueChangeRecords:
+        incomeCategoryValueChangeRecordsSum - expenseCategoryValueChangeRecordsSum,
     };
   });
 }

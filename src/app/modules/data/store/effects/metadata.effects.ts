@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { SnackbarHandlerService } from '@budget-tracker/utils';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, from, catchError, tap, EMPTY } from 'rxjs';
+import { from, catchError, tap, EMPTY, switchMap, combineLatest, map } from 'rxjs';
 import { MetadataActions } from '../actions';
-import { MetadataService } from '../../services';
+import { CategoriesService, MetadataService } from '../../services';
 import { Store } from '@ngrx/store';
+import { CategoriesSelectors } from '../selectors';
 
 @Injectable()
 export class MetadataEffects {
@@ -12,6 +13,8 @@ export class MetadataEffects {
     private actions$: Actions,
     private snackbarHandler: SnackbarHandlerService,
     private metadataService: MetadataService,
+    private categoriesService: CategoriesService,
+
     private store: Store
   ) {}
 
@@ -19,8 +22,19 @@ export class MetadataEffects {
     () =>
       this.actions$.pipe(
         ofType(MetadataActions.changeCurrency),
-        mergeMap((action) =>
-          from(this.metadataService.changeCurrency(action.newCurrency)).pipe(
+        switchMap((action) =>
+          this.store.select(CategoriesSelectors.allCategoriesDictionarySelector).pipe(
+            map((dictionary) => ({
+              action,
+              categoriesIds: Object.keys(dictionary),
+            }))
+          )
+        ),
+        switchMap(({ action, categoriesIds }) =>
+          combineLatest([
+            from(this.metadataService.changeCurrency(action.newCurrency)),
+            from(this.categoriesService.resetCategoriesAndActivityLog(categoriesIds)),
+          ]).pipe(
             tap(() => location.reload()),
             catchError((error) => {
               this.snackbarHandler.showErrorSnackbar(error);
@@ -38,7 +52,7 @@ export class MetadataEffects {
     () =>
       this.actions$.pipe(
         ofType(MetadataActions.changeLanguage),
-        mergeMap((action) =>
+        switchMap((action) =>
           from(this.metadataService.changeLanguage(action.newLanguage)).pipe(
             tap(() => location.reload()),
             catchError((error) => {

@@ -5,15 +5,6 @@
   [footerTemplate]="footer"
 >
   <form class="flex flex-col gap-y-2" [formGroup]="form">
-    <custom-input
-      [id]="formFieldsEnum.ValueToAdd"
-      [label]="'dashboard.categoryValueModal.valueToAddTitle' | translate"
-      [isRequired]="true"
-      [minValue]="1"
-      [type]="'number'"
-      [formControlName]="formFieldsEnum.ValueToAdd"
-    ></custom-input>
-
     <custom-select
       [id]="formFieldsEnum.AccountToUse"
       [label]="'dashboard.categoryValueModal.accountsTitle' | translate"
@@ -24,6 +15,26 @@
       [iconSelector]="iconSelector"
       [isRequired]="true"
     ></custom-select>
+
+    <custom-input
+      [id]="formFieldsEnum.ValueToAdd"
+      [label]="'dashboard.categoryValueModal.valueToAddTitle' | translate"
+      [isRequired]="true"
+      [minValue]="1"
+      [type]="'number'"
+      [formControlName]="formFieldsEnum.ValueToAdd"
+      [isDisabled]="shouldDisableValueFields"
+    ></custom-input>
+
+    <custom-input
+      [class.hidden]="!displayConvertedValueField"
+      [id]="formFieldsEnum.ConvertedValueToAdd"
+      [label]="'dashboard.categoryValueModal.convertedValueToAddTitle' | translate"
+      [isRequired]="true"
+      [minValue]="1"
+      [type]="'number'"
+      [formControlName]="formFieldsEnum.ConvertedValueToAdd"
+    ></custom-input>
 
     <custom-textarea
       [id]="formFieldsEnum.Note"
