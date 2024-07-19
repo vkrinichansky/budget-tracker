@@ -6,7 +6,6 @@ import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
 import { MonthlyStatisticsComponent } from './components';
 import { NgChartsModule } from 'ng2-charts';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { DataModule } from '@budget-tracker/data';
 
 const routes: Routes = [
@@ -24,7 +23,6 @@ const routes: Routes = [
     DesignSystemModule,
     TranslateModule,
     NgChartsModule,
-    MatTooltipModule,
     DataModule,
   ],
 })

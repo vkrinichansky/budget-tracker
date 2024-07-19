@@ -14,45 +14,64 @@ export class SnackbarHandlerService {
   }
 
   showErrorSnackbar(error: string): void {
-    this.openSnackBarWithCloseDelay(error, this.translateService.instant('snackbars.defaultOkButtonText'));
+    this.openSnackBarWithCloseDelay(
+      error,
+      this.translateService.instant('snackbars.defaultOkButtonText')
+    );
   }
 
   showBalanceEditedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.balanceEditedSnackbar'));
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant('snackbars.balanceEditedSnackbar')
+    );
   }
 
   showSavingsEditedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.savingsEditedSnackbar'));
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant('snackbars.savingsEditedSnackbar')
+    );
   }
 
   showFreeMoneyEditedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.freeMoneyEditedSnackbar'));
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant('snackbars.freeMoneyEditedSnackbar')
+    );
   }
 
   showCategoryAddedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.categoryAddedSnackbar'));
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant('snackbars.categoryAddedSnackbar')
+    );
   }
 
   showCategoryRemovedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.categoryRemovedSnackbar'));
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant('snackbars.categoryRemovedSnackbar')
+    );
   }
 
   showActivityLogRecordRemovedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.activityLogRecordRemoved'));
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant('snackbars.activityLogRecordRemoved')
+    );
   }
 
   showBulkActivityLogRecordsRemovedSnackbar(): void {
     this.openSnackBarWithCloseDelay(
-      this.translateService.instant('snackbars.bulkActivityLogRecordsRemoved.recordsByTypesRemoved')
+      this.translateService.instant('snackbars.bulkActivityLogRecordsRemoved')
     );
   }
 
   showCategoryValueChangedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.categoryValueChangedSnackbar'));
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant('snackbars.categoryValueChangedSnackbar')
+    );
   }
 
   showCategoriesResetSnackbar(budgetType: string): void {
-    this.openSnackBarWithCloseDelay(this.translateService.instant(`snackbars.categoriesResetSnackbar.${budgetType}`));
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant(`snackbars.categoriesResetSnackbar.${budgetType}`)
+    );
   }
 
   showDataResetSnackbar(): void {
@@ -60,11 +79,15 @@ export class SnackbarHandlerService {
   }
 
   showAccountAddedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.accountAddedSnackbar'));
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant('snackbars.accountAddedSnackbar')
+    );
   }
 
   showAccountRemovedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.accountRemovedSnackbar'));
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant('snackbars.accountRemovedSnackbar')
+    );
   }
 
   showAccountValueEditedSnackbar(): void {
@@ -72,7 +95,9 @@ export class SnackbarHandlerService {
   }
 
   showAccountOrderChangedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.accountOrderChangedSnackbar'));
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant('snackbars.accountOrderChangedSnackbar')
+    );
   }
 
   private openSnackBarWithCloseDelay(

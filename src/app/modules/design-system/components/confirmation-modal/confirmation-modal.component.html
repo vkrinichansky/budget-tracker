@@ -6,20 +6,24 @@
   <div class="flex flex-col gap-y-4">
     <span
       class="font-main text-charcoal text-base"
-      [innerHTML]="translation.questionTranslationKey | translate: translation?.questionTranslationParams"
+      [innerHTML]="
+        translation.questionTranslationKey | translate: translation?.questionTranslationParams
+      "
     ></span>
 
     @if (shouldDisplayCheckbox) {
-      <mat-checkbox [disableRipple]="true" [(ngModel)]="checkmarkChecked">
+      <checkbox [id]="'confirmation-checkbox'" [(ngModel)]="checkmarkChecked">
         <span
           class="text-charcoal"
-          [innerHTML]="translation.checkboxTranslationKey | translate: translation?.questionTranslationParams"
+          [innerHTML]="
+            translation.checkboxTranslationKey | translate: translation?.questionTranslationParams
+          "
         ></span>
 
         @if (shouldDisplayRemark) {
           <span class="text-red">&#xFE61;</span>
         }
-      </mat-checkbox>
+      </checkbox>
     }
 
     @if (shouldDisplayRemark) {
@@ -27,7 +31,9 @@
         <span class="text-red">&#xFE61;</span>
         <span
           class="font-main text-sm text-charcoal"
-          [innerHTML]="translation.remarkTranslationKey | translate: translation?.remarkTranslationParams"
+          [innerHTML]="
+            translation.remarkTranslationKey | translate: translation?.remarkTranslationParams
+          "
         ></span>
       </div>
     }

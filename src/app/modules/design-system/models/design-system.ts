@@ -49,6 +49,32 @@ export const ChartPalette = [
   '#FCEBDB',
 ];
 
+export const IconsForUser = [
+  'home',
+  'basket',
+  'pill',
+  'clothes',
+  'entertainment',
+  'bus',
+  'car',
+  'bath',
+  'rest',
+  'work',
+  'cake',
+  'lamp',
+  'laptop',
+  'internet',
+  'tv',
+  'flower',
+  'heart',
+  'card-dollar',
+  'card-euro',
+  'creditcard',
+  'money-multiple',
+  'safe',
+  'wallet',
+];
+
 export type ColorScheme =
   | 'charcoal'
   | 'green'

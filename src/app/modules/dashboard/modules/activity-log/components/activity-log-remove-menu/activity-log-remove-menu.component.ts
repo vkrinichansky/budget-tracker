@@ -1,8 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { ActivityLogFacadeService, ActivityLogRecordType } from '@budget-tracker/data';
-import { CheckboxGroup, ConfirmationModalService, TooltipPosition } from '@budget-tracker/design-system';
+import {
+  CheckboxGroup,
+  ConfirmationModalService,
+  TooltipPosition,
+} from '@budget-tracker/design-system';
 import { isMobileWidth } from '@budget-tracker/utils';
-import { Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-activity-log-remove-menu',
@@ -10,6 +14,8 @@ import { Observable, map } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityLogRemoveMenuComponent implements OnInit {
+  readonly menuClosed$ = new BehaviorSubject<boolean>(true);
+
   readonly checkboxGroup: CheckboxGroup = {
     nameOrTranslationKey: this.buildTranslationKey('allTypes'),
     checked: false,
@@ -30,21 +36,28 @@ export class ActivityLogRemoveMenuComponent implements OnInit {
         tooltipTranslationKey: this.buildTranslationKey('categoriesReset.tooltip'),
         tooltipPosition: this.tooltipPosition,
       },
-      // replace with account AL types
-      // {
-      //   nameOrTranslationKey: this.buildTranslationKey('rootValueChange.text'),
-      //   checked: false,
-      //   value: ActivityLogRecordType.RootValueChange,
-      //   infoIconType: 'info',
-      //   tooltipTranslationKey: this.buildTranslationKey('rootValueChange.tooltip'),
-      //   tooltipPosition: this.tooltipPosition,
-      // },
       {
         nameOrTranslationKey: this.buildTranslationKey('categoryValueChange.text'),
         checked: false,
         value: ActivityLogRecordType.CategoryValueChange,
         infoIconType: 'info',
         tooltipTranslationKey: this.buildTranslationKey('categoryValueChange.tooltip'),
+        tooltipPosition: this.tooltipPosition,
+      },
+      {
+        nameOrTranslationKey: this.buildTranslationKey('accountManagement.text'),
+        checked: false,
+        value: ActivityLogRecordType.AccountManagement,
+        infoIconType: 'info',
+        tooltipTranslationKey: this.buildTranslationKey('accountManagement.tooltip'),
+        tooltipPosition: this.tooltipPosition,
+      },
+      {
+        nameOrTranslationKey: this.buildTranslationKey('accountValueEdit.text'),
+        checked: false,
+        value: ActivityLogRecordType.AccountValueEdit,
+        infoIconType: 'info',
+        tooltipTranslationKey: this.buildTranslationKey('accountValueEdit.tooltip'),
         tooltipPosition: this.tooltipPosition,
       },
     ],
@@ -68,11 +81,17 @@ export class ActivityLogRemoveMenuComponent implements OnInit {
     this.initCheckboxGroup();
   }
 
+  setMenuClosed(value: boolean): void {
+    this.menuClosed$.next(value);
+  }
+
   buildTranslationKey(key: string): string {
     return `dashboard.activityLog.removeMenu.${key}`;
   }
 
   removeRecordsWithSelectedTypes(checkboxGroup: CheckboxGroup): void {
+    this.setMenuClosed(true);
+
     const selectedTypes: ActivityLogRecordType[] = checkboxGroup.subItems
       .filter((item) => item.checked)
       .map((item) => item.value as ActivityLogRecordType);
@@ -92,7 +111,9 @@ export class ActivityLogRemoveMenuComponent implements OnInit {
     this.checkboxGroup$ = this.activityLogFacade.getActivityLogTypes().pipe(
       map((types) => ({
         ...this.checkboxGroup,
-        subItems: this.checkboxGroup.subItems.filter((item) => types.includes(item.value as ActivityLogRecordType)),
+        subItems: this.checkboxGroup.subItems.filter((item) =>
+          types.includes(item.value as ActivityLogRecordType)
+        ),
       }))
     );
   }

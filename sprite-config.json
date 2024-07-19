@@ -1,7 +1,7 @@
 {
   "dest": "src/assets/svg-sprite",
   "mode": {
-    "symbol": {
+    "defs": {
       "dest": ".",
       "sprite": "sprite.svg",
       "render": {

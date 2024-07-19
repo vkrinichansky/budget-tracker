@@ -11,13 +11,16 @@ import {
   FullBalanceInfoCardComponent,
   CurrentMonthBalanceInfoCardComponent,
 } from './components';
-import { AccountsListModalService, AccountsValueEditModalService, AddAccountModalService } from './services';
+import {
+  AccountsListModalService,
+  AccountsValueEditModalService,
+  AddAccountModalService,
+} from './services';
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataModule } from '@budget-tracker/data';
 import { UtilsModule } from '@budget-tracker/utils';
-import { MatInputModule } from '@angular/material/input';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
@@ -38,7 +41,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     TranslateModule,
     FormsModule,
     ReactiveFormsModule,
-    MatInputModule,
     DataModule,
     UtilsModule,
     DragDropModule,

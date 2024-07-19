@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, WritableSignal, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  WritableSignal,
+  signal,
+} from '@angular/core';
 import { CheckboxGroup } from '../../models';
 
 @Component({
@@ -6,13 +14,16 @@ import { CheckboxGroup } from '../../models';
   templateUrl: './checkbox-group.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckboxGroupComponent {
+export class CheckboxGroupComponent implements OnChanges {
   private _checkboxGroup: WritableSignal<CheckboxGroup>;
 
   @Input()
   set checkboxGroup(value: CheckboxGroup) {
     this._checkboxGroup = signal<CheckboxGroup>(value);
   }
+
+  @Input()
+  menuClosed = false;
 
   get checkboxGroup(): CheckboxGroup {
     return this._checkboxGroup();
@@ -25,7 +36,9 @@ export class CheckboxGroupComponent {
       return false;
     }
 
-    return group.subItems.some((item) => item.checked) && !group.subItems.every((item) => item.checked);
+    return (
+      group.subItems.some((item) => item.checked) && !group.subItems.every((item) => item.checked)
+    );
   }
 
   update(checked: boolean, index?: number) {
@@ -40,5 +53,11 @@ export class CheckboxGroupComponent {
 
       return { ...group };
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['menuClosed']) {
+      this.update(false);
+    }
   }
 }

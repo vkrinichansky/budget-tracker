@@ -1,10 +1,15 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Account, AccountsFacadeService, Currency, predefinedCurrenciesDictionary } from '@budget-tracker/data';
+import {
+  Account,
+  AccountsFacadeService,
+  Currency,
+  predefinedCurrenciesDictionary,
+} from '@budget-tracker/data';
 import { TranslateService } from '@ngx-translate/core';
-import { combineLatest, map, filter, tap, Observable, take } from 'rxjs';
+import { filter, Observable, take } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { AccountsListModalService } from '../../services';
 
@@ -20,34 +25,34 @@ enum FormFields {
 @Component({
   selector: 'app-add-account-modal',
   templateUrl: './add-account-modal.component.html',
-  styleUrl: './add-account-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddAccountModalComponent implements OnInit {
-  private accounts$: Observable<Account[]>;
+  private accounts: Account[];
 
   readonly formFields = FormFields;
 
   readonly form: FormGroup = new FormGroup({
-    [FormFields.AccountName]: new FormControl(null, [Validators.required, Validators.maxLength(20)]),
-    [FormFields.AccountValue]: new FormControl(null, [
-      Validators.required,
-      Validators.min(1),
-      Validators.pattern(new RegExp(/^[0-9]+$/)),
-    ]),
-    [FormFields.AccountIcon]: new FormControl(null, [Validators.required]),
-    [FormFields.AccountBgColor]: new FormControl(null, [Validators.required]),
-    [FormFields.AccountTextColor]: new FormControl(null, [Validators.required]),
-    [FormFields.AccountCurrency]: new FormControl(null, [Validators.required]),
+    [FormFields.AccountName]: new FormControl(null),
+    [FormFields.AccountValue]: new FormControl(null),
+    [FormFields.AccountIcon]: new FormControl(null),
+    [FormFields.AccountBgColor]: new FormControl(null),
+    [FormFields.AccountTextColor]: new FormControl(null),
+    [FormFields.AccountCurrency]: new FormControl(null),
   });
 
   readonly options: Currency[] = Object.values(predefinedCurrenciesDictionary);
 
-  readonly idSelector = (currency: Currency) => currency.id;
-  readonly iconSelector = (currency: Currency) => currency.icon;
+  readonly currencyIdSelector = (currency: Currency) => currency.id;
+  readonly currencyIconSelector = (currency: Currency) => currency.icon;
 
-  readonly displayValueSelector = (currency: Currency) =>
+  readonly currencyDisplayValueSelector = (currency: Currency) =>
     `${this.translateService.instant(`currencies.${currency.id}`)} `;
+
+  readonly accountExistsValidator = (value: string) =>
+    this.accounts
+      .map((account) => account.name.toLowerCase().trim())
+      .includes(value.toLowerCase().trim());
 
   loading$: Observable<boolean>;
   success$: Observable<boolean>;
@@ -64,30 +69,6 @@ export class AddAccountModalComponent implements OnInit {
     return this.form.valid;
   }
 
-  get hasAccountNameRequiredError(): boolean {
-    return this.form.controls[FormFields.AccountName].hasError('required');
-  }
-
-  get hasMaxLengthError(): boolean {
-    return this.form.controls[FormFields.AccountName].hasError('maxlength');
-  }
-
-  get hasAccountExistsError(): boolean {
-    return this.form.controls[FormFields.AccountName].hasError('accountExists');
-  }
-
-  get hasRequiredError(): boolean {
-    return this.form.controls[FormFields.AccountValue].hasError('required');
-  }
-
-  get hasMinValueError(): boolean {
-    return this.form.controls[FormFields.AccountValue].hasError('min');
-  }
-
-  get hasNumberPatternError(): boolean {
-    return this.form.controls[FormFields.AccountValue].hasError('pattern');
-  }
-
   constructor(
     private accountsFacade: AccountsFacadeService,
     private destroyRef: DestroyRef,
@@ -97,14 +78,7 @@ export class AddAccountModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.accounts$ = this.accountsFacade.getAllAccounts();
-
-    this.subscribeToCategoryNameChanges();
     this.initListeners();
-  }
-
-  buildTranslationKey(key: string): string {
-    return `dashboard.addAccountModal.${key}`;
   }
 
   submitClick(): void {
@@ -135,18 +109,10 @@ export class AddAccountModalComponent implements OnInit {
         this.dialogRef.close();
         this.accountsListModalService.openAccountsListModal();
       });
-  }
 
-  private subscribeToCategoryNameChanges(): void {
-    combineLatest([this.accounts$, this.form.controls[FormFields.AccountName].valueChanges])
-      .pipe(
-        map(([accounts, accountName]) =>
-          accounts.map((account) => account.name.toLowerCase()).includes(accountName.toLowerCase().trim())
-        ),
-        filter((shouldDisable) => !!shouldDisable),
-        tap(() => this.form.controls[FormFields.AccountName].setErrors({ accountExists: true })),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
+    this.accountsFacade
+      .getAllAccounts()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((accounts) => (this.accounts = accounts));
   }
 }

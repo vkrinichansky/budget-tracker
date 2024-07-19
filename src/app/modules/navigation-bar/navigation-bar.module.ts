@@ -5,7 +5,6 @@ import { DesignSystemModule } from '@budget-tracker/design-system';
 import { AuthCoreModule } from '@budget-tracker/auth';
 import { NavigationBarItemComponent } from './components/navigation-bar-item/navigation-bar-item.component';
 import { RouterModule } from '@angular/router';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { DataModule } from '@budget-tracker/data';
 
@@ -16,7 +15,6 @@ import { DataModule } from '@budget-tracker/data';
     DesignSystemModule,
     AuthCoreModule,
     RouterModule,
-    MatTooltipModule,
     TranslateModule,
     DataModule,
   ],

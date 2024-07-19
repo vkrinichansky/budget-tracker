@@ -1,0 +1,32 @@
+<control-label
+  class="mb-1"
+  [for]="id"
+  [required]="true"
+  [label]="label"
+  (click)="openPanel()"
+></control-label>
+
+<div
+  #colorPicker
+  ngx-colors-trigger
+  class="color-picker form-control"
+  [ngClass]="{
+    'form-control-error': formControl.invalid && isErrorState()
+  }"
+  [id]="id"
+  [style.backgroundColor]="formControl.value || 'white'"
+  [hideTextInput]="true"
+  [hideColorPicker]="true"
+  [colorsAnimation]="isMobile ? null : 'slide-in'"
+  [formControl]="formControl"
+  (close)="onPanelClose()"
+  (ngModelChange)="valueChanged($event)"
+></div>
+
+@if (isErrorState()) {
+  <div class="flex flex-col gap-y-1 w-full pt-1 px-1.5 pb-1.5 rounded-b-md bg-red">
+    @if (formControl.hasError('required')) {
+      <control-error> {{ 'formErrors.required' | translate }} </control-error>
+    }
+  </div>
+}

@@ -1,19 +1,18 @@
-<span>
-  <mat-checkbox
-    [checked]="checkboxGroup.checked"
-    [indeterminate]="partiallyComplete"
-    [disableRipple]="true"
-    (click)="$event.stopPropagation()"
-    (change)="update($event.checked)"
-  >
-    {{ checkboxGroup.nameOrTranslationKey | translate }}
-  </mat-checkbox>
-</span>
+<checkbox
+  class="mb-2"
+  [id]="checkboxGroup.nameOrTranslationKey"
+  [checked]="checkboxGroup.checked"
+  [indeterminate]="partiallyComplete"
+  (click)="$event.stopPropagation()"
+  (change)="update($event)"
+>
+  {{ checkboxGroup.nameOrTranslationKey | translate }}
+</checkbox>
 
 <span>
-  <ul class="pl-5">
+  <ul class="pl-5 flex flex-col gap-y-2">
     @for (subItem of checkboxGroup.subItems; track i; let i = $index) {
-      <li class="flex items-center">
+      <li class="flex items-center gap-x-2">
         @if (subItem?.tooltipTranslationKey) {
           <app-info-icon
             [type]="subItem.infoIconType"
@@ -24,18 +23,21 @@
           ></app-info-icon>
 
           <ng-template #tooltip>
-            <span class="block max-w-50" [innerHTML]="subItem.tooltipTranslationKey | translate"></span>
+            <span
+              class="block max-w-50"
+              [innerHTML]="subItem.tooltipTranslationKey | translate"
+            ></span>
           </ng-template>
         }
 
-        <mat-checkbox
+        <checkbox
+          [id]="subItem.nameOrTranslationKey"
           [checked]="subItem.checked"
-          [disableRipple]="true"
           (click)="$event.stopPropagation()"
-          (change)="update($event.checked, i)"
+          (change)="update($event, i)"
         >
           {{ subItem.nameOrTranslationKey | translate }}
-        </mat-checkbox>
+        </checkbox>
       </li>
     }
   </ul>
