@@ -1,0 +1,10 @@
+<app-page-header
+  class="text-xl"
+  [title]="'settings.infoCardsOrderSection.title' | translate"
+></app-page-header>
+
+<div class="flex flex-col gap-y-4">
+  @for (infoCard of infoCards; track $index) {
+    <app-info-card-order-item [infoCardName]="infoCard"> </app-info-card-order-item>
+  }
+</div>

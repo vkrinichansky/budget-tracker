@@ -21,6 +21,11 @@ const routes: Routes = [
     loadChildren: () => import('./modules/statistics/statistics.module').then((m) => m.StatisticsModule),
   },
   {
+    path: AppRoutesNames.Settings,
+    canActivate: [AuthGuard, InitDataGuard],
+    loadChildren: () => import('./modules/settings/settings.module').then((m) => m.SettingsModule),
+  },
+  {
     path: '',
     redirectTo: AppRoutesNames.Dashboard,
     pathMatch: 'full',

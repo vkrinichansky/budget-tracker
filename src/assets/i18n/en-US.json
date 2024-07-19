@@ -196,6 +196,20 @@
     }
   },
 
+  "settings": {
+    "pageTitle": "Settings",
+    "infoCardsOrderSection": {
+      "title": "Info cards order",
+      "infoCardOrderItems": {
+        "income": "Income",
+        "expense": "Expense",
+        "currentMonthBalance": "Current month balance",
+        "fullBalance": "Full balance",
+        "accounts": "Accounts"
+      }
+    }
+  },
+
   "snackbars": {
     "defaultOkButtonText": "Got it",
     "errorSnackbar": "Something went wrong! Please, try again.",

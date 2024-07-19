@@ -200,6 +200,20 @@
     }
   },
 
+  "settings": {
+    "pageTitle": "Налаштування",
+    "infoCardsOrderSection": {
+      "title": "Порядок інформаційних карток",
+      "infoCardOrderItems": {
+        "income": "Дохід",
+        "expense": "Витрати",
+        "currentMonthBalance": "Баланс за місяць",
+        "fullBalance": "Повний баланс",
+        "accounts": "Рахунки"
+      }
+    }
+  },
+
   "snackbars": {
     "defaultOkButtonText": "Добре",
     "errorSnackbar": "Щось пішло не так! Будь ласка, спробуйте ще.",
