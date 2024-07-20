@@ -1,4 +1,6 @@
+import { Account } from './account.model';
 import { BudgetType } from './budget-type.enum';
+import { Category } from './category.model';
 
 export enum ActivityLogRecordType {
   CategoryManagement = 'category-management',
@@ -40,11 +42,10 @@ export interface CategoryManagementRecord extends ActivityLogRecord {
 }
 
 export interface CategoryValueChangeRecord extends ActivityLogRecord {
-  categoryId: string;
-  categoryName: string;
-  accountId: string;
-  accountName: string;
+  category: Category;
+  account: Account;
   value: number;
+  convertedValue: number;
   budgetType: BudgetType;
   note: string;
 }

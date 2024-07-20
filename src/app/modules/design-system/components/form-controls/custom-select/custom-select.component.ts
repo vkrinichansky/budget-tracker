@@ -148,7 +148,7 @@ export class CustomSelectComponent extends GenericCustomControlComponent impleme
   override valueChanged(value: unknown) {
     this.onChange(value);
     this.formControl.setValue(value, { emitEvent: false });
-    this.formControl.updateValueAndValidity();
+    this.formControl.updateValueAndValidity({ onlySelf: true });
     this.toggleDropdown();
   }
 }

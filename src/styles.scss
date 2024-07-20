@@ -48,6 +48,22 @@ custom-textarea,
 custom-select,
 color-picker {
   @apply flex flex-col;
+
+  &.disabled {
+    @apply pointer-events-none;
+
+    * {
+      @apply pointer-events-none #{!important};
+    }
+
+    control-label label {
+      @apply text-grey #{!important};
+
+      & * {
+        @apply text-grey #{!important};
+      }
+    }
+  }
 }
 
 .form-control {
@@ -63,6 +79,13 @@ input,
 .custom-select,
 .color-picker {
   @apply h-12;
+}
+
+input,
+textarea,
+.custom-select,
+.color-picker {
+  @apply w-full;
 }
 
 input,

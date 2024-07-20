@@ -1,17 +1,20 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable, filter, take } from 'rxjs';
+import { FormGroup, FormControl } from '@angular/forms';
+import { Observable, filter, take, tap, withLatestFrom } from 'rxjs';
 import { CategoryValueModalData } from '../../models';
 import {
   Account,
   AccountsFacadeService,
   CategoriesFacadeService,
   Category,
+  CurrencyService,
 } from '@budget-tracker/data';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 enum FormFields {
   ValueToAdd = 'valueToAdd',
+  ConvertedValueToAdd = 'convertedValueToAdd',
   Note = 'note',
   AccountToUse = 'accountToUse',
 }
@@ -25,9 +28,10 @@ export class CategoryValueModalComponent implements OnInit {
   readonly formFieldsEnum = FormFields;
 
   readonly form: FormGroup = new FormGroup({
-    [FormFields.ValueToAdd]: new FormControl(null),
-    [FormFields.Note]: new FormControl(null),
     [FormFields.AccountToUse]: new FormControl(null),
+    [FormFields.ValueToAdd]: new FormControl(null),
+    [FormFields.ConvertedValueToAdd]: new FormControl(null),
+    [FormFields.Note]: new FormControl(null),
   });
 
   readonly idSelector = (account: Account) => account.id;
@@ -40,11 +44,40 @@ export class CategoryValueModalComponent implements OnInit {
   category$: Observable<Category>;
   accounts$: Observable<Account[]>;
 
+  displayConvertedValueField: boolean;
+
+  get accoundChoosed(): boolean {
+    return this.form?.controls?.[FormFields.AccountToUse]?.value;
+  }
+
+  get doesChoosedAccountHaveForeignCurrency(): boolean {
+    return this.accoundChoosed
+      ? (this.form.controls[FormFields.AccountToUse].value as Account).currency.id !==
+          this.currencyService.getCurrentCurrency()
+      : false;
+  }
+
+  get currencySymbolForValueField(): string {
+    if (!this.accoundChoosed) {
+      return null;
+    }
+
+    return this.doesChoosedAccountHaveForeignCurrency
+      ? (this.form?.controls?.[FormFields.AccountToUse]?.value as Account)?.currency?.symbol
+      : this.currencyService.getCurrencySymbol();
+  }
+
+  get currencySymbolForConvertedValueField(): string {
+    return this.accoundChoosed ? this.currencyService.getCurrencySymbol() : null;
+  }
+
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: CategoryValueModalData,
     private dialogRef: MatDialogRef<CategoryValueModalComponent>,
     private categoriesFacade: CategoriesFacadeService,
-    private accountsFacade: AccountsFacadeService
+    private accountsFacade: AccountsFacadeService,
+    private currencyService: CurrencyService,
+    private destroyRef: DestroyRef
   ) {}
 
   ngOnInit(): void {
@@ -60,6 +93,7 @@ export class CategoryValueModalComponent implements OnInit {
       this.data.categoryId,
       this.form.controls[FormFields.AccountToUse].value.id,
       parseInt(this.form.controls[FormFields.ValueToAdd].value),
+      parseInt(this.form.controls[FormFields.ConvertedValueToAdd].value),
       this.form.controls[FormFields.Note].value
     );
   }
@@ -76,5 +110,34 @@ export class CategoryValueModalComponent implements OnInit {
         take(1)
       )
       .subscribe(() => this.dialogRef.close());
+
+    this.form.controls[FormFields.AccountToUse].valueChanges
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        tap(() => {
+          this.form.controls[FormFields.ValueToAdd].reset(null);
+          this.form.controls?.[FormFields.ConvertedValueToAdd].reset(null);
+
+          this.displayConvertedValueField = this.doesChoosedAccountHaveForeignCurrency;
+        })
+      )
+      .subscribe();
+
+    this.form.controls[FormFields.ValueToAdd].valueChanges
+      .pipe(
+        withLatestFrom(this.form.controls[FormFields.AccountToUse].valueChanges),
+        takeUntilDestroyed(this.destroyRef),
+        tap(([value, account]) => {
+          const convertedValue = this.currencyService.getBasicToForeignConvertedValue(
+            value,
+            account.currency.id
+          );
+
+          this.form.controls[FormFields.ConvertedValueToAdd].setValue(
+            value ? convertedValue : null
+          );
+        })
+      )
+      .subscribe();
   }
 }

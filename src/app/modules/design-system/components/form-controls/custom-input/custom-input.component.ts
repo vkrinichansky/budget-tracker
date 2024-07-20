@@ -26,4 +26,7 @@ export class CustomInputComponent extends GenericCustomControlComponent {
 
   @Input()
   type: 'text' | 'number' = 'text';
+
+  @Input()
+  prefix: string;
 }

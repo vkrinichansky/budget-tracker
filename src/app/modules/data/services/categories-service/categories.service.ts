@@ -10,7 +10,12 @@ import {
   DocumentReference,
   deleteField,
 } from '@angular/fire/firestore';
-import { Category, CategoryManagementRecord, CategoryValueChangeRecord, CategoriesResetRecord } from '../../models';
+import {
+  Category,
+  CategoryManagementRecord,
+  CategoryValueChangeRecord,
+  CategoriesResetRecord,
+} from '../../models';
 
 const CATEGORIES_PATH = 'budget.categories';
 const ACTIVITY_LOG_PATH = 'budget.activityLog';
@@ -59,7 +64,10 @@ export class CategoriesService {
     });
   }
 
-  resetCategories(categoriesIdsToReset: string[], activityLogRecord: CategoriesResetRecord): Promise<void> {
+  resetCategories(
+    categoriesIdsToReset: string[],
+    activityLogRecord: CategoriesResetRecord
+  ): Promise<void> {
     const updatedCategoriesDictionary = categoriesIdsToReset.reduce(
       (result, categoryId) => ({ ...result, [`${CATEGORIES_PATH}.${categoryId}.value`]: 0 }),
       {}
@@ -68,6 +76,18 @@ export class CategoriesService {
     return updateDoc(this.getDocRef(), {
       ...updatedCategoriesDictionary,
       [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
+    });
+  }
+
+  resetCategoriesAndActivityLog(categoriesIdsToReset: string[]): Promise<void> {
+    const updatedCategoriesDictionary = categoriesIdsToReset.reduce(
+      (result, categoryId) => ({ ...result, [`${CATEGORIES_PATH}.${categoryId}.value`]: 0 }),
+      {}
+    );
+
+    return updateDoc(this.getDocRef(), {
+      ...updatedCategoriesDictionary,
+      [`${ACTIVITY_LOG_PATH}`]: [],
     });
   }
 

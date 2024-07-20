@@ -68,12 +68,19 @@ export class ActivityLogFacadeService {
 
   async removeCategoryValueChangeRecord(recordId: string): Promise<void> {
     const record: CategoryValueChangeRecord = await firstValueFrom(
-      this.getActivityLogDictionary().pipe(map((dictionary) => dictionary[recordId] as CategoryValueChangeRecord))
+      this.getActivityLogDictionary().pipe(
+        map((dictionary) => dictionary[recordId] as CategoryValueChangeRecord)
+      )
     );
-    const category = structuredClone(await firstValueFrom(this.categoriesFacade.getCategoryById(record.categoryId)));
-    const account = structuredClone(await firstValueFrom(this.accountsFacade.getAccountById(record.accountId)));
+    const category = structuredClone(
+      await firstValueFrom(this.categoriesFacade.getCategoryById(record.category.id))
+    );
+    const account = structuredClone(
+      await firstValueFrom(this.accountsFacade.getAccountById(record.account.id))
+    );
 
-    const updatedCategoryValue = category.value - record.value < 0 ? 0 : category.value - record.value;
+    const updatedCategoryValue =
+      category.value - record.convertedValue < 0 ? 0 : category.value - record.convertedValue;
 
     let updatedAccountValue: number = null;
 
@@ -94,9 +101,9 @@ export class ActivityLogFacadeService {
     this.store.dispatch(
       ActivityLogActions.removeCategoryValueChangeRecord({
         record,
-        updatedAccountId: record.accountId,
+        updatedAccountId: record.account.id,
         updatedAccountValue,
-        updatedCategoryId: record.categoryId,
+        updatedCategoryId: record.category.id,
         updatedCategoryValue,
       })
     );

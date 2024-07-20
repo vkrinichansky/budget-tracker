@@ -179,6 +179,7 @@
       "cancel": "Вихід",
       "add": "Додати",
       "valueToAddTitle": "Значення",
+      "convertedValueToAddTitle": "Конвертоване значення",
       "noteTitle": "Примітка",
       "accountsTitle": "Використати рахунок"
     }
@@ -245,7 +246,9 @@
   },
 
   "currencySwitcher": {
-    "tooltip": "Валюта"
+    "tooltip": "Валюта",
+    "removeConfirmationQuestion": "Ви хочете змінити валюту?",
+    "removeConfirmationRemark": "Ця дія також скине значення категорій і видалить записи журналу активності, щоб запобігти невідповідності"
   },
 
   "currencies": {

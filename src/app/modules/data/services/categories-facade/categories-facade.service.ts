@@ -15,6 +15,7 @@ import {
 } from '../../models';
 import { Dictionary } from '@ngrx/entity';
 import { AccountsFacadeService } from '../accounts-facade/accounts-facade.service';
+import { CurrencyService } from '../currency-service/currency.service';
 
 @Injectable()
 export class CategoriesFacadeService {
@@ -85,14 +86,18 @@ export class CategoriesFacadeService {
       recordType: ActivityLogRecordType.CategoryManagement,
     };
 
-    this.store.dispatch(CategoriesActions.addCategory({ category, activityLogRecord: addCategoryRecord }));
+    this.store.dispatch(
+      CategoriesActions.addCategory({ category, activityLogRecord: addCategoryRecord })
+    );
   }
 
   async removeCategory(categoryId: string): Promise<void> {
     const category: Category = await firstValueFrom(this.getCategoryById(categoryId));
 
     const relatedCategoryValueChangeRecordsToRemove = await firstValueFrom(
-      this.store.select(ActivityLogSelectors.relatedCategoryValueChangeRecordsByCategoryIdSelector(categoryId))
+      this.store.select(
+        ActivityLogSelectors.relatedCategoryValueChangeRecordsByCategoryIdSelector(categoryId)
+      )
     );
 
     const removeCategoryRecord: CategoryManagementRecord = {
@@ -114,23 +119,30 @@ export class CategoriesFacadeService {
     );
   }
 
-  async changeCategoryValue(categoryId: string, accountId: string, valueToAdd = 0, note = ''): Promise<void> {
-    const account = structuredClone(await firstValueFrom(this.accountsFacade.getAccountById(accountId)));
+  async changeCategoryValue(
+    categoryId: string,
+    accountId: string,
+    valueToAdd: number,
+    convertedValueToAdd: number,
+    note: string
+  ): Promise<void> {
+    const account = structuredClone(
+      await firstValueFrom(this.accountsFacade.getAccountById(accountId))
+    );
     const category = structuredClone(await firstValueFrom(this.getCategoryById(categoryId)));
 
-    const updatedCategoryValue = category.value + valueToAdd;
+    const updatedCategoryValue = category.value + convertedValueToAdd;
 
     const addCategoryValueRecord: CategoryValueChangeRecord = {
       id: uuid(),
       budgetType: category.budgetType,
-      categoryId: category.id,
-      categoryName: category.name,
-      accountId,
-      accountName: account.name,
+      category,
+      account,
       date: new Date().getTime(),
       icon: category.icon,
       recordType: ActivityLogRecordType.CategoryValueChange,
       value: valueToAdd,
+      convertedValue: convertedValueToAdd,
       note,
     };
 
@@ -186,7 +198,9 @@ export class CategoriesFacadeService {
       icon,
     };
 
-    this.store.dispatch(CategoriesActions.resetCategories({ categoriesIdsToReset, budgetType, activityLogRecord }));
+    this.store.dispatch(
+      CategoriesActions.resetCategories({ categoriesIdsToReset, budgetType, activityLogRecord })
+    );
   }
 
   // CATEGORY MANAGEMENT STATES

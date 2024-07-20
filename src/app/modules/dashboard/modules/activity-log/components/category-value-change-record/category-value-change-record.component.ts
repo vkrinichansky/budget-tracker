@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { ActivityLogFacadeService, BudgetType, CategoryValueChangeRecord } from '@budget-tracker/data';
+import {
+  ActivityLogFacadeService,
+  BudgetType,
+  CategoryValueChangeRecord,
+} from '@budget-tracker/data';
 import { ConfirmationModalService } from '@budget-tracker/design-system';
 import { isPreviousMonth } from '@budget-tracker/utils';
 import { Observable } from 'rxjs';
@@ -10,12 +14,34 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryValueChangeRecordComponent implements OnInit {
-  readonly budgetType = BudgetType;
-
   @Input()
   record: CategoryValueChangeRecord;
 
   isRecordRemoving$: Observable<boolean>;
+
+  get colorClass(): string {
+    switch (this.record.budgetType) {
+      case BudgetType.Income:
+        return 'text-dark-green';
+
+      case BudgetType.Expense:
+        return 'text-red';
+    }
+  }
+
+  get symbol(): string {
+    switch (this.record.budgetType) {
+      case BudgetType.Income:
+        return '\u002B';
+
+      case BudgetType.Expense:
+        return '\u2212';
+    }
+  }
+
+  get isDoubleValue(): boolean {
+    return this.record.value === this.record.convertedValue;
+  }
 
   constructor(
     private confirmationModalService: ConfirmationModalService,
@@ -26,19 +52,20 @@ export class CategoryValueChangeRecordComponent implements OnInit {
     this.isRecordRemoving$ = this.activityLogFacade.isActivityLogRecordRemoving(this.record.id);
   }
 
-  buildTranslationKey(key: string): string {
-    return `dashboard.activityLog.categoryValueChangeRecord.${key}`;
-  }
-
   removeHandler(): void {
     if (isPreviousMonth(this.record.date)) {
       this.activityLogFacade.removeActivityLogRecord(this.record.id);
     } else {
       this.confirmationModalService.openConfirmationModal(
         {
-          questionTranslationKey: this.buildTranslationKey('removeConfirmationQuestion'),
-          remarkTranslationKey: this.buildTranslationKey(`removeConfirmationRemark`),
-          remarkTranslationParams: { accountName: this.record.accountName, categoryName: this.record.categoryName },
+          questionTranslationKey:
+            'dashboard.activityLog.categoryValueChangeRecord.removeConfirmationQuestion',
+          remarkTranslationKey:
+            'dashboard.activityLog.categoryValueChangeRecord.removeConfirmationRemark',
+          remarkTranslationParams: {
+            accountName: this.record.account.name,
+            categoryName: this.record.category.name,
+          },
         },
         () => this.activityLogFacade.removeCategoryValueChangeRecord(this.record.id)
       );

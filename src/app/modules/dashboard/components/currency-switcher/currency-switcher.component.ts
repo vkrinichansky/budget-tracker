@@ -5,7 +5,7 @@ import {
   MetadataFacadeService,
   predefinedCurrenciesDictionary,
 } from '@budget-tracker/data';
-import { MenuAction } from '@budget-tracker/design-system';
+import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -14,7 +14,8 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CurrencySwitcherComponent implements OnInit {
-  readonly currentCurrency = this.currencyService.getCurrentCurrency();
+  private readonly currentCurrency = this.currencyService.getCurrentCurrency();
+
   readonly currentLanguageText = `${predefinedCurrenciesDictionary[this.currentCurrency].code} (${
     predefinedCurrenciesDictionary[this.currentCurrency].symbol
   })`;
@@ -25,22 +26,26 @@ export class CurrencySwitcherComponent implements OnInit {
 
   constructor(
     private currencyService: CurrencyService,
-    private metadataFacade: MetadataFacadeService
+    private metadataFacade: MetadataFacadeService,
+    private confirmationModalService: ConfirmationModalService
   ) {}
 
   ngOnInit(): void {
     this.isLoading$ = this.metadataFacade.getCurrencyChangingInProgress();
   }
 
-  buildTranslationKey(key: string): string {
-    return `currencySwitcher.${key}`;
-  }
-
   private getMenuActions(): MenuAction[] {
     return Object.keys(predefinedCurrenciesDictionary).map((key) => ({
       icon: predefinedCurrenciesDictionary[key].icon,
       translationKey: `currencies.${key}`,
-      action: () => this.metadataFacade.changeCurrency(key as CurrenciesEnum),
+      action: () =>
+        this.confirmationModalService.openConfirmationModal(
+          {
+            questionTranslationKey: 'currencySwitcher.removeConfirmationQuestion',
+            remarkTranslationKey: 'currencySwitcher.removeConfirmationRemark',
+          },
+          () => this.metadataFacade.changeCurrency(key as CurrenciesEnum)
+        ),
       disabled: key === this.currentCurrency,
     }));
   }
