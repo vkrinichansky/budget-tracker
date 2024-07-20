@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  DestroyRef,
-  Inject,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Observable, filter, take, tap, withLatestFrom } from 'rxjs';
@@ -53,15 +46,29 @@ export class CategoryValueModalComponent implements OnInit {
 
   displayConvertedValueField: boolean;
 
-  get doesChoosedAccountHaveForeignCurrency(): boolean {
-    const currencyId = (this.form?.controls?.[FormFields.AccountToUse]?.value as Account)?.currency
-      ?.id;
-
-    return currencyId && currencyId !== this.currencyService.getCurrentCurrency();
+  get accoundChoosed(): boolean {
+    return this.form?.controls?.[FormFields.AccountToUse]?.value;
   }
 
-  get shouldDisableValueFields(): boolean {
-    return !this.form?.controls?.[FormFields.AccountToUse]?.value;
+  get doesChoosedAccountHaveForeignCurrency(): boolean {
+    return this.accoundChoosed
+      ? (this.form.controls[FormFields.AccountToUse].value as Account).currency.id !==
+          this.currencyService.getCurrentCurrency()
+      : false;
+  }
+
+  get currencySymbolForValueField(): string {
+    if (!this.accoundChoosed) {
+      return null;
+    }
+
+    return this.doesChoosedAccountHaveForeignCurrency
+      ? (this.form?.controls?.[FormFields.AccountToUse]?.value as Account)?.currency?.symbol
+      : this.currencyService.getCurrencySymbol();
+  }
+
+  get currencySymbolForConvertedValueField(): string {
+    return this.accoundChoosed ? this.currencyService.getCurrencySymbol() : null;
   }
 
   constructor(
@@ -70,8 +77,7 @@ export class CategoryValueModalComponent implements OnInit {
     private categoriesFacade: CategoriesFacadeService,
     private accountsFacade: AccountsFacadeService,
     private currencyService: CurrencyService,
-    private destroyRef: DestroyRef,
-    private cd: ChangeDetectorRef
+    private destroyRef: DestroyRef
   ) {}
 
   ngOnInit(): void {
@@ -113,8 +119,6 @@ export class CategoryValueModalComponent implements OnInit {
           this.form.controls?.[FormFields.ConvertedValueToAdd].reset(null);
 
           this.displayConvertedValueField = this.doesChoosedAccountHaveForeignCurrency;
-
-          this.cd.detectChanges();
         })
       )
       .subscribe();
@@ -132,8 +136,6 @@ export class CategoryValueModalComponent implements OnInit {
           this.form.controls[FormFields.ConvertedValueToAdd].setValue(
             value ? convertedValue : null
           );
-
-          this.cd.detectChanges();
         })
       )
       .subscribe();

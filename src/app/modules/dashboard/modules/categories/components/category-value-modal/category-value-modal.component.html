@@ -23,7 +23,8 @@
       [minValue]="1"
       [type]="'number'"
       [formControlName]="formFieldsEnum.ValueToAdd"
-      [isDisabled]="shouldDisableValueFields"
+      [isDisabled]="!accoundChoosed"
+      [prefix]="currencySymbolForValueField"
     ></custom-input>
 
     <custom-input
@@ -34,6 +35,7 @@
       [minValue]="1"
       [type]="'number'"
       [formControlName]="formFieldsEnum.ConvertedValueToAdd"
+      [prefix]="currencySymbolForConvertedValueField"
     ></custom-input>
 
     <custom-textarea

@@ -83,6 +83,13 @@ input,
 
 input,
 textarea,
+.custom-select,
+.color-picker {
+  @apply w-full;
+}
+
+input,
+textarea,
 .custom-select {
   @apply px-3;
 }
