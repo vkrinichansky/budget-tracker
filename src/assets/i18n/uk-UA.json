@@ -46,6 +46,15 @@
       "accountNameLengthError": "Макс. довжина імені рахунку - 20"
     },
 
+    "moneyMovementBetweenAccountsModal": {
+      "title": "Переміщення грошей між рахунками",
+      "fromAccountTitle": "З рахунку",
+      "toAccountTitle": "На рахунок",
+      "valueToMoveTitle": "Значення",
+      "convertedValueToMoveTitle": "Конвертоване значення",
+      "moveButton": "Перемістити"
+    },
+
     "accountValueEditModal": {
       "subtitle": "Редагування значення рахунку",
       "cancel": "Вихід",
@@ -219,7 +228,8 @@
     "accountValueEdited": "Значення рахунку було змінено успішно!",
     "accountAddedSnackbar": "Рахунок було додано успішно!",
     "accountRemovedSnackbar": "Рахунок було видалено успішно!",
-    "accountOrderChangedSnackbar": "Рахунки було відсортовано успішно!"
+    "accountOrderChangedSnackbar": "Рахунки було відсортовано успішно!",
+    "moneyBetweenAccountsMoved": "Гроші між рахунками було переміщено успішно!"
   },
 
   "formErrors": {

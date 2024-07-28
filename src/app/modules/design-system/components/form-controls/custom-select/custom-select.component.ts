@@ -8,6 +8,7 @@ import {
   forwardRef,
   HostBinding,
   Input,
+  OnDestroy,
   TemplateRef,
   ViewChild,
   ViewContainerRef,
@@ -44,7 +45,10 @@ import { IconsForUser } from '../../../models';
     ]),
   ],
 })
-export class CustomSelectComponent extends GenericCustomControlComponent implements AfterViewInit {
+export class CustomSelectComponent
+  extends GenericCustomControlComponent
+  implements AfterViewInit, OnDestroy
+{
   @HostBinding('class')
   private readonly classes = 'group';
 
@@ -53,6 +57,8 @@ export class CustomSelectComponent extends GenericCustomControlComponent impleme
 
   @ViewChild('trigger', { static: true })
   private trigger: ElementRef<HTMLElement>;
+
+  private resizeObserver: ResizeObserver;
 
   @Input()
   options: unknown[];
@@ -122,6 +128,17 @@ export class CustomSelectComponent extends GenericCustomControlComponent impleme
         this.formControl.markAsTouched();
         this.cd.detectChanges();
       });
+
+    this.resizeObserver = new ResizeObserver(() => {
+      this.updateOverlayWidth();
+    });
+    this.resizeObserver.observe(this.trigger.nativeElement);
+  }
+
+  ngOnDestroy(): void {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
   }
 
   toggleDropdown(): void {
@@ -150,5 +167,11 @@ export class CustomSelectComponent extends GenericCustomControlComponent impleme
     this.formControl.setValue(value, { emitEvent: false });
     this.formControl.updateValueAndValidity({ onlySelf: true });
     this.toggleDropdown();
+  }
+
+  private updateOverlayWidth() {
+    if (this.overlayRef) {
+      this.overlayRef.updateSize({ width: this.trigger.nativeElement.offsetWidth });
+    }
   }
 }

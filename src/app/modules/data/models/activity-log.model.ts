@@ -8,6 +8,7 @@ export enum ActivityLogRecordType {
   CategoriesReset = 'categories-reset',
   AccountManagement = 'account-management',
   AccountValueEdit = 'account-value-edit',
+  MoveMoneyBetweenAccounts = 'move-money-between-account',
 }
 
 export enum EntityManagementActionType {
@@ -35,6 +36,13 @@ export interface AccountValueEditRecord extends ActivityLogRecord {
   note: string;
 }
 
+export interface MoveMoneyBetweenAccountsRecord extends ActivityLogRecord {
+  fromAccount: Account;
+  toAccount: Account;
+  fromAccountValue: number;
+  toAccountValue: number;
+}
+
 export interface CategoryManagementRecord extends ActivityLogRecord {
   actionType: EntityManagementActionType;
   categoryName: string;
@@ -59,7 +67,8 @@ export type ActivityLogRecordUnitedType =
   | AccountValueEditRecord
   | CategoryManagementRecord
   | CategoryValueChangeRecord
-  | CategoriesResetRecord;
+  | CategoriesResetRecord
+  | MoveMoneyBetweenAccountsRecord;
 
 export type ActivityLog = ActivityLogRecordUnitedType[];
 

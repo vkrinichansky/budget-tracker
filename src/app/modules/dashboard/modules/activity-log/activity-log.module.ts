@@ -8,6 +8,7 @@ import {
   CategoriesResetRecordComponent,
   CategoryManagementRecordComponent,
   CategoryValueChangeRecordComponent,
+  MoveMoneyBetweenAccountsRecordComponent,
 } from './components';
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
@@ -32,6 +33,7 @@ import { DataModule } from '@budget-tracker/data';
     AccountValueEditRecordComponent,
     ActivityLogRemoveMenuComponent,
     AccountManagementRecordComponent,
+    MoveMoneyBetweenAccountsRecordComponent,
   ],
 
   exports: [ActivityLogComponent],

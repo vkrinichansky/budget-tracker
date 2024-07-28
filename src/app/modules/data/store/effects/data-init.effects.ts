@@ -3,9 +3,20 @@ import { AuthActions } from '@budget-tracker/auth';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { combineLatest, from, map, of, switchMap, take, tap } from 'rxjs';
-import { AccountsActions, ActivityLogActions, CategoriesActions, DataInitActions, StatisticsActions } from '../actions';
-import { CurrencyExchangeService, CurrencyService, DataInitService, LanguageService } from '../../services';
-import { getMonthAndYearString, getPreviousMonthTime, SnackbarHandlerService } from '@budget-tracker/utils';
+import {
+  AccountsActions,
+  ActivityLogActions,
+  CategoriesActions,
+  DataInitActions,
+  StatisticsActions,
+} from '../actions';
+import {
+  CurrencyExchangeService,
+  CurrencyService,
+  DataInitService,
+  LanguageService,
+} from '../../services';
+import { getMonthAndYearString, getPreviousMonthTime } from '@budget-tracker/utils';
 import {
   ActivityLogRecordType,
   AppDatabaseStructure,
@@ -16,6 +27,7 @@ import {
   StatisticsSnapshot,
 } from '../../models';
 import { v4 as uuid } from 'uuid';
+import { SnackbarHandlerService } from '@budget-tracker/design-system';
 
 @Injectable()
 export class DataInitEffects {
@@ -48,7 +60,9 @@ export class DataInitEffects {
       map(([data, { metadata, exchangeRate }]) => {
         this.currencyService.setCurrentCurrency(metadata.currency as CurrenciesEnum);
         this.languageService.setCurrentLanguage(metadata.language);
-        this.currencyExchangeService.setCurrentExchangeRate(exchangeRate[metadata.currency] as CurrencyExchangeRate);
+        this.currencyExchangeService.setCurrentExchangeRate(
+          exchangeRate[metadata.currency] as CurrencyExchangeRate
+        );
 
         if (data.resetDate !== getMonthAndYearString() && data.shouldDoReset) {
           return DataInitActions.resetData({ data });
@@ -73,15 +87,26 @@ export class DataInitEffects {
           categories: [...Object.values(action.data.budget.categories)],
         };
 
-        return of({ resetData, activityLogRecords, statisticsSnapshot, date, initialData: action.data });
+        return of({
+          resetData,
+          activityLogRecords,
+          statisticsSnapshot,
+          date,
+          initialData: action.data,
+        });
       }),
 
       switchMap(({ resetData, activityLogRecords, statisticsSnapshot, date, initialData }) =>
-        from(this.dataInitService.resetData(resetData, activityLogRecords, statisticsSnapshot, date)).pipe(
+        from(
+          this.dataInitService.resetData(resetData, activityLogRecords, statisticsSnapshot, date)
+        ).pipe(
           tap(() => {
             const resultResetData: AppDatabaseStructure = {
               ...resetData,
-              budget: { ...resetData.budget, activityLog: [...resetData.budget.activityLog, ...activityLogRecords] },
+              budget: {
+                ...resetData.budget,
+                activityLog: [...resetData.budget.activityLog, ...activityLogRecords],
+              },
               statistics: {
                 ...resetData.statistics,
                 snapshots: { ...initialData.statistics.snapshots, [date]: statisticsSnapshot },

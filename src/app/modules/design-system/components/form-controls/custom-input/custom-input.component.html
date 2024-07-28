@@ -4,7 +4,7 @@
 
 <div class="w-full relative">
   @if (prefix) {
-    <span class="absolute top-1/2 left-4 text-lg text-charcoal -translate-y-1/2 font-bold">
+    <span class="absolute top-1/2 left-5 text-lg text-charcoal -translate-y-1/2 font-bold">
       {{ prefix }}
     </span>
   }
@@ -13,7 +13,7 @@
     class="form-control"
     [ngClass]="{
       'form-control-error': formControl.invalid && isErrorState(),
-      'pl-10': prefix
+      'pl-11': prefix
     }"
     [id]="id"
     [autocomplete]="'off'"

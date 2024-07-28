@@ -108,17 +108,13 @@ textarea {
 }
 
 // SNACKBAR
-.mat-mdc-snack-bar-container {
-  .mdc-snackbar__surface {
-    @apply bg-white #{!important};
+.mdc-snackbar {
+  &__surface {
+    @apply p-0 rounded-md shadow-none #{!important};
   }
 
-  .mdc-snackbar__label {
-    @apply text-charcoal font-main text-base font-bold #{!important};
-  }
-
-  .mat-mdc-button.mat-mdc-snack-bar-action {
-    @apply text-dark-green hover:bg-dark-green hover:text-white font-bold font-main text-base #{!important};
+  &__label {
+    @apply p-0 #{!important};
   }
 }
 

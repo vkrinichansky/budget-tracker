@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { SnackbarHandlerService } from '@budget-tracker/utils';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { from, catchError, tap, EMPTY, switchMap, combineLatest, map } from 'rxjs';
 import { MetadataActions } from '../actions';
 import { CategoriesService, MetadataService } from '../../services';
 import { Store } from '@ngrx/store';
 import { CategoriesSelectors } from '../selectors';
+import { SnackbarHandlerService } from '@budget-tracker/design-system';
 
 @Injectable()
 export class MetadataEffects {

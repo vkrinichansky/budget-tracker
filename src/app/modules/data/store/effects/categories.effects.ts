@@ -3,8 +3,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, delay, from, map, mergeMap, of, switchMap } from 'rxjs';
 import { AccountsActions, ActivityLogActions, CategoriesActions } from '../actions';
 import { CategoriesService } from '../../services';
-import { SnackbarHandlerService } from '@budget-tracker/utils';
 import { Account, Category } from '../../models';
+import { SnackbarHandlerService } from '@budget-tracker/design-system';
 
 @Injectable()
 export class CategoriesEffects {
@@ -47,7 +47,11 @@ export class CategoriesEffects {
       ofType(CategoriesActions.removeCategory),
       mergeMap((action) =>
         from(
-          this.categoriesService.removeCategory(action.categoryId, action.activityLogRecord, action.recordsToRemove)
+          this.categoriesService.removeCategory(
+            action.categoryId,
+            action.activityLogRecord,
+            action.recordsToRemove
+          )
         ).pipe(
           switchMap(() => {
             this.snackbarHandler.showCategoryRemovedSnackbar();
@@ -100,10 +104,16 @@ export class CategoriesEffects {
 
             return of(
               CategoriesActions.categoryValueChanged({
-                updatedCategory: { id: action.updatedCategoryId, value: action.updatedCategoryValue } as Category,
+                updatedCategory: {
+                  id: action.updatedCategoryId,
+                  value: action.updatedCategoryValue,
+                } as Category,
               }),
               AccountsActions.accountValueEdited({
-                updatedAccount: { id: action.updatedAccountId, value: action.updatedAccountValue } as Account,
+                updatedAccount: {
+                  id: action.updatedAccountId,
+                  value: action.updatedAccountValue,
+                } as Account,
               }),
               ActivityLogActions.recordAdded({
                 record: action.activityLogRecord,
@@ -124,7 +134,12 @@ export class CategoriesEffects {
     this.actions$.pipe(
       ofType(CategoriesActions.resetCategories),
       mergeMap((action) =>
-        from(this.categoriesService.resetCategories(action.categoriesIdsToReset, action.activityLogRecord)).pipe(
+        from(
+          this.categoriesService.resetCategories(
+            action.categoriesIdsToReset,
+            action.activityLogRecord
+          )
+        ).pipe(
           switchMap(() => {
             this.snackbarHandler.showCategoriesResetSnackbar(action.budgetType);
 

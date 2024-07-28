@@ -24,6 +24,7 @@ import {
   CharCounterComponent,
   ButtonToggleComponent,
   CheckboxComponent,
+  SnackbarComponent,
 } from './components';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
@@ -31,7 +32,7 @@ import {
   MatDialogModule,
 } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
-import { ConfirmationModalService } from './services';
+import { ConfirmationModalService, SnackbarHandlerService } from './services';
 import { isMobileWidth, UtilsModule } from '@budget-tracker/utils';
 import { TooltipRendererDirective } from './directives';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -77,6 +78,7 @@ import { PortalModule } from '@angular/cdk/portal';
     CharCounterComponent,
     ButtonToggleComponent,
     CheckboxComponent,
+    SnackbarComponent,
   ],
   exports: [
     SvgIconComponent,
@@ -104,6 +106,7 @@ import { PortalModule } from '@angular/cdk/portal';
   ],
   providers: [
     ConfirmationModalService,
+    SnackbarHandlerService,
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: {

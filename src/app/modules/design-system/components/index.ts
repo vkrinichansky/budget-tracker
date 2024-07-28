@@ -13,5 +13,6 @@ export { CheckboxGroupComponent } from './checkbox-group/checkbox-group.componen
 export { FullsizeLoaderComponent } from './fullsize-loader/fullsize-loader.component';
 export { BaseModalComponent } from './base-modal/base-modal.component';
 export { ButtonToggleComponent } from './button-toggle/button-toggle.component';
+export { SnackbarComponent } from './snackbar/snackbar.component';
 
 export * from './form-controls';

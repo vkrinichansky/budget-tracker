@@ -5,12 +5,18 @@
     shouldDisableRemoveButton: shouldDisableRemoveButton$ | async
   } as data"
 >
-  <app-page-header class="text-xl bg-transparent" [title]="buildTranslationKey('title') | translate">
+  <app-page-header
+    class="text-xl bg-transparent"
+    [title]="buildTranslationKey('title') | translate"
+  >
     @if (!data.isEmpty) {
       <app-activity-log-remove-menu
         *ngVar="data.isBulkRecordsRemovingInProgress || data.shouldDisableRemoveButton as disabled"
         customTooltip
-        [tooltipText]="buildTranslationKey(disabled ? 'removeMenuDisabledTooltip' : 'removeMenuTooltip') | translate"
+        [tooltipText]="
+          buildTranslationKey(disabled ? 'removeMenuDisabledTooltip' : 'removeMenuTooltip')
+            | translate
+        "
         [position]="['left']"
         [disabled]="disabled"
       ></app-activity-log-remove-menu>
@@ -35,11 +41,18 @@
     @if (!data.isEmpty) {
       <cdk-virtual-scroll-viewport itemSize="66" class="h-full w-full !overflow-x-hidden">
         <div
-          *cdkVirtualFor="let item of itemsToRender$ | async; trackBy: trackBy.bind(this); templateCacheSize: 0"
+          *cdkVirtualFor="
+            let item of itemsToRender$ | async;
+            trackBy: trackBy.bind(this);
+            templateCacheSize: 0
+          "
           class="h-16.5 flex items-center w-full"
         >
           <ng-container
-            *ngTemplateOutlet="isItemDateObject(item) ? dateItem : recordItem; context: { item: item }"
+            *ngTemplateOutlet="
+              isItemDateObject(item) ? dateItem : recordItem;
+              context: { item: item }
+            "
           ></ng-container>
         </div>
       </cdk-virtual-scroll-viewport>
@@ -48,7 +61,9 @@
 </ng-container>
 
 <ng-template #dateItem let-item="item">
-  <div class="flex justify-between items-center h-full w-full font-main text-grey text-base bg-white font-bold">
+  <div
+    class="flex justify-between items-center h-full w-full font-main text-grey text-base bg-white font-bold"
+  >
     <span>
       {{ item.date }}
     </span>
@@ -73,15 +88,28 @@
     }
 
     @case (recordType.CategoryManagement) {
-      <app-category-management-record class="w-full" [record]="item"></app-category-management-record>
+      <app-category-management-record
+        class="w-full"
+        [record]="item"
+      ></app-category-management-record>
     }
 
     @case (recordType.CategoryValueChange) {
-      <app-category-value-change-record class="w-full" [record]="item"></app-category-value-change-record>
+      <app-category-value-change-record
+        class="w-full"
+        [record]="item"
+      ></app-category-value-change-record>
     }
 
     @case (recordType.CategoriesReset) {
       <app-categories-reset-record class="w-full" [record]="item"></app-categories-reset-record>
+    }
+
+    @case (recordType.MoveMoneyBetweenAccounts) {
+      <app-move-money-between-accounts-record
+        class="w-full"
+        [record]="item"
+      ></app-move-money-between-accounts-record>
     }
   }
 </ng-template>

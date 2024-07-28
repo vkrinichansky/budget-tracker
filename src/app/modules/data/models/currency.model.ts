@@ -5,7 +5,7 @@ export enum CurrenciesEnum {
 }
 
 export interface Currency {
-  id: string; // usd
+  id: CurrenciesEnum; // usd
   code: string; // USD
   icon: string; // flag
   symbol: string; // $

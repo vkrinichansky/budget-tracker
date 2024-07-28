@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
+import { SnackbarComponent } from '../../components';
+import { SnackbarData } from '../../models';
+import { isMobileWidth } from '@budget-tracker/utils';
 
 @Injectable()
 export class SnackbarHandlerService {
@@ -100,10 +103,21 @@ export class SnackbarHandlerService {
     );
   }
 
+  showMoneyBetweenAccountsMovedSnackbar(): void {
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant('snackbars.moneyBetweenAccountsMoved')
+    );
+  }
+
   private openSnackBarWithCloseDelay(
     message: string,
-    action: string = this.translateService.instant('snackbars.defaultOkButtonText')
+    buttonText: string = this.translateService.instant('snackbars.defaultOkButtonText'),
+    buttonAction: () => unknown = () => this.snackBar.dismiss()
   ): void {
-    this.snackBar.open(message, action, { duration: 3000 });
+    this.snackBar.openFromComponent(SnackbarComponent, {
+      duration: 0,
+      verticalPosition: isMobileWidth() ? 'top' : 'bottom',
+      data: { message, buttonText, buttonAction } as SnackbarData,
+    });
   }
 }
