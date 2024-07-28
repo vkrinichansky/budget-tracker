@@ -115,7 +115,7 @@ export class SnackbarHandlerService {
     buttonAction: () => unknown = () => this.snackBar.dismiss()
   ): void {
     this.snackBar.openFromComponent(SnackbarComponent, {
-      duration: 0,
+      duration: 3000,
       verticalPosition: isMobileWidth() ? 'top' : 'bottom',
       data: { message, buttonText, buttonAction } as SnackbarData,
     });

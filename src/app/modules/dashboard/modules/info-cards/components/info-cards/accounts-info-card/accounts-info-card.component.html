@@ -34,12 +34,14 @@
       (click)="openAddAccountModal(); $event.stopPropagation()"
     ></app-button>
 
-    <app-button
-      [iconName]="'money-change'"
-      [colorScheme]="'transparent-light'"
-      [buttonSizeX]="'small'"
-      [buttonSizeY]="'small'"
-      (click)="openMoneyMovementModal(); $event.stopPropagation()"
-    ></app-button>
+    @if (accountsAmount >= 2) {
+      <app-button
+        [iconName]="'money-change'"
+        [colorScheme]="'transparent-light'"
+        [buttonSizeX]="'small'"
+        [buttonSizeY]="'small'"
+        (click)="openMoneyMovementModal(); $event.stopPropagation()"
+      ></app-button>
+    }
   </div>
 </div>
