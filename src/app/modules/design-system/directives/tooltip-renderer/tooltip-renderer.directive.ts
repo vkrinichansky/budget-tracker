@@ -62,7 +62,7 @@ export class TooltipRendererDirective implements OnDestroy {
   tooltipBgColor: BgColorScheme = 'charcoal';
 
   @Input()
-  position: TooltipPosition = 'top';
+  position: TooltipPosition[] = ['top'];
 
   @Input()
   maxWidth = 'max-w-64';
@@ -143,7 +143,9 @@ export class TooltipRendererDirective implements OnDestroy {
     if (this.tooltipText || this.tooltipTemplate) {
       const positionStrategy = this._overlayPositionBuilder
         .flexibleConnectedTo(this._elementRef)
-        .withPositions(Object.values(positionMapping));
+        .withPositions(
+          this.position ? this.position.map((direction) => positionMapping[direction]) : Object.values(positionMapping)
+        );
 
       this._overlayRef = this._overlay.create({ positionStrategy });
 

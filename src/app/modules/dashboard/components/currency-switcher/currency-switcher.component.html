@@ -1,0 +1,12 @@
+<app-menu
+  customTooltip
+  [tooltipText]="'currencySwitcher.tooltip' | translate"
+  [position]="['left']"
+  [dontDisplayOnScreenWidth]="true"
+  [menuActions]="menuActions"
+  [icon]="icon"
+  [text]="currentLanguageText"
+  [buttonSizeX]="'auto'"
+  [loading]="isLoading$ | async"
+>
+</app-menu>

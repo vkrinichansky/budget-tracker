@@ -1,0 +1,38 @@
+<app-base-modal
+  *ngVar="account$ | async as account"
+  [titleTranslationKey]="account.name"
+  [subtitleTranslationKey]="'dashboard.accountValueEditModal.subtitle'"
+  [footerTemplate]="footer"
+>
+  <form class="flex flex-col gap-y-2" [formGroup]="form">
+    <custom-input
+      [id]="formFields.Value"
+      [label]="'dashboard.accountValueEditModal.valueInputLabel' | translate"
+      [formControlName]="formFields.Value"
+      [isRequired]="true"
+      [minValue]="0"
+      [type]="'number'"
+      [preventSameValue]="true"
+      [initialValue]="account.value"
+    ></custom-input>
+
+    <custom-textarea
+      [id]="formFields.Note"
+      [label]="'dashboard.accountValueEditModal.noteInputLabel' | translate"
+      [formControlName]="formFields.Note"
+      [maxLength]="100"
+      [displayCharCounter]="true"
+    ></custom-textarea>
+  </form>
+</app-base-modal>
+
+<ng-template #footer>
+  <app-button
+    [buttonSizeX]="'big'"
+    [colorScheme]="'charcoal'"
+    [text]="'dashboard.accountValueEditModal.editButton' | translate"
+    [disabled]="isSubmitButtonDisabled"
+    [loading]="(loading$ | async) || (success$ | async)"
+    (click)="submitAction()"
+  ></app-button>
+</ng-template>

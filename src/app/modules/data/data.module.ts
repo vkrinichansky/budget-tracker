@@ -2,43 +2,57 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import {
+  AccountsEffects,
   ActivityLogEffects,
   CategoriesEffects,
   DataInitEffects,
-  RootValuesEffects,
   featureKey,
+  MetadataEffects,
   reducers,
 } from './store';
 import {
+  AccountsFacadeService,
+  AccountsService,
   ActivityLogFacadeService,
   ActivityLogService,
   CategoriesFacadeService,
   CategoriesService,
   DataInitFacadeService,
   DataInitService,
-  RootValuesFacadeService,
-  RootValuesService,
+  MetadataFacadeService,
+  MetadataService,
   StatisticsFacadeService,
 } from './services';
 import { EffectsModule } from '@ngrx/effects';
+import { CurrencyPipe } from './pipes';
 
 @NgModule({
-  declarations: [],
+  declarations: [CurrencyPipe],
   imports: [
     CommonModule,
     StoreModule.forFeature(featureKey, reducers),
-    EffectsModule.forFeature([RootValuesEffects, CategoriesEffects, DataInitEffects, ActivityLogEffects]),
+    EffectsModule.forFeature([
+      CategoriesEffects,
+      DataInitEffects,
+      ActivityLogEffects,
+      AccountsEffects,
+      MetadataEffects,
+    ]),
   ],
   providers: [
     ActivityLogFacadeService,
-    RootValuesService,
-    RootValuesFacadeService,
     CategoriesFacadeService,
     CategoriesService,
     DataInitService,
     DataInitFacadeService,
     StatisticsFacadeService,
     ActivityLogService,
+    AccountsFacadeService,
+    AccountsService,
+    MetadataFacadeService,
+    MetadataService,
+    CurrencyPipe,
   ],
+  exports: [CurrencyPipe],
 })
 export class DataModule {}

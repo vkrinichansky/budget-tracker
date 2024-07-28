@@ -1,6 +1,12 @@
 <div mat-dialog-title class="!flex !justify-between !items-center !gap-x-4">
   <div>
-    <h1>{{ titleTranslationKey | translate }}</h1>
+    <div class="flex items-center gap-2">
+      <h1>{{ titleTranslationKey | translate: titleTranslationParams }}</h1>
+
+      @if (loading) {
+        <app-loader [colorMode]="'dark'"></app-loader>
+      }
+    </div>
 
     @if (subtitleTranslationKey) {
       <h2 class="text-sm">{{ subtitleTranslationKey | translate }}</h2>
@@ -12,7 +18,7 @@
   }
 </div>
 
-<div mat-dialog-content>
+<div cdkScrollable mat-dialog-content>
   <ng-content></ng-content>
 </div>
 

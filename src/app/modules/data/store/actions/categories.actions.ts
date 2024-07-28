@@ -1,93 +1,73 @@
 import { createAction, props } from '@ngrx/store';
-import { CategoriesResetRecord, Category, CategoryManagementRecord, CategoryValueChangeRecord } from '../../models';
-
-enum CategoriesActionsType {
-  CategoriesLoaded = '[Categories] Categories loaded',
-
-  AddCategory = '[Categories] Add category',
-  CategoryAdded = '[Categories] Category added',
-  AddCategoryFail = '[Categories] Add category fail',
-
-  RemoveCategory = '[Categories] Remove category',
-  CategoryRemoved = '[Categories] Category removed',
-  RemoveCategoryFail = '[Categories] Remove category fail',
-
-  ResetCategoryManagementProp = '[Categories] Reset categoryManagement prop',
-
-  ChangeCategoryValue = '[Categories] Change category value',
-  CategoryValueChanged = '[Categories] Category value changed',
-  ChangeCategoryValueFail = '[Categories] Change category value fail',
-
-  ResetCategoryValueChangeProp = '[Categories] Reset categoryValueChange prop',
-
-  ResetCategories = '[Categories] Reset categories',
-  CategoriesReset = '[Categories] Categories reset',
-  ReserCategoriesFail = '[Categories] Reset categories fail',
-
-  Clean = '[Categories] Clean state',
-}
+import {
+  BudgetType,
+  CategoriesResetRecord,
+  Category,
+  CategoryManagementRecord,
+  CategoryValueChangeRecord,
+} from '../../models';
 
 export const CategoriesActions = {
-  categoriesLoaded: createAction(CategoriesActionsType.CategoriesLoaded, props<{ categories: Category[] }>()),
+  categoriesLoaded: createAction('[Categories] Categories loaded', props<{ categories: Category[] }>()),
 
   addCategory: createAction(
-    CategoriesActionsType.AddCategory,
+    '[Categories] Add category',
     props<{ category: Category; activityLogRecord: CategoryManagementRecord }>()
   ),
 
-  categoryAdded: createAction(CategoriesActionsType.CategoryAdded, props<{ category: Category }>()),
+  categoryAdded: createAction('[Categories] Category added', props<{ category: Category }>()),
 
-  addCategoryFail: createAction(CategoriesActionsType.AddCategoryFail),
+  addCategoryFail: createAction('[Categories] Add category fail'),
 
   removeCategory: createAction(
-    CategoriesActionsType.RemoveCategory,
+    '[Categories] Remove category',
     props<{
-      category: Category;
+      categoryId: string;
       activityLogRecord: CategoryManagementRecord;
       recordsToRemove: CategoryValueChangeRecord[];
     }>()
   ),
 
-  categoryRemoved: createAction(CategoriesActionsType.CategoryRemoved, props<{ category: Category }>()),
+  categoryRemoved: createAction('[Categories] Category removed', props<{ categoryId: string }>()),
 
-  removeCategoryFail: createAction(CategoriesActionsType.RemoveCategoryFail, props<{ categoryId: string }>()),
+  removeCategoryFail: createAction('[Categories] Remove category fail', props<{ categoryId: string }>()),
 
-  resetCategoryManagementProp: createAction(CategoriesActionsType.ResetCategoryManagementProp),
+  resetCategoryManagementProp: createAction('[Categories] Reset categoryManagement prop'),
 
   changeCategoryValue: createAction(
-    CategoriesActionsType.ChangeCategoryValue,
+    '[Categories] Change category value',
     props<{
-      updatedCategory: Category;
-      newBalanceValue: number;
+      updatedCategoryId: string;
+      updatedCategoryValue: number;
+      updatedAccountId: string;
+      updatedAccountValue: number;
       activityLogRecord: CategoryValueChangeRecord;
     }>()
   ),
 
-  categoryValueChanged: createAction(
-    CategoriesActionsType.CategoryValueChanged,
-    props<{ updatedCategory: Category }>()
-  ),
+  categoryValueChanged: createAction('[Categories] Category value changed', props<{ updatedCategory: Category }>()),
 
-  changeCategoryValueFail: createAction(CategoriesActionsType.ChangeCategoryValueFail),
+  changeCategoryValueFail: createAction('[Categories] Change category value fail'),
 
-  resetCategoryValueChangeProp: createAction(CategoriesActionsType.ResetCategoryValueChangeProp),
+  resetCategoryValueChangeProp: createAction('[Categories] Reset categoryValueChange prop'),
 
   resetCategories: createAction(
-    CategoriesActionsType.ResetCategories,
+    '[Categories] Reset categories',
     props<{
-      updatedCategories: Category[];
+      categoriesIdsToReset: string[];
+      budgetType: BudgetType;
       activityLogRecord: CategoriesResetRecord;
     }>()
   ),
 
   categoriesReset: createAction(
-    CategoriesActionsType.CategoriesReset,
+    '[Categories] Categories reset',
     props<{
-      updatedCategories: Category[];
+      categoriesIdsToReset: string[];
     }>()
   ),
 
-  resetCategoriesFail: createAction(CategoriesActionsType.ReserCategoriesFail),
+  resetCategoriesFail: createAction('[Categories] Reset categories fail'),
 
-  clean: createAction(CategoriesActionsType.Clean),
+  clean: createAction('[Categories] Clean state'),
 };

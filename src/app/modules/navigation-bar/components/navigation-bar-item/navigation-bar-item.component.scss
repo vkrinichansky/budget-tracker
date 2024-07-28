@@ -2,14 +2,20 @@
   @apply flex items-center justify-center w-full;
 
   .link {
-    @apply flex items-center justify-center w-full py-2 cursor-default;
+    @apply relative flex items-center justify-center w-full py-2 cursor-default;
+
+    &::before {
+      @apply absolute top-0 left-0 w-1 bg-transparent h-full block rounded-tr-sm rounded-br-sm;
+      content: '';
+
+      transition: background-color linear 0.1s;
+    }
 
     &.active {
-      @apply relative pointer-events-none;
+      @apply pointer-events-none;
 
       &::before {
-        @apply absolute top-0 left-0 w-1 bg-green h-full block rounded-tr-sm rounded-br-sm;
-        content: '';
+        @apply bg-green;
       }
     }
   }
@@ -20,10 +26,8 @@
     .link {
       @apply h-full w-auto p-0 #{!important};
 
-      &.active {
-        &::before {
-          @apply w-full h-1 bottom-0 top-auto block rounded-br-none rounded-tl-sm rounded-tr-sm;
-        }
+      &::before {
+        @apply w-full h-1 bottom-0 top-auto block rounded-br-none rounded-tl-sm rounded-tr-sm;
       }
     }
   }

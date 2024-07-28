@@ -1,0 +1,11 @@
+<app-info-card
+  [iconBgClass]="'bg-light-blue'"
+  [iconName]="'equal-sign'"
+  [primaryText]="fullBalance$ | async | currencySymbol"
+  [secondaryText]="buildTranslationKey('title') | translate"
+  [tooltip]="tooltip"
+></app-info-card>
+
+<ng-template #tooltip>
+  <span [innerHTML]="buildTranslationKey('tooltip') | translate"></span>
+</ng-template>

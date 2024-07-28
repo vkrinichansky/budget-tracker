@@ -1,0 +1,53 @@
+@if (label) {
+  <control-label class="mb-1" [label]="label" [required]="isRequired" [for]="id"></control-label>
+}
+
+<div class="w-full relative">
+  @if (prefix) {
+    <span class="absolute top-1/2 left-5 text-lg text-charcoal -translate-y-1/2 font-bold">
+      {{ prefix }}
+    </span>
+  }
+
+  <input
+    class="form-control"
+    [ngClass]="{
+      'form-control-error': formControl.invalid && isErrorState(),
+      'pl-11': prefix
+    }"
+    [id]="id"
+    [autocomplete]="'off'"
+    [type]="type"
+    [preventInvalidChars]="type === 'number' ? ['e', 'E', '-', '.'] : []"
+    [formControl]="formControl"
+    [maxlength]="maxLength"
+    (ngModelChange)="valueChanged($event)"
+  />
+</div>
+
+@if (!isErrorState() && displayCharCounter && maxLength) {
+  <char-counter
+    [currentAmount]="formControl?.value?.length || 0"
+    [maxLength]="maxLength"
+  ></char-counter>
+}
+
+@if (isErrorState()) {
+  <div class="flex flex-col gap-y-1 w-full pt-1 px-1.5 pb-1.5 rounded-b-md bg-red">
+    @if (hasRequiredError) {
+      <control-error>{{ 'formErrors.required' | translate }}</control-error>
+    }
+
+    @if (hasMinValueError) {
+      <control-error>{{ 'formErrors.minValue' | translate: { minValue } }}</control-error>
+    }
+
+    @if (hasSameValueError) {
+      <control-error>{{ 'formErrors.sameValue' | translate }}</control-error>
+    }
+
+    @if (hasEntityExistsError) {
+      <control-error>{{ 'formErrors.entityExists' | translate }}</control-error>
+    }
+  </div>
+}

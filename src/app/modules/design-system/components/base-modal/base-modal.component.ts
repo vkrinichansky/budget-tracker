@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, TemplateRef } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -7,8 +7,14 @@ import { MatDialogRef } from '@angular/material/dialog';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseModalComponent {
+  @HostBinding('class')
+  private readonly classes = 'border-2 border-solid border-charcoal rounded-md';
+
   @Input()
   titleTranslationKey: string;
+
+  @Input()
+  titleTranslationParams: Record<string, string | number>;
 
   @Input()
   subtitleTranslationKey: string;
@@ -18,6 +24,9 @@ export class BaseModalComponent {
 
   @Input()
   footerTemplate: TemplateRef<unknown>;
+
+  @Input()
+  loading: boolean;
 
   constructor(private dialogRef: MatDialogRef<BaseModalComponent>) {}
 

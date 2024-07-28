@@ -1,24 +1,33 @@
 <app-button
-  mat-button
-  [matMenuTriggerFor]="menu"
+  #trigger
   [iconName]="icon"
-  [colorScheme]="colorScheme"
+  [colorScheme]="resolveColorScheme"
   [buttonSizeY]="buttonSizeY"
   [buttonSizeX]="buttonSizeX"
   [text]="text"
   [disabled]="menuDisabled"
   [loading]="loading"
+  [shouldUseCurrentColor]="shouldUseCurrentColor"
+  (click)="toggleDropdown()"
 ></app-button>
 
-<mat-menu #menu="matMenu">
-  @for (action of menuActions; track action) {
-    <app-button
-      [text]="action.translationKey | translate"
-      [iconName]="action.icon"
-      [buttonSizeX]="'full'"
-      [disabled]="action.disabled || (action.disabledObs | async)"
-      [align]="'start'"
-      (click)="action.action()"
-    ></app-button>
-  }
-</mat-menu>
+<ng-template #actionsTemplate>
+  <div class="bg-white rounded-md border-2 border-solid border-charcoal w-full p-2">
+    @if (useContent) {
+      <ng-content></ng-content>
+    } @else {
+      <div class="flex flex-col gap-y-1 h-full rounded-md">
+        @for (action of menuActions; track action) {
+          <app-button
+            [text]="action.translationKey | translate"
+            [iconName]="action.icon"
+            [buttonSizeX]="'full'"
+            [disabled]="action.disabled || (action.disabledObs | async)"
+            [align]="'start'"
+            (click)="action.action(); toggleDropdown()"
+          ></app-button>
+        }
+      </div>
+    }
+  </div>
+</ng-template>

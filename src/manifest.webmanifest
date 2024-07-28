@@ -1,8 +1,8 @@
 {
-  "name": "Budget Tracker",
-  "short_name": "Budget Tracker",
+  "name": "SmartExpense",
+  "short_name": "SmartExpense",
   "theme_color": "#109279",
-  "background_color": "#F0F2F2",
+  "background_color": "#2C4251",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",

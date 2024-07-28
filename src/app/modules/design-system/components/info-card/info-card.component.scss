@@ -23,8 +23,26 @@
     }
   }
 
-  &.green {
+  &.dark-green {
     @apply bg-dark-green;
+
+    .primary,
+    .secondary {
+      @apply text-white;
+    }
+  }
+
+  &.green {
+    @apply bg-green;
+
+    .primary,
+    .secondary {
+      @apply text-white;
+    }
+  }
+
+  &.red {
+    @apply bg-red;
 
     .primary,
     .secondary {

@@ -1,0 +1,20 @@
+:host {
+  @media (min-width: 481px) {
+    .wrapper {
+      .tip {
+        transform: translateY(100%);
+        transition: transform ease-in-out 0.15s;
+      }
+
+      &:hover {
+        .tip {
+          transform: translateY(0);
+        }
+      }
+    }
+  }
+
+  .tip {
+    transform: translateY(0);
+  }
+}

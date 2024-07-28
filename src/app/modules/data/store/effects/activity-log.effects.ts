@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { SnackbarHandlerService } from '@budget-tracker/shared';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { mergeMap, from, switchMap, of, catchError, filter, take } from 'rxjs';
-import { ActivityLogActions, CategoriesActions, RootValuesActions } from '../actions';
+import { AccountsActions, ActivityLogActions, CategoriesActions } from '../actions';
 import { Store } from '@ngrx/store';
 import { ActivityLogSelectors } from '../selectors';
 import { ActivityLogService } from '../../services';
-import { RootValueType } from '../../models';
+import { Account, Category } from '../../models';
+import { SnackbarHandlerService } from '@budget-tracker/design-system';
 
 @Injectable()
 export class ActivityLogEffects {
@@ -54,83 +54,42 @@ export class ActivityLogEffects {
         from(
           this.activityLogService.removeCategoryValueChangeRecord(
             action.record,
-            action.updatedBalanceValue,
-            action.updatedCategory
+            action.updatedAccountId,
+            action.updatedAccountValue,
+            action.updatedCategoryId,
+            action.updatedCategoryValue
           )
         ).pipe(
           switchMap(() => {
             this.snackbarHandler.showActivityLogRecordRemovedSnackbar();
 
-            if (action.updatedBalanceValue !== undefined && action.updatedCategory) {
+            const updatedCategory = {
+              id: action.updatedCategoryId,
+              value: action.updatedCategoryValue,
+            } as Category;
+
+            if (action.updatedAccountValue !== null) {
               return of(
                 ActivityLogActions.activityLogRecordRemoved({
                   recordId: action.record.id,
                 }),
-                RootValuesActions.balanceUpdated({ newBalanceValue: action.updatedBalanceValue }),
-                CategoriesActions.categoryValueChanged({ updatedCategory: action.updatedCategory })
+                CategoriesActions.categoryValueChanged({
+                  updatedCategory,
+                }),
+                AccountsActions.accountValueEdited({
+                  updatedAccount: {
+                    id: action.updatedAccountId,
+                    value: action.updatedAccountValue,
+                  } as Account,
+                })
               );
             }
 
             return of(
               ActivityLogActions.activityLogRecordRemoved({
                 recordId: action.record.id,
-              })
-            );
-          }),
-          catchError((error) => {
-            this.snackbarHandler.showErrorSnackbar(error);
-
-            return of(ActivityLogActions.removeRecordFail({ recordId: action.record.id }));
-          })
-        )
-      )
-    )
-  );
-
-  removeRootValueChangeRecord$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ActivityLogActions.removeRootValueChangeRecord),
-      mergeMap((action) =>
-        from(
-          this.activityLogService.removeRootValueChangeRecord(action.record, action.updatedValue, action.valueType)
-        ).pipe(
-          switchMap(() => {
-            this.snackbarHandler.showActivityLogRecordRemovedSnackbar();
-
-            if (action.updatedValue !== undefined) {
-              switch (action.valueType) {
-                case RootValueType.Balance:
-                  return of(
-                    ActivityLogActions.activityLogRecordRemoved({
-                      recordId: action.record.id,
-                    }),
-                    RootValuesActions.balanceUpdated({ newBalanceValue: action.updatedValue })
-                  );
-
-                case RootValueType.Savings:
-                  return of(
-                    ActivityLogActions.activityLogRecordRemoved({
-                      recordId: action.record.id,
-                    }),
-                    RootValuesActions.savingsUpdated({ newSavingsValue: action.updatedValue })
-                  );
-
-                case RootValueType.FreeMoney:
-                  return of(
-                    ActivityLogActions.activityLogRecordRemoved({
-                      recordId: action.record.id,
-                    }),
-                    RootValuesActions.freeMoneyUpdated({
-                      newFreeMoneyValue: action.updatedValue,
-                    })
-                  );
-              }
-            }
-
-            return of(
-              ActivityLogActions.activityLogRecordRemoved({
-                recordId: action.record.id,
-              })
+              }),
+              CategoriesActions.categoryValueChanged({ updatedCategory })
             );
           }),
           catchError((error) => {

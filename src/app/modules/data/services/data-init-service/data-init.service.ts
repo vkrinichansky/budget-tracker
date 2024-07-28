@@ -1,9 +1,16 @@
 import { Injectable } from '@angular/core';
 import { arrayUnion, collection, doc, DocumentReference, Firestore, getDoc, updateDoc } from '@angular/fire/firestore';
 import { AuthFacadeService } from '@budget-tracker/auth';
-import { firstValueFrom, from, map, switchMap } from 'rxjs';
-import { BudgetTrackerState, CategoriesResetRecord, StatisticsSnapshot } from '../../models';
+import { firstValueFrom, from, map, Observable, switchMap } from 'rxjs';
+import {
+  AppDatabaseStructure,
+  CategoriesResetRecord,
+  ExchangeEndpointResponse,
+  StatisticsSnapshot,
+  UserMetadata,
+} from '../../models';
 import { Auth } from '@angular/fire/auth';
+import { HttpClient } from '@angular/common/http';
 
 const CATEGORIES_PATH = 'budget.categories';
 const ACTIVITY_LOG_PATH = 'budget.activityLog';
@@ -15,20 +22,30 @@ export class DataInitService {
   constructor(
     private firestore: Firestore,
     private authFacade: AuthFacadeService,
-    private afAuth: Auth
+    private afAuth: Auth,
+    private http: HttpClient
   ) {}
 
-  async initData(): Promise<BudgetTrackerState> {
+  async initData(): Promise<AppDatabaseStructure> {
     return await firstValueFrom(
       this.authFacade.getUserId().pipe(
         switchMap((userId) => from(getDoc(doc(collection(this.firestore, 'userData'), userId)))),
-        map((data) => data.data() as BudgetTrackerState)
+        map((data) => data.data() as AppDatabaseStructure)
+      )
+    );
+  }
+
+  async initMetadata(): Promise<UserMetadata> {
+    return await firstValueFrom(
+      this.authFacade.getUserId().pipe(
+        switchMap((userId) => from(getDoc(doc(collection(this.firestore, 'userMetadata'), userId)))),
+        map((data) => data.data() as UserMetadata)
       )
     );
   }
 
   resetData(
-    data: BudgetTrackerState,
+    data: AppDatabaseStructure,
     activityLogRecords: CategoriesResetRecord[],
     statisticsSnapshot: StatisticsSnapshot,
     date: string
@@ -39,6 +56,12 @@ export class DataInitService {
       [`${RESET_DATE_PATH}`]: data.resetDate,
       [`${STATISTICS_SNAPSHOTS_PATH}.${date}`]: statisticsSnapshot,
     });
+  }
+
+  getCurrencyExchangeRate(baseCurrency: string): Observable<ExchangeEndpointResponse> {
+    return this.http.get<ExchangeEndpointResponse>(
+      `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${baseCurrency}.json`
+    );
   }
 
   private getDocRef(): DocumentReference {

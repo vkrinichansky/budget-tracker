@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { User as FirebaseUser } from '@angular/fire/auth';
-import { NavigatorService, SnackbarHandlerService } from '@budget-tracker/shared';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, filter, of, switchMap, take, tap } from 'rxjs';
 import { from, map, mergeMap } from 'rxjs';
 import { User } from '../../models';
 import { AuthService } from '../../services';
 import { AuthActions } from '../actions';
+import { NavigatorService } from '@budget-tracker/utils';
+import { SnackbarHandlerService } from '@budget-tracker/design-system';
 
 @Injectable()
 export class AuthEffects {
@@ -37,7 +38,10 @@ export class AuthEffects {
       map((user) =>
         this.authService.getAdditionalUserInfo(user)?.isNewUser
           ? AuthActions.initDatabaseOnFirstLogin({ user: this.extractUserFromState(user.user) })
-          : AuthActions.authenticated({ user: this.extractUserFromState(user.user), shouldRedirect: true })
+          : AuthActions.authenticated({
+              user: this.extractUserFromState(user.user),
+              shouldRedirect: true,
+            })
       ),
       catchError(() => {
         this.snackbarHandler.showGeneralErrorSnackbar();
@@ -83,7 +87,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.authenticated),
         filter((action) => !!action?.shouldRedirect),
-        tap(() => this.navigator.navigateToBudgetTracker())
+        tap(() => this.navigator.navigateToDashboard())
       ),
     { dispatch: false }
   );

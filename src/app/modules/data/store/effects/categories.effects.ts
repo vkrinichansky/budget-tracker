@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { SnackbarHandlerService } from '@budget-tracker/shared';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, delay, from, map, mergeMap, of, switchMap } from 'rxjs';
-import { ActivityLogActions, CategoriesActions, RootValuesActions } from '../actions';
+import { AccountsActions, ActivityLogActions, CategoriesActions } from '../actions';
 import { CategoriesService } from '../../services';
+import { Account, Category } from '../../models';
+import { SnackbarHandlerService } from '@budget-tracker/design-system';
 
 @Injectable()
 export class CategoriesEffects {
@@ -46,14 +47,18 @@ export class CategoriesEffects {
       ofType(CategoriesActions.removeCategory),
       mergeMap((action) =>
         from(
-          this.categoriesService.removeCategory(action.category, action.activityLogRecord, action.recordsToRemove)
+          this.categoriesService.removeCategory(
+            action.categoryId,
+            action.activityLogRecord,
+            action.recordsToRemove
+          )
         ).pipe(
           switchMap(() => {
             this.snackbarHandler.showCategoryRemovedSnackbar();
 
             return of(
               CategoriesActions.categoryRemoved({
-                category: action.category,
+                categoryId: action.categoryId,
               }),
               ActivityLogActions.recordAdded({
                 record: action.activityLogRecord,
@@ -66,7 +71,7 @@ export class CategoriesEffects {
           catchError((error) => {
             this.snackbarHandler.showErrorSnackbar(error);
 
-            return of(CategoriesActions.removeCategoryFail({ categoryId: action.category.id }));
+            return of(CategoriesActions.removeCategoryFail({ categoryId: action.categoryId }));
           })
         )
       )
@@ -75,12 +80,7 @@ export class CategoriesEffects {
 
   resetCategoryManagementProp$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(
-        CategoriesActions.categoryAdded,
-        CategoriesActions.addCategoryFail,
-        CategoriesActions.categoryRemoved,
-        CategoriesActions.removeCategoryFail
-      ),
+      ofType(CategoriesActions.categoryAdded, CategoriesActions.categoryRemoved),
       delay(1000),
       map(() => CategoriesActions.resetCategoryManagementProp())
     )
@@ -92,8 +92,10 @@ export class CategoriesEffects {
       mergeMap((action) =>
         from(
           this.categoriesService.changeCategoryValue(
-            action.updatedCategory,
-            action.newBalanceValue,
+            action.updatedCategoryId,
+            action.updatedCategoryValue,
+            action.updatedAccountId,
+            action.updatedAccountValue,
             action.activityLogRecord
           )
         ).pipe(
@@ -102,12 +104,20 @@ export class CategoriesEffects {
 
             return of(
               CategoriesActions.categoryValueChanged({
-                updatedCategory: action.updatedCategory,
+                updatedCategory: {
+                  id: action.updatedCategoryId,
+                  value: action.updatedCategoryValue,
+                } as Category,
+              }),
+              AccountsActions.accountValueEdited({
+                updatedAccount: {
+                  id: action.updatedAccountId,
+                  value: action.updatedAccountValue,
+                } as Account,
               }),
               ActivityLogActions.recordAdded({
                 record: action.activityLogRecord,
-              }),
-              RootValuesActions.balanceUpdated({ newBalanceValue: action.newBalanceValue })
+              })
             );
           }),
           catchError((error) => {
@@ -124,13 +134,18 @@ export class CategoriesEffects {
     this.actions$.pipe(
       ofType(CategoriesActions.resetCategories),
       mergeMap((action) =>
-        from(this.categoriesService.resetCategories(action.updatedCategories, action.activityLogRecord)).pipe(
+        from(
+          this.categoriesService.resetCategories(
+            action.categoriesIdsToReset,
+            action.activityLogRecord
+          )
+        ).pipe(
           switchMap(() => {
-            this.snackbarHandler.showCategoriesResetSnackbar(action.updatedCategories[0].budgetType);
+            this.snackbarHandler.showCategoriesResetSnackbar(action.budgetType);
 
             return of(
               CategoriesActions.categoriesReset({
-                updatedCategories: action.updatedCategories,
+                categoriesIdsToReset: action.categoriesIdsToReset,
               }),
               ActivityLogActions.recordAdded({
                 record: action.activityLogRecord,
@@ -149,7 +164,7 @@ export class CategoriesEffects {
 
   resetCategoryValueChangeProp$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CategoriesActions.categoryValueChanged, CategoriesActions.changeCategoryValueFail),
+      ofType(CategoriesActions.categoryValueChanged),
       delay(1000),
       map(() => CategoriesActions.resetCategoryValueChangeProp())
     )

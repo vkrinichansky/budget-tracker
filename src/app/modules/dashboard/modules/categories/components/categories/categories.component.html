@@ -1,0 +1,78 @@
+<div
+  *ngVar="{
+    isEmpty: isEmpty$ | async,
+    currentTab: currentTab$ | async,
+    areAllCategoriesReset: areAllCategoriesReset$ | async
+  } as data"
+  class="flex flex-col gap-y-4 w-full h-full justify-between"
+>
+  <app-page-header class="text-xl bg-transparent" [title]="title | translate">
+    <div class="flex items-center gap-x-2">
+      <button-toggle>
+        <app-button
+          [activeColorScheme]="'charcoal'"
+          [text]="buildTranslationKey('tabs.list') | translate"
+          [buttonSizeX]="'auto'"
+          [buttonSizeY]="'full'"
+          [active]="data.currentTab === 'list'"
+          [shouldDisplayMobileClickEffect]="false"
+          [rounded]="false"
+          (click)="setTab('list')"
+        ></app-button>
+
+        <app-button
+          [activeColorScheme]="'charcoal'"
+          [text]="buildTranslationKey('tabs.chart') | translate"
+          [buttonSizeX]="'auto'"
+          [buttonSizeY]="'full'"
+          [disabled]="data.areAllCategoriesReset"
+          [active]="data.currentTab === 'chart'"
+          [shouldDisplayMobileClickEffect]="false"
+          [rounded]="false"
+          (click)="setTab('chart')"
+        ></app-button>
+      </button-toggle>
+
+      <app-menu [colorScheme]="'transparent-dark'" [menuActions]="menuActions"></app-menu>
+    </div>
+  </app-page-header>
+
+  @if (data.isEmpty) {
+    <span
+      class="font-main font-bold text-charcoal text-lg text-center flex flex-1 flex-col justify-center items-center"
+    >
+      {{ buildTranslationKey('emptyStateText') | translate }}
+    </span>
+  }
+
+  @if (!data.isEmpty) {
+    @switch (data.currentTab) {
+      @case ('list') {
+        <cdk-virtual-scroll-viewport itemSize="60" class="h-full">
+          <div
+            *cdkVirtualFor="
+              let category of categories$ | async;
+              trackBy: trackBy.bind(this);
+              templateCacheSize: 0
+            "
+            class="h-15 flex items-center"
+          >
+            <app-category-item class="w-full" [categoryId]="category.id"></app-category-item>
+          </div>
+        </cdk-virtual-scroll-viewport>
+      }
+      @case ('chart') {
+        <div class="w-full h-full flex flex-1 items-center justify-center overflow-hidden">
+          <canvas
+            baseChart
+            class="h-full"
+            [type]="'doughnut'"
+            [data]="chartData$ | async"
+            [options]="chartOptions"
+          >
+          </canvas>
+        </div>
+      }
+    }
+  }
+</div>

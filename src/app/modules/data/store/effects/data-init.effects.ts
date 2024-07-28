@@ -2,25 +2,32 @@ import { Injectable } from '@angular/core';
 import { AuthActions } from '@budget-tracker/auth';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { from, map, of, switchMap, tap } from 'rxjs';
+import { combineLatest, from, map, of, switchMap, take, tap } from 'rxjs';
 import {
+  AccountsActions,
   ActivityLogActions,
   CategoriesActions,
   DataInitActions,
-  RootValuesActions,
   StatisticsActions,
 } from '../actions';
-import { CategoriesService, DataInitService } from '../../services';
+import {
+  CurrencyExchangeService,
+  CurrencyService,
+  DataInitService,
+  LanguageService,
+} from '../../services';
 import { getMonthAndYearString, getPreviousMonthTime } from '@budget-tracker/utils';
 import {
   ActivityLogRecordType,
-  BudgetTrackerState,
+  AppDatabaseStructure,
   BudgetType,
   CategoriesResetRecord,
+  CurrenciesEnum,
+  CurrencyExchangeRate,
   StatisticsSnapshot,
 } from '../../models';
 import { v4 as uuid } from 'uuid';
-import { SnackbarHandlerService } from '@budget-tracker/shared';
+import { SnackbarHandlerService } from '@budget-tracker/design-system';
 
 @Injectable()
 export class DataInitEffects {
@@ -28,26 +35,35 @@ export class DataInitEffects {
     private actions$: Actions,
     private dataInitService: DataInitService,
     private store: Store,
-    private categoryService: CategoriesService,
-    private snackbarHandler: SnackbarHandlerService
+    private snackbarHandler: SnackbarHandlerService,
+    private currencyService: CurrencyService,
+    private languageService: LanguageService,
+    private currencyExchangeService: CurrencyExchangeService
   ) {}
 
   init$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DataInitActions.init),
-      switchMap(() => from(this.dataInitService.initData())),
-      tap((data) => {
-        const rootValues = { ...data.budget.rootValues };
-
-        this.store.dispatch(
-          RootValuesActions.rootValuesLoaded({
-            balance: rootValues.balance,
-            savings: rootValues.savings,
-            freeMoney: rootValues.freeMoney,
-          })
+      switchMap(() =>
+        combineLatest([
+          from(this.dataInitService.initData()),
+          from(this.dataInitService.initMetadata()).pipe(
+            switchMap((metadata) =>
+              this.dataInitService
+                .getCurrencyExchangeRate(metadata.currency)
+                .pipe(take(1))
+                .pipe(switchMap((exchangeRate) => of({ metadata, exchangeRate })))
+            )
+          ),
+        ])
+      ),
+      map(([data, { metadata, exchangeRate }]) => {
+        this.currencyService.setCurrentCurrency(metadata.currency as CurrenciesEnum);
+        this.languageService.setCurrentLanguage(metadata.language);
+        this.currencyExchangeService.setCurrentExchangeRate(
+          exchangeRate[metadata.currency] as CurrencyExchangeRate
         );
-      }),
-      map((data) => {
+
         if (data.resetDate !== getMonthAndYearString() && data.shouldDoReset) {
           return DataInitActions.resetData({ data });
         }
@@ -71,15 +87,26 @@ export class DataInitEffects {
           categories: [...Object.values(action.data.budget.categories)],
         };
 
-        return of({ resetData, activityLogRecords, statisticsSnapshot, date, initialData: action.data });
+        return of({
+          resetData,
+          activityLogRecords,
+          statisticsSnapshot,
+          date,
+          initialData: action.data,
+        });
       }),
 
       switchMap(({ resetData, activityLogRecords, statisticsSnapshot, date, initialData }) =>
-        from(this.dataInitService.resetData(resetData, activityLogRecords, statisticsSnapshot, date)).pipe(
+        from(
+          this.dataInitService.resetData(resetData, activityLogRecords, statisticsSnapshot, date)
+        ).pipe(
           tap(() => {
-            const resultResetData: BudgetTrackerState = {
+            const resultResetData: AppDatabaseStructure = {
               ...resetData,
-              budget: { ...resetData.budget, activityLog: [...resetData.budget.activityLog, ...activityLogRecords] },
+              budget: {
+                ...resetData.budget,
+                activityLog: [...resetData.budget.activityLog, ...activityLogRecords],
+              },
               statistics: {
                 ...resetData.statistics,
                 snapshots: { ...initialData.statistics.snapshots, [date]: statisticsSnapshot },
@@ -103,15 +130,15 @@ export class DataInitEffects {
           DataInitActions.clean(),
           CategoriesActions.clean(),
           ActivityLogActions.clean(),
-          RootValuesActions.clean(),
-          StatisticsActions.clean()
+          StatisticsActions.clean(),
+          AccountsActions.clean()
         )
       )
     )
   );
 
-  private getResetData(data: BudgetTrackerState): {
-    resetData: BudgetTrackerState;
+  private getResetData(data: AppDatabaseStructure): {
+    resetData: AppDatabaseStructure;
     activityLogRecords: CategoriesResetRecord[];
   } {
     const resetData = structuredClone(data);
@@ -135,8 +162,9 @@ export class DataInitEffects {
     return { resetData, activityLogRecords };
   }
 
-  private setStates(data: BudgetTrackerState) {
+  private setStates(data: AppDatabaseStructure) {
     const categories = Object.values(data.budget.categories);
+    const accounts = Object.values(data.budget.accounts);
     const activityLog = [...data.budget.activityLog];
     const statistics = structuredClone(data.statistics);
     const resetDate = data.resetDate;
@@ -150,5 +178,6 @@ export class DataInitEffects {
     this.store.dispatch(ActivityLogActions.activityLogLoaded({ activityLog }));
     this.store.dispatch(DataInitActions.resetDateLoaded({ resetDate }));
     this.store.dispatch(StatisticsActions.statisticsLoaded({ statistics }));
+    this.store.dispatch(AccountsActions.accountsLoaded({ accounts }));
   }
 }

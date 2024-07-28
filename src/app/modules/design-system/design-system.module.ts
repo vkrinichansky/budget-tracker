@@ -15,28 +15,42 @@ import {
   CheckboxGroupComponent,
   FullsizeLoaderComponent,
   BaseModalComponent,
+  ColorPickerComponent,
+  CustomSelectComponent,
+  CustomInputComponent,
+  ControlLabelComponent,
+  ControlErrorComponent,
+  CustomTextareaComponent,
+  CharCounterComponent,
+  ButtonToggleComponent,
+  CheckboxComponent,
+  SnackbarComponent,
 } from './components';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DEFAULT_OPTIONS,
+  MatDialogConfig,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
-import { ConfirmationModalService } from './services';
-import { UtilsModule } from '@budget-tracker/utils';
+import { ConfirmationModalService, SnackbarHandlerService } from './services';
+import { isMobileWidth, UtilsModule } from '@budget-tracker/utils';
 import { TooltipRendererDirective } from './directives';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxColorsModule } from 'ngx-colors';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { PortalModule } from '@angular/cdk/portal';
 
 @NgModule({
   imports: [
     CommonModule,
-    MatMenuModule,
-    MatTooltipModule,
     MatDialogModule,
     TranslateModule,
     UtilsModule,
-    MatCheckboxModule,
     ReactiveFormsModule,
     FormsModule,
+    NgxColorsModule,
+    OverlayModule,
+    PortalModule,
   ],
 
   declarations: [
@@ -55,6 +69,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CheckboxGroupComponent,
     FullsizeLoaderComponent,
     BaseModalComponent,
+    CustomSelectComponent,
+    CustomInputComponent,
+    ControlErrorComponent,
+    ControlLabelComponent,
+    ColorPickerComponent,
+    CustomTextareaComponent,
+    CharCounterComponent,
+    ButtonToggleComponent,
+    CheckboxComponent,
+    SnackbarComponent,
   ],
   exports: [
     SvgIconComponent,
@@ -70,7 +94,30 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CheckboxGroupComponent,
     FullsizeLoaderComponent,
     BaseModalComponent,
+    CustomSelectComponent,
+    CustomInputComponent,
+    ControlErrorComponent,
+    ControlLabelComponent,
+    ColorPickerComponent,
+    CustomTextareaComponent,
+    CharCounterComponent,
+    ButtonToggleComponent,
+    CheckboxComponent,
   ],
-  providers: [ConfirmationModalService],
+  providers: [
+    ConfirmationModalService,
+    SnackbarHandlerService,
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {
+        ...new MatDialogConfig(),
+        width: '500px',
+        maxWidth: isMobileWidth() ? '100%' : '500px',
+        maxHeight: isMobileWidth() ? '100%' : '90vh',
+        position: isMobileWidth() ? { top: '0' } : { top: '30px' },
+        autoFocus: false,
+      } as MatDialogConfig,
+    },
+  ],
 })
 export class DesignSystemModule {}

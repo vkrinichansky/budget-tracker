@@ -1,25 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, firstValueFrom, map } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { ActivityLogSelectors, CategoriesActions, CategoriesSelectors } from '../../store';
-import { RootValuesFacadeService } from '../root-values-facade/root-values-facade.service';
 import {
   Category,
   CategoryManagementRecord,
-  CategoryManagementActionType,
+  EntityManagementActionType,
   ActivityLogRecordType,
   BudgetType,
   CategoryValueChangeRecord,
   CategoriesResetRecord,
+  Account,
 } from '../../models';
 import { Dictionary } from '@ngrx/entity';
+import { AccountsFacadeService } from '../accounts-facade/accounts-facade.service';
+import { CurrencyService } from '../currency-service/currency.service';
 
 @Injectable()
 export class CategoriesFacadeService {
   constructor(
     private store: Store,
-    private rootValuesFacade: RootValuesFacadeService
+    private accountsFacade: AccountsFacadeService
   ) {}
 
   getAllCategories(): Observable<Category[]> {
@@ -39,11 +41,11 @@ export class CategoriesFacadeService {
   }
 
   areIncomeCategoriesAllReset(): Observable<boolean> {
-    return this.getIncomeCategories().pipe(map((categories) => categories.every((category) => category.value === 0)));
+    return this.store.select(CategoriesSelectors.areIncomeCategoriesAllResetSelector);
   }
 
   areExpenseCategoriesAllReset(): Observable<boolean> {
-    return this.getExpenseCategories().pipe(map((categories) => categories.every((category) => category.value === 0)));
+    return this.store.select(CategoriesSelectors.areExpenseCategoriesAllResetSelector);
   }
 
   getCategoryById(categoryId: string): Observable<Category> {
@@ -56,6 +58,10 @@ export class CategoriesFacadeService {
 
   getExpenseValue(): Observable<number> {
     return this.store.select(CategoriesSelectors.expenseValueSelector);
+  }
+
+  getCurrentMonthBalance(): Observable<number> {
+    return this.store.select(CategoriesSelectors.currentMonthBalanceSelector);
   }
 
   getCategoriesAccordingToBudgetType(budgetType: BudgetType): Observable<Category[]> {
@@ -72,7 +78,7 @@ export class CategoriesFacadeService {
   addCategory(category: Category): void {
     const addCategoryRecord: CategoryManagementRecord = {
       id: uuid(),
-      actionType: CategoryManagementActionType.Add,
+      actionType: EntityManagementActionType.Add,
       budgetType: category.budgetType,
       categoryName: category.name,
       date: new Date().getTime(),
@@ -80,26 +86,23 @@ export class CategoriesFacadeService {
       recordType: ActivityLogRecordType.CategoryManagement,
     };
 
-    this.store.dispatch(CategoriesActions.addCategory({ category, activityLogRecord: addCategoryRecord }));
+    this.store.dispatch(
+      CategoriesActions.addCategory({ category, activityLogRecord: addCategoryRecord })
+    );
   }
 
   async removeCategory(categoryId: string): Promise<void> {
     const category: Category = await firstValueFrom(this.getCategoryById(categoryId));
 
     const relatedCategoryValueChangeRecordsToRemove = await firstValueFrom(
-      this.store.select(ActivityLogSelectors.activityLogSelector).pipe(
-        map((activityLog) =>
-          activityLog
-            .filter((record) => record.recordType === ActivityLogRecordType.CategoryValueChange)
-            .map((record) => record as CategoryValueChangeRecord)
-            .filter((record) => record.categoryId === categoryId)
-        )
+      this.store.select(
+        ActivityLogSelectors.relatedCategoryValueChangeRecordsByCategoryIdSelector(categoryId)
       )
     );
 
     const removeCategoryRecord: CategoryManagementRecord = {
       id: uuid(),
-      actionType: CategoryManagementActionType.Remove,
+      actionType: EntityManagementActionType.Remove,
       budgetType: category.budgetType,
       categoryName: category.name,
       date: new Date().getTime(),
@@ -109,55 +112,60 @@ export class CategoriesFacadeService {
 
     this.store.dispatch(
       CategoriesActions.removeCategory({
-        category,
+        categoryId,
         activityLogRecord: removeCategoryRecord,
         recordsToRemove: relatedCategoryValueChangeRecordsToRemove,
       })
     );
   }
 
-  isCategoryRemoving(categoryId: string): Observable<boolean> {
-    return this.store
-      .select(CategoriesSelectors.selectCategoriesRemovingIds)
-      .pipe(map((removingCategoriesIds) => removingCategoriesIds.includes(categoryId)));
-  }
+  async changeCategoryValue(
+    categoryId: string,
+    accountId: string,
+    valueToAdd: number,
+    convertedValueToAdd: number,
+    note: string
+  ): Promise<void> {
+    const account = structuredClone(
+      await firstValueFrom(this.accountsFacade.getAccountById(accountId))
+    );
+    const category = structuredClone(await firstValueFrom(this.getCategoryById(categoryId)));
 
-  async changeCategoryValue(categoryId: string, valueToAdd = 0, note = ''): Promise<void> {
-    const balance = await firstValueFrom(this.rootValuesFacade.getFullBalanceValue());
-
-    let newBalanceValue = balance;
-
-    const category: Category = structuredClone(await firstValueFrom(this.getCategoryById(categoryId)));
-    const updatedCategory: Category = { ...category, value: category.value + valueToAdd };
-
-    switch (category.budgetType) {
-      case BudgetType.Income:
-        newBalanceValue = balance + valueToAdd;
-
-        break;
-
-      case BudgetType.Expense:
-        newBalanceValue = balance - valueToAdd;
-
-        break;
-    }
+    const updatedCategoryValue = category.value + convertedValueToAdd;
 
     const addCategoryValueRecord: CategoryValueChangeRecord = {
       id: uuid(),
       budgetType: category.budgetType,
-      categoryId: category.id,
-      categoryName: category.name,
+      category,
+      account,
       date: new Date().getTime(),
       icon: category.icon,
       recordType: ActivityLogRecordType.CategoryValueChange,
       value: valueToAdd,
+      convertedValue: convertedValueToAdd,
       note,
     };
 
+    let updatedAccountValue: number;
+
+    switch (category.budgetType) {
+      case BudgetType.Income:
+        updatedAccountValue = account.value + valueToAdd;
+
+        break;
+
+      case BudgetType.Expense:
+        updatedAccountValue = account.value - valueToAdd;
+
+        break;
+    }
+
     this.store.dispatch(
       CategoriesActions.changeCategoryValue({
-        updatedCategory,
-        newBalanceValue,
+        updatedCategoryId: categoryId,
+        updatedCategoryValue,
+        updatedAccountId: accountId,
+        updatedAccountValue,
         activityLogRecord: addCategoryValueRecord,
       })
     );
@@ -180,12 +188,7 @@ export class CategoriesFacadeService {
         break;
     }
 
-    const updatedCategories = [
-      ...categories.map((category) => {
-        category.value = 0;
-        return category;
-      }),
-    ];
+    const categoriesIdsToReset = categories.map((category) => category.id);
 
     const activityLogRecord: CategoriesResetRecord = {
       budgetType: budgetType,
@@ -195,7 +198,9 @@ export class CategoriesFacadeService {
       icon,
     };
 
-    this.store.dispatch(CategoriesActions.resetCategories({ updatedCategories, activityLogRecord }));
+    this.store.dispatch(
+      CategoriesActions.resetCategories({ categoriesIdsToReset, budgetType, activityLogRecord })
+    );
   }
 
   // CATEGORY MANAGEMENT STATES
@@ -207,8 +212,8 @@ export class CategoriesFacadeService {
     return this.store.select(CategoriesSelectors.categoryManagementSuccessSelector);
   }
 
-  getCategoryManagementError(): Observable<boolean> {
-    return this.store.select(CategoriesSelectors.categoryManagementErrorSelector);
+  isCategoryRemoving(categoryId: string): Observable<boolean> {
+    return this.store.select(CategoriesSelectors.isCategoryRemovingSelector(categoryId));
   }
 
   // CATEGORY VALUE CHANGE STATES
@@ -218,9 +223,5 @@ export class CategoriesFacadeService {
 
   getCategoryValueChangeSuccess(): Observable<boolean> {
     return this.store.select(CategoriesSelectors.categoryValueChangeSuccessSelector);
-  }
-
-  getCategoryValueChangeError(): Observable<boolean> {
-    return this.store.select(CategoriesSelectors.categoryValueChangeErrorSelector);
   }
 }

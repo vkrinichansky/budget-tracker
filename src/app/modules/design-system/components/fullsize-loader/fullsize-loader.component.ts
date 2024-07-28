@@ -12,8 +12,22 @@ export class FullsizeLoaderComponent {
   @Input()
   colorMode: 'dark' | 'light' = 'dark';
 
+  @Input()
+  placement: 'center' | 'start' = 'center';
+
   @HostBinding('class')
   private get classes(): string {
-    return 'w-full h-full flex justify-center items-center absolute top-0 left-0 z-50 bg-hover-black rounded-lg';
+    return `w-full h-full flex justify-center absolute top-0 left-0 z-50 bg-hover-black rounded-lg
+    ${this.placementClasses}`;
+  }
+
+  private get placementClasses(): string {
+    switch (this.placement) {
+      case 'center':
+        return 'items-center';
+
+      case 'start':
+        return 'items-start pt-12';
+    }
   }
 }

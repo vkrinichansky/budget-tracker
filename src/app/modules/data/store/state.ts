@@ -6,17 +6,19 @@ export const featureKey = 'data';
 export interface DataFeatureState {
   dataInitState: t.DataInitializationState;
   activityLogState: t.ActivityLogState;
-  rootValuesState: t.RootValuesState;
   categoriesState: t.CategoriesState;
   statisticsState: t.StatisticsState;
+  accountsState: t.AccountsState;
+  metadataState: t.MetadataState;
 }
 
 export const reducers: ActionReducerMap<DataFeatureState> = {
   activityLogState: t.activityLogReducer,
-  rootValuesState: t.rootValuesReducer,
   categoriesState: t.categoriesReducer,
   dataInitState: t.dataInitializationReducer,
   statisticsState: t.statisticsReducer,
+  accountsState: t.accountsReducer,
+  metadataState: t.metadataReducer,
 };
 
 // tslint:disable-next-line:typedef

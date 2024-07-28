@@ -1,10 +1,19 @@
+import { Account } from './account.model';
 import { BudgetType } from './budget-type.enum';
+import { Category } from './category.model';
 
 export enum ActivityLogRecordType {
-  RootValueChange = 'root value change',
-  CategoryManagement = 'category management',
-  CategoryValueChange = 'category value change',
-  CategoriesReset = 'categories reset',
+  CategoryManagement = 'category-management',
+  CategoryValueChange = 'category-value-change',
+  CategoriesReset = 'categories-reset',
+  AccountManagement = 'account-management',
+  AccountValueEdit = 'account-value-edit',
+  MoveMoneyBetweenAccounts = 'move-money-between-account',
+}
+
+export enum EntityManagementActionType {
+  Add = 'add',
+  Remove = 'remove',
 }
 
 export interface ActivityLogRecord {
@@ -14,42 +23,37 @@ export interface ActivityLogRecord {
   recordType: ActivityLogRecordType;
 }
 
-export enum RootValueActionType {
-  Increase = 'increase',
-  Decrease = 'decrease',
-  Edit = 'edit',
+export interface AccountManagementRecord extends ActivityLogRecord {
+  actionType: EntityManagementActionType;
+  accountName: string;
 }
 
-export enum RootValueType {
-  Balance = 'balance',
-  Savings = 'savings',
-  FreeMoney = 'freeMoney',
+export interface AccountValueEditRecord extends ActivityLogRecord {
+  accountId: string;
+  accountName: string;
+  oldValue: number;
+  newValue: number;
+  note: string;
 }
 
-export interface RootValueChangeRecord extends ActivityLogRecord {
-  actionType: RootValueActionType;
-  valueType: RootValueType;
-  value?: number;
-  oldValue?: number;
-  newValue?: number;
-  note?: string;
-}
-
-export enum CategoryManagementActionType {
-  Add = 'add',
-  Remove = 'remove',
+export interface MoveMoneyBetweenAccountsRecord extends ActivityLogRecord {
+  fromAccount: Account;
+  toAccount: Account;
+  fromAccountValue: number;
+  toAccountValue: number;
 }
 
 export interface CategoryManagementRecord extends ActivityLogRecord {
-  actionType: CategoryManagementActionType;
+  actionType: EntityManagementActionType;
   categoryName: string;
   budgetType: BudgetType;
 }
 
 export interface CategoryValueChangeRecord extends ActivityLogRecord {
-  categoryId: string;
-  categoryName: string;
+  category: Category;
+  account: Account;
   value: number;
+  convertedValue: number;
   budgetType: BudgetType;
   note: string;
 }
@@ -59,18 +63,20 @@ export interface CategoriesResetRecord extends ActivityLogRecord {
 }
 
 export type ActivityLogRecordUnitedType =
-  | RootValueChangeRecord
+  | AccountManagementRecord
+  | AccountValueEditRecord
   | CategoryManagementRecord
   | CategoryValueChangeRecord
-  | CategoriesResetRecord;
+  | CategoriesResetRecord
+  | MoveMoneyBetweenAccountsRecord;
 
 export type ActivityLog = ActivityLogRecordUnitedType[];
 
-export interface ActivityLogGroupedByDateDictionary {
+export interface ActivityLogGroupedByDayDictionary {
   [date: string]: ActivityLog;
 }
 
-export interface ActivityLogGroupedByDate {
+export interface ActivityLogGroupedByDay {
   date: string;
   records: ActivityLog;
   sumOfCategoryValueChangeRecords?: number;

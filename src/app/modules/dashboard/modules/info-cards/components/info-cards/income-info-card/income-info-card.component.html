@@ -1,0 +1,7 @@
+<app-info-card
+  [iconBgClass]="'bg-light-green'"
+  [iconColorClass]="'text-dark-green'"
+  [iconName]="'arrow-up'"
+  [primaryText]="income$ | async | currencySymbol"
+  [secondaryText]="'dashboard.infoCards.income' | translate"
+></app-info-card>

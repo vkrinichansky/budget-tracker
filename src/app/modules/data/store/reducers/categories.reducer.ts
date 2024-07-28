@@ -2,12 +2,11 @@ import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
 import { CategoriesActions } from '../actions';
 import { Category } from '../../models';
-import { ChartPalette } from '@budget-tracker/design-system';
 
 export interface CategoriesState {
   categories: EntityState<Category>;
-  categoryManagement: { success: boolean; error: boolean; inProgress: boolean };
-  categoryValueChange: { success: boolean; error: boolean; inProgress: boolean };
+  categoryManagement: { success: boolean; inProgress: boolean };
+  categoryValueChange: { success: boolean; inProgress: boolean };
   removingCategoriesIds: string[];
 }
 
@@ -23,12 +22,10 @@ const initialState: CategoriesState = {
   categories: categoryEntityAdapter.getInitialState({}),
   categoryManagement: {
     success: false,
-    error: false,
     inProgress: false,
   },
   categoryValueChange: {
     success: false,
-    error: false,
     inProgress: false,
   },
   removingCategoriesIds: [],
@@ -37,27 +34,15 @@ const initialState: CategoriesState = {
 const adapterReducer = createReducer(
   initialState,
 
-  on(CategoriesActions.categoriesLoaded, (state, action) => {
-    const resultCategories = action.categories.map((category) =>
-      category?.hexColor
-        ? category
-        : {
-            ...category,
-            hexColor: ChartPalette[Math.floor(Math.random() * 30)],
-          }
-    );
-
-    return {
-      ...state,
-      categories: categoryEntityAdapter.addMany(resultCategories, state.categories),
-    };
-  }),
+  on(CategoriesActions.categoriesLoaded, (state, action) => ({
+    ...state,
+    categories: categoryEntityAdapter.addMany(action.categories, state.categories),
+  })),
 
   on(CategoriesActions.addCategory, (state) => ({
     ...state,
     categoryManagement: {
       inProgress: true,
-      error: false,
       success: false,
     },
   })),
@@ -67,7 +52,6 @@ const adapterReducer = createReducer(
     categories: categoryEntityAdapter.addOne(action.category, state.categories),
     categoryManagement: {
       inProgress: false,
-      error: false,
       success: true,
     },
   })),
@@ -76,39 +60,23 @@ const adapterReducer = createReducer(
     ...state,
     categoryManagement: {
       inProgress: false,
-      error: true,
       success: false,
     },
   })),
 
   on(CategoriesActions.removeCategory, (state, action) => ({
     ...state,
-    categoryManagement: {
-      inProgress: true,
-      error: false,
-      success: false,
-    },
-    removingCategoriesIds: [...state.removingCategoriesIds, action.category.id],
+    removingCategoriesIds: [...state.removingCategoriesIds, action.categoryId],
   })),
 
   on(CategoriesActions.categoryRemoved, (state, action) => ({
     ...state,
-    categories: categoryEntityAdapter.removeOne(action.category.id, state.categories),
-    categoryManagement: {
-      inProgress: false,
-      error: false,
-      success: true,
-    },
-    removingCategoriesIds: state.removingCategoriesIds.filter((id) => id !== action.category.id),
+    categories: categoryEntityAdapter.removeOne(action.categoryId, state.categories),
+    removingCategoriesIds: state.removingCategoriesIds.filter((id) => id !== action.categoryId),
   })),
 
   on(CategoriesActions.removeCategoryFail, (state, action) => ({
     ...state,
-    categoryManagement: {
-      inProgress: false,
-      error: true,
-      success: false,
-    },
     removingCategoriesIds: state.removingCategoriesIds.filter((id) => id !== action.categoryId),
   })),
 
@@ -116,7 +84,6 @@ const adapterReducer = createReducer(
     ...state,
     categoryManagement: {
       inProgress: false,
-      error: false,
       success: false,
     },
   })),
@@ -125,7 +92,6 @@ const adapterReducer = createReducer(
     ...state,
     categoryValueChange: {
       inProgress: true,
-      error: false,
       success: false,
     },
   })),
@@ -138,7 +104,6 @@ const adapterReducer = createReducer(
     ),
     categoryValueChange: {
       inProgress: false,
-      error: false,
       success: true,
     },
   })),
@@ -147,7 +112,6 @@ const adapterReducer = createReducer(
     ...state,
     categoryValueChange: {
       inProgress: false,
-      error: true,
       success: false,
     },
   })),
@@ -156,7 +120,6 @@ const adapterReducer = createReducer(
     ...state,
     categoryValueChange: {
       inProgress: false,
-      error: false,
       success: false,
     },
   })),
@@ -164,7 +127,7 @@ const adapterReducer = createReducer(
   on(CategoriesActions.categoriesReset, (state, action) => ({
     ...state,
     categories: categoryEntityAdapter.updateMany(
-      action.updatedCategories.map((category) => ({ changes: category, id: category.id })),
+      action.categoriesIdsToReset.map((categoryId) => ({ changes: { value: 0 }, id: categoryId })),
       state.categories
     ),
   })),

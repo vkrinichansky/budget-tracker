@@ -1,8 +1,4 @@
 {
-  "auth": {
-    "signInWithGoogle": "Sign in with Google"
-  },
-
   "navigationBar": {
     "itemTooltip": {
       "home": "Home",
@@ -16,96 +12,68 @@
     "pageTitle": "Dashboard",
 
     "infoCards": {
-      "income": {
-        "title": "Income"
+      "income": "Income",
+      "expense": "Expense",
+      "currentMonthBalance": "Current month balance",
+      "fullBalance": {
+        "title": "Full balance",
+        "tooltip": "Full balance is the sum of all your accounts"
       },
-      "expense": {
-        "title": "Expense"
+      "accounts": {
+        "title": "Accounts",
+        "titleWithAmount": "Accounts ({{ accountsAmount }})",
+        "hoverTip": "Click to see your accounts"
       },
-      "balance": {
-        "fullBalance": "Full balance (FB)",
-        "currentBalance": "Current balance (CB)",
+      "accountCard": {
         "menu": {
-          "increase": "Increase",
-          "decrease": "Decrease",
-          "edit": "Edit"
+          "editValue": "Edit",
+          "remove": "Remove"
         },
-        "tooltip": "Balance calculation:<br>FB = CB + S + FM"
-      },
-      "savings": {
-        "title": "Savings (S)",
-        "menu": {
-          "increase": "Increase",
-          "decrease": "Decrease",
-          "edit": "Edit"
-        }
-      },
-      "freeMoney": {
-        "title": "Free money (FM)",
-        "menu": {
-          "increase": "Increase",
-          "decrease": "Decrease",
-          "edit": "Edit"
-        }
+        "removeConfirmationQuestion": "Do you want to remove <b>{{ accountName }}</b> account?"
       }
     },
 
-    "infoCardValueModal": {
+    "addAccountModal": {
+      "title": "Add account",
+      "accountNameTitle": "Account name",
+      "accountValueTitle": "Account value",
+      "accountIconTitle": "Account icon",
+      "accountBgColorTitle": "Background",
+      "accountTextColorTitle": "Text color",
+      "accountCurrencyTitle": "Account currency",
+      "addAccount": "Add account",
+      "accountExistsError": "Such account already exists",
+      "accountNameLengthError": "Max account name length is 20"
+    },
+
+    "moneyMovementBetweenAccountsModal": {
+      "title": "Money movement between accounts",
+      "fromAccountTitle": "From account",
+      "toAccountTitle": "To account",
+      "valueToMoveTitle": "Value to move",
+      "convertedValueToMoveTitle": "Converted value",
+      "moveButton": "Move"
+    },
+
+    "accountValueEditModal": {
+      "subtitle": "Edit account value",
       "cancel": "Cancel",
-      "noteInputTitle": "Note",
-      "balance": {
-        "title": "Balance",
-        "increase": "Increase",
-        "decrease": "Decrease",
-        "edit": "Edit"
-      },
-      "savings": {
-        "title": "Savings",
-        "increase": "Increase",
-        "decrease": "Decrease",
-        "edit": "Edit"
-      },
-      "freeMoney": {
-        "title": "Free money",
-        "increase": "Increase",
-        "decrease": "Decrease",
-        "edit": "Edit"
-      },
-      "subtitle": {
-        "increase": "Increase",
-        "decrease": "Decrease",
-        "edit": "Edit"
-      }
+      "valueInputLabel": "Value",
+      "noteInputLabel": "Note",
+      "editButton": "Edit"
+    },
+
+    "accountsListModal": {
+      "title": "Accounts ({{ accountsAmount }})",
+      "closeButton": "Close"
     },
 
     "activityLog": {
       "title": "Activity log",
 
-      "rootValueChangeRecord": {
-        "title": {
-          "balance": "Balance",
-          "savings": "Savings",
-          "freeMoney": "Free money"
-        },
-        "removeConfirmationQuestion": "Are you sure you want to remove this record?",
-        "removeConfirmationCheckboxText": "Also revert changes made by this record",
-        "removeConfirmationRemark": {
-          "balance": {
-            "increase": "<span class='font-bold'>Balance</span> will be decreased by <span class='font-bold'>{{ value }}</span>",
-            "decrease": "<span class='font-bold'>Balance</span> will be increased by <span class='font-bold'>{{ value }}</span>",
-            "edit": "<span class='font-bold'>Balance</span> value will be <span class='font-bold'>{{ value }}</span>"
-          },
-          "savings": {
-            "increase": "<span class='font-bold'>Savings</span> will be decreased by <span class='font-bold'>{{ value }}</span>",
-            "decrease": "<span class='font-bold'>Savings</span> will be increased by <span class='font-bold'>{{ value }}</span>",
-            "edit": "<span class='font-bold'>Savings</span> value will be <span class='font-bold'>{{ value }}</span>"
-          },
-          "freeMoney": {
-            "increase": "<span class='font-bold'>Free money</span> will be decreased by <span class='font-bold'>{{ value }}</span>",
-            "decrease": "<span class='font-bold'>Free money</span> will be increased by <span class='font-bold'>{{ value }}</span>",
-            "edit": "<span class='font-bold'>Free money</span> value will be <span class='font-bold'>{{ value }}</span>"
-          }
-        }
+      "accountManagementRecord": {
+        "accountAdded": "<b>{{ accountName }}</b> account was added",
+        "accountRemoved": "<b>{{ accountName }}</b> account was removed"
       },
 
       "categoryManagementRecord": {
@@ -130,11 +98,7 @@
 
       "categoryValueChangeRecord": {
         "removeConfirmationQuestion": "Are you sure you want to remove this record?",
-        "removeConfirmationCheckboxText": "Also revert changes made by this record",
-        "removeConfirmationRemark": {
-          "income": "<span class='font-bold'>{{ value }}</span> will be deducted from <span class='font-bold'>Balance</span> and <span class='font-bold'>{{ categoryName }}</span> category",
-          "expense": "<span class='font-bold'>{{ value }}</span> will be added to <span class='font-bold'>Balance</span> and deducted from <span class='font-bold'>{{ categoryName }}</span> category"
-        }
+        "removeConfirmationRemark": "This action will revert changes made by this record and will affect <span class='font-bold'>{{ accountName }}</span> account and <span class='font-bold'>{{ categoryName }}</span> category"
       },
 
       "emptyStateText": "No data to display yet",
@@ -151,13 +115,17 @@
           "text": "Categories reset",
           "tooltip": "Manual and monthly categories reset"
         },
-        "rootValueChange": {
-          "text": "Root value change",
-          "tooltip": "Balance, savings and free money values changing"
-        },
         "categoryValueChange": {
           "text": "Category value change",
           "tooltip": "Income and expense categories value changing"
+        },
+        "accountManagement": {
+          "text": "Account management",
+          "tooltip": "Adding and removing accounts"
+        },
+        "accountValueEdit": {
+          "text": "Account value edit",
+          "tooltip": "Account value changing"
         },
         "removeConfirmationQuestion": "Are you sure you want to remove records of selected types?",
         "removeConfirmationRemark": "This action won't affect current month records"
@@ -167,20 +135,17 @@
     "categories": {
       "income": {
         "title": "Income",
-        "resetConfirmationQuestion": "Do you want to reset all <b>income</b> categories' values?",
-        "menu": {
-          "addCategory": "Add category",
-          "resetCategories": "Reset categories"
-        }
+        "resetConfirmationQuestion": "Do you want to reset all <b>income</b> categories' values?"
       },
       "expense": {
         "title": "Expense",
-        "resetConfirmationQuestion": "Do you want to reset all <b>expense</b> categories' values?",
-        "menu": {
-          "addCategory": "Add category",
-          "resetCategories": "Reset categories"
-        }
+        "resetConfirmationQuestion": "Do you want to reset all <b>expense</b> categories' values?"
       },
+      "menu": {
+        "addCategory": "Add category",
+        "resetCategories": "Reset categories"
+      },
+
       "emptyStateText": "No data to display yet",
       "tabs": {
         "list": "List",
@@ -212,17 +177,21 @@
       "categoryExistsError": "Such category already exists",
       "categoryNameLengthError": "Max category name length is 25"
     },
+
     "categoryValueModal": {
       "subtitle": "Add value to category",
       "cancel": "Cancel",
       "add": "Add",
       "valueToAddTitle": "Value to add",
-      "noteTitle": "Note"
+      "convertedValueToAddTitle": "Converted value",
+      "noteTitle": "Note",
+      "accountsTitle": "Account to use"
     }
   },
 
   "statistics": {
     "pageTitle": "Statistics",
+
     "monthlyStatistics": {
       "title": "Monthly",
       "chartActions": {
@@ -237,61 +206,34 @@
   },
 
   "snackbars": {
-    "errorSnackbar": {
-      "message": "Something went wrong! Please, try again.",
-      "buttonText": "Got it"
-    },
-    "balanceEditedSnackbar": {
-      "message": "Balance was updated successfully!",
-      "buttonText": "Got it"
-    },
-    "savingsEditedSnackbar": {
-      "message": "Savings were updated successfully!",
-      "buttonText": "Got it"
-    },
-    "freeMoneyEditedSnackbar": {
-      "message": "Free money were updated successfully!",
-      "buttonText": "Got it"
-    },
-    "categoryAddedSnackbar": {
-      "message": "Category was added successfully!",
-      "buttonText": "Got it"
-    },
-    "categoryRemovedSnackbar": {
-      "message": "Category was removed successfully!",
-      "buttonText": "Got it"
-    },
-    "activityLogRecordRemoved": {
-      "message": "Activity log record was removed successfully!",
-      "buttonText": "Got it"
-    },
-    "bulkActivityLogRecordsRemoved": {
-      "allRecordsRemoved": "All activity log records were removed successfully!",
-      "recordsByTypesRemoved": "Activity log records with selected types were removed successfully!",
-      "buttonText": "Got it"
-    },
-    "categoryValueChangedSnackbar": {
-      "message": "Category value was changed successfully!",
-      "buttonText": "Got it"
-    },
+    "defaultOkButtonText": "Got it",
+    "errorSnackbar": "Something went wrong! Please, try again.",
+    "balanceEditedSnackbar": "Balance was updated successfully!",
+    "savingsEditedSnackbar": "Savings were updated successfully!",
+    "freeMoneyEditedSnackbar": "Free money were updated successfully!",
+    "categoryAddedSnackbar": "Category was added successfully!",
+    "categoryRemovedSnackbar": "Category was removed successfully!",
+    "activityLogRecordRemoved": "Activity log record was removed successfully!",
+    "bulkActivityLogRecordsRemoved": "Activity log records with selected types were removed successfully!",
+    "categoryValueChangedSnackbar": "Category value was changed successfully!",
     "categoriesResetSnackbar": {
       "income": "Income categories were reset successfully!",
-      "expense": "Expense categories were reset successfully!",
-      "buttonText": "Got it"
+      "expense": "Expense categories were reset successfully!"
     },
-    "dataResetSnackbar": {
-      "message": "Categories were reset!",
-      "buttonText": "Got it"
-    }
+    "dataResetSnackbar": "Categories were reset!",
+    "accountValueEdited": "Account value was edited successfully!",
+    "accountAddedSnackbar": "Account was added successfully!",
+    "accountRemovedSnackbar": "Account was removed successfully!",
+    "accountOrderChangedSnackbar": "Accounts were sorted successfully!",
+    "moneyBetweenAccountsMoved": "Money between accounts was moved successfully!"
   },
 
   "formErrors": {
     "required": "Field is required",
-    "minValue": "Minimal value is {{ minValue }}",
-    "maxValue": "Minimal value is {{ maxValue }}",
-    "noteTooLong": "Note is too long, max length is 100",
-    "editError": "Value must be different after edit",
-    "invalidColor": "The color is invalid"
+    "minValue": "Minimal value - {{ minValue }}",
+    "maxLength": "Max length - {{ maxLength }}",
+    "sameValue": "Value must be different after edit",
+    "entityExists": "Entity with such name already exists"
   },
 
   "confirmationModal": {
@@ -301,44 +243,28 @@
   },
 
   "languageSwitcher": {
-    "tooltip": "Language",
-    "languages": {
-      "english": "English",
-      "ukrainian": "Ukrainian"
-    }
+    "tooltip": "Language"
+  },
+
+  "languages": {
+    "en-US": "English",
+    "uk-UA": "Ukrainian"
   },
 
   "currencySwitcher": {
     "tooltip": "Currency",
-    "currencies": {
-      "hryvnia": "Hryvnia (₴)",
-      "dollar": "Dollar ($)",
-      "euro": "Euro (€)"
-    }
+    "removeConfirmationQuestion": "Are you sure you want to switch the currency?",
+    "removeConfirmationRemark": "This action also will reset categories values and remove activity log records to prevent inconsistency"
+  },
+
+  "currencies": {
+    "uah": "Hryvnia (₴)",
+    "usd": "Dollar ($)",
+    "eur": "Euro (€)"
   },
 
   "lostConnectionMessage": {
     "message": "It seems like you are offline. Please, check your internet connection.",
     "button": "Reload"
-  },
-
-  "categoryIcons": {
-    "housing": "Housing",
-    "food": "Food",
-    "health": "Health",
-    "clothes": "Clothes",
-    "entertainment": "Entertainment",
-    "transport": "Transport",
-    "car": "Car",
-    "everydayLife": "Everyday life",
-    "rest": "Rest",
-    "work": "Work",
-    "presents": "Presents",
-    "utilities": "Utilities",
-    "tech": "Tech",
-    "internet": "Communication and internet",
-    "subscriptions": "Subscriptions",
-    "beauty": "Beauty",
-    "charity": "Charity"
   }
 }

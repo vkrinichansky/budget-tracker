@@ -3,7 +3,7 @@
 
   // SIZES
   &.small {
-    @apply w-4 h-4;
+    @apply w-5 h-5;
   }
 
   &.medium {
@@ -12,6 +12,18 @@
 
   &.big {
     @apply w-10 h-10;
+  }
+
+  &.large {
+    @apply w-96 max-w-full;
+
+    @media (max-width: 480px) {
+      @apply px-6;
+    }
+
+    svg {
+      @apply max-w-full;
+    }
   }
 
   &.auto {
@@ -23,6 +35,8 @@
   }
 
   svg {
-    all: inherit;
+    color: inherit;
+    width: inherit;
+    height: inherit;
   }
 }

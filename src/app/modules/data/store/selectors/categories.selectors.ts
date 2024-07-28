@@ -13,20 +13,37 @@ const allCategoriesSelector = createSelector(allCategoriesDictionarySelector, (c
   Object.values(categoriesDictionary)
 );
 
+const selectCategoryByIdSelector = (categoryId: string) =>
+  createSelector(allCategoriesDictionarySelector, (categoriesDictionary) => categoriesDictionary[categoryId]);
+
 const incomeCategoriesSelector = createSelector(allCategoriesSelector, (allCategories) =>
   allCategories.filter((category) => category.budgetType === BudgetType.Income)
-);
-
-const incomeValueSelector = createSelector(incomeCategoriesSelector, (categories) =>
-  categories.reduce((sum, category) => sum + (category as Category).value, 0)
 );
 
 const expenseCategoriesSelector = createSelector(allCategoriesSelector, (allCategories) =>
   allCategories.filter((category) => category.budgetType === BudgetType.Expense)
 );
 
+const incomeValueSelector = createSelector(incomeCategoriesSelector, (categories) =>
+  categories.reduce((sum, category) => sum + (category as Category).value, 0)
+);
+
 const expenseValueSelector = createSelector(expenseCategoriesSelector, (categories) =>
   categories.reduce((sum, category) => sum + (category as Category).value, 0)
+);
+
+const areIncomeCategoriesAllResetSelector = createSelector(incomeCategoriesSelector, (categories) =>
+  categories.every((category) => category.value === 0)
+);
+
+const areExpenseCategoriesAllResetSelector = createSelector(expenseCategoriesSelector, (categories) =>
+  categories.every((category) => category.value === 0)
+);
+
+const currentMonthBalanceSelector = createSelector(
+  incomeValueSelector,
+  expenseValueSelector,
+  (income, expense) => income - expense
 );
 
 const categoryManagementInProgressSelector = createSelector(
@@ -39,11 +56,6 @@ const categoryManagementSuccessSelector = createSelector(
   (state) => state.categoryManagement.success
 );
 
-const categoryManagementErrorSelector = createSelector(
-  categoriesStateSelector,
-  (state) => state.categoryManagement.error
-);
-
 const categoryValueChangeInProgressSelector = createSelector(
   categoriesStateSelector,
   (state) => state.categoryValueChange.inProgress
@@ -54,17 +66,8 @@ const categoryValueChangeSuccessSelector = createSelector(
   (state) => state.categoryValueChange.success
 );
 
-const categoryValueChangeErrorSelector = createSelector(
-  categoriesStateSelector,
-  (state) => state.categoryValueChange.error
-);
-
-const selectCategoryByIdSelector = (categoryId: string) =>
-  createSelector(incomeCategoriesSelector, expenseCategoriesSelector, (income, expense) =>
-    [...income, ...expense].find((category) => (category as Category).id === categoryId)
-  );
-
-const selectCategoriesRemovingIds = createSelector(categoriesStateSelector, (state) => state.removingCategoriesIds);
+const isCategoryRemovingSelector = (categoryId: string) =>
+  createSelector(categoriesStateSelector, (state) => state.removingCategoriesIds.includes(categoryId));
 
 export const CategoriesSelectors = {
   categoriesStateSelector,
@@ -74,12 +77,13 @@ export const CategoriesSelectors = {
   expenseValueSelector,
   categoryManagementInProgressSelector,
   categoryManagementSuccessSelector,
-  categoryManagementErrorSelector,
   categoryValueChangeInProgressSelector,
   categoryValueChangeSuccessSelector,
-  categoryValueChangeErrorSelector,
   selectCategoryByIdSelector,
   allCategoriesSelector,
   allCategoriesDictionarySelector,
-  selectCategoriesRemovingIds,
+  isCategoryRemovingSelector,
+  areIncomeCategoriesAllResetSelector,
+  areExpenseCategoriesAllResetSelector,
+  currentMonthBalanceSelector,
 };

@@ -1,13 +1,18 @@
-<a class="link" [routerLink]="item.routerLink" [routerLinkActive]="'active'" #routerLinkActive="routerLinkActive">
+<a
+  class="link"
+  [routerLink]="item.routerLink"
+  [routerLinkActive]="'active'"
+  #routerLinkActive="routerLinkActive"
+>
   <app-button
     customTooltip
     [tooltipText]="item.tooltipTranslationKey | translate"
-    [position]="'right'"
+    [position]="['right']"
     [tooltipBgColor]="'green'"
     [dontDisplayOnScreenWidth]="true"
     [iconName]="item.iconName"
     [colorScheme]="routerLinkActive.isActive ? 'active-navigation-item' : 'transparent-light'"
-    [buttonSizeY]="'small'"
-    [buttonSizeX]="'small'"
+    [buttonSizeY]="'medium'"
+    [buttonSizeX]="'medium'"
   ></app-button>
 </a>
