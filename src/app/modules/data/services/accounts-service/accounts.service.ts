@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Account, AccountManagementRecord, AccountValueEditRecord } from '../../models';
+import {
+  Account,
+  AccountManagementRecord,
+  AccountValueEditRecord,
+  MoveMoneyBetweenAccountsRecord,
+} from '../../models';
 import { Auth } from '@angular/fire/auth';
 import {
   arrayUnion,
@@ -62,6 +67,20 @@ export class AccountsService {
   ): Promise<void> {
     return updateDoc(this.getDocRef(), {
       [`${ACCOUNTS_PATH}.${accountId}.value`]: newValue,
+      [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
+    });
+  }
+
+  moveMoneyBetweenAccounts(
+    fromAccountId: string,
+    toAccountId: string,
+    fromAccountNewValue: number,
+    toAccountNewValue: number,
+    activityLogRecord: MoveMoneyBetweenAccountsRecord
+  ): Promise<void> {
+    return updateDoc(this.getDocRef(), {
+      [`${ACCOUNTS_PATH}.${fromAccountId}.value`]: fromAccountNewValue,
+      [`${ACCOUNTS_PATH}.${toAccountId}.value`]: toAccountNewValue,
       [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
     });
   }

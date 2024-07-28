@@ -15,6 +15,10 @@ export interface AccountsState {
   };
   removingAccountsIds: string[];
   orderChangingInProgress: boolean;
+  movingMoneyBetweenAccountsInProgress: {
+    inProgress: boolean;
+    success: boolean;
+  };
 }
 
 function selectAccountId(account: Account) {
@@ -37,6 +41,10 @@ const initialState: AccountsState = {
   },
   removingAccountsIds: [],
   orderChangingInProgress: false,
+  movingMoneyBetweenAccountsInProgress: {
+    success: false,
+    inProgress: false,
+  },
 };
 
 const adapterReducer = createReducer(
@@ -164,6 +172,45 @@ const adapterReducer = createReducer(
   on(AccountsActions.resetAccountValueEditProp, (state) => ({
     ...state,
     accountValueEdit: {
+      inProgress: false,
+      success: false,
+    },
+  })),
+
+  on(AccountsActions.moveMoneyBetweenAccounts, (state) => ({
+    ...state,
+    movingMoneyBetweenAccountsInProgress: {
+      inProgress: true,
+      success: false,
+    },
+  })),
+
+  on(AccountsActions.moneyBetweenAccountsMoved, (state, action) => ({
+    ...state,
+    accounts: accountEntityAdapter.updateMany(
+      action.updatedAccounts.map((account) => ({
+        changes: { value: account.value },
+        id: account.id,
+      })),
+      state.accounts
+    ),
+    movingMoneyBetweenAccountsInProgress: {
+      inProgress: false,
+      success: true,
+    },
+  })),
+
+  on(AccountsActions.moveMoneyBetweenAccountsFail, (state) => ({
+    ...state,
+    movingMoneyBetweenAccountsInProgress: {
+      inProgress: false,
+      success: false,
+    },
+  })),
+
+  on(AccountsActions.resetMovingMoneyBetweenAccountsProp, (state) => ({
+    ...state,
+    movingMoneyBetweenAccountsInProgress: {
       inProgress: false,
       success: false,
     },

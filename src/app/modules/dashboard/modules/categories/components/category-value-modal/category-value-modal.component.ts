@@ -44,8 +44,6 @@ export class CategoryValueModalComponent implements OnInit {
   category$: Observable<Category>;
   accounts$: Observable<Account[]>;
 
-  displayConvertedValueField: boolean;
-
   get accoundChoosed(): boolean {
     return this.form?.controls?.[FormFields.AccountToUse]?.value;
   }
@@ -117,8 +115,6 @@ export class CategoryValueModalComponent implements OnInit {
         tap(() => {
           this.form.controls[FormFields.ValueToAdd].reset(null);
           this.form.controls?.[FormFields.ConvertedValueToAdd].reset(null);
-
-          this.displayConvertedValueField = this.doesChoosedAccountHaveForeignCurrency;
         })
       )
       .subscribe();
@@ -126,7 +122,6 @@ export class CategoryValueModalComponent implements OnInit {
     this.form.controls[FormFields.ValueToAdd].valueChanges
       .pipe(
         withLatestFrom(this.form.controls[FormFields.AccountToUse].valueChanges),
-        takeUntilDestroyed(this.destroyRef),
         tap(([value, account]) => {
           const convertedValue = this.currencyService.getBasicToForeignConvertedValue(
             value,
@@ -136,7 +131,8 @@ export class CategoryValueModalComponent implements OnInit {
           this.form.controls[FormFields.ConvertedValueToAdd].setValue(
             value ? convertedValue : null
           );
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }

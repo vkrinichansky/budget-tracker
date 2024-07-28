@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy, Component, HostListener, OnInit } from '@angular/core';
-import { AccountsListModalService, AddAccountModalService } from '../../../services';
+import {
+  AccountsListModalService,
+  AccountsModalsService,
+  AddAccountModalService,
+} from '../../../services';
 import { AccountsFacadeService } from '@budget-tracker/data';
 import { firstValueFrom, map, Observable } from 'rxjs';
 
@@ -15,7 +19,8 @@ export class AccountsInfoCardComponent implements OnInit {
   constructor(
     private accountsListModalService: AccountsListModalService,
     private accountsFacade: AccountsFacadeService,
-    private addAccountModalService: AddAccountModalService
+    private addAccountModalService: AddAccountModalService,
+    private accountsModalsService: AccountsModalsService
   ) {}
 
   ngOnInit(): void {
@@ -26,8 +31,12 @@ export class AccountsInfoCardComponent implements OnInit {
     return `dashboard.infoCards.accounts.${key}`;
   }
 
-  openAddAccountModalService(): void {
+  openAddAccountModal(): void {
     this.addAccountModalService.openAccountsListModal();
+  }
+
+  openMoneyMovementModal(): void {
+    this.accountsModalsService.openMoneyMovementModal();
   }
 
   @HostListener('click')

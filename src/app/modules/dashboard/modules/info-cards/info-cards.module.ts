@@ -10,9 +10,11 @@ import {
   AddAccountModalComponent,
   FullBalanceInfoCardComponent,
   CurrentMonthBalanceInfoCardComponent,
+  MoveMoneyBetweenAccountsModalComponent,
 } from './components';
 import {
   AccountsListModalService,
+  AccountsModalsService,
   AccountsValueEditModalService,
   AddAccountModalService,
 } from './services';
@@ -34,6 +36,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     AccountValueEditModalComponent,
     AddAccountModalComponent,
     CurrentMonthBalanceInfoCardComponent,
+    MoveMoneyBetweenAccountsModalComponent,
   ],
   imports: [
     CommonModule,
@@ -54,7 +57,13 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     AccountCardComponent,
     AddAccountModalComponent,
     CurrentMonthBalanceInfoCardComponent,
+    MoveMoneyBetweenAccountsModalComponent,
   ],
-  providers: [AccountsValueEditModalService, AccountsListModalService, AddAccountModalService],
+  providers: [
+    AccountsValueEditModalService,
+    AccountsListModalService,
+    AddAccountModalService,
+    AccountsModalsService,
+  ],
 })
 export class InfoCardsModule {}

@@ -1,5 +1,10 @@
 import { createAction, props } from '@ngrx/store';
-import { Account, AccountManagementRecord, AccountValueEditRecord } from '../../models';
+import {
+  Account,
+  AccountManagementRecord,
+  AccountValueEditRecord,
+  MoveMoneyBetweenAccountsRecord,
+} from '../../models';
 
 export const AccountsActions = {
   accountsLoaded: createAction('[Accounts] Accounts loaded', props<{ accounts: Account[] }>()),
@@ -67,6 +72,28 @@ export const AccountsActions = {
   bulkAccountChangeOrderFail: createAction('[Accounts] Bulk account change order fail'),
 
   setOrderChangingInProgressToTrue: createAction('[Accounts] Set OrderChangingInProgress to true'),
+
+  moveMoneyBetweenAccounts: createAction(
+    '[Accounts] Move money between accounts',
+    props<{
+      fromAccountId: string;
+      toAccountId: string;
+      fromAccountNewValue: number;
+      toAccountNewValue: number;
+      activityLogRecord: MoveMoneyBetweenAccountsRecord;
+    }>()
+  ),
+
+  moneyBetweenAccountsMoved: createAction(
+    '[Accounts] Money between accounts moved',
+    props<{ updatedAccounts: Account[] }>()
+  ),
+
+  moveMoneyBetweenAccountsFail: createAction('[Accounts] Move money between accounts fail'),
+
+  resetMovingMoneyBetweenAccountsProp: createAction(
+    '[Accounts] Reset moving money between accounts prop'
+  ),
 
   clean: createAction('[Accounts] Clean state'),
 };

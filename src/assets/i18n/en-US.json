@@ -46,6 +46,15 @@
       "accountNameLengthError": "Max account name length is 20"
     },
 
+    "moneyMovementBetweenAccountsModal": {
+      "title": "Money movement between accounts",
+      "fromAccountTitle": "From account",
+      "toAccountTitle": "To account",
+      "valueToMoveTitle": "Value to move",
+      "convertedValueToMoveTitle": "Converted value",
+      "moveButton": "Move"
+    },
+
     "accountValueEditModal": {
       "subtitle": "Edit account value",
       "cancel": "Cancel",
@@ -215,7 +224,8 @@
     "accountValueEdited": "Account value was edited successfully!",
     "accountAddedSnackbar": "Account was added successfully!",
     "accountRemovedSnackbar": "Account was removed successfully!",
-    "accountOrderChangedSnackbar": "Accounts were sorted successfully!"
+    "accountOrderChangedSnackbar": "Accounts were sorted successfully!",
+    "moneyBetweenAccountsMoved": "Money between accounts was moved successfully!"
   },
 
   "formErrors": {

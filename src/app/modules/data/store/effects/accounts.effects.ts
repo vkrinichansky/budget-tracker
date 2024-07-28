@@ -118,6 +118,44 @@ export class AccountsEffects {
     )
   );
 
+  moveMoneyBetweenAccounts$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AccountsActions.moveMoneyBetweenAccounts),
+      mergeMap((action) =>
+        from(
+          this.accountService.moveMoneyBetweenAccounts(
+            action.fromAccountId,
+            action.toAccountId,
+            action.fromAccountNewValue,
+            action.toAccountNewValue,
+            action.activityLogRecord
+          )
+        ).pipe(
+          switchMap(() => {
+            this.snackbarHandler.showMoneyBetweenAccountsMovedSnackbar();
+
+            return of(
+              AccountsActions.moneyBetweenAccountsMoved({
+                updatedAccounts: [
+                  { id: action.fromAccountId, value: action.fromAccountNewValue } as Account,
+                  { id: action.toAccountId, value: action.toAccountNewValue } as Account,
+                ],
+              }),
+              ActivityLogActions.recordAdded({
+                record: action.activityLogRecord,
+              })
+            );
+          }),
+          catchError((error) => {
+            this.snackbarHandler.showErrorSnackbar(error);
+
+            return of(AccountsActions.moveMoneyBetweenAccountsFail());
+          })
+        )
+      )
+    )
+  );
+
   bulkAccountChangeOrder$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AccountsActions.bulkAccountChangeOrder),
@@ -157,6 +195,14 @@ export class AccountsEffects {
       ofType(AccountsActions.accountValueEdited),
       delay(1000),
       map(() => AccountsActions.resetAccountValueEditProp())
+    )
+  );
+
+  resetMovingMoneyBetweenAccountsProp$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AccountsActions.moneyBetweenAccountsMoved),
+      delay(1000),
+      map(() => AccountsActions.resetMovingMoneyBetweenAccountsProp())
     )
   );
 }

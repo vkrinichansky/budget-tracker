@@ -28,7 +28,7 @@
     ></custom-input>
 
     <custom-input
-      [class.hidden]="!displayConvertedValueField"
+      [class.hidden]="!doesChoosedAccountHaveForeignCurrency"
       [id]="formFieldsEnum.ConvertedValueToAdd"
       [label]="'dashboard.categoryValueModal.convertedValueToAddTitle' | translate"
       [isRequired]="true"

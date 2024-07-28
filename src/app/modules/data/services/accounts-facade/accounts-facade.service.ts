@@ -6,6 +6,7 @@ import {
   AccountValueEditRecord,
   ActivityLogRecordType,
   EntityManagementActionType,
+  MoveMoneyBetweenAccountsRecord,
 } from '../../models';
 import { Store } from '@ngrx/store';
 import { AccountsActions, AccountsSelectors } from '../../store';
@@ -65,6 +66,40 @@ export class AccountsFacadeService {
       AccountsActions.editAccountValue({
         accountId,
         newValue,
+        activityLogRecord,
+      })
+    );
+  }
+
+  async moveMoneyBetweenAccount(
+    fromAccountId: string,
+    toAccountId: string,
+    valueToMove: number,
+    convertedValueToMove: number
+  ): Promise<void> {
+    const fromAccount = await firstValueFrom(this.getAccountById(fromAccountId));
+    const toAccount = await firstValueFrom(this.getAccountById(toAccountId));
+
+    const fromAccountNewValue = fromAccount.value - valueToMove;
+    const toAccountNewValue = toAccount.value + convertedValueToMove;
+
+    const activityLogRecord: MoveMoneyBetweenAccountsRecord = {
+      id: uuid(),
+      fromAccount,
+      toAccount,
+      fromAccountValue: valueToMove,
+      toAccountValue: convertedValueToMove,
+      recordType: ActivityLogRecordType.MoveMoneyBetweenAccounts,
+      date: new Date().getTime(),
+      icon: 'money-change',
+    };
+
+    this.store.dispatch(
+      AccountsActions.moveMoneyBetweenAccounts({
+        fromAccountId,
+        toAccountId,
+        fromAccountNewValue,
+        toAccountNewValue,
         activityLogRecord,
       })
     );
@@ -164,5 +199,13 @@ export class AccountsFacadeService {
 
   getOrderChangingInProgress(): Observable<boolean> {
     return this.store.select(AccountsSelectors.orderChangingInProgressSelector);
+  }
+
+  getMovingMoneyBetweenAccountsInProgress(): Observable<boolean> {
+    return this.store.select(AccountsSelectors.movingMoneyBetweenAccountsInProgressSelector);
+  }
+
+  getMovingMoneyBetweenAccountsSuccess(): Observable<boolean> {
+    return this.store.select(AccountsSelectors.movingMoneyBetweenAccountsSuccessSelector);
   }
 }

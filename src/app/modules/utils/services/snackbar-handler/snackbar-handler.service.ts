@@ -100,6 +100,12 @@ export class SnackbarHandlerService {
     );
   }
 
+  showMoneyBetweenAccountsMovedSnackbar(): void {
+    this.openSnackBarWithCloseDelay(
+      this.translateService.instant('snackbars.moneyBetweenAccountsMoved')
+    );
+  }
+
   private openSnackBarWithCloseDelay(
     message: string,
     action: string = this.translateService.instant('snackbars.defaultOkButtonText')

@@ -2,16 +2,25 @@ import { createSelector } from '@ngrx/store';
 import { dataFeatureSelector } from './feature.selector';
 import { CurrenciesEnum, CurrencyExchangeRate } from '../../models';
 
-const accountsStateSelector = createSelector(dataFeatureSelector, (dataFeatureState) => dataFeatureState.accountsState);
+const accountsStateSelector = createSelector(
+  dataFeatureSelector,
+  (dataFeatureState) => dataFeatureState.accountsState
+);
 
-const allAccountsDictionarySelector = createSelector(accountsStateSelector, (state) => state.accounts.entities);
+const allAccountsDictionarySelector = createSelector(
+  accountsStateSelector,
+  (state) => state.accounts.entities
+);
 
 const allAccountsSelector = createSelector(allAccountsDictionarySelector, (accountsDictionary) =>
   Object.values(accountsDictionary).sort((a, b) => a.order - b.order)
 );
 
 const accountByIdSelector = (accountId: string) =>
-  createSelector(allAccountsDictionarySelector, (accountsDictionary) => accountsDictionary[accountId]);
+  createSelector(
+    allAccountsDictionarySelector,
+    (accountsDictionary) => accountsDictionary[accountId]
+  );
 
 const editAccountValueInProgressSelector = createSelector(
   accountsStateSelector,
@@ -36,7 +45,10 @@ const accountManagementSuccessSelector = createSelector(
 const isAccountRemovingSelector = (accountId: string) =>
   createSelector(accountsStateSelector, (state) => state.removingAccountsIds.includes(accountId));
 
-const fullBalanceSelector = (currency: CurrenciesEnum, currencyExchangeRate: CurrencyExchangeRate) =>
+const fullBalanceSelector = (
+  currency: CurrenciesEnum,
+  currencyExchangeRate: CurrencyExchangeRate
+) =>
   createSelector(allAccountsSelector, (allAccounts) =>
     allAccounts.reduce(
       (fullBalance, account) =>
@@ -47,7 +59,20 @@ const fullBalanceSelector = (currency: CurrenciesEnum, currencyExchangeRate: Cur
     )
   );
 
-const orderChangingInProgressSelector = createSelector(accountsStateSelector, (state) => state.orderChangingInProgress);
+const orderChangingInProgressSelector = createSelector(
+  accountsStateSelector,
+  (state) => state.orderChangingInProgress
+);
+
+const movingMoneyBetweenAccountsInProgressSelector = createSelector(
+  accountsStateSelector,
+  (state) => state.movingMoneyBetweenAccountsInProgress.inProgress
+);
+
+const movingMoneyBetweenAccountsSuccessSelector = createSelector(
+  accountsStateSelector,
+  (state) => state.movingMoneyBetweenAccountsInProgress.success
+);
 
 export const AccountsSelectors = {
   accountsStateSelector,
@@ -60,4 +85,6 @@ export const AccountsSelectors = {
   isAccountRemovingSelector,
   fullBalanceSelector,
   orderChangingInProgressSelector,
+  movingMoneyBetweenAccountsInProgressSelector,
+  movingMoneyBetweenAccountsSuccessSelector,
 };
