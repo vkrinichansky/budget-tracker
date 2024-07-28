@@ -5,8 +5,8 @@ import { AccountsActions, ActivityLogActions, CategoriesActions } from '../actio
 import { Store } from '@ngrx/store';
 import { ActivityLogSelectors } from '../selectors';
 import { ActivityLogService } from '../../services';
-import { SnackbarHandlerService } from '@budget-tracker/utils';
 import { Account, Category } from '../../models';
+import { SnackbarHandlerService } from '@budget-tracker/design-system';
 
 @Injectable()
 export class ActivityLogEffects {
@@ -63,7 +63,10 @@ export class ActivityLogEffects {
           switchMap(() => {
             this.snackbarHandler.showActivityLogRecordRemovedSnackbar();
 
-            const updatedCategory = { id: action.updatedCategoryId, value: action.updatedCategoryValue } as Category;
+            const updatedCategory = {
+              id: action.updatedCategoryId,
+              value: action.updatedCategoryValue,
+            } as Category;
 
             if (action.updatedAccountValue !== null) {
               return of(
@@ -74,7 +77,10 @@ export class ActivityLogEffects {
                   updatedCategory,
                 }),
                 AccountsActions.accountValueEdited({
-                  updatedAccount: { id: action.updatedAccountId, value: action.updatedAccountValue } as Account,
+                  updatedAccount: {
+                    id: action.updatedAccountId,
+                    value: action.updatedAccountValue,
+                  } as Account,
                 })
               );
             }

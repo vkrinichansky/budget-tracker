@@ -6,7 +6,8 @@ import { from, map, mergeMap } from 'rxjs';
 import { User } from '../../models';
 import { AuthService } from '../../services';
 import { AuthActions } from '../actions';
-import { NavigatorService, SnackbarHandlerService } from '@budget-tracker/utils';
+import { NavigatorService } from '@budget-tracker/utils';
+import { SnackbarHandlerService } from '@budget-tracker/design-system';
 
 @Injectable()
 export class AuthEffects {
@@ -37,7 +38,10 @@ export class AuthEffects {
       map((user) =>
         this.authService.getAdditionalUserInfo(user)?.isNewUser
           ? AuthActions.initDatabaseOnFirstLogin({ user: this.extractUserFromState(user.user) })
-          : AuthActions.authenticated({ user: this.extractUserFromState(user.user), shouldRedirect: true })
+          : AuthActions.authenticated({
+              user: this.extractUserFromState(user.user),
+              shouldRedirect: true,
+            })
       ),
       catchError(() => {
         this.snackbarHandler.showGeneralErrorSnackbar();

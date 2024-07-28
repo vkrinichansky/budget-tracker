@@ -4,8 +4,8 @@ import { catchError, debounceTime, delay, from, map, mergeMap, of, switchMap, ta
 import { AccountsActions, ActivityLogActions } from '../actions';
 import { AccountsService } from '../../services';
 import { Account } from '../../models';
-import { SnackbarHandlerService } from '@budget-tracker/utils';
 import { Store } from '@ngrx/store';
+import { SnackbarHandlerService } from '@budget-tracker/design-system';
 
 @Injectable()
 export class AccountsEffects {

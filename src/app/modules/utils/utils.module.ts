@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgVarDirective, PreventInvalidCharsDirective } from './directives';
-import { NavigatorService, SnackbarHandlerService } from './services';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NavigatorService } from './services';
 
 @NgModule({
-  imports: [CommonModule, MatSnackBarModule],
+  imports: [CommonModule],
   declarations: [NgVarDirective, PreventInvalidCharsDirective],
   exports: [NgVarDirective, PreventInvalidCharsDirective],
-  providers: [NavigatorService, SnackbarHandlerService],
+  providers: [NavigatorService],
 })
 export class UtilsModule {}

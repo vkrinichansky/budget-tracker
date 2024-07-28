@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalData, ConfirmationModalTranslationData } from '../../models';
 import { ConfirmationModalComponent } from '../../components';
+import { isMobileWidth } from '@budget-tracker/utils';
 
 @Injectable()
 export class ConfirmationModalService {
@@ -20,7 +21,7 @@ export class ConfirmationModalService {
 
     this.dialog.open(ConfirmationModalComponent, {
       data,
-      maxWidth: '400px',
+      maxWidth: isMobileWidth() ? '90vw' : '400px',
       width: '400px',
       position: {},
     });
