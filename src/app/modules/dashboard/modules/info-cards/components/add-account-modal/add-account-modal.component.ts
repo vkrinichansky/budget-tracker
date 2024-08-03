@@ -11,7 +11,6 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { filter, Observable, take } from 'rxjs';
 import { v4 as uuid } from 'uuid';
-import { AccountsListModalService } from '../../services';
 
 enum FormFields {
   AccountName = 'accountName',
@@ -73,8 +72,7 @@ export class AddAccountModalComponent implements OnInit {
     private accountsFacade: AccountsFacadeService,
     private destroyRef: DestroyRef,
     private translateService: TranslateService,
-    private dialogRef: MatDialogRef<AddAccountModalComponent>,
-    private accountsListModalService: AccountsListModalService
+    private dialogRef: MatDialogRef<AddAccountModalComponent>
   ) {}
 
   ngOnInit(): void {
@@ -105,10 +103,7 @@ export class AddAccountModalComponent implements OnInit {
         filter((isSuccess) => !!isSuccess),
         take(1)
       )
-      .subscribe(() => {
-        this.dialogRef.close();
-        this.accountsListModalService.openAccountsListModal();
-      });
+      .subscribe(() => this.dialogRef.close());
 
     this.accountsFacade
       .getAllAccounts()
