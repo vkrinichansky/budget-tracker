@@ -61,6 +61,10 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
     return (this.form?.controls?.[FormFields.ToAccount]?.value as Account)?.currency?.symbol;
   }
 
+  get maxValue(): number {
+    return parseInt(this.form?.controls?.[FormFields.FromAccount]?.value?.value);
+  }
+
   constructor(
     private accountsFacade: AccountsFacadeService,
     private destroyRef: DestroyRef,

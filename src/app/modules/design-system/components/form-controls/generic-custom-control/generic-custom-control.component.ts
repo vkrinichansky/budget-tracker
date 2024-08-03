@@ -4,7 +4,9 @@ import {
   DestroyRef,
   HostBinding,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -27,7 +29,9 @@ enum CustomErrors {
   selector: 'app-generic-custom-control',
   template: '',
 })
-export class GenericCustomControlComponent implements ControlValueAccessor, Validator, OnInit {
+export class GenericCustomControlComponent
+  implements ControlValueAccessor, Validator, OnInit, OnChanges
+{
   private _value: valueType;
 
   readonly formControl: FormControl = new FormControl(null);
@@ -47,6 +51,9 @@ export class GenericCustomControlComponent implements ControlValueAccessor, Vali
 
   @Input()
   minValue: number;
+
+  @Input()
+  maxValue: number;
 
   @Input()
   maxLength: number;
@@ -80,6 +87,10 @@ export class GenericCustomControlComponent implements ControlValueAccessor, Vali
     return this.formControl.hasError('min');
   }
 
+  get hasMaxValueError(): boolean {
+    return this.formControl.hasError('max');
+  }
+
   get hasIntegerError(): boolean {
     return this.formControl.hasError('integer');
   }
@@ -100,6 +111,10 @@ export class GenericCustomControlComponent implements ControlValueAccessor, Vali
   ngOnInit(): void {
     this.handleValidators();
     this.initFormControlListener();
+  }
+
+  ngOnChanges(): void {
+    this.handleValidators();
   }
 
   valueChanged(value: valueType) {
@@ -142,6 +157,10 @@ export class GenericCustomControlComponent implements ControlValueAccessor, Vali
 
     if (this.minValue !== undefined) {
       this.formControl.addValidators(Validators.min(this.minValue));
+    }
+
+    if (this.maxValue !== undefined) {
+      this.formControl.addValidators(Validators.max(this.maxValue));
     }
   }
 

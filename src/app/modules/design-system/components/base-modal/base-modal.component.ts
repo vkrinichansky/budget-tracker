@@ -8,7 +8,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class BaseModalComponent {
   @HostBinding('class')
-  private readonly classes = 'border-2 border-solid border-charcoal rounded-md';
+  private readonly classes = 'rounded-md';
 
   @Input()
   titleTranslationKey: string;

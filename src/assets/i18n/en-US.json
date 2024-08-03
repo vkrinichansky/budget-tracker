@@ -217,6 +217,7 @@
   "formErrors": {
     "required": "Field is required",
     "minValue": "Minimal value - {{ minValue }}",
+    "maxValue": "Maximal value - {{ maxValue }}",
     "maxLength": "Max length - {{ maxLength }}",
     "sameValue": "Value must be different after edit",
     "entityExists": "Entity with such name already exists"

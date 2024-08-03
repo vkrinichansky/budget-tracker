@@ -21,13 +21,13 @@
     }
 
     &__surface {
-      @apply rounded-md shadow-none #{!important};
+      @apply rounded-md shadow-none border-2 border-solid border-charcoal #{!important};
     }
   }
 
   app-base-modal {
     .mat-mdc-dialog-actions {
-      @apply flex items-center justify-end gap-x-4 #{!important};
+      @apply flex items-center justify-end gap-x-4 px-6 py-3 #{!important};
     }
   }
 }
