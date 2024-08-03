@@ -15,10 +15,9 @@ import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { AuthCoreModule } from './modules/auth/auth.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { isMobileWidth, UtilsModule } from '@budget-tracker/utils';
+import { UtilsModule } from '@budget-tracker/utils';
 import { Chart } from 'chart.js';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig } from '@angular/material/dialog';
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { NavigationBarModule } from '@budget-tracker/navigation-bar';
 

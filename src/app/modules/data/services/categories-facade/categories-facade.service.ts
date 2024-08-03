@@ -11,11 +11,9 @@ import {
   BudgetType,
   CategoryValueChangeRecord,
   CategoriesResetRecord,
-  Account,
 } from '../../models';
 import { Dictionary } from '@ngrx/entity';
 import { AccountsFacadeService } from '../accounts-facade/accounts-facade.service';
-import { CurrencyService } from '../currency-service/currency.service';
 
 @Injectable()
 export class CategoriesFacadeService {

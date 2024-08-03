@@ -3,7 +3,12 @@ import { BudgetType, Category, CurrencyPipe } from '@budget-tracker/data';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { ChartData, ChartOptions } from 'chart.js';
 import { CategoryModalsService } from '../../services';
-import { ChartJSTooltipConfig, ConfirmationModalService, MainPalette, MenuAction } from '@budget-tracker/design-system';
+import {
+  ChartJSTooltipConfig,
+  ConfirmationModalService,
+  MainPalette,
+  MenuAction,
+} from '@budget-tracker/design-system';
 import { CategoriesFacadeService } from '@budget-tracker/data';
 import { isMobileWidth } from '@budget-tracker/utils';
 
@@ -146,7 +151,9 @@ export class CategoriesComponent implements OnInit {
             action: () =>
               this.confirmationModalService.openConfirmationModal(
                 {
-                  questionTranslationKey: this.buildTranslationKey('income.resetConfirmationQuestion'),
+                  questionTranslationKey: this.buildTranslationKey(
+                    'income.resetConfirmationQuestion'
+                  ),
                 },
                 () => this.categoriesFacade.resetCategoriesByType(BudgetType.Income)
               ),
@@ -168,7 +175,9 @@ export class CategoriesComponent implements OnInit {
             action: () =>
               this.confirmationModalService.openConfirmationModal(
                 {
-                  questionTranslationKey: this.buildTranslationKey('expense.resetConfirmationQuestion'),
+                  questionTranslationKey: this.buildTranslationKey(
+                    'expense.resetConfirmationQuestion'
+                  ),
                 },
                 () => this.categoriesFacade.resetCategoriesByType(BudgetType.Expense)
               ),

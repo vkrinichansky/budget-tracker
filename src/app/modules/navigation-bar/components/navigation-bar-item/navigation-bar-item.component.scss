@@ -6,8 +6,8 @@
 
     &::before {
       @apply absolute top-0 left-0 w-1 bg-transparent h-full block rounded-tr-sm rounded-br-sm;
-      content: '';
 
+      content: '';
       transition: background-color linear 0.1s;
     }
 

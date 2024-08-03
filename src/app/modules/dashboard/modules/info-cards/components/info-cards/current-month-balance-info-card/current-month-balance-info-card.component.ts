@@ -5,7 +5,6 @@ import { map, Observable } from 'rxjs';
 @Component({
   selector: 'app-current-month-balance-info-card',
   templateUrl: './current-month-balance-info-card.component.html',
-  styleUrl: './current-month-balance-info-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CurrentMonthBalanceInfoCardComponent implements OnInit {

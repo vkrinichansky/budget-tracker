@@ -7,14 +7,21 @@ const categoriesStateSelector = createSelector(
   (dataFeatureState) => dataFeatureState.categoriesState
 );
 
-const allCategoriesDictionarySelector = createSelector(categoriesStateSelector, (state) => state.categories.entities);
+const allCategoriesDictionarySelector = createSelector(
+  categoriesStateSelector,
+  (state) => state.categories.entities
+);
 
-const allCategoriesSelector = createSelector(allCategoriesDictionarySelector, (categoriesDictionary) =>
-  Object.values(categoriesDictionary)
+const allCategoriesSelector = createSelector(
+  allCategoriesDictionarySelector,
+  (categoriesDictionary) => Object.values(categoriesDictionary)
 );
 
 const selectCategoryByIdSelector = (categoryId: string) =>
-  createSelector(allCategoriesDictionarySelector, (categoriesDictionary) => categoriesDictionary[categoryId]);
+  createSelector(
+    allCategoriesDictionarySelector,
+    (categoriesDictionary) => categoriesDictionary[categoryId]
+  );
 
 const incomeCategoriesSelector = createSelector(allCategoriesSelector, (allCategories) =>
   allCategories.filter((category) => category.budgetType === BudgetType.Income)
@@ -36,8 +43,9 @@ const areIncomeCategoriesAllResetSelector = createSelector(incomeCategoriesSelec
   categories.every((category) => category.value === 0)
 );
 
-const areExpenseCategoriesAllResetSelector = createSelector(expenseCategoriesSelector, (categories) =>
-  categories.every((category) => category.value === 0)
+const areExpenseCategoriesAllResetSelector = createSelector(
+  expenseCategoriesSelector,
+  (categories) => categories.every((category) => category.value === 0)
 );
 
 const currentMonthBalanceSelector = createSelector(
@@ -67,7 +75,9 @@ const categoryValueChangeSuccessSelector = createSelector(
 );
 
 const isCategoryRemovingSelector = (categoryId: string) =>
-  createSelector(categoriesStateSelector, (state) => state.removingCategoriesIds.includes(categoryId));
+  createSelector(categoriesStateSelector, (state) =>
+    state.removingCategoriesIds.includes(categoryId)
+  );
 
 export const CategoriesSelectors = {
   categoriesStateSelector,
