@@ -8,6 +8,7 @@
   <app-page-header
     class="text-xl bg-transparent"
     [title]="buildTranslationKey('title') | translate"
+    [loading]="data.isBulkRecordsRemovingInProgress"
   >
     @if (!data.isEmpty) {
       <app-activity-log-remove-menu
@@ -24,14 +25,13 @@
   </app-page-header>
 
   <div
-    class="flex flex-col overflow-hidden h-full w-full relative"
-    [class.justify-center]="data.isEmpty"
-    [class.items-center]="data.isEmpty"
+    class="flex flex-col overflow-hidden h-full w-full"
+    [ngClass]="{
+      'justify-center': data.isEmpty,
+      'items-center': data.isEmpty,
+      'pointer-events-none': data.isBulkRecordsRemovingInProgress
+    }"
   >
-    @if (data.isBulkRecordsRemovingInProgress) {
-      <app-fullsize-loader></app-fullsize-loader>
-    }
-
     @if (data.isEmpty) {
       <span class="font-main font-bold text-charcoal text-lg text-center">
         {{ buildTranslationKey('emptyStateText') | translate }}
@@ -68,10 +68,16 @@
       {{ item.date }}
     </span>
 
-    <span [class.text-dark-green]="item.sum > 0" [class.text-red]="item.sum < 0">
+    <span
+      [ngClass]="{
+        'text-dark-green': item.sum > 0,
+        'text-red': item.sum < 0
+      }"
+    >
       @if (item.sum > 0) {
         &plus;
       }
+
       {{ item.sum | currencySymbol }}
     </span>
   </div>
