@@ -114,7 +114,7 @@ import { PortalModule } from '@angular/cdk/portal';
         width: '500px',
         maxWidth: isMobileWidth() ? '100%' : '500px',
         maxHeight: isMobileWidth() ? '100%' : '90vh',
-        position: isMobileWidth() ? { top: '0' } : { top: '30px' },
+        position: isMobileWidth() ? { bottom: '0' } : { top: '30px' },
         autoFocus: false,
       } as MatDialogConfig,
     },

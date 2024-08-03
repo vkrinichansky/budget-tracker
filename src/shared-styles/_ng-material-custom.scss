@@ -32,6 +32,22 @@
   }
 }
 
+.cdk-overlay-pane:not(.confirmation-modal) {
+  .mat-mdc-dialog-container {
+    .mdc-dialog {
+      &__surface {
+        @media (max-width: 480px) {
+          @apply rounded-b-none #{!important};
+
+          app-base-modal {
+            @apply rounded-b-none;
+          }
+        }
+      }
+    }
+  }
+}
+
 // SCROLLER
 .cdk-virtual-scroll-content-wrapper {
   @apply w-full #{!important};
