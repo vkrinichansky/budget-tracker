@@ -4,6 +4,16 @@
   [loading]="isRecordRemoving$ | async"
   (remove)="removeRecord()"
 >
-  <span class="font-main text-charcoal text-base" [innerHTML]="buildTranslationKey(record.budgetType) | translate">
+  <span
+    *ngVar="buildTranslationKey(record.budgetType) | translate as content"
+    class="font-main text-charcoal text-base block truncate"
+    customTooltip
+    [tooltipTemplate]="template"
+    [showTooltipOnlyOnOverflow]="true"
+    [innerHTML]="content"
+  >
+    <ng-template #template>
+      <span [innerHTML]="content"></span>
+    </ng-template>
   </span>
 </app-generic-activity-log-record>
