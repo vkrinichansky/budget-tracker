@@ -1,9 +1,15 @@
-<svg-icon-with-bg class="text-charcoal bg-light-blue" [iconName]="icon" [size]="'small'"></svg-icon-with-bg>
+<svg-icon
+  class="text-charcoal bg-light-blue"
+  [iconName]="icon"
+  [iconSize]="'small'"
+  [bgSize]="'small'"
+></svg-icon>
 
 <div class="flex flex-col gap-y-0.5 flex-1 overflow-hidden">
   <span class="font-main text-charcoal text-base">
     <ng-content></ng-content>
   </span>
+
   <div class="flex items-center gap-x-1">
     <span class="font-main text-grey text-xs">{{ time }}</span>
 

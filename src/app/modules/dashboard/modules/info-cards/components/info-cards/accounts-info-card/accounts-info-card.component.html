@@ -8,12 +8,12 @@
 >
   <app-info-card
     [iconName]="'creditcard-folder'"
-    [iconColorClass]="'text-dark-green'"
-    [colorScheme]="'dark-green'"
     [primaryText]="
       buildTranslationKey(accountsAmount ? 'titleWithAmount' : 'title')
         | translate: { accountsAmount }
     "
+    [style.color]="'text-white' | classToHexColor"
+    [style.background-color]="'bg-dark-green' | classToHexColor"
   >
   </app-info-card>
 
