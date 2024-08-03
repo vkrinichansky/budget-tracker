@@ -1,0 +1,43 @@
+:root {
+  view-transition-name: none;
+}
+
+.animated-route {
+  view-transition-name: animated-route;
+}
+
+::view-transition-new(animated-route),
+::view-transition-old(animated-route) {
+  animation-duration: 250ms;
+  animation-timing-function: ease-out;
+  animation-direction: normal;
+}
+
+::view-transition-old(animated-route) {
+  animation-name: scale-out;
+}
+
+::view-transition-new(animated-route) {
+  animation-name: slide-in;
+  mix-blend-mode: normal;
+}
+
+@keyframes scale-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

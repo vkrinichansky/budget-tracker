@@ -1,0 +1,63 @@
+custom-input,
+custom-textarea,
+custom-select,
+color-picker {
+  @apply flex flex-col;
+
+  &.disabled {
+    @apply pointer-events-none;
+
+    * {
+      @apply pointer-events-none;
+    }
+
+    control-label label {
+      @apply text-grey;
+
+      & * {
+        @apply text-grey;
+      }
+    }
+  }
+}
+
+.form-control {
+  @apply font-main text-base text-charcoal;
+  @apply border-2 border-solid border-black-transparent rounded-md group-hover:border-charcoal;
+}
+
+.form-control-error {
+  @apply border-red group-hover:border-red rounded-b-none;
+}
+
+input,
+.custom-select,
+.color-picker {
+  @apply h-12;
+}
+
+input,
+textarea,
+.custom-select,
+.color-picker {
+  @apply w-full;
+}
+
+input,
+textarea,
+.custom-select {
+  @apply px-3;
+}
+
+input,
+textarea {
+  @apply focus:border-charcoal outline-none;
+
+  &.form-control-error {
+    @apply focus:border-red;
+  }
+}
+
+textarea {
+  @apply py-2 resize-none;
+}

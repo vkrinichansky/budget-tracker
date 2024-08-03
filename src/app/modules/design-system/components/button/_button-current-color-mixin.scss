@@ -1,0 +1,21 @@
+@mixin use-current-color() {
+  &.use-current-color {
+    color: currentcolor;
+
+    svg-icon {
+      color: currentcolor;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: color-mix(in srgb, currentcolor 15%, transparent);
+      }
+    }
+
+    @media (hover: none) {
+      &:active {
+        background-color: color-mix(in srgb, currentcolor 15%, transparent);
+      }
+    }
+  }
+}

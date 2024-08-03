@@ -83,6 +83,9 @@ module.exports = {
       maxHeight: {
         ...convertPixelsIntoRems(200), // 200px,
       },
+      colors: {
+        inherit: 'inherit',
+      },
     },
   },
 };
