@@ -12,7 +12,7 @@ $size-map-h: (
   tiny-y: 7,
   small-y: 8,
   medium-y: 9,
-  auto-x: auto,
+  auto-y: auto,
 );
 
 @mixin button-size($dimension) {

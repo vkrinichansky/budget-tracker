@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { DataInitFacadeService } from '@budget-tracker/data';
-import { Observable } from 'rxjs';
+import { delay } from '@budget-tracker/utils';
+import { Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import { Observable } from 'rxjs';
 })
 export class AppComponent implements OnInit {
   isLoading$: Observable<boolean>;
+  isLoaded$: Observable<boolean>;
   isLoggedIn$: Observable<boolean>;
 
   constructor(
@@ -20,6 +22,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading$ = this.dataInitFacade.isDataLoading();
+    this.isLoaded$ = this.dataInitFacade.isDataLoaded();
     this.isLoggedIn$ = this.authFacade.isLoggedIn();
   }
 }

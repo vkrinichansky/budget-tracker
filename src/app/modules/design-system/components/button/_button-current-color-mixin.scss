@@ -1,3 +1,8 @@
+$hover-map:
+// class value
+  'hover' hover,
+  'active' none;
+
 @mixin use-current-color() {
   &.use-current-color {
     color: currentcolor;
@@ -6,15 +11,11 @@
       color: currentcolor;
     }
 
-    @media (hover: hover) {
-      &:hover {
-        background-color: color-mix(in srgb, currentcolor 15%, transparent);
-      }
-    }
-
-    @media (hover: none) {
-      &:active {
-        background-color: color-mix(in srgb, currentcolor 15%, transparent);
+    @each $class, $value in $hover-map {
+      @media (hover: #{$value}) {
+        &:#{$class} {
+          background-color: color-mix(in srgb, currentcolor 15%, transparent);
+        }
       }
     }
   }

@@ -12,19 +12,18 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { AuthCoreModule } from './modules/auth/auth.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { UtilsModule } from '@budget-tracker/utils';
-import { Chart } from 'chart.js';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { NavigationBarModule } from '@budget-tracker/navigation-bar';
+import { AuthCoreModule } from '@budget-tracker/auth';
 
+import { Chart } from 'chart.js';
 import 'hammerjs';
 import 'chartjs-plugin-zoom';
 import zoomPlugin from 'chartjs-plugin-zoom';
-
 Chart.register(zoomPlugin);
 
 @NgModule({
