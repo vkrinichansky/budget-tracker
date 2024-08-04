@@ -102,7 +102,6 @@
       },
 
       "emptyStateText": "No data to display yet",
-      "removeMenuTooltip": "Remove records by types",
       "removeMenuDisabledTooltip": "You can do bulk records remove only if you have previous months records. For current month records you can use remove button on specific record",
 
       "removeMenu": {
