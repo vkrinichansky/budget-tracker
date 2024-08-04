@@ -1,37 +1,39 @@
 <div class="absolute right-2 top-2 flex flex-col gap-1 items-center">
   @if (menuActions?.length) {
     <app-menu
-      [style.color]="hexTextColor"
-      [colorScheme]="menuColorScheme"
       [menuActions]="menuActions"
       [menuDisabled]="shouldDisableMenu"
       [loading]="menuLoading"
-      [shouldUseCurrentColor]="shouldUseCustomColors"
+      [shouldUseCurrentColor]="true"
     ></app-menu>
   }
 
   @if (tooltip) {
-    <app-info-icon [size]="'medium'" [tooltipPosition]="isMobile ? 'left' : 'top'" [tooltip]="tooltip"></app-info-icon>
+    <app-info-icon
+      [size]="'medium'"
+      [tooltipPosition]="isMobile ? 'left' : 'top'"
+      [tooltip]="tooltip"
+    ></app-info-icon>
   }
 </div>
 
-<svg-icon-with-bg
-  class="{{ iconClasses }}"
-  [style.color]="hexBgColor"
-  [style.background-color]="hexTextColor"
+<svg-icon
+  [style.color]="bgColor"
+  [style.background-color]="textColor"
   [iconName]="iconName"
-></svg-icon-with-bg>
+  [bgSize]="'big'"
+></svg-icon>
 
-<div class="flex flex-1 flex-col">
+<div class="font-main flex flex-1 flex-col">
   @if (primaryText) {
-    <span class="primary font-main font-bold text-xl"> {{ primaryText }}</span>
+    <span class="font-bold text-xl"> {{ primaryText }}</span>
   }
 
   @if (secondaryText) {
-    <span class="secondary font-main text-sm">{{ secondaryText }}</span>
+    <span class="text-sm">{{ secondaryText }}</span>
   }
 
   @if (tertiaryText) {
-    <span class="secondary font-main text-xs">{{ tertiaryText }}</span>
+    <span class="text-xs">{{ tertiaryText }}</span>
   }
 </div>

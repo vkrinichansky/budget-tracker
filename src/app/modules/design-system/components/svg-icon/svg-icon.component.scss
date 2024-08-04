@@ -1,42 +1,45 @@
 :host {
-  @apply block;
+  @apply flex justify-center items-center box-content;
 
-  // SIZES
-  &.small {
-    @apply w-5 h-5;
+  svg {
+    @apply text-inherit w-inherit max-w-inherit h-inherit max-h-inherit;
   }
 
-  &.medium {
-    @apply w-6 h-6;
+  $bg-size-map:
+   // class padding
+    'small' 2,
+    'big' 3;
+
+  @mixin bg-size() {
+    @each $class, $padding in $bg-size-map {
+      &.bg-#{$class} {
+        @apply p-#{$padding};
+      }
+    }
   }
 
-  &.big {
-    @apply w-10 h-10;
+  $icon-size-map:
+   // class size
+    'small' 5,
+    'medium' 6,
+    'big' 10;
+
+  @mixin icon-size() {
+    @each $class, $size in $icon-size-map {
+      &.icon-#{$class} {
+        @apply w-#{$size} h-#{$size};
+      }
+    }
   }
 
-  &.large {
+  @include bg-size;
+  @include icon-size;
+
+  &.icon-large {
     @apply w-96 max-w-full;
 
     @media (max-width: 480px) {
       @apply px-6;
     }
-
-    svg {
-      @apply max-w-full;
-    }
-  }
-
-  &.auto {
-    @apply w-auto h-auto;
-  }
-
-  &.full-width {
-    @apply w-full h-auto;
-  }
-
-  svg {
-    color: inherit;
-    width: inherit;
-    height: inherit;
   }
 }

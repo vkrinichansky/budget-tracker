@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { ActivityLogFacadeService, EntityManagementActionType, CategoryManagementRecord } from '@budget-tracker/data';
+import {
+  ActivityLogFacadeService,
+  EntityManagementActionType,
+  CategoryManagementRecord,
+} from '@budget-tracker/data';
 import { Observable } from 'rxjs';
 
 @Component({

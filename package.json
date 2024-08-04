@@ -12,6 +12,7 @@
     "deploy": "firebase deploy",
     "test": "ng test",
     "lint": "ng lint",
+    "lint:styles": "stylelint \"src/**/*.scss\"",
     "ng": "ng"
   },
   "private": true,
@@ -72,8 +73,13 @@
     "karma-jasmine-html-reporter": "~2.0.0",
     "ngx-colors": "^3.6.0",
     "postcss": "^8.4.21",
+    "stylelint": "^16.8.1",
+    "stylelint-config-standard-scss": "^13.1.0",
+    "stylelint-config-tailwindcss": "^0.0.7",
+    "stylelint-scss": "^6.4.1",
     "svg-sprite": "^2.0.4",
     "tailwindcss": "^3.2.4",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "webpack-bundle-analyzer": "^4.10.2"
   }
 }

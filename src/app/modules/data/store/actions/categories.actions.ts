@@ -8,7 +8,10 @@ import {
 } from '../../models';
 
 export const CategoriesActions = {
-  categoriesLoaded: createAction('[Categories] Categories loaded', props<{ categories: Category[] }>()),
+  categoriesLoaded: createAction(
+    '[Categories] Categories loaded',
+    props<{ categories: Category[] }>()
+  ),
 
   addCategory: createAction(
     '[Categories] Add category',
@@ -30,7 +33,10 @@ export const CategoriesActions = {
 
   categoryRemoved: createAction('[Categories] Category removed', props<{ categoryId: string }>()),
 
-  removeCategoryFail: createAction('[Categories] Remove category fail', props<{ categoryId: string }>()),
+  removeCategoryFail: createAction(
+    '[Categories] Remove category fail',
+    props<{ categoryId: string }>()
+  ),
 
   resetCategoryManagementProp: createAction('[Categories] Reset categoryManagement prop'),
 
@@ -45,7 +51,10 @@ export const CategoriesActions = {
     }>()
   ),
 
-  categoryValueChanged: createAction('[Categories] Category value changed', props<{ updatedCategory: Category }>()),
+  categoryValueChanged: createAction(
+    '[Categories] Category value changed',
+    props<{ updatedCategory: Category }>()
+  ),
 
   changeCategoryValueFail: createAction('[Categories] Change category value fail'),
 

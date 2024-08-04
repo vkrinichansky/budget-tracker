@@ -1,0 +1,17 @@
+$active-state-map:
+  // class bg-color text-color
+  'active-charcoal' bg-charcoal text-white,
+  'active-green' bg-dark-green text-white,
+  'active-transparent-dark' bg-hover-black text-charcoal;
+
+@mixin button-active-state() {
+  @each $class, $bg-color, $text-color in $active-state-map {
+    &.#{$class} {
+      @apply #{$bg-color} #{$text-color};
+
+      svg-icon {
+        @apply text-inherit;
+      }
+    }
+  }
+}

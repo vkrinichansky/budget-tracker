@@ -2,7 +2,6 @@ import { Component, Inject, OnInit, ChangeDetectionStrategy, DestroyRef } from '
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BudgetType, Category } from '@budget-tracker/data';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Validators } from '@angular/forms';
 import { v4 as uuid } from 'uuid';
 import { Observable, filter, take } from 'rxjs';
 import { AddCategoryModalData } from '../../models';

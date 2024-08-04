@@ -1,6 +1,7 @@
 import { Directive, Input, HostListener } from '@angular/core';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[preventInvalidChars]',
 })
 export class PreventInvalidCharsDirective {

@@ -1,0 +1,22 @@
+$hover-map:
+// class value
+  'hover' hover,
+  'active' none;
+
+@mixin use-current-color() {
+  &.use-current-color {
+    color: currentcolor;
+
+    svg-icon {
+      color: currentcolor;
+    }
+
+    @each $class, $value in $hover-map {
+      @media (hover: #{$value}) {
+        &:#{$class} {
+          background-color: color-mix(in srgb, currentcolor 15%, transparent);
+        }
+      }
+    }
+  }
+}

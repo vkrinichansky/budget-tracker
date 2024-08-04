@@ -1,7 +1,10 @@
 import { createSelector } from '@ngrx/store';
 import { dataFeatureSelector } from './feature.selector';
 
-const metadataStateSelector = createSelector(dataFeatureSelector, (dataFeatureState) => dataFeatureState.metadataState);
+const metadataStateSelector = createSelector(
+  dataFeatureSelector,
+  (dataFeatureState) => dataFeatureState.metadataState
+);
 
 const currencyChangingInProgressSelector = createSelector(
   metadataStateSelector,

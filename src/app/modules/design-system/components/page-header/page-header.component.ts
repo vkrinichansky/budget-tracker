@@ -11,4 +11,7 @@ export class PageHeaderComponent {
 
   @Input()
   title: string;
+
+  @Input()
+  loading: boolean;
 }

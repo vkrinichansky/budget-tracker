@@ -1,8 +1,9 @@
 <a
-  class="link"
+  #routerLinkActive="routerLinkActive"
+  class="flex items-center justify-center"
   [routerLink]="item.routerLink"
   [routerLinkActive]="'active'"
-  #routerLinkActive="routerLinkActive"
+  [class.pointer-events-none]="routerLinkActive.isActive"
 >
   <app-button
     customTooltip

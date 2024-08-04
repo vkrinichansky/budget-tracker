@@ -1,11 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { ActivityLogFacadeService, ActivityLogRecordType } from '@budget-tracker/data';
-import {
-  CheckboxGroup,
-  ConfirmationModalService,
-  TooltipPosition,
-} from '@budget-tracker/design-system';
-import { isMobileWidth } from '@budget-tracker/utils';
+import { CheckboxGroup, ConfirmationModalService } from '@budget-tracker/design-system';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 
 @Component({
@@ -21,44 +16,40 @@ export class ActivityLogRemoveMenuComponent implements OnInit {
     checked: false,
     subItems: [
       {
-        nameOrTranslationKey: this.buildTranslationKey('categoryManagement.text'),
+        nameOrTranslationKey: this.buildTranslationKey('categoryManagement'),
         checked: false,
         value: ActivityLogRecordType.CategoryManagement,
         infoIconType: 'info',
-        tooltipTranslationKey: this.buildTranslationKey('categoryManagement.tooltip'),
-        tooltipPosition: this.tooltipPosition,
       },
       {
-        nameOrTranslationKey: this.buildTranslationKey('categoriesReset.text'),
+        nameOrTranslationKey: this.buildTranslationKey('categoriesReset'),
         checked: false,
         value: ActivityLogRecordType.CategoriesReset,
         infoIconType: 'info',
-        tooltipTranslationKey: this.buildTranslationKey('categoriesReset.tooltip'),
-        tooltipPosition: this.tooltipPosition,
       },
       {
-        nameOrTranslationKey: this.buildTranslationKey('categoryValueChange.text'),
+        nameOrTranslationKey: this.buildTranslationKey('categoryValueChange'),
         checked: false,
         value: ActivityLogRecordType.CategoryValueChange,
         infoIconType: 'info',
-        tooltipTranslationKey: this.buildTranslationKey('categoryValueChange.tooltip'),
-        tooltipPosition: this.tooltipPosition,
       },
       {
-        nameOrTranslationKey: this.buildTranslationKey('accountManagement.text'),
+        nameOrTranslationKey: this.buildTranslationKey('accountManagement'),
         checked: false,
         value: ActivityLogRecordType.AccountManagement,
         infoIconType: 'info',
-        tooltipTranslationKey: this.buildTranslationKey('accountManagement.tooltip'),
-        tooltipPosition: this.tooltipPosition,
       },
       {
-        nameOrTranslationKey: this.buildTranslationKey('accountValueEdit.text'),
+        nameOrTranslationKey: this.buildTranslationKey('accountValueEdit'),
         checked: false,
         value: ActivityLogRecordType.AccountValueEdit,
         infoIconType: 'info',
-        tooltipTranslationKey: this.buildTranslationKey('accountValueEdit.tooltip'),
-        tooltipPosition: this.tooltipPosition,
+      },
+      {
+        nameOrTranslationKey: this.buildTranslationKey('moveMoneyBetweenAccounts'),
+        checked: false,
+        value: ActivityLogRecordType.MoveMoneyBetweenAccounts,
+        infoIconType: 'info',
       },
     ],
   };
@@ -67,10 +58,6 @@ export class ActivityLogRemoveMenuComponent implements OnInit {
   disabled: boolean;
 
   checkboxGroup$: Observable<CheckboxGroup>;
-
-  private get tooltipPosition(): TooltipPosition {
-    return isMobileWidth() ? 'right' : 'top';
-  }
 
   constructor(
     private activityLogFacade: ActivityLogFacadeService,

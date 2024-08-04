@@ -3,7 +3,7 @@
 
   &.container-item.cdk-drag-preview {
     .drag-button {
-      background-color: color-mix(in srgb, currentColor 15%, transparent);
+      background-color: color-mix(in srgb, currentcolor 15%, transparent);
     }
   }
 }

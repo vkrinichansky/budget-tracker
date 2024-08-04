@@ -24,6 +24,7 @@ export class ConfirmationModalService {
       maxWidth: isMobileWidth() ? '90vw' : '400px',
       width: '400px',
       position: {},
+      panelClass: 'confirmation-modal',
     });
   }
 }

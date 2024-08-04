@@ -17,7 +17,8 @@ type RenderingItemType = DateObject | ActivityLogRecordUnitedType;
 })
 export class ActivityLogComponent implements OnInit {
   @HostBinding('class')
-  private readonly classes = 'flex flex-col w-full h-full bg-white rounded-lg p-5 gap-y-4 overflow-hidden';
+  private readonly classes =
+    'flex flex-col w-full h-full bg-white rounded-lg p-5 gap-y-4 overflow-hidden';
 
   readonly recordType = ActivityLogRecordType;
 
@@ -34,7 +35,8 @@ export class ActivityLogComponent implements OnInit {
   ngOnInit(): void {
     this.initActivityLogListeners();
 
-    this.isBulkRecordsRemovingInProgress$ = this.activityLogFacade.isBulkRecordsRemovingInProgress();
+    this.isBulkRecordsRemovingInProgress$ =
+      this.activityLogFacade.isBulkRecordsRemovingInProgress();
 
     this.shouldDisableRemoveButton$ = this.activityLogFacade
       .doPreviousMonthsRecordsExist()
@@ -42,7 +44,9 @@ export class ActivityLogComponent implements OnInit {
   }
 
   trackBy(_: number, item: RenderingItemType): string {
-    return this.isItemDateObject(item) ? (item as DateObject).date : (item as ActivityLogRecordUnitedType).id;
+    return this.isItemDateObject(item)
+      ? (item as DateObject).date
+      : (item as ActivityLogRecordUnitedType).id;
   }
 
   isItemDateObject(item: RenderingItemType): boolean {

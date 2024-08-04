@@ -9,10 +9,22 @@ import { IconSize } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SvgIconComponent {
+  @HostBinding('class')
+  private get classes(): string {
+    return `icon-${this.iconSize} ${this.resolveBgSize}`;
+  }
+
   @Input()
   iconName: string;
 
-  @HostBinding('class')
   @Input()
-  size: IconSize = 'medium';
+  iconSize: IconSize = 'medium';
+
+  @HostBinding('class.rounded-full')
+  @Input()
+  bgSize: 'small' | 'big';
+
+  get resolveBgSize(): string {
+    return this.bgSize ? `bg-${this.bgSize}` : '';
+  }
 }

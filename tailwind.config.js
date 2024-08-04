@@ -23,8 +23,9 @@ const colors = {
   'dark-green': '#109279',
   'hover-green': '#0B7863',
 
-  red: '#FF6B69',
   'light-red': '#FFECEC',
+  red: '#FF6B69',
+  'dark-red': '#AD3546',
 
   yellow: '#E9AD03',
   'dark-yellow': '#C39104',
@@ -65,6 +66,7 @@ module.exports = {
 
     extend: {
       spacing: {
+        inherit: 'inherit',
         ...convertPixelsIntoRems(52), // 52px,
         ...convertPixelsIntoRems(60), // 60px,
         ...convertPixelsIntoRems(68), // 68px,
@@ -82,6 +84,9 @@ module.exports = {
       },
       maxHeight: {
         ...convertPixelsIntoRems(200), // 200px,
+      },
+      colors: {
+        inherit: 'inherit',
       },
     },
   },

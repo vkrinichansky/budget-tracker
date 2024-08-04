@@ -1,5 +1,18 @@
-import { Directive, Input, TemplateRef, ElementRef, HostListener, ComponentRef, OnDestroy } from '@angular/core';
-import { ConnectedPosition, Overlay, OverlayPositionBuilder, OverlayRef } from '@angular/cdk/overlay';
+import {
+  Directive,
+  Input,
+  TemplateRef,
+  ElementRef,
+  HostListener,
+  ComponentRef,
+  OnDestroy,
+} from '@angular/core';
+import {
+  ConnectedPosition,
+  Overlay,
+  OverlayPositionBuilder,
+  OverlayRef,
+} from '@angular/cdk/overlay';
 import { CustomTooltipComponent } from '../../components';
 import { BgColorScheme, TooltipPosition } from '../../models';
 import { ComponentPortal } from '@angular/cdk/portal';
@@ -144,7 +157,9 @@ export class TooltipRendererDirective implements OnDestroy {
       const positionStrategy = this._overlayPositionBuilder
         .flexibleConnectedTo(this._elementRef)
         .withPositions(
-          this.position ? this.position.map((direction) => positionMapping[direction]) : Object.values(positionMapping)
+          this.position
+            ? this.position.map((direction) => positionMapping[direction])
+            : Object.values(positionMapping)
         );
 
       this._overlayRef = this._overlay.create({ positionStrategy });
@@ -160,7 +175,9 @@ export class TooltipRendererDirective implements OnDestroy {
         tooltipRef.instance.tooltipBgColor = this.tooltipBgColor;
         tooltipRef.instance.maxWidth = this.maxWidth;
         tooltipRef.instance.position = await firstValueFrom(
-          positionStrategy.positionChanges.pipe(map((changes) => changes.connectionPair.panelClass as TooltipPosition))
+          positionStrategy.positionChanges.pipe(
+            map((changes) => changes.connectionPair.panelClass as TooltipPosition)
+          )
         );
       }
     }

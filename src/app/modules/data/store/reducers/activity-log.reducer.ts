@@ -28,12 +28,18 @@ const adapterReducer = createReducer(
 
   on(ActivityLogActions.activityLogLoaded, (state, action) => ({
     ...state,
-    activityLogRecords: activityLogRecordsEntityAdapter.addMany(action.activityLog, state.activityLogRecords),
+    activityLogRecords: activityLogRecordsEntityAdapter.addMany(
+      action.activityLog,
+      state.activityLogRecords
+    ),
   })),
 
   on(ActivityLogActions.recordAdded, (state, action) => ({
     ...state,
-    activityLogRecords: activityLogRecordsEntityAdapter.addOne(action.record, state.activityLogRecords),
+    activityLogRecords: activityLogRecordsEntityAdapter.addOne(
+      action.record,
+      state.activityLogRecords
+    ),
   })),
 
   on(ActivityLogActions.clean, () => initialState),
@@ -50,7 +56,10 @@ const adapterReducer = createReducer(
 
   on(ActivityLogActions.activityLogRecordRemoved, (state, action) => ({
     ...state,
-    activityLogRecords: activityLogRecordsEntityAdapter.removeOne(action.recordId, state.activityLogRecords),
+    activityLogRecords: activityLogRecordsEntityAdapter.removeOne(
+      action.recordId,
+      state.activityLogRecords
+    ),
     removingRecordsIds: state.removingRecordsIds.filter((recordId) => recordId !== action.recordId),
   })),
 
