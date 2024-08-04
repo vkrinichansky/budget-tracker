@@ -102,31 +102,16 @@
       },
 
       "emptyStateText": "No data to display yet",
-      "removeMenuTooltip": "Remove records by types",
       "removeMenuDisabledTooltip": "You can do bulk records remove only if you have previous months records. For current month records you can use remove button on specific record",
 
       "removeMenu": {
         "allTypes": "All types",
-        "categoryManagement": {
-          "text": "Category management",
-          "tooltip": "Adding and removing categories"
-        },
-        "categoriesReset": {
-          "text": "Categories reset",
-          "tooltip": "Manual and monthly categories reset"
-        },
-        "categoryValueChange": {
-          "text": "Category value change",
-          "tooltip": "Income and expense categories value changing"
-        },
-        "accountManagement": {
-          "text": "Account management",
-          "tooltip": "Adding and removing accounts"
-        },
-        "accountValueEdit": {
-          "text": "Account value edit",
-          "tooltip": "Account value changing"
-        },
+        "categoryManagement": "Category management",
+        "categoriesReset": "Categories reset",
+        "categoryValueChange": "Category value change",
+        "accountManagement": "Account management",
+        "accountValueEdit": "Account value edit",
+        "moveMoneyBetweenAccounts": "Move money between accounts",
         "removeConfirmationQuestion": "Are you sure you want to remove records of selected types?",
         "removeConfirmationRemark": "This action won't affect current month records"
       }
@@ -231,6 +216,7 @@
   "formErrors": {
     "required": "Field is required",
     "minValue": "Minimal value - {{ minValue }}",
+    "maxValue": "Maximal value - {{ maxValue }}",
     "maxLength": "Max length - {{ maxLength }}",
     "sameValue": "Value must be different after edit",
     "entityExists": "Entity with such name already exists"

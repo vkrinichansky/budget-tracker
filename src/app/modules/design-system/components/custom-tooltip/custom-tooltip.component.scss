@@ -3,38 +3,44 @@
 
   &::before {
     @apply block absolute border-4 border-solid -z-10;
+
     content: '';
   }
 
-  &.top::before {
-    @apply bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 -rotate-45;
-  }
+  $tooltip-position-map:
+    // class direction-y direction-x translate-x translate-y rotation
+    'top' bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 -rotate-45,
+    'bottom' top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-45,
+    'left' top-1/2 right-0 translate-x-1/2 -translate-y-1/2 rotate-45,
+    'right' top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 -rotate-45;
 
-  &.bottom::before {
-    @apply top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-45;
-  }
-
-  &.left::before {
-    @apply top-1/2 right-0 translate-x-1/2 -translate-y-1/2 rotate-45;
-  }
-
-  &.right::before {
-    @apply top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 -rotate-45;
-  }
-
-  &.green {
-    @apply bg-dark-green text-white;
-
-    &::before {
-      @apply border-dark-green;
+  @mixin tooltip-position() {
+    @each $class, $direction-y, $direction-x, $translate-x, $translate-y,
+      $rotation in $tooltip-position-map
+    {
+      &.#{$class}::before {
+        @apply #{$direction-y} #{$direction-x} #{$translate-x} #{$translate-y} #{$rotation};
+      }
     }
   }
 
-  &.charcoal {
-    @apply bg-charcoal text-white;
+  $color-map:
+    // class bg-color text-color border-color
+    'green' bg-dark-green text-white border-dark-green,
+    'charcoal' bg-charcoal text-white border-charcoal;
 
-    &::before {
-      @apply border-charcoal;
+  @mixin tooltip-color() {
+    @each $class, $bg-color, $text-color, $border-color in $color-map {
+      &.#{$class} {
+        @apply #{$bg-color} #{$text-color};
+
+        &::before {
+          @apply #{$border-color};
+        }
+      }
     }
   }
+
+  @include tooltip-position;
+  @include tooltip-color;
 }

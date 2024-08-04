@@ -40,7 +40,9 @@ export class ConfirmationModalComponent implements OnInit {
   }
 
   resolveAction(): void {
-    this.data.shouldConsiderCheckbox ? this.data.action(this.checkmarkChecked()) : this.data.action();
+    this.data.shouldConsiderCheckbox
+      ? this.data.action(this.checkmarkChecked())
+      : this.data.action();
     this.closeClick();
   }
 

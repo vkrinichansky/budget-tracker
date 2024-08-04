@@ -2,34 +2,31 @@
   &::ng-deep {
     svg-icon {
       @media (hover: hover) {
-        transition-duration: 0.1s;
-        transition-timing-function: ease;
-        transition-property: color;
+        transition: color ease-in-out 0.15s;
       }
     }
   }
 
-  &.info {
-    &::ng-deep {
-      svg-icon {
-        @apply text-charcoal;
-      }
+  $color-map:
+    // class text-color hover-text-color
+    'info' text-charcoal text-blue,
+    'warning' text-yellow text-dark-yellow;
 
-      @media (hover: hover) {
-        @apply hover:text-blue;
+  @mixin icon-color() {
+    @each $class, $text-color, $hover-text-color in $color-map {
+      &.#{$class} {
+        &::ng-deep {
+          svg-icon {
+            @apply #{$text-color};
+          }
+
+          @media (hover: hover) {
+            @apply hover:#{$hover-text-color};
+          }
+        }
       }
     }
   }
 
-  &.warning {
-    &::ng-deep {
-      svg-icon {
-        @apply text-yellow;
-      }
-
-      @media (hover: hover) {
-        @apply hover:text-dark-yellow;
-      }
-    }
-  }
+  @include icon-color;
 }

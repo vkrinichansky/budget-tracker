@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ChartData, ChartOptions, ScaleOptionsByType, TooltipItem } from 'chart.js';
 import { Observable } from 'rxjs';
@@ -133,15 +134,12 @@ export class MonthlyStatisticsComponent implements OnInit {
     return config;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private resolveChartTooltip(item: TooltipItem<any>): string {
     const totalText = this.translateService.instant(this.buildTranslationKey('total'));
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const total = Object.values(Object.values((item.parsed._stacks['y'] as any)['_visualValues']) as number[]).reduce(
-      (result: number, value: number) => result + value,
-      0
-    );
+    const total = Object.values(
+      Object.values((item.parsed._stacks['y'] as any)['_visualValues']) as number[]
+    ).reduce((result: number, value: number) => result + value, 0);
 
     return `${item.dataset.label} - ${this.currencyPipe.transform(
       item.parsed.y

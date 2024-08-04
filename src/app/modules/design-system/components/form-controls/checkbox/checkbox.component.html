@@ -7,11 +7,11 @@
   (click)="valueChanged(); $event.stopPropagation()"
 >
   @if (value) {
-    <svg-icon class="text-white" [size]="'small'" [iconName]="'check'"></svg-icon>
+    <svg-icon class="text-white" [iconSize]="'small'" [iconName]="'check'"></svg-icon>
   }
 
   @if (indeterminate && !value) {
-    <svg-icon class="text-white" [size]="'small'" [iconName]="'minus'"></svg-icon>
+    <svg-icon class="text-white" [iconSize]="'small'" [iconName]="'minus'"></svg-icon>
   }
 </div>
 

@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-  ViewChild,
-  forwardRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewChild, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { isMobileWidth } from '@budget-tracker/utils';
 import { NgxColorsTriggerDirective } from 'ngx-colors';

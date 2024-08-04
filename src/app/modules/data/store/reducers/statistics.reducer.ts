@@ -26,7 +26,10 @@ const adapterReducer = createReducer(
 
   on(StatisticsActions.statisticsLoaded, (state, action) => ({
     ...state,
-    snapshots: statisticsSnapshotsEntityAdapter.addMany(Object.values(action.statistics.snapshots), state.snapshots),
+    snapshots: statisticsSnapshotsEntityAdapter.addMany(
+      Object.values(action.statistics.snapshots),
+      state.snapshots
+    ),
   }))
 );
 

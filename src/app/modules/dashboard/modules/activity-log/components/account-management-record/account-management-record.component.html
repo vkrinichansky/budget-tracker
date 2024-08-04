@@ -10,7 +10,8 @@
         *ngTemplateOutlet="
           template;
           context: {
-            content: buildTranslationKey('accountAdded') | translate: { accountName: record.accountName }
+            content:
+              buildTranslationKey('accountAdded') | translate: { accountName: record.accountName }
           }
         "
       ></ng-container>
@@ -21,7 +22,8 @@
         *ngTemplateOutlet="
           template;
           context: {
-            content: buildTranslationKey('accountRemoved') | translate: { accountName: record.accountName }
+            content:
+              buildTranslationKey('accountRemoved') | translate: { accountName: record.accountName }
           }
         "
       ></ng-container>

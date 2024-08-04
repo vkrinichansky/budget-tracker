@@ -69,6 +69,10 @@ export class CategoryValueModalComponent implements OnInit {
     return this.accoundChoosed ? this.currencyService.getCurrencySymbol() : null;
   }
 
+  get maxValue(): number {
+    return parseInt(this.form?.controls?.[FormFields.AccountToUse]?.value?.value);
+  }
+
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: CategoryValueModalData,
     private dialogRef: MatDialogRef<CategoryValueModalComponent>,

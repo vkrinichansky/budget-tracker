@@ -5,9 +5,8 @@
     [primaryText]="primaryText"
     [secondaryText]="isAccountWithForeignCurrency ? accountValueInBaseCurrency : account.name"
     [tertiaryText]="isAccountWithForeignCurrency ? account.name : null"
-    [shouldUseCustomColors]="true"
-    [hexBgColor]="account.bgColor"
-    [hexTextColor]="account.textColor"
+    [style.background-color]="account.bgColor"
+    [style.color]="account.textColor"
     [menuActions]="menuActions"
     [menuLoading]="isAccountRemoving$ | async"
   ></app-info-card>

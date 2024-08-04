@@ -1,0 +1,54 @@
+// SNACKBAR
+.mdc-snackbar {
+  &__surface {
+    @apply p-0 rounded-md shadow-none #{!important};
+  }
+
+  &__label {
+    @apply p-0 #{!important};
+  }
+}
+
+// DIALOG
+.mat-mdc-dialog-container {
+  .mdc-dialog {
+    &__title {
+      @apply font-main text-lg font-bold text-charcoal px-6 py-3 #{!important};
+
+      &::before {
+        @apply hidden;
+      }
+    }
+
+    &__surface {
+      @apply rounded-md shadow-none border-2 border-solid border-charcoal #{!important};
+    }
+  }
+
+  app-base-modal {
+    .mat-mdc-dialog-actions {
+      @apply flex items-center justify-end gap-x-4 px-6 py-3 #{!important};
+    }
+  }
+}
+
+.cdk-overlay-pane:not(.confirmation-modal) {
+  .mat-mdc-dialog-container {
+    .mdc-dialog {
+      &__surface {
+        @media (max-width: 480px) {
+          @apply rounded-b-none #{!important};
+
+          app-base-modal {
+            @apply rounded-b-none;
+          }
+        }
+      }
+    }
+  }
+}
+
+// SCROLLER
+.cdk-virtual-scroll-content-wrapper {
+  @apply w-full #{!important};
+}

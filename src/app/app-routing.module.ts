@@ -13,12 +13,14 @@ const routes: Routes = [
   {
     path: AppRoutesNames.Dashboard,
     canActivate: [AuthGuard, InitDataGuard],
-    loadChildren: () => import('./modules/dashboard/dashboard.module').then((m) => m.DashboardModule),
+    loadChildren: () =>
+      import('./modules/dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
     path: AppRoutesNames.Statistics,
     canActivate: [AuthGuard, InitDataGuard],
-    loadChildren: () => import('./modules/statistics/statistics.module').then((m) => m.StatisticsModule),
+    loadChildren: () =>
+      import('./modules/statistics/statistics.module').then((m) => m.StatisticsModule),
   },
   {
     path: '',

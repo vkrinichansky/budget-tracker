@@ -63,7 +63,7 @@ export class AccountsEffects {
           )
         ).pipe(
           switchMap(() => {
-            this.snackbarHandler.showCategoryRemovedSnackbar();
+            this.snackbarHandler.showAccountRemovedSnackbar();
 
             return of(
               AccountsActions.accountRemoved({

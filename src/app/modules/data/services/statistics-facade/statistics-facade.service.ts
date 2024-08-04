@@ -21,7 +21,10 @@ export class StatisticsFacadeService {
   getDataForMonthlyStatisticsChart(): Observable<ChartData> {
     const language = this.languageService.getCurrentLanguage();
 
-    return combineLatest([this.getSnapshots(), this.store.select(CategoriesSelectors.allCategoriesSelector)]).pipe(
+    return combineLatest([
+      this.getSnapshots(),
+      this.store.select(CategoriesSelectors.allCategoriesSelector),
+    ]).pipe(
       map(([snapshots, allCategories]) => {
         const snapshotsForPreviousMonths: StatisticsSnapshot[] = snapshots
           .sort((a, b) => parseInt(a.date) - parseInt(b.date))
@@ -51,7 +54,9 @@ export class StatisticsFacadeService {
         ];
 
         const uniqueCategoriesIds = [...new Set(categories.map((category) => category.id))];
-        const resultCategories = uniqueCategoriesIds.map((id) => categories.find((category) => category.id === id));
+        const resultCategories = uniqueCategoriesIds.map((id) =>
+          categories.find((category) => category.id === id)
+        );
 
         const datasets: ChartDataset[] = [
           ...this.getDatasets(resultCategories, snapshotsArray, BudgetType.Income),
@@ -78,7 +83,8 @@ export class StatisticsFacadeService {
         stack: budgetType,
         data: statistics.map(
           (monthItem) =>
-            monthItem.categories?.find((categoryFromItem) => categoryFromItem.id === category.id)?.value || 0
+            monthItem.categories?.find((categoryFromItem) => categoryFromItem.id === category.id)
+              ?.value || 0
         ),
         backgroundColor: category.hexColor,
         borderWidth: 2,

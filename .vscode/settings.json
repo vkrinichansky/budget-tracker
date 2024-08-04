@@ -11,5 +11,13 @@
   "prettier.configPath": ".prettierrc",
   "eslint.format.enable": true,
   "eslint.codeActionsOnSave.rules": null,
-  "lingua.defaultLanguage": "en-US"
+  "lingua.defaultLanguage": "en-US",
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "stylelint.validate": [
+    "css",
+    "scss"
+  ],
+  "stylelint.configFile": ".stylelintrc.json"
 }

@@ -15,7 +15,6 @@ enum FormFields {
 @Component({
   selector: 'app-move-money-between-accounts-modal',
   templateUrl: './move-money-between-accounts-modal.component.html',
-  styleUrl: './move-money-between-accounts-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
@@ -59,6 +58,10 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
 
   get currencySymbolForConvertedValueField(): string {
     return (this.form?.controls?.[FormFields.ToAccount]?.value as Account)?.currency?.symbol;
+  }
+
+  get maxValue(): number {
+    return parseInt(this.form?.controls?.[FormFields.FromAccount]?.value?.value);
   }
 
   constructor(

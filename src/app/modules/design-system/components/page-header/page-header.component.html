@@ -1,3 +1,9 @@
-<span class="text-charcoal font-main font-bold">{{ title }}</span>
+<div class="flex items-center gap-2">
+  <span class="text-charcoal font-main font-bold">{{ title }}</span>
+
+  @if (loading) {
+    <app-loader [colorMode]="'dark'"></app-loader>
+  }
+</div>
 
 <ng-content></ng-content>

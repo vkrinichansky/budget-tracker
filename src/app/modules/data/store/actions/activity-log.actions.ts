@@ -2,9 +2,15 @@ import { createAction, props } from '@ngrx/store';
 import { ActivityLogRecordUnitedType, ActivityLog, CategoryValueChangeRecord } from '../../models';
 
 export const ActivityLogActions = {
-  recordAdded: createAction('[ActivityLog] Record added', props<{ record: ActivityLogRecordUnitedType }>()),
+  recordAdded: createAction(
+    '[ActivityLog] Record added',
+    props<{ record: ActivityLogRecordUnitedType }>()
+  ),
 
-  activityLogLoaded: createAction('[ActivityLog] Activity log loaded', props<{ activityLog: ActivityLog }>()),
+  activityLogLoaded: createAction(
+    '[ActivityLog] Activity log loaded',
+    props<{ activityLog: ActivityLog }>()
+  ),
 
   clean: createAction('[ActivityLog] Clean state'),
 
@@ -21,7 +27,10 @@ export const ActivityLogActions = {
     }>()
   ),
 
-  activityLogRecordRemoved: createAction('[ActivityLog] Record removed', props<{ recordId: string }>()),
+  activityLogRecordRemoved: createAction(
+    '[ActivityLog] Record removed',
+    props<{ recordId: string }>()
+  ),
 
   removeRecordFail: createAction('[ActivityLog] Remove record fail', props<{ recordId: string }>()),
 

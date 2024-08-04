@@ -7,9 +7,8 @@
         "
         [secondaryText]="form.controls[formFields.AccountName].value"
         [iconName]="form.controls[formFields.AccountIcon].value"
-        [hexBgColor]="form.controls[formFields.AccountBgColor].value || '#F0F2F2'"
-        [hexTextColor]="form.controls[formFields.AccountTextColor].value || '#2C4251'"
-        [shouldUseCustomColors]="true"
+        [style.background-color]="form.controls[formFields.AccountBgColor].value || '#F0F2F2'"
+        [style.color]="form.controls[formFields.AccountTextColor].value || '#2C4251'"
       ></app-info-card>
     </div>
 

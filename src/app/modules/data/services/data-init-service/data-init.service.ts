@@ -1,5 +1,13 @@
 import { Injectable } from '@angular/core';
-import { arrayUnion, collection, doc, DocumentReference, Firestore, getDoc, updateDoc } from '@angular/fire/firestore';
+import {
+  arrayUnion,
+  collection,
+  doc,
+  DocumentReference,
+  Firestore,
+  getDoc,
+  updateDoc,
+} from '@angular/fire/firestore';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { firstValueFrom, from, map, Observable, switchMap } from 'rxjs';
 import {
@@ -38,7 +46,9 @@ export class DataInitService {
   async initMetadata(): Promise<UserMetadata> {
     return await firstValueFrom(
       this.authFacade.getUserId().pipe(
-        switchMap((userId) => from(getDoc(doc(collection(this.firestore, 'userMetadata'), userId)))),
+        switchMap((userId) =>
+          from(getDoc(doc(collection(this.firestore, 'userMetadata'), userId)))
+        ),
         map((data) => data.data() as UserMetadata)
       )
     );

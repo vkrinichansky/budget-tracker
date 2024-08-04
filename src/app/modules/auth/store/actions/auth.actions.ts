@@ -6,11 +6,17 @@ export const AuthActions = {
 
   loginFailed: createAction('[Auth] Login attempt failed'),
 
-  initDatabaseOnFirstLogin: createAction('[Auth] Init database on first login', props<{ user: User }>()),
+  initDatabaseOnFirstLogin: createAction(
+    '[Auth] Init database on first login',
+    props<{ user: User }>()
+  ),
 
   getUser: createAction('[Auth] Get user'),
 
-  authenticated: createAction('[Auth] Authenticated', props<{ user: User; shouldRedirect?: boolean }>()),
+  authenticated: createAction(
+    '[Auth] Authenticated',
+    props<{ user: User; shouldRedirect?: boolean }>()
+  ),
 
   notAuthenticated: createAction('[Auth] Not authenticated'),
 

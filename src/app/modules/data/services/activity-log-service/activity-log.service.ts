@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
-import { arrayRemove, collection, doc, DocumentReference, Firestore, updateDoc } from '@angular/fire/firestore';
+import {
+  arrayRemove,
+  collection,
+  doc,
+  DocumentReference,
+  Firestore,
+  updateDoc,
+} from '@angular/fire/firestore';
 import { ActivityLogRecordUnitedType, CategoryValueChangeRecord } from '../../models';
 import { Auth } from '@angular/fire/auth';
 

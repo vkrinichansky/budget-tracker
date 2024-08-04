@@ -34,6 +34,9 @@ const adapterReducer = createReducer(
   }))
 );
 
-export function dataInitializationReducer(state = initialState, action: Action): DataInitializationState {
+export function dataInitializationReducer(
+  state = initialState,
+  action: Action
+): DataInitializationState {
   return adapterReducer(state, action);
 }
