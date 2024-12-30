@@ -12,16 +12,8 @@ export class DataInitFacadeService {
   ) {}
 
   async initData(): Promise<void> {
-    const isInited = await firstValueFrom(
-      combineLatest([this.authFacade.getAuthLoaded(), this.isDataLoaded()]).pipe(
-        map(([isAuthLoaded, isDataLoaded]) => isAuthLoaded && isDataLoaded)
-      )
-    );
-
-    if (!isInited) {
-      this.authFacade.initAuthState();
-      this.store.dispatch(DataInitActions.init());
-    }
+    await this.authFacade.initAuthState();
+    this.store.dispatch(DataInitActions.init());
   }
 
   isDataLoading(): Observable<boolean> {

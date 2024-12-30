@@ -48,8 +48,4 @@ export class AuthFacadeService {
   getAuthLoading(): Observable<boolean> {
     return this.store.select(AuthSelectors.authLoadingSelector);
   }
-
-  getAuthLoaded(): Observable<boolean> {
-    return this.store.select(AuthSelectors.authLoadedSelector);
-  }
 }
