@@ -17,7 +17,7 @@
       "currentMonthBalance": "Баланс за місяць",
       "fullBalance": {
         "title": "Повний баланс",
-        "tooltip": "Full balance is the sum of all your accounts"
+        "tooltip": "Повний баланс - це сума всіх ваших рахунків"
       },
       "accounts": {
         "title": "Рахунки",
