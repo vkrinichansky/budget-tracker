@@ -12,7 +12,7 @@
 ></app-button>
 
 <ng-template #actionsTemplate>
-  <div class="bg-white rounded-md border-2 border-solid border-charcoal w-full p-2">
+  <div @overlayFade class="bg-white rounded-md border-2 border-solid border-charcoal w-full p-2">
     @if (useContent) {
       <ng-content></ng-content>
     } @else {

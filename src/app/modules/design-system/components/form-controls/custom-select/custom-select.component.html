@@ -49,7 +49,10 @@
 }
 
 <ng-template #optionsTemplate>
-  <div @dropdown class="bg-white rounded-md border-2 border-solid border-charcoal w-full max-h-50">
+  <div
+    @overlayFade
+    class="bg-white rounded-md border-2 border-solid border-charcoal w-full max-h-50 min-h-20"
+  >
     <div
       class="flex gap-y-1 p-2 h-full rounded-md overflow-y-auto"
       [ngClass]="{
