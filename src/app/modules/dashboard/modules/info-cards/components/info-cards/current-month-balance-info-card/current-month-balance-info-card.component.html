@@ -3,8 +3,8 @@
     currentMonthBalance: currentMonthBalance$ | async,
     colorClasses: colorClasses$ | async
   } as data"
-  [style.background-color]="data?.colorClasses?.bg | classToHexColor"
-  [style.color]="data?.colorClasses?.text | classToHexColor"
+  [bgColor]="data?.colorClasses?.bg | classToHexColor"
+  [textColor]="data?.colorClasses?.text | classToHexColor"
   [iconName]="'calendar-dot-grid'"
   [primaryText]="data.currentMonthBalance | currencySymbol"
   [secondaryText]="'dashboard.infoCards.currentMonthBalance' | translate"
