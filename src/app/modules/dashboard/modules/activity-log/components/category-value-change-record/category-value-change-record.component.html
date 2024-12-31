@@ -2,6 +2,7 @@
   [icon]="record.icon"
   [date]="record.date"
   [note]="record?.note"
+  [removeEnabled]="true"
   [loading]="isRecordRemoving$ | async"
   (remove)="removeHandler()"
 >
@@ -17,7 +18,7 @@
     </div>
 
     <span class="flex flex-col items-end font-main font-bold w-auto min-w-fit {{ colorClass }}">
-      @if (isDoubleValue) {
+      @if (isSingleValue) {
         <span>{{ symbol }}{{ record.value }}{{ record.account.currency.symbol }}</span>
       } @else {
         <span class="text-base font-normal">

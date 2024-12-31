@@ -39,7 +39,7 @@ export class CategoryValueChangeRecordComponent implements OnInit {
     }
   }
 
-  get isDoubleValue(): boolean {
+  get isSingleValue(): boolean {
     return this.record.value === this.record.convertedValue;
   }
 

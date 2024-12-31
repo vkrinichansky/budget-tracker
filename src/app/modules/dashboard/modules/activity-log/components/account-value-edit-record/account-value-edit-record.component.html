@@ -1,10 +1,4 @@
-<app-generic-activity-log-record
-  [icon]="record.icon"
-  [date]="record.date"
-  [note]="record?.note"
-  [loading]="this.isRecordRemoving$ | async"
-  (remove)="removeHandler()"
->
+<app-generic-activity-log-record [icon]="record.icon" [date]="record.date" [note]="record?.note">
   <span class="flex flex-col">
     <span class="font-main text-charcoal text-base">
       {{ record.accountName }}
