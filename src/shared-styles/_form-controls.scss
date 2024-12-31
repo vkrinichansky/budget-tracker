@@ -61,3 +61,11 @@ textarea {
 textarea {
   @apply py-2 resize-none;
 }
+
+ngx-colors-panel {
+  @apply translate-y-0.5;
+
+  .opened {
+    @apply shadow-none bg-white rounded-md border-2 border-solid border-charcoal #{!important};
+  }
+}

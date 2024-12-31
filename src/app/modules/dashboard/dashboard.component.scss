@@ -14,7 +14,7 @@
     }
 
     .card:not(:last-child) {
-      @apply mr-6;
+      @apply mr-3;
     }
 
     .card {
@@ -36,7 +36,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     .info-cards,
     .main-cards {
       .card {
