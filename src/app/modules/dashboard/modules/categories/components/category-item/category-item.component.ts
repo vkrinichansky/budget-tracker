@@ -95,7 +95,6 @@ export class CategoryItemComponent implements OnInit {
               questionTranslationParams: {
                 categoryName: category.name,
               },
-              remarkTranslationKey: this.buildTranslationKey('removeConfirmationRemark'),
             },
             () => this.categoriesFacade.removeCategory(this.categoryId)
           );

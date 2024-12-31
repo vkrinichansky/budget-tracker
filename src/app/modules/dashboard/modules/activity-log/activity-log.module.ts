@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import {
   AccountValueEditRecordComponent,
   ActivityLogComponent,
-  ActivityLogRemoveMenuComponent,
   CategoriesResetRecordComponent,
   CategoryValueChangeRecordComponent,
   MoveMoneyBetweenAccountsRecordComponent,
@@ -28,7 +27,6 @@ import { DataModule } from '@budget-tracker/data';
     CategoryValueChangeRecordComponent,
     CategoriesResetRecordComponent,
     AccountValueEditRecordComponent,
-    ActivityLogRemoveMenuComponent,
     MoveMoneyBetweenAccountsRecordComponent,
   ],
 

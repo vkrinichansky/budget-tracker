@@ -48,9 +48,9 @@ export class ActivityLogService {
     });
   }
 
-  bulkRecordRemove(records: ActivityLogRecordUnitedType[]): Promise<void> {
+  bulkRecordRemove(): Promise<void> {
     return updateDoc(this.getDocRef(), {
-      [`${ACTIVITY_LOG_PATH}`]: arrayRemove(...records),
+      [`${ACTIVITY_LOG_PATH}`]: [],
     });
   }
 

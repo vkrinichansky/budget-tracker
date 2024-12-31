@@ -22,7 +22,6 @@ export const CategoriesActions = {
     '[Categories] Remove category',
     props<{
       categoryId: string;
-      recordsToRemove: CategoryValueChangeRecord[];
     }>()
   ),
 

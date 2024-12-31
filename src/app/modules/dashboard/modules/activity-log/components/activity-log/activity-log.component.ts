@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject, OnInit } from '@angular/core';
 import { ActivityLogFacadeService } from '@budget-tracker/data';
 import { ActivityLogRecordType, ActivityLogRecordUnitedType } from '@budget-tracker/data';
+import { ConfirmationModalService } from '@budget-tracker/design-system';
 import { Observable, map } from 'rxjs';
 
 interface DateObject {
@@ -16,6 +17,9 @@ type RenderingItemType = DateObject | ActivityLogRecordUnitedType;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityLogComponent implements OnInit {
+  private readonly confirmationModalService = inject(ConfirmationModalService);
+  private readonly activityLogFacade = inject(ActivityLogFacadeService);
+
   @HostBinding('class')
   private readonly classes =
     'flex flex-col w-full h-full bg-white rounded-lg p-5 gap-y-4 overflow-hidden';
@@ -28,19 +32,11 @@ export class ActivityLogComponent implements OnInit {
 
   isBulkRecordsRemovingInProgress$: Observable<boolean>;
 
-  shouldDisableRemoveButton$: Observable<boolean>;
-
-  constructor(private activityLogFacade: ActivityLogFacadeService) {}
-
   ngOnInit(): void {
     this.initActivityLogListeners();
 
     this.isBulkRecordsRemovingInProgress$ =
       this.activityLogFacade.isBulkRecordsRemovingInProgress();
-
-    this.shouldDisableRemoveButton$ = this.activityLogFacade
-      .doPreviousMonthsRecordsExist()
-      .pipe(map((doPreviousMonthsRecordsExist) => !doPreviousMonthsRecordsExist));
   }
 
   trackBy(_: number, item: RenderingItemType): string {
@@ -55,6 +51,15 @@ export class ActivityLogComponent implements OnInit {
 
   buildTranslationKey(key: string): string {
     return `dashboard.activityLog.${key}`;
+  }
+
+  openRemoveConfirmationModal(): void {
+    this.confirmationModalService.openConfirmationModal(
+      {
+        questionTranslationKey: this.buildTranslationKey('allRecordsRemoveConfirmationQuestion'),
+      },
+      () => this.activityLogFacade.removeAllRecords()
+    );
   }
 
   private initActivityLogListeners(): void {

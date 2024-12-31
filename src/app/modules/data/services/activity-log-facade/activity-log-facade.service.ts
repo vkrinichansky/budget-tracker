@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, firstValueFrom, map } from 'rxjs';
-import { ActivityLogActions, ActivityLogSelectors } from '../../store';
+import { ActivityLogActions, ActivityLogSelectors, CategoriesSelectors } from '../../store';
 import {
   ActivityLog,
   ActivityLogGroupedByDay,
   CategoryValueChangeRecord,
-  ActivityLogRecordType,
   ActivityLogRecordUnitedType,
   BudgetType,
 } from '../../models';
 import { Dictionary } from '@ngrx/entity';
 import { CategoriesFacadeService } from '../categories-facade/categories-facade.service';
-import { isPreviousMonth } from '@budget-tracker/utils';
 import { AccountsFacadeService } from '../accounts-facade/accounts-facade.service';
 import { LanguageService } from '../language-service/language.service';
 
@@ -33,24 +31,10 @@ export class ActivityLogFacadeService {
     return this.store.select(ActivityLogSelectors.activityLogSelector);
   }
 
-  getActivityLogTypes(): Observable<ActivityLogRecordType[]> {
-    return this.store.select(ActivityLogSelectors.activityLogTypesSelector);
-  }
-
   getActivityLogGroupedByDays(): Observable<ActivityLogGroupedByDay[]> {
     const language = this.languageService.getCurrentLanguage();
 
     return this.store.select(ActivityLogSelectors.activityLogGroupedByDaysSelector(language));
-  }
-
-  getPreviousMonthsRecords(): Observable<ActivityLog> {
-    return this.getActivityLog().pipe(
-      map((activityLog) => activityLog.filter((record) => isPreviousMonth(record.date)))
-    );
-  }
-
-  doPreviousMonthsRecordsExist(): Observable<boolean> {
-    return this.getPreviousMonthsRecords().pipe(map((records) => !!records.length));
   }
 
   isActivityLogRecordRemoving(recordId: string): Observable<boolean> {
@@ -59,6 +43,12 @@ export class ActivityLogFacadeService {
 
   isBulkRecordsRemovingInProgress(): Observable<boolean> {
     return this.store.select(ActivityLogSelectors.isBulkRecordsRemovingInProgressSelector);
+  }
+
+  doesCategoryExist(categoryId: string): Observable<boolean> {
+    return this.store
+      .select(CategoriesSelectors.selectCategoryByIdSelector(categoryId))
+      .pipe(map((category) => !!category));
   }
 
   // RECORDS REMOVING
@@ -109,11 +99,7 @@ export class ActivityLogFacadeService {
     );
   }
 
-  async removeRecordsBySelectedTypes(selectedTypes: ActivityLogRecordType[]): Promise<void> {
-    const records = await firstValueFrom(
-      this.store.select(ActivityLogSelectors.recordsWithSelectedTypesSelector(selectedTypes))
-    );
-
-    this.store.dispatch(ActivityLogActions.bulkRecordsRemove({ records }));
+  async removeAllRecords(): Promise<void> {
+    this.store.dispatch(ActivityLogActions.bulkRecordsRemove());
   }
 }

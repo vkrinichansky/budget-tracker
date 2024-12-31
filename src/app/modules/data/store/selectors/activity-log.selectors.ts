@@ -8,7 +8,6 @@ import {
   BudgetType,
   CategoryValueChangeRecord,
 } from '../../models';
-import { isPreviousMonth } from '@budget-tracker/utils';
 
 const activityLogStateSelector = createSelector(
   dataFeatureSelector,
@@ -37,33 +36,12 @@ const isBulkRecordsRemovingInProgressSelector = createSelector(
   (state) => state.bulkRecordsRemove
 );
 
-const relatedCategoryValueChangeRecordsByCategoryIdSelector = (categoryId: string) =>
-  createSelector(activityLogSelector, (activityLog) =>
-    activityLog
-      .filter((record) => record.recordType === ActivityLogRecordType.CategoryValueChange)
-      .map((record) => record as CategoryValueChangeRecord)
-      .filter((record) => record.category.id === categoryId)
-  );
-
-const activityLogTypesSelector = createSelector(activityLogSelector, (activityLog) => [
-  ...new Set(
-    activityLog.filter((record) => isPreviousMonth(record.date)).map((record) => record.recordType)
-  ),
-]);
-
 const activityLogGroupedByDaysSelector = (language: string) =>
   createSelector(activityLogSelector, (activityLog): ActivityLogGroupedByDay[] => {
     const activityLogByDaysDictionary = getActivityLogByDaysDictionary(activityLog, language);
 
     return getActivityLogGroupedByDay(activityLogByDaysDictionary);
   });
-
-const recordsWithSelectedTypesSelector = (selectedTypes: ActivityLogRecordType[]) =>
-  createSelector(activityLogSelector, (activityLog) =>
-    activityLog.filter(
-      (record) => selectedTypes.includes(record.recordType) && isPreviousMonth(record.date)
-    )
-  );
 
 export const ActivityLogSelectors = {
   activityLogStateSelector,
@@ -72,10 +50,7 @@ export const ActivityLogSelectors = {
   selectRecordByIdSelector,
   activityLogDictionarySelector,
   isBulkRecordsRemovingInProgressSelector,
-  relatedCategoryValueChangeRecordsByCategoryIdSelector,
-  activityLogTypesSelector,
   activityLogGroupedByDaysSelector,
-  recordsWithSelectedTypesSelector,
 };
 
 function getActivityLogByDaysDictionary(

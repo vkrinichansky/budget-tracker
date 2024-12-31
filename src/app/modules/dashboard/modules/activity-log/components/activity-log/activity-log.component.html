@@ -1,8 +1,7 @@
 <ng-container
   *ngVar="{
     isEmpty: isEmpty$ | async,
-    isBulkRecordsRemovingInProgress: isBulkRecordsRemovingInProgress$ | async,
-    shouldDisableRemoveButton: shouldDisableRemoveButton$ | async
+    isBulkRecordsRemovingInProgress: isBulkRecordsRemovingInProgress$ | async
   } as data"
 >
   <app-page-header
@@ -11,15 +10,14 @@
     [loading]="data.isBulkRecordsRemovingInProgress"
   >
     @if (!data.isEmpty) {
-      <app-activity-log-remove-menu
-        *ngVar="data.isBulkRecordsRemovingInProgress || data.shouldDisableRemoveButton as disabled"
+      <app-button
         customTooltip
-        [tooltipText]="
-          disabled ? (buildTranslationKey('removeMenuDisabledTooltip') | translate) : null
-        "
+        [tooltipText]="'dashboard.activityLog.removeButtonTooltip' | translate"
         [position]="['left']"
-        [disabled]="disabled"
-      ></app-activity-log-remove-menu>
+        [iconName]="'delete-bin'"
+        [disabled]="data.isBulkRecordsRemovingInProgress"
+        (click)="openRemoveConfirmationModal()"
+      ></app-button>
     }
   </app-page-header>
 
@@ -84,19 +82,8 @@
 
 <ng-template #recordItem let-item="item">
   @switch (item.recordType) {
-    @case (recordType.AccountManagement) {
-      <app-account-management-record class="w-full" [record]="item"></app-account-management-record>
-    }
-
     @case (recordType.AccountValueEdit) {
       <app-account-value-edit-record class="w-full" [record]="item"></app-account-value-edit-record>
-    }
-
-    @case (recordType.CategoryManagement) {
-      <app-category-management-record
-        class="w-full"
-        [record]="item"
-      ></app-category-management-record>
     }
 
     @case (recordType.CategoryValueChange) {

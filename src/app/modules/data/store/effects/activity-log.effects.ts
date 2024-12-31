@@ -105,16 +105,12 @@ export class ActivityLogEffects {
   removeRecordsBySelectedTypes$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActivityLogActions.bulkRecordsRemove),
-      mergeMap((action) =>
-        from(this.activityLogService.bulkRecordRemove(action.records)).pipe(
+      mergeMap(() =>
+        from(this.activityLogService.bulkRecordRemove()).pipe(
           switchMap(() => {
             this.snackbarHandler.showBulkActivityLogRecordsRemovedSnackbar();
 
-            return of(
-              ActivityLogActions.bulkRecordsRemoved({
-                records: action.records,
-              })
-            );
+            return of(ActivityLogActions.bulkRecordsRemoved());
           }),
           catchError((error) => {
             this.snackbarHandler.showErrorSnackbar(error);

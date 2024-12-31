@@ -76,16 +76,9 @@ export class CategoriesFacadeService {
   }
 
   async removeCategory(categoryId: string): Promise<void> {
-    const relatedCategoryValueChangeRecordsToRemove = await firstValueFrom(
-      this.store.select(
-        ActivityLogSelectors.relatedCategoryValueChangeRecordsByCategoryIdSelector(categoryId)
-      )
-    );
-
     this.store.dispatch(
       CategoriesActions.removeCategory({
         categoryId,
-        recordsToRemove: relatedCategoryValueChangeRecordsToRemove,
       })
     );
   }

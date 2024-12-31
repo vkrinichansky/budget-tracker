@@ -5,7 +5,6 @@ import {
   collection,
   updateDoc,
   arrayUnion,
-  arrayRemove,
   doc,
   DocumentReference,
   deleteField,
@@ -29,16 +28,9 @@ export class CategoriesService {
     });
   }
 
-  async removeCategory(
-    categoryId: string,
-    recordsToRemove: CategoryValueChangeRecord[]
-  ): Promise<void> {
+  async removeCategory(categoryId: string): Promise<void> {
     await updateDoc(this.getDocRef(), {
       [`${CATEGORIES_PATH}.${categoryId}`]: deleteField(),
-    });
-
-    await updateDoc(this.getDocRef(), {
-      [`${ACTIVITY_LOG_PATH}`]: arrayRemove(...recordsToRemove),
     });
   }
 

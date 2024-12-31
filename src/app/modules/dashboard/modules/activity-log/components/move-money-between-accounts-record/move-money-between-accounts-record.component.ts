@@ -9,4 +9,11 @@ import { MoveMoneyBetweenAccountsRecord } from '@budget-tracker/data';
 export class MoveMoneyBetweenAccountsRecordComponent {
   @Input()
   record: MoveMoneyBetweenAccountsRecord;
+
+  get isSameValueAndCurrency(): boolean {
+    return (
+      this.record.fromAccountValue === this.record.toAccountValue &&
+      this.record.fromAccount.currency.symbol === this.record.toAccount.currency.symbol
+    );
+  }
 }

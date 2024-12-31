@@ -70,31 +70,17 @@
 
     "activityLog": {
       "title": "Журнал активності",
-
       "categoriesResetRecord": {
         "income": "Категорії <b>доходів</b> було скинуто",
         "expense": "Категорії <b>витрат</b> було скинуто"
       },
-
       "categoryValueChangeRecord": {
         "removeConfirmationQuestion": "Ви хочете видалити цей запис?",
         "removeConfirmationRemark": "Ця дія відмінить зроблені цим записом зміни і вплине на рахунок <span class='font-bold'>{{ accountName }}</span> і категорію <span class='font-bold'>{{ categoryName }}</span>"
       },
-
       "emptyStateText": "Немає даних для відображення",
-      "removeMenuDisabledTooltip": "Ви можете використовувати масове видалення лише якщо є записи з попередніх місяців. Для видалення записів поточного місяця використовуйте кнопку видалення на конкретному записі",
-
-      "removeMenu": {
-        "allTypes": "Всі типи",
-        "categoryManagement": "Менеджмент категорій",
-        "categoriesReset": "Скидання категорій",
-        "categoryValueChange": "Зміна значень категорій",
-        "accountManagement": "Менеджмент рахунків",
-        "accountValueEdit": "Зміна значень рахунків",
-        "moveMoneyBetweenAccounts": "Переміщення грошей між рахунками",
-        "removeConfirmationQuestion": "Ви хочете видалити записи обраних типів?",
-        "removeConfirmationRemark": "Ця дія не вплине на записи поточного місяця"
-      }
+      "removeButtonTooltip": "Видалити всі записи",
+      "allRecordsRemoveConfirmationQuestion": "Ви дійсно хочете видалити всі записи?"
     },
 
     "categories": {
@@ -123,8 +109,7 @@
           "resetValue": "Скинути значення",
           "remove": "Видалити"
         },
-        "removeConfirmationQuestion": "Ви хочете видалити категорію <b>{{ categoryName }}</b>?",
-        "removeConfirmationRemark": "Ця дія також видалить пов'язані записи з журналу активності"
+        "removeConfirmationQuestion": "Ви хочете видалити категорію <b>{{ categoryName }}</b>?"
       }
     },
 
@@ -179,7 +164,7 @@
     "categoryAddedSnackbar": "Категорію було додано успішно!",
     "categoryRemovedSnackbar": "Категорію було видалено успішно!",
     "activityLogRecordRemoved": "Запис журналу активності було видалено успішно!",
-    "bulkActivityLogRecordsRemoved": "Записи журналу активності обраних типів було видалено успішно!",
+    "bulkActivityLogRecordsRemoved": "Записи журналу активності були видалені успішно!",
     "categoryValueChangedSnackbar": "Значення категорії було змінено успішно!",
     "categoriesResetSnackbar": {
       "income": "Категорії доходів було скинуто успішно!",
@@ -227,10 +212,5 @@
     "uah": "Гривня (₴)",
     "usd": "Долар ($)",
     "eur": "Євро (€)"
-  },
-
-  "lostConnectionMessage": {
-    "message": "Здається, ви офлайн. Перевірте підключення до Інтернету.",
-    "button": "Перезавантажити"
   }
 }

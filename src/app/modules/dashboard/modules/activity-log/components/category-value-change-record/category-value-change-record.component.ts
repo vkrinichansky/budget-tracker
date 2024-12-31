@@ -18,6 +18,7 @@ export class CategoryValueChangeRecordComponent implements OnInit {
   record: CategoryValueChangeRecord;
 
   isRecordRemoving$: Observable<boolean>;
+  doesCategoryExist$: Observable<boolean>;
 
   get colorClass(): string {
     switch (this.record.budgetType) {
@@ -50,6 +51,7 @@ export class CategoryValueChangeRecordComponent implements OnInit {
 
   ngOnInit(): void {
     this.isRecordRemoving$ = this.activityLogFacade.isActivityLogRecordRemoving(this.record.id);
+    this.doesCategoryExist$ = this.activityLogFacade.doesCategoryExist(this.record.category.id);
   }
 
   removeHandler(): void {

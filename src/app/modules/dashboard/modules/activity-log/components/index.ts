@@ -4,4 +4,3 @@ export { AccountValueEditRecordComponent } from './account-value-edit-record/acc
 export { MoveMoneyBetweenAccountsRecordComponent } from './move-money-between-accounts-record/move-money-between-accounts-record.component';
 
 export { ActivityLogComponent } from './activity-log/activity-log.component';
-export { ActivityLogRemoveMenuComponent } from './activity-log-remove-menu/activity-log-remove-menu.component';

@@ -34,17 +34,9 @@ export const ActivityLogActions = {
 
   removeRecordFail: createAction('[ActivityLog] Remove record fail', props<{ recordId: string }>()),
 
-  bulkRecordsRemove: createAction(
-    '[ActivityLog] Bulk records remove',
-    props<{
-      records: ActivityLogRecordUnitedType[];
-    }>()
-  ),
+  bulkRecordsRemove: createAction('[ActivityLog] Bulk records remove'),
 
-  bulkRecordsRemoved: createAction(
-    '[ActivityLog] Bulk records removed',
-    props<{ records: ActivityLogRecordUnitedType[] }>()
-  ),
+  bulkRecordsRemoved: createAction('[ActivityLog] Bulk records removed'),
 
   bulkRecordsRemoveFail: createAction('[ActivityLog] Bulk records remove fail'),
 };
