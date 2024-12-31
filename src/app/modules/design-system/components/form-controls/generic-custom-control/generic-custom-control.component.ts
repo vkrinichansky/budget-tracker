@@ -13,6 +13,7 @@ import {
   FormControl,
   ValidationErrors,
   Validator,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { debounceTime, tap } from 'rxjs';
@@ -150,17 +151,22 @@ export class GenericCustomControlComponent
   onChange = (value: valueType) => {};
 
   private handleValidators() {
+    const newValidators: ValidatorFn[] = [];
+
     if (this.isRequired) {
-      this.formControl.addValidators(Validators.required);
+      newValidators.push(Validators.required);
     }
 
     if (this.minValue !== undefined) {
-      this.formControl.addValidators(Validators.min(this.minValue));
+      newValidators.push(Validators.min(this.minValue));
     }
 
     if (this.maxValue !== undefined) {
-      this.formControl.addValidators(Validators.max(this.maxValue));
+      newValidators.push(Validators.max(this.maxValue));
     }
+
+    this.formControl.setValidators(newValidators);
+    this.formControl.updateValueAndValidity();
   }
 
   private initFormControlListener(): void {
