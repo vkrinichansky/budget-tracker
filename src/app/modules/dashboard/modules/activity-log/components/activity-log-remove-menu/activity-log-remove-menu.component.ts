@@ -15,12 +15,12 @@ export class ActivityLogRemoveMenuComponent implements OnInit {
     nameOrTranslationKey: this.buildTranslationKey('allTypes'),
     checked: false,
     subItems: [
-      {
-        nameOrTranslationKey: this.buildTranslationKey('categoryManagement'),
-        checked: false,
-        value: ActivityLogRecordType.CategoryManagement,
-        infoIconType: 'info',
-      },
+      // {
+      //   nameOrTranslationKey: this.buildTranslationKey('categoryManagement'),
+      //   checked: false,
+      //   value: ActivityLogRecordType.CategoryManagement,
+      //   infoIconType: 'info',
+      // },
       {
         nameOrTranslationKey: this.buildTranslationKey('categoriesReset'),
         checked: false,
@@ -33,12 +33,12 @@ export class ActivityLogRemoveMenuComponent implements OnInit {
         value: ActivityLogRecordType.CategoryValueChange,
         infoIconType: 'info',
       },
-      {
-        nameOrTranslationKey: this.buildTranslationKey('accountManagement'),
-        checked: false,
-        value: ActivityLogRecordType.AccountManagement,
-        infoIconType: 'info',
-      },
+      // {
+      //   nameOrTranslationKey: this.buildTranslationKey('accountManagement'),
+      //   checked: false,
+      //   value: ActivityLogRecordType.AccountManagement,
+      //   infoIconType: 'info',
+      // },
       {
         nameOrTranslationKey: this.buildTranslationKey('accountValueEdit'),
         checked: false,

@@ -71,26 +71,6 @@
     "activityLog": {
       "title": "Activity log",
 
-      "accountManagementRecord": {
-        "accountAdded": "<b>{{ accountName }}</b> account was added",
-        "accountRemoved": "<b>{{ accountName }}</b> account was removed"
-      },
-
-      "categoryManagementRecord": {
-        "categoryAdded": {
-          "budgetType": {
-            "income": "<b>{{ categoryName }}</b> was added to <b>income</b>",
-            "expense": "<b>{{ categoryName }}</b> was added to <b>expense<b>"
-          }
-        },
-        "categoryRemoved": {
-          "budgetType": {
-            "income": "<b>{{ categoryName }}</b> was removed from <b>income</b>",
-            "expense": "<b>{{ categoryName }}</b> was removed from <b>expense<b>"
-          }
-        }
-      },
-
       "categoriesResetRecord": {
         "income": "<b>Income</b> categories were reset",
         "expense": "<b>Expense</b> categories were reset"

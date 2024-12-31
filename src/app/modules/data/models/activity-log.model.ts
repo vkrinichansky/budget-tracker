@@ -3,17 +3,10 @@ import { BudgetType } from './budget-type.enum';
 import { Category } from './category.model';
 
 export enum ActivityLogRecordType {
-  CategoryManagement = 'category-management',
   CategoryValueChange = 'category-value-change',
   CategoriesReset = 'categories-reset',
-  AccountManagement = 'account-management',
   AccountValueEdit = 'account-value-edit',
   MoveMoneyBetweenAccounts = 'move-money-between-account',
-}
-
-export enum EntityManagementActionType {
-  Add = 'add',
-  Remove = 'remove',
 }
 
 export interface ActivityLogRecord {
@@ -21,11 +14,6 @@ export interface ActivityLogRecord {
   date: number;
   icon: string;
   recordType: ActivityLogRecordType;
-}
-
-export interface AccountManagementRecord extends ActivityLogRecord {
-  actionType: EntityManagementActionType;
-  accountName: string;
 }
 
 export interface AccountValueEditRecord extends ActivityLogRecord {
@@ -43,12 +31,6 @@ export interface MoveMoneyBetweenAccountsRecord extends ActivityLogRecord {
   toAccountValue: number;
 }
 
-export interface CategoryManagementRecord extends ActivityLogRecord {
-  actionType: EntityManagementActionType;
-  categoryName: string;
-  budgetType: BudgetType;
-}
-
 export interface CategoryValueChangeRecord extends ActivityLogRecord {
   category: Category;
   account: Account;
@@ -63,9 +45,7 @@ export interface CategoriesResetRecord extends ActivityLogRecord {
 }
 
 export type ActivityLogRecordUnitedType =
-  | AccountManagementRecord
   | AccountValueEditRecord
-  | CategoryManagementRecord
   | CategoryValueChangeRecord
   | CategoriesResetRecord
   | MoveMoneyBetweenAccountsRecord;

@@ -5,8 +5,6 @@ import { v4 as uuid } from 'uuid';
 import { ActivityLogSelectors, CategoriesActions, CategoriesSelectors } from '../../store';
 import {
   Category,
-  CategoryManagementRecord,
-  EntityManagementActionType,
   ActivityLogRecordType,
   BudgetType,
   CategoryValueChangeRecord,
@@ -74,44 +72,19 @@ export class CategoriesFacadeService {
 
   // CATEGORY MANAGEMENT
   addCategory(category: Category): void {
-    const addCategoryRecord: CategoryManagementRecord = {
-      id: uuid(),
-      actionType: EntityManagementActionType.Add,
-      budgetType: category.budgetType,
-      categoryName: category.name,
-      date: new Date().getTime(),
-      icon: category.icon,
-      recordType: ActivityLogRecordType.CategoryManagement,
-    };
-
-    this.store.dispatch(
-      CategoriesActions.addCategory({ category, activityLogRecord: addCategoryRecord })
-    );
+    this.store.dispatch(CategoriesActions.addCategory({ category }));
   }
 
   async removeCategory(categoryId: string): Promise<void> {
-    const category: Category = await firstValueFrom(this.getCategoryById(categoryId));
-
     const relatedCategoryValueChangeRecordsToRemove = await firstValueFrom(
       this.store.select(
         ActivityLogSelectors.relatedCategoryValueChangeRecordsByCategoryIdSelector(categoryId)
       )
     );
 
-    const removeCategoryRecord: CategoryManagementRecord = {
-      id: uuid(),
-      actionType: EntityManagementActionType.Remove,
-      budgetType: category.budgetType,
-      categoryName: category.name,
-      date: new Date().getTime(),
-      icon: category.icon,
-      recordType: ActivityLogRecordType.CategoryManagement,
-    };
-
     this.store.dispatch(
       CategoriesActions.removeCategory({
         categoryId,
-        activityLogRecord: removeCategoryRecord,
         recordsToRemove: relatedCategoryValueChangeRecordsToRemove,
       })
     );

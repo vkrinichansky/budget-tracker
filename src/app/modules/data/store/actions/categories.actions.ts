@@ -3,7 +3,6 @@ import {
   BudgetType,
   CategoriesResetRecord,
   Category,
-  CategoryManagementRecord,
   CategoryValueChangeRecord,
 } from '../../models';
 
@@ -13,10 +12,7 @@ export const CategoriesActions = {
     props<{ categories: Category[] }>()
   ),
 
-  addCategory: createAction(
-    '[Categories] Add category',
-    props<{ category: Category; activityLogRecord: CategoryManagementRecord }>()
-  ),
+  addCategory: createAction('[Categories] Add category', props<{ category: Category }>()),
 
   categoryAdded: createAction('[Categories] Category added', props<{ category: Category }>()),
 
@@ -26,7 +22,6 @@ export const CategoriesActions = {
     '[Categories] Remove category',
     props<{
       categoryId: string;
-      activityLogRecord: CategoryManagementRecord;
       recordsToRemove: CategoryValueChangeRecord[];
     }>()
   ),

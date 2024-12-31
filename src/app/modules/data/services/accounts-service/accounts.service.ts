@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Account,
-  AccountManagementRecord,
-  AccountValueEditRecord,
-  MoveMoneyBetweenAccountsRecord,
-} from '../../models';
+import { Account, AccountValueEditRecord, MoveMoneyBetweenAccountsRecord } from '../../models';
 import { Auth } from '@angular/fire/auth';
 import {
   arrayUnion,
@@ -26,11 +21,7 @@ export class AccountsService {
     private afAuth: Auth
   ) {}
 
-  addAccount(
-    account: Account,
-    activityLogRecord: AccountManagementRecord,
-    updatedAccountsOrder: Record<string, number>
-  ): Promise<void> {
+  addAccount(account: Account, updatedAccountsOrder: Record<string, number>): Promise<void> {
     const payload = Object.entries(updatedAccountsOrder).reduce(
       (result, entry) => ({ ...result, [`${ACCOUNTS_PATH}.${entry[0]}.order`]: entry[1] }),
       {}
@@ -38,14 +29,12 @@ export class AccountsService {
 
     return updateDoc(this.getDocRef(), {
       [`${ACCOUNTS_PATH}.${account.id}`]: account,
-      [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
       ...payload,
     });
   }
 
   async removeAccount(
     accountId: string,
-    activityLogRecord: AccountManagementRecord,
     updatedAccountsOrder: Record<string, number>
   ): Promise<void> {
     const payload = Object.entries(updatedAccountsOrder).reduce(
@@ -55,7 +44,6 @@ export class AccountsService {
 
     return updateDoc(this.getDocRef(), {
       [`${ACCOUNTS_PATH}.${accountId}`]: deleteField(),
-      [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
       ...payload,
     });
   }

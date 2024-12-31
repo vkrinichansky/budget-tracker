@@ -18,17 +18,13 @@ export class CategoriesEffects {
     this.actions$.pipe(
       ofType(CategoriesActions.addCategory),
       mergeMap((action) =>
-        from(this.categoriesService.addCategory(action.category, action.activityLogRecord)).pipe(
+        from(this.categoriesService.addCategory(action.category)).pipe(
           switchMap(() => {
             this.snackbarHandler.showCategoryAddedSnackbar();
 
             return of(
               CategoriesActions.categoryAdded({
                 category: action.category,
-              }),
-
-              ActivityLogActions.recordAdded({
-                record: action.activityLogRecord,
               })
             );
           }),
@@ -46,22 +42,13 @@ export class CategoriesEffects {
     this.actions$.pipe(
       ofType(CategoriesActions.removeCategory),
       mergeMap((action) =>
-        from(
-          this.categoriesService.removeCategory(
-            action.categoryId,
-            action.activityLogRecord,
-            action.recordsToRemove
-          )
-        ).pipe(
+        from(this.categoriesService.removeCategory(action.categoryId, action.recordsToRemove)).pipe(
           switchMap(() => {
             this.snackbarHandler.showCategoryRemovedSnackbar();
 
             return of(
               CategoriesActions.categoryRemoved({
                 categoryId: action.categoryId,
-              }),
-              ActivityLogActions.recordAdded({
-                record: action.activityLogRecord,
               }),
               ActivityLogActions.bulkRecordsRemoved({
                 records: action.recordsToRemove,
