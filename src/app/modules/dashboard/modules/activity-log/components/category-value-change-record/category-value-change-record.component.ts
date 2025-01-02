@@ -5,7 +5,7 @@ import {
   CategoryValueChangeRecord,
 } from '@budget-tracker/data';
 import { ConfirmationModalService } from '@budget-tracker/design-system';
-import { isPreviousMonth } from '@budget-tracker/utils';
+import { isToday } from '@budget-tracker/utils';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -44,6 +44,10 @@ export class CategoryValueChangeRecordComponent implements OnInit {
     return this.record.value === this.record.convertedValue;
   }
 
+  get isToday(): boolean {
+    return isToday(new Date(this.record.date));
+  }
+
   constructor(
     private confirmationModalService: ConfirmationModalService,
     private activityLogFacade: ActivityLogFacadeService
@@ -55,22 +59,18 @@ export class CategoryValueChangeRecordComponent implements OnInit {
   }
 
   removeHandler(): void {
-    if (isPreviousMonth(this.record.date)) {
-      this.activityLogFacade.removeActivityLogRecord(this.record.id);
-    } else {
-      this.confirmationModalService.openConfirmationModal(
-        {
-          questionTranslationKey:
-            'dashboard.activityLog.categoryValueChangeRecord.removeConfirmationQuestion',
-          remarkTranslationKey:
-            'dashboard.activityLog.categoryValueChangeRecord.removeConfirmationRemark',
-          remarkTranslationParams: {
-            accountName: this.record.account.name,
-            categoryName: this.record.category.name,
-          },
+    this.confirmationModalService.openConfirmationModal(
+      {
+        questionTranslationKey:
+          'dashboard.activityLog.categoryValueChangeRecord.removeConfirmationQuestion',
+        remarkTranslationKey:
+          'dashboard.activityLog.categoryValueChangeRecord.removeConfirmationRemark',
+        remarkTranslationParams: {
+          accountName: this.record.account.name,
+          categoryName: this.record.category.name,
         },
-        () => this.activityLogFacade.removeCategoryValueChangeRecord(this.record.id)
-      );
-    }
+      },
+      () => this.activityLogFacade.removeCategoryValueChangeRecord(this.record.id)
+    );
   }
 }
