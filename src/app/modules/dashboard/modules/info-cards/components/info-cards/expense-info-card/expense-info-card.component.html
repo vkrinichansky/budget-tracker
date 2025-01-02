@@ -2,6 +2,6 @@
   [bgColor]="'bg-white' | classToHexColor"
   [textColor]="'text-dark-red' | classToHexColor"
   [iconName]="'arrow-down'"
-  [primaryText]="expense$ | async | currencySymbol"
+  [primaryText]="expense$ | async | numberSpace | currencySymbol"
   [secondaryText]="'dashboard.infoCards.expense' | translate"
 ></app-info-card>

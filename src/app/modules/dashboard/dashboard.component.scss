@@ -14,7 +14,7 @@
     }
 
     .card:not(:last-child) {
-      @apply mr-3;
+      @apply mr-6;
     }
 
     .card {
@@ -41,6 +41,10 @@
     .main-cards {
       .card {
         flex: 0 0 100%;
+      }
+
+      .card:not(:last-child) {
+        @apply mr-3;
       }
     }
   }

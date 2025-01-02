@@ -6,6 +6,6 @@
   [bgColor]="data?.colorClasses?.bg | classToHexColor"
   [textColor]="data?.colorClasses?.text | classToHexColor"
   [iconName]="'calendar-dot-grid'"
-  [primaryText]="data.currentMonthBalance | currencySymbol"
+  [primaryText]="data.currentMonthBalance | numberSpace | currencySymbol"
   [secondaryText]="'dashboard.infoCards.currentMonthBalance' | translate"
 ></app-info-card>

@@ -7,23 +7,27 @@
 
       <span class="font-main font-bold text-blue text-xs flex items-center justify-between">
         <span>
-          {{ record.oldValue }}&nbsp;{{ currency }}
+          {{ record.oldValue | numberSpace }}&nbsp;{{ currency }}
           &nbsp;&rarr;&nbsp;
-          {{ record.newValue }}&nbsp;{{ currency }}
+          {{ record.newValue | numberSpace }}&nbsp;{{ currency }}
         </span>
       </span>
     </span>
 
     <span class="flex flex-col items-end font-main font-bold w-auto min-w-fit {{ colorClass }}">
       @if (isCurrentCurrency) {
-        <span>{{ symbol }}&nbsp;{{ absDifference }}&nbsp;{{ record.account.currency.symbol }}</span>
+        <span class="flex">
+          {{ symbol }}{{ absDifference | numberSpace }}
+          {{ record.account.currency.symbol }}
+        </span>
       } @else {
         <span class="text-base font-normal">
-          {{ symbol }}&nbsp;{{ convertedValue | currencySymbol }}
+          {{ symbol }}{{ convertedValue | numberSpace | currencySymbol }}
         </span>
 
         <span class="text-xs font-bold">
-          {{ symbol }}&nbsp;{{ absDifference }}&nbsp;{{ record.account.currency.symbol }}
+          {{ symbol }}{{ absDifference | numberSpace }}
+          {{ record.account.currency.symbol }}
         </span>
       }
     </span>

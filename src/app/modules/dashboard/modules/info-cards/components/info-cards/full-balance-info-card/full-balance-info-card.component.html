@@ -2,7 +2,7 @@
   [bgColor]="'text-white' | classToHexColor"
   [textColor]="'text-blue' | classToHexColor"
   [iconName]="'equal-sign'"
-  [primaryText]="fullBalance$ | async | currencySymbol"
+  [primaryText]="fullBalance$ | async | numberSpace | currencySymbol"
   [secondaryText]="buildTranslationKey('title') | translate"
   [tooltip]="tooltip"
 ></app-info-card>

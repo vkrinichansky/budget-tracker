@@ -71,11 +71,7 @@
         'text-red': item.sum < 0
       }"
     >
-      @if (item.sum > 0) {
-        &plus;
-      }
-
-      {{ item.sum | currencySymbol }}
+      {{ item.sum > 0 ? '&plus;' : '' }}{{ item.sum | numberSpace | currencySymbol }}
     </span>
   </div>
 </ng-template>

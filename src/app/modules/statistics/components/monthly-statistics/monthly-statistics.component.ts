@@ -6,7 +6,7 @@ import { ChartJSTooltipConfig, MainPalette } from '@budget-tracker/design-system
 import { BaseChartDirective } from 'ng2-charts';
 import { CurrencyPipe, StatisticsFacadeService } from '@budget-tracker/data';
 import { TranslateService } from '@ngx-translate/core';
-import { isMobileWidth } from '@budget-tracker/utils';
+import { isMobileWidth, NumberSpacePipe } from '@budget-tracker/utils';
 
 interface ZoomOption {
   icon: string;
@@ -32,7 +32,8 @@ export class MonthlyStatisticsComponent implements OnInit {
   constructor(
     private statisticsFacade: StatisticsFacadeService,
     private translateService: TranslateService,
-    private currencyPipe: CurrencyPipe
+    private currencyPipe: CurrencyPipe,
+    private numberSpacePipe: NumberSpacePipe
   ) {}
 
   ngOnInit(): void {
@@ -142,7 +143,7 @@ export class MonthlyStatisticsComponent implements OnInit {
     ).reduce((result: number, value: number) => result + value, 0);
 
     return `${item.dataset.label} - ${this.currencyPipe.transform(
-      item.parsed.y
-    )} | ${totalText} ${this.currencyPipe.transform(total)}`;
+      this.numberSpacePipe.transform(item.parsed.y)
+    )} | ${totalText} ${this.currencyPipe.transform(this.numberSpacePipe.transform(total))}`;
   }
 }

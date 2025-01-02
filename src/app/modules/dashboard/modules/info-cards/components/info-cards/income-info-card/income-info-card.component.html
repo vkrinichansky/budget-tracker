@@ -2,6 +2,6 @@
   [bgColor]="'bg-white' | classToHexColor"
   [textColor]="'text-dark-green' | classToHexColor"
   [iconName]="'arrow-up'"
-  [primaryText]="income$ | async | currencySymbol"
+  [primaryText]="income$ | async | numberSpace | currencySymbol"
   [secondaryText]="'dashboard.infoCards.income' | translate"
 ></app-info-card>
