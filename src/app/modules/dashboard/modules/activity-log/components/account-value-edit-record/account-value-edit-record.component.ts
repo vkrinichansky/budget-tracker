@@ -9,4 +9,8 @@ import { AccountValueEditRecord } from '@budget-tracker/data';
 export class AccountValueEditRecordComponent {
   @Input()
   record: AccountValueEditRecord;
+
+  get difference(): number {
+    return this.record.newValue - this.record.oldValue;
+  }
 }

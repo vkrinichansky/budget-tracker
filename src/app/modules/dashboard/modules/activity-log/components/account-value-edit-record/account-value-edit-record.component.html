@@ -1,11 +1,30 @@
 <app-generic-activity-log-record [icon]="record.icon" [date]="record.date" [note]="record?.note">
-  <span class="flex flex-col">
-    <span class="font-main text-charcoal text-base">
-      {{ record.accountName }}
+  <div class="flex items-center justify-between">
+    <span class="flex flex-col">
+      <span class="font-main text-charcoal text-base">
+        {{ record.accountName }}
+      </span>
+
+      <span class="font-main font-bold text-blue text-xs flex items-center justify-between">
+        <span>
+          {{ record.oldValue | currencySymbol }}
+          &nbsp;&rarr;&nbsp;
+          {{ record.newValue | currencySymbol }}
+        </span>
+      </span>
     </span>
 
-    <span class="font-main font-bold text-blue text-xs">
-      {{ record.oldValue | currencySymbol }}&nbsp;&rarr;&nbsp;{{ record.newValue | currencySymbol }}
+    <span
+      class="font-bold"
+      [ngClass]="{
+        'text-red': difference < 0,
+        'text-dark-green': difference > 0
+      }"
+    >
+      @if (difference > 0) {
+        &plus;
+      }
+      {{ difference | currencySymbol }}
     </span>
-  </span>
+  </div>
 </app-generic-activity-log-record>
