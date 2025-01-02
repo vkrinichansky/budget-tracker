@@ -20,13 +20,7 @@ export class AccountsEffects {
     this.actions$.pipe(
       ofType(AccountsActions.addAccount),
       mergeMap((action) =>
-        from(
-          this.accountService.addAccount(
-            action.account,
-            action.activityLogRecord,
-            action.updatedAccountsOrder
-          )
-        ).pipe(
+        from(this.accountService.addAccount(action.account, action.updatedAccountsOrder)).pipe(
           switchMap(() => {
             this.snackbarHandler.showAccountAddedSnackbar();
 
@@ -34,10 +28,6 @@ export class AccountsEffects {
               AccountsActions.accountAdded({
                 account: action.account,
                 updatedAccountsOrder: action.updatedAccountsOrder,
-              }),
-
-              ActivityLogActions.recordAdded({
-                record: action.activityLogRecord,
               })
             );
           }),
@@ -55,13 +45,7 @@ export class AccountsEffects {
     this.actions$.pipe(
       ofType(AccountsActions.removeAccount),
       mergeMap((action) =>
-        from(
-          this.accountService.removeAccount(
-            action.accountId,
-            action.activityLogRecord,
-            action.updatedAccountsOrder
-          )
-        ).pipe(
+        from(this.accountService.removeAccount(action.accountId, action.updatedAccountsOrder)).pipe(
           switchMap(() => {
             this.snackbarHandler.showAccountRemovedSnackbar();
 
@@ -69,9 +53,6 @@ export class AccountsEffects {
               AccountsActions.accountRemoved({
                 accountId: action.accountId,
                 updatedAccountsOrder: action.updatedAccountsOrder,
-              }),
-              ActivityLogActions.recordAdded({
-                record: action.activityLogRecord,
               })
             );
           }),

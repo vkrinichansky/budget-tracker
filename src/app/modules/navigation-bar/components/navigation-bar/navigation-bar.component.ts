@@ -40,12 +40,12 @@ export class NavigationBarComponent implements OnInit {
       {
         iconName: 'home',
         tooltipTranslationKey: 'navigationBar.itemTooltip.home',
-        routerLink: AppRoutes.Dashboard,
+        routerLink: `/${AppRoutes.Dashboard}`,
       },
       {
         iconName: 'statistics',
         tooltipTranslationKey: 'navigationBar.itemTooltip.statistics',
-        routerLink: AppRoutes.Statistics,
+        routerLink: `/${AppRoutes.Statistics}`,
       },
     ];
 

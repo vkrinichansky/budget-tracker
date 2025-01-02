@@ -1,9 +1,4 @@
-<app-generic-activity-log-record
-  [icon]="record.icon"
-  [date]="record.date"
-  [loading]="isRecordRemoving$ | async"
-  (remove)="removeRecord()"
->
+<app-generic-activity-log-record [icon]="record.icon" [date]="record.date">
   <span
     *ngVar="buildTranslationKey(record.budgetType) | translate as content"
     class="font-main text-charcoal text-base block truncate"

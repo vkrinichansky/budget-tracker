@@ -10,7 +10,7 @@ import {
   MenuAction,
 } from '@budget-tracker/design-system';
 import { CategoriesFacadeService } from '@budget-tracker/data';
-import { isMobileWidth } from '@budget-tracker/utils';
+import { isMobileWidth, NumberSpacePipe } from '@budget-tracker/utils';
 
 type TabType = 'list' | 'chart';
 
@@ -41,6 +41,7 @@ export class CategoriesComponent implements OnInit {
     private categoriesFacade: CategoriesFacadeService,
     private categoryModalsService: CategoryModalsService,
     private currencyPipe: CurrencyPipe,
+    private numberSpacePipe: NumberSpacePipe,
     private confirmationModalService: ConfirmationModalService
   ) {}
 
@@ -115,7 +116,8 @@ export class CategoriesComponent implements OnInit {
         tooltip: {
           ...ChartJSTooltipConfig,
           callbacks: {
-            label: (item) => `${item.label} - ${this.currencyPipe.transform(item.parsed)}`,
+            label: (item) =>
+              `${item.label} - ${this.currencyPipe.transform(this.numberSpacePipe.transform(item.parsed))}`,
             title: () => '',
           },
         },

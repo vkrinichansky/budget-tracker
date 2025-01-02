@@ -1,17 +1,35 @@
-<app-generic-activity-log-record
-  [icon]="record.icon"
-  [date]="record.date"
-  [note]="record?.note"
-  [loading]="this.isRecordRemoving$ | async"
-  (remove)="removeHandler()"
->
-  <span class="flex flex-col">
-    <span class="font-main text-charcoal text-base">
-      {{ record.accountName }}
+<app-generic-activity-log-record [icon]="record.icon" [date]="record.date" [note]="record?.note">
+  <div class="flex items-center justify-between">
+    <span class="flex flex-col">
+      <span class="font-main text-charcoal text-base">
+        {{ record.account.name }}
+      </span>
+
+      <span class="font-main font-bold text-blue text-xs flex items-center justify-between">
+        <span>
+          {{ record.oldValue | numberSpace }}&nbsp;{{ currency }}
+          &nbsp;&rarr;&nbsp;
+          {{ record.newValue | numberSpace }}&nbsp;{{ currency }}
+        </span>
+      </span>
     </span>
 
-    <span class="font-main font-bold text-blue text-xs">
-      {{ record.oldValue | currencySymbol }}&nbsp;&rarr;&nbsp;{{ record.newValue | currencySymbol }}
+    <span class="flex flex-col items-end font-main font-bold w-auto min-w-fit {{ colorClass }}">
+      @if (isCurrentCurrency) {
+        <span class="flex">
+          {{ symbol }}{{ absDifference | numberSpace }}
+          {{ record.account.currency.symbol }}
+        </span>
+      } @else {
+        <span class="text-base font-normal">
+          {{ symbol }}{{ convertedValue | numberSpace | currencySymbol }}
+        </span>
+
+        <span class="text-xs font-bold">
+          {{ symbol }}{{ absDifference | numberSpace }}
+          {{ record.account.currency.symbol }}
+        </span>
+      }
     </span>
-  </span>
+  </div>
 </app-generic-activity-log-record>

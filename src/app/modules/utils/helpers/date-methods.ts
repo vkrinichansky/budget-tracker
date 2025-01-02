@@ -4,14 +4,26 @@ export function getMonthAndYearString(date?: number): string {
   return `${newDate.getMonth() + 1}.${newDate.getFullYear()}`;
 }
 
-export function isPreviousMonth(date: number): boolean {
-  return getMonthAndYearString() !== getMonthAndYearString(date);
-}
-
 export function getPreviousMonthTime(): number {
   const date = new Date();
   const previousMonth = new Date(date.getTime());
   previousMonth.setDate(0);
 
   return previousMonth.getTime();
+}
+
+export function isToday(date: Date) {
+  const today = new Date();
+
+  return (
+    date.getFullYear() === today.getFullYear() &&
+    date.getMonth() === today.getMonth() &&
+    date.getDate() === today.getDate()
+  );
+}
+
+export function isCurrentMonth(date: Date) {
+  const today = new Date();
+
+  return date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth();
 }

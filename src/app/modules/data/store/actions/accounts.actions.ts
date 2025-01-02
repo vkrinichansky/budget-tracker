@@ -1,10 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import {
-  Account,
-  AccountManagementRecord,
-  AccountValueEditRecord,
-  MoveMoneyBetweenAccountsRecord,
-} from '../../models';
+import { Account, AccountValueEditRecord, MoveMoneyBetweenAccountsRecord } from '../../models';
 
 export const AccountsActions = {
   accountsLoaded: createAction('[Accounts] Accounts loaded', props<{ accounts: Account[] }>()),
@@ -13,7 +8,6 @@ export const AccountsActions = {
     '[Accounts] Add account',
     props<{
       account: Account;
-      activityLogRecord: AccountManagementRecord;
       updatedAccountsOrder: Record<string, number>;
     }>()
   ),
@@ -29,7 +23,6 @@ export const AccountsActions = {
     '[Accounts] Remove account',
     props<{
       accountId: string;
-      activityLogRecord: AccountManagementRecord;
       updatedAccountsOrder: Record<string, number>;
     }>()
   ),

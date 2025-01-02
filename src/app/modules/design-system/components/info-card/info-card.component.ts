@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostBinding,
-  Input,
-  TemplateRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, TemplateRef } from '@angular/core';
 import { MenuAction } from '../../models';
 import { isMobileWidth } from '@budget-tracker/utils';
 
@@ -18,6 +11,14 @@ export class InfoCardComponent {
   @HostBinding('class')
   private readonly classes =
     'flex py-4 px-5 rounded-lg h-28 justify-start items-center gap-x-5 relative';
+
+  @HostBinding('style.background-color')
+  @Input()
+  bgColor: string;
+
+  @HostBinding('style.color')
+  @Input()
+  textColor: string;
 
   @Input()
   primaryText: string | number;
@@ -46,14 +47,4 @@ export class InfoCardComponent {
   get isMobile(): boolean {
     return isMobileWidth();
   }
-
-  get bgColor(): string {
-    return window.getComputedStyle(this.el.nativeElement).backgroundColor;
-  }
-
-  get textColor(): string {
-    return window.getComputedStyle(this.el.nativeElement).color;
-  }
-
-  constructor(private el: ElementRef) {}
 }

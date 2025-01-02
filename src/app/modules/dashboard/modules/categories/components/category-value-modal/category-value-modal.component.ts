@@ -6,6 +6,7 @@ import { CategoryValueModalData } from '../../models';
 import {
   Account,
   AccountsFacadeService,
+  BudgetType,
   CategoriesFacadeService,
   Category,
   CurrencyService,
@@ -41,8 +42,9 @@ export class CategoryValueModalComponent implements OnInit {
 
   loading$: Observable<boolean>;
   success$: Observable<boolean>;
-  category$: Observable<Category>;
   accounts$: Observable<Account[]>;
+
+  category: Category;
 
   get accoundChoosed(): boolean {
     return this.form?.controls?.[FormFields.AccountToUse]?.value;
@@ -70,7 +72,13 @@ export class CategoryValueModalComponent implements OnInit {
   }
 
   get maxValue(): number {
-    return parseInt(this.form?.controls?.[FormFields.AccountToUse]?.value?.value);
+    switch (this.category.budgetType) {
+      case BudgetType.Income:
+        return undefined;
+
+      case BudgetType.Expense:
+        return parseInt(this.form?.controls?.[FormFields.AccountToUse]?.value?.value);
+    }
   }
 
   constructor(
@@ -101,10 +109,14 @@ export class CategoryValueModalComponent implements OnInit {
   }
 
   private initListeners(): void {
-    this.category$ = this.categoriesFacade.getCategoryById(this.data.categoryId);
     this.accounts$ = this.accountsFacade.getAllAccounts();
     this.loading$ = this.categoriesFacade.getCategoryValueChangeInProgress();
     this.success$ = this.categoriesFacade.getCategoryValueChangeSuccess();
+
+    this.categoriesFacade
+      .getCategoryById(this.data.categoryId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((category) => (this.category = category));
 
     this.success$
       .pipe(

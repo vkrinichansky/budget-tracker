@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import {
   Account,
-  AccountManagementRecord,
   AccountValueEditRecord,
   ActivityLogRecordType,
-  EntityManagementActionType,
   MoveMoneyBetweenAccountsRecord,
 } from '../../models';
 import { Store } from '@ngrx/store';
@@ -52,8 +50,7 @@ export class AccountsFacadeService {
 
     const activityLogRecord: AccountValueEditRecord = {
       id: uuid(),
-      accountId,
-      accountName: account.name,
+      account,
       date: new Date().getTime(),
       icon: account.icon,
       oldValue: account.value,
@@ -114,15 +111,6 @@ export class AccountsFacadeService {
   }
 
   async addAccount(account: Account): Promise<void> {
-    const addAccountRecord: AccountManagementRecord = {
-      id: uuid(),
-      actionType: EntityManagementActionType.Add,
-      accountName: account.name,
-      date: new Date().getTime(),
-      icon: account.icon,
-      recordType: ActivityLogRecordType.AccountManagement,
-    };
-
     const updatedAccountsOrder: Record<string, number> = await firstValueFrom(
       this.getAllAccounts().pipe(
         map((accounts) =>
@@ -140,7 +128,6 @@ export class AccountsFacadeService {
     this.store.dispatch(
       AccountsActions.addAccount({
         account,
-        activityLogRecord: addAccountRecord,
         updatedAccountsOrder,
       })
     );
@@ -148,15 +135,6 @@ export class AccountsFacadeService {
 
   async removeAccount(accountId: string): Promise<void> {
     const account: Account = await firstValueFrom(this.getAccountById(accountId));
-
-    const removeAccountRecord: AccountManagementRecord = {
-      id: uuid(),
-      actionType: EntityManagementActionType.Remove,
-      accountName: account.name,
-      date: new Date().getTime(),
-      icon: account.icon,
-      recordType: ActivityLogRecordType.AccountManagement,
-    };
 
     const updatedAccountsOrder = await firstValueFrom(
       this.getAllAccounts().pipe(
@@ -175,7 +153,6 @@ export class AccountsFacadeService {
     this.store.dispatch(
       AccountsActions.removeAccount({
         accountId,
-        activityLogRecord: removeAccountRecord,
         updatedAccountsOrder,
       })
     );

@@ -28,6 +28,9 @@ export class GenericActivityLogRecordComponent {
   @Input()
   loading: boolean;
 
+  @Input()
+  removeEnabled: boolean;
+
   @Output()
   remove = new EventEmitter<void>();
 

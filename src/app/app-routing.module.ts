@@ -1,35 +1,35 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, provideRouter, withViewTransitions } from '@angular/router';
 import { AuthGuard, SecureInnerPagesGuard } from './modules/auth/guards';
-import { AppRoutesNames } from '@budget-tracker/utils';
+import { AppRoutes } from '@budget-tracker/utils';
 import { InitDataGuard } from './guards';
 
 const routes: Routes = [
   {
-    path: AppRoutesNames.Auth,
+    path: AppRoutes.Auth,
     canActivate: [SecureInnerPagesGuard],
     loadChildren: () => import('./modules/auth/auth.module').then((m) => m.AuthCoreModule),
   },
   {
-    path: AppRoutesNames.Dashboard,
-    canActivate: [AuthGuard, InitDataGuard],
+    path: AppRoutes.Dashboard,
+    canActivate: [InitDataGuard, AuthGuard],
     loadChildren: () =>
       import('./modules/dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
-    path: AppRoutesNames.Statistics,
-    canActivate: [AuthGuard, InitDataGuard],
+    path: AppRoutes.Statistics,
+    canActivate: [InitDataGuard, AuthGuard],
     loadChildren: () =>
       import('./modules/statistics/statistics.module').then((m) => m.StatisticsModule),
   },
   {
     path: '',
-    redirectTo: AppRoutesNames.Dashboard,
+    redirectTo: AppRoutes.Dashboard,
     pathMatch: 'full',
   },
   {
     path: '**',
-    redirectTo: AppRoutesNames.Dashboard,
+    redirectTo: AppRoutes.Dashboard,
     pathMatch: 'full',
   },
 ];

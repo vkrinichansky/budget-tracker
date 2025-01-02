@@ -36,11 +36,15 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     .info-cards,
     .main-cards {
       .card {
         flex: 0 0 100%;
+      }
+
+      .card:not(:last-child) {
+        @apply mr-3;
       }
     }
   }

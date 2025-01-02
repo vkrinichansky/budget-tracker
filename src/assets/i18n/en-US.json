@@ -70,51 +70,17 @@
 
     "activityLog": {
       "title": "Activity log",
-
-      "accountManagementRecord": {
-        "accountAdded": "<b>{{ accountName }}</b> account was added",
-        "accountRemoved": "<b>{{ accountName }}</b> account was removed"
-      },
-
-      "categoryManagementRecord": {
-        "categoryAdded": {
-          "budgetType": {
-            "income": "<b>{{ categoryName }}</b> was added to <b>income</b>",
-            "expense": "<b>{{ categoryName }}</b> was added to <b>expense<b>"
-          }
-        },
-        "categoryRemoved": {
-          "budgetType": {
-            "income": "<b>{{ categoryName }}</b> was removed from <b>income</b>",
-            "expense": "<b>{{ categoryName }}</b> was removed from <b>expense<b>"
-          }
-        }
-      },
-
       "categoriesResetRecord": {
         "income": "<b>Income</b> categories were reset",
         "expense": "<b>Expense</b> categories were reset"
       },
-
       "categoryValueChangeRecord": {
         "removeConfirmationQuestion": "Are you sure you want to remove this record?",
         "removeConfirmationRemark": "This action will revert changes made by this record and will affect <span class='font-bold'>{{ accountName }}</span> account and <span class='font-bold'>{{ categoryName }}</span> category"
       },
-
       "emptyStateText": "No data to display yet",
-      "removeMenuDisabledTooltip": "You can do bulk records remove only if you have previous months records. For current month records you can use remove button on specific record",
-
-      "removeMenu": {
-        "allTypes": "All types",
-        "categoryManagement": "Category management",
-        "categoriesReset": "Categories reset",
-        "categoryValueChange": "Category value change",
-        "accountManagement": "Account management",
-        "accountValueEdit": "Account value edit",
-        "moveMoneyBetweenAccounts": "Move money between accounts",
-        "removeConfirmationQuestion": "Are you sure you want to remove records of selected types?",
-        "removeConfirmationRemark": "This action won't affect current month records"
-      }
+      "removeButtonTooltip": "Remove all records",
+      "allRecordsRemoveConfirmationQuestion": "Are you sure you want to remove all records?"
     },
 
     "categories": {
@@ -142,8 +108,7 @@
           "resetValue": "Reset value",
           "remove": "Remove"
         },
-        "removeConfirmationQuestion": "Do you want to remove <b>{{ categoryName }}</b> category?",
-        "removeConfirmationRemark": "This action will remove related records from activity log as well"
+        "removeConfirmationQuestion": "Do you want to remove <b>{{ categoryName }}</b> category?"
       }
     },
 
@@ -199,7 +164,7 @@
     "categoryAddedSnackbar": "Category was added successfully!",
     "categoryRemovedSnackbar": "Category was removed successfully!",
     "activityLogRecordRemoved": "Activity log record was removed successfully!",
-    "bulkActivityLogRecordsRemoved": "Activity log records with selected types were removed successfully!",
+    "bulkActivityLogRecordsRemoved": "Activity log records were removed successfully!",
     "categoryValueChangedSnackbar": "Category value was changed successfully!",
     "categoriesResetSnackbar": {
       "income": "Income categories were reset successfully!",
@@ -247,10 +212,5 @@
     "uah": "Hryvnia (₴)",
     "usd": "Dollar ($)",
     "eur": "Euro (€)"
-  },
-
-  "lostConnectionMessage": {
-    "message": "It seems like you are offline. Please, check your internet connection.",
-    "button": "Reload"
   }
 }

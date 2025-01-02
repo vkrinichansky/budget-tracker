@@ -2,6 +2,7 @@
   [icon]="record.icon"
   [date]="record.date"
   [note]="record?.note"
+  [removeEnabled]="(doesCategoryExist$ | async) && isToday"
   [loading]="isRecordRemoving$ | async"
   (remove)="removeHandler()"
 >
@@ -17,15 +18,19 @@
     </div>
 
     <span class="flex flex-col items-end font-main font-bold w-auto min-w-fit {{ colorClass }}">
-      @if (isDoubleValue) {
-        <span>{{ symbol }}{{ record.value }}{{ record.account.currency.symbol }}</span>
+      @if (isSingleValue) {
+        <span>
+          {{ symbol }}{{ record.value | numberSpace }}
+          {{ record.account.currency.symbol }}
+        </span>
       } @else {
         <span class="text-base font-normal">
-          {{ symbol }}{{ record.convertedValue | currencySymbol }}
+          {{ symbol }}{{ record.convertedValue | numberSpace | currencySymbol }}
         </span>
 
         <span class="text-xs font-bold">
-          {{ symbol }}{{ record.value }}&nbsp;{{ record.account.currency.symbol }}
+          {{ symbol }}{{ record.value | numberSpace }}
+          {{ record.account.currency.symbol }}
         </span>
       }
     </span>

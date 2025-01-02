@@ -12,7 +12,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { ButtonSize, ColorScheme, MenuAction } from '../../models';
+import { ButtonSize, ColorScheme, MenuAction, overlayFade } from '../../models';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -21,6 +21,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [overlayFade],
 })
 export class MenuComponent implements AfterViewInit {
   @ViewChild('actionsTemplate')

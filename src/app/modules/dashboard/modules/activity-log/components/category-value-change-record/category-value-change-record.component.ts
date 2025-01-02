@@ -5,7 +5,7 @@ import {
   CategoryValueChangeRecord,
 } from '@budget-tracker/data';
 import { ConfirmationModalService } from '@budget-tracker/design-system';
-import { isPreviousMonth } from '@budget-tracker/utils';
+import { isToday } from '@budget-tracker/utils';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -18,6 +18,7 @@ export class CategoryValueChangeRecordComponent implements OnInit {
   record: CategoryValueChangeRecord;
 
   isRecordRemoving$: Observable<boolean>;
+  doesCategoryExist$: Observable<boolean>;
 
   get colorClass(): string {
     switch (this.record.budgetType) {
@@ -39,8 +40,12 @@ export class CategoryValueChangeRecordComponent implements OnInit {
     }
   }
 
-  get isDoubleValue(): boolean {
+  get isSingleValue(): boolean {
     return this.record.value === this.record.convertedValue;
+  }
+
+  get isToday(): boolean {
+    return isToday(new Date(this.record.date));
   }
 
   constructor(
@@ -50,25 +55,22 @@ export class CategoryValueChangeRecordComponent implements OnInit {
 
   ngOnInit(): void {
     this.isRecordRemoving$ = this.activityLogFacade.isActivityLogRecordRemoving(this.record.id);
+    this.doesCategoryExist$ = this.activityLogFacade.doesCategoryExist(this.record.category.id);
   }
 
   removeHandler(): void {
-    if (isPreviousMonth(this.record.date)) {
-      this.activityLogFacade.removeActivityLogRecord(this.record.id);
-    } else {
-      this.confirmationModalService.openConfirmationModal(
-        {
-          questionTranslationKey:
-            'dashboard.activityLog.categoryValueChangeRecord.removeConfirmationQuestion',
-          remarkTranslationKey:
-            'dashboard.activityLog.categoryValueChangeRecord.removeConfirmationRemark',
-          remarkTranslationParams: {
-            accountName: this.record.account.name,
-            categoryName: this.record.category.name,
-          },
+    this.confirmationModalService.openConfirmationModal(
+      {
+        questionTranslationKey:
+          'dashboard.activityLog.categoryValueChangeRecord.removeConfirmationQuestion',
+        remarkTranslationKey:
+          'dashboard.activityLog.categoryValueChangeRecord.removeConfirmationRemark',
+        remarkTranslationParams: {
+          accountName: this.record.account.name,
+          categoryName: this.record.category.name,
         },
-        () => this.activityLogFacade.removeCategoryValueChangeRecord(this.record.id)
-      );
-    }
+      },
+      () => this.activityLogFacade.removeCategoryValueChangeRecord(this.record.id)
+    );
   }
 }

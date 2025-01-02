@@ -19,7 +19,7 @@
 
   <div class="flex items-center gap-x-2">
     <span class="font-main font-bold text-charcoal text-base">
-      {{ category?.value | currencySymbol }}</span
+      {{ category?.value | numberSpace | currencySymbol }}</span
     >
     <app-menu
       [menuActions]="menuActions"

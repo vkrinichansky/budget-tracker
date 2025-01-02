@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  AccountManagementRecordComponent,
   AccountValueEditRecordComponent,
   ActivityLogComponent,
-  ActivityLogRemoveMenuComponent,
   CategoriesResetRecordComponent,
-  CategoryManagementRecordComponent,
   CategoryValueChangeRecordComponent,
   MoveMoneyBetweenAccountsRecordComponent,
 } from './components';
@@ -27,12 +24,9 @@ import { DataModule } from '@budget-tracker/data';
   ],
   declarations: [
     ActivityLogComponent,
-    CategoryManagementRecordComponent,
     CategoryValueChangeRecordComponent,
     CategoriesResetRecordComponent,
     AccountValueEditRecordComponent,
-    ActivityLogRemoveMenuComponent,
-    AccountManagementRecordComponent,
     MoveMoneyBetweenAccountsRecordComponent,
   ],
 
