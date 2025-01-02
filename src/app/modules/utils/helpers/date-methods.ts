@@ -21,3 +21,9 @@ export function isToday(date: Date) {
     date.getDate() === today.getDate()
   );
 }
+
+export function isCurrentMonth(date: Date) {
+  const today = new Date();
+
+  return date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth();
+}

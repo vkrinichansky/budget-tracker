@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, firstValueFrom, map } from 'rxjs';
 import { ActivityLogActions, ActivityLogSelectors, CategoriesSelectors } from '../../store';
@@ -13,9 +13,14 @@ import { Dictionary } from '@ngrx/entity';
 import { CategoriesFacadeService } from '../categories-facade/categories-facade.service';
 import { AccountsFacadeService } from '../accounts-facade/accounts-facade.service';
 import { LanguageService } from '../language-service/language.service';
+import { CurrencyExchangeService } from '../currency-exchange-service/currency-exchange.service';
+import { CurrencyService } from '../currency-service/currency.service';
 
 @Injectable()
 export class ActivityLogFacadeService {
+  private readonly currencyService = inject(CurrencyService);
+  private readonly currencyExchangeService = inject(CurrencyExchangeService);
+
   constructor(
     private store: Store,
     private languageService: LanguageService,
@@ -34,7 +39,13 @@ export class ActivityLogFacadeService {
   getActivityLogGroupedByDays(): Observable<ActivityLogGroupedByDay[]> {
     const language = this.languageService.getCurrentLanguage();
 
-    return this.store.select(ActivityLogSelectors.activityLogGroupedByDaysSelector(language));
+    return this.store.select(
+      ActivityLogSelectors.activityLogGroupedByDaysSelector(
+        language,
+        this.currencyService.getCurrentCurrency(),
+        this.currencyExchangeService.getCurrentExchangeRate()
+      )
+    );
   }
 
   isActivityLogRecordRemoving(recordId: string): Observable<boolean> {

@@ -50,8 +50,7 @@ export class AccountsFacadeService {
 
     const activityLogRecord: AccountValueEditRecord = {
       id: uuid(),
-      accountId,
-      accountName: account.name,
+      account,
       date: new Date().getTime(),
       icon: account.icon,
       oldValue: account.value,

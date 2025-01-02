@@ -1,6 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { dataFeatureSelector } from './feature.selector';
-import { BudgetType, Category } from '../../models';
+import { BudgetType, CurrenciesEnum, CurrencyExchangeRate } from '../../models';
+import { ActivityLogSelectors } from './activity-log.selectors';
 
 const categoriesStateSelector = createSelector(
   dataFeatureSelector,
@@ -32,11 +33,11 @@ const expenseCategoriesSelector = createSelector(allCategoriesSelector, (allCate
 );
 
 const incomeValueSelector = createSelector(incomeCategoriesSelector, (categories) =>
-  categories.reduce((sum, category) => sum + (category as Category).value, 0)
+  categories.reduce((sum, category) => sum + category.value, 0)
 );
 
 const expenseValueSelector = createSelector(expenseCategoriesSelector, (categories) =>
-  categories.reduce((sum, category) => sum + (category as Category).value, 0)
+  categories.reduce((sum, category) => sum + category.value, 0)
 );
 
 const areIncomeCategoriesAllResetSelector = createSelector(incomeCategoriesSelector, (categories) =>
@@ -48,11 +49,16 @@ const areExpenseCategoriesAllResetSelector = createSelector(
   (categories) => categories.every((category) => category.value === 0)
 );
 
-const currentMonthBalanceSelector = createSelector(
-  incomeValueSelector,
-  expenseValueSelector,
-  (income, expense) => income - expense
-);
+const currentMonthBalanceSelector = (
+  currency: CurrenciesEnum,
+  exchangeRate: CurrencyExchangeRate
+) =>
+  createSelector(
+    incomeValueSelector,
+    expenseValueSelector,
+    ActivityLogSelectors.currentMonthAccountValueChangeRecordsSumSelector(currency, exchangeRate),
+    (income, expense, recordsSum) => income - expense + recordsSum
+  );
 
 const categoryManagementInProgressSelector = createSelector(
   categoriesStateSelector,

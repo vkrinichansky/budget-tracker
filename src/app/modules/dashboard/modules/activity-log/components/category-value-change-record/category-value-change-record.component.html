@@ -19,14 +19,14 @@
 
     <span class="flex flex-col items-end font-main font-bold w-auto min-w-fit {{ colorClass }}">
       @if (isSingleValue) {
-        <span>{{ symbol }}{{ record.value }}{{ record.account.currency.symbol }}</span>
+        <span>{{ symbol }}&nbsp;{{ record.value }}&nbsp;{{ record.account.currency.symbol }}</span>
       } @else {
         <span class="text-base font-normal">
-          {{ symbol }}{{ record.convertedValue | currencySymbol }}
+          {{ symbol }}&nbsp;{{ record.convertedValue | currencySymbol }}
         </span>
 
         <span class="text-xs font-bold">
-          {{ symbol }}{{ record.value }}&nbsp;{{ record.account.currency.symbol }}
+          {{ symbol }}&nbsp;{{ record.value }}&nbsp;{{ record.account.currency.symbol }}
         </span>
       }
     </span>

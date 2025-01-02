@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, firstValueFrom } from 'rxjs';
 import { v4 as uuid } from 'uuid';
-import { ActivityLogSelectors, CategoriesActions, CategoriesSelectors } from '../../store';
+import { CategoriesActions, CategoriesSelectors } from '../../store';
 import {
   Category,
   ActivityLogRecordType,
@@ -12,9 +12,14 @@ import {
 } from '../../models';
 import { Dictionary } from '@ngrx/entity';
 import { AccountsFacadeService } from '../accounts-facade/accounts-facade.service';
+import { CurrencyService } from '../currency-service/currency.service';
+import { CurrencyExchangeService } from '../currency-exchange-service/currency-exchange.service';
 
 @Injectable()
 export class CategoriesFacadeService {
+  private readonly currencyService = inject(CurrencyService);
+  private readonly currencyExchangeService = inject(CurrencyExchangeService);
+
   constructor(
     private store: Store,
     private accountsFacade: AccountsFacadeService
@@ -57,7 +62,12 @@ export class CategoriesFacadeService {
   }
 
   getCurrentMonthBalance(): Observable<number> {
-    return this.store.select(CategoriesSelectors.currentMonthBalanceSelector);
+    return this.store.select(
+      CategoriesSelectors.currentMonthBalanceSelector(
+        this.currencyService.getCurrentCurrency(),
+        this.currencyExchangeService.getCurrentExchangeRate()
+      )
+    );
   }
 
   getCategoriesAccordingToBudgetType(budgetType: BudgetType): Observable<Category[]> {

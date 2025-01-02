@@ -70,7 +70,7 @@ export class ActivityLogComponent implements OnInit {
         days.reduce(
           (previous, current) => [
             ...previous,
-            { date: current.date, sum: current.sumOfCategoryValueChangeRecords },
+            { date: current.date, sum: current.totalValueForDate },
             ...current.records,
           ],
           []

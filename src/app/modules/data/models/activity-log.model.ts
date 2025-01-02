@@ -17,8 +17,7 @@ export interface ActivityLogRecord {
 }
 
 export interface AccountValueEditRecord extends ActivityLogRecord {
-  accountId: string;
-  accountName: string;
+  account: Account;
   oldValue: number;
   newValue: number;
   note: string;
@@ -59,5 +58,5 @@ export interface ActivityLogGroupedByDayDictionary {
 export interface ActivityLogGroupedByDay {
   date: string;
   records: ActivityLog;
-  sumOfCategoryValueChangeRecords?: number;
+  totalValueForDate?: number;
 }

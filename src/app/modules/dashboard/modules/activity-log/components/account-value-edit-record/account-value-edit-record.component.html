@@ -2,29 +2,30 @@
   <div class="flex items-center justify-between">
     <span class="flex flex-col">
       <span class="font-main text-charcoal text-base">
-        {{ record.accountName }}
+        {{ record.account.name }}
       </span>
 
       <span class="font-main font-bold text-blue text-xs flex items-center justify-between">
         <span>
-          {{ record.oldValue | currencySymbol }}
+          {{ record.oldValue }}&nbsp;{{ currency }}
           &nbsp;&rarr;&nbsp;
-          {{ record.newValue | currencySymbol }}
+          {{ record.newValue }}&nbsp;{{ currency }}
         </span>
       </span>
     </span>
 
-    <span
-      class="font-bold"
-      [ngClass]="{
-        'text-red': difference < 0,
-        'text-dark-green': difference > 0
-      }"
-    >
-      @if (difference > 0) {
-        &plus;
+    <span class="flex flex-col items-end font-main font-bold w-auto min-w-fit {{ colorClass }}">
+      @if (isCurrentCurrency) {
+        <span>{{ symbol }}&nbsp;{{ absDifference }}&nbsp;{{ record.account.currency.symbol }}</span>
+      } @else {
+        <span class="text-base font-normal">
+          {{ symbol }}&nbsp;{{ convertedValue | currencySymbol }}
+        </span>
+
+        <span class="text-xs font-bold">
+          {{ symbol }}&nbsp;{{ absDifference }}&nbsp;{{ record.account.currency.symbol }}
+        </span>
       }
-      {{ difference | currencySymbol }}
     </span>
   </div>
 </app-generic-activity-log-record>
