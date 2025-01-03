@@ -59,7 +59,7 @@ const currentMonthAccountValueChangeRecordsSumSelector = (
     sumOfAccountValueChangeRecords(
       records.filter(
         (record) =>
-          record.recordType === ActivityLogRecordType.AccountValueEdit &&
+          record.recordType === ActivityLogRecordType.AccountValueChange &&
           isCurrentMonth(new Date(record.date))
       ) as AccountValueEditRecord[],
       currency,
@@ -125,7 +125,7 @@ function getActivityLogGroupedByDay(
     const accountValueChangeRecordSum: number = sumOfAccountValueChangeRecords(
       allRecords.filter(
         (activityLogRecord) =>
-          activityLogRecord.recordType === ActivityLogRecordType.AccountValueEdit
+          activityLogRecord.recordType === ActivityLogRecordType.AccountValueChange
       ) as AccountValueEditRecord[],
       currency,
       exchangeRate

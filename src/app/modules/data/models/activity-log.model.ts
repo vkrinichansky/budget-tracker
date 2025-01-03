@@ -5,7 +5,7 @@ import { Category } from './category.model';
 export enum ActivityLogRecordType {
   CategoryValueChange = 'category-value-change',
   CategoriesReset = 'categories-reset',
-  AccountValueEdit = 'account-value-edit',
+  AccountValueChange = 'account-value-edit',
   MoveMoneyBetweenAccounts = 'move-money-between-account',
 }
 

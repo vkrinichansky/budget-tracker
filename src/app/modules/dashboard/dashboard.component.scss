@@ -37,14 +37,18 @@
   }
 
   @media (width <= 480px) {
+    @apply p-4 gap-y-4;
+
     .info-cards,
     .main-cards {
+      @apply -mx-4 px-4;
+
       .card {
         flex: 0 0 100%;
       }
 
       .card:not(:last-child) {
-        @apply mr-3;
+        @apply mr-2;
       }
     }
   }

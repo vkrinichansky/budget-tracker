@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { BudgetType, Category, CurrencyPipe } from '@budget-tracker/data';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { ChartData, ChartOptions } from 'chart.js';
@@ -17,12 +17,10 @@ type TabType = 'list' | 'chart';
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
+  styleUrl: './categories.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoriesComponent implements OnInit {
-  @HostBinding('class')
-  private readonly classes = 'w-full h-full bg-transparent rounded-lg overflow-hidden p-5 bg-white';
-
   readonly currentTab$: BehaviorSubject<TabType> = new BehaviorSubject<TabType>('list');
 
   @Input()

@@ -33,9 +33,7 @@
       <span class="font-main font-bold text-charcoal text-lg text-center">
         {{ buildTranslationKey('emptyStateText') | translate }}
       </span>
-    }
-
-    @if (!data.isEmpty) {
+    } @else {
       <cdk-virtual-scroll-viewport itemSize="66" class="h-full w-full !overflow-x-hidden">
         <div
           *cdkVirtualFor="
@@ -78,7 +76,7 @@
 
 <ng-template #recordItem let-item="item">
   @switch (item.recordType) {
-    @case (recordType.AccountValueEdit) {
+    @case (recordType.AccountValueChange) {
       <app-account-value-edit-record class="w-full" [record]="item"></app-account-value-edit-record>
     }
 

@@ -1,0 +1,7 @@
+:host {
+  @apply flex flex-col w-full h-full bg-white rounded-lg p-5 gap-y-4 overflow-hidden;
+
+  @media (width <= 480px) {
+    @apply p-4;
+  }
+}
