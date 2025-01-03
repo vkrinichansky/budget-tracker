@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { DataInitFacadeService } from '@budget-tracker/data';
 import { Observable } from 'rxjs';
@@ -10,13 +10,11 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
+  private readonly dataInitFacade = inject(DataInitFacadeService);
+  private readonly authFacade = inject(AuthFacadeService);
+
   isLoaded$: Observable<boolean>;
   isLoggedIn$: Observable<boolean>;
-
-  constructor(
-    private dataInitFacade: DataInitFacadeService,
-    private authFacade: AuthFacadeService
-  ) {}
 
   ngOnInit(): void {
     this.isLoaded$ = this.dataInitFacade.isDataLoaded();
