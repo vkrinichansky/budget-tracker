@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { AccountsListModalComponent } from './accounts-list-modal.component';
 
 describe('AccountsListModalComponent', () => {
@@ -8,10 +7,9 @@ describe('AccountsListModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AccountsListModalComponent]
-    })
-    .compileComponents();
-    
+      imports: [AccountsListModalComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(AccountsListModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

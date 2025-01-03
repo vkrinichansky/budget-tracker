@@ -5,7 +5,7 @@
     @apply flex flex-col items-center w-full gap-3;
   }
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     @apply flex-row justify-between w-full h-14 max-h-14 px-4 py-0;
 
     .nav-container {
