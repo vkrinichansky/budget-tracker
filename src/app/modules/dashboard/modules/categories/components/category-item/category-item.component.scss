@@ -1,7 +1,3 @@
 :host {
-  @apply flex justify-between items-center pl-5 py-2 pr-2 border-solid border-2 border-grey rounded-lg hover:border-charcoal h-12 gap-x-2 cursor-pointer;
-
-  @media (width <= 480px) {
-    @apply border-charcoal pl-3 pr-1;
-  }
+  @apply flex justify-between items-center pl-2 py-3 pr-1 border-solid border-2 border-grey rounded-lg hover:border-charcoal h-16 gap-x-2 cursor-pointer;
 }

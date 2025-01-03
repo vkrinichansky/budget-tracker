@@ -48,14 +48,14 @@
   @if (!data.isEmpty) {
     @switch (data.currentTab) {
       @case ('list') {
-        <cdk-virtual-scroll-viewport itemSize="60" class="h-full">
+        <cdk-virtual-scroll-viewport itemSize="76" class="h-full">
           <div
             *cdkVirtualFor="
               let category of categories$ | async;
               trackBy: trackBy.bind(this);
               templateCacheSize: 0
             "
-            class="h-15 flex items-center"
+            class="h-19 flex items-center"
           >
             <app-category-item class="w-full" [categoryId]="category.id"></app-category-item>
           </div>

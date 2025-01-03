@@ -69,8 +69,10 @@ module.exports = {
         inherit: 'inherit',
         ...convertPixelsIntoRems(52), // 52px,
         ...convertPixelsIntoRems(60), // 60px,
-        ...convertPixelsIntoRems(68), // 68px,
         ...convertPixelsIntoRems(66), // 66px,
+        ...convertPixelsIntoRems(68), // 68px,
+        ...convertPixelsIntoRems(72), // 72px,
+        ...convertPixelsIntoRems(76), // 76px,
         ...convertPixelsIntoRems(100), // 100px,
       },
       maxWidth: {
