@@ -1,5 +1,5 @@
 :host {
-  @media (min-width: 481px) {
+  @media (width > 480px) {
     .wrapper {
       .tip {
         transform: translateY(100%);

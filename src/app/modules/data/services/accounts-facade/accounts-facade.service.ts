@@ -56,7 +56,7 @@ export class AccountsFacadeService {
       oldValue: account.value,
       newValue,
       note,
-      recordType: ActivityLogRecordType.AccountValueEdit,
+      recordType: ActivityLogRecordType.AccountValueChange,
     };
 
     this.store.dispatch(

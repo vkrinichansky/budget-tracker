@@ -1,7 +1,7 @@
 <div class="nav-container">
   <svg-icon class="logo mb-2" [iconName]="'small-logo'" [iconSize]="'big'"></svg-icon>
 
-  @for (item of navigationBarItems$ | async; track item) {
+  @for (item of navigationBarItems; track item) {
     <app-navigation-bar-item [item]="item"></app-navigation-bar-item>
   }
 </div>

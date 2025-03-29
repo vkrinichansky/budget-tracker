@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { ActivityLogFacadeService } from '@budget-tracker/data';
 import { ActivityLogRecordType, ActivityLogRecordUnitedType } from '@budget-tracker/data';
 import { ConfirmationModalService } from '@budget-tracker/design-system';
@@ -14,15 +14,12 @@ type RenderingItemType = DateObject | ActivityLogRecordUnitedType;
 @Component({
   selector: 'app-activity-log',
   templateUrl: './activity-log.component.html',
+  styleUrl: './activity-log.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityLogComponent implements OnInit {
   private readonly confirmationModalService = inject(ConfirmationModalService);
   private readonly activityLogFacade = inject(ActivityLogFacadeService);
-
-  @HostBinding('class')
-  private readonly classes =
-    'flex flex-col w-full h-full bg-white rounded-lg p-5 gap-y-4 overflow-hidden';
 
   readonly recordType = ActivityLogRecordType;
 

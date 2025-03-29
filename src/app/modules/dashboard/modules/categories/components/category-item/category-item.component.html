@@ -1,26 +1,29 @@
 <ng-container *ngVar="category$ | async as category">
-  <div class="flex items-center gap-x-2 flex-1 overflow-hidden">
+  <div class="flex items-center gap-x-3 flex-1 overflow-hidden h-full">
     <span
-      class="w-5 h-5 min-w-5 min-h-5 border-2 border-solid border-charcoal rounded-full"
+      class="w-2 h-full min-w-2 min-h-full border-2 border-solid border-charcoal rounded-full"
       [style.backgroundColor]="category.hexColor"
     ></span>
 
-    <svg-icon class="text-charcoal" [iconName]="category?.icon"></svg-icon>
+    <svg-icon class="text-charcoal !w-7 !h-7" [iconName]="category?.icon"></svg-icon>
 
-    <span
-      customTooltip
-      [tooltipText]="category?.name"
-      [showTooltipOnlyOnOverflow]="true"
-      class="font-main font-bold text-charcoal text-base truncate"
-    >
-      {{ category?.name }}
-    </span>
+    <div class="flex flex-col overflow-hidden">
+      <span
+        customTooltip
+        [tooltipText]="category?.name"
+        [showTooltipOnlyOnOverflow]="true"
+        class="font-main font-bold text-charcoal text-base truncate"
+      >
+        {{ category?.name }}
+      </span>
+
+      <span class="font-main font-bold text-charcoal text-base">
+        {{ category?.value | numberSpace | currencySymbol }}</span
+      >
+    </div>
   </div>
 
   <div class="flex items-center gap-x-2">
-    <span class="font-main font-bold text-charcoal text-base">
-      {{ category?.value | numberSpace | currencySymbol }}</span
-    >
     <app-menu
       [menuActions]="menuActions"
       [loading]="isCategoryRemoving"

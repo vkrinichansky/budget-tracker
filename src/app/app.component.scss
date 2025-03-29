@@ -1,7 +1,7 @@
 :host {
   @apply flex h-full relative overflow-hidden;
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     @apply flex-col-reverse;
 
     .main {

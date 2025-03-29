@@ -1,0 +1,7 @@
+:host {
+  @apply w-full h-full bg-transparent rounded-lg overflow-hidden p-5 bg-white;
+
+  @media (width <= 480px) {
+    @apply p-4;
+  }
+}

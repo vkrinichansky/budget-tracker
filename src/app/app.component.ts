@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { DataInitFacadeService } from '@budget-tracker/data';
-import { delay } from '@budget-tracker/utils';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -11,17 +10,13 @@ import { Observable, tap } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  isLoading$: Observable<boolean>;
+  private readonly dataInitFacade = inject(DataInitFacadeService);
+  private readonly authFacade = inject(AuthFacadeService);
+
   isLoaded$: Observable<boolean>;
   isLoggedIn$: Observable<boolean>;
 
-  constructor(
-    private dataInitFacade: DataInitFacadeService,
-    private authFacade: AuthFacadeService
-  ) {}
-
   ngOnInit(): void {
-    this.isLoading$ = this.dataInitFacade.isDataLoading();
     this.isLoaded$ = this.dataInitFacade.isDataLoaded();
     this.isLoggedIn$ = this.authFacade.isLoggedIn();
   }

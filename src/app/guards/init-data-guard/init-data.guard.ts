@@ -8,8 +8,7 @@ import { combineLatest, map, Observable } from 'rxjs';
 })
 export class InitDataGuard {
   private readonly authFacade = inject(AuthFacadeService);
-
-  constructor(private dataInitFacade: DataInitFacadeService) {}
+  private readonly dataInitFacade = inject(DataInitFacadeService);
 
   canActivate(): Observable<boolean> {
     return combineLatest([this.authFacade.isLoggedIn(), this.dataInitFacade.isDataLoaded()]).pipe(
