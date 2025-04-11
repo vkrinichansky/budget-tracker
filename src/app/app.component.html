@@ -4,7 +4,7 @@
     isLoaded: isLoaded$ | async
   } as data"
 >
-  @if (!data.isLoaded) {
+  @if (!data.isLoaded && data.isLoggedIn) {
     <app-fullsize-loader></app-fullsize-loader>
   } @else {
     @if (data.isLoggedIn && data.isLoaded) {
