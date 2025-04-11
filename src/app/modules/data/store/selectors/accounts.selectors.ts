@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { dataFeatureSelector } from './feature.selector';
-import { CurrenciesEnum, CurrencyExchangeRate } from '../../models';
+import { CurrenciesEnum, CurrencyExchangeRate } from '@budget-tracker/models';
 
 const accountsStateSelector = createSelector(
   dataFeatureSelector,

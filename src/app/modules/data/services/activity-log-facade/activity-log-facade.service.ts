@@ -8,7 +8,7 @@ import {
   CategoryValueChangeRecord,
   ActivityLogRecordUnitedType,
   BudgetType,
-} from '../../models';
+} from '@budget-tracker/models';
 import { Dictionary } from '@ngrx/entity';
 import { CategoriesFacadeService } from '../categories-facade/categories-facade.service';
 import { AccountsFacadeService } from '../accounts-facade/accounts-facade.service';

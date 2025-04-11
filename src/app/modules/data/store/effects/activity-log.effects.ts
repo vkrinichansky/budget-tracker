@@ -5,7 +5,7 @@ import { AccountsActions, ActivityLogActions, CategoriesActions } from '../actio
 import { Store } from '@ngrx/store';
 import { ActivityLogSelectors } from '../selectors';
 import { ActivityLogService } from '../../services';
-import { Account, Category } from '../../models';
+import { Account, Category } from '@budget-tracker/models';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BudgetType, Category, StatisticsSnapshot } from '../../models';
+import { BudgetType, Category, StatisticsSnapshot } from '@budget-tracker/models';
 import { Observable, combineLatest, map } from 'rxjs';
 import { ChartData, ChartDataset } from 'chart.js';
 import { MainPalette } from '@budget-tracker/design-system';

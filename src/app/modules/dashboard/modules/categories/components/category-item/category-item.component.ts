@@ -10,9 +10,10 @@ import {
 } from '@angular/core';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
 import { CategoryModalsService } from '../../services';
-import { AccountsFacadeService, CategoriesFacadeService, Category } from '@budget-tracker/data';
+import { AccountsFacadeService, CategoriesFacadeService } from '@budget-tracker/data';
 import { Observable, firstValueFrom, map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Category } from '@budget-tracker/models';
 
 @Component({
   selector: 'app-category-item',

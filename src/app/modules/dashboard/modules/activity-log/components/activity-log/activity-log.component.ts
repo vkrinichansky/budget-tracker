@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { ActivityLogFacadeService } from '@budget-tracker/data';
-import { ActivityLogRecordType, ActivityLogRecordUnitedType } from '@budget-tracker/data';
 import { ConfirmationModalService } from '@budget-tracker/design-system';
+import { ActivityLogRecordUnitedType, ActivityLogRecordType } from '@budget-tracker/models';
 import { Observable, map } from 'rxjs';
 
 interface DateObject {

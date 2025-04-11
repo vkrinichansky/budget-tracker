@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LanguagesEnum } from '../../models';
+import { LanguagesEnum } from '@budget-tracker/models';
 import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({

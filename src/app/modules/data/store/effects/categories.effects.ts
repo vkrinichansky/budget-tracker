@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, delay, from, map, mergeMap, of, switchMap } from 'rxjs';
 import { AccountsActions, ActivityLogActions, CategoriesActions } from '../actions';
 import { CategoriesService } from '../../services';
-import { Account, Category } from '../../models';
+import { Account, Category } from '@budget-tracker/models';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
 
 @Injectable()

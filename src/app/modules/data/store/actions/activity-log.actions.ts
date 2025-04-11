@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { ActivityLogRecordUnitedType, ActivityLog, CategoryValueChangeRecord } from '../../models';
+import { ActivityLogRecordUnitedType, ActivityLog, CategoryValueChangeRecord } from '@budget-tracker/models';
 
 export const ActivityLogActions = {
   recordAdded: createAction(

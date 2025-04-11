@@ -7,7 +7,7 @@ import {
   Firestore,
   updateDoc,
 } from '@angular/fire/firestore';
-import { ActivityLogRecordUnitedType, CategoryValueChangeRecord } from '../../models';
+import { ActivityLogRecordUnitedType, CategoryValueChangeRecord } from '@budget-tracker/models';
 import { Auth } from '@angular/fire/auth';
 
 const ACTIVITY_LOG_PATH = 'budget.activityLog';

@@ -25,7 +25,7 @@ import {
   CurrenciesEnum,
   CurrencyExchangeRate,
   StatisticsSnapshot,
-} from '../../models';
+} from '@budget-tracker/models';
 import { v4 as uuid } from 'uuid';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
 

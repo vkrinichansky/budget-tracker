@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Statistics } from '../../models';
+import { Statistics } from '@budget-tracker/models';
 
 export const StatisticsActions = {
   clean: createAction('[Statistics] Clean state'),

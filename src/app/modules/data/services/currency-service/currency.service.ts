@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Account, CurrenciesEnum, predefinedCurrenciesDictionary } from '../../models';
+import { Account, CurrenciesEnum, predefinedCurrenciesDictionary } from '@budget-tracker/models';
 import { CurrencyExchangeService } from '../currency-exchange-service/currency-exchange.service';
 
 interface ExchangeRates {

@@ -1,4 +1,4 @@
-import { User } from '../models';
+import { User } from '@budget-tracker/models';
 
 export interface AuthState {
   user: User | null;

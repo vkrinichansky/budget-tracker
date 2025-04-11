@@ -1,12 +1,12 @@
 import { Component, Inject, OnInit, ChangeDetectionStrategy, DestroyRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { BudgetType, Category } from '@budget-tracker/data';
 import { FormControl, FormGroup } from '@angular/forms';
 import { v4 as uuid } from 'uuid';
 import { Observable, filter, take } from 'rxjs';
 import { AddCategoryModalData } from '../../models';
 import { CategoriesFacadeService } from '@budget-tracker/data';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Category, BudgetType } from '@budget-tracker/models';
 
 enum FormFields {
   CategoryIcon = 'categoryIcon',

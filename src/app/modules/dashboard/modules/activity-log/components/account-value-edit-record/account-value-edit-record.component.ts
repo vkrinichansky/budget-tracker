@@ -1,9 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
-import {
-  AccountValueEditRecord,
-  CurrencyExchangeService,
-  CurrencyService,
-} from '@budget-tracker/data';
+import { CurrencyExchangeService, CurrencyService } from '@budget-tracker/data';
+import { AccountValueEditRecord } from '@budget-tracker/models';
 
 @Component({
   selector: 'app-account-value-edit-record',

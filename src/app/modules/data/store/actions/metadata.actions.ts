@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { CurrenciesEnum, LanguagesEnum } from '../../models';
+import { CurrenciesEnum, LanguagesEnum } from '@budget-tracker/models';
 
 export const MetadataActions = {
   changeCurrency: createAction(

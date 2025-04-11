@@ -3,7 +3,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { filter, firstValueFrom, map, Observable, take } from 'rxjs';
 import { AccountValueEditModalData } from '../../models';
-import { Account, AccountsFacadeService } from '@budget-tracker/data';
+import { AccountsFacadeService } from '@budget-tracker/data';
+import { Account } from '@budget-tracker/models';
 
 enum FormFields {
   Value = 'value',

@@ -1,11 +1,7 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import {
-  CurrenciesEnum,
-  CurrencyService,
-  MetadataFacadeService,
-  predefinedCurrenciesDictionary,
-} from '@budget-tracker/data';
+import { CurrencyService, MetadataFacadeService } from '@budget-tracker/data';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
+import { predefinedCurrenciesDictionary, CurrenciesEnum } from '@budget-tracker/models';
 import { Observable } from 'rxjs';
 
 @Component({

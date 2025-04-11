@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Account, AccountValueEditRecord, MoveMoneyBetweenAccountsRecord } from '../../models';
+import { Account, AccountValueEditRecord, MoveMoneyBetweenAccountsRecord } from '@budget-tracker/models';
 
 export const AccountsActions = {
   accountsLoaded: createAction('[Accounts] Accounts loaded', props<{ accounts: Account[] }>()),

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { BudgetType, Category, CurrencyPipe } from '@budget-tracker/data';
+import { CurrencyPipe } from '@budget-tracker/data';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { ChartData, ChartOptions } from 'chart.js';
 import { CategoryModalsService } from '../../services';
@@ -11,6 +11,7 @@ import {
 } from '@budget-tracker/design-system';
 import { CategoriesFacadeService } from '@budget-tracker/data';
 import { isMobileWidth, NumberSpacePipe } from '@budget-tracker/utils';
+import { BudgetType, Category } from '@budget-tracker/models';
 
 type TabType = 'list' | 'chart';
 

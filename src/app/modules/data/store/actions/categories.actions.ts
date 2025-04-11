@@ -4,7 +4,7 @@ import {
   CategoriesResetRecord,
   Category,
   CategoryValueChangeRecord,
-} from '../../models';
+} from '@budget-tracker/models';
 
 export const CategoriesActions = {
   categoriesLoaded: createAction(

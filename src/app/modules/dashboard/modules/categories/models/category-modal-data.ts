@@ -1,4 +1,4 @@
-import { BudgetType } from '@budget-tracker/data';
+import { BudgetType } from '@budget-tracker/models';
 
 export interface AddCategoryModalData {
   budgetType: BudgetType;

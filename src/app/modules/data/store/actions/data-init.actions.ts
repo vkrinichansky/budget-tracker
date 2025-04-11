@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { AppDatabaseStructure } from '../../models';
+import { AppDatabaseStructure } from '@budget-tracker/models';
 
 export const DataInitActions = {
   init: createAction('[Data init] Init'),

@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { ActivityLogActions } from '../actions';
-import { ActivityLogRecordUnitedType } from '../../models';
+import { ActivityLogRecordUnitedType } from '@budget-tracker/models';
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
 
 export interface ActivityLogState {

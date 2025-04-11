@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { Account, AccountsFacadeService, CurrencyService } from '@budget-tracker/data';
+import { AccountsFacadeService, CurrencyService } from '@budget-tracker/data';
 import { AccountsValueEditModalService } from '../../services';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
 import { Observable } from 'rxjs';
+import { Account } from '@budget-tracker/models';
 
 @Component({
   selector: 'app-account-card',

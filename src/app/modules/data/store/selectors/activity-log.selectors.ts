@@ -10,7 +10,7 @@ import {
   CategoryValueChangeRecord,
   CurrenciesEnum,
   CurrencyExchangeRate,
-} from '../../models';
+} from '@budget-tracker/models';
 import { isCurrentMonth } from '@budget-tracker/utils';
 
 const activityLogStateSelector = createSelector(

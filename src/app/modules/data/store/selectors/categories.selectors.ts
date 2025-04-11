@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { dataFeatureSelector } from './feature.selector';
-import { BudgetType, CurrenciesEnum, CurrencyExchangeRate } from '../../models';
 import { ActivityLogSelectors } from './activity-log.selectors';
+import { BudgetType, CurrenciesEnum, CurrencyExchangeRate } from '@budget-tracker/models';
 
 const categoriesStateSelector = createSelector(
   dataFeatureSelector,

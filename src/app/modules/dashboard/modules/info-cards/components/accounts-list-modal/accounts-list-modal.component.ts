@@ -2,7 +2,8 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Account, AccountsFacadeService } from '@budget-tracker/data';
+import { AccountsFacadeService } from '@budget-tracker/data';
+import { Account } from '@budget-tracker/models';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 @Component({

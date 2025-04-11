@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Account, AccountValueEditRecord, MoveMoneyBetweenAccountsRecord } from '../../models';
+import { Account, AccountValueEditRecord, MoveMoneyBetweenAccountsRecord } from '@budget-tracker/models';
 import { Auth } from '@angular/fire/auth';
 import {
   arrayUnion,

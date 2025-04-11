@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CurrencyExchangeRate, predefinedCurrenciesDictionary } from '../../models';
+import { CurrencyExchangeRate, predefinedCurrenciesDictionary } from '@budget-tracker/models';
 
 @Injectable({
   providedIn: 'root',

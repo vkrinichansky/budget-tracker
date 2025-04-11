@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
-import { Account } from '../../models';
+import { Account } from '@budget-tracker/models';
 import { AccountsActions } from '../actions';
 
 export interface AccountsState {

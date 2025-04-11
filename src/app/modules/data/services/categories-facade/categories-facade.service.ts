@@ -9,7 +9,7 @@ import {
   BudgetType,
   CategoryValueChangeRecord,
   CategoriesResetRecord,
-} from '../../models';
+} from '@budget-tracker/models';
 import { Dictionary } from '@ngrx/entity';
 import { AccountsFacadeService } from '../accounts-facade/accounts-facade.service';
 import { CurrencyService } from '../currency-service/currency.service';

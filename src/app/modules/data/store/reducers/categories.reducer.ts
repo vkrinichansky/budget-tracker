@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
 import { CategoriesActions } from '../actions';
-import { Category } from '../../models';
+import { Category } from '@budget-tracker/models';
 
 export interface CategoriesState {
   categories: EntityState<Category>;

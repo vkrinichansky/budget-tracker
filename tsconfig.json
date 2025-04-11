@@ -27,6 +27,9 @@
     "strictPropertyInitialization": false,
     "strictNullChecks": false,
     "paths": {
+      "@budget-tracker/models": [
+        "src/app/modules/models/index.ts"
+      ],
       "@budget-tracker/auth": [
         "src/app/modules/auth/index.ts"
       ],

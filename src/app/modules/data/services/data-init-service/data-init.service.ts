@@ -16,7 +16,7 @@ import {
   ExchangeEndpointResponse,
   StatisticsSnapshot,
   UserMetadata,
-} from '../../models';
+} from '@budget-tracker/models';
 import { Auth } from '@angular/fire/auth';
 import { HttpClient } from '@angular/common/http';
 

@@ -5,7 +5,7 @@ import {
   AccountValueEditRecord,
   ActivityLogRecordType,
   MoveMoneyBetweenAccountsRecord,
-} from '../../models';
+} from '@budget-tracker/models';
 import { Store } from '@ngrx/store';
 import { AccountsActions, AccountsSelectors } from '../../store';
 import { v4 as uuid } from 'uuid';

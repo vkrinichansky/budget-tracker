@@ -9,7 +9,7 @@ import {
   DocumentReference,
   deleteField,
 } from '@angular/fire/firestore';
-import { Category, CategoryValueChangeRecord, CategoriesResetRecord } from '../../models';
+import { Category, CategoryValueChangeRecord, CategoriesResetRecord } from '@budget-tracker/models';
 
 const CATEGORIES_PATH = 'budget.categories';
 const ACTIVITY_LOG_PATH = 'budget.activityLog';
