@@ -50,7 +50,7 @@ export class DataInitEffects {
   //     ),
   //     map(([data, { metadata, exchangeRate }]) => {
   //       this.currencyService.setCurrentCurrency(metadata.currency as CurrenciesEnum);
-  //       this.languageService.setCurrentLanguage(metadata.language);
+  //       this.languageFacade.setCurrentLanguage(metadata.language);
   //       this.currencyExchangeService.setCurrentExchangeRate(
   //         exchangeRate[metadata.currency] as CurrencyExchangeRate
   //       );

@@ -8,7 +8,6 @@ export const MetadataActions = {
     props<{
       currency: CurrenciesEnum;
       language: LanguagesEnum;
-      resetDate: string;
       currencyExchangeRate: CurrencyExchangeRate;
     }>()
   ),

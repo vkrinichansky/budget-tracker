@@ -7,12 +7,11 @@ export interface Dashboard {
   categories: {
     [categoryId: string]: Category;
   };
-
   accounts: {
     [accountId: string]: Account;
   };
-
   activityLog: ActivityLog;
+  resetDate: string;
 }
 
 export interface Snapshots {

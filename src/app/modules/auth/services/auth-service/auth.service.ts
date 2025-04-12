@@ -54,13 +54,13 @@ export class AuthService {
     const metadata: UserMetadata = {
       currency: CurrenciesEnum.USD,
       language: LanguagesEnum.English,
-      resetDate: getMonthAndYearString(),
     };
 
     const dashboard: Dashboard = {
       accounts: {},
       categories: {},
       activityLog: [],
+      resetDate: getMonthAndYearString(),
     };
 
     const snapshots: Snapshots = {

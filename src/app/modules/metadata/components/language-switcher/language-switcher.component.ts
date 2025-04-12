@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { MenuAction } from '@budget-tracker/design-system';
 import { LanguagesEnum, predefinedLanguagesDictionary } from '@budget-tracker/models';
 import { Observable, of } from 'rxjs';
-import { LanguageService, MetadataFacadeService } from '../../services';
+import { LanguageFacadeService, MetadataFacadeService } from '../../services';
 
 @Component({
   selector: 'app-language-switcher',
@@ -18,12 +18,12 @@ export class LanguageSwitcherComponent implements OnInit {
   isLoading$: Observable<boolean> = of(false);
 
   constructor(
-    private languageService: LanguageService,
+    private languageFacade: LanguageFacadeService,
     private metadataFacade: MetadataFacadeService
   ) {}
 
   ngOnInit(): void {
-    this.currentLanguage = this.languageService.getCurrentLanguage();
+    this.currentLanguage = this.languageFacade.getCurrentLanguage();
     this.currentLanguageText = predefinedLanguagesDictionary[this.currentLanguage].code;
     this.icon = predefinedLanguagesDictionary[this.currentLanguage].icon;
 

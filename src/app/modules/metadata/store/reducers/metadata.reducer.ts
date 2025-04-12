@@ -10,7 +10,6 @@ export interface MetadataState extends UserMetadata {
 const initialState: MetadataState = {
   currency: null,
   language: null,
-  resetDate: null,
   currencyExchangeRate: null,
   isLoaded: false,
 };
@@ -22,7 +21,6 @@ const adapterReducer = createReducer(
       ...state,
       currency: action.currency,
       language: action.language,
-      resetDate: action.resetDate,
       currencyExchangeRate: action.currencyExchangeRate,
       isLoaded: true,
     };

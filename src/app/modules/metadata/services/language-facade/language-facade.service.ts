@@ -3,7 +3,7 @@ import { LanguagesEnum } from '@budget-tracker/models';
 import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({ providedIn: 'root' })
-export class LanguageService {
+export class LanguageFacadeService {
   constructor(private translateService: TranslateService) {}
 
   setCurrentLanguage(language: LanguagesEnum): void {
