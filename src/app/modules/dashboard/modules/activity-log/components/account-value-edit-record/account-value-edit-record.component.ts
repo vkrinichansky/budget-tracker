@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
-import { CurrencyExchangeService, CurrencyService } from '@budget-tracker/data';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { CurrencyFacadeService } from '@budget-tracker/metadata';
 import { AccountValueEditRecord } from '@budget-tracker/models';
 
 @Component({
@@ -8,8 +8,7 @@ import { AccountValueEditRecord } from '@budget-tracker/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountValueEditRecordComponent {
-  private readonly currencyService = inject(CurrencyService);
-  private readonly currencyExchangeService = inject(CurrencyExchangeService);
+  constructor(private currencyFacade: CurrencyFacadeService) {}
 
   @Input()
   record: AccountValueEditRecord;
@@ -27,16 +26,16 @@ export class AccountValueEditRecordComponent {
   }
 
   get isCurrentCurrency(): boolean {
-    return this.record.account.currency.id === this.currencyService.getCurrentCurrency();
+    return this.record.account.currency.id === this.currencyFacade.getCurrentCurrency();
   }
 
   get convertedValue(): number {
     return Math.abs(
-      this.record.account.currency.id === this.currencyService.getCurrentCurrency()
+      this.record.account.currency.id === this.currencyFacade.getCurrentCurrency()
         ? this.difference
         : Math.round(
             this.difference /
-              this.currencyExchangeService.getCurrentExchangeRate()[this.record.account.currency.id]
+              this.currencyFacade.getCurrentExchangeRate()[this.record.account.currency.id]
           )
     );
   }

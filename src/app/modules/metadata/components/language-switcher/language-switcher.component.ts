@@ -1,8 +1,8 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { LanguageService, MetadataFacadeService } from '@budget-tracker/data';
 import { MenuAction } from '@budget-tracker/design-system';
 import { LanguagesEnum, predefinedLanguagesDictionary } from '@budget-tracker/models';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { LanguageService, MetadataFacadeService } from '../../services';
 
 @Component({
   selector: 'app-language-switcher',
@@ -10,12 +10,12 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LanguageSwitcherComponent implements OnInit {
-  readonly currentLanguage = this.languageService.getCurrentLanguage();
-  readonly currentLanguageText = predefinedLanguagesDictionary[this.currentLanguage].code;
-  readonly menuActions: MenuAction[] = this.getMenuActions();
-  readonly icon = predefinedLanguagesDictionary[this.currentLanguage].icon;
+  currentLanguage: string;
+  currentLanguageText: string;
+  icon: string;
+  menuActions: MenuAction[];
 
-  isLoading$: Observable<boolean>;
+  isLoading$: Observable<boolean> = of(false);
 
   constructor(
     private languageService: LanguageService,
@@ -23,7 +23,11 @@ export class LanguageSwitcherComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isLoading$ = this.metadataFacade.getLanguageChangingInProgress();
+    this.currentLanguage = this.languageService.getCurrentLanguage();
+    this.currentLanguageText = predefinedLanguagesDictionary[this.currentLanguage].code;
+    this.icon = predefinedLanguagesDictionary[this.currentLanguage].icon;
+
+    this.menuActions = this.getMenuActions();
   }
 
   buildTranslationKey(key: string): string {

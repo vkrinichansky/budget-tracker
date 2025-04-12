@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CurrencyService } from './currency.service';
+import { CurrencyService } from './currency-facade.service';
 
 describe('CurrencyService', () => {
   let service: CurrencyService;

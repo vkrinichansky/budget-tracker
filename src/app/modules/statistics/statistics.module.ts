@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MonthlyStatisticsComponent } from './components';
 import { NgChartsModule } from 'ng2-charts';
 import { DataModule } from '@budget-tracker/data';
+import { MetadataModule } from '@budget-tracker/metadata';
 
 const routes: Routes = [
   {
@@ -24,6 +25,7 @@ const routes: Routes = [
     TranslateModule,
     NgChartsModule,
     DataModule,
+    MetadataModule,
   ],
 })
 export class StatisticsModule {}

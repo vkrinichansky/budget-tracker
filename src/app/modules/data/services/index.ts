@@ -1,7 +1,3 @@
-export { CurrencyService } from './currency-service/currency.service';
-export { LanguageService } from './language-service/language.service';
-export { CurrencyExchangeService } from './currency-exchange-service/currency-exchange.service';
-
 export { ActivityLogFacadeService } from './activity-log-facade/activity-log-facade.service';
 export { ActivityLogService } from './activity-log-service/activity-log.service';
 
@@ -15,6 +11,3 @@ export { AccountsFacadeService } from './accounts-facade/accounts-facade.service
 export { AccountsService } from './accounts-service/accounts.service';
 
 export { StatisticsFacadeService } from './statistics-facade/statistics-facade.service';
-
-export { MetadataFacadeService } from './metadata-facade/metadata-facade.service';
-export { MetadataService } from './metadata-service/metadata.service';

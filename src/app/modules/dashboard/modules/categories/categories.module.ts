@@ -14,6 +14,7 @@ import { UtilsModule } from '@budget-tracker/utils';
 import { NgChartsModule } from 'ng2-charts';
 import { DataModule } from '@budget-tracker/data';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MetadataModule } from '@budget-tracker/metadata';
 @NgModule({
   imports: [
     CommonModule,
@@ -25,6 +26,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     NgChartsModule,
     DataModule,
     ScrollingModule,
+    MetadataModule,
   ],
   declarations: [
     CategoriesComponent,

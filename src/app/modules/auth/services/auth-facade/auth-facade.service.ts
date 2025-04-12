@@ -30,7 +30,10 @@ export class AuthFacadeService {
   }
 
   getUserId(): Observable<string> {
-    return this.getUserFromState().pipe(map((user) => user.uid));
+    return this.getUserFromState().pipe(
+      map((user) => user.uid),
+      filter(Boolean)
+    );
   }
 
   isLoggedIn(): Observable<boolean> {

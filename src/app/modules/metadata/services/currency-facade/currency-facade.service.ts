@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Account, CurrenciesEnum, predefinedCurrenciesDictionary } from '@budget-tracker/models';
-import { CurrencyExchangeService } from '../currency-exchange-service/currency-exchange.service';
+import {
+  Account,
+  CurrenciesEnum,
+  CurrencyExchangeRate,
+  predefinedCurrenciesDictionary,
+} from '@budget-tracker/models';
+import { BehaviorSubject } from 'rxjs';
 
 interface ExchangeRates {
   [currency: string]: {
@@ -8,34 +13,29 @@ interface ExchangeRates {
   };
 }
 
-@Injectable({
-  providedIn: 'root',
-})
-export class CurrencyService {
-  private _currency: CurrenciesEnum;
-
-  constructor(private currencyExchangeService: CurrencyExchangeService) {}
+@Injectable({ providedIn: 'root' })
+export class CurrencyFacadeService {
+  private readonly _currency$ = new BehaviorSubject<CurrenciesEnum>(null);
+  private _currencyExchangeRate: CurrencyExchangeRate;
 
   setCurrentCurrency(currency: CurrenciesEnum): void {
-    this._currency = currency;
+    this._currency$.next(currency);
   }
 
   getCurrentCurrency(): CurrenciesEnum {
-    return this._currency;
+    return this._currency$.value;
   }
 
   getCurrencySymbol(): string {
-    return predefinedCurrenciesDictionary[this._currency].symbol;
+    return predefinedCurrenciesDictionary[this._currency$.value].symbol;
   }
 
   getConvertedValueForAccount(account: Account): number {
-    return Math.round(
-      account.value / this.currencyExchangeService.getCurrentExchangeRate()[account.currency.id]
-    );
+    return Math.round(account.value / this.getCurrentExchangeRate()[account.currency.id]);
   }
 
   getBasicToForeignConvertedValue(value: number, currency: CurrenciesEnum): number {
-    return Math.round(value / this.currencyExchangeService.getCurrentExchangeRate()[currency]);
+    return Math.round(value / this.getCurrentExchangeRate()[currency]);
   }
 
   convertCurrency(
@@ -51,7 +51,7 @@ export class CurrencyService {
   convertRates(): ExchangeRates {
     const baseCurrency = this.getCurrentCurrency();
     const rates = {
-      [baseCurrency]: this.currencyExchangeService.getCurrentExchangeRate(),
+      [baseCurrency]: this.getCurrentExchangeRate(),
     };
 
     const result: ExchangeRates = {};
@@ -77,6 +77,14 @@ export class CurrencyService {
       }
     }
 
-    return { ...result, [baseCurrency]: this.currencyExchangeService.getCurrentExchangeRate() };
+    return { ...result, [baseCurrency]: this.getCurrentExchangeRate() };
+  }
+
+  setCurrentExchangeRate(exchangeRate: CurrencyExchangeRate): void {
+    this._currencyExchangeRate = structuredClone(exchangeRate);
+  }
+
+  getCurrentExchangeRate(): CurrencyExchangeRate {
+    return this._currencyExchangeRate;
   }
 }

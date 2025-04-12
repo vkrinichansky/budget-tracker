@@ -3,13 +3,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Observable, filter, take, tap, withLatestFrom } from 'rxjs';
 import { CategoryValueModalData } from '../../models';
-import {
-  AccountsFacadeService,
-  CategoriesFacadeService,
-  CurrencyService,
-} from '@budget-tracker/data';
+import { AccountsFacadeService, CategoriesFacadeService } from '@budget-tracker/data';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Account, Category, BudgetType } from '@budget-tracker/models';
+import { CurrencyFacadeService } from '@budget-tracker/metadata';
 
 enum FormFields {
   ValueToAdd = 'valueToAdd',
@@ -51,7 +48,7 @@ export class CategoryValueModalComponent implements OnInit {
   get doesChoosedAccountHaveForeignCurrency(): boolean {
     return this.accoundChoosed
       ? (this.form.controls[FormFields.AccountToUse].value as Account).currency.id !==
-          this.currencyService.getCurrentCurrency()
+          this.currencyFacade.getCurrentCurrency()
       : false;
   }
 
@@ -62,11 +59,11 @@ export class CategoryValueModalComponent implements OnInit {
 
     return this.doesChoosedAccountHaveForeignCurrency
       ? (this.form?.controls?.[FormFields.AccountToUse]?.value as Account)?.currency?.symbol
-      : this.currencyService.getCurrencySymbol();
+      : this.currencyFacade.getCurrencySymbol();
   }
 
   get currencySymbolForConvertedValueField(): string {
-    return this.accoundChoosed ? this.currencyService.getCurrencySymbol() : null;
+    return this.accoundChoosed ? this.currencyFacade.getCurrencySymbol() : null;
   }
 
   get maxValue(): number {
@@ -84,7 +81,7 @@ export class CategoryValueModalComponent implements OnInit {
     private dialogRef: MatDialogRef<CategoryValueModalComponent>,
     private categoriesFacade: CategoriesFacadeService,
     private accountsFacade: AccountsFacadeService,
-    private currencyService: CurrencyService,
+    private currencyFacade: CurrencyFacadeService,
     private destroyRef: DestroyRef
   ) {}
 
@@ -137,7 +134,7 @@ export class CategoryValueModalComponent implements OnInit {
       .pipe(
         withLatestFrom(this.form.controls[FormFields.AccountToUse].valueChanges),
         tap(([value, account]) => {
-          const convertedValue = this.currencyService.getBasicToForeignConvertedValue(
+          const convertedValue = this.currencyFacade.getBasicToForeignConvertedValue(
             value,
             account.currency.id
           );

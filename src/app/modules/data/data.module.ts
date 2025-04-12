@@ -7,7 +7,6 @@ import {
   CategoriesEffects,
   DataInitEffects,
   featureKey,
-  MetadataEffects,
   reducers,
 } from './store';
 import {
@@ -19,15 +18,11 @@ import {
   CategoriesService,
   DataInitFacadeService,
   DataInitService,
-  MetadataFacadeService,
-  MetadataService,
   StatisticsFacadeService,
 } from './services';
 import { EffectsModule } from '@ngrx/effects';
-import { CurrencyPipe } from './pipes';
 
 @NgModule({
-  declarations: [CurrencyPipe],
   imports: [
     CommonModule,
     StoreModule.forFeature(featureKey, reducers),
@@ -36,7 +31,6 @@ import { CurrencyPipe } from './pipes';
       DataInitEffects,
       ActivityLogEffects,
       AccountsEffects,
-      MetadataEffects,
     ]),
   ],
   providers: [
@@ -49,10 +43,6 @@ import { CurrencyPipe } from './pipes';
     ActivityLogService,
     AccountsFacadeService,
     AccountsService,
-    MetadataFacadeService,
-    MetadataService,
-    CurrencyPipe,
   ],
-  exports: [CurrencyPipe],
 })
 export class DataModule {}

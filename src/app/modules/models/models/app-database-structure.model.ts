@@ -1,23 +1,22 @@
 import { Account } from './account.model';
 import { ActivityLog } from './activity-log.model';
 import { Category } from './category.model';
-import { Statistics } from './statistics.model';
+import { StatisticsSnapshot } from './statistics.model';
 
-export interface AppDatabaseStructure {
-  budget: {
-    categories: {
-      [categoryId: string]: Category;
-    };
-
-    accounts: {
-      [accountId: string]: Account;
-    };
-
-    activityLog: ActivityLog;
+export interface Dashboard {
+  categories: {
+    [categoryId: string]: Category;
   };
 
-  statistics: Statistics;
+  accounts: {
+    [accountId: string]: Account;
+  };
 
-  resetDate: string;
-  shouldDoReset: boolean;
+  activityLog: ActivityLog;
+}
+
+export interface Snapshots {
+  snapshots: {
+    [date: number]: StatisticsSnapshot;
+  };
 }

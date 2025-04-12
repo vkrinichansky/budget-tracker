@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, firstValueFrom } from 'rxjs';
 import { v4 as uuid } from 'uuid';
@@ -12,17 +12,14 @@ import {
 } from '@budget-tracker/models';
 import { Dictionary } from '@ngrx/entity';
 import { AccountsFacadeService } from '../accounts-facade/accounts-facade.service';
-import { CurrencyService } from '../currency-service/currency.service';
-import { CurrencyExchangeService } from '../currency-exchange-service/currency-exchange.service';
+import { CurrencyFacadeService } from '@budget-tracker/metadata';
 
 @Injectable()
 export class CategoriesFacadeService {
-  private readonly currencyService = inject(CurrencyService);
-  private readonly currencyExchangeService = inject(CurrencyExchangeService);
-
   constructor(
     private store: Store,
-    private accountsFacade: AccountsFacadeService
+    private accountsFacade: AccountsFacadeService,
+    private currencyFacade: CurrencyFacadeService
   ) {}
 
   getAllCategories(): Observable<Category[]> {
@@ -64,8 +61,8 @@ export class CategoriesFacadeService {
   getCurrentMonthBalance(): Observable<number> {
     return this.store.select(
       CategoriesSelectors.currentMonthBalanceSelector(
-        this.currencyService.getCurrentCurrency(),
-        this.currencyExchangeService.getCurrentExchangeRate()
+        this.currencyFacade.getCurrentCurrency(),
+        this.currencyFacade.getCurrentExchangeRate()
       )
     );
   }

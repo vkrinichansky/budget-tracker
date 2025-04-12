@@ -33,6 +33,9 @@
       "@budget-tracker/auth": [
         "src/app/modules/auth/index.ts"
       ],
+      "@budget-tracker/metadata": [
+        "src/app/modules/metadata/index.ts"
+      ],
       "@budget-tracker/data": [
         "src/app/modules/data/index.ts"
       ],

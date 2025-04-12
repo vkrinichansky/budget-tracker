@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { AuthFacadeService } from '@budget-tracker/auth';
-import { DataInitFacadeService } from '@budget-tracker/data';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { MetadataFacadeService } from '@budget-tracker/metadata';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -10,14 +9,12 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  private readonly dataInitFacade = inject(DataInitFacadeService);
-  private readonly authFacade = inject(AuthFacadeService);
+  loading$: Observable<boolean>;
 
-  isLoaded$: Observable<boolean>;
-  isLoggedIn$: Observable<boolean>;
+  constructor(private readonly metadataFacade: MetadataFacadeService) {}
 
   ngOnInit(): void {
-    this.isLoaded$ = this.dataInitFacade.isDataLoaded();
-    this.isLoggedIn$ = this.authFacade.isLoggedIn();
+    this.metadataFacade.initMetadata();
+    this.loading$ = this.metadataFacade.isMetadataLoaded().pipe(map((isLoaded) => !isLoaded));
   }
 }

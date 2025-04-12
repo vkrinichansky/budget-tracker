@@ -12,6 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { UtilsModule } from '@budget-tracker/utils';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { DataModule } from '@budget-tracker/data';
+import { MetadataModule } from '@budget-tracker/metadata';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { DataModule } from '@budget-tracker/data';
     UtilsModule,
     ScrollingModule,
     DataModule,
+    MetadataModule,
   ],
   declarations: [
     ActivityLogComponent,

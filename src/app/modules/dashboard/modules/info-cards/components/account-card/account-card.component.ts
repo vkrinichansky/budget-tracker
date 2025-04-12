@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { AccountsFacadeService, CurrencyService } from '@budget-tracker/data';
+import { AccountsFacadeService } from '@budget-tracker/data';
 import { AccountsValueEditModalService } from '../../services';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
 import { Observable } from 'rxjs';
 import { Account } from '@budget-tracker/models';
+import { CurrencyFacadeService } from '@budget-tracker/metadata';
 
 @Component({
   selector: 'app-account-card',
@@ -49,18 +50,18 @@ export class AccountCardComponent implements OnInit {
   }
 
   get isAccountWithForeignCurrency(): boolean {
-    return this.account.currency.id !== this.currencyService.getCurrentCurrency();
+    return this.account.currency.id !== this.currencyFacade.getCurrentCurrency();
   }
 
   get accountValueInBaseCurrency(): string {
     return `${Math.round(
-      this.currencyService.getConvertedValueForAccount(this.account)
-    ).toString()} ${this.currencyService.getCurrencySymbol()}`;
+      this.currencyFacade.getConvertedValueForAccount(this.account)
+    ).toString()} ${this.currencyFacade.getCurrencySymbol()}`;
   }
 
   constructor(
     private accountValueEditModalService: AccountsValueEditModalService,
-    private currencyService: CurrencyService,
+    private currencyFacade: CurrencyFacadeService,
     private accountsFacade: AccountsFacadeService,
     private confirmationModalService: ConfirmationModalService
   ) {}

@@ -9,15 +9,13 @@ import {
 import { Store } from '@ngrx/store';
 import { AccountsActions, AccountsSelectors } from '../../store';
 import { v4 as uuid } from 'uuid';
-import { CurrencyService } from '../currency-service/currency.service';
-import { CurrencyExchangeService } from '../currency-exchange-service/currency-exchange.service';
+import { CurrencyFacadeService } from '@budget-tracker/metadata';
 
 @Injectable()
 export class AccountsFacadeService {
   constructor(
     private store: Store,
-    private currencyService: CurrencyService,
-    private currencyExchangeService: CurrencyExchangeService
+    private currencyFacade: CurrencyFacadeService
   ) {}
 
   getAllAccounts(): Observable<Account[]> {
@@ -31,8 +29,8 @@ export class AccountsFacadeService {
   getFullBallance(): Observable<number> {
     return this.store.select(
       AccountsSelectors.fullBalanceSelector(
-        this.currencyService.getCurrentCurrency(),
-        this.currencyExchangeService.getCurrentExchangeRate()
+        this.currencyFacade.getCurrentCurrency(),
+        this.currencyFacade.getCurrentExchangeRate()
       )
     );
   }

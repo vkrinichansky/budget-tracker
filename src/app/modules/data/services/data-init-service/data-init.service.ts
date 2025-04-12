@@ -11,7 +11,6 @@ import {
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { firstValueFrom, from, map, Observable, switchMap } from 'rxjs';
 import {
-  AppDatabaseStructure,
   CategoriesResetRecord,
   ExchangeEndpointResponse,
   StatisticsSnapshot,
@@ -34,13 +33,13 @@ export class DataInitService {
     private http: HttpClient
   ) {}
 
-  async initData(): Promise<AppDatabaseStructure> {
-    return await firstValueFrom(
-      this.authFacade.getUserId().pipe(
-        switchMap((userId) => from(getDoc(doc(collection(this.firestore, 'userData'), userId)))),
-        map((data) => data.data() as AppDatabaseStructure)
-      )
-    );
+  async initData(): Promise<any> {
+    // return await firstValueFrom(
+    //   this.authFacade.getUserId().pipe(
+    //     switchMap((userId) => from(getDoc(doc(collection(this.firestore, 'userData'), userId)))),
+    //     map((data) => data.data() as AppDatabaseStructure)
+    //   )
+    // );
   }
 
   async initMetadata(): Promise<UserMetadata> {
@@ -55,7 +54,7 @@ export class DataInitService {
   }
 
   resetData(
-    data: AppDatabaseStructure,
+    data: any,
     activityLogRecords: CategoriesResetRecord[],
     statisticsSnapshot: StatisticsSnapshot,
     date: string

@@ -1,8 +1,8 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { CurrencyService, MetadataFacadeService } from '@budget-tracker/data';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
 import { predefinedCurrenciesDictionary, CurrenciesEnum } from '@budget-tracker/models';
 import { Observable } from 'rxjs';
+import { CurrencyFacadeService, MetadataFacadeService } from '../../services';
 
 @Component({
   selector: 'app-currency-switcher',
@@ -10,24 +10,24 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CurrencySwitcherComponent implements OnInit {
-  private readonly currentCurrency = this.currencyService.getCurrentCurrency();
-
-  readonly currentLanguageText = `${predefinedCurrenciesDictionary[this.currentCurrency].code} (${
-    predefinedCurrenciesDictionary[this.currentCurrency].symbol
-  })`;
-  readonly menuActions = this.getMenuActions();
-  readonly icon = predefinedCurrenciesDictionary[this.currentCurrency].icon;
-
+  currentCurrency: CurrenciesEnum;
+  currentLanguageText: string;
+  icon: string;
+  menuActions: MenuAction[];
   isLoading$: Observable<boolean>;
 
   constructor(
-    private currencyService: CurrencyService,
-    private metadataFacade: MetadataFacadeService,
-    private confirmationModalService: ConfirmationModalService
+    private readonly currencyFacade: CurrencyFacadeService,
+    private readonly metadataFacade: MetadataFacadeService,
+    private readonly confirmationModalService: ConfirmationModalService
   ) {}
 
   ngOnInit(): void {
-    this.isLoading$ = this.metadataFacade.getCurrencyChangingInProgress();
+    this.currentCurrency = this.currencyFacade.getCurrentCurrency();
+    this.currentLanguageText = `${predefinedCurrenciesDictionary[this.currentCurrency].code} (${predefinedCurrenciesDictionary[this.currentCurrency].symbol})`;
+    this.icon = predefinedCurrenciesDictionary[this.currentCurrency].icon;
+
+    this.menuActions = this.getMenuActions();
   }
 
   private getMenuActions(): MenuAction[] {

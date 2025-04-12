@@ -25,6 +25,7 @@ import { Chart } from 'chart.js';
 import 'hammerjs';
 import 'chartjs-plugin-zoom';
 import zoomPlugin from 'chartjs-plugin-zoom';
+import { MetadataModule } from '@budget-tracker/metadata';
 Chart.register(zoomPlugin);
 
 @NgModule({
@@ -39,6 +40,7 @@ Chart.register(zoomPlugin);
     BrowserAnimationsModule,
     UtilsModule,
     DataModule,
+    MetadataModule,
     provideFirebaseApp(() =>
       initializeApp(isDevMode() ? devEnv.firebaseConfig : prodEnv.firebaseConfig)
     ),

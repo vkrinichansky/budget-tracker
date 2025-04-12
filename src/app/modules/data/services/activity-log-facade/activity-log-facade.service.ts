@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, firstValueFrom, map } from 'rxjs';
 import { ActivityLogActions, ActivityLogSelectors, CategoriesSelectors } from '../../store';
@@ -12,20 +12,16 @@ import {
 import { Dictionary } from '@ngrx/entity';
 import { CategoriesFacadeService } from '../categories-facade/categories-facade.service';
 import { AccountsFacadeService } from '../accounts-facade/accounts-facade.service';
-import { LanguageService } from '../language-service/language.service';
-import { CurrencyExchangeService } from '../currency-exchange-service/currency-exchange.service';
-import { CurrencyService } from '../currency-service/currency.service';
+import { CurrencyFacadeService, LanguageService } from '@budget-tracker/metadata';
 
 @Injectable()
 export class ActivityLogFacadeService {
-  private readonly currencyService = inject(CurrencyService);
-  private readonly currencyExchangeService = inject(CurrencyExchangeService);
-
   constructor(
     private store: Store,
     private languageService: LanguageService,
     private categoriesFacade: CategoriesFacadeService,
-    private accountsFacade: AccountsFacadeService
+    private accountsFacade: AccountsFacadeService,
+    private currencyFacade: CurrencyFacadeService
   ) {}
 
   getActivityLogDictionary(): Observable<Dictionary<ActivityLogRecordUnitedType>> {
@@ -42,8 +38,8 @@ export class ActivityLogFacadeService {
     return this.store.select(
       ActivityLogSelectors.activityLogGroupedByDaysSelector(
         language,
-        this.currencyService.getCurrentCurrency(),
-        this.currencyExchangeService.getCurrentExchangeRate()
+        this.currencyFacade.getCurrentCurrency(),
+        this.currencyFacade.getCurrentExchangeRate()
       )
     );
   }
