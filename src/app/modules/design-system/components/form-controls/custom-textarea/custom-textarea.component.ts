@@ -19,6 +19,7 @@ import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
       multi: true,
     },
   ],
+  standalone: false,
 })
 export class CustomTextareaComponent extends GenericCustomControlComponent {
   @HostBinding('class')

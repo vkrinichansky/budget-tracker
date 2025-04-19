@@ -22,6 +22,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   templateUrl: './menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [overlayFade],
+  standalone: false,
 })
 export class MenuComponent implements AfterViewInit {
   @ViewChild('actionsTemplate')

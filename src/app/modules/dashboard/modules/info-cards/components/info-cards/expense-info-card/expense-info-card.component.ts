@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
   selector: 'app-expense-info-card',
   templateUrl: './expense-info-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ExpenseInfoCardComponent implements OnInit {
   expense$: Observable<number>;

@@ -20,6 +20,7 @@ import { Category } from '@budget-tracker/models';
   templateUrl: './category-item.component.html',
   styleUrls: ['./category-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CategoryItemComponent implements OnInit {
   @Input()

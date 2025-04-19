@@ -57,6 +57,7 @@ const positionMapping: { [key: string]: ConnectedPosition } = {
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[customTooltip]',
+  standalone: false,
 })
 export class TooltipRendererDirective implements OnDestroy {
   private _overlayRef: OverlayRef;

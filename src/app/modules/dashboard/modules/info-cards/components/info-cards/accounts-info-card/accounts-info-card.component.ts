@@ -12,6 +12,7 @@ import { firstValueFrom, map, Observable } from 'rxjs';
   templateUrl: './accounts-info-card.component.html',
   styleUrl: './accounts-info-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AccountsInfoCardComponent implements OnInit {
   accountsAmount$: Observable<number>;

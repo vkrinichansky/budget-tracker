@@ -20,6 +20,7 @@ interface ZoomOption {
   templateUrl: './monthly-statistics.component.html',
   styleUrls: ['./monthly-statistics.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class MonthlyStatisticsComponent implements OnInit {
   @ViewChild('chart')

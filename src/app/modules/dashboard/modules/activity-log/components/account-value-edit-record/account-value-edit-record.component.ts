@@ -6,6 +6,7 @@ import { AccountValueEditRecord } from '@budget-tracker/models';
   selector: 'app-account-value-edit-record',
   templateUrl: './account-value-edit-record.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AccountValueEditRecordComponent {
   constructor(private currencyFacade: CurrencyFacadeService) {}

@@ -19,6 +19,7 @@ enum FormFields {
   selector: 'app-category-value-modal',
   templateUrl: './category-value-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CategoryValueModalComponent implements OnInit {
   readonly formFieldsEnum = FormFields;

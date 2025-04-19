@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
   selector: 'app-category-value-change-record',
   templateUrl: './category-value-change-record.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CategoryValueChangeRecordComponent implements OnInit {
   @Input()

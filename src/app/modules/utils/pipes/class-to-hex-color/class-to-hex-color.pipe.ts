@@ -31,7 +31,8 @@ const COLORS: Record<string, string> = {
 const HEX_COLOR_PATTERN = /^#([0-9a-fA-F]{6})\b/;
 
 @Pipe({
-  name: 'classToHexColor',
+    name: 'classToHexColor',
+    standalone: false
 })
 export class ClassToHexColorPipe implements PipeTransform {
   transform(className: string): string {

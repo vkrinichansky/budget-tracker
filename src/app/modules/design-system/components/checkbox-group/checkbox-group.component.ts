@@ -13,6 +13,7 @@ import { CheckboxGroup } from '../../models';
   selector: 'app-checkbox-group',
   templateUrl: './checkbox-group.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CheckboxGroupComponent implements OnChanges {
   private _checkboxGroup: WritableSignal<CheckboxGroup>;

@@ -8,6 +8,7 @@ import { LanguageFacadeService, MetadataFacadeService } from '../../services';
   selector: 'app-language-switcher',
   templateUrl: './language-switcher.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class LanguageSwitcherComponent implements OnInit {
   currentLanguage: string;

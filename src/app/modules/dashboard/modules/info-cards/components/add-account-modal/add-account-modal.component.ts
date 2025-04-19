@@ -21,6 +21,7 @@ enum FormFields {
   selector: 'app-add-account-modal',
   templateUrl: './add-account-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AddAccountModalComponent implements OnInit {
   private accounts: Account[];

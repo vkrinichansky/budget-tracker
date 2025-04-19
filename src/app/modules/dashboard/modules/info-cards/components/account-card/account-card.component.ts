@@ -11,6 +11,7 @@ import { CurrencyFacadeService } from '@budget-tracker/metadata';
   templateUrl: './account-card.component.html',
   styleUrl: './account-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AccountCardComponent implements OnInit {
   readonly menuActions: MenuAction[] = [

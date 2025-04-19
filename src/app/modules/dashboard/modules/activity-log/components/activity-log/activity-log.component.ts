@@ -16,6 +16,7 @@ type RenderingItemType = DateObject | ActivityLogRecordUnitedType;
   templateUrl: './activity-log.component.html',
   styleUrl: './activity-log.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ActivityLogComponent implements OnInit {
   private readonly confirmationModalService = inject(ConfirmationModalService);

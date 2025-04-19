@@ -6,6 +6,7 @@ import { isMobileWidth } from '@budget-tracker/utils';
   selector: 'app-info-card',
   templateUrl: './info-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class InfoCardComponent {
   @HostBinding('class')

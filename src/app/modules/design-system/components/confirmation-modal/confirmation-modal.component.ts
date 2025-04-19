@@ -6,6 +6,7 @@ import { ConfirmationModalData, ConfirmationModalTranslationData } from '../../m
   selector: 'app-confirmation-modal',
   templateUrl: './confirmation-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfirmationModalComponent implements OnInit {
   readonly checkmarkChecked = model(false);

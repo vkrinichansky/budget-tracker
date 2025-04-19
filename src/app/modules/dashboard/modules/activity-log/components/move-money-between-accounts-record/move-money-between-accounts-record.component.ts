@@ -5,6 +5,7 @@ import { MoveMoneyBetweenAccountsRecord } from '@budget-tracker/models';
   selector: 'app-move-money-between-accounts-record',
   templateUrl: './move-money-between-accounts-record.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class MoveMoneyBetweenAccountsRecordComponent {
   @Input()

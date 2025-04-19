@@ -6,6 +6,7 @@ import { IconSize, InfoIconType, TooltipPosition } from '../../models';
   templateUrl: './info-icon.component.html',
   styleUrl: './info-icon.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class InfoIconComponent {
   @Input()

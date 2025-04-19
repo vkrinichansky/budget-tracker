@@ -38,6 +38,7 @@ import { IconsForUser, overlayFade } from '../../../models';
     },
   ],
   animations: [overlayFade],
+  standalone: false,
 })
 export class CustomSelectComponent
   extends GenericCustomControlComponent

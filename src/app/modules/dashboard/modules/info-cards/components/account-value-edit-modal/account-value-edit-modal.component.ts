@@ -15,6 +15,7 @@ enum FormFields {
   selector: 'app-account-value-edit-modal',
   templateUrl: './account-value-edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AccountValueEditModalComponent implements OnInit, AfterViewInit {
   readonly formFields = FormFields;

@@ -8,6 +8,7 @@ import { map, Observable } from 'rxjs';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DashboardComponent implements OnInit {
   readonly budgetType = BudgetType;

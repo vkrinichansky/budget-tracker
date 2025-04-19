@@ -5,6 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   selector: 'app-base-modal',
   templateUrl: './base-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class BaseModalComponent {
   @HostBinding('class')

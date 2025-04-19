@@ -18,6 +18,7 @@ enum FormFields {
   selector: 'app-move-money-between-accounts-modal',
   templateUrl: './move-money-between-accounts-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
   readonly formFieldsEnum = FormFields;

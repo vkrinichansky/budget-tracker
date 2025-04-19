@@ -6,6 +6,7 @@ import { AuthFacadeService } from '../../services';
   selector: 'app-auth-page',
   templateUrl: './auth-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AuthPageComponent implements OnInit {
   private readonly rootTranslationKey = 'auth';

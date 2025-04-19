@@ -11,6 +11,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
   templateUrl: './accounts-list-modal.component.html',
   styleUrl: './accounts-list-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AccountsListModalComponent implements OnInit {
   readonly accounts$ = new BehaviorSubject<Account[]>([]);

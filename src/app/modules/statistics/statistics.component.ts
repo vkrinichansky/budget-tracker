@@ -7,6 +7,7 @@ import { map, Observable } from 'rxjs';
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class StatisticsComponent implements OnInit {
   loading$: Observable<boolean>;

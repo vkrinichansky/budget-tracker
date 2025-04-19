@@ -18,6 +18,7 @@ enum FormFields {
   selector: 'app-add-category-modal',
   templateUrl: './add-category-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AddCategoryModalComponent implements OnInit {
   private categories$: Observable<Category[]>;

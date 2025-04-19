@@ -6,6 +6,7 @@ import { map, Observable } from 'rxjs';
   selector: 'app-current-month-balance-info-card',
   templateUrl: './current-month-balance-info-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CurrentMonthBalanceInfoCardComponent implements OnInit {
   currentMonthBalance$: Observable<number>;

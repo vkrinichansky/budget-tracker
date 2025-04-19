@@ -4,6 +4,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
   selector: 'app-fullsize-loader',
   templateUrl: './fullsize-loader.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class FullsizeLoaderComponent {
   @Input()

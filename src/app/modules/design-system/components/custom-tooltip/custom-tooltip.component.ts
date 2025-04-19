@@ -28,6 +28,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
       transition(':leave', [animate(100, style({ opacity: 0 }))]),
     ]),
   ],
+  standalone: false,
 })
 export class CustomTooltipComponent {
   @HostBinding('@tooltip')

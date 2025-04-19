@@ -10,6 +10,7 @@ import { AppRoutes } from '@budget-tracker/utils';
   templateUrl: './navigation-bar.component.html',
   styleUrls: ['./navigation-bar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NavigationBarComponent {
   private readonly authFacade = inject(AuthFacadeService);

@@ -8,6 +8,7 @@ import { CurrencyFacadeService, MetadataFacadeService } from '../../services';
   selector: 'app-currency-switcher',
   templateUrl: './currency-switcher.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CurrencySwitcherComponent implements OnInit {
   currentCurrency: CurrenciesEnum;

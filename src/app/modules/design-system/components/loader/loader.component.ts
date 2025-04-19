@@ -5,6 +5,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
   templateUrl: './loader.component.html',
   styleUrls: ['./loader.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class LoaderComponent {
   @Input()

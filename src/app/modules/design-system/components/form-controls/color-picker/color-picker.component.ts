@@ -30,6 +30,7 @@ import { GenericCustomControlComponent } from '../generic-custom-control/generic
       multi: true,
     },
   ],
+  standalone: false,
 })
 export class ColorPickerComponent extends GenericCustomControlComponent {
   private readonly classes = 'group';

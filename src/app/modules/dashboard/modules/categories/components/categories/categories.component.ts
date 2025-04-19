@@ -20,6 +20,7 @@ type TabType = 'list' | 'chart';
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CategoriesComponent implements OnInit {
   readonly currentTab$: BehaviorSubject<TabType> = new BehaviorSubject<TabType>('list');
