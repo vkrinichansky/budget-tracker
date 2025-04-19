@@ -1,6 +1,7 @@
+@let content = 'dashboard.activityLog.categoriesResetRecord.' + record.budgetType | translate;
+
 <app-generic-activity-log-record [icon]="record.icon" [date]="record.date">
   <span
-    *ngVar="buildTranslationKey(record.budgetType) | translate as content"
     class="font-main text-charcoal text-base block truncate"
     customTooltip
     [tooltipTemplate]="template"

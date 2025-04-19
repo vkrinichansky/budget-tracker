@@ -1,11 +1,8 @@
-<div
-  *ngVar="{
-    isEmpty: isEmpty$ | async,
-    currentTab: currentTab$ | async,
-    areAllCategoriesReset: areAllCategoriesReset$ | async
-  } as data"
-  class="flex flex-col gap-y-4 w-full h-full justify-between"
->
+@let isEmpty = isEmpty$ | async;
+@let currentTab = currentTab$ | async;
+@let areAllCategoriesReset = areAllCategoriesReset$ | async;
+
+<div class="flex flex-col gap-y-4 w-full h-full justify-between">
   <app-page-header class="text-xl bg-transparent" [title]="title | translate">
     <div class="flex items-center gap-x-2">
       <button-toggle>
@@ -14,7 +11,7 @@
           [text]="buildTranslationKey('tabs.list') | translate"
           [buttonSizeX]="'auto'"
           [buttonSizeY]="'full'"
-          [active]="data.currentTab === 'list'"
+          [active]="currentTab === 'list'"
           [shouldDisplayMobileClickEffect]="false"
           [rounded]="false"
           (click)="setTab('list')"
@@ -25,8 +22,8 @@
           [text]="buildTranslationKey('tabs.chart') | translate"
           [buttonSizeX]="'auto'"
           [buttonSizeY]="'full'"
-          [disabled]="data.areAllCategoriesReset"
-          [active]="data.currentTab === 'chart'"
+          [disabled]="areAllCategoriesReset"
+          [active]="currentTab === 'chart'"
           [shouldDisplayMobileClickEffect]="false"
           [rounded]="false"
           (click)="setTab('chart')"
@@ -37,7 +34,7 @@
     </div>
   </app-page-header>
 
-  @if (data.isEmpty) {
+  @if (isEmpty) {
     <span
       class="font-main font-bold text-charcoal text-lg text-center flex flex-1 flex-col justify-center items-center"
     >
@@ -45,8 +42,8 @@
     </span>
   }
 
-  @if (!data.isEmpty) {
-    @switch (data.currentTab) {
+  @if (!isEmpty) {
+    @switch (currentTab) {
       @case ('list') {
         <cdk-virtual-scroll-viewport itemSize="76" class="h-full">
           <div

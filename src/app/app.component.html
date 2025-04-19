@@ -1,8 +1,11 @@
-@if (isLoggedIn$ | async) {
-  <app-navigation-bar></app-navigation-bar>
+@let isLoggedIn = isLoggedIn$ | async;
+@let loading = loading$ | async;
+
+@if (isLoggedIn) {
+  <app-navigation-bar> </app-navigation-bar>
 }
 
-@if ((loading$ | async) && (isLoggedIn$ | async)) {
+@if (loading && isLoggedIn) {
   <app-fullsize-loader></app-fullsize-loader>
 } @else {
   <div class="animated-route main w-full bg-dirty-white relative">

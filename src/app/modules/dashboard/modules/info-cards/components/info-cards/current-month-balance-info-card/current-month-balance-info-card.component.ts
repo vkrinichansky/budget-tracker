@@ -2,6 +2,11 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CategoriesFacadeService } from '../../../../../services';
 import { map, Observable } from 'rxjs';
 
+interface ColorClasses {
+  bg: string;
+  text: string;
+}
+
 @Component({
   selector: 'app-current-month-balance-info-card',
   templateUrl: './current-month-balance-info-card.component.html',
@@ -11,7 +16,7 @@ import { map, Observable } from 'rxjs';
 export class CurrentMonthBalanceInfoCardComponent implements OnInit {
   currentMonthBalance$: Observable<number>;
 
-  colorClasses$: Observable<Record<string, string>>;
+  colorClasses$: Observable<ColorClasses>;
 
   constructor(private categoriesFacade: CategoriesFacadeService) {}
 

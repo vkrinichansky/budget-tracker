@@ -10,8 +10,4 @@ import { CategoriesResetRecord } from '@budget-tracker/models';
 export class CategoriesResetRecordComponent {
   @Input()
   record: CategoriesResetRecord;
-
-  buildTranslationKey(key: string): string {
-    return `dashboard.activityLog.categoriesResetRecord.${key}`;
-  }
 }

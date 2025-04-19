@@ -1,9 +1,10 @@
+@let accountsAmount = accountsAmount$ | async;
+
 <div
-  *ngVar="accountsAmount$ | async as accountsAmount"
   class="wrapper relative rounded-lg overflow-hidden"
   [ngClass]="{
     'cursor-pointer': accountsAmount,
-    'cursor-default ': !accountsAmount
+    'cursor-default ': !accountsAmount,
   }"
 >
   <app-info-card
