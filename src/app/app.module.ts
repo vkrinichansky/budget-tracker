@@ -7,7 +7,7 @@ import { environment as prodEnv } from 'src/environments/environment.prod';
 import { StoreModule } from '@ngrx/store';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { getAuth, provideAuth } from '@angular/fire/auth';
@@ -29,10 +29,10 @@ Chart.register(zoomPlugin);
 
 @NgModule({
   declarations: [AppComponent],
+  bootstrap: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
     AuthCoreModule,
     DesignSystemModule,
     NavigationBarModule,
@@ -57,7 +57,6 @@ Chart.register(zoomPlugin);
         },
       }
     ),
-
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -74,7 +73,7 @@ Chart.register(zoomPlugin);
       registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
-  bootstrap: [AppComponent],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
 })
 export class AppModule {}
 
