@@ -12,7 +12,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UtilsModule } from '@budget-tracker/utils';
 import { NgChartsModule } from 'ng2-charts';
-import { DataModule } from '@budget-tracker/data';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MetadataModule } from '@budget-tracker/metadata';
 @NgModule({
@@ -24,7 +23,6 @@ import { MetadataModule } from '@budget-tracker/metadata';
     ReactiveFormsModule,
     UtilsModule,
     NgChartsModule,
-    DataModule,
     ScrollingModule,
     MetadataModule,
   ],

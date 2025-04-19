@@ -21,7 +21,6 @@ import {
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DataModule } from '@budget-tracker/data';
 import { UtilsModule } from '@budget-tracker/utils';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MetadataModule } from '@budget-tracker/metadata';
@@ -45,7 +44,6 @@ import { MetadataModule } from '@budget-tracker/metadata';
     TranslateModule,
     FormsModule,
     ReactiveFormsModule,
-    DataModule,
     UtilsModule,
     DragDropModule,
     MetadataModule,

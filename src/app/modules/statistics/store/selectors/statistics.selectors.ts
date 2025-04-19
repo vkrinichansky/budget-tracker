@@ -10,7 +10,10 @@ const statisticsSnapshotsSelector = createSelector(statisticsStateSelector, (sta
   Object.values(state.snapshots.entities)
 );
 
+const statisticsLoadedSelector = createSelector(statisticsStateSelector, (state) => state.isLoaded);
+
 export const StatisticsSelectors = {
   statisticsStateSelector,
   statisticsSnapshotsSelector,
+  statisticsLoadedSelector,
 };

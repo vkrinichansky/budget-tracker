@@ -24,7 +24,7 @@ import {
   ActivityLogApiService,
   AccountsFacadeService,
   AccountsApiService,
-  DashboardInitService,
+  DashboardInitApiService,
   DashboardInitFacadeService,
 } from './services';
 
@@ -62,7 +62,7 @@ const routes: Routes = [
     ActivityLogApiService,
     AccountsFacadeService,
     AccountsApiService,
-    DashboardInitService,
+    DashboardInitApiService,
     DashboardInitFacadeService,
   ],
 })

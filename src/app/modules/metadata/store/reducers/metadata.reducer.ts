@@ -24,7 +24,8 @@ const adapterReducer = createReducer(
       currencyExchangeRate: action.currencyExchangeRate,
       isLoaded: true,
     };
-  })
+  }),
+  on(MetadataActions.cleanState, () => initialState)
 );
 
 export function metadataReducer(state = initialState, action: Action): MetadataState {

@@ -6,6 +6,7 @@ import { MetadataActions } from '../actions';
 import { CurrencyExchangeRate, predefinedCurrenciesDictionary } from '@budget-tracker/models';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
 import { Store } from '@ngrx/store';
+import { AuthActions } from '@budget-tracker/auth';
 
 @Injectable()
 export class MetadataEffects {
@@ -101,5 +102,12 @@ export class MetadataEffects {
         )
       ),
     { dispatch: false }
+  );
+
+  cleanStateOnLogOut$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.logout),
+      map(() => MetadataActions.cleanState())
+    )
   );
 }

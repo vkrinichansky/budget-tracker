@@ -3,6 +3,7 @@ import { createAction, props } from '@ngrx/store';
 
 export const MetadataActions = {
   loadMetadata: createAction('[Metadata] Load metadata'),
+  cleanState: createAction('[Metadata] Clean state'),
   metadataLoaded: createAction(
     '[Metadata] Metadata loaded',
     props<{
@@ -11,7 +12,6 @@ export const MetadataActions = {
       currencyExchangeRate: CurrencyExchangeRate;
     }>()
   ),
-
   changeCurrency: createAction(
     '[Metadata] Change currency',
     props<{ newCurrency: CurrenciesEnum }>()

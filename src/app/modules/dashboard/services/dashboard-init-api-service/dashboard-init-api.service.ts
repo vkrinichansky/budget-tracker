@@ -17,7 +17,7 @@ const RESET_DATE_PATH = 'resetDate';
 const STATISTICS_SNAPSHOTS_PATH = 'snapshots';
 
 @Injectable()
-export class DashboardInitService {
+export class DashboardInitApiService {
   constructor(
     private firestore: Firestore,
     private authFacade: AuthFacadeService,

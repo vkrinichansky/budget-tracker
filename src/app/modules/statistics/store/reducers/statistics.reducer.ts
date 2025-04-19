@@ -5,6 +5,7 @@ import { StatisticsSnapshot } from '@budget-tracker/models';
 
 export interface StatisticsState {
   snapshots: EntityState<StatisticsSnapshot>;
+  isLoaded: boolean;
 }
 
 function selectSnapshotId(snapshot: StatisticsSnapshot): string {
@@ -17,6 +18,7 @@ export const statisticsSnapshotsEntityAdapter = createEntityAdapter({
 
 const initialState: StatisticsState = {
   snapshots: statisticsSnapshotsEntityAdapter.getInitialState({}),
+  isLoaded: false,
 };
 
 const adapterReducer = createReducer(
@@ -24,13 +26,14 @@ const adapterReducer = createReducer(
 
   on(StatisticsActions.clean, () => initialState),
 
-  on(StatisticsActions.statisticsLoaded, (state, action) => ({
-    ...state,
-    snapshots: statisticsSnapshotsEntityAdapter.addMany(
-      Object.values(action.statistics.snapshots),
-      state.snapshots
-    ),
-  }))
+  on(
+    StatisticsActions.statisticsLoaded,
+    (state, action): StatisticsState => ({
+      ...state,
+      snapshots: statisticsSnapshotsEntityAdapter.addMany(action.snapshots, state.snapshots),
+      isLoaded: true,
+    })
+  )
 );
 
 export function statisticsReducer(state = initialState, action: Action): StatisticsState {

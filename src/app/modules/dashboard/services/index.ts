@@ -4,5 +4,5 @@ export { CategoriesFacadeService } from './categories-facade/categories-facade.s
 export { CategoriesApiService } from './categories-api-service/categories-api.service';
 export { ActivityLogFacadeService } from './activity-log-facade/activity-log-facade.service';
 export { ActivityLogApiService } from './activity-log-api-service/activity-log-api.service';
-export { DashboardInitService } from './dashboard-init-service/dashboard-init.service';
+export { DashboardInitApiService } from './dashboard-init-api-service/dashboard-init-api.service';
 export { DashboardInitFacadeService } from './dashboard-init-facade/dashboard-init-facade.service';

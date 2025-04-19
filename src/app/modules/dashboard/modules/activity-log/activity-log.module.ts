@@ -11,7 +11,6 @@ import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
 import { UtilsModule } from '@budget-tracker/utils';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { DataModule } from '@budget-tracker/data';
 import { MetadataModule } from '@budget-tracker/metadata';
 
 @NgModule({
@@ -21,7 +20,6 @@ import { MetadataModule } from '@budget-tracker/metadata';
     TranslateModule,
     UtilsModule,
     ScrollingModule,
-    DataModule,
     MetadataModule,
   ],
   declarations: [

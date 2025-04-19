@@ -19,7 +19,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { NavigationBarModule } from '@budget-tracker/navigation-bar';
 import { AuthCoreModule } from '@budget-tracker/auth';
-import { DataModule } from '@budget-tracker/data';
 
 import { Chart } from 'chart.js';
 import 'hammerjs';
@@ -39,7 +38,6 @@ Chart.register(zoomPlugin);
     NavigationBarModule,
     BrowserAnimationsModule,
     UtilsModule,
-    DataModule,
     MetadataModule,
     provideFirebaseApp(() =>
       initializeApp(isDevMode() ? devEnv.firebaseConfig : prodEnv.firebaseConfig)

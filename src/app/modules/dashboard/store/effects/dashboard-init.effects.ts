@@ -10,7 +10,7 @@ import {
   AccountsActions,
   DashboardInitActions,
 } from '../actions';
-import { DashboardInitService } from '../../services';
+import { DashboardInitApiService } from '../../services';
 import { Store } from '@ngrx/store';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
 import { AccountsSelectors, CategoriesSelectors } from '../selectors';
@@ -20,7 +20,7 @@ import { CurrencyFacadeService } from '@budget-tracker/metadata';
 export class DashboardInitEffects {
   constructor(
     private readonly actions$: Actions,
-    private readonly dashboardInitService: DashboardInitService,
+    private readonly dashboardInitService: DashboardInitApiService,
     private readonly store: Store,
     private readonly snackbarHandler: SnackbarHandlerService,
     private readonly currencyFacade: CurrencyFacadeService
@@ -41,6 +41,7 @@ export class DashboardInitEffects {
       })
     )
   );
+
   resetData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DashboardInitActions.resetData),

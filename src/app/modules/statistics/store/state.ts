@@ -1,7 +1,7 @@
 import { ActionReducerMap, combineReducers, compose } from '@ngrx/store';
 import * as t from './reducers';
 
-export const featureKey = 'data';
+export const featureKey = 'snapshots';
 
 export interface DataFeatureState {
   statisticsState: t.StatisticsState;
