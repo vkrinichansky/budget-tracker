@@ -49,12 +49,7 @@ export class DashboardInitEffects {
         combineLatest([
           this.store.select(CategoriesSelectors.incomeValueSelector),
           this.store.select(CategoriesSelectors.expenseValueSelector),
-          this.store.select(
-            CategoriesSelectors.currentMonthBalanceSelector(
-              this.currencyFacade.getCurrentCurrency(),
-              this.currencyFacade.getCurrentExchangeRate()
-            )
-          ),
+          this.store.select(CategoriesSelectors.currentMonthBalanceSelector),
           this.store.select(
             AccountsSelectors.fullBalanceSelector(
               this.currencyFacade.getCurrentCurrency(),
@@ -116,7 +111,11 @@ export class DashboardInitEffects {
     this.actions$.pipe(
       ofType(AuthActions.logout),
       switchMap(() =>
-        of(CategoriesActions.cleanState(), ActivityLogActions.cleanState(), AccountsActions.cleanState())
+        of(
+          CategoriesActions.cleanState(),
+          ActivityLogActions.cleanState(),
+          AccountsActions.cleanState()
+        )
       )
     )
   );

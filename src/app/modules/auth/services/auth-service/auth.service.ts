@@ -17,6 +17,8 @@ import { getMonthAndYearString } from '@budget-tracker/utils';
 import {
   CurrenciesEnum,
   Dashboard,
+  expenseAdjustmentCategory,
+  incomeAdjustmentCategory,
   LanguagesEnum,
   Snapshots,
   UserMetadata,
@@ -58,7 +60,10 @@ export class AuthService {
 
     const dashboard: Dashboard = {
       accounts: {},
-      categories: {},
+      categories: {
+        [incomeAdjustmentCategory.id]: incomeAdjustmentCategory,
+        [expenseAdjustmentCategory.id]: expenseAdjustmentCategory,
+      },
       activityLog: [],
       resetDate: getMonthAndYearString(),
     };

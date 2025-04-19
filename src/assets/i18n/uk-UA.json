@@ -212,5 +212,9 @@
     "uah": "Гривня (₴)",
     "usd": "Долар ($)",
     "eur": "Євро (€)"
+  },
+
+  "predefinedCategories": {
+    "adjustments": "Коригування"
   }
 }

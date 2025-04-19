@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  AccountValueEditRecordComponent,
   ActivityLogComponent,
   CategoriesResetRecordComponent,
   CategoryValueChangeRecordComponent,
@@ -26,7 +25,6 @@ import { MetadataModule } from '@budget-tracker/metadata';
     ActivityLogComponent,
     CategoryValueChangeRecordComponent,
     CategoriesResetRecordComponent,
-    AccountValueEditRecordComponent,
     MoveMoneyBetweenAccountsRecordComponent,
   ],
 

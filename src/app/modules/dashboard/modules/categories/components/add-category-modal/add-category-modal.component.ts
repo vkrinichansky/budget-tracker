@@ -64,6 +64,7 @@ export class AddCategoryModalComponent implements OnInit {
       value: 0,
       id: uuid(),
       budgetType: this.budgetType,
+      isSystem: false,
     };
 
     this.categoriesFacade.addCategory(category);

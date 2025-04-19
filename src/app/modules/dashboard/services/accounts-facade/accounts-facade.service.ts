@@ -4,10 +4,19 @@ import {
   Account,
   AccountValueEditRecord,
   ActivityLogRecordType,
+  Category,
+  CategoryValueChangeRecord,
+  expenseAdjustmentCategory,
+  incomeAdjustmentCategory,
   MoveMoneyBetweenAccountsRecord,
 } from '@budget-tracker/models';
 import { Store } from '@ngrx/store';
-import { AccountsActions, AccountsSelectors } from '../../store';
+import {
+  AccountsActions,
+  AccountsSelectors,
+  CategoriesActions,
+  CategoriesSelectors,
+} from '../../store';
 import { v4 as uuid } from 'uuid';
 import { CurrencyFacadeService } from '@budget-tracker/metadata';
 
@@ -43,25 +52,41 @@ export class AccountsFacadeService {
     return this.getAccountsAmount().pipe(map((amount) => !!amount));
   }
 
+  getCategoryById(categoryId: string): Observable<Category> {
+    return this.store.select(CategoriesSelectors.selectCategoryByIdSelector(categoryId));
+  }
+
   async editAccountValue(accountId: string, newValue: number, note: string): Promise<void> {
     const account = await firstValueFrom(this.getAccountById(accountId));
+    const difference = newValue - account.value;
+    const absDifference = Math.abs(difference);
+    const category: Category =
+      difference > 0 ? incomeAdjustmentCategory : expenseAdjustmentCategory;
 
-    const activityLogRecord: AccountValueEditRecord = {
+    const updatedCategoryValue = await firstValueFrom(
+      this.getCategoryById(category.id).pipe(map((category) => category.value + absDifference))
+    );
+
+    const addCategoryValueRecord: CategoryValueChangeRecord = {
       id: uuid(),
+      budgetType: category.budgetType,
+      category,
       account,
       date: new Date().getTime(),
-      icon: account.icon,
-      oldValue: account.value,
-      newValue,
+      icon: category.icon,
+      recordType: ActivityLogRecordType.CategoryValueChange,
+      value: absDifference,
+      convertedValue: absDifference,
       note,
-      recordType: ActivityLogRecordType.AccountValueChange,
     };
 
     this.store.dispatch(
-      AccountsActions.editAccountValue({
-        accountId,
-        newValue,
-        activityLogRecord,
+      CategoriesActions.changeCategoryValue({
+        updatedCategoryId: category.id,
+        updatedCategoryValue,
+        updatedAccountId: accountId,
+        updatedAccountValue: newValue,
+        activityLogRecord: addCategoryValueRecord,
       })
     );
   }

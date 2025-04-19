@@ -212,5 +212,9 @@
     "uah": "Hryvnia (₴)",
     "usd": "Dollar ($)",
     "eur": "Euro (€)"
+  },
+
+  "predefinedCategories": {
+    "adjustments": "Adjustments"
   }
 }

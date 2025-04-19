@@ -2,25 +2,20 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, firstValueFrom } from 'rxjs';
 import { v4 as uuid } from 'uuid';
-import { CategoriesActions, CategoriesSelectors } from '../../store';
+import { AccountsSelectors, CategoriesActions, CategoriesSelectors } from '../../store';
 import {
   Category,
   ActivityLogRecordType,
   BudgetType,
   CategoryValueChangeRecord,
   CategoriesResetRecord,
+  Account,
 } from '@budget-tracker/models';
 import { Dictionary } from '@ngrx/entity';
-import { AccountsFacadeService } from '../accounts-facade/accounts-facade.service';
-import { CurrencyFacadeService } from '@budget-tracker/metadata';
 
 @Injectable()
 export class CategoriesFacadeService {
-  constructor(
-    private store: Store,
-    private accountsFacade: AccountsFacadeService,
-    private currencyFacade: CurrencyFacadeService
-  ) {}
+  constructor(private store: Store) {}
 
   getAllCategories(): Observable<Category[]> {
     return this.store.select(CategoriesSelectors.allCategoriesSelector);
@@ -59,12 +54,7 @@ export class CategoriesFacadeService {
   }
 
   getCurrentMonthBalance(): Observable<number> {
-    return this.store.select(
-      CategoriesSelectors.currentMonthBalanceSelector(
-        this.currencyFacade.getCurrentCurrency(),
-        this.currencyFacade.getCurrentExchangeRate()
-      )
-    );
+    return this.store.select(CategoriesSelectors.currentMonthBalanceSelector);
   }
 
   getCategoriesAccordingToBudgetType(budgetType: BudgetType): Observable<Category[]> {
@@ -75,6 +65,10 @@ export class CategoriesFacadeService {
       case BudgetType.Expense:
         return this.getExpenseCategories();
     }
+  }
+
+  getAccountById(accountId: string): Observable<Account> {
+    return this.store.select(AccountsSelectors.accountByIdSelector(accountId));
   }
 
   // CATEGORY MANAGEMENT
@@ -97,9 +91,7 @@ export class CategoriesFacadeService {
     convertedValueToAdd: number,
     note: string
   ): Promise<void> {
-    const account = structuredClone(
-      await firstValueFrom(this.accountsFacade.getAccountById(accountId))
-    );
+    const account = structuredClone(await firstValueFrom(this.getAccountById(accountId)));
     const category = structuredClone(await firstValueFrom(this.getCategoryById(categoryId)));
 
     const updatedCategoryValue = category.value + convertedValueToAdd;

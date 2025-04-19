@@ -1,7 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { dataFeatureSelector } from './feature.selector';
-import { ActivityLogSelectors } from './activity-log.selectors';
-import { BudgetType, CurrenciesEnum, CurrencyExchangeRate } from '@budget-tracker/models';
+import { BudgetType } from '@budget-tracker/models';
 
 const categoriesStateSelector = createSelector(
   dataFeatureSelector,
@@ -51,16 +50,11 @@ const areExpenseCategoriesAllResetSelector = createSelector(
   (categories) => categories.every((category) => category.value === 0)
 );
 
-const currentMonthBalanceSelector = (
-  currency: CurrenciesEnum,
-  exchangeRate: CurrencyExchangeRate
-) =>
-  createSelector(
-    incomeValueSelector,
-    expenseValueSelector,
-    ActivityLogSelectors.currentMonthAccountValueChangeRecordsSumSelector(currency, exchangeRate),
-    (income, expense, recordsSum) => income - expense + recordsSum
-  );
+const currentMonthBalanceSelector = createSelector(
+  incomeValueSelector,
+  expenseValueSelector,
+  (income, expense) => income - expense
+);
 
 const categoryManagementInProgressSelector = createSelector(
   categoriesStateSelector,

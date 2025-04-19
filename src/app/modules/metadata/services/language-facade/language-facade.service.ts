@@ -11,7 +11,7 @@ export class LanguageFacadeService {
     this.translateService.use(language);
   }
 
-  getCurrentLanguage(): string {
-    return this.translateService.getDefaultLang();
+  getCurrentLanguage(): LanguagesEnum {
+    return this.translateService.getDefaultLang() as LanguagesEnum;
   }
 }

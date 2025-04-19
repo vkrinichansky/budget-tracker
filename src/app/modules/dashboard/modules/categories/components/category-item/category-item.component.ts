@@ -28,8 +28,10 @@ export class CategoryItemComponent implements OnInit {
 
   category$: Observable<Category>;
   shouldDisableAddValueAction$: Observable<boolean>;
-
   menuActions: MenuAction[];
+
+  @HostBinding('class.is-system-category')
+  isSystemCategory: boolean;
 
   @HostBinding('class.pointer-events-none')
   isCategoryRemoving: boolean;
@@ -58,6 +60,16 @@ export class CategoryItemComponent implements OnInit {
     this.shouldDisableAddValueAction$ = this.accountsFacade
       .getAccountsExist()
       .pipe(map((accountsExist) => !accountsExist));
+
+    this.category$
+      .pipe(
+        map((category) => category.isSystem),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe((isSystemCategory) => {
+        this.isSystemCategory = isSystemCategory;
+        this.cd.detectChanges();
+      });
   }
 
   private initIsCategoryRemoving(): void {
