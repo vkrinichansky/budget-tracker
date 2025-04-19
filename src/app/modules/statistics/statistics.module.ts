@@ -8,7 +8,7 @@ import { MonthlyStatisticsComponent } from './components';
 import { NgChartsModule } from 'ng2-charts';
 import { MetadataModule } from '@budget-tracker/metadata';
 import { StoreModule } from '@ngrx/store';
-import { featureKey, reducers, SnapshotsInitEffects } from './store';
+import { featureKey, reducers, StatisticsInitEffects } from './store';
 import {
   StatisticsFacadeService,
   StatisticsInitApiService,
@@ -33,7 +33,7 @@ const routes: Routes = [
     NgChartsModule,
     MetadataModule,
     StoreModule.forFeature(featureKey, reducers),
-    EffectsModule.forFeature([SnapshotsInitEffects]),
+    EffectsModule.forFeature([StatisticsInitEffects]),
   ],
   providers: [StatisticsFacadeService, StatisticsInitApiService, StatisticsInitFacadeService],
 })

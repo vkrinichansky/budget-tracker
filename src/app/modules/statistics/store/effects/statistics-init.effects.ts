@@ -7,16 +7,16 @@ import { StatisticsActions } from '../actions';
 import { StatisticsInitApiService } from '../../services';
 
 @Injectable()
-export class SnapshotsInitEffects {
+export class StatisticsInitEffects {
   constructor(
     private readonly actions$: Actions,
-    private readonly snapshotsInitApiService: StatisticsInitApiService
+    private readonly statisticsInitApiService: StatisticsInitApiService
   ) {}
 
   init$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(StatisticsActions.init),
-      switchMap(() => from(this.snapshotsInitApiService.initData())),
+      ofType(StatisticsActions.loadStatisticsData),
+      switchMap(() => from(this.statisticsInitApiService.initData())),
       map((data: Snapshots) =>
         StatisticsActions.statisticsLoaded({ snapshots: Object.values(data.snapshots) })
       )
@@ -26,7 +26,7 @@ export class SnapshotsInitEffects {
   cleanStateOnLogOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logout),
-      map(() => StatisticsActions.clean())
+      map(() => StatisticsActions.cleanState())
     )
   );
 }

@@ -241,7 +241,7 @@ const adapterReducer = createReducer(
     orderChangingInProgress: false,
   })),
 
-  on(AccountsActions.clean, () => initialState)
+  on(AccountsActions.cleanState, () => initialState)
 );
 
 export function accountsReducer(state = initialState, action: Action): AccountsState {

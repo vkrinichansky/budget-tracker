@@ -24,7 +24,7 @@ const initialState: StatisticsState = {
 const adapterReducer = createReducer(
   initialState,
 
-  on(StatisticsActions.clean, () => initialState),
+  on(StatisticsActions.cleanState, () => initialState),
 
   on(
     StatisticsActions.statisticsLoaded,

@@ -20,7 +20,7 @@ export class DashboardInitFacadeService {
     ]).pipe(map(([a, b, c]) => a && b && c));
 
     if (!(await firstValueFrom(isLoaded$))) {
-      this.store.dispatch(DashboardInitActions.init());
+      this.store.dispatch(DashboardInitActions.loadDashboardData());
     }
   }
 

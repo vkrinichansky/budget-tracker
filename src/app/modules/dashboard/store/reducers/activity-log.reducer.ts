@@ -45,7 +45,7 @@ const adapterReducer = createReducer(
     ),
   })),
 
-  on(ActivityLogActions.clean, () => initialState),
+  on(ActivityLogActions.cleanState, () => initialState),
 
   on(ActivityLogActions.removeRecord, (state, action) => ({
     ...state,

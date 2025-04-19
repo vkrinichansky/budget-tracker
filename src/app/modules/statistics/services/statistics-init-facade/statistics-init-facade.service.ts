@@ -11,7 +11,7 @@ export class StatisticsInitFacadeService {
     const isLoaded$ = this.store.select(StatisticsSelectors.statisticsLoadedSelector);
 
     if (!(await firstValueFrom(isLoaded$))) {
-      this.store.dispatch(StatisticsActions.init());
+      this.store.dispatch(StatisticsActions.loadStatisticsData());
     }
   }
 

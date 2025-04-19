@@ -1,1 +1,1 @@
-export { SnapshotsInitEffects } from './snapshots-init.effects';
+export { StatisticsInitEffects } from './statistics-init.effects';

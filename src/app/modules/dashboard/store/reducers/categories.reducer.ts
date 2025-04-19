@@ -135,7 +135,7 @@ const adapterReducer = createReducer(
     ),
   })),
 
-  on(CategoriesActions.clean, () => initialState)
+  on(CategoriesActions.cleanState, () => initialState)
 );
 
 export function categoriesReducer(state = initialState, action: Action): CategoriesState {

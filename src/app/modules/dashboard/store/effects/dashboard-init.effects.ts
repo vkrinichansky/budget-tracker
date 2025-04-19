@@ -28,7 +28,7 @@ export class DashboardInitEffects {
 
   init$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(DashboardInitActions.init),
+      ofType(DashboardInitActions.loadDashboardData),
       switchMap(() => from(this.dashboardInitService.initData())),
       map((data: Dashboard) => {
         this.setStates(data);
@@ -37,7 +37,7 @@ export class DashboardInitEffects {
           return DashboardInitActions.resetData({ data });
         }
 
-        return DashboardInitActions.dataLoaded();
+        return DashboardInitActions.dashboardDataLoaded();
       })
     )
   );
@@ -107,7 +107,7 @@ export class DashboardInitEffects {
           })
         )
       ),
-      map(() => DashboardInitActions.dataLoaded()),
+      map(() => DashboardInitActions.dashboardDataLoaded()),
       tap(() => this.snackbarHandler.showDataResetSnackbar())
     )
   );
@@ -116,7 +116,7 @@ export class DashboardInitEffects {
     this.actions$.pipe(
       ofType(AuthActions.logout),
       switchMap(() =>
-        of(CategoriesActions.clean(), ActivityLogActions.clean(), AccountsActions.clean())
+        of(CategoriesActions.cleanState(), ActivityLogActions.cleanState(), AccountsActions.cleanState())
       )
     )
   );
