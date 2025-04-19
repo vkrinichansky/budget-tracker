@@ -1,5 +1,7 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { BudgetType } from '@budget-tracker/models';
+import { DashboardInitFacadeService } from './services';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,12 +9,16 @@ import { BudgetType } from '@budget-tracker/models';
   styleUrls: ['./dashboard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardComponent {
-  private readonly rootTranslationKey = 'dashboard';
-
+export class DashboardComponent implements OnInit {
   readonly budgetType = BudgetType;
 
-  buildTranslationKey(key: string): string {
-    return `${this.rootTranslationKey}.${key}`;
+  loading$: Observable<boolean>;
+
+  constructor(private readonly dashboardInitFacade: DashboardInitFacadeService) {}
+
+  ngOnInit(): void {
+    this.dashboardInitFacade.initData();
+
+    this.loading$ = this.dashboardInitFacade.isDataLoaded().pipe(map((isLoaded) => !isLoaded));
   }
 }

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { ActivityLogFacadeService } from '@budget-tracker/data';
+import { ActivityLogFacadeService } from '../../../../services';
 import { ConfirmationModalService } from '@budget-tracker/design-system';
 import { CategoryValueChangeRecord, BudgetType } from '@budget-tracker/models';
 import { isToday } from '@budget-tracker/utils';

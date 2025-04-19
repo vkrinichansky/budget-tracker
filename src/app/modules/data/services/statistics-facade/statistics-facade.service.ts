@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BudgetType, Category, StatisticsSnapshot } from '@budget-tracker/models';
-import { Observable, combineLatest, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { ChartData, ChartDataset } from 'chart.js';
 import { MainPalette } from '@budget-tracker/design-system';
 import { Store } from '@ngrx/store';
-import { CategoriesSelectors, StatisticsSelectors } from '../../store';
+import { StatisticsSelectors } from '../../store';
 import { LanguageFacadeService } from '@budget-tracker/metadata';
 
 @Injectable()
@@ -21,11 +21,8 @@ export class StatisticsFacadeService {
   getDataForMonthlyStatisticsChart(): Observable<ChartData> {
     const language = this.languageFacade.getCurrentLanguage();
 
-    return combineLatest([
-      this.getSnapshots(),
-      this.store.select(CategoriesSelectors.allCategoriesSelector),
-    ]).pipe(
-      map(([snapshots, allCategories]) => {
+    return this.getSnapshots().pipe(
+      map((snapshots) => {
         const snapshotsForPreviousMonths: StatisticsSnapshot[] = snapshots
           .sort((a, b) => parseInt(a.date) - parseInt(b.date))
           .map((snapshot) => ({
@@ -34,33 +31,25 @@ export class StatisticsFacadeService {
               month: 'short',
             }),
             categories: snapshot.categories,
+            expense: 0,
+            income: 0,
+            monthBalance: 0,
+            totalBalance: 0,
           }));
 
-        const currentMonthData: StatisticsSnapshot = {
-          date: new Date().toLocaleDateString(language, {
-            year: 'numeric',
-            month: 'short',
-          }),
-          categories: [...allCategories],
-        };
+        const labels = snapshotsForPreviousMonths.map((monthItem) => monthItem.date);
 
-        const snapshotsArray = [...snapshotsForPreviousMonths, currentMonthData];
-
-        const labels = snapshotsArray.map((monthItem) => monthItem.date);
-
-        const categories: Category[] = [
-          ...snapshotsArray.flatMap((monthItem) => monthItem.categories),
-          ...allCategories,
-        ];
-
+        const categories: Category[] = snapshotsForPreviousMonths.flatMap(
+          (monthItem) => monthItem.categories
+        );
         const uniqueCategoriesIds = [...new Set(categories.map((category) => category.id))];
         const resultCategories = uniqueCategoriesIds.map((id) =>
           categories.find((category) => category.id === id)
         );
 
         const datasets: ChartDataset[] = [
-          ...this.getDatasets(resultCategories, snapshotsArray, BudgetType.Income),
-          ...this.getDatasets(resultCategories, snapshotsArray, BudgetType.Expense),
+          ...this.getDatasets(resultCategories, snapshotsForPreviousMonths, BudgetType.Income),
+          ...this.getDatasets(resultCategories, snapshotsForPreviousMonths, BudgetType.Expense),
         ];
 
         return {

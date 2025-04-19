@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { CategoriesFacadeService } from '@budget-tracker/data';
+import { CategoriesFacadeService } from '../../../../../services';
 import { Observable } from 'rxjs';
 
 @Component({

@@ -4,19 +4,11 @@ import * as t from './reducers';
 export const featureKey = 'data';
 
 export interface DataFeatureState {
-  dataInitState: t.DataInitializationState;
-  activityLogState: t.ActivityLogState;
-  categoriesState: t.CategoriesState;
   statisticsState: t.StatisticsState;
-  accountsState: t.AccountsState;
 }
 
 export const reducers: ActionReducerMap<DataFeatureState> = {
-  activityLogState: t.activityLogReducer,
-  categoriesState: t.categoriesReducer,
-  dataInitState: t.dataInitializationReducer,
   statisticsState: t.statisticsReducer,
-  accountsState: t.accountsReducer,
 };
 
 // tslint:disable-next-line:typedef

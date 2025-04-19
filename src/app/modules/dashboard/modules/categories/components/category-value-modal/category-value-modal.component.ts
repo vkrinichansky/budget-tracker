@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Observable, filter, take, tap, withLatestFrom } from 'rxjs';
 import { CategoryValueModalData } from '../../models';
-import { AccountsFacadeService, CategoriesFacadeService } from '@budget-tracker/data';
+import { AccountsFacadeService, CategoriesFacadeService } from '../../../../services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Account, Category, BudgetType } from '@budget-tracker/models';
 import { CurrencyFacadeService } from '@budget-tracker/metadata';

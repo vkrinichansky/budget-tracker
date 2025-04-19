@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { ActivityLogFacadeService } from '@budget-tracker/data';
+import { ActivityLogFacadeService } from '../../../../services';
 import { ConfirmationModalService } from '@budget-tracker/design-system';
 import { ActivityLogRecordUnitedType, ActivityLogRecordType } from '@budget-tracker/models';
 import { Observable, map } from 'rxjs';

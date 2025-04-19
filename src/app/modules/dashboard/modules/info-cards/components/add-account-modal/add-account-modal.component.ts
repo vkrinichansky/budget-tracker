@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, DestroyRef, OnInit } from '@angular
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { AccountsFacadeService } from '@budget-tracker/data';
+import { AccountsFacadeService } from '../../../../services';
 import { Account, Currency, predefinedCurrenciesDictionary } from '@budget-tracker/models';
 import { TranslateService } from '@ngx-translate/core';
 import { filter, Observable, take } from 'rxjs';

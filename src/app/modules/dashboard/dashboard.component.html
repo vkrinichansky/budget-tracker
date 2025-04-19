@@ -1,20 +1,24 @@
-<app-page-header class="text-2xl" [title]="buildTranslationKey('pageTitle') | translate">
-  <span class="flex items-center gap-x-2">
-    <app-currency-switcher></app-currency-switcher>
-    <app-language-switcher></app-language-switcher>
-  </span>
-</app-page-header>
+@if (loading$ | async) {
+  <app-fullsize-loader class="absolute"></app-fullsize-loader>
+} @else {
+  <app-page-header class="text-2xl" [title]="'dashboard.pageTitle' | translate">
+    <span class="flex items-center gap-x-2">
+      <app-currency-switcher></app-currency-switcher>
+      <app-language-switcher></app-language-switcher>
+    </span>
+  </app-page-header>
 
-<div class="info-cards">
-  <app-income-info-card class="card"></app-income-info-card>
-  <app-expense-info-card class="card"></app-expense-info-card>
-  <app-current-month-balance-info-card class="card"></app-current-month-balance-info-card>
-  <app-full-balance-info-card class="card"></app-full-balance-info-card>
-  <app-accounts-info-card class="card"></app-accounts-info-card>
-</div>
+  <div class="info-cards">
+    <app-income-info-card class="card"></app-income-info-card>
+    <app-expense-info-card class="card"></app-expense-info-card>
+    <app-current-month-balance-info-card class="card"></app-current-month-balance-info-card>
+    <app-full-balance-info-card class="card"></app-full-balance-info-card>
+    <app-accounts-info-card class="card"></app-accounts-info-card>
+  </div>
 
-<div class="main-cards">
-  <app-categories class="card" [budgetType]="budgetType.Income"></app-categories>
-  <app-categories class="card" [budgetType]="budgetType.Expense"></app-categories>
-  <app-activity-log class="card"></app-activity-log>
-</div>
+  <div class="main-cards">
+    <app-categories class="card" [budgetType]="budgetType.Income"></app-categories>
+    <app-categories class="card" [budgetType]="budgetType.Expense"></app-categories>
+    <app-activity-log class="card"></app-activity-log>
+  </div>
+}

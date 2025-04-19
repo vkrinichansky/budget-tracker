@@ -2,13 +2,18 @@ import { Injectable } from '@angular/core';
 import { MetadataActions, MetadataSelectors } from '../../store';
 import { Store } from '@ngrx/store';
 import { CurrenciesEnum, LanguagesEnum } from '@budget-tracker/models';
-import { Observable } from 'rxjs';
+import { filter, firstValueFrom, Observable } from 'rxjs';
+import { AuthFacadeService } from '@budget-tracker/auth';
 
 @Injectable()
 export class MetadataFacadeService {
-  constructor(private readonly store: Store) {}
+  constructor(
+    private readonly store: Store,
+    private readonly authFacade: AuthFacadeService
+  ) {}
 
-  initMetadata(): void {
+  async initMetadata(): Promise<void> {
+    await firstValueFrom(this.authFacade.isLoggedIn().pipe(filter(Boolean)));
     this.store.dispatch(MetadataActions.loadMetadata());
   }
 

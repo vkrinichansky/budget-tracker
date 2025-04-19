@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { AccountsFacadeService } from '@budget-tracker/data';
+import { AccountsFacadeService } from '../../../../services';
 import { AccountsValueEditModalService } from '../../services';
 import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
 import { Observable } from 'rxjs';

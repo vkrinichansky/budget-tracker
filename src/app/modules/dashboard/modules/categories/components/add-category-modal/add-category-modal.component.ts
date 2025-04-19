@@ -4,7 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { v4 as uuid } from 'uuid';
 import { Observable, filter, take } from 'rxjs';
 import { AddCategoryModalData } from '../../models';
-import { CategoriesFacadeService } from '@budget-tracker/data';
+import { CategoriesFacadeService } from '../../../../services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Category, BudgetType } from '@budget-tracker/models';
 

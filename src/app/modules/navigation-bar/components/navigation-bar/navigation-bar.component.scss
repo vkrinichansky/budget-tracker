@@ -1,5 +1,5 @@
 :host {
-  @apply flex flex-col justify-between items-center w-16 bg-charcoal py-5;
+  @apply flex flex-col justify-between items-center w-16 min-w-16 bg-charcoal py-5;
 
   .nav-container {
     @apply flex flex-col items-center w-full gap-3;

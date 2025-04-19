@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AccountsFacadeService } from '@budget-tracker/data';
+import { AccountsFacadeService } from '../../../../../services';
 
 @Component({
   selector: 'app-full-balance-info-card',

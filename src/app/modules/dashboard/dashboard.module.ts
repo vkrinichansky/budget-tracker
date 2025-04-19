@@ -7,6 +7,26 @@ import { ActivityLogModule, CategoriesModule, InfoCardsModule } from './modules'
 import { DashboardComponent } from './dashboard.component';
 import { UtilsModule } from '@budget-tracker/utils';
 import { MetadataModule } from '@budget-tracker/metadata';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import {
+  featureKey,
+  reducers,
+  CategoriesEffects,
+  ActivityLogEffects,
+  AccountsEffects,
+  DashboardInitEffects,
+} from './store';
+import {
+  ActivityLogFacadeService,
+  CategoriesFacadeService,
+  CategoriesApiService,
+  ActivityLogApiService,
+  AccountsFacadeService,
+  AccountsApiService,
+  DashboardInitService,
+  DashboardInitFacadeService,
+} from './services';
 
 const routes: Routes = [
   {
@@ -20,6 +40,13 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    StoreModule.forFeature(featureKey, reducers),
+    EffectsModule.forFeature([
+      CategoriesEffects,
+      ActivityLogEffects,
+      AccountsEffects,
+      DashboardInitEffects,
+    ]),
     DesignSystemModule,
     TranslateModule,
     InfoCardsModule,
@@ -27,6 +54,16 @@ const routes: Routes = [
     CategoriesModule,
     UtilsModule,
     MetadataModule,
+  ],
+  providers: [
+    ActivityLogFacadeService,
+    CategoriesFacadeService,
+    CategoriesApiService,
+    ActivityLogApiService,
+    AccountsFacadeService,
+    AccountsApiService,
+    DashboardInitService,
+    DashboardInitFacadeService,
   ],
 })
 export class DashboardModule {}

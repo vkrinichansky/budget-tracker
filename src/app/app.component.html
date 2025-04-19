@@ -1,6 +1,8 @@
-<app-navigation-bar></app-navigation-bar>
+@if (isLoggedIn$ | async) {
+  <app-navigation-bar></app-navigation-bar>
+}
 
-@if (loading$ | async) {
+@if ((loading$ | async) && (isLoggedIn$ | async)) {
   <app-fullsize-loader></app-fullsize-loader>
 } @else {
   <div class="animated-route main w-full bg-dirty-white relative">

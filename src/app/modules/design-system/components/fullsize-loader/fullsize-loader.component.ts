@@ -17,8 +17,7 @@ export class FullsizeLoaderComponent {
 
   @HostBinding('class')
   private get classes(): string {
-    return `w-full h-full flex justify-center absolute top-0 left-0 z-50 bg-hover-black rounded-lg
-    ${this.placementClasses}`;
+    return `w-full h-full flex justify-center z-50 bg-hover-black ${this.placementClasses}`;
   }
 
   private get placementClasses(): string {

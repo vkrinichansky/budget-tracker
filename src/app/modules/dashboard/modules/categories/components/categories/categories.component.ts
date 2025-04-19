@@ -8,7 +8,7 @@ import {
   MainPalette,
   MenuAction,
 } from '@budget-tracker/design-system';
-import { CategoriesFacadeService } from '@budget-tracker/data';
+import { CategoriesFacadeService } from '../../../../services';
 import { isMobileWidth, NumberSpacePipe } from '@budget-tracker/utils';
 import { BudgetType, Category } from '@budget-tracker/models';
 import { CurrencyPipe } from '@budget-tracker/metadata';

@@ -4,7 +4,7 @@ import {
   AccountsModalsService,
   AddAccountModalService,
 } from '../../../services';
-import { AccountsFacadeService } from '@budget-tracker/data';
+import { AccountsFacadeService } from '../../../../../services';
 import { firstValueFrom, map, Observable } from 'rxjs';
 
 @Component({

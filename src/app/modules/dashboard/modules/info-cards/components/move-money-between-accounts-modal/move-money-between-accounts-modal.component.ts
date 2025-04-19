@@ -2,10 +2,10 @@ import { DialogRef } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, FormControl } from '@angular/forms';
-import { AccountsFacadeService } from '@budget-tracker/data';
 import { CurrencyFacadeService } from '@budget-tracker/metadata';
 import { Account } from '@budget-tracker/models';
 import { combineLatest, filter, map, Observable, take, tap, withLatestFrom } from 'rxjs';
+import { AccountsFacadeService } from '../../../../services';
 
 enum FormFields {
   FromAccount = 'fromAccount',
