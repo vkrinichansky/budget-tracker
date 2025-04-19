@@ -25,12 +25,14 @@ import 'hammerjs';
 import 'chartjs-plugin-zoom';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import { MetadataModule } from '@budget-tracker/metadata';
+import { CommonModule } from '@angular/common';
 Chart.register(zoomPlugin);
 
 @NgModule({
   declarations: [AppComponent],
   bootstrap: [AppComponent],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     AuthCoreModule,
@@ -39,11 +41,6 @@ Chart.register(zoomPlugin);
     BrowserAnimationsModule,
     UtilsModule,
     MetadataModule,
-    provideFirebaseApp(() =>
-      initializeApp(isDevMode() ? devEnv.firebaseConfig : prodEnv.firebaseConfig)
-    ),
-    provideAuth(() => getAuth(getApp())),
-    provideFirestore(() => getFirestore()),
     StoreModule.forRoot(
       {},
       {
@@ -73,7 +70,14 @@ Chart.register(zoomPlugin);
       registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
-  providers: [provideHttpClient(withInterceptorsFromDi())],
+  providers: [
+    provideHttpClient(withInterceptorsFromDi()),
+    provideFirebaseApp(() =>
+      initializeApp(isDevMode() ? devEnv.firebaseConfig : prodEnv.firebaseConfig)
+    ),
+    provideAuth(() => getAuth(getApp())),
+    provideFirestore(() => getFirestore()),
+  ],
 })
 export class AppModule {}
 
