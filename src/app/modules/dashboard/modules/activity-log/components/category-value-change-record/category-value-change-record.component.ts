@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { ActivityLogFacadeService } from '../../../../services';
-import { ConfirmationModalService } from '@budget-tracker/design-system';
+import { ConfirmationModalService, SnackbarHandlerService } from '@budget-tracker/design-system';
 import { CategoryValueChangeRecord, BudgetType } from '@budget-tracker/models';
-import { isToday } from '@budget-tracker/utils';
-import { Observable } from 'rxjs';
+import { ActionListenerService, isToday } from '@budget-tracker/utils';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { ActivityLogActions } from '../../../../store';
 
 @Component({
   selector: 'app-category-value-change-record',
@@ -12,10 +13,11 @@ import { Observable } from 'rxjs';
   standalone: false,
 })
 export class CategoryValueChangeRecordComponent implements OnInit {
+  readonly isRecordRemoving$ = new BehaviorSubject<boolean>(false);
+
   @Input()
   record: CategoryValueChangeRecord;
 
-  isRecordRemoving$: Observable<boolean>;
   doesCategoryExist$: Observable<boolean>;
 
   get colorClass(): string {
@@ -47,12 +49,13 @@ export class CategoryValueChangeRecordComponent implements OnInit {
   }
 
   constructor(
-    private confirmationModalService: ConfirmationModalService,
-    private activityLogFacade: ActivityLogFacadeService
+    private readonly confirmationModalService: ConfirmationModalService,
+    private readonly activityLogFacade: ActivityLogFacadeService,
+    private readonly actionListener: ActionListenerService,
+    private readonly snackbarHandler: SnackbarHandlerService
   ) {}
 
   ngOnInit(): void {
-    this.isRecordRemoving$ = this.activityLogFacade.isActivityLogRecordRemoving(this.record.id);
     this.doesCategoryExist$ = this.activityLogFacade.doesCategoryExist(this.record.category.id);
   }
 
@@ -68,7 +71,26 @@ export class CategoryValueChangeRecordComponent implements OnInit {
           categoryName: this.record.category.name,
         },
       },
-      () => this.activityLogFacade.removeCategoryValueChangeRecord(this.record.id)
+      async () => {
+        this.isRecordRemoving$.next(true);
+
+        try {
+          this.activityLogFacade.removeCategoryValueChangeRecord(this.record.id);
+
+          await this.actionListener.waitForResult(
+            ActivityLogActions.activityLogRecordRemoved,
+            ActivityLogActions.removeRecordFail,
+            (action) => action.recordId === this.record.id,
+            (action) => action.recordId === this.record.id
+          );
+
+          this.snackbarHandler.showActivityLogRecordRemovedSnackbar();
+        } catch {
+          this.snackbarHandler.showGeneralErrorSnackbar();
+        } finally {
+          this.isRecordRemoving$.next(false);
+        }
+      }
     );
   }
 }

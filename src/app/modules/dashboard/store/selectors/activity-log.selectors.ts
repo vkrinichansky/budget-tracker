@@ -29,18 +29,10 @@ const activityLogSelector = createSelector(activityLogStateSelector, (state) =>
   Object.values(state.activityLogRecords.entities)
 );
 
-const isActivityLogRecordRemovingSelector = (recordId: string) =>
-  createSelector(activityLogStateSelector, (state) => state.removingRecordsIds.includes(recordId));
-
 const selectRecordByIdSelector = (recordId: string) =>
   createSelector(activityLogSelector, (activityLog) =>
     activityLog.find((record) => record.id === recordId)
   );
-
-const isBulkRecordsRemovingInProgressSelector = createSelector(
-  activityLogStateSelector,
-  (state) => state.bulkRecordsRemove
-);
 
 const activityLogGroupedByDaysSelector = (language: LanguagesEnum) =>
   createSelector(activityLogSelector, (activityLog): ActivityLogGroupedByDay[] => {
@@ -52,10 +44,8 @@ const activityLogGroupedByDaysSelector = (language: LanguagesEnum) =>
 export const ActivityLogSelectors = {
   activityLogStateSelector,
   activityLogSelector,
-  isActivityLogRecordRemovingSelector,
   selectRecordByIdSelector,
   activityLogDictionarySelector,
-  isBulkRecordsRemovingInProgressSelector,
   activityLogGroupedByDaysSelector,
   activityLogLoadedSelector,
 };

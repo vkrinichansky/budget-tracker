@@ -1,51 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, from, switchMap, of, catchError, filter, take } from 'rxjs';
+import { mergeMap, from, switchMap, of, catchError } from 'rxjs';
 import { AccountsActions, ActivityLogActions, CategoriesActions } from '../actions';
-import { Store } from '@ngrx/store';
-import { ActivityLogSelectors } from '../selectors';
 import { ActivityLogApiService } from '../../services';
 import { Account, Category } from '@budget-tracker/models';
-import { SnackbarHandlerService } from '@budget-tracker/design-system';
 
 @Injectable()
 export class ActivityLogEffects {
   constructor(
     private actions$: Actions,
-    private snackbarHandler: SnackbarHandlerService,
-    private store: Store,
     private activityLogService: ActivityLogApiService
   ) {}
-
-  removeRecord$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ActivityLogActions.removeRecord),
-      mergeMap((action) =>
-        this.store.select(ActivityLogSelectors.selectRecordByIdSelector(action.recordId)).pipe(
-          filter((record) => !!record),
-          take(1)
-        )
-      ),
-      mergeMap((record) =>
-        from(this.activityLogService.removeRecord(record)).pipe(
-          switchMap(() => {
-            this.snackbarHandler.showActivityLogRecordRemovedSnackbar();
-
-            return of(
-              ActivityLogActions.activityLogRecordRemoved({
-                recordId: record.id,
-              })
-            );
-          }),
-          catchError((error) => {
-            this.snackbarHandler.showErrorSnackbar(error);
-
-            return of(ActivityLogActions.removeRecordFail({ recordId: record.id }));
-          })
-        )
-      )
-    )
-  );
 
   removeCategoryValueChangeRecord$ = createEffect(() =>
     this.actions$.pipe(
@@ -61,8 +26,6 @@ export class ActivityLogEffects {
           )
         ).pipe(
           switchMap(() => {
-            this.snackbarHandler.showActivityLogRecordRemovedSnackbar();
-
             const updatedCategory = {
               id: action.updatedCategoryId,
               value: action.updatedCategoryValue,
@@ -92,9 +55,7 @@ export class ActivityLogEffects {
               CategoriesActions.categoryValueChanged({ updatedCategory })
             );
           }),
-          catchError((error) => {
-            this.snackbarHandler.showErrorSnackbar(error);
-
+          catchError(() => {
             return of(ActivityLogActions.removeRecordFail({ recordId: action.record.id }));
           })
         )
@@ -102,19 +63,15 @@ export class ActivityLogEffects {
     )
   );
 
-  removeRecordsBySelectedTypes$ = createEffect(() =>
+  bulkRecordsRemove$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActivityLogActions.bulkRecordsRemove),
       mergeMap(() =>
         from(this.activityLogService.bulkRecordRemove()).pipe(
           switchMap(() => {
-            this.snackbarHandler.showBulkActivityLogRecordsRemovedSnackbar();
-
             return of(ActivityLogActions.bulkRecordsRemoved());
           }),
-          catchError((error) => {
-            this.snackbarHandler.showErrorSnackbar(error);
-
+          catchError(() => {
             return of(ActivityLogActions.bulkRecordsRemoveFail());
           })
         )

@@ -3,7 +3,7 @@
 
 <app-page-header
   class="text-xl bg-transparent"
-  [title]="buildTranslationKey('title') | translate"
+  [title]="'dashboard.activityLog.title' | translate"
   [loading]="isBulkRecordsRemovingInProgress"
 >
   @if (!isEmpty) {
@@ -28,7 +28,7 @@
 >
   @if (isEmpty) {
     <span class="font-main font-bold text-charcoal text-lg text-center">
-      {{ buildTranslationKey('emptyStateText') | translate }}
+      {{ 'dashboard.activityLog.emptyStateText' | translate }}
     </span>
   } @else {
     <cdk-virtual-scroll-viewport itemSize="66" class="h-full w-full !overflow-x-hidden">

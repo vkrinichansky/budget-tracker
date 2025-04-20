@@ -71,10 +71,6 @@ export class AccountCardComponent {
   @Input()
   shouldDisableDragButton: boolean;
 
-  get primaryText(): string {
-    return `${this.account.value} ${this.account.currency.symbol}`;
-  }
-
   get isAccountWithForeignCurrency(): boolean {
     return this.account.currency.id !== this.currencyFacade.getCurrentCurrency();
   }

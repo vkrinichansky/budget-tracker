@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivityLogFacadeService } from '../../../../services';
-import { ConfirmationModalService } from '@budget-tracker/design-system';
+import { ConfirmationModalService, SnackbarHandlerService } from '@budget-tracker/design-system';
 import { ActivityLogRecordUnitedType, ActivityLogRecordType } from '@budget-tracker/models';
-import { Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
+import { ActionListenerService } from '@budget-tracker/utils';
+import { ActivityLogActions } from '../../../../store';
 
 interface DateObject {
   date: string;
@@ -19,22 +21,22 @@ type RenderingItemType = DateObject | ActivityLogRecordUnitedType;
   standalone: false,
 })
 export class ActivityLogComponent implements OnInit {
-  private readonly confirmationModalService = inject(ConfirmationModalService);
-  private readonly activityLogFacade = inject(ActivityLogFacadeService);
-
   readonly recordType = ActivityLogRecordType;
+  readonly isBulkRecordsRemovingInProgress$ = new BehaviorSubject<boolean>(false);
 
   isEmpty$: Observable<boolean>;
 
   itemsToRender$: Observable<RenderingItemType[]>;
 
-  isBulkRecordsRemovingInProgress$: Observable<boolean>;
+  constructor(
+    private readonly activityLogFacade: ActivityLogFacadeService,
+    private readonly confirmationModalService: ConfirmationModalService,
+    private readonly actionListener: ActionListenerService,
+    private readonly snackbarHandler: SnackbarHandlerService
+  ) {}
 
   ngOnInit(): void {
     this.initActivityLogListeners();
-
-    this.isBulkRecordsRemovingInProgress$ =
-      this.activityLogFacade.isBulkRecordsRemovingInProgress();
   }
 
   trackBy(_: number, item: RenderingItemType): string {
@@ -47,16 +49,29 @@ export class ActivityLogComponent implements OnInit {
     return 'date' in item && 'sum' in item;
   }
 
-  buildTranslationKey(key: string): string {
-    return `dashboard.activityLog.${key}`;
-  }
-
   openRemoveConfirmationModal(): void {
     this.confirmationModalService.openConfirmationModal(
       {
-        questionTranslationKey: this.buildTranslationKey('allRecordsRemoveConfirmationQuestion'),
+        questionTranslationKey: 'dashboard.activityLog.allRecordsRemoveConfirmationQuestion',
       },
-      () => this.activityLogFacade.removeAllRecords()
+      async () => {
+        this.isBulkRecordsRemovingInProgress$.next(true);
+
+        try {
+          this.activityLogFacade.removeAllRecords();
+
+          await this.actionListener.waitForResult(
+            ActivityLogActions.bulkRecordsRemoved,
+            ActivityLogActions.bulkRecordsRemoveFail
+          );
+
+          this.snackbarHandler.showBulkActivityLogRecordsRemovedSnackbar();
+        } catch {
+          this.snackbarHandler.showGeneralErrorSnackbar();
+        } finally {
+          this.isBulkRecordsRemovingInProgress$.next(false);
+        }
+      }
     );
   }
 

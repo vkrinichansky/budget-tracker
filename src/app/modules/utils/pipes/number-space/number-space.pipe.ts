@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'numberSpace',
-    standalone: false
+  name: 'numberSpace',
+  standalone: false,
 })
 export class NumberSpacePipe implements PipeTransform {
   transform(value: number | string): string {

@@ -6,16 +6,17 @@ import {
 } from '@budget-tracker/models';
 
 export const ActivityLogActions = {
-  recordAdded: createAction(
-    '[ActivityLog] Record added',
-    props<{ record: ActivityLogRecordUnitedType }>()
-  ),
   activityLogLoaded: createAction(
     '[ActivityLog] Activity log loaded',
     props<{ activityLog: ActivityLog }>()
   ),
   cleanState: createAction('[ActivityLog] Clean state'),
-  removeRecord: createAction('[ActivityLog] Remove record', props<{ recordId: string }>()),
+
+  recordAdded: createAction(
+    '[ActivityLog] Record added',
+    props<{ record: ActivityLogRecordUnitedType }>()
+  ),
+
   removeCategoryValueChangeRecord: createAction(
     '[ActivityLog] Remove category value change record',
     props<{
@@ -31,6 +32,7 @@ export const ActivityLogActions = {
     props<{ recordId: string }>()
   ),
   removeRecordFail: createAction('[ActivityLog] Remove record fail', props<{ recordId: string }>()),
+
   bulkRecordsRemove: createAction('[ActivityLog] Bulk records remove'),
   bulkRecordsRemoved: createAction('[ActivityLog] Bulk records removed'),
   bulkRecordsRemoveFail: createAction('[ActivityLog] Bulk records remove fail'),

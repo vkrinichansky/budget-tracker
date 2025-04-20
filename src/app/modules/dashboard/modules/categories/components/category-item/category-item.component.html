@@ -22,10 +22,12 @@
   </div>
 </div>
 
-<div class="flex items-center gap-x-2">
-  <app-menu
-    [menuActions]="menuActions"
-    [loading]="loading$ | async"
-    (click)="$event.stopPropagation()"
-  ></app-menu>
-</div>
+@if (!category.isSystem) {
+  <div class="flex items-center gap-x-2">
+    <app-menu
+      [menuActions]="menuActions"
+      [loading]="loading$ | async"
+      (click)="$event.stopPropagation()"
+    ></app-menu>
+  </div>
+}

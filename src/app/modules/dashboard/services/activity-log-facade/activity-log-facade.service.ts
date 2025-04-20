@@ -37,23 +37,10 @@ export class ActivityLogFacadeService {
     return this.store.select(ActivityLogSelectors.activityLogGroupedByDaysSelector(language));
   }
 
-  isActivityLogRecordRemoving(recordId: string): Observable<boolean> {
-    return this.store.select(ActivityLogSelectors.isActivityLogRecordRemovingSelector(recordId));
-  }
-
-  isBulkRecordsRemovingInProgress(): Observable<boolean> {
-    return this.store.select(ActivityLogSelectors.isBulkRecordsRemovingInProgressSelector);
-  }
-
   doesCategoryExist(categoryId: string): Observable<boolean> {
     return this.store
       .select(CategoriesSelectors.selectCategoryByIdSelector(categoryId))
       .pipe(map((category) => !!category));
-  }
-
-  // RECORDS REMOVING
-  removeActivityLogRecord(recordId: string): void {
-    this.store.dispatch(ActivityLogActions.removeRecord({ recordId }));
   }
 
   async removeCategoryValueChangeRecord(recordId: string): Promise<void> {

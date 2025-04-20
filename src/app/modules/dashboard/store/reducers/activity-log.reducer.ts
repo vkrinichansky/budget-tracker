@@ -5,8 +5,6 @@ import { EntityState, createEntityAdapter } from '@ngrx/entity';
 
 export interface ActivityLogState {
   activityLogRecords: EntityState<ActivityLogRecordUnitedType>;
-  removingRecordsIds: string[];
-  bulkRecordsRemove: boolean;
   isLoaded: boolean;
 }
 
@@ -20,72 +18,55 @@ export const activityLogRecordsEntityAdapter = createEntityAdapter({
 
 const initialState: ActivityLogState = {
   activityLogRecords: activityLogRecordsEntityAdapter.getInitialState({}),
-  removingRecordsIds: [],
-  bulkRecordsRemove: false,
   isLoaded: false,
 };
 
 const adapterReducer = createReducer(
   initialState,
 
-  on(ActivityLogActions.activityLogLoaded, (state, action) => ({
-    ...state,
-    activityLogRecords: activityLogRecordsEntityAdapter.addMany(
-      action.activityLog,
-      state.activityLogRecords
-    ),
-    isLoaded: true,
-  })),
+  on(
+    ActivityLogActions.activityLogLoaded,
+    (state, action): ActivityLogState => ({
+      ...state,
+      activityLogRecords: activityLogRecordsEntityAdapter.addMany(
+        action.activityLog,
+        state.activityLogRecords
+      ),
+      isLoaded: true,
+    })
+  ),
 
-  on(ActivityLogActions.recordAdded, (state, action) => ({
-    ...state,
-    activityLogRecords: activityLogRecordsEntityAdapter.addOne(
-      action.record,
-      state.activityLogRecords
-    ),
-  })),
+  on(
+    ActivityLogActions.recordAdded,
+    (state, action): ActivityLogState => ({
+      ...state,
+      activityLogRecords: activityLogRecordsEntityAdapter.addOne(
+        action.record,
+        state.activityLogRecords
+      ),
+    })
+  ),
 
-  on(ActivityLogActions.cleanState, () => initialState),
+  on(
+    ActivityLogActions.activityLogRecordRemoved,
+    (state, action): ActivityLogState => ({
+      ...state,
+      activityLogRecords: activityLogRecordsEntityAdapter.removeOne(
+        action.recordId,
+        state.activityLogRecords
+      ),
+    })
+  ),
 
-  on(ActivityLogActions.removeRecord, (state, action) => ({
-    ...state,
-    removingRecordsIds: [...state.removingRecordsIds, action.recordId],
-  })),
+  on(
+    ActivityLogActions.bulkRecordsRemoved,
+    (state): ActivityLogState => ({
+      ...state,
+      activityLogRecords: activityLogRecordsEntityAdapter.removeAll(state.activityLogRecords),
+    })
+  ),
 
-  on(ActivityLogActions.removeCategoryValueChangeRecord, (state, action) => ({
-    ...state,
-    removingRecordsIds: [...state.removingRecordsIds, action.record.id],
-  })),
-
-  on(ActivityLogActions.activityLogRecordRemoved, (state, action) => ({
-    ...state,
-    activityLogRecords: activityLogRecordsEntityAdapter.removeOne(
-      action.recordId,
-      state.activityLogRecords
-    ),
-    removingRecordsIds: state.removingRecordsIds.filter((recordId) => recordId !== action.recordId),
-  })),
-
-  on(ActivityLogActions.removeRecordFail, (state, action) => ({
-    ...state,
-    removingRecordsIds: state.removingRecordsIds.filter((recordId) => recordId !== action.recordId),
-  })),
-
-  on(ActivityLogActions.bulkRecordsRemove, (state) => ({
-    ...state,
-    bulkRecordsRemove: true,
-  })),
-
-  on(ActivityLogActions.bulkRecordsRemoved, (state) => ({
-    ...state,
-    activityLogRecords: activityLogRecordsEntityAdapter.removeAll(state.activityLogRecords),
-    bulkRecordsRemove: false,
-  })),
-
-  on(ActivityLogActions.bulkRecordsRemoveFail, (state) => ({
-    ...state,
-    bulkRecordsRemove: false,
-  }))
+  on(ActivityLogActions.cleanState, (): ActivityLogState => initialState)
 );
 
 export function activityLogReducer(state = initialState, action: Action): ActivityLogState {
