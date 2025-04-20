@@ -4,8 +4,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, FormControl } from '@angular/forms';
 import { CurrencyFacadeService } from '@budget-tracker/metadata';
 import { Account } from '@budget-tracker/models';
-import { combineLatest, filter, map, Observable, take, tap, withLatestFrom } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, map, Observable, tap, withLatestFrom } from 'rxjs';
 import { AccountsFacadeService } from '../../../../services';
+import { SnackbarHandlerService } from '@budget-tracker/design-system';
+import { ActionListenerService } from '@budget-tracker/utils';
+import { AccountsActions } from '../../../../store';
 
 enum FormFields {
   FromAccount = 'fromAccount',
@@ -22,6 +25,7 @@ enum FormFields {
 })
 export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
   readonly formFieldsEnum = FormFields;
+  readonly loading$ = new BehaviorSubject<boolean>(false);
 
   readonly form: FormGroup = new FormGroup({
     [FormFields.FromAccount]: new FormControl(null),
@@ -38,7 +42,6 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
   accounts$: Observable<Account[]>;
   filteredAccounts$: Observable<Account[]>;
 
-  loading$: Observable<boolean>;
   success$: Observable<boolean>;
 
   get accountsHaveDifferentCurrencies(): boolean {
@@ -71,20 +74,38 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
     private accountsFacade: AccountsFacadeService,
     private destroyRef: DestroyRef,
     private currencyFacade: CurrencyFacadeService,
-    private dialogRef: DialogRef
+    private dialogRef: DialogRef,
+    private readonly actionListener: ActionListenerService,
+    private readonly snackbarHandler: SnackbarHandlerService
   ) {}
 
   ngOnInit(): void {
     this.initListeners();
   }
 
-  submitAction(): void {
-    this.accountsFacade.moveMoneyBetweenAccount(
-      this.form.controls[FormFields.FromAccount].value.id,
-      this.form.controls[FormFields.ToAccount].value.id,
-      parseInt(this.form.controls[FormFields.ValueToMove].value),
-      parseInt(this.form.controls[FormFields.ConvertedValueToMove].value)
-    );
+  async submitAction(): Promise<void> {
+    this.loading$.next(true);
+
+    try {
+      this.accountsFacade.moveMoneyBetweenAccount(
+        this.form.controls[FormFields.FromAccount].value.id,
+        this.form.controls[FormFields.ToAccount].value.id,
+        parseInt(this.form.controls[FormFields.ValueToMove].value),
+        parseInt(this.form.controls[FormFields.ConvertedValueToMove].value)
+      );
+
+      await this.actionListener.waitForResult(
+        AccountsActions.moneyBetweenAccountsMoved,
+        AccountsActions.moveMoneyBetweenAccountsFail
+      );
+
+      this.dialogRef.close();
+      this.snackbarHandler.showMoneyBetweenAccountsMovedSnackbar();
+    } catch {
+      this.snackbarHandler.showGeneralErrorSnackbar();
+    } finally {
+      this.loading$.next(false);
+    }
   }
 
   private initListeners(): void {
@@ -122,15 +143,5 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
-
-    this.loading$ = this.accountsFacade.getMovingMoneyBetweenAccountsInProgress();
-    this.success$ = this.accountsFacade.getMovingMoneyBetweenAccountsSuccess();
-
-    this.success$
-      .pipe(
-        filter((isSuccess) => !!isSuccess),
-        take(1)
-      )
-      .subscribe(() => this.dialogRef.close());
   }
 }

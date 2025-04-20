@@ -3,15 +3,13 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, from, mergeMap, of, switchMap } from 'rxjs';
 import { CategoriesApiService } from '../../services';
 import { Account, Category } from '@budget-tracker/models';
-import { SnackbarHandlerService } from '@budget-tracker/design-system';
 import { AccountsActions, ActivityLogActions, CategoriesActions } from '../actions';
 
 @Injectable()
 export class CategoriesEffects {
   constructor(
     private actions$: Actions,
-    private categoriesService: CategoriesApiService,
-    private snackbarHandler: SnackbarHandlerService
+    private categoriesService: CategoriesApiService
   ) {}
 
   addCategory$ = createEffect(() =>

@@ -15,13 +15,6 @@ export interface ActivityLogRecord {
   recordType: ActivityLogRecordType;
 }
 
-export interface AccountValueEditRecord extends ActivityLogRecord {
-  account: Account;
-  oldValue: number;
-  newValue: number;
-  note: string;
-}
-
 export interface MoveMoneyBetweenAccountsRecord extends ActivityLogRecord {
   fromAccount: Account;
   toAccount: Account;
@@ -43,7 +36,6 @@ export interface CategoriesResetRecord extends ActivityLogRecord {
 }
 
 export type ActivityLogRecordUnitedType =
-  | AccountValueEditRecord
   | CategoryValueChangeRecord
   | CategoriesResetRecord
   | MoveMoneyBetweenAccountsRecord;

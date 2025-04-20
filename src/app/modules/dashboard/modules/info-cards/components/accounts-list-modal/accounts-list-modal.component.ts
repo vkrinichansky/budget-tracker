@@ -4,7 +4,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AccountsFacadeService } from '../../../../services';
 import { Account } from '@budget-tracker/models';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, tap } from 'rxjs';
+import { SnackbarHandlerService } from '@budget-tracker/design-system';
+import { ActionListenerService } from '@budget-tracker/utils';
+import { AccountsActions } from '../../../../store';
 
 @Component({
   selector: 'app-accounts-list-modal',
@@ -15,20 +18,21 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 })
 export class AccountsListModalComponent implements OnInit {
   readonly accounts$ = new BehaviorSubject<Account[]>([]);
-
-  changeOrderInProgress$: Observable<boolean>;
+  readonly changeOrderInProgress$ = new BehaviorSubject<boolean>(false);
 
   constructor(
-    private accountsFacade: AccountsFacadeService,
-    private dialogRef: MatDialogRef<AccountsListModalComponent>,
-    private destroyRef: DestroyRef
+    private readonly accountsFacade: AccountsFacadeService,
+    private readonly dialogRef: MatDialogRef<AccountsListModalComponent>,
+    private readonly destroyRef: DestroyRef,
+    private readonly actionListener: ActionListenerService,
+    private readonly snackbarHandler: SnackbarHandlerService
   ) {}
 
   ngOnInit(): void {
     this.initListeners();
   }
 
-  orderChanged(event: CdkDragDrop<Account[]>) {
+  async orderChanged(event: CdkDragDrop<Account[]>) {
     const resultArray = structuredClone(this.accounts$.value);
 
     moveItemInArray(resultArray, event.previousIndex, event.currentIndex);
@@ -40,7 +44,22 @@ export class AccountsListModalComponent implements OnInit {
       {} as Record<string, number>
     );
 
-    this.accountsFacade.bulkAccountChangeOrder(updatedAccountsOrder);
+    this.changeOrderInProgress$.next(true);
+
+    try {
+      this.accountsFacade.bulkAccountChangeOrder(updatedAccountsOrder);
+
+      await this.actionListener.waitForResult(
+        AccountsActions.bulkAccountOrderChanged,
+        AccountsActions.bulkAccountChangeOrderFail
+      );
+
+      this.snackbarHandler.showAccountOrderChangedSnackbar();
+    } catch {
+      this.snackbarHandler.showGeneralErrorSnackbar();
+    } finally {
+      this.changeOrderInProgress$.next(false);
+    }
   }
 
   closeModal(): void {
@@ -59,7 +78,5 @@ export class AccountsListModalComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((accounts) => this.accounts$.next(accounts));
-
-    this.changeOrderInProgress$ = this.accountsFacade.getOrderChangingInProgress();
   }
 }

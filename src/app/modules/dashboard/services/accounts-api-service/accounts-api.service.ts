@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Account,
-  AccountValueEditRecord,
-  MoveMoneyBetweenAccountsRecord,
-} from '@budget-tracker/models';
+import { Account, MoveMoneyBetweenAccountsRecord } from '@budget-tracker/models';
 import { Auth } from '@angular/fire/auth';
 import {
   arrayUnion,
@@ -49,17 +45,6 @@ export class AccountsApiService {
     return updateDoc(this.getDocRef(), {
       [`${ACCOUNTS_PATH}.${accountId}`]: deleteField(),
       ...payload,
-    });
-  }
-
-  editAccountValue(
-    accountId: string,
-    newValue: number,
-    activityLogRecord: AccountValueEditRecord
-  ): Promise<void> {
-    return updateDoc(this.getDocRef(), {
-      [`${ACCOUNTS_PATH}.${accountId}.value`]: newValue,
-      [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
     });
   }
 

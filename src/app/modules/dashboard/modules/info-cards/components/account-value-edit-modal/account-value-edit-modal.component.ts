@@ -1,10 +1,13 @@
 import { Component, Inject, OnInit, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { filter, firstValueFrom, map, Observable, take } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, map, Observable } from 'rxjs';
 import { AccountValueEditModalData } from '../../models';
 import { AccountsFacadeService } from '../../../../services';
 import { Account } from '@budget-tracker/models';
+import { SnackbarHandlerService } from '@budget-tracker/design-system';
+import { ActionListenerService } from '@budget-tracker/utils';
+import { CategoriesActions } from '../../../../store';
 
 enum FormFields {
   Value = 'value',
@@ -19,6 +22,7 @@ enum FormFields {
 })
 export class AccountValueEditModalComponent implements OnInit, AfterViewInit {
   readonly formFields = FormFields;
+  readonly loading$ = new BehaviorSubject<boolean>(false);
 
   readonly form = new FormGroup({
     [FormFields.Value]: new FormControl(null),
@@ -28,8 +32,6 @@ export class AccountValueEditModalComponent implements OnInit, AfterViewInit {
   initialValue: number;
 
   account$: Observable<Account>;
-  loading$: Observable<boolean>;
-  success$: Observable<boolean>;
 
   get accountId(): string {
     return this.data.accountId;
@@ -43,9 +45,11 @@ export class AccountValueEditModalComponent implements OnInit, AfterViewInit {
   }
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: AccountValueEditModalData,
-    private dialogRef: MatDialogRef<AccountValueEditModalComponent>,
-    private accountsFacade: AccountsFacadeService
+    @Inject(MAT_DIALOG_DATA) private readonly data: AccountValueEditModalData,
+    private readonly dialogRef: MatDialogRef<AccountValueEditModalComponent>,
+    private readonly accountsFacade: AccountsFacadeService,
+    private readonly actionListener: ActionListenerService,
+    private readonly snackbarHandler: SnackbarHandlerService
   ) {}
 
   ngOnInit(): void {
@@ -57,23 +61,30 @@ export class AccountValueEditModalComponent implements OnInit, AfterViewInit {
     this.form.controls[FormFields.Value].setValue(this.initialValue, { emitEvent: false });
   }
 
-  submitAction(): void {
-    const inputValue = parseInt(this.form.controls[FormFields.Value].value);
-    const note = this.form.controls[FormFields.Note]?.value;
+  async submitAction(): Promise<void> {
+    this.loading$.next(true);
 
-    this.accountsFacade.editAccountValue(this.accountId, inputValue, note);
+    try {
+      const inputValue = parseInt(this.form.controls[FormFields.Value].value);
+      const note = this.form.controls[FormFields.Note]?.value;
+
+      this.accountsFacade.editAccountValue(this.accountId, inputValue, note);
+
+      await this.actionListener.waitForResult(
+        CategoriesActions.categoryValueChanged,
+        CategoriesActions.changeCategoryValueFail
+      );
+
+      this.dialogRef.close();
+      this.snackbarHandler.showAccountValueEditedSnackbar();
+    } catch {
+      this.snackbarHandler.showGeneralErrorSnackbar();
+    } finally {
+      this.loading$.next(false);
+    }
   }
 
   private initListeners(): void {
     this.account$ = this.accountsFacade.getAccountById(this.accountId);
-    this.loading$ = this.accountsFacade.getEditAccountValueInProgress();
-    this.success$ = this.accountsFacade.getEditAccountValueSucceed();
-
-    this.success$
-      .pipe(
-        filter((isSuccess) => !!isSuccess),
-        take(1)
-      )
-      .subscribe(() => this.dialogRef.close());
   }
 }

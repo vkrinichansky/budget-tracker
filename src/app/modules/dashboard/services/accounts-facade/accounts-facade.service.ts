@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import {
   Account,
-  AccountValueEditRecord,
   ActivityLogRecordType,
   Category,
   CategoryValueChangeRecord,
@@ -125,14 +124,6 @@ export class AccountsFacadeService {
     );
   }
 
-  getEditAccountValueInProgress(): Observable<boolean> {
-    return this.store.select(AccountsSelectors.editAccountValueInProgressSelector);
-  }
-
-  getEditAccountValueSucceed(): Observable<boolean> {
-    return this.store.select(AccountsSelectors.editAccountValueSucceedSelector);
-  }
-
   async addAccount(account: Account): Promise<void> {
     const updatedAccountsOrder: Record<string, number> = await firstValueFrom(
       this.getAllAccounts().pipe(
@@ -183,29 +174,5 @@ export class AccountsFacadeService {
 
   bulkAccountChangeOrder(updatedAccountsOrder: Record<string, number>): void {
     this.store.dispatch(AccountsActions.bulkAccountChangeOrder({ updatedAccountsOrder }));
-  }
-
-  isAccountRemoving(categoryId: string): Observable<boolean> {
-    return this.store.select(AccountsSelectors.isAccountRemovingSelector(categoryId));
-  }
-
-  getAccountManagementInProgress(): Observable<boolean> {
-    return this.store.select(AccountsSelectors.accountManagementInProgressSelector);
-  }
-
-  getAccountManagementSuccess(): Observable<boolean> {
-    return this.store.select(AccountsSelectors.accountManagementSuccessSelector);
-  }
-
-  getOrderChangingInProgress(): Observable<boolean> {
-    return this.store.select(AccountsSelectors.orderChangingInProgressSelector);
-  }
-
-  getMovingMoneyBetweenAccountsInProgress(): Observable<boolean> {
-    return this.store.select(AccountsSelectors.movingMoneyBetweenAccountsInProgressSelector);
-  }
-
-  getMovingMoneyBetweenAccountsSuccess(): Observable<boolean> {
-    return this.store.select(AccountsSelectors.movingMoneyBetweenAccountsSuccessSelector);
   }
 }

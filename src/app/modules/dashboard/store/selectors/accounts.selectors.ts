@@ -24,29 +24,6 @@ const accountByIdSelector = (accountId: string) =>
     (accountsDictionary) => accountsDictionary[accountId]
   );
 
-const editAccountValueInProgressSelector = createSelector(
-  accountsStateSelector,
-  (state) => state.accountValueEdit.inProgress
-);
-
-const editAccountValueSucceedSelector = createSelector(
-  accountsStateSelector,
-  (state) => state.accountValueEdit.success
-);
-
-const accountManagementInProgressSelector = createSelector(
-  accountsStateSelector,
-  (state) => state.accountManagement.inProgress
-);
-
-const accountManagementSuccessSelector = createSelector(
-  accountsStateSelector,
-  (state) => state.accountManagement.success
-);
-
-const isAccountRemovingSelector = (accountId: string) =>
-  createSelector(accountsStateSelector, (state) => state.removingAccountsIds.includes(accountId));
-
 const fullBalanceSelector = (
   currency: CurrenciesEnum,
   currencyExchangeRate: CurrencyExchangeRate
@@ -61,33 +38,10 @@ const fullBalanceSelector = (
     )
   );
 
-const orderChangingInProgressSelector = createSelector(
-  accountsStateSelector,
-  (state) => state.orderChangingInProgress
-);
-
-const movingMoneyBetweenAccountsInProgressSelector = createSelector(
-  accountsStateSelector,
-  (state) => state.movingMoneyBetweenAccountsInProgress.inProgress
-);
-
-const movingMoneyBetweenAccountsSuccessSelector = createSelector(
-  accountsStateSelector,
-  (state) => state.movingMoneyBetweenAccountsInProgress.success
-);
-
 export const AccountsSelectors = {
   accountsStateSelector,
   allAccountsSelector,
   accountByIdSelector,
-  editAccountValueInProgressSelector,
-  editAccountValueSucceedSelector,
-  accountManagementInProgressSelector,
-  accountManagementSuccessSelector,
-  isAccountRemovingSelector,
   fullBalanceSelector,
-  orderChangingInProgressSelector,
-  movingMoneyBetweenAccountsInProgressSelector,
-  movingMoneyBetweenAccountsSuccessSelector,
   accountsLoadedSelector,
 };

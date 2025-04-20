@@ -5,8 +5,11 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { AccountsFacadeService } from '../../../../services';
 import { Account, Currency, predefinedCurrenciesDictionary } from '@budget-tracker/models';
 import { TranslateService } from '@ngx-translate/core';
-import { filter, Observable, take } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { v4 as uuid } from 'uuid';
+import { ActionListenerService } from '@budget-tracker/utils';
+import { AccountsActions } from '../../../../store';
+import { SnackbarHandlerService } from '@budget-tracker/design-system';
 
 enum FormFields {
   AccountName = 'accountName',
@@ -27,6 +30,7 @@ export class AddAccountModalComponent implements OnInit {
   private accounts: Account[];
 
   readonly formFields = FormFields;
+  readonly loading$ = new BehaviorSubject<boolean>(false);
 
   readonly form: FormGroup = new FormGroup({
     [FormFields.AccountName]: new FormControl(null),
@@ -50,9 +54,6 @@ export class AddAccountModalComponent implements OnInit {
       .map((account) => account.name.toLowerCase().trim())
       .includes(value.toLowerCase().trim());
 
-  loading$: Observable<boolean>;
-  success$: Observable<boolean>;
-
   get selectedCurrencySymbol(): string {
     if (this.form.controls[FormFields.AccountCurrency]?.value?.symbol) {
       return this.form.controls[FormFields.AccountCurrency]?.value?.symbol;
@@ -66,42 +67,50 @@ export class AddAccountModalComponent implements OnInit {
   }
 
   constructor(
-    private accountsFacade: AccountsFacadeService,
-    private destroyRef: DestroyRef,
-    private translateService: TranslateService,
-    private dialogRef: MatDialogRef<AddAccountModalComponent>
+    private readonly accountsFacade: AccountsFacadeService,
+    private readonly destroyRef: DestroyRef,
+    private readonly translateService: TranslateService,
+    private readonly dialogRef: MatDialogRef<AddAccountModalComponent>,
+    private readonly actionListener: ActionListenerService,
+    private readonly snackbarHandler: SnackbarHandlerService
   ) {}
 
   ngOnInit(): void {
     this.initListeners();
   }
 
-  submitClick(): void {
-    const account: Account = {
-      id: uuid(),
-      value: parseInt(this.form.controls[FormFields.AccountValue].value),
-      icon: this.form.controls[FormFields.AccountIcon].value,
-      name: this.form.controls[FormFields.AccountName].value,
-      bgColor: this.form.controls[FormFields.AccountBgColor].value,
-      textColor: this.form.controls[FormFields.AccountTextColor].value,
-      currency: this.form.controls[FormFields.AccountCurrency].value,
-      order: 0,
-    };
+  async submitClick(): Promise<void> {
+    this.loading$.next(true);
 
-    this.accountsFacade.addAccount(account);
+    try {
+      const account: Account = {
+        id: uuid(),
+        value: parseInt(this.form.controls[FormFields.AccountValue].value),
+        icon: this.form.controls[FormFields.AccountIcon].value,
+        name: this.form.controls[FormFields.AccountName].value,
+        bgColor: this.form.controls[FormFields.AccountBgColor].value,
+        textColor: this.form.controls[FormFields.AccountTextColor].value,
+        currency: this.form.controls[FormFields.AccountCurrency].value,
+        order: 0,
+      };
+
+      this.accountsFacade.addAccount(account);
+
+      await this.actionListener.waitForResult(
+        AccountsActions.accountAdded,
+        AccountsActions.addAccountFail
+      );
+
+      this.dialogRef.close();
+      this.snackbarHandler.showAccountAddedSnackbar();
+    } catch {
+      this.snackbarHandler.showGeneralErrorSnackbar();
+    } finally {
+      this.loading$.next(false);
+    }
   }
 
   private initListeners(): void {
-    this.loading$ = this.accountsFacade.getAccountManagementInProgress();
-    this.success$ = this.accountsFacade.getAccountManagementSuccess();
-
-    this.success$
-      .pipe(
-        filter((isSuccess) => !!isSuccess),
-        take(1)
-      )
-      .subscribe(() => this.dialogRef.close());
-
     this.accountsFacade
       .getAllAccounts()
       .pipe(takeUntilDestroyed(this.destroyRef))
