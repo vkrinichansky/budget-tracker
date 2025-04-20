@@ -25,20 +25,12 @@ export class CategoriesFacadeService {
     return this.store.select(CategoriesSelectors.allCategoriesDictionarySelector);
   }
 
-  getIncomeCategories(): Observable<Category[]> {
-    return this.store.select(CategoriesSelectors.incomeCategoriesSelector);
+  getCategoriesByType(budgetType: BudgetType): Observable<Category[]> {
+    return this.store.select(CategoriesSelectors.categoriesByTypeSelector(budgetType));
   }
 
-  getExpenseCategories(): Observable<Category[]> {
-    return this.store.select(CategoriesSelectors.expenseCategoriesSelector);
-  }
-
-  areIncomeCategoriesAllReset(): Observable<boolean> {
-    return this.store.select(CategoriesSelectors.areIncomeCategoriesAllResetSelector);
-  }
-
-  areExpenseCategoriesAllReset(): Observable<boolean> {
-    return this.store.select(CategoriesSelectors.areExpenseCategoriesAllResetSelector);
+  areCategoriesAllReset(budgetType: BudgetType): Observable<boolean> {
+    return this.store.select(CategoriesSelectors.areCategoriesAllResetSelector(budgetType));
   }
 
   getCategoryById(categoryId: string): Observable<Category> {
@@ -57,26 +49,15 @@ export class CategoriesFacadeService {
     return this.store.select(CategoriesSelectors.currentMonthBalanceSelector);
   }
 
-  getCategoriesAccordingToBudgetType(budgetType: BudgetType): Observable<Category[]> {
-    switch (budgetType) {
-      case BudgetType.Income:
-        return this.getIncomeCategories();
-
-      case BudgetType.Expense:
-        return this.getExpenseCategories();
-    }
-  }
-
   getAccountById(accountId: string): Observable<Account> {
     return this.store.select(AccountsSelectors.accountByIdSelector(accountId));
   }
 
-  // CATEGORY MANAGEMENT
   addCategory(category: Category): void {
     this.store.dispatch(CategoriesActions.addCategory({ category }));
   }
 
-  async removeCategory(categoryId: string): Promise<void> {
+  removeCategory(categoryId: string): void {
     this.store.dispatch(
       CategoriesActions.removeCategory({
         categoryId,
@@ -135,19 +116,17 @@ export class CategoriesFacadeService {
   }
 
   async resetCategoriesByType(budgetType: BudgetType): Promise<void> {
-    let categories: Category[];
+    const categories: Category[] = await firstValueFrom(this.getCategoriesByType(budgetType));
+
     let icon: string;
 
     switch (budgetType) {
       case BudgetType.Income:
-        categories = await firstValueFrom(this.getIncomeCategories());
         icon = 'arrow-up';
         break;
 
       case BudgetType.Expense:
-        categories = await firstValueFrom(this.getExpenseCategories());
         icon = 'arrow-down';
-
         break;
     }
 
@@ -164,27 +143,5 @@ export class CategoriesFacadeService {
     this.store.dispatch(
       CategoriesActions.resetCategories({ categoriesIdsToReset, budgetType, activityLogRecord })
     );
-  }
-
-  // CATEGORY MANAGEMENT STATES
-  getCategoryManagementInProgress(): Observable<boolean> {
-    return this.store.select(CategoriesSelectors.categoryManagementInProgressSelector);
-  }
-
-  getCategoryManagementSuccess(): Observable<boolean> {
-    return this.store.select(CategoriesSelectors.categoryManagementSuccessSelector);
-  }
-
-  isCategoryRemoving(categoryId: string): Observable<boolean> {
-    return this.store.select(CategoriesSelectors.isCategoryRemovingSelector(categoryId));
-  }
-
-  // CATEGORY VALUE CHANGE STATES
-  getCategoryValueChangeInProgress(): Observable<boolean> {
-    return this.store.select(CategoriesSelectors.categoryValueChangeInProgressSelector);
-  }
-
-  getCategoryValueChangeSuccess(): Observable<boolean> {
-    return this.store.select(CategoriesSelectors.categoryValueChangeSuccessSelector);
   }
 }

@@ -1,14 +1,15 @@
 @let isEmpty = isEmpty$ | async;
 @let currentTab = currentTab$ | async;
 @let areAllCategoriesReset = areAllCategoriesReset$ | async;
+@let loading = loading$ | async;
 
 <div class="flex flex-col gap-y-4 w-full h-full justify-between">
-  <app-page-header class="text-xl bg-transparent" [title]="title | translate">
+  <app-page-header class="text-xl bg-transparent" [title]="title | translate" [loading]="loading">
     <div class="flex items-center gap-x-2">
-      <button-toggle>
+      <button-toggle [class.pointer-events-none]="loading">
         <app-button
           [activeColorScheme]="'charcoal'"
-          [text]="buildTranslationKey('tabs.list') | translate"
+          [text]="'dashboard.categories.tabs.list' | translate"
           [buttonSizeX]="'auto'"
           [buttonSizeY]="'full'"
           [active]="currentTab === 'list'"
@@ -19,7 +20,7 @@
 
         <app-button
           [activeColorScheme]="'charcoal'"
-          [text]="buildTranslationKey('tabs.chart') | translate"
+          [text]="'dashboard.categories.tabs.chart' | translate"
           [buttonSizeX]="'auto'"
           [buttonSizeY]="'full'"
           [disabled]="areAllCategoriesReset"
@@ -30,7 +31,11 @@
         ></app-button>
       </button-toggle>
 
-      <app-menu [colorScheme]="'transparent-dark'" [menuActions]="menuActions"></app-menu>
+      <app-menu
+        [colorScheme]="'transparent-dark'"
+        [menuActions]="menuActions"
+        [menuDisabled]="loading"
+      ></app-menu>
     </div>
   </app-page-header>
 
@@ -38,14 +43,18 @@
     <span
       class="font-main font-bold text-charcoal text-lg text-center flex flex-1 flex-col justify-center items-center"
     >
-      {{ buildTranslationKey('emptyStateText') | translate }}
+      {{ 'dashboard.categories.emptyStateText' | translate }}
     </span>
   }
 
   @if (!isEmpty) {
     @switch (currentTab) {
       @case ('list') {
-        <cdk-virtual-scroll-viewport itemSize="76" class="h-full">
+        <cdk-virtual-scroll-viewport
+          [class.pointer-events-none]="loading"
+          itemSize="76"
+          class="h-full"
+        >
           <div
             *cdkVirtualFor="
               let category of categories$ | async;
@@ -54,12 +63,15 @@
             "
             class="h-19 flex items-center"
           >
-            <app-category-item class="w-full" [categoryId]="category.id"></app-category-item>
+            <app-category-item class="w-full" [category]="category"></app-category-item>
           </div>
         </cdk-virtual-scroll-viewport>
       }
       @case ('chart') {
-        <div class="w-full h-full flex flex-1 items-center justify-center overflow-hidden">
+        <div
+          class="w-full h-full flex flex-1 items-center justify-center overflow-hidden"
+          [class.pointer-events-none]="loading"
+        >
           <canvas
             baseChart
             class="h-full"

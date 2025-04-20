@@ -2,11 +2,14 @@ import { Component, Inject, OnInit, ChangeDetectionStrategy, DestroyRef } from '
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
 import { v4 as uuid } from 'uuid';
-import { Observable, filter, take } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { AddCategoryModalData } from '../../models';
 import { CategoriesFacadeService } from '../../../../services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Category, BudgetType } from '@budget-tracker/models';
+import { ActionListenerService } from '@budget-tracker/utils';
+import { CategoriesActions } from '../../../../store';
+import { SnackbarHandlerService } from '@budget-tracker/design-system';
 
 enum FormFields {
   CategoryIcon = 'categoryIcon',
@@ -25,6 +28,7 @@ export class AddCategoryModalComponent implements OnInit {
   private categories: Category[];
 
   readonly formFields = FormFields;
+  readonly loading$ = new BehaviorSubject<boolean>(false);
 
   readonly form: FormGroup = new FormGroup({
     [FormFields.CategoryIcon]: new FormControl(null),
@@ -38,66 +42,59 @@ export class AddCategoryModalComponent implements OnInit {
       .includes(value.toLowerCase().trim());
 
   budgetType: BudgetType;
-
   title: string;
 
-  loading$: Observable<boolean>;
-  success$: Observable<boolean>;
-
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: AddCategoryModalData,
-    private dialogRef: MatDialogRef<AddCategoryModalComponent>,
-    private categoriesFacade: CategoriesFacadeService,
-    private destroyRef: DestroyRef
+    @Inject(MAT_DIALOG_DATA) private readonly data: AddCategoryModalData,
+    private readonly dialogRef: MatDialogRef<AddCategoryModalComponent>,
+    private readonly categoriesFacade: CategoriesFacadeService,
+    private readonly destroyRef: DestroyRef,
+    private readonly actionListener: ActionListenerService,
+    private readonly snackbarHandler: SnackbarHandlerService
   ) {}
 
   ngOnInit(): void {
-    this.initDataAccordingToBudgetType();
+    this.initData();
     this.initListeners();
   }
 
-  submitClick(): void {
-    const category: Category = {
-      icon: this.form.controls[FormFields.CategoryIcon].value,
-      name: this.form.controls[FormFields.CategoryName].value,
-      hexColor: this.form.controls[FormFields.CategoryColorPicker].value,
-      value: 0,
-      id: uuid(),
-      budgetType: this.budgetType,
-      isSystem: false,
-    };
+  async submitClick(): Promise<void> {
+    this.loading$.next(true);
 
-    this.categoriesFacade.addCategory(category);
-  }
+    try {
+      const category: Category = {
+        icon: this.form.controls[FormFields.CategoryIcon].value,
+        name: this.form.controls[FormFields.CategoryName].value,
+        hexColor: this.form.controls[FormFields.CategoryColorPicker].value,
+        value: 0,
+        id: uuid(),
+        budgetType: this.budgetType,
+        isSystem: false,
+      };
 
-  private initDataAccordingToBudgetType(): void {
-    this.budgetType = this.data.budgetType;
+      this.categoriesFacade.addCategory(category);
 
-    switch (this.budgetType) {
-      case BudgetType.Income:
-        this.title = `dashboard.addCategoryModal.${BudgetType.Income}.title`;
-        this.categories$ = this.categoriesFacade.getIncomeCategories();
-        break;
+      await this.actionListener.waitForResult(
+        CategoriesActions.categoryAdded,
+        CategoriesActions.addCategoryFail
+      );
 
-      case BudgetType.Expense:
-        this.title = `dashboard.addCategoryModal.${BudgetType.Expense}.title`;
-        this.categories$ = this.categoriesFacade.getExpenseCategories();
-        break;
+      this.dialogRef.close();
+      this.snackbarHandler.showCategoryAddedSnackbar();
+    } catch {
+      this.snackbarHandler.showGeneralErrorSnackbar();
+    } finally {
+      this.loading$.next(false);
     }
   }
 
+  private initData(): void {
+    this.budgetType = this.data.budgetType;
+    this.title = `dashboard.addCategoryModal.${this.budgetType}.title`;
+    this.categories$ = this.categoriesFacade.getCategoriesByType(this.budgetType);
+  }
+
   private initListeners(): void {
-    this.loading$ = this.categoriesFacade.getCategoryManagementInProgress();
-    this.success$ = this.categoriesFacade.getCategoryManagementSuccess();
-
-    this.success$
-      .pipe(
-        filter((isSuccess) => !!isSuccess),
-        take(1),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe(() => this.dialogRef.close());
-
     this.categories$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((categories) => (this.categories = categories));

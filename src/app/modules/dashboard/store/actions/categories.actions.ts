@@ -25,7 +25,6 @@ export const CategoriesActions = {
     '[Categories] Remove category fail',
     props<{ categoryId: string }>()
   ),
-  resetCategoryManagementProp: createAction('[Categories] Reset categoryManagement prop'),
   changeCategoryValue: createAction(
     '[Categories] Change category value',
     props<{
@@ -41,7 +40,6 @@ export const CategoriesActions = {
     props<{ updatedCategory: Category }>()
   ),
   changeCategoryValueFail: createAction('[Categories] Change category value fail'),
-  resetCategoryValueChangeProp: createAction('[Categories] Reset categoryValueChange prop'),
   resetCategories: createAction(
     '[Categories] Reset categories',
     props<{

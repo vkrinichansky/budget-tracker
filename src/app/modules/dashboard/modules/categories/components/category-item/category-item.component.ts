@@ -1,19 +1,22 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  DestroyRef,
   HostBinding,
   HostListener,
   Input,
   OnInit,
 } from '@angular/core';
-import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
+import {
+  ConfirmationModalService,
+  MenuAction,
+  SnackbarHandlerService,
+} from '@budget-tracker/design-system';
 import { CategoryModalsService } from '../../services';
 import { AccountsFacadeService, CategoriesFacadeService } from '../../../../services';
-import { Observable, firstValueFrom, map } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BehaviorSubject, Observable, firstValueFrom, map } from 'rxjs';
 import { Category } from '@budget-tracker/models';
+import { ActionListenerService } from '@budget-tracker/utils';
+import { CategoriesActions } from '../../../../store';
 
 @Component({
   selector: 'app-category-item',
@@ -23,32 +26,36 @@ import { Category } from '@budget-tracker/models';
   standalone: false,
 })
 export class CategoryItemComponent implements OnInit {
-  @Input()
-  categoryId: string;
+  readonly loading$ = new BehaviorSubject<boolean>(false);
 
-  category$: Observable<Category>;
+  @Input({ required: true })
+  category: Category;
+
   shouldDisableAddValueAction$: Observable<boolean>;
   menuActions: MenuAction[];
 
   @HostBinding('class.is-system-category')
-  isSystemCategory: boolean;
+  private get isSystemCategory(): boolean {
+    return this.category?.isSystem;
+  }
 
   @HostBinding('class.pointer-events-none')
-  isCategoryRemoving: boolean;
+  private get isCategoryRemoving(): boolean {
+    return this.loading$.value;
+  }
 
   constructor(
-    private categoriesFacade: CategoriesFacadeService,
-    private confirmationModalService: ConfirmationModalService,
-    private categoryModalsService: CategoryModalsService,
-    private destroyRef: DestroyRef,
-    private cd: ChangeDetectorRef,
-    private accountsFacade: AccountsFacadeService
+    private readonly categoriesFacade: CategoriesFacadeService,
+    private readonly confirmationModalService: ConfirmationModalService,
+    private readonly categoryModalsService: CategoryModalsService,
+    private readonly accountsFacade: AccountsFacadeService,
+    private readonly actionListener: ActionListenerService,
+    private readonly snackbarHandler: SnackbarHandlerService
   ) {}
 
   ngOnInit(): void {
     this.initListeners();
     this.menuActions = this.initMenuActions();
-    this.initIsCategoryRemoving();
   }
 
   buildTranslationKey(key: string): string {
@@ -56,36 +63,15 @@ export class CategoryItemComponent implements OnInit {
   }
 
   private initListeners(): void {
-    this.category$ = this.categoriesFacade.getCategoryById(this.categoryId);
     this.shouldDisableAddValueAction$ = this.accountsFacade
       .getAccountsExist()
       .pipe(map((accountsExist) => !accountsExist));
-
-    this.category$
-      .pipe(
-        map((category) => category.isSystem),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe((isSystemCategory) => {
-        this.isSystemCategory = isSystemCategory;
-        this.cd.detectChanges();
-      });
-  }
-
-  private initIsCategoryRemoving(): void {
-    this.categoriesFacade
-      .isCategoryRemoving(this.categoryId)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((isCategoryRemoving) => {
-        this.isCategoryRemoving = isCategoryRemoving;
-        this.cd.detectChanges();
-      });
   }
 
   @HostListener('click')
   private async openCategoryValueModal(): Promise<void> {
     if (!(await firstValueFrom(this.shouldDisableAddValueAction$))) {
-      this.categoryModalsService.openCategoryValueModal(this.categoryId);
+      this.categoryModalsService.openCategoryValueModal(this.category.id);
     }
   }
 
@@ -101,16 +87,33 @@ export class CategoryItemComponent implements OnInit {
         icon: 'delete-bin',
         translationKey: this.buildTranslationKey('menu.remove'),
         action: async () => {
-          const category = await firstValueFrom(this.category$);
-
           this.confirmationModalService.openConfirmationModal(
             {
               questionTranslationKey: this.buildTranslationKey('removeConfirmationQuestion'),
               questionTranslationParams: {
-                categoryName: category.name,
+                categoryName: this.category.name,
               },
             },
-            () => this.categoriesFacade.removeCategory(this.categoryId)
+            async () => {
+              this.loading$.next(true);
+
+              try {
+                this.categoriesFacade.removeCategory(this.category.id);
+
+                await this.actionListener.waitForResult(
+                  CategoriesActions.categoryRemoved,
+                  CategoriesActions.removeCategoryFail,
+                  (action) => action.categoryId === this.category.id,
+                  (action) => action.categoryId === this.category.id
+                );
+
+                this.snackbarHandler.showCategoryRemovedSnackbar();
+              } catch {
+                this.snackbarHandler.showGeneralErrorSnackbar();
+              } finally {
+                this.loading$.next(false);
+              }
+            }
           );
         },
       },

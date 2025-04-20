@@ -8,17 +8,9 @@ import { AddCategoryModalComponent, CategoryValueModalComponent } from '../../co
 export class CategoryModalsService {
   constructor(private dialog: MatDialog) {}
 
-  openAddIncomeCategoryModal() {
+  openAddCategoryModal(budgetType: BudgetType) {
     const data: AddCategoryModalData = {
-      budgetType: BudgetType.Income,
-    };
-
-    this.dialog.open(AddCategoryModalComponent, { data });
-  }
-
-  openAddExpenseCategoryModal() {
-    const data: AddCategoryModalData = {
-      budgetType: BudgetType.Expense,
+      budgetType: budgetType,
     };
 
     this.dialog.open(AddCategoryModalComponent, { data });

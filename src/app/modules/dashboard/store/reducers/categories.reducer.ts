@@ -5,9 +5,6 @@ import { Category } from '@budget-tracker/models';
 
 export interface CategoriesState {
   categories: EntityState<Category>;
-  categoryManagement: { success: boolean; inProgress: boolean };
-  categoryValueChange: { success: boolean; inProgress: boolean };
-  removingCategoriesIds: string[];
   isLoaded: boolean;
 }
 
@@ -21,121 +18,63 @@ export const categoryEntityAdapter = createEntityAdapter({
 
 const initialState: CategoriesState = {
   categories: categoryEntityAdapter.getInitialState({}),
-  categoryManagement: {
-    success: false,
-    inProgress: false,
-  },
-  categoryValueChange: {
-    success: false,
-    inProgress: false,
-  },
-  removingCategoriesIds: [],
   isLoaded: false,
 };
 
 const adapterReducer = createReducer(
   initialState,
 
-  on(CategoriesActions.categoriesLoaded, (state, action) => ({
-    ...state,
-    categories: categoryEntityAdapter.upsertMany(action.categories, state.categories),
-    isLoaded: true,
-  })),
+  on(
+    CategoriesActions.categoriesLoaded,
+    (state, action): CategoriesState => ({
+      ...state,
+      categories: categoryEntityAdapter.upsertMany(action.categories, state.categories),
+      isLoaded: true,
+    })
+  ),
 
-  on(CategoriesActions.addCategory, (state) => ({
-    ...state,
-    categoryManagement: {
-      inProgress: true,
-      success: false,
-    },
-  })),
+  on(
+    CategoriesActions.categoryAdded,
+    (state, action): CategoriesState => ({
+      ...state,
+      categories: categoryEntityAdapter.addOne(action.category, state.categories),
+    })
+  ),
 
-  on(CategoriesActions.categoryAdded, (state, action) => ({
-    ...state,
-    categories: categoryEntityAdapter.addOne(action.category, state.categories),
-    categoryManagement: {
-      inProgress: false,
-      success: true,
-    },
-  })),
+  on(
+    CategoriesActions.categoryRemoved,
+    (state, action): CategoriesState => ({
+      ...state,
+      categories: categoryEntityAdapter.removeOne(action.categoryId, state.categories),
+    })
+  ),
 
-  on(CategoriesActions.addCategoryFail, (state) => ({
-    ...state,
-    categoryManagement: {
-      inProgress: false,
-      success: false,
-    },
-  })),
+  on(
+    CategoriesActions.categoryValueChanged,
+    (state, action): CategoriesState => ({
+      ...state,
+      categories: categoryEntityAdapter.updateOne(
+        { changes: action.updatedCategory, id: action.updatedCategory.id },
+        state.categories
+      ),
+    })
+  ),
 
-  on(CategoriesActions.removeCategory, (state, action) => ({
-    ...state,
-    removingCategoriesIds: [...state.removingCategoriesIds, action.categoryId],
-  })),
+  on(
+    CategoriesActions.categoriesReset,
+    (state, action): CategoriesState => ({
+      ...state,
+      categories: categoryEntityAdapter.updateMany(
+        action.categoriesIdsToReset.map((categoryId) => ({
+          changes: { value: 0 },
+          id: categoryId,
+        })),
+        state.categories
+      ),
+    })
+  ),
 
-  on(CategoriesActions.categoryRemoved, (state, action) => ({
-    ...state,
-    categories: categoryEntityAdapter.removeOne(action.categoryId, state.categories),
-    removingCategoriesIds: state.removingCategoriesIds.filter((id) => id !== action.categoryId),
-  })),
-
-  on(CategoriesActions.removeCategoryFail, (state, action) => ({
-    ...state,
-    removingCategoriesIds: state.removingCategoriesIds.filter((id) => id !== action.categoryId),
-  })),
-
-  on(CategoriesActions.resetCategoryManagementProp, (state) => ({
-    ...state,
-    categoryManagement: {
-      inProgress: false,
-      success: false,
-    },
-  })),
-
-  on(CategoriesActions.changeCategoryValue, (state) => ({
-    ...state,
-    categoryValueChange: {
-      inProgress: true,
-      success: false,
-    },
-  })),
-
-  on(CategoriesActions.categoryValueChanged, (state, action) => ({
-    ...state,
-    categories: categoryEntityAdapter.updateOne(
-      { changes: action.updatedCategory, id: action.updatedCategory.id },
-      state.categories
-    ),
-    categoryValueChange: {
-      inProgress: false,
-      success: true,
-    },
-  })),
-
-  on(CategoriesActions.changeCategoryValueFail, (state) => ({
-    ...state,
-    categoryValueChange: {
-      inProgress: false,
-      success: false,
-    },
-  })),
-
-  on(CategoriesActions.resetCategoryValueChangeProp, (state) => ({
-    ...state,
-    categoryValueChange: {
-      inProgress: false,
-      success: false,
-    },
-  })),
-
-  on(CategoriesActions.categoriesReset, (state, action) => ({
-    ...state,
-    categories: categoryEntityAdapter.updateMany(
-      action.categoriesIdsToReset.map((categoryId) => ({ changes: { value: 0 }, id: categoryId })),
-      state.categories
-    ),
-  })),
-
-  on(CategoriesActions.cleanState, () => initialState)
+  on(CategoriesActions.cleanState, (): CategoriesState => initialState)
 );
 
 export function categoriesReducer(state = initialState, action: Action): CategoriesState {

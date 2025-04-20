@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, delay, from, map, mergeMap, of, switchMap } from 'rxjs';
+import { catchError, from, mergeMap, of, switchMap } from 'rxjs';
 import { CategoriesApiService } from '../../services';
 import { Account, Category } from '@budget-tracker/models';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
@@ -20,17 +20,13 @@ export class CategoriesEffects {
       mergeMap((action) =>
         from(this.categoriesService.addCategory(action.category)).pipe(
           switchMap(() => {
-            this.snackbarHandler.showCategoryAddedSnackbar();
-
             return of(
               CategoriesActions.categoryAdded({
                 category: action.category,
               })
             );
           }),
-          catchError((error) => {
-            this.snackbarHandler.showErrorSnackbar(error);
-
+          catchError(() => {
             return of(CategoriesActions.addCategoryFail());
           })
         )
@@ -44,29 +40,17 @@ export class CategoriesEffects {
       mergeMap((action) =>
         from(this.categoriesService.removeCategory(action.categoryId)).pipe(
           switchMap(() => {
-            this.snackbarHandler.showCategoryRemovedSnackbar();
-
             return of(
               CategoriesActions.categoryRemoved({
                 categoryId: action.categoryId,
               })
             );
           }),
-          catchError((error) => {
-            this.snackbarHandler.showErrorSnackbar(error);
-
+          catchError(() => {
             return of(CategoriesActions.removeCategoryFail({ categoryId: action.categoryId }));
           })
         )
       )
-    )
-  );
-
-  resetCategoryManagementProp$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(CategoriesActions.categoryAdded, CategoriesActions.categoryRemoved),
-      delay(1000),
-      map(() => CategoriesActions.resetCategoryManagementProp())
     )
   );
 
@@ -84,8 +68,6 @@ export class CategoriesEffects {
           )
         ).pipe(
           switchMap(() => {
-            this.snackbarHandler.showCategoryValueChangedSnackbar();
-
             return of(
               CategoriesActions.categoryValueChanged({
                 updatedCategory: {
@@ -104,9 +86,7 @@ export class CategoriesEffects {
               })
             );
           }),
-          catchError((error) => {
-            this.snackbarHandler.showErrorSnackbar(error);
-
+          catchError(() => {
             return of(CategoriesActions.changeCategoryValueFail());
           })
         )
@@ -125,8 +105,6 @@ export class CategoriesEffects {
           )
         ).pipe(
           switchMap(() => {
-            this.snackbarHandler.showCategoriesResetSnackbar(action.budgetType);
-
             return of(
               CategoriesActions.categoriesReset({
                 categoriesIdsToReset: action.categoriesIdsToReset,
@@ -136,21 +114,11 @@ export class CategoriesEffects {
               })
             );
           }),
-          catchError((error) => {
-            this.snackbarHandler.showErrorSnackbar(error);
-
+          catchError(() => {
             return of(CategoriesActions.resetCategoriesFail());
           })
         )
       )
-    )
-  );
-
-  resetCategoryValueChangeProp$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(CategoriesActions.categoryValueChanged),
-      delay(1000),
-      map(() => CategoriesActions.resetCategoryValueChangeProp())
     )
   );
 }
