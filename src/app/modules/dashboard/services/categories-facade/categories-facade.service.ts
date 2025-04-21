@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, firstValueFrom } from 'rxjs';
-import { v4 as uuid } from 'uuid';
+import { Observable, firstValueFrom, map } from 'rxjs';
 import { AccountsSelectors, CategoriesActions, CategoriesSelectors } from '../../store';
 import {
   Category,
-  ActivityLogRecordType,
   BudgetType,
   CategoryValueChangeRecord,
   CategoriesResetRecord,
   Account,
+  createCategoryValueChangeRecord,
+  createCategoriesResetRecord,
 } from '@budget-tracker/models';
 import { Dictionary } from '@ngrx/entity';
 
@@ -76,19 +76,13 @@ export class CategoriesFacadeService {
     const category = structuredClone(await firstValueFrom(this.getCategoryById(categoryId)));
 
     const updatedCategoryValue = category.value + convertedValueToAdd;
-
-    const addCategoryValueRecord: CategoryValueChangeRecord = {
-      id: uuid(),
-      budgetType: category.budgetType,
+    const addCategoryValueRecord: CategoryValueChangeRecord = createCategoryValueChangeRecord(
       category,
       account,
-      date: new Date().getTime(),
-      icon: category.icon,
-      recordType: ActivityLogRecordType.CategoryValueChange,
-      value: valueToAdd,
-      convertedValue: convertedValueToAdd,
-      note,
-    };
+      valueToAdd,
+      convertedValueToAdd,
+      note
+    );
 
     let updatedAccountValue: number;
 
@@ -116,29 +110,12 @@ export class CategoriesFacadeService {
   }
 
   async resetCategoriesByType(budgetType: BudgetType): Promise<void> {
-    const categories: Category[] = await firstValueFrom(this.getCategoriesByType(budgetType));
-
-    let icon: string;
-
-    switch (budgetType) {
-      case BudgetType.Income:
-        icon = 'arrow-up';
-        break;
-
-      case BudgetType.Expense:
-        icon = 'arrow-down';
-        break;
-    }
-
-    const categoriesIdsToReset = categories.map((category) => category.id);
-
-    const activityLogRecord: CategoriesResetRecord = {
-      budgetType: budgetType,
-      date: new Date().getTime(),
-      id: uuid(),
-      recordType: ActivityLogRecordType.CategoriesReset,
-      icon,
-    };
+    const categoriesIdsToReset: string[] = await firstValueFrom(
+      this.getCategoriesByType(budgetType).pipe(
+        map((categories) => categories.map((category) => category.id))
+      )
+    );
+    const activityLogRecord: CategoriesResetRecord = createCategoriesResetRecord(budgetType);
 
     this.store.dispatch(
       CategoriesActions.resetCategories({ categoriesIdsToReset, budgetType, activityLogRecord })

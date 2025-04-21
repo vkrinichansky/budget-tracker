@@ -5,6 +5,8 @@ import {
   ActivityLogRecordType,
   Category,
   CategoryValueChangeRecord,
+  createCategoryValueChangeRecord,
+  createMoveMoneyBetweenAccountsRecord,
   expenseAdjustmentCategory,
   incomeAdjustmentCategory,
   MoveMoneyBetweenAccountsRecord,
@@ -62,22 +64,28 @@ export class AccountsFacadeService {
     const category: Category =
       difference > 0 ? incomeAdjustmentCategory : expenseAdjustmentCategory;
 
+    let convertedValue: number;
+
+    if (account.currency.id === this.currencyFacade.getCurrentCurrency()) {
+      convertedValue = absDifference;
+    } else {
+      convertedValue = this.currencyFacade.getBasicToForeignConvertedValue(
+        absDifference,
+        account.currency.id
+      );
+    }
+
     const updatedCategoryValue = await firstValueFrom(
-      this.getCategoryById(category.id).pipe(map((category) => category.value + absDifference))
+      this.getCategoryById(category.id).pipe(map((category) => category.value + convertedValue))
     );
 
-    const addCategoryValueRecord: CategoryValueChangeRecord = {
-      id: uuid(),
-      budgetType: category.budgetType,
+    const addCategoryValueRecord: CategoryValueChangeRecord = createCategoryValueChangeRecord(
       category,
       account,
-      date: new Date().getTime(),
-      icon: category.icon,
-      recordType: ActivityLogRecordType.CategoryValueChange,
-      value: absDifference,
-      convertedValue: absDifference,
-      note,
-    };
+      absDifference,
+      convertedValue,
+      note
+    );
 
     this.store.dispatch(
       CategoriesActions.changeCategoryValue({
@@ -101,17 +109,12 @@ export class AccountsFacadeService {
 
     const fromAccountNewValue = fromAccount.value - valueToMove;
     const toAccountNewValue = toAccount.value + convertedValueToMove;
-
-    const activityLogRecord: MoveMoneyBetweenAccountsRecord = {
-      id: uuid(),
+    const activityLogRecord: MoveMoneyBetweenAccountsRecord = createMoveMoneyBetweenAccountsRecord(
       fromAccount,
       toAccount,
-      fromAccountValue: valueToMove,
-      toAccountValue: convertedValueToMove,
-      recordType: ActivityLogRecordType.MoveMoneyBetweenAccounts,
-      date: new Date().getTime(),
-      icon: 'money-change',
-    };
+      valueToMove,
+      convertedValueToMove
+    );
 
     this.store.dispatch(
       AccountsActions.moveMoneyBetweenAccounts({

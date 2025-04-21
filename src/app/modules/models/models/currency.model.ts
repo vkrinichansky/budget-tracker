@@ -20,7 +20,7 @@ export interface ExchangeEndpointResponse {
   [currencyCode: string]: CurrencyExchangeRate | string;
 }
 
-export const predefinedCurrenciesDictionary: Record<string, Currency> = {
+export const predefinedCurrenciesDictionary: Record<CurrenciesEnum, Currency> = {
   [CurrenciesEnum.UAH]: {
     id: CurrenciesEnum.UAH,
     code: 'UAH',

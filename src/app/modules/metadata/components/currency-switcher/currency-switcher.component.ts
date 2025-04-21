@@ -32,7 +32,7 @@ export class CurrencySwitcherComponent implements OnInit {
   }
 
   private getMenuActions(): MenuAction[] {
-    return Object.keys(predefinedCurrenciesDictionary).map((key) => ({
+    return (Object.keys(predefinedCurrenciesDictionary) as CurrenciesEnum[]).map((key) => ({
       icon: predefinedCurrenciesDictionary[key].icon,
       translationKey: `currencies.${key}`,
       action: () =>

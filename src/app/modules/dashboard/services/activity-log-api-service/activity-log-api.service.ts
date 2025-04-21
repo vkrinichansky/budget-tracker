@@ -34,17 +34,10 @@ export class ActivityLogApiService {
     updatedCategoryId: string,
     updatedCategoryValue: number
   ): Promise<void> {
-    if (updatedAccountValue !== null) {
-      return updateDoc(this.getDocRef(), {
-        [`${ACTIVITY_LOG_PATH}`]: arrayRemove(record),
-        [`${CATEGORIES_PATH}.${updatedCategoryId}.value`]: updatedCategoryValue,
-        [`${ACCOUNTS_PATH}.${updatedAccountId}.value`]: updatedAccountValue,
-      });
-    }
-
     return updateDoc(this.getDocRef(), {
       [`${ACTIVITY_LOG_PATH}`]: arrayRemove(record),
       [`${CATEGORIES_PATH}.${updatedCategoryId}.value`]: updatedCategoryValue,
+      [`${ACCOUNTS_PATH}.${updatedAccountId}.value`]: updatedAccountValue,
     });
   }
 

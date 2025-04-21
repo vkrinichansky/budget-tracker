@@ -3,7 +3,7 @@ import { ActivityLogFacadeService } from '../../../../services';
 import { ConfirmationModalService, SnackbarHandlerService } from '@budget-tracker/design-system';
 import { CategoryValueChangeRecord, BudgetType } from '@budget-tracker/models';
 import { ActionListenerService, isToday } from '@budget-tracker/utils';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { ActivityLogActions } from '../../../../store';
 
 @Component({
@@ -18,7 +18,7 @@ export class CategoryValueChangeRecordComponent implements OnInit {
   @Input()
   record: CategoryValueChangeRecord;
 
-  doesCategoryExist$: Observable<boolean>;
+  shouldDisplayRemoveButton$: Observable<boolean>;
 
   get colorClass(): string {
     switch (this.record.budgetType) {
@@ -56,7 +56,10 @@ export class CategoryValueChangeRecordComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.doesCategoryExist$ = this.activityLogFacade.doesCategoryExist(this.record.category.id);
+    this.shouldDisplayRemoveButton$ = combineLatest([
+      this.activityLogFacade.doesCategoryExist(this.record.category.id),
+      this.activityLogFacade.doesAccountExist(this.record.account.id),
+    ]).pipe(map(([a, b]) => a && b && this.isToday));
   }
 
   removeHandler(): void {

@@ -9,7 +9,7 @@ export interface Language {
   icon: string;
 }
 
-export const predefinedLanguagesDictionary: Record<string, Language> = {
+export const predefinedLanguagesDictionary: Record<LanguagesEnum, Language> = {
   [LanguagesEnum.English]: {
     id: LanguagesEnum.English,
     code: 'EN',

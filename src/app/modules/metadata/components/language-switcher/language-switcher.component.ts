@@ -11,7 +11,7 @@ import { LanguageFacadeService, MetadataFacadeService } from '../../services';
   standalone: false,
 })
 export class LanguageSwitcherComponent implements OnInit {
-  currentLanguage: string;
+  currentLanguage: LanguagesEnum;
   currentLanguageText: string;
   icon: string;
   menuActions: MenuAction[];
@@ -36,7 +36,7 @@ export class LanguageSwitcherComponent implements OnInit {
   }
 
   private getMenuActions(): MenuAction[] {
-    return Object.keys(predefinedLanguagesDictionary).map((key) => ({
+    return (Object.keys(predefinedLanguagesDictionary) as LanguagesEnum[]).map((key) => ({
       icon: predefinedLanguagesDictionary[key].icon,
       translationKey: `languages.${key}`,
       action: () => this.metadataFacade.changeLanguage(key as LanguagesEnum),

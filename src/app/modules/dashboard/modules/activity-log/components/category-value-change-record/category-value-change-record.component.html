@@ -2,7 +2,7 @@
   [icon]="record.icon"
   [date]="record.date"
   [note]="record?.note"
-  [removeEnabled]="(doesCategoryExist$ | async) && isToday"
+  [removeEnabled]="shouldDisplayRemoveButton$ | async"
   [loading]="isRecordRemoving$ | async"
   (remove)="removeHandler()"
 >

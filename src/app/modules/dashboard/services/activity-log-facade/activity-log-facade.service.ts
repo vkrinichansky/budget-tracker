@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, firstValueFrom, map } from 'rxjs';
-import { ActivityLogActions, ActivityLogSelectors, CategoriesSelectors } from '../../store';
+import {
+  AccountsSelectors,
+  ActivityLogActions,
+  ActivityLogSelectors,
+  CategoriesSelectors,
+} from '../../store';
 import {
   ActivityLog,
   ActivityLogGroupedByDay,
@@ -43,6 +48,12 @@ export class ActivityLogFacadeService {
       .pipe(map((category) => !!category));
   }
 
+  doesAccountExist(accountId: string): Observable<boolean> {
+    return this.store
+      .select(AccountsSelectors.accountByIdSelector(accountId))
+      .pipe(map((account) => !!account));
+  }
+
   async removeCategoryValueChangeRecord(recordId: string): Promise<void> {
     const record: CategoryValueChangeRecord = await firstValueFrom(
       this.getActivityLogDictionary().pipe(
@@ -59,20 +70,18 @@ export class ActivityLogFacadeService {
     const updatedCategoryValue =
       category.value - record.convertedValue < 0 ? 0 : category.value - record.convertedValue;
 
-    let updatedAccountValue: number = null;
+    let updatedAccountValue: number;
 
-    if (account) {
-      switch (record.budgetType) {
-        case BudgetType.Income:
-          updatedAccountValue = account.value - record.value < 0 ? 0 : account.value - record.value;
+    switch (record.budgetType) {
+      case BudgetType.Income:
+        updatedAccountValue = account.value - record.value < 0 ? 0 : account.value - record.value;
 
-          break;
+        break;
 
-        case BudgetType.Expense:
-          updatedAccountValue = account.value + record.value;
+      case BudgetType.Expense:
+        updatedAccountValue = account.value + record.value;
 
-          break;
-      }
+        break;
     }
 
     this.store.dispatch(

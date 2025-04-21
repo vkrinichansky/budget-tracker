@@ -31,28 +31,19 @@ export class ActivityLogEffects {
               value: action.updatedCategoryValue,
             } as Category;
 
-            if (action.updatedAccountValue !== null) {
-              return of(
-                ActivityLogActions.activityLogRecordRemoved({
-                  recordId: action.record.id,
-                }),
-                CategoriesActions.categoryValueChanged({
-                  updatedCategory,
-                }),
-                AccountsActions.accountValueEdited({
-                  updatedAccount: {
-                    id: action.updatedAccountId,
-                    value: action.updatedAccountValue,
-                  } as Account,
-                })
-              );
-            }
-
             return of(
               ActivityLogActions.activityLogRecordRemoved({
                 recordId: action.record.id,
               }),
-              CategoriesActions.categoryValueChanged({ updatedCategory })
+              CategoriesActions.categoryValueChanged({
+                updatedCategory,
+              }),
+              AccountsActions.accountValueEdited({
+                updatedAccount: {
+                  id: action.updatedAccountId,
+                  value: action.updatedAccountValue,
+                } as Account,
+              })
             );
           }),
           catchError(() => {
