@@ -46,13 +46,7 @@ export class MetadataEffects {
         this.currencyFacade.setCurrentExchangeRate(metadata.currencyExchangeRate);
         this.languageFacade.setCurrentLanguage(metadata.language);
       }),
-      map((metadata) =>
-        MetadataActions.metadataLoaded({
-          currency: metadata.currency,
-          language: metadata.language,
-          currencyExchangeRate: metadata.currencyExchangeRate,
-        })
-      )
+      map(() => MetadataActions.metadataLoaded())
     )
   );
 

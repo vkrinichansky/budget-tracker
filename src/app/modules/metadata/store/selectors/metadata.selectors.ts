@@ -6,10 +6,8 @@ const metadataStateSelector = createSelector(
   (metadataFeatureState) => metadataFeatureState.metadataState
 );
 
-const currencySelector = createSelector(metadataStateSelector, (state) => state.currency);
 const metadataLoadedSelector = createSelector(metadataStateSelector, (state) => state.isLoaded);
 
 export const MetadataSelectors = {
-  currencySelector,
   metadataLoadedSelector,
 };
