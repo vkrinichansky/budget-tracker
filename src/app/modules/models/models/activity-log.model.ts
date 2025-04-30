@@ -3,6 +3,7 @@ import { Account } from './account.model';
 import { BudgetType } from './budget-type.enum';
 import { Category } from './category.model';
 import { v4 as uuid } from 'uuid';
+import { CurrenciesEnum } from './currency.model';
 
 type ActivityLogAccount = Pick<Account, 'id' | 'name' | 'currency'>;
 type ActivityLogCategory = Pick<Category, 'id' | 'name' | 'isSystem'>;
@@ -11,6 +12,12 @@ export enum ActivityLogRecordType {
   CategoryValueChange = 'category-value-change',
   CategoriesReset = 'categories-reset',
   MoveMoneyBetweenAccounts = 'move-money-between-account',
+  CurrencyChange = 'currency-change',
+}
+
+export interface TotalValueForDateByCurrency {
+  currency: CurrenciesEnum;
+  value: number;
 }
 
 export interface ActivityLogRecord {
@@ -33,6 +40,7 @@ export interface CategoryValueChangeRecord extends ActivityLogRecord {
   value: number;
   convertedValue: number;
   budgetType: BudgetType;
+  currency: CurrenciesEnum;
   note: string;
 }
 
@@ -40,10 +48,16 @@ export interface CategoriesResetRecord extends ActivityLogRecord {
   budgetType: BudgetType;
 }
 
+export interface CurrencyChangeRecord extends ActivityLogRecord {
+  fromCurrency: CurrenciesEnum;
+  toCurrency: CurrenciesEnum;
+}
+
 export type ActivityLogRecordUnitedType =
   | CategoryValueChangeRecord
   | CategoriesResetRecord
-  | MoveMoneyBetweenAccountsRecord;
+  | MoveMoneyBetweenAccountsRecord
+  | CurrencyChangeRecord;
 
 export type ActivityLog = ActivityLogRecordUnitedType[];
 
@@ -54,7 +68,7 @@ export interface ActivityLogGroupedByDayDictionary {
 export interface ActivityLogGroupedByDay {
   date: string;
   records: ActivityLog;
-  totalValueForDate?: number;
+  totalValueForDate?: TotalValueForDateByCurrency[];
 }
 
 export function createCategoryValueChangeRecord(
@@ -62,6 +76,7 @@ export function createCategoryValueChangeRecord(
   account: Account,
   valueToAdd: number,
   convertedValueToAdd: number,
+  currency: CurrenciesEnum,
   note: string
 ): CategoryValueChangeRecord {
   return {
@@ -74,6 +89,7 @@ export function createCategoryValueChangeRecord(
     recordType: ActivityLogRecordType.CategoryValueChange,
     value: valueToAdd,
     convertedValue: convertedValueToAdd,
+    currency,
     note,
   };
 }
@@ -115,5 +131,19 @@ export function createMoveMoneyBetweenAccountsRecord(
     recordType: ActivityLogRecordType.MoveMoneyBetweenAccounts,
     date: new Date().getTime(),
     icon: 'money-change',
+  };
+}
+
+export function createCurrencyChangeRecord(
+  fromCurrency: CurrenciesEnum,
+  toCurrency: CurrenciesEnum
+): CurrencyChangeRecord {
+  return {
+    id: uuid(),
+    fromCurrency,
+    toCurrency,
+    recordType: ActivityLogRecordType.CurrencyChange,
+    date: new Date().getTime(),
+    icon: 'currency-change',
   };
 }

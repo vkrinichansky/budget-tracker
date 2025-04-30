@@ -1,8 +1,14 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
+import {
+  ConfirmationModalService,
+  MenuAction,
+  SnackbarHandlerService,
+} from '@budget-tracker/design-system';
 import { predefinedCurrenciesDictionary, CurrenciesEnum } from '@budget-tracker/models';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { CurrencyFacadeService, MetadataFacadeService } from '../../services';
+import { ActionListenerService } from '@budget-tracker/utils';
+import { MetadataActions } from '../../store';
 
 @Component({
   selector: 'app-currency-switcher',
@@ -11,22 +17,31 @@ import { CurrencyFacadeService, MetadataFacadeService } from '../../services';
   standalone: false,
 })
 export class CurrencySwitcherComponent implements OnInit {
-  currentCurrency: CurrenciesEnum;
-  currentLanguageText: string;
-  icon: string;
+  currentCurrency$: Observable<CurrenciesEnum>;
+  currentLanguageText$: Observable<string>;
+  icon$: Observable<string>;
   menuActions: MenuAction[];
-  isLoading$: Observable<boolean>;
+  loading$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private readonly currencyFacade: CurrencyFacadeService,
     private readonly metadataFacade: MetadataFacadeService,
-    private readonly confirmationModalService: ConfirmationModalService
+    private readonly confirmationModalService: ConfirmationModalService,
+    private readonly actionListener: ActionListenerService,
+    private readonly snackbarHandler: SnackbarHandlerService
   ) {}
 
   ngOnInit(): void {
-    this.currentCurrency = this.currencyFacade.getCurrentCurrency();
-    this.currentLanguageText = `${predefinedCurrenciesDictionary[this.currentCurrency].code} (${predefinedCurrenciesDictionary[this.currentCurrency].symbol})`;
-    this.icon = predefinedCurrenciesDictionary[this.currentCurrency].icon;
+    this.currentCurrency$ = this.currencyFacade.getCurrentCurrencyObs();
+    this.currentLanguageText$ = this.currentCurrency$.pipe(
+      map(
+        (currency) =>
+          `${predefinedCurrenciesDictionary[currency].code} (${predefinedCurrenciesDictionary[currency].symbol})`
+      )
+    );
+    this.icon$ = this.currentCurrency$.pipe(
+      map((currency) => predefinedCurrenciesDictionary[currency].icon)
+    );
 
     this.menuActions = this.getMenuActions();
   }
@@ -41,9 +56,26 @@ export class CurrencySwitcherComponent implements OnInit {
             questionTranslationKey: 'currencySwitcher.removeConfirmationQuestion',
             remarkTranslationKey: 'currencySwitcher.removeConfirmationRemark',
           },
-          () => this.metadataFacade.changeCurrency(key as CurrenciesEnum)
+          async () => {
+            this.loading$.next(true);
+
+            try {
+              this.metadataFacade.changeCurrency(key as CurrenciesEnum);
+
+              await this.actionListener.waitForResult(
+                MetadataActions.updateCategoriesAfterCurrencyChangeSuccess,
+                MetadataActions.updateCategoriesAfterCurrencyChangeFail
+              );
+
+              location.reload();
+            } catch {
+              this.snackbarHandler.showGeneralErrorSnackbar();
+            } finally {
+              this.loading$.next(false);
+            }
+          }
         ),
-      disabled: key === this.currentCurrency,
+      disabledObs: this.currentCurrency$.pipe(map((currency) => currency === key)),
     }));
   }
 }

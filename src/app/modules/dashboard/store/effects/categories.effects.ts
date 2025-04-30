@@ -1,15 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, from, mergeMap, of, switchMap } from 'rxjs';
+import { catchError, from, map, mergeMap, of, switchMap, take } from 'rxjs';
 import { CategoriesApiService } from '../../services';
-import { Account, Category } from '@budget-tracker/models';
+import {
+  Account,
+  Category,
+  createCurrencyChangeRecord,
+  CurrencyChangeRecord,
+} from '@budget-tracker/models';
 import { AccountsActions, ActivityLogActions, CategoriesActions } from '../actions';
+import { CurrencyFacadeService, MetadataActions } from '@budget-tracker/metadata';
+import { CategoriesSelectors } from '../selectors';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class CategoriesEffects {
   constructor(
-    private actions$: Actions,
-    private categoriesService: CategoriesApiService
+    private readonly actions$: Actions,
+    private readonly categoriesService: CategoriesApiService,
+    private readonly store: Store,
+    private readonly currencyFacade: CurrencyFacadeService
   ) {}
 
   addCategory$ = createEffect(() =>
@@ -115,6 +125,46 @@ export class CategoriesEffects {
           catchError(() => {
             return of(CategoriesActions.resetCategoriesFail());
           })
+        )
+      )
+    )
+  );
+
+  updateCategoriesAfterCurrencyChange$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MetadataActions.updateCategoriesAfterCurrencyChange),
+      mergeMap((action) =>
+        this.store.select(CategoriesSelectors.allCategoriesSelector).pipe(
+          take(1),
+          map((categories) => {
+            const updatedCategories = structuredClone(categories);
+
+            updatedCategories.forEach((category) => {
+              category.value = this.currencyFacade.convertCurrency(
+                category.value,
+                this.currencyFacade.getCurrentCurrency(),
+                action.newCurrency
+              );
+            });
+
+            const activityLogRecord: CurrencyChangeRecord = createCurrencyChangeRecord(
+              this.currencyFacade.getCurrentCurrency(),
+              action.newCurrency
+            );
+
+            return { updatedCategories, activityLogRecord };
+          })
+        )
+      ),
+      mergeMap(({ updatedCategories, activityLogRecord }) =>
+        from(
+          this.categoriesService.updateCategoriesAfterCurrencyChange(
+            updatedCategories,
+            activityLogRecord
+          )
+        ).pipe(
+          switchMap(() => of(MetadataActions.updateCategoriesAfterCurrencyChangeSuccess())),
+          catchError(() => of(MetadataActions.updateCategoriesAfterCurrencyChangeFail()))
         )
       )
     )

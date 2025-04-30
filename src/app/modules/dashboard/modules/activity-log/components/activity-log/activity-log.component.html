@@ -59,14 +59,19 @@
       {{ item.date }}
     </span>
 
-    <span
-      [ngClass]="{
-        'text-dark-green': item.sum > 0,
-        'text-red': item.sum < 0,
-      }"
-    >
-      {{ item.sum > 0 ? '&plus;' : '' }}{{ item.sum | numberSpace | currencySymbol }}
-    </span>
+    <div class="flex flex-col items-end text-sm">
+      @for (currency of item.totalValueForDate; track currency.currency) {
+        <span
+          [ngClass]="{
+            'text-dark-green': currency.value > 0,
+            'text-red': currency.value < 0,
+          }"
+        >
+          {{ currency.value > 0 ? '&plus;' : '' }}
+          {{ currency.value | numberSpace | currencySymbol: currency.currency }}
+        </span>
+      }
+    </div>
   </div>
 </ng-template>
 
@@ -88,6 +93,10 @@
         class="w-full"
         [record]="item"
       ></app-move-money-between-accounts-record>
+    }
+
+    @case (recordType.CurrencyChange) {
+      <app-currency-change-record class="w-full" [record]="item"></app-currency-change-record>
     }
   }
 </ng-template>

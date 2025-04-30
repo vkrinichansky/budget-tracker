@@ -25,7 +25,7 @@
         </span>
       } @else {
         <span class="text-base font-normal">
-          {{ symbol }}{{ record.convertedValue | numberSpace | currencySymbol }}
+          {{ symbol }}{{ record.convertedValue | numberSpace | currencySymbol: record.currency }}
         </span>
 
         <span class="text-xs font-bold">

@@ -78,6 +78,7 @@
         "removeConfirmationQuestion": "Ви хочете видалити цей запис?",
         "removeConfirmationRemark": "Ця дія відмінить зроблені цим записом зміни і вплине на рахунок <span class='font-bold'>{{ accountName }}</span> і категорію <span class='font-bold'>{{ categoryName }}</span>"
       },
+      "currencyChangeRecord": "Валюту змінено",
       "emptyStateText": "Немає даних для відображення",
       "removeButtonTooltip": "Видалити всі записи",
       "allRecordsRemoveConfirmationQuestion": "Ви дійсно хочете видалити всі записи?"
@@ -205,7 +206,7 @@
   "currencySwitcher": {
     "tooltip": "Валюта",
     "removeConfirmationQuestion": "Ви хочете змінити валюту?",
-    "removeConfirmationRemark": "Ця дія також скине значення категорій і видалить записи журналу активності, щоб запобігти невідповідності"
+    "removeConfirmationRemark": "Ця дія також конвертує значення категорій в нову валюту"
   },
 
   "currencies": {

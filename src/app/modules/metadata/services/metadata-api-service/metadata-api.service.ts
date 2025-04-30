@@ -42,7 +42,7 @@ export class MetadataApiService {
     );
   }
 
-  changeCurrency(newCurrency: CurrenciesEnum): Promise<void> {
+  async changeCurrency(newCurrency: CurrenciesEnum): Promise<void> {
     return updateDoc(this.getDocRef(), {
       currency: newCurrency,
     });

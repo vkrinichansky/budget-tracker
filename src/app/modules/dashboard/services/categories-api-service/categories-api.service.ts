@@ -9,7 +9,12 @@ import {
   DocumentReference,
   deleteField,
 } from '@angular/fire/firestore';
-import { Category, CategoryValueChangeRecord, CategoriesResetRecord } from '@budget-tracker/models';
+import {
+  Category,
+  CategoryValueChangeRecord,
+  CategoriesResetRecord,
+  CurrencyChangeRecord,
+} from '@budget-tracker/models';
 
 const CATEGORIES_PATH = 'categories';
 const ACTIVITY_LOG_PATH = 'activityLog';
@@ -72,6 +77,24 @@ export class CategoriesApiService {
     return updateDoc(this.getDocRef(), {
       ...updatedCategoriesDictionary,
       [`${ACTIVITY_LOG_PATH}`]: [],
+    });
+  }
+
+  updateCategoriesAfterCurrencyChange(
+    categories: Category[],
+    activityLogRecord: CurrencyChangeRecord
+  ): Promise<void> {
+    const updatedCategoriesDictionary = categories.reduce(
+      (result, category) => ({
+        ...result,
+        [`${CATEGORIES_PATH}.${category.id}.value`]: category.value,
+      }),
+      {}
+    );
+
+    return updateDoc(this.getDocRef(), {
+      ...updatedCategoriesDictionary,
+      [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
     });
   }
 

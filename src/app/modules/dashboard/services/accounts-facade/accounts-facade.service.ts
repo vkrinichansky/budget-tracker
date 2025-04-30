@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import {
   Account,
-  ActivityLogRecordType,
   Category,
   CategoryValueChangeRecord,
   createCategoryValueChangeRecord,
@@ -18,7 +17,6 @@ import {
   CategoriesActions,
   CategoriesSelectors,
 } from '../../store';
-import { v4 as uuid } from 'uuid';
 import { CurrencyFacadeService } from '@budget-tracker/metadata';
 
 @Injectable()
@@ -84,6 +82,7 @@ export class AccountsFacadeService {
       account,
       absDifference,
       convertedValue,
+      this.currencyFacade.getCurrentCurrency(),
       note
     );
 

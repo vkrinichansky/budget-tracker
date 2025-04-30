@@ -5,7 +5,7 @@ import {
   CurrencyExchangeRate,
   predefinedCurrenciesDictionary,
 } from '@budget-tracker/models';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 interface ExchangeRates {
   [currency: string]: {
@@ -26,6 +26,10 @@ export class CurrencyFacadeService {
     return this._currency$.value;
   }
 
+  getCurrentCurrencyObs(): Observable<CurrenciesEnum> {
+    return this._currency$.asObservable();
+  }
+
   getCurrencySymbol(): string {
     return predefinedCurrenciesDictionary[this._currency$.value].symbol;
   }
@@ -38,14 +42,10 @@ export class CurrencyFacadeService {
     return Math.round(value / this.getCurrentExchangeRate()[currency]);
   }
 
-  convertCurrency(
-    amount: number,
-    fromCurrency: CurrenciesEnum,
-    toCurrency: CurrenciesEnum
-  ): number {
+  convertCurrency(value: number, fromCurrency: CurrenciesEnum, toCurrency: CurrenciesEnum): number {
     const rate = this.convertRates()[fromCurrency][toCurrency];
 
-    return Math.round(amount * rate);
+    return Math.round(value * rate);
   }
 
   convertRates(): ExchangeRates {

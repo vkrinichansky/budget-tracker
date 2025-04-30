@@ -5,6 +5,7 @@ import { CategoryValueChangeRecord, BudgetType } from '@budget-tracker/models';
 import { ActionListenerService, isToday } from '@budget-tracker/utils';
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { ActivityLogActions } from '../../../../store';
+import { CurrencyFacadeService } from '@budget-tracker/metadata';
 
 @Component({
   selector: 'app-category-value-change-record',
@@ -52,14 +53,18 @@ export class CategoryValueChangeRecordComponent implements OnInit {
     private readonly confirmationModalService: ConfirmationModalService,
     private readonly activityLogFacade: ActivityLogFacadeService,
     private readonly actionListener: ActionListenerService,
-    private readonly snackbarHandler: SnackbarHandlerService
+    private readonly snackbarHandler: SnackbarHandlerService,
+    private readonly currencyFacade: CurrencyFacadeService
   ) {}
 
   ngOnInit(): void {
     this.shouldDisplayRemoveButton$ = combineLatest([
       this.activityLogFacade.doesCategoryExist(this.record.category.id),
       this.activityLogFacade.doesAccountExist(this.record.account.id),
-    ]).pipe(map(([a, b]) => a && b && this.isToday));
+      this.currencyFacade
+        .getCurrentCurrencyObs()
+        .pipe(map((currency) => currency === this.record.currency)),
+    ]).pipe(map(([a, b, c]) => a && b && c && this.isToday));
   }
 
   removeHandler(): void {

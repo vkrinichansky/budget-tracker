@@ -4,9 +4,9 @@
   [position]="['left']"
   [dontDisplayOnScreenWidth]="true"
   [menuActions]="menuActions"
-  [icon]="icon"
-  [text]="currentLanguageText"
+  [icon]="icon$ | async"
+  [text]="currentLanguageText$ | async"
   [buttonSizeX]="'auto'"
-  [loading]="isLoading$ | async"
+  [loading]="loading$ | async"
 >
 </app-menu>

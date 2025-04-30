@@ -32,7 +32,7 @@ export class MetadataEffects {
                 switchMap((currencyExchangeRate) =>
                   of({
                     ...metadata,
-                    currencyExchangeRate: this.setCurrentExchangeRate(
+                    currencyExchangeRate: this.getCurrentExchangeRate(
                       currencyExchangeRate[metadata.currency] as CurrencyExchangeRate
                     ),
                   })
@@ -50,33 +50,22 @@ export class MetadataEffects {
     )
   );
 
-  private setCurrentExchangeRate(exchangeRate: CurrencyExchangeRate): CurrencyExchangeRate {
-    const result: CurrencyExchangeRate = {};
-
-    Object.keys(predefinedCurrenciesDictionary).forEach((currency) => {
-      result[currency] = exchangeRate[currency];
-    });
-
-    return result;
-  }
-
-  changeCurrency$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(MetadataActions.changeCurrency),
-        switchMap((action) =>
-          from(this.metadataApiService.changeCurrency(action.newCurrency)).pipe(
-            tap(() => location.reload()),
-            catchError((error) => {
-              this.snackbarHandler.showErrorSnackbar(error);
-              this.store.dispatch(MetadataActions.changeCurrencyFail());
-
-              return EMPTY;
-            })
-          )
+  changeCurrency$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MetadataActions.changeCurrency),
+      switchMap((action) =>
+        from(this.metadataApiService.changeCurrency(action.newCurrency)).pipe(
+          switchMap(() =>
+            of(
+              MetadataActions.updateCategoriesAfterCurrencyChange({
+                newCurrency: action.newCurrency,
+              })
+            )
+          ),
+          catchError(() => of(MetadataActions.changeCurrencyFail()))
         )
-      ),
-    { dispatch: false }
+      )
+    )
   );
 
   changeLanguage$ = createEffect(
@@ -104,4 +93,14 @@ export class MetadataEffects {
       map(() => MetadataActions.cleanState())
     )
   );
+
+  private getCurrentExchangeRate(exchangeRate: CurrencyExchangeRate): CurrencyExchangeRate {
+    const result: CurrencyExchangeRate = {};
+
+    Object.keys(predefinedCurrenciesDictionary).forEach((currency) => {
+      result[currency] = exchangeRate[currency];
+    });
+
+    return result;
+  }
 }

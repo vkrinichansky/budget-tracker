@@ -4,6 +4,7 @@ import {
   ActivityLogComponent,
   CategoriesResetRecordComponent,
   CategoryValueChangeRecordComponent,
+  CurrencyChangeRecordComponent,
   MoveMoneyBetweenAccountsRecordComponent,
 } from './components';
 import { DesignSystemModule } from '@budget-tracker/design-system';
@@ -26,6 +27,7 @@ import { MetadataModule } from '@budget-tracker/metadata';
     CategoryValueChangeRecordComponent,
     CategoriesResetRecordComponent,
     MoveMoneyBetweenAccountsRecordComponent,
+    CurrencyChangeRecordComponent,
   ],
 
   exports: [ActivityLogComponent],

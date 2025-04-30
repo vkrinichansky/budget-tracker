@@ -78,6 +78,7 @@
         "removeConfirmationQuestion": "Are you sure you want to remove this record?",
         "removeConfirmationRemark": "This action will revert changes made by this record and will affect <span class='font-bold'>{{ accountName }}</span> account and <span class='font-bold'>{{ categoryName }}</span> category"
       },
+      "currencyChangeRecord": "Currency was changed",
       "emptyStateText": "No data to display yet",
       "removeButtonTooltip": "Remove all records",
       "allRecordsRemoveConfirmationQuestion": "Are you sure you want to remove all records?"
@@ -205,7 +206,7 @@
   "currencySwitcher": {
     "tooltip": "Currency",
     "removeConfirmationQuestion": "Are you sure you want to switch the currency?",
-    "removeConfirmationRemark": "This action also will reset categories values and remove activity log records to prevent inconsistency"
+    "removeConfirmationRemark": "This action also will convert categories values to new currency"
   },
 
   "currencies": {

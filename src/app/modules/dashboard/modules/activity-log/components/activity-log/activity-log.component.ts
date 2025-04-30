@@ -1,14 +1,18 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivityLogFacadeService } from '../../../../services';
 import { ConfirmationModalService, SnackbarHandlerService } from '@budget-tracker/design-system';
-import { ActivityLogRecordUnitedType, ActivityLogRecordType } from '@budget-tracker/models';
+import {
+  ActivityLogRecordUnitedType,
+  ActivityLogRecordType,
+  TotalValueForDateByCurrency,
+} from '@budget-tracker/models';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { ActionListenerService } from '@budget-tracker/utils';
 import { ActivityLogActions } from '../../../../store';
 
 interface DateObject {
   date: string;
-  sum: number;
+  totalValueForDate: TotalValueForDateByCurrency[];
 }
 
 type RenderingItemType = DateObject | ActivityLogRecordUnitedType;
@@ -46,7 +50,7 @@ export class ActivityLogComponent implements OnInit {
   }
 
   isItemDateObject(item: RenderingItemType): boolean {
-    return 'date' in item && 'sum' in item;
+    return 'date' in item && 'totalValueForDate' in item;
   }
 
   openRemoveConfirmationModal(): void {
@@ -83,7 +87,7 @@ export class ActivityLogComponent implements OnInit {
         days.reduce(
           (previous, current) => [
             ...previous,
-            { date: current.date, sum: current.totalValueForDate },
+            { date: current.date, totalValueForDate: current.totalValueForDate },
             ...current.records,
           ],
           []

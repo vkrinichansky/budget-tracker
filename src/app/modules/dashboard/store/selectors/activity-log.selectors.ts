@@ -7,6 +7,7 @@ import {
   ActivityLogRecordType,
   BudgetType,
   CategoryValueChangeRecord,
+  CurrenciesEnum,
   LanguagesEnum,
 } from '@budget-tracker/models';
 
@@ -84,18 +85,31 @@ function getActivityLogGroupedByDay(
         activityLogRecord.recordType === ActivityLogRecordType.CategoryValueChange
     ) as CategoryValueChangeRecord[];
 
-    const incomeCategoryValueChangeRecordsSum: number = sumOfCategoryValueChangeRecords(
-      categoryValueChangeRecords.filter((record) => record.budgetType === BudgetType.Income)
-    );
-
-    const expenseCategoryValueChangeRecordsSum: number = sumOfCategoryValueChangeRecords(
-      categoryValueChangeRecords.filter((record) => record.budgetType === BudgetType.Expense)
+    const currencies: CurrenciesEnum[] = Array.from(
+      new Set(categoryValueChangeRecords.map((record) => record.currency))
     );
 
     return {
       date: dateKey,
       records: allRecords,
-      totalValueForDate: incomeCategoryValueChangeRecordsSum - expenseCategoryValueChangeRecordsSum,
+      totalValueForDate: currencies.map((currency) => {
+        const incomeCategoryValueChangeRecordsSum: number = sumOfCategoryValueChangeRecords(
+          categoryValueChangeRecords.filter(
+            (record) => record.currency === currency && record.budgetType === BudgetType.Income
+          )
+        );
+
+        const expenseCategoryValueChangeRecordsSum: number = sumOfCategoryValueChangeRecords(
+          categoryValueChangeRecords.filter(
+            (record) => record.currency === currency && record.budgetType === BudgetType.Expense
+          )
+        );
+
+        return {
+          currency,
+          value: incomeCategoryValueChangeRecordsSum - expenseCategoryValueChangeRecordsSum,
+        };
+      }),
     };
   });
 }
