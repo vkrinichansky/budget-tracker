@@ -1,14 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
-import { ChartData, ChartOptions } from 'chart.js';
 import { CategoryModalsService } from '../../services';
 import {
-  ChartJSTooltipConfig,
   ConfirmationModalService,
-  isMobileWidth,
-  MainPalette,
+  getPieChartConfig,
   MenuAction,
   NumberSpacePipe,
+  PieChartOptions,
   SnackbarHandlerService,
 } from '@budget-tracker/design-system';
 import { CategoriesFacadeService } from '../../../../services';
@@ -35,13 +33,12 @@ export class CategoriesComponent implements OnInit {
   budgetType: BudgetType;
 
   title: string;
-  chartOptions: ChartOptions;
   menuActions: MenuAction[];
 
   categories$: Observable<Category[]>;
   isEmpty$: Observable<boolean>;
   areAllCategoriesReset$: Observable<boolean>;
-  chartData$: Observable<ChartData>;
+  chartOptions$: Observable<PieChartOptions>;
 
   constructor(
     private readonly categoriesFacade: CategoriesFacadeService,
@@ -56,7 +53,6 @@ export class CategoriesComponent implements OnInit {
 
   ngOnInit(): void {
     this.title = `dashboard.categories.${this.budgetType}.title`;
-    this.chartOptions = this.getChartOptions();
 
     this.initData();
     this.initChartData();
@@ -81,49 +77,18 @@ export class CategoriesComponent implements OnInit {
   }
 
   private initChartData(): void {
-    this.chartData$ = this.categories$.pipe(
+    this.chartOptions$ = this.categories$.pipe(
       map((categories) => [...categories].reverse()),
-      map((categories) => ({
-        labels: categories.map((category) => category.name),
-        datasets: [
-          {
-            data: categories.map((category) => category.value),
-            backgroundColor: categories.map((category) => category.hexColor),
-          },
-        ],
-      }))
+      map((categories) =>
+        getPieChartConfig(
+          categories.map((category) => category.value),
+          categories.map((category) => this.translateService.instant(category.name)),
+          categories.map((category) => category.hexColor),
+          (label, value) =>
+            `${label} - ${this.currencyPipe.transform(this.numberSpacePipe.transform(value))}`
+        )
+      )
     );
-  }
-
-  private getChartOptions(): ChartOptions {
-    const config: ChartOptions = {
-      layout: {
-        autoPadding: false,
-      },
-      elements: { arc: { borderColor: MainPalette.Charcoal } },
-      plugins: {
-        tooltip: {
-          ...ChartJSTooltipConfig,
-          callbacks: {
-            label: (item) =>
-              `${this.translateService.instant(item.label)} - ${this.currencyPipe.transform(this.numberSpacePipe.transform(item.parsed))}`,
-            title: () => '',
-          },
-        },
-        legend: {
-          display: false,
-        },
-      },
-    };
-
-    if (isMobileWidth()) {
-      return {
-        ...config,
-        animation: false,
-      };
-    }
-
-    return config;
   }
 
   private initMenuActions(): void {

@@ -16,7 +16,7 @@ import {
 import { CustomTooltipComponent } from '../../components';
 import { BgColorScheme, TooltipPosition } from '../../models';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { firstValueFrom, map } from 'rxjs';
+import { filter, firstValueFrom, map } from 'rxjs';
 import { isMobileWidth } from '../../helpers';
 
 const positionMapping: { [key: string]: ConnectedPosition } = {
@@ -177,9 +177,12 @@ export class TooltipRendererDirective implements OnDestroy {
         tooltipRef.instance.maxWidth = this.maxWidth;
         tooltipRef.instance.position = await firstValueFrom(
           positionStrategy.positionChanges.pipe(
-            map((changes) => changes.connectionPair.panelClass as TooltipPosition)
+            map((changes) => changes.connectionPair.panelClass as TooltipPosition),
+            filter(Boolean)
           )
         );
+
+        tooltipRef.changeDetectorRef.detectChanges?.();
       }
     }
   }

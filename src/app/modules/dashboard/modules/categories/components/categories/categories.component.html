@@ -2,6 +2,7 @@
 @let currentTab = currentTab$ | async;
 @let areAllCategoriesReset = areAllCategoriesReset$ | async;
 @let loading = loading$ | async;
+@let chartOptions = chartOptions$ | async;
 
 <div class="flex flex-col gap-y-4 w-full h-full justify-between">
   <app-page-header class="text-xl bg-transparent" [title]="title | translate" [loading]="loading">
@@ -72,14 +73,19 @@
           class="w-full h-full flex flex-1 items-center justify-center overflow-hidden"
           [class.pointer-events-none]="loading"
         >
-          <canvas
-            baseChart
-            class="h-full"
-            [type]="'doughnut'"
-            [data]="chartData$ | async"
-            [options]="chartOptions"
-          >
-          </canvas>
+          <apx-chart
+            class="w-full"
+            [series]="chartOptions.series"
+            [chart]="chartOptions.chart"
+            [labels]="chartOptions.labels"
+            [colors]="chartOptions.colors"
+            [dataLabels]="chartOptions.dataLabels"
+            [legend]="chartOptions.legend"
+            [plotOptions]="chartOptions.plotOptions"
+            [stroke]="chartOptions.stroke"
+            [states]="chartOptions.states"
+            [tooltip]="chartOptions.tooltip"
+          ></apx-chart>
         </div>
       }
     }
