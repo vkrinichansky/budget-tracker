@@ -68,14 +68,14 @@ export interface ActivityLogGroupedByDayDictionary {
 export interface ActivityLogGroupedByDay {
   date: string;
   records: ActivityLog;
-  totalValueForDate?: TotalValueForDateByCurrency[];
+  totalValueForDate: TotalValueForDateByCurrency[];
 }
 
 export function createCategoryValueChangeRecord(
   category: Category,
   account: Account,
-  valueToAdd: number,
-  convertedValueToAdd: number,
+  value: number,
+  convertedValue: number,
   currency: CurrenciesEnum,
   note: string
 ): CategoryValueChangeRecord {
@@ -87,8 +87,8 @@ export function createCategoryValueChangeRecord(
     date: new Date().getTime(),
     icon: category.icon,
     recordType: ActivityLogRecordType.CategoryValueChange,
-    value: valueToAdd,
-    convertedValue: convertedValueToAdd,
+    value,
+    convertedValue,
     currency,
     note,
   };
@@ -108,7 +108,7 @@ export function createCategoriesResetRecord(budgetType: BudgetType): CategoriesR
   }
 
   return {
-    budgetType: budgetType,
+    budgetType,
     date: new Date().getTime(),
     id: uuid(),
     recordType: ActivityLogRecordType.CategoriesReset,
@@ -119,15 +119,15 @@ export function createCategoriesResetRecord(budgetType: BudgetType): CategoriesR
 export function createMoveMoneyBetweenAccountsRecord(
   fromAccount: Account,
   toAccount: Account,
-  valueToMove: number,
-  convertedValueToMove: number
+  fromAccountValue: number,
+  toAccountValue: number
 ): MoveMoneyBetweenAccountsRecord {
   return {
     id: uuid(),
     fromAccount: pick(fromAccount, ['id', 'name', 'currency']),
     toAccount: pick(toAccount, ['id', 'name', 'currency']),
-    fromAccountValue: valueToMove,
-    toAccountValue: convertedValueToMove,
+    fromAccountValue,
+    toAccountValue,
     recordType: ActivityLogRecordType.MoveMoneyBetweenAccounts,
     date: new Date().getTime(),
     icon: 'money-change',

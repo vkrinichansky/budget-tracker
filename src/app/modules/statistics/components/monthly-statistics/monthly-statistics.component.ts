@@ -2,10 +2,10 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ChartData, ChartOptions, ScaleOptionsByType, TooltipItem } from 'chart.js';
 import { Observable } from 'rxjs';
-import { ChartJSTooltipConfig, MainPalette } from '@budget-tracker/design-system';
+import { ChartJSTooltipConfig, MainPalette, NumberSpacePipe } from '@budget-tracker/design-system';
 import { BaseChartDirective } from 'ng2-charts';
 import { TranslateService } from '@ngx-translate/core';
-import { isMobileWidth, NumberSpacePipe } from '@budget-tracker/utils';
+import { isMobileWidth } from '@budget-tracker/design-system';
 import { CurrencyPipe } from '@budget-tracker/metadata';
 import { StatisticsFacadeService } from '../../services';
 

@@ -5,12 +5,14 @@ import { CategoryModalsService } from '../../services';
 import {
   ChartJSTooltipConfig,
   ConfirmationModalService,
+  isMobileWidth,
   MainPalette,
   MenuAction,
+  NumberSpacePipe,
   SnackbarHandlerService,
 } from '@budget-tracker/design-system';
 import { CategoriesFacadeService } from '../../../../services';
-import { ActionListenerService, isMobileWidth, NumberSpacePipe } from '@budget-tracker/utils';
+import { ActionListenerService } from '@budget-tracker/utils';
 import { BudgetType, Category } from '@budget-tracker/models';
 import { CurrencyPipe } from '@budget-tracker/metadata';
 import { CategoriesActions } from '../../../../store';

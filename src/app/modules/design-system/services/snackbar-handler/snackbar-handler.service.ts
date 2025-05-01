@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { SnackbarComponent } from '../../components';
 import { SnackbarData } from '../../models';
-import { isMobileWidth } from '@budget-tracker/utils';
+import { isMobileWidth } from '../../helpers';
 
 @Injectable()
 export class SnackbarHandlerService {

@@ -9,9 +9,9 @@ import {
   inject,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
-import { isMobileWidth } from '@budget-tracker/utils';
 import { NgxColorsTriggerDirective } from 'ngx-colors';
 import { GenericCustomControlComponent } from '../generic-custom-control/generic-custom-control.component';
+import { isMobileWidth } from '../../../helpers';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

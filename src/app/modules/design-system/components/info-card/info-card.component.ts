@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, TemplateRef } from '@angular/core';
 import { MenuAction } from '../../models';
-import { isMobileWidth } from '@budget-tracker/utils';
+import { isMobileWidth } from '../../helpers';
 
 @Component({
   selector: 'app-info-card',
