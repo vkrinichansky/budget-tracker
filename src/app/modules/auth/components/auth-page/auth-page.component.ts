@@ -9,22 +9,16 @@ import { AuthFacadeService } from '../../services';
   standalone: false,
 })
 export class AuthPageComponent implements OnInit {
-  private readonly rootTranslationKey = 'auth';
-
   @HostBinding('class')
   private readonly classes =
     'flex justify-center items-center flex-col w-full h-full bg-charcoal gap-y-50';
 
   authLoading$: Observable<boolean>;
 
-  constructor(private authFacade: AuthFacadeService) {}
+  constructor(private readonly authFacade: AuthFacadeService) {}
 
   ngOnInit(): void {
     this.authLoading$ = this.authFacade.getAuthLoading();
-  }
-
-  buildTranslationKey(key: string): string {
-    return `${this.rootTranslationKey}.${key}`;
   }
 
   googleLogin() {

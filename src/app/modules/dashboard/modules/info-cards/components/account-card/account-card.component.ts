@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { AccountsFacadeService } from '../../../../services';
-import { AccountsValueEditModalService } from '../../services';
 import {
   ConfirmationModalService,
   MenuAction,
@@ -11,6 +10,7 @@ import { Account } from '@budget-tracker/models';
 import { CurrencyFacadeService } from '@budget-tracker/metadata';
 import { ActionListenerService } from '@budget-tracker/utils';
 import { AccountsActions } from '../../../../store';
+import { AccountsModalsService } from '../../services';
 
 @Component({
   selector: 'app-account-card',
@@ -26,7 +26,7 @@ export class AccountCardComponent {
     {
       icon: 'edit',
       translationKey: 'dashboard.infoCards.accountCard.menu.editValue',
-      action: () => this.accountValueEditModalService.openEditAccountValueModal(this.account.id),
+      action: () => this.accountsModalsService.openEditAccountValueModal(this.account.id),
     },
 
     {
@@ -82,7 +82,7 @@ export class AccountCardComponent {
   }
 
   constructor(
-    private readonly accountValueEditModalService: AccountsValueEditModalService,
+    private readonly accountsModalsService: AccountsModalsService,
     private readonly currencyFacade: CurrencyFacadeService,
     private readonly accountsFacade: AccountsFacadeService,
     private readonly confirmationModalService: ConfirmationModalService,
