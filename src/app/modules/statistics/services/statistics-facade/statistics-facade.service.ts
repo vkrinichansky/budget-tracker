@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BudgetType, Category, CurrenciesEnum, StatisticsSnapshot } from '@budget-tracker/models';
+import { BudgetType, Category, StatisticsSnapshot } from '@budget-tracker/models';
 import { Observable, map } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { StatisticsSelectors } from '../../store';
@@ -45,7 +45,6 @@ export class StatisticsFacadeService {
               year: 'numeric',
               month: 'short',
             }),
-            currency: CurrenciesEnum.UAH,
           }));
 
         const categories = snapshotsForPreviousMonths.flatMap((snapshot) => snapshot.categories);
@@ -64,7 +63,7 @@ export class StatisticsFacadeService {
           });
 
         const series: ApexAxisChartSeries = uniqueCategories.map((category) => ({
-          name: `${this.translateService.instant(category.name)} (${category.budgetType})`,
+          name: `${this.translateService.instant(category.name)}*${category.id}`,
           group: category.budgetType,
           data: snapshotsForPreviousMonths.map((snapshot) => {
             const value = snapshot.categories.find(
@@ -103,7 +102,7 @@ export class StatisticsFacadeService {
           strokeColors,
           colors,
           (label, value) =>
-            `${label} - ${this.currencyPipe.transform(this.numberSpacePipe.transform(value))}`
+            `${label.split('*')[0]} - ${this.currencyPipe.transform(this.numberSpacePipe.transform(value))}`
         );
       })
     );
