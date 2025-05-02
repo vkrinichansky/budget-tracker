@@ -15,10 +15,7 @@
       "income": "Income",
       "expense": "Expense",
       "currentMonthBalance": "Current month balance",
-      "fullBalance": {
-        "title": "Full balance",
-        "tooltip": "Full balance is the sum of all your accounts"
-      },
+      "fullBalance": "Full balance",
       "accounts": {
         "title": "Accounts",
         "titleWithAmount": "Accounts ({{ accountsAmount }})",
@@ -144,15 +141,7 @@
     "pageTitle": "Statistics",
 
     "monthlyStatistics": {
-      "title": "Monthly",
-      "chartActions": {
-        "zoomIn": "Zoom in",
-        "zoomOut": "Zoom out",
-        "scrollLeft": "Scroll left",
-        "scrollRight": "Scroll right",
-        "resetZoom": "Reset zoom"
-      },
-      "total": "Total:"
+      "conversionTooltip": "All snapshots are converted to current currency"
     }
   },
 

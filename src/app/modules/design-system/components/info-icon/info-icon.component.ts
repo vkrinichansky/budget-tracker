@@ -9,7 +9,7 @@ import { IconSize, InfoIconType, TooltipPosition } from '../../models';
   standalone: false,
 })
 export class InfoIconComponent {
-  @Input()
+  @Input({ required: true })
   tooltip: TemplateRef<unknown> | string;
 
   @Input()

@@ -1,24 +1,38 @@
 import { Injectable } from '@angular/core';
-import { BudgetType, Category, StatisticsSnapshot } from '@budget-tracker/models';
+import { BudgetType, Category, CurrenciesEnum, StatisticsSnapshot } from '@budget-tracker/models';
 import { Observable, map } from 'rxjs';
-import { ChartData, ChartDataset } from 'chart.js';
-import { MainPalette } from '@budget-tracker/design-system';
 import { Store } from '@ngrx/store';
 import { StatisticsSelectors } from '../../store';
-import { LanguageFacadeService } from '@budget-tracker/metadata';
+import {
+  CurrencyFacadeService,
+  CurrencyPipe,
+  LanguageFacadeService,
+} from '@budget-tracker/metadata';
+import {
+  MainPalette,
+  NumberSpacePipe,
+  StackedBarChartOptions,
+  getStackedBarChartConfig,
+} from '@budget-tracker/design-system';
+import { ApexAxisChartSeries } from 'ngx-apexcharts';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class StatisticsFacadeService {
   constructor(
-    private store: Store,
-    private languageFacade: LanguageFacadeService
+    private readonly store: Store,
+    private readonly languageFacade: LanguageFacadeService,
+    private readonly translateService: TranslateService,
+    private readonly currencyPipe: CurrencyPipe,
+    private readonly numberSpacePipe: NumberSpacePipe,
+    private readonly currencyFacade: CurrencyFacadeService
   ) {}
 
   getSnapshots(): Observable<StatisticsSnapshot[]> {
     return this.store.select(StatisticsSelectors.statisticsSnapshotsSelector);
   }
 
-  getDataForMonthlyStatisticsChart(): Observable<ChartData> {
+  getDataForMonthlyStatisticsChart(): Observable<StackedBarChartOptions> {
     const language = this.languageFacade.getCurrentLanguage();
 
     return this.getSnapshots().pipe(
@@ -26,70 +40,72 @@ export class StatisticsFacadeService {
         const snapshotsForPreviousMonths: StatisticsSnapshot[] = snapshots
           .sort((a, b) => parseInt(a.date) - parseInt(b.date))
           .map((snapshot) => ({
+            ...snapshot,
             date: new Date(parseInt(snapshot.date)).toLocaleDateString(language, {
               year: 'numeric',
               month: 'short',
             }),
-            categories: snapshot.categories,
-            expense: 0,
-            income: 0,
-            monthBalance: 0,
-            totalBalance: 0,
+            currency: CurrenciesEnum.UAH,
           }));
 
-        const labels = snapshotsForPreviousMonths.map((monthItem) => monthItem.date);
+        const categories = snapshotsForPreviousMonths.flatMap((snapshot) => snapshot.categories);
+        const categoriesIds = Array.from(new Set(categories.map((category) => category.id)));
 
-        const categories: Category[] = snapshotsForPreviousMonths.flatMap(
-          (monthItem) => monthItem.categories
+        const uniqueCategories: Pick<Category, 'id' | 'name' | 'budgetType' | 'hexColor'>[] =
+          categoriesIds.map((categoryId) => {
+            const category = categories.find((category) => category.id === categoryId);
+
+            return {
+              id: category.id,
+              budgetType: category.budgetType,
+              name: category.name,
+              hexColor: category.hexColor,
+            };
+          });
+
+        const series: ApexAxisChartSeries = uniqueCategories.map((category) => ({
+          name: `${this.translateService.instant(category.name)} (${category.budgetType})`,
+          group: category.budgetType,
+          data: snapshotsForPreviousMonths.map((snapshot) => {
+            const value = snapshot.categories.find(
+              (categoryToCheck) => categoryToCheck.id === category.id
+            )?.value;
+
+            return value
+              ? this.currencyFacade.convertCurrency(
+                  value,
+                  snapshot.currency,
+                  this.currencyFacade.getCurrentCurrency()
+                )
+              : null;
+          }),
+        }));
+
+        const width = 100 * 3 * snapshotsForPreviousMonths.length;
+        const height = 350;
+        const xaxisLabels = snapshotsForPreviousMonths.map((snapshot) => snapshot.date);
+        const colors = uniqueCategories.map((category) => category.hexColor);
+        const strokeColors = uniqueCategories.map((category) => {
+          switch (category.budgetType) {
+            case BudgetType.Income:
+              return MainPalette.DarkGreen;
+
+            case BudgetType.Expense:
+              return MainPalette.DarkRed;
+          }
+        });
+
+        return getStackedBarChartConfig(
+          series,
+          width,
+          height,
+          xaxisLabels,
+          strokeColors,
+          colors,
+          (label, value) =>
+            `${label} - ${this.currencyPipe.transform(this.numberSpacePipe.transform(value))}`
         );
-        const uniqueCategoriesIds = [...new Set(categories.map((category) => category.id))];
-        const resultCategories = uniqueCategoriesIds.map((id) =>
-          categories.find((category) => category.id === id)
-        );
-
-        const datasets: ChartDataset[] = [
-          ...this.getDatasets(resultCategories, snapshotsForPreviousMonths, BudgetType.Income),
-          ...this.getDatasets(resultCategories, snapshotsForPreviousMonths, BudgetType.Expense),
-        ];
-
-        return {
-          labels,
-          datasets,
-        };
       })
     );
-  }
-
-  private getDatasets(
-    categories: Category[],
-    statistics: StatisticsSnapshot[],
-    budgetType: BudgetType
-  ): ChartDataset[] {
-    return categories
-      .filter((category) => category.budgetType === budgetType)
-      .map((category) => ({
-        label: category.name,
-        stack: budgetType,
-        data: statistics.map(
-          (monthItem) =>
-            monthItem.categories?.find((categoryFromItem) => categoryFromItem.id === category.id)
-              ?.value || 0
-        ),
-        backgroundColor: category.hexColor,
-        borderWidth: 2,
-        borderRadius: 2,
-        borderSkipped: 'bottom',
-        borderColor: this.resolveBorderColors(budgetType),
-      }));
-  }
-
-  private resolveBorderColors(budgetType: BudgetType): MainPalette {
-    switch (budgetType) {
-      case BudgetType.Income:
-        return MainPalette.DarkGreen;
-
-      case BudgetType.Expense:
-        return MainPalette.Red;
-    }
   }
 }

@@ -11,13 +11,9 @@ import { AccountsFacadeService } from '../../../../../services';
 export class FullBalanceInfoCardComponent implements OnInit {
   fullBalance$: Observable<number>;
 
-  constructor(private accountsFacade: AccountsFacadeService) {}
+  constructor(private readonly accountsFacade: AccountsFacadeService) {}
 
   ngOnInit(): void {
     this.fullBalance$ = this.accountsFacade.getFullBallance();
-  }
-
-  buildTranslationKey(key: string): string {
-    return `dashboard.infoCards.fullBalance.${key}`;
   }
 }

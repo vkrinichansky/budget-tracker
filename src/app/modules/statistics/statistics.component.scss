@@ -1,9 +1,5 @@
 :host {
-  @apply relative grid grid-rows-2 w-full h-full overflow-hidden gap-y-6 p-6;
+  @apply relative grid grid-rows-2 w-full h-full overflow-hidden p-4 gap-y-4;
 
   grid-template-rows: auto minmax(0, 1fr);
-
-  @media (width <= 480px) {
-    @apply p-4 gap-y-4;
-  }
 }

@@ -76,6 +76,7 @@ export class DashboardInitEffects {
           expense,
           monthBalance,
           totalBalance,
+          currency: this.currencyFacade.getCurrentCurrency(),
         };
 
         const { resetCategories, resetDate } = this.getResetData(action.data);

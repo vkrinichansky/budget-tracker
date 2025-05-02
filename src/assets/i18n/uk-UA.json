@@ -15,10 +15,7 @@
       "income": "Дохід",
       "expense": "Витрати",
       "currentMonthBalance": "Баланс за місяць",
-      "fullBalance": {
-        "title": "Повний баланс",
-        "tooltip": "Повний баланс - це сума всіх ваших рахунків"
-      },
+      "fullBalance": "Повний баланс",
       "accounts": {
         "title": "Рахунки",
         "titleWithAmount": "Рахунки ({{ accountsAmount }})",
@@ -144,15 +141,7 @@
   "statistics": {
     "pageTitle": "Статистика",
     "monthlyStatistics": {
-      "title": "Щомісячна",
-      "chartActions": {
-        "zoomIn": "Збільшити",
-        "zoomOut": "Зменшити",
-        "scrollLeft": "Прогорнути вліво",
-        "scrollRight": "Прогорнути вправо",
-        "resetZoom": "Скинути зум"
-      },
-      "total": "Всього:"
+      "conversionTooltip": "Всі снапшоти конвертовані в поточну валюту"
     }
   },
 

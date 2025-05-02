@@ -64,7 +64,7 @@
         <span
           [ngClass]="{
             'text-dark-green': currency.value > 0,
-            'text-red': currency.value < 0,
+            'text-dark-red': currency.value < 0,
           }"
         >
           {{ currency.value > 0 ? '&plus;' : '' }}

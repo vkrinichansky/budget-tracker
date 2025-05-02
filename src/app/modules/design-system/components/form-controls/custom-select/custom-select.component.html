@@ -32,7 +32,7 @@
   <svg-icon
     class="group-hover:text-charcoal absolute top-1/2 right-2 -translate-y-2.5"
     [ngClass]="{
-      'text-red group-hover:text-red': formControl.invalid && isErrorState(),
+      'text-dark-red group-hover:text-dark-red': formControl.invalid && isErrorState(),
       'text-charcoal': isOpen,
       'text-grey': !isOpen,
     }"
@@ -41,7 +41,7 @@
 </div>
 
 @if (isErrorState()) {
-  <div class="flex flex-col gap-y-1 w-full pt-1 px-1.5 pb-1.5 rounded-b-md bg-red">
+  <div class="flex flex-col gap-y-1 w-full pt-1 px-1.5 pb-1.5 rounded-b-md bg-dark-red">
     @if (hasRequiredError) {
       <control-error>{{ 'formErrors.required' | translate }}</control-error>
     }

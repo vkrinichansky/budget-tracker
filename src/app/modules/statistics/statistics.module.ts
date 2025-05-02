@@ -15,6 +15,7 @@ import {
   StatisticsInitFacadeService,
 } from './services';
 import { EffectsModule } from '@ngrx/effects';
+import { NgxApexchartsModule } from 'ngx-apexcharts';
 
 const routes: Routes = [
   {
@@ -32,6 +33,7 @@ const routes: Routes = [
     TranslateModule,
     NgChartsModule,
     MetadataModule,
+    NgxApexchartsModule,
     StoreModule.forFeature(featureKey, reducers),
     EffectsModule.forFeature([StatisticsInitEffects]),
   ],

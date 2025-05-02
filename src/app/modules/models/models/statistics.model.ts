@@ -1,4 +1,5 @@
 import { Category } from './category.model';
+import { CurrenciesEnum } from './currency.model';
 
 export interface StatisticsSnapshot {
   date: string;
@@ -7,4 +8,5 @@ export interface StatisticsSnapshot {
   expense: number;
   monthBalance: number;
   totalBalance: number;
+  currency: CurrenciesEnum;
 }

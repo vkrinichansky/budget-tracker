@@ -39,12 +39,12 @@ export class CurrentMonthBalanceInfoCardComponent implements OnInit {
         if (balance > 0) {
           return {
             text: 'text-white',
-            bg: 'bg-green',
+            bg: 'bg-dark-green',
           };
         } else {
           return {
             text: 'text-white',
-            bg: 'bg-red',
+            bg: 'bg-dark-red',
           };
         }
       })

@@ -12,7 +12,7 @@ export enum MainPalette {
   DarkGreen = '#109279',
   HoverGreen = '#0B7863',
 
-  Red = '#FF6B69',
+  DarkRed = '#AD3546',
   LightRed = '#FFECEC',
 }
 

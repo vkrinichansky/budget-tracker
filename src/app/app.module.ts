@@ -19,14 +19,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { NavigationBarModule } from '@budget-tracker/navigation-bar';
 import { AuthCoreModule } from '@budget-tracker/auth';
-
-import { Chart } from 'chart.js';
-import 'hammerjs';
-import 'chartjs-plugin-zoom';
-import zoomPlugin from 'chartjs-plugin-zoom';
 import { MetadataModule } from '@budget-tracker/metadata';
 import { CommonModule } from '@angular/common';
-Chart.register(zoomPlugin);
 
 @NgModule({
   declarations: [AppComponent],

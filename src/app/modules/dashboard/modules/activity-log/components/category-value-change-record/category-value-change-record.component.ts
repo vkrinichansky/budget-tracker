@@ -27,7 +27,7 @@ export class CategoryValueChangeRecordComponent implements OnInit {
         return 'text-dark-green';
 
       case BudgetType.Expense:
-        return 'text-red';
+        return 'text-dark-red';
     }
   }
 

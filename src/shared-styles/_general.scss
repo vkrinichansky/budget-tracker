@@ -15,7 +15,7 @@ body {
 
 // SCROLLBAR
 ::-webkit-scrollbar {
-  @apply w-1.5;
+  @apply w-2 h-2;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -23,11 +23,5 @@ body {
 }
 
 .apex-tooltip {
-  @apply rounded py-1 px-2 relative bg-charcoal font-main text-base;
-}
-
-.apexcharts-legend {
-  &-text {
-    @apply font-main text-sm text-charcoal font-bold #{!important};
-  }
+  @apply rounded py-1 px-2 relative bg-charcoal font-main text-base text-white #{!important};
 }
