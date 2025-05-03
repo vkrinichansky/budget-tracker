@@ -150,8 +150,8 @@
       "monthBalance": "Баланс за місяць",
       "fullBalance": "Повний баланс",
       "categories": "Категорії:<br>Дохід - {{incomeCategories}}<br>Витрати - {{expenseCategories}}",
-      "incomePercent": "Дохід - {{ percent }}",
-      "expensePercent": "Витрати - {{ percent }}"
+      "incomePercent": "Дохід - {{ percent }}%",
+      "expensePercent": "Витрати - {{ percent }}%"
     }
   },
 

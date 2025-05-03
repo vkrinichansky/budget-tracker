@@ -149,8 +149,8 @@
       "monthBalance": "Month balance",
       "fullBalance": "Full balance",
       "categories": "Categories:<br>Income - {{ incomeCategories }}<br>Expense - {{ expenseCategories }}",
-      "incomePercent": "Income - {{ percent }}",
-      "expensePercent": "Expense - {{ percent }}"
+      "incomePercent": "Income - {{ percent }}%",
+      "expensePercent": "Expense - {{ percent }}%"
     }
   },
 
