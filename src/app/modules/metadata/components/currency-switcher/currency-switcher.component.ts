@@ -18,7 +18,7 @@ import { MetadataActions } from '../../store';
 })
 export class CurrencySwitcherComponent implements OnInit {
   currentCurrency$: Observable<CurrenciesEnum>;
-  currentLanguageText$: Observable<string>;
+  currentCurrencyText$: Observable<string>;
   icon$: Observable<string>;
   menuActions: MenuAction[];
   loading$ = new BehaviorSubject<boolean>(false);
@@ -33,7 +33,7 @@ export class CurrencySwitcherComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentCurrency$ = this.currencyFacade.getCurrentCurrencyObs();
-    this.currentLanguageText$ = this.currentCurrency$.pipe(
+    this.currentCurrencyText$ = this.currentCurrency$.pipe(
       map(
         (currency) =>
           `${predefinedCurrenciesDictionary[currency].code} (${predefinedCurrenciesDictionary[currency].symbol})`

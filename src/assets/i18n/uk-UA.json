@@ -142,6 +142,9 @@
     "pageTitle": "Статистика",
     "monthlyStatistics": {
       "conversionTooltip": "Всі снапшоти конвертовані в поточну валюту"
+    },
+    "snapshots": {
+      "title": "Снапшоти"
     }
   },
 

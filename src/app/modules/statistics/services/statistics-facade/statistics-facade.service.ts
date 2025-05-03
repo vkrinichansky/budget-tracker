@@ -29,25 +29,15 @@ export class StatisticsFacadeService {
   ) {}
 
   getSnapshots(): Observable<StatisticsSnapshot[]> {
-    return this.store.select(StatisticsSelectors.statisticsSnapshotsSelector);
+    const language = this.languageFacade.getCurrentLanguage();
+
+    return this.store.select(StatisticsSelectors.statisticsSnapshotsSelector(language));
   }
 
   getDataForMonthlyStatisticsChart(): Observable<StackedBarChartOptions> {
-    const language = this.languageFacade.getCurrentLanguage();
-
     return this.getSnapshots().pipe(
       map((snapshots) => {
-        const snapshotsForPreviousMonths: StatisticsSnapshot[] = snapshots
-          .sort((a, b) => parseInt(a.date) - parseInt(b.date))
-          .map((snapshot) => ({
-            ...snapshot,
-            date: new Date(parseInt(snapshot.date)).toLocaleDateString(language, {
-              year: 'numeric',
-              month: 'short',
-            }),
-          }));
-
-        const categories = snapshotsForPreviousMonths.flatMap((snapshot) => snapshot.categories);
+        const categories = snapshots.flatMap((snapshot) => snapshot.categories);
         const categoriesIds = Array.from(new Set(categories.map((category) => category.id)));
 
         const uniqueCategories: Pick<Category, 'id' | 'name' | 'budgetType' | 'hexColor'>[] =
@@ -65,7 +55,7 @@ export class StatisticsFacadeService {
         const series: ApexAxisChartSeries = uniqueCategories.map((category) => ({
           name: `${this.translateService.instant(category.name)}*${category.id}`,
           group: category.budgetType,
-          data: snapshotsForPreviousMonths.map((snapshot) => {
+          data: snapshots.map((snapshot) => {
             const value = snapshot.categories.find(
               (categoryToCheck) => categoryToCheck.id === category.id
             )?.value;
@@ -80,9 +70,9 @@ export class StatisticsFacadeService {
           }),
         }));
 
-        const width = 100 * 3 * snapshotsForPreviousMonths.length;
+        const width = 100 * 3 * snapshots.length;
         const height = 350;
-        const xaxisLabels = snapshotsForPreviousMonths.map((snapshot) => snapshot.date);
+        const xaxisLabels = snapshots.map((snapshot) => snapshot.date);
         const colors = uniqueCategories.map((category) => category.hexColor);
         const strokeColors = uniqueCategories.map((category) => {
           switch (category.budgetType) {

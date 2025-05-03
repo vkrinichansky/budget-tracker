@@ -4,4 +4,8 @@
   &.is-system-category {
     @apply pointer-events-none cursor-default opacity-70;
   }
+
+  @media (width <= 480px) {
+    @apply border-charcoal;
+  }
 }

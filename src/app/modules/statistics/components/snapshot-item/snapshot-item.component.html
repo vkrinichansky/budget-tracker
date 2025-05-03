@@ -1,0 +1,16 @@
+<div class="flex items-center justify-between">
+  <div class="flex items-center text-charcoal gap-x-2">
+    <span class="font-main font-bold text-lg group-hover:underline">
+      {{ snapshot.date }}
+    </span>
+
+    <svg-icon class="invisible group-hover:visible" [iconName]="'new-tab'"></svg-icon>
+  </div>
+
+  <div class="flex items-center">
+    <span class="flex items-center gap-x-1.5">
+      <svg-icon [iconName]="currencyIcon"></svg-icon>
+      <span class="font-main text-base text-charcoal">{{ currencyText }}</span>
+    </span>
+  </div>
+</div>

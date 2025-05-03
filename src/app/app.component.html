@@ -8,7 +8,7 @@
 @if (loading && isLoggedIn) {
   <app-fullsize-loader></app-fullsize-loader>
 } @else {
-  <div class="animated-route main w-full bg-dirty-white relative">
+  <div class="animated-route main w-full bg-dirty-white relative overflow-hidden">
     <router-outlet></router-outlet>
   </div>
 }
