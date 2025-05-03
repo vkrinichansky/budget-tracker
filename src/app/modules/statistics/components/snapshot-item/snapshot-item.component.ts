@@ -74,7 +74,7 @@ export class SnapshotItemComponent implements OnInit {
       {
         percent: (this.snapshot.expense * 100) / total,
         color: this.classToHexPipe.transform('bg-dark-red'),
-        tooltip: this.translateService.instant('statistics.snapshots.incomePercent', {
+        tooltip: this.translateService.instant('statistics.snapshots.expensePercent', {
           percent: Math.round((this.snapshot.expense * 100) / total),
         }),
       },
