@@ -5,9 +5,8 @@ import {
   MenuAction,
   SnackbarHandlerService,
 } from '@budget-tracker/design-system';
-import { BehaviorSubject } from 'rxjs';
 import { Account } from '@budget-tracker/models';
-import { CurrencyFacadeService } from '@budget-tracker/metadata';
+import { CurrencyFacadeService, CurrencyPipe } from '@budget-tracker/metadata';
 import { ActionListenerService } from '@budget-tracker/utils';
 import { AccountsActions } from '../../../../store';
 import { AccountsModalsService } from '../../services';
@@ -20,8 +19,6 @@ import { AccountsModalsService } from '../../services';
   standalone: false,
 })
 export class AccountCardComponent {
-  readonly isAccountRemoving$ = new BehaviorSubject<boolean>(false);
-
   readonly menuActions: MenuAction[] = [
     {
       icon: 'edit',
@@ -41,8 +38,6 @@ export class AccountCardComponent {
             },
           },
           async () => {
-            this.isAccountRemoving$.next(true);
-
             try {
               this.accountsFacade.removeAccount(this.account.id);
 
@@ -56,8 +51,6 @@ export class AccountCardComponent {
               this.snackbarHandler.showAccountRemovedSnackbar();
             } catch {
               this.snackbarHandler.showGeneralErrorSnackbar();
-            } finally {
-              this.isAccountRemoving$.next(false);
             }
           }
         );
@@ -76,9 +69,9 @@ export class AccountCardComponent {
   }
 
   get accountValueInBaseCurrency(): string {
-    return `${Math.round(
-      this.currencyFacade.getConvertedValueForAccount(this.account)
-    ).toString()} ${this.currencyFacade.getCurrencySymbol()}`;
+    return this.currencyPipe.transform(
+      Math.round(this.currencyFacade.getConvertedValueForAccount(this.account))
+    );
   }
 
   constructor(
@@ -87,6 +80,7 @@ export class AccountCardComponent {
     private readonly accountsFacade: AccountsFacadeService,
     private readonly confirmationModalService: ConfirmationModalService,
     private readonly actionListener: ActionListenerService,
-    private readonly snackbarHandler: SnackbarHandlerService
+    private readonly snackbarHandler: SnackbarHandlerService,
+    private readonly currencyPipe: CurrencyPipe
   ) {}
 }

@@ -6,7 +6,7 @@ import {
   ActivityLogRecordType,
   TotalValueForDateByCurrency,
 } from '@budget-tracker/models';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { ActionListenerService } from '@budget-tracker/utils';
 import { ActivityLogActions } from '../../../../store';
 
@@ -26,10 +26,8 @@ type RenderingItemType = DateObject | ActivityLogRecordUnitedType;
 })
 export class ActivityLogComponent implements OnInit {
   readonly recordType = ActivityLogRecordType;
-  readonly isBulkRecordsRemovingInProgress$ = new BehaviorSubject<boolean>(false);
 
   isEmpty$: Observable<boolean>;
-
   itemsToRender$: Observable<RenderingItemType[]>;
 
   constructor(
@@ -59,8 +57,6 @@ export class ActivityLogComponent implements OnInit {
         questionTranslationKey: 'dashboard.activityLog.allRecordsRemoveConfirmationQuestion',
       },
       async () => {
-        this.isBulkRecordsRemovingInProgress$.next(true);
-
         try {
           this.activityLogFacade.removeAllRecords();
 
@@ -72,8 +68,6 @@ export class ActivityLogComponent implements OnInit {
           this.snackbarHandler.showBulkActivityLogRecordsRemovedSnackbar();
         } catch {
           this.snackbarHandler.showGeneralErrorSnackbar();
-        } finally {
-          this.isBulkRecordsRemovingInProgress$.next(false);
         }
       }
     );

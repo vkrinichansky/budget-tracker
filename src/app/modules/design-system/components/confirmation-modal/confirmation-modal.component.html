@@ -52,6 +52,7 @@
     [colorScheme]="'charcoal'"
     [text]="buildTranslationKey('yesButton') | translate"
     [buttonSizeX]="'px100'"
+    [loading]="loading$ | async"
     (click)="resolveAction()"
   >
   </app-button>

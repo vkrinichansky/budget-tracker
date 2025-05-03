@@ -27,9 +27,6 @@ export class GenericActivityLogRecordComponent {
   date: number;
 
   @Input()
-  loading: boolean;
-
-  @Input()
   removeEnabled: boolean;
 
   @Output()

@@ -1,18 +1,12 @@
 @let isEmpty = isEmpty$ | async;
-@let isBulkRecordsRemovingInProgress = isBulkRecordsRemovingInProgress$ | async;
 
-<app-page-header
-  class="text-xl bg-transparent"
-  [title]="'dashboard.activityLog.title' | translate"
-  [loading]="isBulkRecordsRemovingInProgress"
->
+<app-page-header class="text-xl bg-transparent" [title]="'dashboard.activityLog.title' | translate">
   @if (!isEmpty) {
     <app-button
       customTooltip
       [tooltipText]="'dashboard.activityLog.removeButtonTooltip' | translate"
       [position]="['left']"
       [iconName]="'delete-bin'"
-      [disabled]="isBulkRecordsRemovingInProgress"
       (click)="openRemoveConfirmationModal()"
     ></app-button>
   }
@@ -23,7 +17,6 @@
   [ngClass]="{
     'justify-center': isEmpty,
     'items-center': isEmpty,
-    'pointer-events-none': isBulkRecordsRemovingInProgress,
   }"
 >
   @if (isEmpty) {

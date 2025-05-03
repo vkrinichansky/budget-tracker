@@ -3,7 +3,6 @@
   [date]="record.date"
   [note]="record?.note"
   [removeEnabled]="shouldDisplayRemoveButton$ | async"
-  [loading]="isRecordRemoving$ | async"
   (remove)="removeHandler()"
 >
   <span class="flex justify-between items-center gap-x-2">

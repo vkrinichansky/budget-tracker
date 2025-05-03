@@ -13,7 +13,7 @@ import {
 } from '@budget-tracker/design-system';
 import { CategoryModalsService } from '../../services';
 import { AccountsFacadeService, CategoriesFacadeService } from '../../../../services';
-import { BehaviorSubject, Observable, firstValueFrom, map } from 'rxjs';
+import { Observable, firstValueFrom, map } from 'rxjs';
 import { Category } from '@budget-tracker/models';
 import { ActionListenerService } from '@budget-tracker/utils';
 import { CategoriesActions } from '../../../../store';
@@ -26,8 +26,6 @@ import { CategoriesActions } from '../../../../store';
   standalone: false,
 })
 export class CategoryItemComponent implements OnInit {
-  readonly loading$ = new BehaviorSubject<boolean>(false);
-
   @Input({ required: true })
   category: Category;
 
@@ -37,11 +35,6 @@ export class CategoryItemComponent implements OnInit {
   @HostBinding('class.is-system-category')
   private get isSystemCategory(): boolean {
     return this.category?.isSystem;
-  }
-
-  @HostBinding('class.pointer-events-none')
-  private get isCategoryRemoving(): boolean {
-    return this.loading$.value;
   }
 
   constructor(
@@ -86,7 +79,7 @@ export class CategoryItemComponent implements OnInit {
       {
         icon: 'delete-bin',
         translationKey: this.buildTranslationKey('menu.remove'),
-        action: async () => {
+        action: () => {
           this.confirmationModalService.openConfirmationModal(
             {
               questionTranslationKey: this.buildTranslationKey('removeConfirmationQuestion'),
@@ -95,8 +88,6 @@ export class CategoryItemComponent implements OnInit {
               },
             },
             async () => {
-              this.loading$.next(true);
-
               try {
                 this.categoriesFacade.removeCategory(this.category.id);
 
@@ -110,8 +101,6 @@ export class CategoryItemComponent implements OnInit {
                 this.snackbarHandler.showCategoryRemovedSnackbar();
               } catch {
                 this.snackbarHandler.showGeneralErrorSnackbar();
-              } finally {
-                this.loading$.next(false);
               }
             }
           );

@@ -5,7 +5,7 @@ import {
   SnackbarHandlerService,
 } from '@budget-tracker/design-system';
 import { predefinedCurrenciesDictionary, CurrenciesEnum } from '@budget-tracker/models';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { CurrencyFacadeService, MetadataFacadeService } from '../../services';
 import { ActionListenerService } from '@budget-tracker/utils';
 import { MetadataActions } from '../../store';
@@ -21,7 +21,6 @@ export class CurrencySwitcherComponent implements OnInit {
   currentCurrencyText$: Observable<string>;
   icon$: Observable<string>;
   menuActions: MenuAction[];
-  loading$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private readonly currencyFacade: CurrencyFacadeService,
@@ -57,8 +56,6 @@ export class CurrencySwitcherComponent implements OnInit {
             remarkTranslationKey: 'currencySwitcher.removeConfirmationRemark',
           },
           async () => {
-            this.loading$.next(true);
-
             try {
               this.metadataFacade.changeCurrency(key as CurrenciesEnum);
 
@@ -70,8 +67,6 @@ export class CurrencySwitcherComponent implements OnInit {
               location.reload();
             } catch {
               this.snackbarHandler.showGeneralErrorSnackbar();
-            } finally {
-              this.loading$.next(false);
             }
           }
         ),

@@ -27,7 +27,6 @@ type TabType = 'list' | 'chart';
 })
 export class CategoriesComponent implements OnInit {
   readonly currentTab$ = new BehaviorSubject<TabType>('list');
-  readonly loading$ = new BehaviorSubject<boolean>(false);
 
   @Input()
   budgetType: BudgetType;
@@ -108,20 +107,17 @@ export class CategoriesComponent implements OnInit {
               questionTranslationKey: `dashboard.categories.${this.budgetType}.resetConfirmationQuestion`,
             },
             async () => {
-              this.loading$.next(true);
-
               try {
                 this.categoriesFacade.resetCategoriesByType(this.budgetType);
-                this.snackbarHandler.showCategoriesResetSnackbar(this.budgetType);
 
                 await this.actionListener.waitForResult(
                   CategoriesActions.categoriesReset,
                   CategoriesActions.resetCategoriesFail
                 );
+
+                this.snackbarHandler.showCategoriesResetSnackbar(this.budgetType);
               } catch {
                 this.snackbarHandler.showGeneralErrorSnackbar();
-              } finally {
-                this.loading$.next(false);
               }
             }
           ),
