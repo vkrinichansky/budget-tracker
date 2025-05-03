@@ -139,9 +139,16 @@
 
   "statistics": {
     "pageTitle": "Statistics",
-
     "monthlyStatistics": {
       "conversionTooltip": "All snapshots are converted to current currency"
+    },
+    "snapshots": {
+      "title": "Snapshots",
+      "income": "Income",
+      "expense": "Expense",
+      "monthBalance": "Month balance",
+      "fullBalance": "Full balance",
+      "categories": "Categories:<br>Income - {{ incomeCategories }}<br>Expense - {{ expenseCategories }}"
     }
   },
 

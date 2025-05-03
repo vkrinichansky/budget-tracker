@@ -144,7 +144,12 @@
       "conversionTooltip": "Всі снапшоти конвертовані в поточну валюту"
     },
     "snapshots": {
-      "title": "Снапшоти"
+      "title": "Снапшоти",
+      "income": "Дохід",
+      "expense": "Витрати",
+      "monthBalance": "Баланс за місяць",
+      "fullBalance": "Повний баланс",
+      "categories": "Категорії:<br>Дохід - {{incomeCategories}}<br>Витрати - {{expenseCategories}}"
     }
   },
 

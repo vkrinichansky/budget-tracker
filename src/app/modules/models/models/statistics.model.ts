@@ -7,6 +7,6 @@ export interface StatisticsSnapshot {
   income: number;
   expense: number;
   monthBalance: number;
-  totalBalance: number;
+  fullBalance: number;
   currency: CurrenciesEnum;
 }

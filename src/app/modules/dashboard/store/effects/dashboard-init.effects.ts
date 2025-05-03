@@ -57,17 +57,17 @@ export class DashboardInitEffects {
             )
           ),
         ]).pipe(
-          map(([income, expense, monthBalance, totalBalance]) => ({
+          map(([income, expense, monthBalance, fullBalance]) => ({
             action,
             income,
             expense,
             monthBalance,
-            totalBalance,
+            fullBalance,
           })),
           take(1)
         )
       ),
-      switchMap(({ action, income, expense, monthBalance, totalBalance }) => {
+      switchMap(({ action, income, expense, monthBalance, fullBalance }) => {
         const date = getPreviousMonthTime().toString();
         const statisticsSnapshot: StatisticsSnapshot = {
           date,
@@ -75,7 +75,7 @@ export class DashboardInitEffects {
           income,
           expense,
           monthBalance,
-          totalBalance,
+          fullBalance,
           currency: this.currencyFacade.getCurrentCurrency(),
         };
 

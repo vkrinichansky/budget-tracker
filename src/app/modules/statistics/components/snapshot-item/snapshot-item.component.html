@@ -14,3 +14,37 @@
     </span>
   </div>
 </div>
+
+<div class="metric-grid">
+  @for (metric of metrics; track $index) {
+    <span
+      class="flex items-center font-main text-base font-bold gap-x-1.5 {{ metric.colorClass }}"
+      [ngClass]="{
+        'justify-end': $index % 2 === 1,
+      }"
+    >
+      <svg-icon [iconName]="metric.icon" [iconSize]="'small'"></svg-icon>
+
+      <span>
+        @if ($index === 4) {
+          {{ metric.value | numberSpace: metric.displaySign }}
+        } @else {
+          {{
+            metric.value | numberSpace: metric.displaySign | currencySymbol: this.snapshot.currency
+          }}
+        }
+      </span>
+
+      <app-info-icon
+        [tooltip]="tooltip"
+        [tooltipPosition]="$index % 2 === 1 ? 'left' : 'right'"
+      ></app-info-icon>
+
+      <ng-template #tooltip>
+        <span [innerHTML]="metric.tooltip | translate: metric.translateParams"></span>
+      </ng-template>
+    </span>
+  }
+</div>
+
+<div class="w-full h-px bg-hover-black"></div>
