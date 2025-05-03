@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
+import { ClassToHexColorPipe, ProgressBarSection } from '@budget-tracker/design-system';
 import {
   BudgetType,
   predefinedCurrenciesDictionary,
   StatisticsSnapshot,
 } from '@budget-tracker/models';
+import { TranslateService } from '@ngx-translate/core';
 
 interface FinancialMetric {
   icon: string;
@@ -31,6 +33,7 @@ export class SnapshotItemComponent implements OnInit {
   metrics: FinancialMetric[];
   incomeCategories: number;
   expenseCategories: number;
+  progressBarSections: ProgressBarSection[];
 
   get currencyIcon(): string {
     return predefinedCurrenciesDictionary[this.snapshot.currency].icon;
@@ -39,6 +42,11 @@ export class SnapshotItemComponent implements OnInit {
   get currencyText(): string {
     return `${predefinedCurrenciesDictionary[this.snapshot.currency].code} (${predefinedCurrenciesDictionary[this.snapshot.currency].symbol})`;
   }
+
+  constructor(
+    private readonly classToHexPipe: ClassToHexColorPipe,
+    private readonly translateService: TranslateService
+  ) {}
 
   ngOnInit(): void {
     this.incomeCategories = this.snapshot.categories.filter(
@@ -49,6 +57,28 @@ export class SnapshotItemComponent implements OnInit {
     ).length;
 
     this.metrics = this.getMetrics();
+    this.progressBarSections = this.getProgressBarSections();
+  }
+
+  private getProgressBarSections(): ProgressBarSection[] {
+    const total = this.snapshot.income + this.snapshot.expense;
+
+    return [
+      {
+        percent: (this.snapshot.income * 100) / total,
+        color: this.classToHexPipe.transform('bg-dark-green'),
+        tooltip: this.translateService.instant('statistics.snapshots.incomePercent', {
+          percent: Math.round((this.snapshot.income * 100) / total),
+        }),
+      },
+      {
+        percent: (this.snapshot.expense * 100) / total,
+        color: this.classToHexPipe.transform('bg-dark-red'),
+        tooltip: this.translateService.instant('statistics.snapshots.incomePercent', {
+          percent: Math.round((this.snapshot.expense * 100) / total),
+        }),
+      },
+    ];
   }
 
   private getMetrics(): FinancialMetric[] {

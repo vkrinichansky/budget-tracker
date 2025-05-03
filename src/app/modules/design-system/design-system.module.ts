@@ -23,6 +23,7 @@ import {
   ButtonToggleComponent,
   CheckboxComponent,
   SnackbarComponent,
+  ProgressBarComponent,
 } from './components';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
@@ -78,6 +79,7 @@ import { ClassToHexColorPipe, NumberSpacePipe } from './pipes';
     PreventInvalidCharsDirective,
     ClassToHexColorPipe,
     NumberSpacePipe,
+    ProgressBarComponent,
   ],
   exports: [
     SvgIconComponent,
@@ -102,6 +104,7 @@ import { ClassToHexColorPipe, NumberSpacePipe } from './pipes';
     CheckboxComponent,
     ClassToHexColorPipe,
     NumberSpacePipe,
+    ProgressBarComponent,
   ],
   providers: [
     ConfirmationModalService,
