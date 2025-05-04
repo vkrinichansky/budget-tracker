@@ -12,7 +12,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class SnapshotsListComponent implements OnInit {
   snapshots: StatisticsSnapshot[];
 
-  @HostBinding('class.hidden')
+  @HostBinding('class.hide')
   private get shouldHide(): boolean {
     return !this.snapshots?.length;
   }
