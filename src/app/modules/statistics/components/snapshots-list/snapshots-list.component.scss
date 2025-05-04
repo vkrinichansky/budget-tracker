@@ -1,3 +1,7 @@
 :host {
   @apply flex flex-col gap-y-4;
+
+  &.hide {
+    @apply hidden;
+  }
 }
