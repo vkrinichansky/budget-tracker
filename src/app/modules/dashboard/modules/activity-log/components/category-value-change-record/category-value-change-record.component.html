@@ -2,13 +2,13 @@
   [icon]="record.icon"
   [date]="record.date"
   [note]="record?.note"
-  [loading]="isRecordRemoving$ | async"
+  [removeEnabled]="shouldDisplayRemoveButton$ | async"
   (remove)="removeHandler()"
 >
   <span class="flex justify-between items-center gap-x-2">
     <div class="flex flex-col overflow-hidden">
       <span class="font-main text-charcoal text-base">
-        {{ record.category.name }}
+        {{ record.category.name | translate }}
       </span>
 
       <span class="block truncate flex-1 font-main font-bold text-blue text-xs">
@@ -17,15 +17,19 @@
     </div>
 
     <span class="flex flex-col items-end font-main font-bold w-auto min-w-fit {{ colorClass }}">
-      @if (isDoubleValue) {
-        <span>{{ symbol }}{{ record.value }}{{ record.account.currency.symbol }}</span>
+      @if (isSingleValue) {
+        <span>
+          {{ symbol }}{{ record.value | numberSpace }}
+          {{ record.account.currency.symbol }}
+        </span>
       } @else {
         <span class="text-base font-normal">
-          {{ symbol }}{{ record.convertedValue | currencySymbol }}
+          {{ symbol }}{{ record.convertedValue | numberSpace | currencySymbol: record.currency }}
         </span>
 
         <span class="text-xs font-bold">
-          {{ symbol }}{{ record.value }}&nbsp;{{ record.account.currency.symbol }}
+          {{ symbol }}{{ record.value | numberSpace }}
+          {{ record.account.currency.symbol }}
         </span>
       }
     </span>

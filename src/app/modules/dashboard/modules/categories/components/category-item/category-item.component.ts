@@ -1,50 +1,54 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  DestroyRef,
   HostBinding,
   HostListener,
   Input,
   OnInit,
 } from '@angular/core';
-import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
+import {
+  ConfirmationModalService,
+  MenuAction,
+  SnackbarHandlerService,
+} from '@budget-tracker/design-system';
 import { CategoryModalsService } from '../../services';
-import { AccountsFacadeService, CategoriesFacadeService, Category } from '@budget-tracker/data';
+import { AccountsFacadeService, CategoriesFacadeService } from '../../../../services';
 import { Observable, firstValueFrom, map } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Category } from '@budget-tracker/models';
+import { ActionListenerService } from '@budget-tracker/utils';
+import { CategoriesActions } from '../../../../store';
 
 @Component({
   selector: 'app-category-item',
   templateUrl: './category-item.component.html',
   styleUrls: ['./category-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CategoryItemComponent implements OnInit {
-  @Input()
-  categoryId: string;
+  @Input({ required: true })
+  category: Category;
 
-  category$: Observable<Category>;
   shouldDisableAddValueAction$: Observable<boolean>;
-
   menuActions: MenuAction[];
 
-  @HostBinding('class.pointer-events-none')
-  isCategoryRemoving: boolean;
+  @HostBinding('class.is-system-category')
+  private get isSystemCategory(): boolean {
+    return this.category?.isSystem;
+  }
 
   constructor(
-    private categoriesFacade: CategoriesFacadeService,
-    private confirmationModalService: ConfirmationModalService,
-    private categoryModalsService: CategoryModalsService,
-    private destroyRef: DestroyRef,
-    private cd: ChangeDetectorRef,
-    private accountsFacade: AccountsFacadeService
+    private readonly categoriesFacade: CategoriesFacadeService,
+    private readonly confirmationModalService: ConfirmationModalService,
+    private readonly categoryModalsService: CategoryModalsService,
+    private readonly accountsFacade: AccountsFacadeService,
+    private readonly actionListener: ActionListenerService,
+    private readonly snackbarHandler: SnackbarHandlerService
   ) {}
 
   ngOnInit(): void {
     this.initListeners();
     this.menuActions = this.initMenuActions();
-    this.initIsCategoryRemoving();
   }
 
   buildTranslationKey(key: string): string {
@@ -52,26 +56,15 @@ export class CategoryItemComponent implements OnInit {
   }
 
   private initListeners(): void {
-    this.category$ = this.categoriesFacade.getCategoryById(this.categoryId);
     this.shouldDisableAddValueAction$ = this.accountsFacade
       .getAccountsExist()
       .pipe(map((accountsExist) => !accountsExist));
   }
 
-  private initIsCategoryRemoving(): void {
-    this.categoriesFacade
-      .isCategoryRemoving(this.categoryId)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((isCategoryRemoving) => {
-        this.isCategoryRemoving = isCategoryRemoving;
-        this.cd.detectChanges();
-      });
-  }
-
   @HostListener('click')
   private async openCategoryValueModal(): Promise<void> {
     if (!(await firstValueFrom(this.shouldDisableAddValueAction$))) {
-      this.categoryModalsService.openCategoryValueModal(this.categoryId);
+      this.categoryModalsService.openCategoryValueModal(this.category.id);
     }
   }
 
@@ -86,18 +79,30 @@ export class CategoryItemComponent implements OnInit {
       {
         icon: 'delete-bin',
         translationKey: this.buildTranslationKey('menu.remove'),
-        action: async () => {
-          const category = await firstValueFrom(this.category$);
-
+        action: () => {
           this.confirmationModalService.openConfirmationModal(
             {
               questionTranslationKey: this.buildTranslationKey('removeConfirmationQuestion'),
               questionTranslationParams: {
-                categoryName: category.name,
+                categoryName: this.category.name,
               },
-              remarkTranslationKey: this.buildTranslationKey('removeConfirmationRemark'),
             },
-            () => this.categoriesFacade.removeCategory(this.categoryId)
+            async () => {
+              try {
+                this.categoriesFacade.removeCategory(this.category.id);
+
+                await this.actionListener.waitForResult(
+                  CategoriesActions.categoryRemoved,
+                  CategoriesActions.removeCategoryFail,
+                  (action) => action.categoryId === this.category.id,
+                  (action) => action.categoryId === this.category.id
+                );
+
+                this.snackbarHandler.showCategoryRemovedSnackbar();
+              } catch {
+                this.snackbarHandler.showGeneralErrorSnackbar();
+              }
+            }
           );
         },
       },

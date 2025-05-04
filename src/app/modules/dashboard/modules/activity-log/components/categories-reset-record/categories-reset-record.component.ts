@@ -1,29 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { ActivityLogFacadeService, CategoriesResetRecord } from '@budget-tracker/data';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { CategoriesResetRecord } from '@budget-tracker/models';
 
 @Component({
   selector: 'app-categories-reset-record',
   templateUrl: './categories-reset-record.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class CategoriesResetRecordComponent implements OnInit {
+export class CategoriesResetRecordComponent {
   @Input()
   record: CategoriesResetRecord;
-
-  isRecordRemoving$: Observable<boolean>;
-
-  constructor(private activityLogFacade: ActivityLogFacadeService) {}
-
-  ngOnInit(): void {
-    this.isRecordRemoving$ = this.activityLogFacade.isActivityLogRecordRemoving(this.record.id);
-  }
-
-  buildTranslationKey(key: string): string {
-    return `dashboard.activityLog.categoriesResetRecord.${key}`;
-  }
-
-  removeRecord(): void {
-    this.activityLogFacade.removeActivityLogRecord(this.record.id);
-  }
 }

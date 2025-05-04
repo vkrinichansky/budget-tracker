@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CustomTooltipComponent } from './custom-tooltip.component';
 
 describe('CustomTooltipComponent', () => {
@@ -8,7 +7,7 @@ describe('CustomTooltipComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CustomTooltipComponent]
+      declarations: [CustomTooltipComponent],
     });
     fixture = TestBed.createComponent(CustomTooltipComponent);
     component = fixture.componentInstance;

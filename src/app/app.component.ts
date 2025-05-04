@@ -1,28 +1,29 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AuthFacadeService } from '@budget-tracker/auth';
-import { DataInitFacadeService } from '@budget-tracker/data';
-import { delay } from '@budget-tracker/utils';
-import { Observable, tap } from 'rxjs';
+import { MetadataFacadeService } from '@budget-tracker/metadata';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AppComponent implements OnInit {
-  isLoading$: Observable<boolean>;
-  isLoaded$: Observable<boolean>;
+  loading$: Observable<boolean>;
   isLoggedIn$: Observable<boolean>;
 
   constructor(
-    private dataInitFacade: DataInitFacadeService,
-    private authFacade: AuthFacadeService
+    private readonly metadataFacade: MetadataFacadeService,
+    private readonly authFacade: AuthFacadeService
   ) {}
 
   ngOnInit(): void {
-    this.isLoading$ = this.dataInitFacade.isDataLoading();
-    this.isLoaded$ = this.dataInitFacade.isDataLoaded();
+    this.authFacade.initAuthState();
+    this.metadataFacade.initMetadata();
+
+    this.loading$ = this.metadataFacade.isMetadataLoaded().pipe(map((isLoaded) => !isLoaded));
     this.isLoggedIn$ = this.authFacade.isLoggedIn();
   }
 }

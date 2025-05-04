@@ -15,10 +15,7 @@
       "income": "Income",
       "expense": "Expense",
       "currentMonthBalance": "Current month balance",
-      "fullBalance": {
-        "title": "Full balance",
-        "tooltip": "Full balance is the sum of all your accounts"
-      },
+      "fullBalance": "Full balance",
       "accounts": {
         "title": "Accounts",
         "titleWithAmount": "Accounts ({{ accountsAmount }})",
@@ -70,51 +67,18 @@
 
     "activityLog": {
       "title": "Activity log",
-
-      "accountManagementRecord": {
-        "accountAdded": "<b>{{ accountName }}</b> account was added",
-        "accountRemoved": "<b>{{ accountName }}</b> account was removed"
-      },
-
-      "categoryManagementRecord": {
-        "categoryAdded": {
-          "budgetType": {
-            "income": "<b>{{ categoryName }}</b> was added to <b>income</b>",
-            "expense": "<b>{{ categoryName }}</b> was added to <b>expense<b>"
-          }
-        },
-        "categoryRemoved": {
-          "budgetType": {
-            "income": "<b>{{ categoryName }}</b> was removed from <b>income</b>",
-            "expense": "<b>{{ categoryName }}</b> was removed from <b>expense<b>"
-          }
-        }
-      },
-
       "categoriesResetRecord": {
         "income": "<b>Income</b> categories were reset",
         "expense": "<b>Expense</b> categories were reset"
       },
-
       "categoryValueChangeRecord": {
         "removeConfirmationQuestion": "Are you sure you want to remove this record?",
         "removeConfirmationRemark": "This action will revert changes made by this record and will affect <span class='font-bold'>{{ accountName }}</span> account and <span class='font-bold'>{{ categoryName }}</span> category"
       },
-
+      "currencyChangeRecord": "Currency was changed",
       "emptyStateText": "No data to display yet",
-      "removeMenuDisabledTooltip": "You can do bulk records remove only if you have previous months records. For current month records you can use remove button on specific record",
-
-      "removeMenu": {
-        "allTypes": "All types",
-        "categoryManagement": "Category management",
-        "categoriesReset": "Categories reset",
-        "categoryValueChange": "Category value change",
-        "accountManagement": "Account management",
-        "accountValueEdit": "Account value edit",
-        "moveMoneyBetweenAccounts": "Move money between accounts",
-        "removeConfirmationQuestion": "Are you sure you want to remove records of selected types?",
-        "removeConfirmationRemark": "This action won't affect current month records"
-      }
+      "removeButtonTooltip": "Remove all records",
+      "allRecordsRemoveConfirmationQuestion": "Are you sure you want to remove all records?"
     },
 
     "categories": {
@@ -142,8 +106,7 @@
           "resetValue": "Reset value",
           "remove": "Remove"
         },
-        "removeConfirmationQuestion": "Do you want to remove <b>{{ categoryName }}</b> category?",
-        "removeConfirmationRemark": "This action will remove related records from activity log as well"
+        "removeConfirmationQuestion": "Do you want to remove <b>{{ categoryName }}</b> category?"
       }
     },
 
@@ -176,17 +139,18 @@
 
   "statistics": {
     "pageTitle": "Statistics",
-
     "monthlyStatistics": {
-      "title": "Monthly",
-      "chartActions": {
-        "zoomIn": "Zoom in",
-        "zoomOut": "Zoom out",
-        "scrollLeft": "Scroll left",
-        "scrollRight": "Scroll right",
-        "resetZoom": "Reset zoom"
-      },
-      "total": "Total:"
+      "conversionTooltip": "All snapshots are converted to current currency"
+    },
+    "snapshots": {
+      "title": "Snapshots",
+      "income": "Income",
+      "expense": "Expense",
+      "monthBalance": "Month balance",
+      "fullBalance": "Full balance",
+      "categories": "Categories:<br>Income - {{ incomeCategories }}<br>Expense - {{ expenseCategories }}",
+      "incomePercent": "Income - {{ percent }}%",
+      "expensePercent": "Expense - {{ percent }}%"
     }
   },
 
@@ -199,7 +163,7 @@
     "categoryAddedSnackbar": "Category was added successfully!",
     "categoryRemovedSnackbar": "Category was removed successfully!",
     "activityLogRecordRemoved": "Activity log record was removed successfully!",
-    "bulkActivityLogRecordsRemoved": "Activity log records with selected types were removed successfully!",
+    "bulkActivityLogRecordsRemoved": "Activity log records were removed successfully!",
     "categoryValueChangedSnackbar": "Category value was changed successfully!",
     "categoriesResetSnackbar": {
       "income": "Income categories were reset successfully!",
@@ -240,7 +204,7 @@
   "currencySwitcher": {
     "tooltip": "Currency",
     "removeConfirmationQuestion": "Are you sure you want to switch the currency?",
-    "removeConfirmationRemark": "This action also will reset categories values and remove activity log records to prevent inconsistency"
+    "removeConfirmationRemark": "This action also will convert categories values to new currency"
   },
 
   "currencies": {
@@ -249,8 +213,7 @@
     "eur": "Euro (€)"
   },
 
-  "lostConnectionMessage": {
-    "message": "It seems like you are offline. Please, check your internet connection.",
-    "button": "Reload"
+  "predefinedCategories": {
+    "adjustments": "Adjustments"
   }
 }

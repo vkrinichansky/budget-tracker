@@ -6,6 +6,7 @@ import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
   selector: 'app-snackbar',
   templateUrl: './snackbar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SnackbarComponent {
   @HostBinding('class')

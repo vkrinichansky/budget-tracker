@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppRoutes } from '../../models';
+import { AppRoutes } from '@budget-tracker/models';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class NavigatorService {
-  constructor(private router: Router) {}
+  private readonly router = inject(Router);
 
   navigateToAuthPage(): void {
     this.router.navigate([AppRoutes.Auth]);

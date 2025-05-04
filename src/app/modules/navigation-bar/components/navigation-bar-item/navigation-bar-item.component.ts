@@ -5,6 +5,7 @@ import { NavigationBarItem } from '../../models';
   selector: 'app-navigation-bar-item',
   templateUrl: './navigation-bar-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NavigationBarItemComponent {
   @Input()

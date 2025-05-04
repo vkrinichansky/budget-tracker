@@ -19,6 +19,7 @@ import { GenericCustomControlComponent } from '../generic-custom-control/generic
       multi: true,
     },
   ],
+  standalone: false,
 })
 export class CustomInputComponent extends GenericCustomControlComponent {
   @HostBinding('class')

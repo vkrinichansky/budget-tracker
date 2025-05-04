@@ -19,6 +19,7 @@
         "plugin:prettier/recommended"
       ],
       "rules": {
+        "@angular-eslint/prefer-standalone": "off",
         "@angular-eslint/directive-selector": [
           "error",
           {

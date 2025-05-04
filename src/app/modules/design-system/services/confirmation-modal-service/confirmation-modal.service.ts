@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalData, ConfirmationModalTranslationData } from '../../models';
 import { ConfirmationModalComponent } from '../../components';
-import { isMobileWidth } from '@budget-tracker/utils';
+import { isMobileWidth } from '../../helpers';
 
 @Injectable()
 export class ConfirmationModalService {

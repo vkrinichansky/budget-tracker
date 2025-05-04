@@ -1,20 +1,18 @@
-<div
-  *ngVar="{
-    isEmpty: isEmpty$ | async,
-    currentTab: currentTab$ | async,
-    areAllCategoriesReset: areAllCategoriesReset$ | async
-  } as data"
-  class="flex flex-col gap-y-4 w-full h-full justify-between"
->
+@let isEmpty = isEmpty$ | async;
+@let currentTab = currentTab$ | async;
+@let areAllCategoriesReset = areAllCategoriesReset$ | async;
+@let chartOptions = chartOptions$ | async;
+
+<div class="flex flex-col gap-y-4 w-full h-full justify-between">
   <app-page-header class="text-xl bg-transparent" [title]="title | translate">
     <div class="flex items-center gap-x-2">
       <button-toggle>
         <app-button
           [activeColorScheme]="'charcoal'"
-          [text]="buildTranslationKey('tabs.list') | translate"
+          [text]="'dashboard.categories.tabs.list' | translate"
           [buttonSizeX]="'auto'"
           [buttonSizeY]="'full'"
-          [active]="data.currentTab === 'list'"
+          [active]="currentTab === 'list'"
           [shouldDisplayMobileClickEffect]="false"
           [rounded]="false"
           (click)="setTab('list')"
@@ -22,11 +20,11 @@
 
         <app-button
           [activeColorScheme]="'charcoal'"
-          [text]="buildTranslationKey('tabs.chart') | translate"
+          [text]="'dashboard.categories.tabs.chart' | translate"
           [buttonSizeX]="'auto'"
           [buttonSizeY]="'full'"
-          [disabled]="data.areAllCategoriesReset"
-          [active]="data.currentTab === 'chart'"
+          [disabled]="areAllCategoriesReset"
+          [active]="currentTab === 'chart'"
           [shouldDisplayMobileClickEffect]="false"
           [rounded]="false"
           (click)="setTab('chart')"
@@ -37,40 +35,45 @@
     </div>
   </app-page-header>
 
-  @if (data.isEmpty) {
+  @if (isEmpty) {
     <span
       class="font-main font-bold text-charcoal text-lg text-center flex flex-1 flex-col justify-center items-center"
     >
-      {{ buildTranslationKey('emptyStateText') | translate }}
+      {{ 'dashboard.categories.emptyStateText' | translate }}
     </span>
   }
 
-  @if (!data.isEmpty) {
-    @switch (data.currentTab) {
+  @if (!isEmpty) {
+    @switch (currentTab) {
       @case ('list') {
-        <cdk-virtual-scroll-viewport itemSize="60" class="h-full">
+        <cdk-virtual-scroll-viewport itemSize="76" class="h-full">
           <div
             *cdkVirtualFor="
               let category of categories$ | async;
               trackBy: trackBy.bind(this);
               templateCacheSize: 0
             "
-            class="h-15 flex items-center"
+            class="h-19 flex items-center"
           >
-            <app-category-item class="w-full" [categoryId]="category.id"></app-category-item>
+            <app-category-item class="w-full" [category]="category"></app-category-item>
           </div>
         </cdk-virtual-scroll-viewport>
       }
       @case ('chart') {
         <div class="w-full h-full flex flex-1 items-center justify-center overflow-hidden">
-          <canvas
-            baseChart
-            class="h-full"
-            [type]="'doughnut'"
-            [data]="chartData$ | async"
-            [options]="chartOptions"
-          >
-          </canvas>
+          <apx-chart
+            class="w-full"
+            [series]="chartOptions.series"
+            [chart]="chartOptions.chart"
+            [labels]="chartOptions.labels"
+            [colors]="chartOptions.colors"
+            [dataLabels]="chartOptions.dataLabels"
+            [legend]="chartOptions.legend"
+            [plotOptions]="chartOptions.plotOptions"
+            [stroke]="chartOptions.stroke"
+            [states]="chartOptions.states"
+            [tooltip]="chartOptions.tooltip"
+          ></apx-chart>
         </div>
       }
     }

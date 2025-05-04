@@ -14,6 +14,15 @@ import { setPersistence, browserLocalPersistence } from '@firebase/auth';
 import { map, Observable } from 'rxjs';
 import { collection, doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { getMonthAndYearString } from '@budget-tracker/utils';
+import {
+  CurrenciesEnum,
+  Dashboard,
+  expenseAdjustmentCategory,
+  incomeAdjustmentCategory,
+  LanguagesEnum,
+  Snapshots,
+  UserMetadata,
+} from '@budget-tracker/models';
 
 @Injectable()
 export class AuthService {
@@ -44,25 +53,27 @@ export class AuthService {
   }
 
   async setUserData(userId: string): Promise<void> {
-    const userData: unknown = {
-      budget: {
-        categories: {},
-        accounts: {},
-        activityLog: [],
+    const metadata: UserMetadata = {
+      currency: CurrenciesEnum.USD,
+      language: LanguagesEnum.English,
+    };
+
+    const dashboard: Dashboard = {
+      accounts: {},
+      categories: {
+        [incomeAdjustmentCategory.id]: incomeAdjustmentCategory,
+        [expenseAdjustmentCategory.id]: expenseAdjustmentCategory,
       },
-      statistics: {
-        snapshots: {},
-      },
+      activityLog: [],
       resetDate: getMonthAndYearString(),
-      shouldDoReset: true,
     };
 
-    const userMetadata: unknown = {
-      currency: 'usd',
-      language: 'en-US',
+    const snapshots: Snapshots = {
+      snapshots: {},
     };
 
-    await setDoc(doc(collection(this.firestore, `userData`), userId), userData);
-    await setDoc(doc(collection(this.firestore, `userMetadata`), userId), userMetadata);
+    await setDoc(doc(collection(this.firestore, 'metadata'), userId), metadata);
+    await setDoc(doc(collection(this.firestore, 'dashboard'), userId), dashboard);
+    await setDoc(doc(collection(this.firestore, 'snapshots'), userId), snapshots);
   }
 }

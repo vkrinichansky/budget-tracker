@@ -16,8 +16,8 @@ import {
 import { CustomTooltipComponent } from '../../components';
 import { BgColorScheme, TooltipPosition } from '../../models';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { isMobileWidth } from '@budget-tracker/utils';
-import { firstValueFrom, map } from 'rxjs';
+import { filter, firstValueFrom, map } from 'rxjs';
+import { isMobileWidth } from '../../helpers';
 
 const positionMapping: { [key: string]: ConnectedPosition } = {
   top: {
@@ -57,6 +57,7 @@ const positionMapping: { [key: string]: ConnectedPosition } = {
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[customTooltip]',
+  standalone: false,
 })
 export class TooltipRendererDirective implements OnDestroy {
   private _overlayRef: OverlayRef;
@@ -176,9 +177,12 @@ export class TooltipRendererDirective implements OnDestroy {
         tooltipRef.instance.maxWidth = this.maxWidth;
         tooltipRef.instance.position = await firstValueFrom(
           positionStrategy.positionChanges.pipe(
-            map((changes) => changes.connectionPair.panelClass as TooltipPosition)
+            map((changes) => changes.connectionPair.panelClass as TooltipPosition),
+            filter(Boolean)
           )
         );
+
+        tooltipRef.changeDetectorRef.detectChanges?.();
       }
     }
   }

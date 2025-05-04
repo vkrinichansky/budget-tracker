@@ -5,10 +5,20 @@ $hover-map:
 
 @mixin use-current-color() {
   &.use-current-color {
+    $disabled-color: color-mix(in srgb, currentcolor 50%, transparent);
+
     color: currentcolor;
 
     svg-icon {
       color: currentcolor;
+    }
+
+    &.disabled {
+      color: $disabled-color;
+
+      svg-icon {
+        color: $disabled-color;
+      }
     }
 
     @each $class, $value in $hover-map {

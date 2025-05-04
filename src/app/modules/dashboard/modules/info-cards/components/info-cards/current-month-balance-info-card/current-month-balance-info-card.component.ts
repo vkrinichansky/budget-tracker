@@ -1,16 +1,22 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { CategoriesFacadeService } from '@budget-tracker/data';
+import { CategoriesFacadeService } from '../../../../../services';
 import { map, Observable } from 'rxjs';
+
+interface ColorClasses {
+  bg: string;
+  text: string;
+}
 
 @Component({
   selector: 'app-current-month-balance-info-card',
   templateUrl: './current-month-balance-info-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CurrentMonthBalanceInfoCardComponent implements OnInit {
   currentMonthBalance$: Observable<number>;
 
-  colorClasses$: Observable<Record<string, string>>;
+  colorClasses$: Observable<ColorClasses>;
 
   constructor(private categoriesFacade: CategoriesFacadeService) {}
 
@@ -33,12 +39,12 @@ export class CurrentMonthBalanceInfoCardComponent implements OnInit {
         if (balance > 0) {
           return {
             text: 'text-white',
-            bg: 'bg-green',
+            bg: 'bg-dark-green',
           };
         } else {
           return {
             text: 'text-white',
-            bg: 'bg-red',
+            bg: 'bg-dark-red',
           };
         }
       })

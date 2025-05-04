@@ -14,11 +14,12 @@
   </div>
 </div>
 
-<app-button
-  [iconName]="'close'"
-  [colorScheme]="'transparent-dark'"
-  [buttonSizeY]="'tiny'"
-  [buttonSizeX]="'tiny'"
-  [loading]="loading"
-  (click)="removeButtonClick()"
-></app-button>
+@if (removeEnabled) {
+  <app-button
+    [iconName]="'close'"
+    [colorScheme]="'transparent-dark'"
+    [buttonSizeY]="'tiny'"
+    [buttonSizeX]="'tiny'"
+    (click)="removeButtonClick()"
+  ></app-button>
+}

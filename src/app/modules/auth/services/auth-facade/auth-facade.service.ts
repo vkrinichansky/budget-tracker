@@ -4,7 +4,7 @@ import { filter, firstValueFrom, map } from 'rxjs';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth-service/auth.service';
 import { AuthActions, AuthSelectors } from '../../store';
-import { User } from '../../models';
+import { User } from '@budget-tracker/models';
 
 @Injectable()
 export class AuthFacadeService {
@@ -30,7 +30,10 @@ export class AuthFacadeService {
   }
 
   getUserId(): Observable<string> {
-    return this.getUserFromState().pipe(map((user) => user.uid));
+    return this.getUserFromState().pipe(
+      map((user) => user.uid),
+      filter(Boolean)
+    );
   }
 
   isLoggedIn(): Observable<boolean> {
@@ -47,9 +50,5 @@ export class AuthFacadeService {
 
   getAuthLoading(): Observable<boolean> {
     return this.store.select(AuthSelectors.authLoadingSelector);
-  }
-
-  getAuthLoaded(): Observable<boolean> {
-    return this.store.select(AuthSelectors.authLoadedSelector);
   }
 }

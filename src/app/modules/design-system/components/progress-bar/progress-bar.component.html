@@ -1,0 +1,9 @@
+@for (section of sections; track $index) {
+  <span
+    customTooltip
+    class="h-full first:rounded-l-full last:rounded-r-full hover:opacity-80"
+    [style.background-color]="section.color"
+    [style.width.%]="section.percent"
+    [tooltipText]="section.tooltip"
+  ></span>
+}

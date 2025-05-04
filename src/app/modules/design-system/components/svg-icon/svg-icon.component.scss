@@ -38,7 +38,7 @@
   &.icon-large {
     @apply w-96 max-w-full;
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
       @apply px-6;
     }
   }
