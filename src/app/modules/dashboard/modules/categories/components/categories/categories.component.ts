@@ -1,55 +1,59 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
-import { BudgetType, Category, CurrencyPipe } from '@budget-tracker/data';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
-import { ChartData, ChartOptions } from 'chart.js';
 import { CategoryModalsService } from '../../services';
 import {
-  ChartJSTooltipConfig,
   ConfirmationModalService,
-  MainPalette,
+  getPieChartConfig,
   MenuAction,
+  NumberSpacePipe,
+  PieChartOptions,
+  SnackbarHandlerService,
 } from '@budget-tracker/design-system';
-import { CategoriesFacadeService } from '@budget-tracker/data';
-import { isMobileWidth } from '@budget-tracker/utils';
+import { CategoriesFacadeService } from '../../../../services';
+import { ActionListenerService } from '@budget-tracker/utils';
+import { BudgetType, Category } from '@budget-tracker/models';
+import { CurrencyPipe } from '@budget-tracker/metadata';
+import { CategoriesActions } from '../../../../store';
+import { TranslateService } from '@ngx-translate/core';
 
 type TabType = 'list' | 'chart';
 
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
+  styleUrl: './categories.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CategoriesComponent implements OnInit {
-  @HostBinding('class')
-  private readonly classes = 'w-full h-full bg-transparent rounded-lg overflow-hidden p-5 bg-white';
-
-  readonly currentTab$: BehaviorSubject<TabType> = new BehaviorSubject<TabType>('list');
+  readonly currentTab$ = new BehaviorSubject<TabType>('list');
 
   @Input()
   budgetType: BudgetType;
 
   title: string;
-  chartOptions: ChartOptions;
   menuActions: MenuAction[];
 
   categories$: Observable<Category[]>;
   isEmpty$: Observable<boolean>;
   areAllCategoriesReset$: Observable<boolean>;
-  chartData$: Observable<ChartData>;
+  chartOptions$: Observable<PieChartOptions>;
 
   constructor(
-    private categoriesFacade: CategoriesFacadeService,
-    private categoryModalsService: CategoryModalsService,
-    private currencyPipe: CurrencyPipe,
-    private confirmationModalService: ConfirmationModalService
+    private readonly categoriesFacade: CategoriesFacadeService,
+    private readonly categoryModalsService: CategoryModalsService,
+    private readonly currencyPipe: CurrencyPipe,
+    private readonly numberSpacePipe: NumberSpacePipe,
+    private readonly confirmationModalService: ConfirmationModalService,
+    private readonly snackbarHandler: SnackbarHandlerService,
+    private readonly actionListener: ActionListenerService,
+    private readonly translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
-    this.title = this.buildTranslationKey(`${this.budgetType}.title`);
-    this.chartOptions = this.getChartOptions();
+    this.title = `dashboard.categories.${this.budgetType}.title`;
 
-    this.initDataAccordingBudgetType();
-    this.initIsEmptyListener();
+    this.initData();
     this.initChartData();
     this.initMenuActions();
   }
@@ -58,132 +62,66 @@ export class CategoriesComponent implements OnInit {
     return category.id;
   }
 
-  buildTranslationKey(key: string): string {
-    return `dashboard.categories.${key}`;
-  }
-
   setTab(value: TabType): void {
     this.currentTab$.next(value);
   }
 
-  private initDataAccordingBudgetType(): void {
-    switch (this.budgetType) {
-      case BudgetType.Income:
-        this.categories$ = this.categoriesFacade
-          .getIncomeCategories()
-          .pipe(map((categories) => categories.sort((a, b) => b.value - a.value)));
+  private initData(): void {
+    this.categories$ = this.categoriesFacade
+      .getCategoriesByType(this.budgetType)
+      .pipe(map((categories) => categories.sort((a, b) => b.value - a.value)));
 
-        this.areAllCategoriesReset$ = this.categoriesFacade.areIncomeCategoriesAllReset();
-        break;
-
-      case BudgetType.Expense:
-        this.categories$ = this.categoriesFacade
-          .getExpenseCategories()
-          .pipe(map((categories) => categories.sort((a, b) => b.value - a.value)));
-
-        this.areAllCategoriesReset$ = this.categoriesFacade.areExpenseCategoriesAllReset();
-        break;
-    }
-  }
-
-  private initIsEmptyListener(): void {
+    this.areAllCategoriesReset$ = this.categoriesFacade.areCategoriesAllReset(this.budgetType);
     this.isEmpty$ = this.categories$.pipe(map((categories) => !categories.length));
   }
 
   private initChartData(): void {
-    this.chartData$ = this.categories$.pipe(
+    this.chartOptions$ = this.categories$.pipe(
       map((categories) => [...categories].reverse()),
-      map((categories) => ({
-        labels: categories.map((category) => category.name),
-        datasets: [
-          {
-            data: categories.map((category) => category.value),
-            backgroundColor: categories.map((category) => category.hexColor),
-          },
-        ],
-      }))
+      map((categories) =>
+        getPieChartConfig(
+          categories.map((category) => category.value),
+          categories.map((category) => this.translateService.instant(category.name)),
+          categories.map((category) => category.hexColor),
+          (label, value) =>
+            `${label} - ${this.currencyPipe.transform(this.numberSpacePipe.transform(value))}`
+        )
+      )
     );
   }
 
-  private getChartOptions(): ChartOptions {
-    const config: ChartOptions = {
-      layout: {
-        autoPadding: false,
-      },
-      elements: { arc: { borderColor: MainPalette.Charcoal } },
-      plugins: {
-        tooltip: {
-          ...ChartJSTooltipConfig,
-          callbacks: {
-            label: (item) => `${item.label} - ${this.currencyPipe.transform(item.parsed)}`,
-            title: () => '',
-          },
-        },
-        legend: {
-          display: false,
-        },
-      },
-    };
-
-    if (isMobileWidth()) {
-      return {
-        ...config,
-        animation: false,
-      };
-    }
-
-    return config;
-  }
-
   private initMenuActions(): void {
-    switch (this.budgetType) {
-      case BudgetType.Income:
-        this.menuActions = [
-          {
-            icon: 'plus',
-            translationKey: 'dashboard.categories.menu.addCategory',
-            action: () => this.categoryModalsService.openAddIncomeCategoryModal(),
-          },
-          {
-            icon: 'eraser',
-            translationKey: 'dashboard.categories.menu.resetCategories',
-            disabledObs: this.categoriesFacade.areIncomeCategoriesAllReset(),
-            action: () =>
-              this.confirmationModalService.openConfirmationModal(
-                {
-                  questionTranslationKey: this.buildTranslationKey(
-                    'income.resetConfirmationQuestion'
-                  ),
-                },
-                () => this.categoriesFacade.resetCategoriesByType(BudgetType.Income)
-              ),
-          },
-        ];
-        break;
+    this.menuActions = [
+      {
+        icon: 'plus',
+        translationKey: 'dashboard.categories.menu.addCategory',
+        action: () => this.categoryModalsService.openAddCategoryModal(this.budgetType),
+      },
+      {
+        icon: 'eraser',
+        translationKey: 'dashboard.categories.menu.resetCategories',
+        disabledObs: this.categoriesFacade.areCategoriesAllReset(this.budgetType),
+        action: () =>
+          this.confirmationModalService.openConfirmationModal(
+            {
+              questionTranslationKey: `dashboard.categories.${this.budgetType}.resetConfirmationQuestion`,
+            },
+            async () => {
+              try {
+                this.categoriesFacade.resetCategoriesByType(this.budgetType);
 
-      case BudgetType.Expense:
-        this.menuActions = [
-          {
-            icon: 'plus',
-            translationKey: 'dashboard.categories.menu.addCategory',
-            action: () => this.categoryModalsService.openAddExpenseCategoryModal(),
-          },
-          {
-            icon: 'eraser',
-            translationKey: 'dashboard.categories.menu.resetCategories',
-            disabledObs: this.categoriesFacade.areExpenseCategoriesAllReset(),
-            action: () =>
-              this.confirmationModalService.openConfirmationModal(
-                {
-                  questionTranslationKey: this.buildTranslationKey(
-                    'expense.resetConfirmationQuestion'
-                  ),
-                },
-                () => this.categoriesFacade.resetCategoriesByType(BudgetType.Expense)
-              ),
-          },
-        ];
-        break;
-    }
+                await this.actionListener.waitForResult(
+                  CategoriesActions.categoriesReset,
+                  CategoriesActions.resetCategoriesFail
+                );
+
+                this.snackbarHandler.showCategoriesResetSnackbar(this.budgetType);
+              } catch {
+                this.snackbarHandler.showGeneralErrorSnackbar();
+              }
+            }
+          ),
+      },
+    ];
   }
 }

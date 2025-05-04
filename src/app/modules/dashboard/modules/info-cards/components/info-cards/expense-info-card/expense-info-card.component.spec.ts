@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ExpenseInfoCardComponent } from './expense-info-card.component';
 
 describe('ExpenseInfoCardComponent', () => {
@@ -8,9 +7,8 @@ describe('ExpenseInfoCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ExpenseInfoCardComponent ]
-    })
-    .compileComponents();
+      declarations: [ExpenseInfoCardComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ExpenseInfoCardComponent);
     component = fixture.componentInstance;

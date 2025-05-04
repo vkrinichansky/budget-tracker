@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CategoryValueModalComponent } from './category-value-modal.component';
 
 describe('CategoryValueModalComponent', () => {
@@ -8,9 +7,8 @@ describe('CategoryValueModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CategoryValueModalComponent ]
-    })
-    .compileComponents();
+      declarations: [CategoryValueModalComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CategoryValueModalComponent);
     component = fixture.componentInstance;

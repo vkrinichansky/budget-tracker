@@ -17,9 +17,8 @@ import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { GenericCustomControlComponent } from '../generic-custom-control/generic-custom-control.component';
-import { IconsForUser } from '../../../models';
+import { IconsForUser, overlayFade } from '../../../models';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -38,12 +37,8 @@ import { IconsForUser } from '../../../models';
       multi: true,
     },
   ],
-  animations: [
-    trigger('dropdown', [
-      transition(':enter', [style({ maxHeight: 0 }), animate(100, style({ maxHeight: '200px' }))]),
-      transition(':leave', [style({ maxHeight: '200px' }), animate(100, style({ maxHeight: 0 }))]),
-    ]),
-  ],
+  animations: [overlayFade],
+  standalone: false,
 })
 export class CustomSelectComponent
   extends GenericCustomControlComponent
@@ -111,12 +106,20 @@ export class CustomSelectComponent
           overlayY: 'top',
           offsetY: 2,
         },
+        {
+          originX: 'start',
+          originY: 'top', // Align to the top of the origin
+          overlayX: 'start',
+          overlayY: 'bottom', // Align the overlay to the bottom of the origin
+          offsetY: -2, // Adjust the offset to move it upward
+        },
       ]);
 
     this.overlayRef = this.overlay.create({
       positionStrategy,
       hasBackdrop: true,
       width: this.trigger.nativeElement.offsetWidth,
+      minHeight: (this.options?.length || 1) * 36 + 16,
     });
 
     this.overlayRef

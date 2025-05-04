@@ -1,11 +1,11 @@
 :host {
-  @apply grid h-full relative gap-y-6 p-6;
+  @apply grid h-full flex-1 relative p-4 gap-y-4;
 
   grid-template-rows: auto auto 1fr;
 
   .info-cards,
   .main-cards {
-    @apply flex overflow-x-scroll scroll-smooth -mx-6 px-6;
+    @apply flex overflow-x-scroll scroll-smooth -mx-4 px-4;
 
     scroll-snap-type: x mandatory;
 
@@ -14,7 +14,7 @@
     }
 
     .card:not(:last-child) {
-      @apply mr-6;
+      @apply mr-4;
     }
 
     .card {
@@ -36,11 +36,15 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     .info-cards,
     .main-cards {
       .card {
         flex: 0 0 100%;
+      }
+
+      .card:not(:last-child) {
+        @apply mr-2;
       }
     }
   }

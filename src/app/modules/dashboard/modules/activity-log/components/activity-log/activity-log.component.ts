@@ -1,11 +1,18 @@
-import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
-import { ActivityLogFacadeService } from '@budget-tracker/data';
-import { ActivityLogRecordType, ActivityLogRecordUnitedType } from '@budget-tracker/data';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActivityLogFacadeService } from '../../../../services';
+import { ConfirmationModalService, SnackbarHandlerService } from '@budget-tracker/design-system';
+import {
+  ActivityLogRecordUnitedType,
+  ActivityLogRecordType,
+  TotalValueForDateByCurrency,
+} from '@budget-tracker/models';
 import { Observable, map } from 'rxjs';
+import { ActionListenerService } from '@budget-tracker/utils';
+import { ActivityLogActions } from '../../../../store';
 
 interface DateObject {
   date: string;
-  sum: number;
+  totalValueForDate: TotalValueForDateByCurrency[];
 }
 
 type RenderingItemType = DateObject | ActivityLogRecordUnitedType;
@@ -13,34 +20,25 @@ type RenderingItemType = DateObject | ActivityLogRecordUnitedType;
 @Component({
   selector: 'app-activity-log',
   templateUrl: './activity-log.component.html',
+  styleUrl: './activity-log.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ActivityLogComponent implements OnInit {
-  @HostBinding('class')
-  private readonly classes =
-    'flex flex-col w-full h-full bg-white rounded-lg p-5 gap-y-4 overflow-hidden';
-
   readonly recordType = ActivityLogRecordType;
 
   isEmpty$: Observable<boolean>;
-
   itemsToRender$: Observable<RenderingItemType[]>;
 
-  isBulkRecordsRemovingInProgress$: Observable<boolean>;
-
-  shouldDisableRemoveButton$: Observable<boolean>;
-
-  constructor(private activityLogFacade: ActivityLogFacadeService) {}
+  constructor(
+    private readonly activityLogFacade: ActivityLogFacadeService,
+    private readonly confirmationModalService: ConfirmationModalService,
+    private readonly actionListener: ActionListenerService,
+    private readonly snackbarHandler: SnackbarHandlerService
+  ) {}
 
   ngOnInit(): void {
     this.initActivityLogListeners();
-
-    this.isBulkRecordsRemovingInProgress$ =
-      this.activityLogFacade.isBulkRecordsRemovingInProgress();
-
-    this.shouldDisableRemoveButton$ = this.activityLogFacade
-      .doPreviousMonthsRecordsExist()
-      .pipe(map((doPreviousMonthsRecordsExist) => !doPreviousMonthsRecordsExist));
   }
 
   trackBy(_: number, item: RenderingItemType): string {
@@ -50,11 +48,29 @@ export class ActivityLogComponent implements OnInit {
   }
 
   isItemDateObject(item: RenderingItemType): boolean {
-    return 'date' in item && 'sum' in item;
+    return 'date' in item && 'totalValueForDate' in item;
   }
 
-  buildTranslationKey(key: string): string {
-    return `dashboard.activityLog.${key}`;
+  openRemoveConfirmationModal(): void {
+    this.confirmationModalService.openConfirmationModal(
+      {
+        questionTranslationKey: 'dashboard.activityLog.allRecordsRemoveConfirmationQuestion',
+      },
+      async () => {
+        try {
+          this.activityLogFacade.removeAllRecords();
+
+          await this.actionListener.waitForResult(
+            ActivityLogActions.bulkRecordsRemoved,
+            ActivityLogActions.bulkRecordsRemoveFail
+          );
+
+          this.snackbarHandler.showBulkActivityLogRecordsRemovedSnackbar();
+        } catch {
+          this.snackbarHandler.showGeneralErrorSnackbar();
+        }
+      }
+    );
   }
 
   private initActivityLogListeners(): void {
@@ -65,7 +81,7 @@ export class ActivityLogComponent implements OnInit {
         days.reduce(
           (previous, current) => [
             ...previous,
-            { date: current.date, sum: current.sumOfCategoryValueChangeRecords },
+            { date: current.date, totalValueForDate: current.totalValueForDate },
             ...current.records,
           ],
           []

@@ -1,11 +1,10 @@
+@let currentMonthBalance = currentMonthBalance$ | async;
+@let colorClasses = colorClasses$ | async;
+
 <app-info-card
-  *ngVar="{
-    currentMonthBalance: currentMonthBalance$ | async,
-    colorClasses: colorClasses$ | async
-  } as data"
-  [style.background-color]="data?.colorClasses?.bg | classToHexColor"
-  [style.color]="data?.colorClasses?.text | classToHexColor"
+  [bgColor]="colorClasses?.bg | classToHexColor"
+  [textColor]="colorClasses?.text | classToHexColor"
   [iconName]="'calendar-dot-grid'"
-  [primaryText]="data.currentMonthBalance | currencySymbol"
+  [primaryText]="currentMonthBalance | numberSpace | currencySymbol"
   [secondaryText]="'dashboard.infoCards.currentMonthBalance' | translate"
 ></app-info-card>

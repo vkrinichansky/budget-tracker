@@ -1,9 +1,10 @@
+@let accountsAmount = accountsAmount$ | async;
+
 <div
-  *ngVar="accountsAmount$ | async as accountsAmount"
   class="wrapper relative rounded-lg overflow-hidden"
   [ngClass]="{
     'cursor-pointer': accountsAmount,
-    'cursor-default ': !accountsAmount
+    'cursor-default ': !accountsAmount,
   }"
 >
   <app-info-card
@@ -12,8 +13,8 @@
       buildTranslationKey(accountsAmount ? 'titleWithAmount' : 'title')
         | translate: { accountsAmount }
     "
-    [style.color]="'text-white' | classToHexColor"
-    [style.background-color]="'bg-dark-green' | classToHexColor"
+    [textColor]="'text-white' | classToHexColor"
+    [bgColor]="'bg-dark-green' | classToHexColor"
   >
   </app-info-card>
 

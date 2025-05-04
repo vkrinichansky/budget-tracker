@@ -24,7 +24,6 @@ const colors = {
   'hover-green': '#0B7863',
 
   'light-red': '#FFECEC',
-  red: '#FF6B69',
   'dark-red': '#AD3546',
 
   yellow: '#E9AD03',
@@ -69,8 +68,10 @@ module.exports = {
         inherit: 'inherit',
         ...convertPixelsIntoRems(52), // 52px,
         ...convertPixelsIntoRems(60), // 60px,
-        ...convertPixelsIntoRems(68), // 68px,
         ...convertPixelsIntoRems(66), // 66px,
+        ...convertPixelsIntoRems(68), // 68px,
+        ...convertPixelsIntoRems(72), // 72px,
+        ...convertPixelsIntoRems(76), // 76px,
         ...convertPixelsIntoRems(100), // 100px,
       },
       maxWidth: {

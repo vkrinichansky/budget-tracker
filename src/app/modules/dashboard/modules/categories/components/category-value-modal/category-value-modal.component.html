@@ -1,6 +1,7 @@
+@let accounts = accounts$ | async;
+
 <app-base-modal
-  *ngVar="accounts$ | async as accounts"
-  [titleTranslationKey]="(category$ | async)?.name"
+  [titleTranslationKey]="category?.name"
   [subtitleTranslationKey]="'dashboard.categoryValueModal.subtitle'"
   [footerTemplate]="footer"
 >

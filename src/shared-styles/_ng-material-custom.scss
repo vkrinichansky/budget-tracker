@@ -36,7 +36,7 @@
   .mat-mdc-dialog-container {
     .mdc-dialog {
       &__surface {
-        @media (max-width: 480px) {
+        @media (width <= 480px) {
           @apply rounded-b-none #{!important};
 
           app-base-modal {

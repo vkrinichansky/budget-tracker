@@ -4,6 +4,7 @@ import { Component, HostBinding } from '@angular/core';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'control-error',
   templateUrl: './control-error.component.html',
+  standalone: false,
 })
 export class ControlErrorComponent {
   @HostBinding('class')

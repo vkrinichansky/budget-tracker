@@ -35,5 +35,3 @@ export const authFeature = createFeature({
     on(AuthActions.notAuthenticated, () => initialState)
   ),
 });
-
-export const { name, reducer, selectAuthState, selectUser, selectLoading } = authFeature;

@@ -1,23 +1,23 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import {
-  ActivityLogFacadeService,
-  BudgetType,
-  CategoryValueChangeRecord,
-} from '@budget-tracker/data';
-import { ConfirmationModalService } from '@budget-tracker/design-system';
-import { isPreviousMonth } from '@budget-tracker/utils';
-import { Observable } from 'rxjs';
+import { ActivityLogFacadeService } from '../../../../services';
+import { ConfirmationModalService, SnackbarHandlerService } from '@budget-tracker/design-system';
+import { CategoryValueChangeRecord, BudgetType } from '@budget-tracker/models';
+import { ActionListenerService, isToday } from '@budget-tracker/utils';
+import { combineLatest, map, Observable } from 'rxjs';
+import { ActivityLogActions } from '../../../../store';
+import { CurrencyFacadeService } from '@budget-tracker/metadata';
 
 @Component({
   selector: 'app-category-value-change-record',
   templateUrl: './category-value-change-record.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CategoryValueChangeRecordComponent implements OnInit {
   @Input()
   record: CategoryValueChangeRecord;
 
-  isRecordRemoving$: Observable<boolean>;
+  shouldDisplayRemoveButton$: Observable<boolean>;
 
   get colorClass(): string {
     switch (this.record.budgetType) {
@@ -25,7 +25,7 @@ export class CategoryValueChangeRecordComponent implements OnInit {
         return 'text-dark-green';
 
       case BudgetType.Expense:
-        return 'text-red';
+        return 'text-dark-red';
     }
   }
 
@@ -39,36 +39,60 @@ export class CategoryValueChangeRecordComponent implements OnInit {
     }
   }
 
-  get isDoubleValue(): boolean {
+  get isSingleValue(): boolean {
     return this.record.value === this.record.convertedValue;
   }
 
+  get isToday(): boolean {
+    return isToday(new Date(this.record.date));
+  }
+
   constructor(
-    private confirmationModalService: ConfirmationModalService,
-    private activityLogFacade: ActivityLogFacadeService
+    private readonly confirmationModalService: ConfirmationModalService,
+    private readonly activityLogFacade: ActivityLogFacadeService,
+    private readonly actionListener: ActionListenerService,
+    private readonly snackbarHandler: SnackbarHandlerService,
+    private readonly currencyFacade: CurrencyFacadeService
   ) {}
 
   ngOnInit(): void {
-    this.isRecordRemoving$ = this.activityLogFacade.isActivityLogRecordRemoving(this.record.id);
+    this.shouldDisplayRemoveButton$ = combineLatest([
+      this.activityLogFacade.doesCategoryExist(this.record.category.id),
+      this.activityLogFacade.doesAccountExist(this.record.account.id),
+      this.currencyFacade
+        .getCurrentCurrencyObs()
+        .pipe(map((currency) => currency === this.record.currency)),
+    ]).pipe(map(([a, b, c]) => a && b && c && this.isToday));
   }
 
   removeHandler(): void {
-    if (isPreviousMonth(this.record.date)) {
-      this.activityLogFacade.removeActivityLogRecord(this.record.id);
-    } else {
-      this.confirmationModalService.openConfirmationModal(
-        {
-          questionTranslationKey:
-            'dashboard.activityLog.categoryValueChangeRecord.removeConfirmationQuestion',
-          remarkTranslationKey:
-            'dashboard.activityLog.categoryValueChangeRecord.removeConfirmationRemark',
-          remarkTranslationParams: {
-            accountName: this.record.account.name,
-            categoryName: this.record.category.name,
-          },
+    this.confirmationModalService.openConfirmationModal(
+      {
+        questionTranslationKey:
+          'dashboard.activityLog.categoryValueChangeRecord.removeConfirmationQuestion',
+        remarkTranslationKey:
+          'dashboard.activityLog.categoryValueChangeRecord.removeConfirmationRemark',
+        remarkTranslationParams: {
+          accountName: this.record.account.name,
+          categoryName: this.record.category.name,
         },
-        () => this.activityLogFacade.removeCategoryValueChangeRecord(this.record.id)
-      );
-    }
+      },
+      async () => {
+        try {
+          this.activityLogFacade.removeCategoryValueChangeRecord(this.record.id);
+
+          await this.actionListener.waitForResult(
+            ActivityLogActions.activityLogRecordRemoved,
+            ActivityLogActions.removeRecordFail,
+            (action) => action.recordId === this.record.id,
+            (action) => action.recordId === this.record.id
+          );
+
+          this.snackbarHandler.showActivityLogRecordRemovedSnackbar();
+        } catch {
+          this.snackbarHandler.showGeneralErrorSnackbar();
+        }
+      }
+    );
   }
 }

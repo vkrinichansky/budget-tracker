@@ -1,9 +1,4 @@
-<app-generic-activity-log-record
-  [icon]="record.icon"
-  [date]="record.date"
-  [loading]="this.isRecordRemoving$ | async"
-  (remove)="removeHandler()"
->
+<app-generic-activity-log-record [icon]="record.icon" [date]="record.date">
   <div class="flex flex-col font-main text-charcoal text-sm overflow-hidden">
     <span
       class="truncate"
@@ -15,9 +10,13 @@
     </span>
 
     <span class="font-bold text-blue">
-      {{ record.fromAccountValue }} {{ record.fromAccount.currency.symbol }}
-      &rarr;
-      {{ record.toAccountValue }} {{ record.toAccount.currency.symbol }}
+      @if (isSameValueAndCurrency) {
+        {{ record.fromAccountValue }} {{ record.fromAccount.currency.symbol }}
+      } @else {
+        {{ record.fromAccountValue }} {{ record.fromAccount.currency.symbol }}
+        &rarr;
+        {{ record.toAccountValue }} {{ record.toAccount.currency.symbol }}
+      }
     </span>
   </div>
 </app-generic-activity-log-record>

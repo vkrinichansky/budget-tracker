@@ -1,25 +1,20 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { ActivityLogFacadeService, MoveMoneyBetweenAccountsRecord } from '@budget-tracker/data';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { MoveMoneyBetweenAccountsRecord } from '@budget-tracker/models';
 
 @Component({
   selector: 'app-move-money-between-accounts-record',
   templateUrl: './move-money-between-accounts-record.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class MoveMoneyBetweenAccountsRecordComponent implements OnInit {
+export class MoveMoneyBetweenAccountsRecordComponent {
   @Input()
   record: MoveMoneyBetweenAccountsRecord;
 
-  isRecordRemoving$: Observable<boolean>;
-
-  constructor(private activityLogFacade: ActivityLogFacadeService) {}
-
-  ngOnInit(): void {
-    this.isRecordRemoving$ = this.activityLogFacade.isActivityLogRecordRemoving(this.record.id);
-  }
-
-  removeHandler(): void {
-    this.activityLogFacade.removeActivityLogRecord(this.record.id);
+  get isSameValueAndCurrency(): boolean {
+    return (
+      this.record.fromAccountValue === this.record.toAccountValue &&
+      this.record.fromAccount.currency.symbol === this.record.toAccount.currency.symbol
+    );
   }
 }

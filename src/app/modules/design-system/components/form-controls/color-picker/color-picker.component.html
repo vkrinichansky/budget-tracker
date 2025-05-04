@@ -20,11 +20,12 @@
   [colorsAnimation]="isMobile ? null : 'slide-in'"
   [formControl]="formControl"
   (close)="onPanelClose()"
+  (open)="onPanelOpen()"
   (ngModelChange)="valueChanged($event)"
 ></div>
 
 @if (isErrorState()) {
-  <div class="flex flex-col gap-y-1 w-full pt-1 px-1.5 pb-1.5 rounded-b-md bg-red">
+  <div class="flex flex-col gap-y-1 w-full pt-1 px-1.5 pb-1.5 rounded-b-md bg-dark-red">
     @if (formControl.hasError('required')) {
       <control-error> {{ 'formErrors.required' | translate }} </control-error>
     }

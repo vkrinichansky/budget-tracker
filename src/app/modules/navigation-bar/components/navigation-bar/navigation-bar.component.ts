@@ -1,30 +1,33 @@
-import { ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, inject } from '@angular/core';
 import { Component } from '@angular/core';
 import { AuthFacadeService } from '@budget-tracker/auth';
-import { BehaviorSubject } from 'rxjs';
 import { NavigationBarItem } from '../../models';
 import { ConfirmationModalService } from '@budget-tracker/design-system';
-import { AppRoutes } from '@budget-tracker/utils';
+import { AppRoutes } from '@budget-tracker/models';
 
 @Component({
   selector: 'app-navigation-bar',
   templateUrl: './navigation-bar.component.html',
   styleUrls: ['./navigation-bar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class NavigationBarComponent implements OnInit {
-  readonly navigationBarItems$ = new BehaviorSubject<NavigationBarItem[]>([]);
+export class NavigationBarComponent {
+  private readonly authFacade = inject(AuthFacadeService);
+  private readonly confirmationModalService = inject(ConfirmationModalService);
 
-  isLoading: boolean;
-
-  constructor(
-    private authFacade: AuthFacadeService,
-    private confirmationModalService: ConfirmationModalService
-  ) {}
-
-  ngOnInit(): void {
-    this.prepareNavigationBarItems();
-  }
+  readonly navigationBarItems: NavigationBarItem[] = [
+    {
+      iconName: 'home',
+      tooltipTranslationKey: 'navigationBar.itemTooltip.home',
+      routerLink: `/${AppRoutes.Dashboard}`,
+    },
+    {
+      iconName: 'statistics',
+      tooltipTranslationKey: 'navigationBar.itemTooltip.statistics',
+      routerLink: `/${AppRoutes.Statistics}`,
+    },
+  ];
 
   logOut(): void {
     this.confirmationModalService.openConfirmationModal(
@@ -33,22 +36,5 @@ export class NavigationBarComponent implements OnInit {
       },
       () => this.authFacade.logOut()
     );
-  }
-
-  private prepareNavigationBarItems(): void {
-    const items: NavigationBarItem[] = [
-      {
-        iconName: 'home',
-        tooltipTranslationKey: 'navigationBar.itemTooltip.home',
-        routerLink: AppRoutes.Dashboard,
-      },
-      {
-        iconName: 'statistics',
-        tooltipTranslationKey: 'navigationBar.itemTooltip.statistics',
-        routerLink: AppRoutes.Statistics,
-      },
-    ];
-
-    this.navigationBarItems$.next(items);
   }
 }

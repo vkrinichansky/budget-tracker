@@ -1,12 +1,7 @@
 <app-info-card
-  [style.background-color]="'text-white' | classToHexColor"
-  [style.color]="'text-blue' | classToHexColor"
+  [bgColor]="'text-white' | classToHexColor"
+  [textColor]="'text-blue' | classToHexColor"
   [iconName]="'equal-sign'"
-  [primaryText]="fullBalance$ | async | currencySymbol"
-  [secondaryText]="buildTranslationKey('title') | translate"
-  [tooltip]="tooltip"
+  [primaryText]="fullBalance$ | async | numberSpace | currencySymbol"
+  [secondaryText]="'dashboard.infoCards.fullBalance' | translate"
 ></app-info-card>
-
-<ng-template #tooltip>
-  <span [innerHTML]="buildTranslationKey('tooltip') | translate"></span>
-</ng-template>

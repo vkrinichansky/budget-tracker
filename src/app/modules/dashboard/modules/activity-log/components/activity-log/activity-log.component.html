@@ -1,63 +1,48 @@
-<ng-container
-  *ngVar="{
-    isEmpty: isEmpty$ | async,
-    isBulkRecordsRemovingInProgress: isBulkRecordsRemovingInProgress$ | async,
-    shouldDisableRemoveButton: shouldDisableRemoveButton$ | async
-  } as data"
+@let isEmpty = isEmpty$ | async;
+
+<app-page-header class="text-xl bg-transparent" [title]="'dashboard.activityLog.title' | translate">
+  @if (!isEmpty) {
+    <app-button
+      customTooltip
+      [tooltipText]="'dashboard.activityLog.removeButtonTooltip' | translate"
+      [position]="['left']"
+      [iconName]="'delete-bin'"
+      (click)="openRemoveConfirmationModal()"
+    ></app-button>
+  }
+</app-page-header>
+
+<div
+  class="flex flex-col overflow-hidden h-full w-full"
+  [ngClass]="{
+    'justify-center': isEmpty,
+    'items-center': isEmpty,
+  }"
 >
-  <app-page-header
-    class="text-xl bg-transparent"
-    [title]="buildTranslationKey('title') | translate"
-    [loading]="data.isBulkRecordsRemovingInProgress"
-  >
-    @if (!data.isEmpty) {
-      <app-activity-log-remove-menu
-        *ngVar="data.isBulkRecordsRemovingInProgress || data.shouldDisableRemoveButton as disabled"
-        customTooltip
-        [tooltipText]="
-          disabled ? (buildTranslationKey('removeMenuDisabledTooltip') | translate) : null
+  @if (isEmpty) {
+    <span class="font-main font-bold text-charcoal text-lg text-center">
+      {{ 'dashboard.activityLog.emptyStateText' | translate }}
+    </span>
+  } @else {
+    <cdk-virtual-scroll-viewport itemSize="66" class="h-full w-full !overflow-x-hidden">
+      <div
+        *cdkVirtualFor="
+          let item of itemsToRender$ | async;
+          trackBy: trackBy.bind(this);
+          templateCacheSize: 0
         "
-        [position]="['left']"
-        [disabled]="disabled"
-      ></app-activity-log-remove-menu>
-    }
-  </app-page-header>
-
-  <div
-    class="flex flex-col overflow-hidden h-full w-full"
-    [ngClass]="{
-      'justify-center': data.isEmpty,
-      'items-center': data.isEmpty,
-      'pointer-events-none': data.isBulkRecordsRemovingInProgress
-    }"
-  >
-    @if (data.isEmpty) {
-      <span class="font-main font-bold text-charcoal text-lg text-center">
-        {{ buildTranslationKey('emptyStateText') | translate }}
-      </span>
-    }
-
-    @if (!data.isEmpty) {
-      <cdk-virtual-scroll-viewport itemSize="66" class="h-full w-full !overflow-x-hidden">
-        <div
-          *cdkVirtualFor="
-            let item of itemsToRender$ | async;
-            trackBy: trackBy.bind(this);
-            templateCacheSize: 0
+        class="h-16.5 flex items-center w-full"
+      >
+        <ng-container
+          *ngTemplateOutlet="
+            isItemDateObject(item) ? dateItem : recordItem;
+            context: { item: item }
           "
-          class="h-16.5 flex items-center w-full"
-        >
-          <ng-container
-            *ngTemplateOutlet="
-              isItemDateObject(item) ? dateItem : recordItem;
-              context: { item: item }
-            "
-          ></ng-container>
-        </div>
-      </cdk-virtual-scroll-viewport>
-    }
-  </div>
-</ng-container>
+        ></ng-container>
+      </div>
+    </cdk-virtual-scroll-viewport>
+  }
+</div>
 
 <ng-template #dateItem let-item="item">
   <div
@@ -67,38 +52,24 @@
       {{ item.date }}
     </span>
 
-    <span
-      [ngClass]="{
-        'text-dark-green': item.sum > 0,
-        'text-red': item.sum < 0
-      }"
-    >
-      @if (item.sum > 0) {
-        &plus;
+    <div class="flex flex-col items-end text-sm">
+      @for (currency of item.totalValueForDate; track currency.currency) {
+        <span
+          [ngClass]="{
+            'text-dark-green': currency.value > 0,
+            'text-dark-red': currency.value < 0,
+          }"
+        >
+          {{ currency.value > 0 ? '&plus;' : '' }}
+          {{ currency.value | numberSpace | currencySymbol: currency.currency }}
+        </span>
       }
-
-      {{ item.sum | currencySymbol }}
-    </span>
+    </div>
   </div>
 </ng-template>
 
 <ng-template #recordItem let-item="item">
   @switch (item.recordType) {
-    @case (recordType.AccountManagement) {
-      <app-account-management-record class="w-full" [record]="item"></app-account-management-record>
-    }
-
-    @case (recordType.AccountValueEdit) {
-      <app-account-value-edit-record class="w-full" [record]="item"></app-account-value-edit-record>
-    }
-
-    @case (recordType.CategoryManagement) {
-      <app-category-management-record
-        class="w-full"
-        [record]="item"
-      ></app-category-management-record>
-    }
-
     @case (recordType.CategoryValueChange) {
       <app-category-value-change-record
         class="w-full"
@@ -115,6 +86,10 @@
         class="w-full"
         [record]="item"
       ></app-move-money-between-accounts-record>
+    }
+
+    @case (recordType.CurrencyChange) {
+      <app-currency-change-record class="w-full" [record]="item"></app-currency-change-record>
     }
   }
 </ng-template>

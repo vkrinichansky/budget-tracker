@@ -27,7 +27,7 @@ color-picker {
 }
 
 .form-control-error {
-  @apply border-red group-hover:border-red rounded-b-none;
+  @apply border-dark-red group-hover:border-dark-red rounded-b-none;
 }
 
 input,
@@ -54,10 +54,18 @@ textarea {
   @apply focus:border-charcoal outline-none;
 
   &.form-control-error {
-    @apply focus:border-red;
+    @apply focus:border-dark-red;
   }
 }
 
 textarea {
   @apply py-2 resize-none;
+}
+
+ngx-colors-panel {
+  @apply translate-y-0.5;
+
+  .opened {
+    @apply shadow-none bg-white rounded-md border-2 border-solid border-charcoal #{!important};
+  }
 }
