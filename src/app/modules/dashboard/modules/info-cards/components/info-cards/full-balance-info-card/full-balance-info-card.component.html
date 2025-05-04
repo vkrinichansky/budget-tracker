@@ -3,10 +3,5 @@
   [textColor]="'text-blue' | classToHexColor"
   [iconName]="'equal-sign'"
   [primaryText]="fullBalance$ | async | numberSpace | currencySymbol"
-  [secondaryText]="buildTranslationKey('title') | translate"
-  [tooltip]="tooltip"
+  [secondaryText]="'dashboard.infoCards.fullBalance' | translate"
 ></app-info-card>
-
-<ng-template #tooltip>
-  <span [innerHTML]="buildTranslationKey('tooltip') | translate"></span>
-</ng-template>

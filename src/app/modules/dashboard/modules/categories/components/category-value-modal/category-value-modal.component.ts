@@ -1,17 +1,15 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Observable, filter, take, tap, withLatestFrom } from 'rxjs';
+import { BehaviorSubject, Observable, tap, withLatestFrom } from 'rxjs';
 import { CategoryValueModalData } from '../../models';
-import {
-  Account,
-  AccountsFacadeService,
-  BudgetType,
-  CategoriesFacadeService,
-  Category,
-  CurrencyService,
-} from '@budget-tracker/data';
+import { AccountsFacadeService, CategoriesFacadeService } from '../../../../services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Account, Category, BudgetType } from '@budget-tracker/models';
+import { CurrencyFacadeService } from '@budget-tracker/metadata';
+import { ActionListenerService } from '@budget-tracker/utils';
+import { CategoriesActions } from '../../../../store';
+import { SnackbarHandlerService } from '@budget-tracker/design-system';
 
 enum FormFields {
   ValueToAdd = 'valueToAdd',
@@ -24,9 +22,11 @@ enum FormFields {
   selector: 'app-category-value-modal',
   templateUrl: './category-value-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CategoryValueModalComponent implements OnInit {
   readonly formFieldsEnum = FormFields;
+  readonly loading$ = new BehaviorSubject<boolean>(false);
 
   readonly form: FormGroup = new FormGroup({
     [FormFields.AccountToUse]: new FormControl(null),
@@ -40,7 +40,6 @@ export class CategoryValueModalComponent implements OnInit {
   readonly displayValueSelector = (account: Account) =>
     `${account.name} (${account.value} ${account.currency.symbol})`;
 
-  loading$: Observable<boolean>;
   success$: Observable<boolean>;
   accounts$: Observable<Account[]>;
 
@@ -53,7 +52,7 @@ export class CategoryValueModalComponent implements OnInit {
   get doesChoosedAccountHaveForeignCurrency(): boolean {
     return this.accoundChoosed
       ? (this.form.controls[FormFields.AccountToUse].value as Account).currency.id !==
-          this.currencyService.getCurrentCurrency()
+          this.currencyFacade.getCurrentCurrency()
       : false;
   }
 
@@ -64,11 +63,11 @@ export class CategoryValueModalComponent implements OnInit {
 
     return this.doesChoosedAccountHaveForeignCurrency
       ? (this.form?.controls?.[FormFields.AccountToUse]?.value as Account)?.currency?.symbol
-      : this.currencyService.getCurrencySymbol();
+      : this.currencyFacade.getCurrencySymbol();
   }
 
   get currencySymbolForConvertedValueField(): string {
-    return this.accoundChoosed ? this.currencyService.getCurrencySymbol() : null;
+    return this.accoundChoosed ? this.currencyFacade.getCurrencySymbol() : null;
   }
 
   get maxValue(): number {
@@ -82,12 +81,14 @@ export class CategoryValueModalComponent implements OnInit {
   }
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: CategoryValueModalData,
-    private dialogRef: MatDialogRef<CategoryValueModalComponent>,
-    private categoriesFacade: CategoriesFacadeService,
-    private accountsFacade: AccountsFacadeService,
-    private currencyService: CurrencyService,
-    private destroyRef: DestroyRef
+    @Inject(MAT_DIALOG_DATA) private readonly data: CategoryValueModalData,
+    private readonly dialogRef: MatDialogRef<CategoryValueModalComponent>,
+    private readonly categoriesFacade: CategoriesFacadeService,
+    private readonly accountsFacade: AccountsFacadeService,
+    private readonly currencyFacade: CurrencyFacadeService,
+    private readonly destroyRef: DestroyRef,
+    private readonly actionListener: ActionListenerService,
+    private readonly snackbarHandler: SnackbarHandlerService
   ) {}
 
   ngOnInit(): void {
@@ -98,32 +99,39 @@ export class CategoryValueModalComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  submitClick(): void {
-    this.categoriesFacade.changeCategoryValue(
-      this.data.categoryId,
-      this.form.controls[FormFields.AccountToUse].value.id,
-      parseInt(this.form.controls[FormFields.ValueToAdd].value),
-      parseInt(this.form.controls[FormFields.ConvertedValueToAdd].value),
-      this.form.controls[FormFields.Note].value
-    );
+  async submitClick(): Promise<void> {
+    this.loading$.next(true);
+
+    try {
+      this.categoriesFacade.changeCategoryValue(
+        this.data.categoryId,
+        this.form.controls[FormFields.AccountToUse].value.id,
+        parseInt(this.form.controls[FormFields.ValueToAdd].value),
+        parseInt(this.form.controls[FormFields.ConvertedValueToAdd].value),
+        this.form.controls[FormFields.Note].value
+      );
+
+      await this.actionListener.waitForResult(
+        CategoriesActions.categoryValueChanged,
+        CategoriesActions.changeCategoryValueFail
+      );
+
+      this.dialogRef.close();
+      this.snackbarHandler.showCategoryValueChangedSnackbar();
+    } catch {
+      this.snackbarHandler.showGeneralErrorSnackbar();
+    } finally {
+      this.loading$.next(false);
+    }
   }
 
   private initListeners(): void {
     this.accounts$ = this.accountsFacade.getAllAccounts();
-    this.loading$ = this.categoriesFacade.getCategoryValueChangeInProgress();
-    this.success$ = this.categoriesFacade.getCategoryValueChangeSuccess();
 
     this.categoriesFacade
       .getCategoryById(this.data.categoryId)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((category) => (this.category = category));
-
-    this.success$
-      .pipe(
-        filter((isSuccess) => !!isSuccess),
-        take(1)
-      )
-      .subscribe(() => this.dialogRef.close());
 
     this.form.controls[FormFields.AccountToUse].valueChanges
       .pipe(
@@ -139,7 +147,7 @@ export class CategoryValueModalComponent implements OnInit {
       .pipe(
         withLatestFrom(this.form.controls[FormFields.AccountToUse].valueChanges),
         tap(([value, account]) => {
-          const convertedValue = this.currencyService.getBasicToForeignConvertedValue(
+          const convertedValue = this.currencyFacade.getBasicToForeignConvertedValue(
             value,
             account.currency.id
           );

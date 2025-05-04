@@ -1,31 +1,30 @@
+@let accounts = accounts$ | async;
+@let changeOrderInProgress = changeOrderInProgress$ | async;
+
 <app-base-modal
-  *ngVar="{
-    accounts: accounts$ | async,
-    changeOrderInProgress: changeOrderInProgress$ | async
-  } as data"
   [titleTranslationKey]="'dashboard.accountsListModal.title'"
-  [titleTranslationParams]="{ accountsAmount: data.accounts?.length }"
+  [titleTranslationParams]="{ accountsAmount: accounts?.length }"
   [footerTemplate]="footer"
-  [loading]="data.changeOrderInProgress"
+  [loading]="changeOrderInProgress"
 >
   <div
     cdkDropList
     cdkScrollable
     class="container flex flex-col gap-y-4"
-    [class.pointer-events-none]="data.changeOrderInProgress"
+    [class.pointer-events-none]="changeOrderInProgress"
     [cdkDropListLockAxis]="'y'"
     [cdkDropListAutoScrollDisabled]="false"
     [cdkDropListAutoScrollStep]="10"
-    [cdkDropListDisabled]="data.accounts?.length === 1"
+    [cdkDropListDisabled]="accounts?.length === 1"
     (cdkDropListDropped)="orderChanged($event)"
   >
-    @for (account of data.accounts; track account.id) {
+    @for (account of accounts; track account.id) {
       <app-account-card
         cdkDrag
         cdkDragBoundary=".container"
         class="container-item"
         [account]="account"
-        [shouldDisableDragButton]="data.accounts?.length === 1"
+        [shouldDisableDragButton]="accounts?.length === 1"
       ></app-account-card>
     }
   </div>

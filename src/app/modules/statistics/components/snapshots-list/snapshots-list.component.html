@@ -1,0 +1,10 @@
+<app-page-header
+  class="text-xl"
+  [title]="'statistics.snapshots.title' | translate"
+></app-page-header>
+
+<div class="flex gap-4 flex-wrap">
+  @for (snapshot of snapshots; track snapshot.date) {
+    <app-snapshot-item [snapshot]="snapshot"></app-snapshot-item>
+  }
+</div>

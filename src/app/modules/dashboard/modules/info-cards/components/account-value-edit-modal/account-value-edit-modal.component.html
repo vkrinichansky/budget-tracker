@@ -1,5 +1,6 @@
+@let account = account$ | async;
+
 <app-base-modal
-  *ngVar="account$ | async as account"
   [titleTranslationKey]="account.name"
   [subtitleTranslationKey]="'dashboard.accountValueEditModal.subtitle'"
   [footerTemplate]="footer"

@@ -11,7 +11,6 @@ import {
   MenuComponent,
   GenericActivityLogRecordComponent,
   CustomTooltipComponent,
-  CheckboxGroupComponent,
   FullsizeLoaderComponent,
   BaseModalComponent,
   ColorPickerComponent,
@@ -24,6 +23,7 @@ import {
   ButtonToggleComponent,
   CheckboxComponent,
   SnackbarComponent,
+  ProgressBarComponent,
 } from './components';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
@@ -32,19 +32,19 @@ import {
 } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmationModalService, SnackbarHandlerService } from './services';
-import { isMobileWidth, UtilsModule } from '@budget-tracker/utils';
-import { TooltipRendererDirective } from './directives';
+import { isMobileWidth } from './helpers';
+import { PreventInvalidCharsDirective, TooltipRendererDirective } from './directives';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxColorsModule } from 'ngx-colors';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
+import { ClassToHexColorPipe, NumberSpacePipe } from './pipes';
 
 @NgModule({
   imports: [
     CommonModule,
     MatDialogModule,
     TranslateModule,
-    UtilsModule,
     ReactiveFormsModule,
     FormsModule,
     NgxColorsModule,
@@ -64,7 +64,6 @@ import { PortalModule } from '@angular/cdk/portal';
     GenericActivityLogRecordComponent,
     CustomTooltipComponent,
     TooltipRendererDirective,
-    CheckboxGroupComponent,
     FullsizeLoaderComponent,
     BaseModalComponent,
     CustomSelectComponent,
@@ -77,6 +76,10 @@ import { PortalModule } from '@angular/cdk/portal';
     ButtonToggleComponent,
     CheckboxComponent,
     SnackbarComponent,
+    PreventInvalidCharsDirective,
+    ClassToHexColorPipe,
+    NumberSpacePipe,
+    ProgressBarComponent,
   ],
   exports: [
     SvgIconComponent,
@@ -88,7 +91,6 @@ import { PortalModule } from '@angular/cdk/portal';
     InfoIconComponent,
     GenericActivityLogRecordComponent,
     TooltipRendererDirective,
-    CheckboxGroupComponent,
     FullsizeLoaderComponent,
     BaseModalComponent,
     CustomSelectComponent,
@@ -100,10 +102,15 @@ import { PortalModule } from '@angular/cdk/portal';
     CharCounterComponent,
     ButtonToggleComponent,
     CheckboxComponent,
+    ClassToHexColorPipe,
+    NumberSpacePipe,
+    ProgressBarComponent,
   ],
   providers: [
     ConfirmationModalService,
     SnackbarHandlerService,
+    ClassToHexColorPipe,
+    NumberSpacePipe,
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: {

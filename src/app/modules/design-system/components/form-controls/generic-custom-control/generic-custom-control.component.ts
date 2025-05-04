@@ -28,6 +28,7 @@ enum CustomErrors {
 @Component({
   selector: 'app-generic-custom-control',
   template: '',
+  standalone: false,
 })
 export class GenericCustomControlComponent
   implements ControlValueAccessor, Validator, OnInit, OnChanges

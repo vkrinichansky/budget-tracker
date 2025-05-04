@@ -7,7 +7,7 @@ import { environment as prodEnv } from 'src/environments/environment.prod';
 import { StoreModule } from '@ngrx/store';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { getAuth, provideAuth } from '@angular/fire/auth';
@@ -19,31 +19,22 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { NavigationBarModule } from '@budget-tracker/navigation-bar';
 import { AuthCoreModule } from '@budget-tracker/auth';
-import { DataModule } from '@budget-tracker/data';
-
-import { Chart } from 'chart.js';
-import 'hammerjs';
-import 'chartjs-plugin-zoom';
-import zoomPlugin from 'chartjs-plugin-zoom';
-Chart.register(zoomPlugin);
+import { MetadataModule } from '@budget-tracker/metadata';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent],
+  bootstrap: [AppComponent],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
     AuthCoreModule,
     DesignSystemModule,
     NavigationBarModule,
     BrowserAnimationsModule,
     UtilsModule,
-    DataModule,
-    provideFirebaseApp(() =>
-      initializeApp(isDevMode() ? devEnv.firebaseConfig : prodEnv.firebaseConfig)
-    ),
-    provideAuth(() => getAuth(getApp())),
-    provideFirestore(() => getFirestore()),
+    MetadataModule,
     StoreModule.forRoot(
       {},
       {
@@ -57,7 +48,6 @@ Chart.register(zoomPlugin);
         },
       }
     ),
-
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -74,7 +64,14 @@ Chart.register(zoomPlugin);
       registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
-  bootstrap: [AppComponent],
+  providers: [
+    provideHttpClient(withInterceptorsFromDi()),
+    provideFirebaseApp(() =>
+      initializeApp(isDevMode() ? devEnv.firebaseConfig : prodEnv.firebaseConfig)
+    ),
+    provideAuth(() => getAuth(getApp())),
+    provideFirestore(() => getFirestore()),
+  ],
 })
 export class AppModule {}
 

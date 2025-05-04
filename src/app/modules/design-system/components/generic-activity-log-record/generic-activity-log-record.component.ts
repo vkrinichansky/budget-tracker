@@ -11,6 +11,7 @@ import {
   selector: 'app-generic-activity-log-record',
   templateUrl: './generic-activity-log-record.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class GenericActivityLogRecordComponent {
   @HostBinding('class')
@@ -24,9 +25,6 @@ export class GenericActivityLogRecordComponent {
 
   @Input()
   date: number;
-
-  @Input()
-  loading: boolean;
 
   @Input()
   removeEnabled: boolean;

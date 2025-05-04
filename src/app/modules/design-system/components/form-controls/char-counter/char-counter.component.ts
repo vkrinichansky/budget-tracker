@@ -5,6 +5,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
   selector: 'char-counter',
   templateUrl: './char-counter.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CharCounterComponent {
   @HostBinding('class')

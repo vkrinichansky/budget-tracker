@@ -15,9 +15,13 @@ body {
 
 // SCROLLBAR
 ::-webkit-scrollbar {
-  @apply w-1.5;
+  @apply w-2 h-2;
 }
 
 ::-webkit-scrollbar-thumb {
   @apply bg-hover-black border border-solid border-transparent rounded-full bg-clip-padding;
+}
+
+.apex-tooltip {
+  @apply rounded py-1 px-2 relative bg-charcoal font-main text-base text-white #{!important};
 }

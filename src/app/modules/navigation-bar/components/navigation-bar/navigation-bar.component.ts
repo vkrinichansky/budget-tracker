@@ -3,13 +3,14 @@ import { Component } from '@angular/core';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { NavigationBarItem } from '../../models';
 import { ConfirmationModalService } from '@budget-tracker/design-system';
-import { AppRoutes } from '@budget-tracker/utils';
+import { AppRoutes } from '@budget-tracker/models';
 
 @Component({
   selector: 'app-navigation-bar',
   templateUrl: './navigation-bar.component.html',
   styleUrls: ['./navigation-bar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NavigationBarComponent {
   private readonly authFacade = inject(AuthFacadeService);

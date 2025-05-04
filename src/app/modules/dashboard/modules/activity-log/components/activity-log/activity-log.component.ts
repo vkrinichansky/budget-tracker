@@ -1,12 +1,18 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { ActivityLogFacadeService } from '@budget-tracker/data';
-import { ActivityLogRecordType, ActivityLogRecordUnitedType } from '@budget-tracker/data';
-import { ConfirmationModalService } from '@budget-tracker/design-system';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActivityLogFacadeService } from '../../../../services';
+import { ConfirmationModalService, SnackbarHandlerService } from '@budget-tracker/design-system';
+import {
+  ActivityLogRecordUnitedType,
+  ActivityLogRecordType,
+  TotalValueForDateByCurrency,
+} from '@budget-tracker/models';
 import { Observable, map } from 'rxjs';
+import { ActionListenerService } from '@budget-tracker/utils';
+import { ActivityLogActions } from '../../../../store';
 
 interface DateObject {
   date: string;
-  sum: number;
+  totalValueForDate: TotalValueForDateByCurrency[];
 }
 
 type RenderingItemType = DateObject | ActivityLogRecordUnitedType;
@@ -16,24 +22,23 @@ type RenderingItemType = DateObject | ActivityLogRecordUnitedType;
   templateUrl: './activity-log.component.html',
   styleUrl: './activity-log.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ActivityLogComponent implements OnInit {
-  private readonly confirmationModalService = inject(ConfirmationModalService);
-  private readonly activityLogFacade = inject(ActivityLogFacadeService);
-
   readonly recordType = ActivityLogRecordType;
 
   isEmpty$: Observable<boolean>;
-
   itemsToRender$: Observable<RenderingItemType[]>;
 
-  isBulkRecordsRemovingInProgress$: Observable<boolean>;
+  constructor(
+    private readonly activityLogFacade: ActivityLogFacadeService,
+    private readonly confirmationModalService: ConfirmationModalService,
+    private readonly actionListener: ActionListenerService,
+    private readonly snackbarHandler: SnackbarHandlerService
+  ) {}
 
   ngOnInit(): void {
     this.initActivityLogListeners();
-
-    this.isBulkRecordsRemovingInProgress$ =
-      this.activityLogFacade.isBulkRecordsRemovingInProgress();
   }
 
   trackBy(_: number, item: RenderingItemType): string {
@@ -43,19 +48,28 @@ export class ActivityLogComponent implements OnInit {
   }
 
   isItemDateObject(item: RenderingItemType): boolean {
-    return 'date' in item && 'sum' in item;
-  }
-
-  buildTranslationKey(key: string): string {
-    return `dashboard.activityLog.${key}`;
+    return 'date' in item && 'totalValueForDate' in item;
   }
 
   openRemoveConfirmationModal(): void {
     this.confirmationModalService.openConfirmationModal(
       {
-        questionTranslationKey: this.buildTranslationKey('allRecordsRemoveConfirmationQuestion'),
+        questionTranslationKey: 'dashboard.activityLog.allRecordsRemoveConfirmationQuestion',
       },
-      () => this.activityLogFacade.removeAllRecords()
+      async () => {
+        try {
+          this.activityLogFacade.removeAllRecords();
+
+          await this.actionListener.waitForResult(
+            ActivityLogActions.bulkRecordsRemoved,
+            ActivityLogActions.bulkRecordsRemoveFail
+          );
+
+          this.snackbarHandler.showBulkActivityLogRecordsRemovedSnackbar();
+        } catch {
+          this.snackbarHandler.showGeneralErrorSnackbar();
+        }
+      }
     );
   }
 
@@ -67,7 +81,7 @@ export class ActivityLogComponent implements OnInit {
         days.reduce(
           (previous, current) => [
             ...previous,
-            { date: current.date, sum: current.totalValueForDate },
+            { date: current.date, totalValueForDate: current.totalValueForDate },
             ...current.records,
           ],
           []

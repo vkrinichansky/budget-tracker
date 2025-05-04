@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, provideRouter, withViewTransitions } from '@angular/router';
 import { AuthGuard, SecureInnerPagesGuard } from './modules/auth/guards';
-import { AppRoutes } from '@budget-tracker/utils';
-import { InitDataGuard } from './guards';
+import { AppRoutes } from '@budget-tracker/models';
 
 const routes: Routes = [
   {
@@ -12,13 +11,13 @@ const routes: Routes = [
   },
   {
     path: AppRoutes.Dashboard,
-    canActivate: [InitDataGuard, AuthGuard],
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./modules/dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
     path: AppRoutes.Statistics,
-    canActivate: [InitDataGuard, AuthGuard],
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./modules/statistics/statistics.module').then((m) => m.StatisticsModule),
   },

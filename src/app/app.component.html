@@ -1,18 +1,14 @@
-<ng-container
-  *ngVar="{
-    isLoggedIn: isLoggedIn$ | async,
-    isLoaded: isLoaded$ | async
-  } as data"
->
-  @if (!data.isLoaded) {
-    <app-fullsize-loader></app-fullsize-loader>
-  } @else {
-    @if (data.isLoggedIn && data.isLoaded) {
-      <app-navigation-bar></app-navigation-bar>
-    }
+@let isLoggedIn = isLoggedIn$ | async;
+@let loading = loading$ | async;
 
-    <div class="animated-route main w-full bg-dirty-white relative">
-      <router-outlet></router-outlet>
-    </div>
-  }
-</ng-container>
+@if (isLoggedIn) {
+  <app-navigation-bar> </app-navigation-bar>
+}
+
+@if (loading && isLoggedIn) {
+  <app-fullsize-loader></app-fullsize-loader>
+} @else {
+  <div class="animated-route main w-full bg-dirty-white relative overflow-hidden">
+    <router-outlet></router-outlet>
+  </div>
+}

@@ -4,6 +4,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
   selector: 'app-page-header',
   templateUrl: './page-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class PageHeaderComponent {
   @HostBinding('class')

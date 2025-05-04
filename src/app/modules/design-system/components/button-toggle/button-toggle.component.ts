@@ -5,6 +5,7 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
   selector: 'button-toggle',
   templateUrl: './button-toggle.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ButtonToggleComponent {
   @HostBinding('class')

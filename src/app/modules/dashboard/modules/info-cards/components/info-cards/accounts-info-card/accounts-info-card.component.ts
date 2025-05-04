@@ -1,10 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostListener, OnInit } from '@angular/core';
-import {
-  AccountsListModalService,
-  AccountsModalsService,
-  AddAccountModalService,
-} from '../../../services';
-import { AccountsFacadeService } from '@budget-tracker/data';
+import { AccountsModalsService } from '../../../services';
+import { AccountsFacadeService } from '../../../../../services';
 import { firstValueFrom, map, Observable } from 'rxjs';
 
 @Component({
@@ -12,15 +8,14 @@ import { firstValueFrom, map, Observable } from 'rxjs';
   templateUrl: './accounts-info-card.component.html',
   styleUrl: './accounts-info-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AccountsInfoCardComponent implements OnInit {
   accountsAmount$: Observable<number>;
 
   constructor(
-    private accountsListModalService: AccountsListModalService,
-    private accountsFacade: AccountsFacadeService,
-    private addAccountModalService: AddAccountModalService,
-    private accountsModalsService: AccountsModalsService
+    private readonly accountsFacade: AccountsFacadeService,
+    private readonly accountsModalsService: AccountsModalsService
   ) {}
 
   ngOnInit(): void {
@@ -32,7 +27,7 @@ export class AccountsInfoCardComponent implements OnInit {
   }
 
   openAddAccountModal(): void {
-    this.addAccountModalService.openAccountsListModal();
+    this.accountsModalsService.openAddAccountsModal();
   }
 
   openMoneyMovementModal(): void {
@@ -44,7 +39,7 @@ export class AccountsInfoCardComponent implements OnInit {
     const isDisabled = await firstValueFrom(this.accountsAmount$.pipe(map((amount) => !amount)));
 
     if (!isDisabled) {
-      this.accountsListModalService.openAccountsListModal();
+      this.accountsModalsService.openAccountsListModal();
     }
   }
 }

@@ -24,7 +24,6 @@ const colors = {
   'hover-green': '#0B7863',
 
   'light-red': '#FFECEC',
-  red: '#FF6B69',
   'dark-red': '#AD3546',
 
   yellow: '#E9AD03',

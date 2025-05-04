@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { NavigatorService } from './navigator.service';
 import { Router } from '@angular/router';
-import { AppRoutes } from '../../models';
+import { AppRoutes } from '@budget-tracker/models';
 
 describe('NavigatorService', () => {
   let serviceUnderTest: NavigatorService;

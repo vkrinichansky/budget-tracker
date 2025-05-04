@@ -1,35 +1,58 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { Account, AccountsFacadeService, CurrencyService } from '@budget-tracker/data';
-import { AccountsValueEditModalService } from '../../services';
-import { ConfirmationModalService, MenuAction } from '@budget-tracker/design-system';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { AccountsFacadeService } from '../../../../services';
+import {
+  ConfirmationModalService,
+  MenuAction,
+  SnackbarHandlerService,
+} from '@budget-tracker/design-system';
+import { Account } from '@budget-tracker/models';
+import { CurrencyFacadeService, CurrencyPipe } from '@budget-tracker/metadata';
+import { ActionListenerService } from '@budget-tracker/utils';
+import { AccountsActions } from '../../../../store';
+import { AccountsModalsService } from '../../services';
 
 @Component({
   selector: 'app-account-card',
   templateUrl: './account-card.component.html',
   styleUrl: './account-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class AccountCardComponent implements OnInit {
+export class AccountCardComponent {
   readonly menuActions: MenuAction[] = [
     {
       icon: 'edit',
-      translationKey: this.buildTranslationKey('menu.editValue'),
-      action: () => this.accountValueEditModalService.openEditAccountValueModal(this.account.id),
+      translationKey: 'dashboard.infoCards.accountCard.menu.editValue',
+      action: () => this.accountsModalsService.openEditAccountValueModal(this.account.id),
     },
 
     {
       icon: 'delete-bin',
-      translationKey: this.buildTranslationKey('menu.remove'),
+      translationKey: 'dashboard.infoCards.accountCard.menu.remove',
       action: () => {
         this.confirmationModalService.openConfirmationModal(
           {
-            questionTranslationKey: this.buildTranslationKey('removeConfirmationQuestion'),
+            questionTranslationKey: 'dashboard.infoCards.accountCard.removeConfirmationQuestion',
             questionTranslationParams: {
               accountName: this.account.name,
             },
           },
-          () => this.accountsFacade.removeAccount(this.account.id)
+          async () => {
+            try {
+              this.accountsFacade.removeAccount(this.account.id);
+
+              await this.actionListener.waitForResult(
+                AccountsActions.accountRemoved,
+                AccountsActions.removeAccountFail,
+                (action) => action.accountId === this.account.id,
+                (action) => action.accountId === this.account.id
+              );
+
+              this.snackbarHandler.showAccountRemovedSnackbar();
+            } catch {
+              this.snackbarHandler.showGeneralErrorSnackbar();
+            }
+          }
         );
       },
     },
@@ -41,34 +64,23 @@ export class AccountCardComponent implements OnInit {
   @Input()
   shouldDisableDragButton: boolean;
 
-  isAccountRemoving$: Observable<boolean>;
-
-  get primaryText(): string {
-    return `${this.account.value} ${this.account.currency.symbol}`;
-  }
-
   get isAccountWithForeignCurrency(): boolean {
-    return this.account.currency.id !== this.currencyService.getCurrentCurrency();
+    return this.account.currency.id !== this.currencyFacade.getCurrentCurrency();
   }
 
   get accountValueInBaseCurrency(): string {
-    return `${Math.round(
-      this.currencyService.getConvertedValueForAccount(this.account)
-    ).toString()} ${this.currencyService.getCurrencySymbol()}`;
+    return this.currencyPipe.transform(
+      Math.round(this.currencyFacade.getConvertedValueForAccount(this.account))
+    );
   }
 
   constructor(
-    private accountValueEditModalService: AccountsValueEditModalService,
-    private currencyService: CurrencyService,
-    private accountsFacade: AccountsFacadeService,
-    private confirmationModalService: ConfirmationModalService
+    private readonly accountsModalsService: AccountsModalsService,
+    private readonly currencyFacade: CurrencyFacadeService,
+    private readonly accountsFacade: AccountsFacadeService,
+    private readonly confirmationModalService: ConfirmationModalService,
+    private readonly actionListener: ActionListenerService,
+    private readonly snackbarHandler: SnackbarHandlerService,
+    private readonly currencyPipe: CurrencyPipe
   ) {}
-
-  ngOnInit(): void {
-    this.isAccountRemoving$ = this.accountsFacade.isAccountRemoving(this.account.id);
-  }
-
-  buildTranslationKey(key: string): string {
-    return `dashboard.infoCards.accountCard.${key}`;
-  }
 }

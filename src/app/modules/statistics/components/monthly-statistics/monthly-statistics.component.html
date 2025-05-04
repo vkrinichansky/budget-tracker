@@ -1,29 +1,29 @@
-<app-page-header
-  class="text-xl"
-  [title]="buildTranslationKey('title') | translate"
-></app-page-header>
+@let chartOptions = chartData$ | async;
 
-<div class="w-full flex justify-center items-center overflow-hidden">
-  <canvas
-    baseChart
-    #chart="base-chart"
-    [type]="'bar'"
-    [data]="chartData$ | async"
-    [options]="chartOptions"
-  ></canvas>
+<div class="flex items-center">
+  <app-currency-switcher class="pointer-events-none"></app-currency-switcher>
+  <app-info-icon
+    [size]="'medium'"
+    [tooltip]="'statistics.monthlyStatistics.conversionTooltip' | translate"
+    [tooltipPosition]="'right'"
+  ></app-info-icon>
 </div>
 
-<div class="flex justify-center gap-2">
-  @for (action of zoomOptions; track action) {
-    <app-button
-      customTooltip
-      [tooltipText]="action.tooltipKey | translate"
-      [dontDisplayOnScreenWidth]="true"
-      [colorScheme]="'charcoal'"
-      [iconName]="action.icon"
-      [buttonSizeY]="'small'"
-      [buttonSizeX]="'small'"
-      (click)="action.handler()"
-    ></app-button>
-  }
+<div class="w-full flex justify-center items-center overflow-hidden">
+  <apx-chart
+    class="overflow-x-auto"
+    [series]="chartOptions.series"
+    [chart]="chartOptions.chart"
+    [stroke]="chartOptions.stroke"
+    [plotOptions]="chartOptions.plotOptions"
+    [xaxis]="chartOptions.xaxis"
+    [colors]="chartOptions.colors"
+    [fill]="chartOptions.fill"
+    [legend]="chartOptions.legend"
+    [dataLabels]="chartOptions.dataLabels"
+    [states]="chartOptions.states"
+    [responsive]="[]"
+    [grid]="chartOptions.grid"
+    [tooltip]="chartOptions.tooltip"
+  ></apx-chart>
 </div>

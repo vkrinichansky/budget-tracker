@@ -7,6 +7,7 @@ import { IconSize } from '../../models';
   templateUrl: './svg-icon.component.html',
   styleUrls: ['./svg-icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SvgIconComponent {
   @HostBinding('class')

@@ -11,7 +11,6 @@
   "prettier.configPath": ".prettierrc",
   "eslint.format.enable": true,
   "eslint.codeActionsOnSave.rules": null,
-  "lingua.defaultLanguage": "en-US",
   "css.validate": false,
   "less.validate": false,
   "scss.validate": false,
@@ -19,5 +18,8 @@
     "css",
     "scss"
   ],
-  "stylelint.configFile": ".stylelintrc.json"
+  "stylelint.configFile": ".stylelintrc.json",
+  "i18n-ally.localesPaths": [
+    "src/assets/i18n"
+  ]
 }

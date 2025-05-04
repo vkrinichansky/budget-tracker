@@ -12,7 +12,7 @@
   [ngClass]="{
     'form-control-error': formControl.invalid && isErrorState(),
     'border-grey': !isOpen,
-    'border-charcoal': isOpen
+    'border-charcoal': isOpen,
   }"
   [id]="id"
   (click)="toggleDropdown()"
@@ -32,16 +32,16 @@
   <svg-icon
     class="group-hover:text-charcoal absolute top-1/2 right-2 -translate-y-2.5"
     [ngClass]="{
-      'text-red group-hover:text-red': formControl.invalid && isErrorState(),
+      'text-dark-red group-hover:text-dark-red': formControl.invalid && isErrorState(),
       'text-charcoal': isOpen,
-      'text-grey': !isOpen
+      'text-grey': !isOpen,
     }"
     [iconName]="'chevron'"
   ></svg-icon>
 </div>
 
 @if (isErrorState()) {
-  <div class="flex flex-col gap-y-1 w-full pt-1 px-1.5 pb-1.5 rounded-b-md bg-red">
+  <div class="flex flex-col gap-y-1 w-full pt-1 px-1.5 pb-1.5 rounded-b-md bg-dark-red">
     @if (hasRequiredError) {
       <control-error>{{ 'formErrors.required' | translate }}</control-error>
     }
@@ -51,13 +51,13 @@
 <ng-template #optionsTemplate>
   <div
     @overlayFade
-    class="bg-white rounded-md border-2 border-solid border-charcoal w-full max-h-50 min-h-20"
+    class="bg-white rounded-md border-2 border-solid border-charcoal w-full max-h-50 min-h-13"
   >
     <div
       class="flex gap-y-1 p-2 h-full rounded-md overflow-y-auto"
       [ngClass]="{
         'flex-col': !iconPickerMode,
-        'flex-wrap gap-x-1': iconPickerMode
+        'flex-wrap gap-x-1': iconPickerMode,
       }"
     >
       @for (option of dropdownOptions; track getId(option)) {

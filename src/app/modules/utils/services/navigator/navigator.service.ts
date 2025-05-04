@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppRoutes } from '../../models';
+import { AppRoutes } from '@budget-tracker/models';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class NavigatorService {
   private readonly router = inject(Router);
 

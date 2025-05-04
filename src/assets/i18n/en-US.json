@@ -15,10 +15,7 @@
       "income": "Income",
       "expense": "Expense",
       "currentMonthBalance": "Current month balance",
-      "fullBalance": {
-        "title": "Full balance",
-        "tooltip": "Full balance is the sum of all your accounts"
-      },
+      "fullBalance": "Full balance",
       "accounts": {
         "title": "Accounts",
         "titleWithAmount": "Accounts ({{ accountsAmount }})",
@@ -78,6 +75,7 @@
         "removeConfirmationQuestion": "Are you sure you want to remove this record?",
         "removeConfirmationRemark": "This action will revert changes made by this record and will affect <span class='font-bold'>{{ accountName }}</span> account and <span class='font-bold'>{{ categoryName }}</span> category"
       },
+      "currencyChangeRecord": "Currency was changed",
       "emptyStateText": "No data to display yet",
       "removeButtonTooltip": "Remove all records",
       "allRecordsRemoveConfirmationQuestion": "Are you sure you want to remove all records?"
@@ -141,17 +139,18 @@
 
   "statistics": {
     "pageTitle": "Statistics",
-
     "monthlyStatistics": {
-      "title": "Monthly",
-      "chartActions": {
-        "zoomIn": "Zoom in",
-        "zoomOut": "Zoom out",
-        "scrollLeft": "Scroll left",
-        "scrollRight": "Scroll right",
-        "resetZoom": "Reset zoom"
-      },
-      "total": "Total:"
+      "conversionTooltip": "All snapshots are converted to current currency"
+    },
+    "snapshots": {
+      "title": "Snapshots",
+      "income": "Income",
+      "expense": "Expense",
+      "monthBalance": "Month balance",
+      "fullBalance": "Full balance",
+      "categories": "Categories:<br>Income - {{ incomeCategories }}<br>Expense - {{ expenseCategories }}",
+      "incomePercent": "Income - {{ percent }}%",
+      "expensePercent": "Expense - {{ percent }}%"
     }
   },
 
@@ -205,12 +204,16 @@
   "currencySwitcher": {
     "tooltip": "Currency",
     "removeConfirmationQuestion": "Are you sure you want to switch the currency?",
-    "removeConfirmationRemark": "This action also will reset categories values and remove activity log records to prevent inconsistency"
+    "removeConfirmationRemark": "This action also will convert categories values to new currency"
   },
 
   "currencies": {
     "uah": "Hryvnia (₴)",
     "usd": "Dollar ($)",
     "eur": "Euro (€)"
+  },
+
+  "predefinedCategories": {
+    "adjustments": "Adjustments"
   }
 }

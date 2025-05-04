@@ -38,6 +38,7 @@ import { IconsForUser, overlayFade } from '../../../models';
     },
   ],
   animations: [overlayFade],
+  standalone: false,
 })
 export class CustomSelectComponent
   extends GenericCustomControlComponent
@@ -118,7 +119,7 @@ export class CustomSelectComponent
       positionStrategy,
       hasBackdrop: true,
       width: this.trigger.nativeElement.offsetWidth,
-      minHeight: (this.options?.length || 2) * 36 + 16,
+      minHeight: (this.options?.length || 1) * 36 + 16,
     });
 
     this.overlayRef

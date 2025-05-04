@@ -12,18 +12,13 @@ import {
   CurrentMonthBalanceInfoCardComponent,
   MoveMoneyBetweenAccountsModalComponent,
 } from './components';
-import {
-  AccountsListModalService,
-  AccountsModalsService,
-  AccountsValueEditModalService,
-  AddAccountModalService,
-} from './services';
+import { AccountsModalsService } from './services';
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DataModule } from '@budget-tracker/data';
 import { UtilsModule } from '@budget-tracker/utils';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MetadataModule } from '@budget-tracker/metadata';
 
 @NgModule({
   declarations: [
@@ -44,9 +39,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     TranslateModule,
     FormsModule,
     ReactiveFormsModule,
-    DataModule,
     UtilsModule,
     DragDropModule,
+    MetadataModule,
   ],
   exports: [
     IncomeInfoCardComponent,
@@ -59,11 +54,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     CurrentMonthBalanceInfoCardComponent,
     MoveMoneyBetweenAccountsModalComponent,
   ],
-  providers: [
-    AccountsValueEditModalService,
-    AccountsListModalService,
-    AddAccountModalService,
-    AccountsModalsService,
-  ],
+  providers: [AccountsModalsService],
 })
 export class InfoCardsModule {}

@@ -12,42 +12,9 @@ export enum MainPalette {
   DarkGreen = '#109279',
   HoverGreen = '#0B7863',
 
-  Red = '#FF6B69',
+  DarkRed = '#AD3546',
   LightRed = '#FFECEC',
 }
-
-export const ChartPalette = [
-  '#AD3546',
-  '#9B7B66',
-  '#6087A8',
-  '#803F4D',
-  '#CD5D7D',
-  '#CDCA97',
-  '#6B9482',
-  '#F3D8C4',
-  '#F5F7F2',
-  '#FEA8A9',
-  '#B9DDA1',
-  '#D1D1C7',
-  '#FF716F',
-  '#FF966E',
-  '#FFCA6C',
-  '#48698C',
-  '#4C8285',
-  '#BBDFCB',
-  '#478381',
-  '#8DC6CF',
-  '#BFE2E6',
-  '#FA9277',
-  '#F6CB7C',
-  '#FFD4B3',
-  '#4D6F6E',
-  '#49564C',
-  '#73855F',
-  '#F0ADA2',
-  '#FED9C6',
-  '#FCEBDB',
-];
 
 export const IconsForUser = [
   'home',
