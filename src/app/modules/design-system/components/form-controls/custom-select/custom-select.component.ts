@@ -20,6 +20,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { GenericCustomControlComponent } from '../generic-custom-control/generic-custom-control.component';
 import { IconsForUser, overlayFade } from '../../../models';
 
+const MAX_HEIGHT = 200;
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'custom-select',
@@ -115,11 +117,15 @@ export class CustomSelectComponent
         },
       ]);
 
+    const calcHeight = (this.options?.length || 1) * 36 + 16;
+    const minHeight = calcHeight > MAX_HEIGHT ? MAX_HEIGHT : calcHeight;
+
     this.overlayRef = this.overlay.create({
       positionStrategy,
       hasBackdrop: true,
       width: this.trigger.nativeElement.offsetWidth,
-      minHeight: (this.options?.length || 1) * 36 + 16,
+      minHeight,
+      maxHeight: MAX_HEIGHT,
     });
 
     this.overlayRef
