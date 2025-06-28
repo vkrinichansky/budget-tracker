@@ -9,7 +9,7 @@ import {
   CurrencyChangeRecord,
 } from '@budget-tracker/models';
 import { AccountsActions, ActivityLogActions, CategoriesActions } from '../actions';
-import { CurrencyFacadeService, MetadataActions } from '@budget-tracker/metadata';
+import { MetadataActions, MetadataService } from '@budget-tracker/metadata';
 import { CategoriesSelectors } from '../selectors';
 import { Store } from '@ngrx/store';
 
@@ -19,7 +19,7 @@ export class CategoriesEffects {
     private readonly actions$: Actions,
     private readonly categoriesService: CategoriesApiService,
     private readonly store: Store,
-    private readonly currencyFacade: CurrencyFacadeService
+    private readonly metadataService: MetadataService
   ) {}
 
   addCategory$ = createEffect(() =>
@@ -140,15 +140,15 @@ export class CategoriesEffects {
             const updatedCategories = structuredClone(categories);
 
             updatedCategories.forEach((category) => {
-              category.value = this.currencyFacade.convertCurrency(
+              category.value = this.metadataService.convertCurrency(
                 category.value,
-                this.currencyFacade.getCurrentCurrency(),
+                this.metadataService.getCurrentCurrency(),
                 action.newCurrency
               );
             });
 
             const activityLogRecord: CurrencyChangeRecord = createCurrencyChangeRecord(
-              this.currencyFacade.getCurrentCurrency(),
+              this.metadataService.getCurrentCurrency(),
               action.newCurrency
             );
 

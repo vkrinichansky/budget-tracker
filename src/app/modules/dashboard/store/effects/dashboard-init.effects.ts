@@ -14,7 +14,7 @@ import { DashboardInitApiService } from '../../services';
 import { Store } from '@ngrx/store';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
 import { AccountsSelectors, CategoriesSelectors } from '../selectors';
-import { CurrencyFacadeService } from '@budget-tracker/metadata';
+import { MetadataService } from '@budget-tracker/metadata';
 
 @Injectable()
 export class DashboardInitEffects {
@@ -23,7 +23,7 @@ export class DashboardInitEffects {
     private readonly dashboardInitService: DashboardInitApiService,
     private readonly store: Store,
     private readonly snackbarHandler: SnackbarHandlerService,
-    private readonly currencyFacade: CurrencyFacadeService
+    private readonly metadataService: MetadataService
   ) {}
 
   init$ = createEffect(() =>
@@ -52,8 +52,8 @@ export class DashboardInitEffects {
           this.store.select(CategoriesSelectors.currentMonthBalanceSelector),
           this.store.select(
             AccountsSelectors.fullBalanceSelector(
-              this.currencyFacade.getCurrentCurrency(),
-              this.currencyFacade.getCurrentExchangeRate()
+              this.metadataService.getCurrentCurrency(),
+              this.metadataService.getCurrentExchangeRate()
             )
           ),
         ]).pipe(
@@ -76,7 +76,7 @@ export class DashboardInitEffects {
           expense,
           monthBalance,
           fullBalance,
-          currency: this.currencyFacade.getCurrentCurrency(),
+          currency: this.metadataService.getCurrentCurrency(),
         };
 
         const { resetCategories, resetDate } = this.getResetData(action.data);

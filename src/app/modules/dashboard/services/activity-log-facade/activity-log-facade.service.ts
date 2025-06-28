@@ -17,13 +17,13 @@ import {
 import { Dictionary } from '@ngrx/entity';
 import { CategoriesFacadeService } from '../categories-facade/categories-facade.service';
 import { AccountsFacadeService } from '../accounts-facade/accounts-facade.service';
-import { LanguageFacadeService } from '@budget-tracker/metadata';
+import { MetadataService } from '@budget-tracker/metadata';
 
 @Injectable()
 export class ActivityLogFacadeService {
   constructor(
     private store: Store,
-    private languageFacade: LanguageFacadeService,
+    private metadataService: MetadataService,
     private categoriesFacade: CategoriesFacadeService,
     private accountsFacade: AccountsFacadeService
   ) {}
@@ -37,7 +37,7 @@ export class ActivityLogFacadeService {
   }
 
   getActivityLogGroupedByDays(): Observable<ActivityLogGroupedByDay[]> {
-    const language = this.languageFacade.getCurrentLanguage();
+    const language = this.metadataService.getCurrentLanguage();
 
     return this.store.select(ActivityLogSelectors.activityLogGroupedByDaysSelector(language));
   }

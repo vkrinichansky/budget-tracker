@@ -2,7 +2,7 @@ import { DialogRef } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, FormControl } from '@angular/forms';
-import { CurrencyFacadeService } from '@budget-tracker/metadata';
+import { MetadataService } from '@budget-tracker/metadata';
 import { Account } from '@budget-tracker/models';
 import { BehaviorSubject, combineLatest, filter, map, Observable, tap, withLatestFrom } from 'rxjs';
 import { AccountsFacadeService } from '../../../../services';
@@ -27,7 +27,12 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
   readonly formFieldsEnum = FormFields;
   readonly loading$ = new BehaviorSubject<boolean>(false);
 
-  readonly form: FormGroup = new FormGroup({
+  readonly form: FormGroup = new FormGroup<{
+    [FormFields.FromAccount]: FormControl<Account>;
+    [FormFields.ToAccount]: FormControl<Account>;
+    [FormFields.ValueToMove]: FormControl<number>;
+    [FormFields.ConvertedValueToMove]: FormControl<number>;
+  }>({
     [FormFields.FromAccount]: new FormControl(null),
     [FormFields.ToAccount]: new FormControl(null),
     [FormFields.ValueToMove]: new FormControl(null),
@@ -73,7 +78,7 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
   constructor(
     private accountsFacade: AccountsFacadeService,
     private destroyRef: DestroyRef,
-    private currencyFacade: CurrencyFacadeService,
+    private metadataService: MetadataService,
     private dialogRef: DialogRef,
     private readonly actionListener: ActionListenerService,
     private readonly snackbarHandler: SnackbarHandlerService
@@ -130,10 +135,10 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
     ])
       .pipe(
         tap(([value, fromAccount, toAccount]) => {
-          const convertedValue = this.currencyFacade.convertCurrency(
+          const convertedValue = this.metadataService.convertCurrency(
             parseInt(value),
-            (fromAccount as Account).currency.id,
-            (toAccount as Account).currency.id
+            fromAccount.currency.id,
+            toAccount.currency.id
           );
 
           this.form.controls[FormFields.ConvertedValueToMove].setValue(

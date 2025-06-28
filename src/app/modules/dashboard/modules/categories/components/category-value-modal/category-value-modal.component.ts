@@ -6,7 +6,7 @@ import { CategoryValueModalData } from '../../models';
 import { AccountsFacadeService, CategoriesFacadeService } from '../../../../services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Account, Category, BudgetType } from '@budget-tracker/models';
-import { CurrencyFacadeService } from '@budget-tracker/metadata';
+import { MetadataService } from '@budget-tracker/metadata';
 import { ActionListenerService } from '@budget-tracker/utils';
 import { CategoriesActions } from '../../../../store';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
@@ -52,7 +52,7 @@ export class CategoryValueModalComponent implements OnInit {
   get doesChoosedAccountHaveForeignCurrency(): boolean {
     return this.accoundChoosed
       ? (this.form.controls[FormFields.AccountToUse].value as Account).currency.id !==
-          this.currencyFacade.getCurrentCurrency()
+          this.metadataService.getCurrentCurrency()
       : false;
   }
 
@@ -63,11 +63,11 @@ export class CategoryValueModalComponent implements OnInit {
 
     return this.doesChoosedAccountHaveForeignCurrency
       ? (this.form?.controls?.[FormFields.AccountToUse]?.value as Account)?.currency?.symbol
-      : this.currencyFacade.getCurrencySymbol();
+      : this.metadataService.getCurrencySymbol();
   }
 
   get currencySymbolForConvertedValueField(): string {
-    return this.accoundChoosed ? this.currencyFacade.getCurrencySymbol() : null;
+    return this.accoundChoosed ? this.metadataService.getCurrencySymbol() : null;
   }
 
   get maxValue(): number {
@@ -85,7 +85,7 @@ export class CategoryValueModalComponent implements OnInit {
     private readonly dialogRef: MatDialogRef<CategoryValueModalComponent>,
     private readonly categoriesFacade: CategoriesFacadeService,
     private readonly accountsFacade: AccountsFacadeService,
-    private readonly currencyFacade: CurrencyFacadeService,
+    private readonly metadataService: MetadataService,
     private readonly destroyRef: DestroyRef,
     private readonly actionListener: ActionListenerService,
     private readonly snackbarHandler: SnackbarHandlerService
@@ -147,7 +147,7 @@ export class CategoryValueModalComponent implements OnInit {
       .pipe(
         withLatestFrom(this.form.controls[FormFields.AccountToUse].valueChanges),
         tap(([value, account]) => {
-          const convertedValue = this.currencyFacade.getBasicToForeignConvertedValue(
+          const convertedValue = this.metadataService.getBasicToForeignConvertedValue(
             value,
             account.currency.id
           );

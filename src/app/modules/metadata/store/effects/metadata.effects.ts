@@ -1,5 +1,5 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { CurrencyFacadeService, LanguageFacadeService, MetadataApiService } from '../../services';
+import { MetadataApiService, MetadataService } from '../../services';
 import { Injectable } from '@angular/core';
 import { catchError, EMPTY, from, map, of, switchMap, take, tap } from 'rxjs';
 import { MetadataActions } from '../actions';
@@ -13,8 +13,7 @@ export class MetadataEffects {
   constructor(
     private actions$: Actions,
     private metadataApiService: MetadataApiService,
-    private languageFacade: LanguageFacadeService,
-    private currencyFacade: CurrencyFacadeService,
+    private metadataService: MetadataService,
     private snackbarHandler: SnackbarHandlerService,
     private store: Store
   ) {}
@@ -42,9 +41,11 @@ export class MetadataEffects {
         )
       ),
       tap((metadata) => {
-        this.currencyFacade.setCurrentCurrency(metadata.currency);
-        this.currencyFacade.setCurrentExchangeRate(metadata.currencyExchangeRate);
-        this.languageFacade.setCurrentLanguage(metadata.language);
+        this.metadataService.setMetadata(
+          metadata.currency,
+          metadata.currencyExchangeRate,
+          metadata.language
+        );
       }),
       map(() => MetadataActions.metadataLoaded())
     )

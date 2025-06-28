@@ -5,8 +5,7 @@ import {
   SnackbarHandlerService,
 } from '@budget-tracker/design-system';
 import { predefinedCurrenciesDictionary, CurrenciesEnum } from '@budget-tracker/models';
-import { map, Observable } from 'rxjs';
-import { CurrencyFacadeService, MetadataFacadeService } from '../../services';
+import { MetadataFacadeService, MetadataService } from '../../services';
 import { ActionListenerService } from '@budget-tracker/utils';
 import { MetadataActions } from '../../store';
 
@@ -17,13 +16,13 @@ import { MetadataActions } from '../../store';
   standalone: false,
 })
 export class CurrencySwitcherComponent implements OnInit {
-  currentCurrency$: Observable<CurrenciesEnum>;
-  currentCurrencyText$: Observable<string>;
-  icon$: Observable<string>;
+  currentCurrency: CurrenciesEnum;
+  currentCurrencyText: string;
+  icon: string;
   menuActions: MenuAction[];
 
   constructor(
-    private readonly currencyFacade: CurrencyFacadeService,
+    private readonly metadataService: MetadataService,
     private readonly metadataFacade: MetadataFacadeService,
     private readonly confirmationModalService: ConfirmationModalService,
     private readonly actionListener: ActionListenerService,
@@ -31,16 +30,9 @@ export class CurrencySwitcherComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.currentCurrency$ = this.currencyFacade.getCurrentCurrencyObs();
-    this.currentCurrencyText$ = this.currentCurrency$.pipe(
-      map(
-        (currency) =>
-          `${predefinedCurrenciesDictionary[currency].code} (${predefinedCurrenciesDictionary[currency].symbol})`
-      )
-    );
-    this.icon$ = this.currentCurrency$.pipe(
-      map((currency) => predefinedCurrenciesDictionary[currency].icon)
-    );
+    this.currentCurrency = this.metadataService.getCurrentCurrency();
+    this.currentCurrencyText = `${predefinedCurrenciesDictionary[this.currentCurrency].code} (${predefinedCurrenciesDictionary[this.currentCurrency].symbol})`;
+    this.icon = predefinedCurrenciesDictionary[this.currentCurrency].icon;
 
     this.menuActions = this.getMenuActions();
   }
@@ -70,7 +62,7 @@ export class CurrencySwitcherComponent implements OnInit {
             }
           }
         ),
-      disabledObs: this.currentCurrency$.pipe(map((currency) => currency === key)),
+      disabled: this.currentCurrency === key,
     }));
   }
 }

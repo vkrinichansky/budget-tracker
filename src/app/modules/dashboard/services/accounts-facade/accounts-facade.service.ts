@@ -17,13 +17,13 @@ import {
   CategoriesActions,
   CategoriesSelectors,
 } from '../../store';
-import { CurrencyFacadeService } from '@budget-tracker/metadata';
+import { MetadataService } from '@budget-tracker/metadata';
 
 @Injectable()
 export class AccountsFacadeService {
   constructor(
     private store: Store,
-    private currencyFacade: CurrencyFacadeService
+    private metadataService: MetadataService
   ) {}
 
   getAllAccounts(): Observable<Account[]> {
@@ -37,8 +37,8 @@ export class AccountsFacadeService {
   getFullBallance(): Observable<number> {
     return this.store.select(
       AccountsSelectors.fullBalanceSelector(
-        this.currencyFacade.getCurrentCurrency(),
-        this.currencyFacade.getCurrentExchangeRate()
+        this.metadataService.getCurrentCurrency(),
+        this.metadataService.getCurrentExchangeRate()
       )
     );
   }
@@ -64,10 +64,10 @@ export class AccountsFacadeService {
 
     let convertedValue: number;
 
-    if (account.currency.id === this.currencyFacade.getCurrentCurrency()) {
+    if (account.currency.id === this.metadataService.getCurrentCurrency()) {
       convertedValue = absDifference;
     } else {
-      convertedValue = this.currencyFacade.getBasicToForeignConvertedValue(
+      convertedValue = this.metadataService.getBasicToForeignConvertedValue(
         absDifference,
         account.currency.id
       );
@@ -82,7 +82,7 @@ export class AccountsFacadeService {
       account,
       absDifference,
       convertedValue,
-      this.currencyFacade.getCurrentCurrency(),
+      this.metadataService.getCurrentCurrency(),
       note
     );
 

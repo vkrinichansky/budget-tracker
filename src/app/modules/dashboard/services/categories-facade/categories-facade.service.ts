@@ -12,13 +12,13 @@ import {
   createCategoriesResetRecord,
 } from '@budget-tracker/models';
 import { Dictionary } from '@ngrx/entity';
-import { CurrencyFacadeService } from '@budget-tracker/metadata';
+import { MetadataService } from '@budget-tracker/metadata';
 
 @Injectable()
 export class CategoriesFacadeService {
   constructor(
     private readonly store: Store,
-    private readonly currencyFacade: CurrencyFacadeService
+    private readonly metadataService: MetadataService
   ) {}
 
   getAllCategories(): Observable<Category[]> {
@@ -85,7 +85,7 @@ export class CategoriesFacadeService {
       account,
       valueToAdd,
       convertedValueToAdd,
-      this.currencyFacade.getCurrentCurrency(),
+      this.metadataService.getCurrentCurrency(),
       note
     );
 

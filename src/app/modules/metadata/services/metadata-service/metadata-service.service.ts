@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import {
-  Account,
   CurrenciesEnum,
   CurrencyExchangeRate,
+  LanguagesEnum,
   predefinedCurrenciesDictionary,
 } from '@budget-tracker/models';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 interface ExchangeRates {
   [currency: string]: {
@@ -13,29 +14,45 @@ interface ExchangeRates {
   };
 }
 
-@Injectable({ providedIn: 'root' })
-export class CurrencyFacadeService {
-  private readonly _currency$ = new BehaviorSubject<CurrenciesEnum>(null);
+@Injectable({
+  providedIn: 'root',
+})
+export class MetadataService {
+  constructor(private readonly translateService: TranslateService) {}
+
+  private readonly _isMetadataLoaded$ = new BehaviorSubject<boolean>(false);
+
+  private _currency: CurrenciesEnum;
   private _currencyExchangeRate: CurrencyExchangeRate;
 
-  setCurrentCurrency(currency: CurrenciesEnum): void {
-    this._currency$.next(currency);
+  setMetadata(
+    currency: CurrenciesEnum,
+    currencyExchangeRate: CurrencyExchangeRate,
+    language: LanguagesEnum
+  ): void {
+    this._currency = currency;
+    this._currencyExchangeRate = currencyExchangeRate;
+
+    this.translateService.setDefaultLang(language);
+    this.translateService.use(language);
+
+    this._isMetadataLoaded$.next(true);
+  }
+
+  isMetadataLoadedObs(): Observable<boolean> {
+    return this._isMetadataLoaded$;
   }
 
   getCurrentCurrency(): CurrenciesEnum {
-    return this._currency$.value;
+    return this._currency;
   }
 
-  getCurrentCurrencyObs(): Observable<CurrenciesEnum> {
-    return this._currency$.asObservable();
+  getCurrencySymbol(currency?: CurrenciesEnum): string {
+    return predefinedCurrenciesDictionary[currency || this._currency].symbol;
   }
 
-  getCurrencySymbol(): string {
-    return predefinedCurrenciesDictionary[this._currency$.value].symbol;
-  }
-
-  getConvertedValueForAccount(account: Account): number {
-    return Math.round(account.value / this.getCurrentExchangeRate()[account.currency.id]);
+  getConvertedValueForAccount(accountCurrency: CurrenciesEnum, accountValue: number): number {
+    return Math.round(accountValue / this.getCurrentExchangeRate()[accountCurrency]);
   }
 
   getBasicToForeignConvertedValue(value: number, currency: CurrenciesEnum): number {
@@ -55,11 +72,7 @@ export class CurrencyFacadeService {
     };
 
     const result: ExchangeRates = {};
-
     const baseRates = rates[baseCurrency];
-    if (!baseRates) {
-      throw new Error(`Base currency ${baseCurrency} not found.`);
-    }
 
     // Calculate rates with new base currencies
     for (const [currency, rate] of Object.entries(baseRates)) {
@@ -86,5 +99,9 @@ export class CurrencyFacadeService {
 
   getCurrentExchangeRate(): CurrencyExchangeRate {
     return this._currencyExchangeRate;
+  }
+
+  getCurrentLanguage(): LanguagesEnum {
+    return this.translateService.getDefaultLang() as LanguagesEnum;
   }
 }

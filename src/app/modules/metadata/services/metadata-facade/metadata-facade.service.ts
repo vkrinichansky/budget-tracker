@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { MetadataActions, MetadataSelectors } from '../../store';
+import { MetadataActions } from '../../store';
 import { Store } from '@ngrx/store';
 import { CurrenciesEnum, LanguagesEnum } from '@budget-tracker/models';
-import { filter, firstValueFrom, Observable } from 'rxjs';
+import { filter, firstValueFrom } from 'rxjs';
 import { AuthFacadeService } from '@budget-tracker/auth';
 
 @Injectable()
@@ -15,10 +15,6 @@ export class MetadataFacadeService {
   async initMetadata(): Promise<void> {
     await firstValueFrom(this.authFacade.isLoggedIn().pipe(filter(Boolean)));
     this.store.dispatch(MetadataActions.loadMetadata());
-  }
-
-  isMetadataLoaded(): Observable<boolean> {
-    return this.store.select(MetadataSelectors.metadataLoadedSelector);
   }
 
   changeCurrency(newCurrency: CurrenciesEnum): void {

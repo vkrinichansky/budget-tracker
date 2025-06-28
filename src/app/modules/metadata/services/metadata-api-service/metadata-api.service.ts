@@ -9,19 +9,17 @@ import {
   getDoc,
   updateDoc,
 } from '@angular/fire/firestore';
-import { AuthFacadeService } from '@budget-tracker/auth';
 import {
   CurrenciesEnum,
   ExchangeEndpointResponse,
   LanguagesEnum,
   UserMetadata,
 } from '@budget-tracker/models';
-import { firstValueFrom, switchMap, from, map, Observable } from 'rxjs';
+import { firstValueFrom, from, map, Observable } from 'rxjs';
 
 @Injectable()
 export class MetadataApiService {
   constructor(
-    private readonly authFacade: AuthFacadeService,
     private readonly firestore: Firestore,
     private readonly http: HttpClient,
     private readonly afAuth: Auth
@@ -29,10 +27,7 @@ export class MetadataApiService {
 
   async initMetadata(): Promise<UserMetadata> {
     return await firstValueFrom(
-      this.authFacade.getUserId().pipe(
-        switchMap((userId) => from(getDoc(doc(collection(this.firestore, 'metadata'), userId)))),
-        map((data): UserMetadata => data.data() as UserMetadata)
-      )
+      from(getDoc(this.getDocRef())).pipe(map((data): UserMetadata => data.data() as UserMetadata))
     );
   }
 
@@ -55,6 +50,6 @@ export class MetadataApiService {
   }
 
   private getDocRef(): DocumentReference {
-    return doc(collection(this.firestore, 'metadata'), this.afAuth.currentUser?.uid);
+    return doc(collection(this.firestore, 'metadata'), this.afAuth.currentUser.uid);
   }
 }

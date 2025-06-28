@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CurrencyService } from './currency-facade.service';
+import { MetadataService } from './metadata-service.service';
 
-describe('CurrencyService', () => {
-  let service: CurrencyService;
+describe('MetadataService', () => {
+  let service: MetadataService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CurrencyService);
+    service = TestBed.inject(MetadataService);
   });
 
   it('should be created', () => {
