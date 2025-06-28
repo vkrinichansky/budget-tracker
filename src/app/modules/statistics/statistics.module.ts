@@ -4,11 +4,7 @@ import { StatisticsComponent } from './statistics.component';
 import { RouterModule, Routes } from '@angular/router';
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
-import {
-  MonthlyStatisticsComponent,
-  SnapshotItemComponent,
-  SnapshotsListComponent,
-} from './components';
+import { SnapshotItemComponent, SnapshotsListComponent } from './components';
 import { NgChartsModule } from 'ng2-charts';
 import { MetadataModule } from '@budget-tracker/metadata';
 import { StoreModule } from '@ngrx/store';
@@ -29,12 +25,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [
-    StatisticsComponent,
-    MonthlyStatisticsComponent,
-    SnapshotsListComponent,
-    SnapshotItemComponent,
-  ],
+  declarations: [StatisticsComponent, SnapshotsListComponent, SnapshotItemComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
