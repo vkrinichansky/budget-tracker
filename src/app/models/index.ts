@@ -1,6 +1,5 @@
 export { UserMetadata } from './user-metadata.model';
 export { BudgetType } from './budget-type.enum';
-export { User } from './user.model';
 export { Account } from './account.model';
 export { StatisticsSnapshot } from './statistics.model';
 export { Dashboard } from './dashboard.model';

@@ -4,7 +4,7 @@ import { filter, firstValueFrom, map } from 'rxjs';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth-service/auth.service';
 import { AuthActions, AuthSelectors } from '../../store';
-import { User } from '@budget-tracker/models';
+import { User } from '../../models';
 
 @Injectable()
 export class AuthFacadeService {

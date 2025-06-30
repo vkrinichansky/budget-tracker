@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { User } from '@budget-tracker/models';
+import { User } from '../../models';
 import { authFeature } from '../reducers';
 
 const authStateSelector = createSelector(authFeature.selectAuthState, (authState) => authState);

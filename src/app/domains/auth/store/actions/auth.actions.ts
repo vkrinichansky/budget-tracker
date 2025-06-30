@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { User } from '@budget-tracker/models';
+import { User } from '../../models';
 
 export const AuthActions = {
   login: createAction('[Auth] Login attempt'),

@@ -28,10 +28,10 @@
     "strictNullChecks": false,
     "paths": {
       "@budget-tracker/models": [
-        "src/app/modules/models/index.ts"
+        "src/app/models/index.ts"
       ],
       "@budget-tracker/auth": [
-        "src/app/modules/auth/index.ts"
+        "src/app/domains/auth/index.ts"
       ],
       "@budget-tracker/metadata": [
         "src/app/modules/metadata/index.ts"

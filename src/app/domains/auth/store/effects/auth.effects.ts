@@ -3,7 +3,7 @@ import { User as FirebaseUser } from '@angular/fire/auth';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, filter, of, switchMap, take, tap } from 'rxjs';
 import { from, map, mergeMap } from 'rxjs';
-import { User } from '@budget-tracker/models';
+import { User } from '../../models';
 import { AuthService } from '../../services';
 import { AuthActions } from '../actions';
 import { NavigatorService } from '@budget-tracker/utils';
