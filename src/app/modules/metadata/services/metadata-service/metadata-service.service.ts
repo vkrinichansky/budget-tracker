@@ -86,6 +86,13 @@ export class MetadataService {
     this._isMetadataLoaded$.next(true);
   }
 
+  clearMetadata(): void {
+    this._isMetadataLoaded$.next(false);
+    this._currency = undefined;
+    this._currencyExchangeRate = undefined;
+    this._exchangeRates = undefined;
+  }
+
   isMetadataLoadedObs(): Observable<boolean> {
     return this._isMetadataLoaded$;
   }

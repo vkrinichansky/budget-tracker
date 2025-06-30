@@ -77,11 +77,13 @@ export class MetadataEffects {
     )
   );
 
-  cleanStateOnLogOut$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.logout),
-      map(() => MetadataActions.cleanState())
-    )
+  cleanStateOnLogOut$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.logout),
+        tap(() => this.metadataService.clearMetadata())
+      ),
+    { dispatch: false }
   );
 
   private getCurrentExchangeRate(exchangeRate: CurrencyExchangeRate): CurrencyExchangeRate {
