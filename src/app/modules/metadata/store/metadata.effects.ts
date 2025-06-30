@@ -1,11 +1,9 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { MetadataApiService, MetadataService } from '../../services';
+import { MetadataApiService, MetadataService } from '../services';
 import { Injectable } from '@angular/core';
-import { catchError, EMPTY, from, map, of, switchMap, take, tap } from 'rxjs';
-import { MetadataActions } from '../actions';
+import { catchError, from, map, of, switchMap, take, tap } from 'rxjs';
+import { MetadataActions } from './metadata.actions';
 import { CurrencyExchangeRate, predefinedCurrenciesDictionary } from '@budget-tracker/models';
-import { SnackbarHandlerService } from '@budget-tracker/design-system';
-import { Store } from '@ngrx/store';
 import { AuthActions } from '@budget-tracker/auth';
 
 @Injectable()
@@ -13,9 +11,7 @@ export class MetadataEffects {
   constructor(
     private actions$: Actions,
     private metadataApiService: MetadataApiService,
-    private metadataService: MetadataService,
-    private snackbarHandler: SnackbarHandlerService,
-    private store: Store
+    private metadataService: MetadataService
   ) {}
 
   loadMetadata$ = createEffect(() =>
@@ -69,23 +65,16 @@ export class MetadataEffects {
     )
   );
 
-  changeLanguage$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(MetadataActions.changeLanguage),
-        switchMap((action) =>
-          from(this.metadataApiService.changeLanguage(action.newLanguage)).pipe(
-            tap(() => location.reload()),
-            catchError((error) => {
-              this.snackbarHandler.showErrorSnackbar(error);
-              this.store.dispatch(MetadataActions.changeLanguageFail());
-
-              return EMPTY;
-            })
-          )
+  changeLanguage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MetadataActions.changeLanguage),
+      switchMap((action) =>
+        from(this.metadataApiService.changeLanguage(action.newLanguage)).pipe(
+          switchMap(() => of(MetadataActions.changeLanguageSuccess())),
+          catchError(() => of(MetadataActions.changeLanguageFail()))
         )
-      ),
-    { dispatch: false }
+      )
+    )
   );
 
   cleanStateOnLogOut$ = createEffect(() =>

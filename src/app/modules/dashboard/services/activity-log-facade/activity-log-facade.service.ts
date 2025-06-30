@@ -37,7 +37,7 @@ export class ActivityLogFacadeService {
   }
 
   getActivityLogGroupedByDays(): Observable<ActivityLogGroupedByDay[]> {
-    const language = this.metadataService.getCurrentLanguage();
+    const language = this.metadataService.currentLanguage;
 
     return this.store.select(ActivityLogSelectors.activityLogGroupedByDaysSelector(language));
   }

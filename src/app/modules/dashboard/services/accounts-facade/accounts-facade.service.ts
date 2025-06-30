@@ -37,8 +37,8 @@ export class AccountsFacadeService {
   getFullBallance(): Observable<number> {
     return this.store.select(
       AccountsSelectors.fullBalanceSelector(
-        this.metadataService.getCurrentCurrency(),
-        this.metadataService.getCurrentExchangeRate()
+        this.metadataService.currentCurrency,
+        this.metadataService.currencyExchangeRate
       )
     );
   }
@@ -64,7 +64,7 @@ export class AccountsFacadeService {
 
     let convertedValue: number;
 
-    if (account.currency.id === this.metadataService.getCurrentCurrency()) {
+    if (account.currency.id === this.metadataService.currentCurrency) {
       convertedValue = absDifference;
     } else {
       convertedValue = this.metadataService.getBasicToForeignConvertedValue(
@@ -82,7 +82,7 @@ export class AccountsFacadeService {
       account,
       absDifference,
       convertedValue,
-      this.metadataService.getCurrentCurrency(),
+      this.metadataService.currentCurrency,
       note
     );
 

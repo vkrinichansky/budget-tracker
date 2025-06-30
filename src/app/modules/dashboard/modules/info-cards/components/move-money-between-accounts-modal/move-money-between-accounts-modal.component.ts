@@ -2,7 +2,7 @@ import { DialogRef } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MetadataService } from '@budget-tracker/metadata';
+import { MetadataFacadeService } from '@budget-tracker/metadata';
 import { Account } from '@budget-tracker/models';
 import { BehaviorSubject, combineLatest, filter, map, Observable, tap, withLatestFrom } from 'rxjs';
 import { AccountsFacadeService } from '../../../../services';
@@ -78,7 +78,7 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
   constructor(
     private accountsFacade: AccountsFacadeService,
     private destroyRef: DestroyRef,
-    private metadataService: MetadataService,
+    private metadataFacade: MetadataFacadeService,
     private dialogRef: DialogRef,
     private readonly actionListener: ActionListenerService,
     private readonly snackbarHandler: SnackbarHandlerService
@@ -135,7 +135,7 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
     ])
       .pipe(
         tap(([value, fromAccount, toAccount]) => {
-          const convertedValue = this.metadataService.convertCurrency(
+          const convertedValue = this.metadataFacade.convertCurrency(
             parseInt(value),
             fromAccount.currency.id,
             toAccount.currency.id

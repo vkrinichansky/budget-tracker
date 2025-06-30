@@ -85,7 +85,7 @@ export class CategoriesFacadeService {
       account,
       valueToAdd,
       convertedValueToAdd,
-      this.metadataService.getCurrentCurrency(),
+      this.metadataService.currentCurrency,
       note
     );
 

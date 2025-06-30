@@ -6,7 +6,7 @@ import {
   StatisticsSnapshot,
 } from '@budget-tracker/models';
 import { TranslateService } from '@ngx-translate/core';
-import { MetadataService } from '@budget-tracker/metadata';
+import { MetadataFacadeService } from '@budget-tracker/metadata';
 
 interface FinancialMetric {
   icon: string;
@@ -46,7 +46,7 @@ export class SnapshotItemComponent implements OnInit {
 
   get date(): string {
     return new Date(parseInt(this.snapshot.date)).toLocaleDateString(
-      this.metadataService.getCurrentLanguage(),
+      this.metadataFacade.currentLanguage,
       {
         year: 'numeric',
         month: 'short',
@@ -57,7 +57,7 @@ export class SnapshotItemComponent implements OnInit {
   constructor(
     private readonly classToHexPipe: ClassToHexColorPipe,
     private readonly translateService: TranslateService,
-    private readonly metadataService: MetadataService
+    private readonly metadataFacade: MetadataFacadeService
   ) {}
 
   ngOnInit(): void {

@@ -5,7 +5,7 @@ import { CategoryValueChangeRecord, BudgetType } from '@budget-tracker/models';
 import { ActionListenerService, isToday } from '@budget-tracker/utils';
 import { combineLatest, map, Observable } from 'rxjs';
 import { ActivityLogActions } from '../../../../store';
-import { MetadataService } from '@budget-tracker/metadata';
+import { MetadataFacadeService } from '@budget-tracker/metadata';
 
 @Component({
   selector: 'app-category-value-change-record',
@@ -52,7 +52,7 @@ export class CategoryValueChangeRecordComponent implements OnInit {
     private readonly activityLogFacade: ActivityLogFacadeService,
     private readonly actionListener: ActionListenerService,
     private readonly snackbarHandler: SnackbarHandlerService,
-    private readonly metadataService: MetadataService
+    private readonly metadataFacade: MetadataFacadeService
   ) {}
 
   ngOnInit(): void {
@@ -62,10 +62,7 @@ export class CategoryValueChangeRecordComponent implements OnInit {
     ]).pipe(
       map(
         ([a, b]) =>
-          a &&
-          b &&
-          this.isToday &&
-          this.metadataService.getCurrentCurrency() === this.record.currency
+          a && b && this.isToday && this.metadataFacade.currentCurrency === this.record.currency
       )
     );
   }

@@ -1,8 +1,8 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { MenuAction } from '@budget-tracker/design-system';
+import { MenuAction, SnackbarHandlerService } from '@budget-tracker/design-system';
 import { LanguagesEnum, predefinedLanguagesDictionary } from '@budget-tracker/models';
-import { Observable, of } from 'rxjs';
-import { MetadataFacadeService, MetadataService } from '../../services';
+import { BehaviorSubject } from 'rxjs';
+import { MetadataFacadeService } from '../../services';
 
 @Component({
   selector: 'app-language-switcher',
@@ -16,15 +16,15 @@ export class LanguageSwitcherComponent implements OnInit {
   icon: string;
   menuActions: MenuAction[];
 
-  isLoading$: Observable<boolean> = of(false);
+  readonly loading$ = new BehaviorSubject<boolean>(false);
 
   constructor(
-    private metadataService: MetadataService,
-    private metadataFacade: MetadataFacadeService
+    private readonly metadataFacade: MetadataFacadeService,
+    private readonly snackbarHandler: SnackbarHandlerService
   ) {}
 
   ngOnInit(): void {
-    this.currentLanguage = this.metadataService.getCurrentLanguage();
+    this.currentLanguage = this.metadataFacade.currentLanguage;
     this.currentLanguageText = predefinedLanguagesDictionary[this.currentLanguage].code;
     this.icon = predefinedLanguagesDictionary[this.currentLanguage].icon;
 
@@ -39,7 +39,19 @@ export class LanguageSwitcherComponent implements OnInit {
     return (Object.keys(predefinedLanguagesDictionary) as LanguagesEnum[]).map((key) => ({
       icon: predefinedLanguagesDictionary[key].icon,
       translationKey: `languages.${key}`,
-      action: () => this.metadataFacade.changeLanguage(key as LanguagesEnum),
+      action: async () => {
+        try {
+          this.loading$.next(true);
+
+          await this.metadataFacade.changeLanguage(key as LanguagesEnum);
+
+          location.reload();
+        } catch {
+          this.snackbarHandler.showGeneralErrorSnackbar();
+        } finally {
+          this.loading$.next(false);
+        }
+      },
       disabled: key === this.currentLanguage,
     }));
   }

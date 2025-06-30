@@ -142,13 +142,13 @@ export class CategoriesEffects {
             updatedCategories.forEach((category) => {
               category.value = this.metadataService.convertCurrency(
                 category.value,
-                this.metadataService.getCurrentCurrency(),
+                this.metadataService.currentCurrency,
                 action.newCurrency
               );
             });
 
             const activityLogRecord: CurrencyChangeRecord = createCurrencyChangeRecord(
-              this.metadataService.getCurrentCurrency(),
+              this.metadataService.currentCurrency,
               action.newCurrency
             );
 

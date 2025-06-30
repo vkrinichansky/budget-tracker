@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AuthFacadeService } from '@budget-tracker/auth';
-import { MetadataFacadeService, MetadataService } from '@budget-tracker/metadata';
-import { delay, map, Observable } from 'rxjs';
+import { MetadataFacadeService } from '@budget-tracker/metadata';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -16,15 +16,14 @@ export class AppComponent implements OnInit {
 
   constructor(
     private readonly metadataFacade: MetadataFacadeService,
-    private readonly authFacade: AuthFacadeService,
-    private readonly metadataService: MetadataService
+    private readonly authFacade: AuthFacadeService
   ) {}
 
   ngOnInit(): void {
     this.authFacade.initAuthState();
     this.metadataFacade.initMetadata();
 
-    this.loading$ = this.metadataService.isMetadataLoadedObs().pipe(map((isLoaded) => !isLoaded));
+    this.loading$ = this.metadataFacade.isMetadataLoadedObs().pipe(map((isLoaded) => !isLoaded));
     this.isLoggedIn$ = this.authFacade.isLoggedIn();
   }
 }

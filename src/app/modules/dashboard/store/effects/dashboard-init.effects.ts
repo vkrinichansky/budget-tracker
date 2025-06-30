@@ -52,8 +52,8 @@ export class DashboardInitEffects {
           this.store.select(CategoriesSelectors.currentMonthBalanceSelector),
           this.store.select(
             AccountsSelectors.fullBalanceSelector(
-              this.metadataService.getCurrentCurrency(),
-              this.metadataService.getCurrentExchangeRate()
+              this.metadataService.currentCurrency,
+              this.metadataService.currencyExchangeRate
             )
           ),
         ]).pipe(
@@ -76,7 +76,7 @@ export class DashboardInitEffects {
           expense,
           monthBalance,
           fullBalance,
-          currency: this.metadataService.getCurrentCurrency(),
+          currency: this.metadataService.currentCurrency,
         };
 
         const { resetCategories, resetDate } = this.getResetData(action.data);

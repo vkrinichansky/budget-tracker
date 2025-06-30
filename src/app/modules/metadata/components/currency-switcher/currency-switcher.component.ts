@@ -5,9 +5,7 @@ import {
   SnackbarHandlerService,
 } from '@budget-tracker/design-system';
 import { predefinedCurrenciesDictionary, CurrenciesEnum } from '@budget-tracker/models';
-import { MetadataFacadeService, MetadataService } from '../../services';
-import { ActionListenerService } from '@budget-tracker/utils';
-import { MetadataActions } from '../../store';
+import { MetadataFacadeService } from '../../services';
 
 @Component({
   selector: 'app-currency-switcher',
@@ -22,15 +20,13 @@ export class CurrencySwitcherComponent implements OnInit {
   menuActions: MenuAction[];
 
   constructor(
-    private readonly metadataService: MetadataService,
     private readonly metadataFacade: MetadataFacadeService,
     private readonly confirmationModalService: ConfirmationModalService,
-    private readonly actionListener: ActionListenerService,
     private readonly snackbarHandler: SnackbarHandlerService
   ) {}
 
   ngOnInit(): void {
-    this.currentCurrency = this.metadataService.getCurrentCurrency();
+    this.currentCurrency = this.metadataFacade.currentCurrency;
     this.currentCurrencyText = `${predefinedCurrenciesDictionary[this.currentCurrency].code} (${predefinedCurrenciesDictionary[this.currentCurrency].symbol})`;
     this.icon = predefinedCurrenciesDictionary[this.currentCurrency].icon;
 
@@ -49,12 +45,7 @@ export class CurrencySwitcherComponent implements OnInit {
           },
           async () => {
             try {
-              this.metadataFacade.changeCurrency(key as CurrenciesEnum);
-
-              await this.actionListener.waitForResult(
-                MetadataActions.updateCategoriesAfterCurrencyChangeSuccess,
-                MetadataActions.updateCategoriesAfterCurrencyChangeFail
-              );
+              await this.metadataFacade.changeCurrency(key as CurrenciesEnum);
 
               location.reload();
             } catch {
