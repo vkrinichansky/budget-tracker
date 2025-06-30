@@ -3,20 +3,11 @@ import { firstValueFrom, map, Observable } from 'rxjs';
 import {
   Account,
   Category,
-  CategoryValueChangeRecord,
-  createCategoryValueChangeRecord,
   createMoveMoneyBetweenAccountsRecord,
-  expenseAdjustmentCategory,
-  incomeAdjustmentCategory,
   MoveMoneyBetweenAccountsRecord,
 } from '@budget-tracker/models';
 import { Store } from '@ngrx/store';
-import {
-  AccountsActions,
-  AccountsSelectors,
-  CategoriesActions,
-  CategoriesSelectors,
-} from '../../store';
+import { AccountsActions, AccountsSelectors, CategoriesSelectors } from '../../store';
 import { MetadataService } from '@budget-tracker/metadata';
 
 @Injectable()
@@ -53,48 +44,6 @@ export class AccountsFacadeService {
 
   getCategoryById(categoryId: string): Observable<Category> {
     return this.store.select(CategoriesSelectors.selectCategoryByIdSelector(categoryId));
-  }
-
-  async editAccountValue(accountId: string, newValue: number, note: string): Promise<void> {
-    const account = await firstValueFrom(this.getAccountById(accountId));
-    const difference = newValue - account.value;
-    const absDifference = Math.abs(difference);
-    const category: Category =
-      difference > 0 ? incomeAdjustmentCategory : expenseAdjustmentCategory;
-
-    let convertedValue: number;
-
-    if (account.currency.id === this.metadataService.currentCurrency) {
-      convertedValue = absDifference;
-    } else {
-      convertedValue = this.metadataService.getBasicToForeignConvertedValue(
-        absDifference,
-        account.currency.id
-      );
-    }
-
-    const updatedCategoryValue = await firstValueFrom(
-      this.getCategoryById(category.id).pipe(map((category) => category.value + convertedValue))
-    );
-
-    const addCategoryValueRecord: CategoryValueChangeRecord = createCategoryValueChangeRecord(
-      category,
-      account,
-      absDifference,
-      convertedValue,
-      this.metadataService.currentCurrency,
-      note
-    );
-
-    this.store.dispatch(
-      CategoriesActions.changeCategoryValue({
-        updatedCategoryId: category.id,
-        updatedCategoryValue,
-        updatedAccountId: accountId,
-        updatedAccountValue: newValue,
-        activityLogRecord: addCategoryValueRecord,
-      })
-    );
   }
 
   async moveMoneyBetweenAccount(

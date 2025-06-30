@@ -9,7 +9,6 @@ import { Account } from '@budget-tracker/models';
 import { MetadataFacadeService, CurrencyPipe } from '@budget-tracker/metadata';
 import { ActionListenerService } from '@budget-tracker/utils';
 import { AccountsActions } from '../../../../store';
-import { AccountsModalsService } from '../../services';
 
 @Component({
   selector: 'app-account-card',
@@ -20,12 +19,6 @@ import { AccountsModalsService } from '../../services';
 })
 export class AccountCardComponent {
   readonly menuActions: MenuAction[] = [
-    {
-      icon: 'edit',
-      translationKey: 'dashboard.infoCards.accountCard.menu.editValue',
-      action: () => this.accountsModalsService.openEditAccountValueModal(this.account.id),
-    },
-
     {
       icon: 'delete-bin',
       translationKey: 'dashboard.infoCards.accountCard.menu.remove',
@@ -80,7 +73,6 @@ export class AccountCardComponent {
   }
 
   constructor(
-    private readonly accountsModalsService: AccountsModalsService,
     private readonly metadataFacade: MetadataFacadeService,
     private readonly accountsFacade: AccountsFacadeService,
     private readonly confirmationModalService: ConfirmationModalService,

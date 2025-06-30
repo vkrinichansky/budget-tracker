@@ -23,4 +23,4 @@ import { UtilsModule } from '@budget-tracker/utils';
   ],
   providers: [AuthService, AuthFacadeService, AuthGuard, SecureInnerPagesGuard],
 })
-export class AuthCoreModule {}
+export class AuthDomainModule {}

@@ -23,7 +23,6 @@
       },
       "accountCard": {
         "menu": {
-          "editValue": "Edit",
           "remove": "Remove"
         },
         "removeConfirmationQuestion": "Do you want to remove <b>{{ accountName }}</b> account?"
@@ -50,14 +49,6 @@
       "valueToMoveTitle": "Value to move",
       "convertedValueToMoveTitle": "Converted value",
       "moveButton": "Move"
-    },
-
-    "accountValueEditModal": {
-      "subtitle": "Edit account value",
-      "cancel": "Cancel",
-      "valueInputLabel": "Value",
-      "noteInputLabel": "Note",
-      "editButton": "Edit"
     },
 
     "accountsListModal": {
