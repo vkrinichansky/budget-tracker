@@ -2,7 +2,7 @@
   <app-info-card
     class="flex-1"
     [iconName]="account.icon"
-    [primaryText]="(account.value | numberSpace) + ' ' + account.currency.symbol"
+    [primaryText]="(account.value | numberSpace) + ' ' + currencySymbol"
     [secondaryText]="isAccountWithForeignCurrency ? accountValueInBaseCurrency : account.name"
     [tertiaryText]="isAccountWithForeignCurrency ? account.name : null"
     [bgColor]="account.bgColor"

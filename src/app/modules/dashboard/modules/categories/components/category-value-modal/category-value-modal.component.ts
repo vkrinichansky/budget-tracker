@@ -6,7 +6,7 @@ import { CategoryValueModalData } from '../../models';
 import { AccountsFacadeService, CategoriesFacadeService } from '../../../../services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Account, Category, BudgetType } from '@budget-tracker/models';
-import { MetadataFacadeService } from '@budget-tracker/metadata';
+import { MetadataFacadeService, predefinedCurrenciesDictionary } from '@budget-tracker/metadata';
 import { ActionListenerService } from '@budget-tracker/utils';
 import { CategoriesActions } from '../../../../store';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
@@ -38,7 +38,7 @@ export class CategoryValueModalComponent implements OnInit {
   readonly idSelector = (account: Account) => account.id;
   readonly iconSelector = (account: Account) => account.icon;
   readonly displayValueSelector = (account: Account) =>
-    `${account.name} (${account.value} ${account.currency.symbol})`;
+    `${account.name} (${account.value} ${predefinedCurrenciesDictionary[account.currency].symbol})`;
 
   success$: Observable<boolean>;
   accounts$: Observable<Account[]>;
@@ -51,7 +51,7 @@ export class CategoryValueModalComponent implements OnInit {
 
   get doesChoosedAccountHaveForeignCurrency(): boolean {
     return this.accoundChoosed
-      ? (this.form.controls[FormFields.AccountToUse].value as Account).currency.id !==
+      ? (this.form.controls[FormFields.AccountToUse].value as Account).currency !==
           this.metadataFacade.currentCurrency
       : false;
   }
@@ -62,7 +62,9 @@ export class CategoryValueModalComponent implements OnInit {
     }
 
     return this.doesChoosedAccountHaveForeignCurrency
-      ? (this.form?.controls?.[FormFields.AccountToUse]?.value as Account)?.currency?.symbol
+      ? predefinedCurrenciesDictionary[
+          (this.form?.controls?.[FormFields.AccountToUse]?.value as Account)?.currency
+        ]?.symbol
       : this.metadataFacade.getCurrencySymbol();
   }
 

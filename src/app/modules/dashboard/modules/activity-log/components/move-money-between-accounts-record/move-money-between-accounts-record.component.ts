@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MoveMoneyBetweenAccountsRecord } from '@budget-tracker/models';
+import { predefinedCurrenciesDictionary } from '@budget-tracker/metadata';
 
 @Component({
   selector: 'app-move-money-between-accounts-record',
@@ -14,7 +15,8 @@ export class MoveMoneyBetweenAccountsRecordComponent {
   get isSameValueAndCurrency(): boolean {
     return (
       this.record.fromAccountValue === this.record.toAccountValue &&
-      this.record.fromAccount.currency.symbol === this.record.toAccount.currency.symbol
+      predefinedCurrenciesDictionary[this.record.fromAccount.currency].symbol ===
+        predefinedCurrenciesDictionary[this.record.toAccount.currency].symbol
     );
   }
 }

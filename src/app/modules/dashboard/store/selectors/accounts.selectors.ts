@@ -31,9 +31,9 @@ const fullBalanceSelector = (
   createSelector(allAccountsSelector, (allAccounts) =>
     allAccounts.reduce(
       (fullBalance, account) =>
-        account.currency.id === currency
+        account.currency === currency
           ? fullBalance + account.value
-          : fullBalance + Math.round(account.value / currencyExchangeRate[account.currency.id]),
+          : fullBalance + Math.round(account.value / currencyExchangeRate[account.currency]),
       0
     )
   );

@@ -5,7 +5,7 @@ import { CategoryValueChangeRecord, BudgetType } from '@budget-tracker/models';
 import { ActionListenerService, isToday } from '@budget-tracker/utils';
 import { combineLatest, map, Observable } from 'rxjs';
 import { ActivityLogActions } from '../../../../store';
-import { MetadataFacadeService } from '@budget-tracker/metadata';
+import { MetadataFacadeService, predefinedCurrenciesDictionary } from '@budget-tracker/metadata';
 
 @Component({
   selector: 'app-category-value-change-record',
@@ -47,6 +47,10 @@ export class CategoryValueChangeRecordComponent implements OnInit {
     return isToday(new Date(this.record.date));
   }
 
+  get currencySymbol(): string {
+    return predefinedCurrenciesDictionary[this.record.currency].symbol;
+  }
+
   constructor(
     private readonly confirmationModalService: ConfirmationModalService,
     private readonly activityLogFacade: ActivityLogFacadeService,
@@ -62,7 +66,12 @@ export class CategoryValueChangeRecordComponent implements OnInit {
     ]).pipe(
       map(
         ([a, b]) =>
-          a && b && this.isToday && this.metadataFacade.currentCurrency === this.record.currency
+          a &&
+          b &&
+          this.isToday &&
+          this.metadataFacade.currentCurrency === this.record.currency &&
+          predefinedCurrenciesDictionary[this.record.currency].symbol ===
+            this.metadataFacade.getCurrencySymbol()
       )
     );
   }

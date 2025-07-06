@@ -1,10 +1,10 @@
-import { Currency } from '../modules/metadata/models/currency.model';
+import { CurrenciesEnum } from '@budget-tracker/metadata';
 
 export interface Account {
   id: string;
   name: string;
   value: number;
-  currency: Currency;
+  currency: CurrenciesEnum;
   icon: string;
   bgColor: string;
   textColor: string;

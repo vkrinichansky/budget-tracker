@@ -2,7 +2,7 @@ import { DialogRef } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MetadataFacadeService } from '@budget-tracker/metadata';
+import { MetadataFacadeService, predefinedCurrenciesDictionary } from '@budget-tracker/metadata';
 import { Account } from '@budget-tracker/models';
 import { BehaviorSubject, combineLatest, filter, map, Observable, tap, withLatestFrom } from 'rxjs';
 import { AccountsFacadeService } from '../../../../services';
@@ -42,7 +42,7 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
   readonly idSelector = (account: Account) => account.id;
   readonly iconSelector = (account: Account) => account.icon;
   readonly displayValueSelector = (account: Account) =>
-    `${account.name} (${account.value} ${account.currency.symbol})`;
+    `${account.name} (${account.value} ${predefinedCurrenciesDictionary[account.currency].symbol})`;
 
   accounts$: Observable<Account[]>;
   filteredAccounts$: Observable<Account[]>;
@@ -53,7 +53,7 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
     const fromAccount = this.form.controls[FormFields.FromAccount].value as Account;
     const toAccount = this.form.controls[FormFields.ToAccount].value as Account;
 
-    return fromAccount && toAccount ? fromAccount.currency.id !== toAccount.currency.id : false;
+    return fromAccount && toAccount ? fromAccount.currency !== toAccount.currency : false;
   }
 
   get isAnyAccountFieldEmpty(): boolean {
@@ -64,11 +64,15 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
   }
 
   get currencySymbolForValueField(): string {
-    return (this.form?.controls?.[FormFields.FromAccount]?.value as Account)?.currency?.symbol;
+    return predefinedCurrenciesDictionary[
+      (this.form?.controls?.[FormFields.FromAccount]?.value as Account)?.currency
+    ]?.symbol;
   }
 
   get currencySymbolForConvertedValueField(): string {
-    return (this.form?.controls?.[FormFields.ToAccount]?.value as Account)?.currency?.symbol;
+    return predefinedCurrenciesDictionary[
+      (this.form?.controls?.[FormFields.ToAccount]?.value as Account)?.currency
+    ]?.symbol;
   }
 
   get maxValue(): number {

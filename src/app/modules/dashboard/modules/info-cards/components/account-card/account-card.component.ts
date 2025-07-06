@@ -6,7 +6,7 @@ import {
   SnackbarHandlerService,
 } from '@budget-tracker/design-system';
 import { Account } from '@budget-tracker/models';
-import { MetadataFacadeService, CurrencyPipe } from '@budget-tracker/metadata';
+import { MetadataFacadeService, CurrencyPipe, predefinedCurrenciesDictionary } from '@budget-tracker/metadata';
 import { ActionListenerService } from '@budget-tracker/utils';
 import { AccountsActions } from '../../../../store';
 
@@ -58,18 +58,19 @@ export class AccountCardComponent {
   shouldDisableDragButton: boolean;
 
   get isAccountWithForeignCurrency(): boolean {
-    return this.account.currency.id !== this.metadataFacade.currentCurrency;
+    return this.account.currency !== this.metadataFacade.currentCurrency;
   }
 
   get accountValueInBaseCurrency(): string {
     return this.currencyPipe.transform(
       Math.round(
-        this.metadataFacade.getConvertedValueForAccount(
-          this.account.currency.id,
-          this.account.value
-        )
+        this.metadataFacade.getConvertedValueForAccount(this.account.currency, this.account.value)
       )
     );
+  }
+
+  get currencySymbol(): string {
+    return predefinedCurrenciesDictionary[this.account.currency].symbol;
   }
 
   constructor(

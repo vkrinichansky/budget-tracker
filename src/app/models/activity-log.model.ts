@@ -3,7 +3,7 @@ import { Account } from './account.model';
 import { BudgetType } from './budget-type.enum';
 import { Category } from './category.model';
 import { v4 as uuid } from 'uuid';
-import { CurrenciesEnum } from '../modules/metadata/models/currency.model';
+import { CurrenciesEnum } from '@budget-tracker/metadata';
 
 type ActivityLogAccount = Pick<Account, 'id' | 'name' | 'currency'>;
 type ActivityLogCategory = Pick<Category, 'id' | 'name' | 'isSystem'>;

@@ -1,5 +1,5 @@
 import { Category } from './category.model';
-import { CurrenciesEnum } from '../modules/metadata/models/currency.model';
+import { CurrenciesEnum } from '@budget-tracker/metadata';
 
 export interface StatisticsSnapshot {
   date: string;
