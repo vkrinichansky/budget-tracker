@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import {
-  CurrenciesEnum,
-  CurrencyExchangeRate,
-  LanguagesEnum,
-  predefinedCurrenciesDictionary,
-} from '@budget-tracker/models';
 import { BehaviorSubject, filter, firstValueFrom, Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { MetadataActions } from '../../store';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { Store } from '@ngrx/store';
 import { ActionListenerService } from '@budget-tracker/utils';
+import {
+  LanguagesEnum,
+  CurrencyExchangeRate,
+  predefinedCurrenciesDictionary,
+  CurrenciesEnum,
+} from '../../models';
 
 interface ExchangeRates {
   [currency: string]: {

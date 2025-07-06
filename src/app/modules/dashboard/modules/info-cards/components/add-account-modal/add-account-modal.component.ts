@@ -3,13 +3,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AccountsFacadeService } from '../../../../services';
-import { Account, Currency, predefinedCurrenciesDictionary } from '@budget-tracker/models';
+import { Account } from '@budget-tracker/models';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { ActionListenerService } from '@budget-tracker/utils';
 import { AccountsActions } from '../../../../store';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
+import { predefinedCurrenciesDictionary, Currency } from '@budget-tracker/metadata';
 
 enum FormFields {
   AccountName = 'accountName',

@@ -7,9 +7,8 @@ import {
   ActivityLogRecordType,
   BudgetType,
   CategoryValueChangeRecord,
-  CurrenciesEnum,
-  LanguagesEnum,
 } from '@budget-tracker/models';
+import { LanguagesEnum, CurrenciesEnum } from '@budget-tracker/metadata';
 
 const activityLogStateSelector = createSelector(
   dataFeatureSelector,

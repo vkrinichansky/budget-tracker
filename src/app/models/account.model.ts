@@ -1,4 +1,4 @@
-import { Currency } from './currency.model';
+import { Currency } from '../modules/metadata/models/currency.model';
 
 export interface Account {
   id: string;

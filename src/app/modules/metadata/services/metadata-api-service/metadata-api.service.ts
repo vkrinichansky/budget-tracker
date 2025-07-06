@@ -9,13 +9,13 @@ import {
   getDoc,
   updateDoc,
 } from '@angular/fire/firestore';
+import { firstValueFrom, from, map, Observable } from 'rxjs';
 import {
-  CurrenciesEnum,
-  ExchangeEndpointResponse,
   LanguagesEnum,
   UserMetadata,
-} from '@budget-tracker/models';
-import { firstValueFrom, from, map, Observable } from 'rxjs';
+  ExchangeEndpointResponse,
+  CurrenciesEnum,
+} from '../../models';
 
 @Injectable()
 export class MetadataApiService {

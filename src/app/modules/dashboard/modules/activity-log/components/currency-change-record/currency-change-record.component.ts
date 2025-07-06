@@ -1,9 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import {
-  CurrenciesEnum,
-  CurrencyChangeRecord,
-  predefinedCurrenciesDictionary,
-} from '@budget-tracker/models';
+import { CurrenciesEnum, predefinedCurrenciesDictionary } from '@budget-tracker/metadata';
+import { CurrencyChangeRecord } from '@budget-tracker/models';
 
 @Component({
   selector: 'app-currency-change-record',

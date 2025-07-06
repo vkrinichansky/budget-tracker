@@ -4,8 +4,8 @@ import {
   MenuAction,
   SnackbarHandlerService,
 } from '@budget-tracker/design-system';
-import { predefinedCurrenciesDictionary, CurrenciesEnum } from '@budget-tracker/models';
 import { MetadataFacadeService } from '../../services';
+import { predefinedCurrenciesDictionary, CurrenciesEnum } from '../../models';
 
 @Component({
   selector: 'app-currency-switcher',

@@ -3,8 +3,8 @@ import { MetadataApiService, MetadataService } from '../services';
 import { Injectable } from '@angular/core';
 import { catchError, from, map, of, switchMap, take, tap } from 'rxjs';
 import { MetadataActions } from './metadata.actions';
-import { CurrencyExchangeRate, predefinedCurrenciesDictionary } from '@budget-tracker/models';
 import { AuthActions } from '@budget-tracker/auth';
+import { CurrencyExchangeRate, predefinedCurrenciesDictionary } from '../models';
 
 @Injectable()
 export class MetadataEffects {

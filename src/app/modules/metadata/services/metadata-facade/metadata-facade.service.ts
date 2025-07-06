@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CurrenciesEnum, CurrencyExchangeRate, LanguagesEnum } from '@budget-tracker/models';
 import { MetadataService } from '../metadata-service/metadata-service.service';
 import { Observable } from 'rxjs';
+import { LanguagesEnum, CurrencyExchangeRate, CurrenciesEnum } from '../../models';
 
 @Injectable()
 export class MetadataFacadeService {

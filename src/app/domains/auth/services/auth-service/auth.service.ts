@@ -15,13 +15,10 @@ import { map, Observable } from 'rxjs';
 import { collection, doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { getMonthAndYearString } from '@budget-tracker/utils';
 import {
-  CurrenciesEnum,
   Dashboard,
   expenseAdjustmentCategory,
   incomeAdjustmentCategory,
-  LanguagesEnum,
   Snapshots,
-  UserMetadata,
 } from '@budget-tracker/models';
 
 @Injectable()
@@ -53,9 +50,9 @@ export class AuthService {
   }
 
   async setUserData(userId: string): Promise<void> {
-    const metadata: UserMetadata = {
-      currency: CurrenciesEnum.USD,
-      language: LanguagesEnum.English,
+    const metadata: Record<string, string> = {
+      currency: 'usd',
+      language: 'en-US',
     };
 
     const dashboard: Dashboard = {

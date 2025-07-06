@@ -4,7 +4,7 @@ export enum LanguagesEnum {
 }
 
 export interface Language {
-  id: string;
+  id: LanguagesEnum;
   code: string;
   icon: string;
 }

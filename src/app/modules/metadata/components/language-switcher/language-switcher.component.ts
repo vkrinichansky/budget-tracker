@@ -1,8 +1,8 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { MenuAction, SnackbarHandlerService } from '@budget-tracker/design-system';
-import { LanguagesEnum, predefinedLanguagesDictionary } from '@budget-tracker/models';
 import { BehaviorSubject } from 'rxjs';
 import { MetadataFacadeService } from '../../services';
+import { LanguagesEnum, predefinedLanguagesDictionary } from '../../models';
 
 @Component({
   selector: 'app-language-switcher',

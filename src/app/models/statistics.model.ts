@@ -1,5 +1,5 @@
 import { Category } from './category.model';
-import { CurrenciesEnum } from './currency.model';
+import { CurrenciesEnum } from '../modules/metadata/models/currency.model';
 
 export interface StatisticsSnapshot {
   date: string;

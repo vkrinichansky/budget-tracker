@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { MetadataService } from '../../services';
-import { CurrenciesEnum } from '@budget-tracker/models';
+import { CurrenciesEnum } from '../../models';
 
 @Pipe({
   name: 'currencySymbol',
