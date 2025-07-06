@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Account, MoveMoneyBetweenAccountsRecord } from '@budget-tracker/models';
+import { Account } from '@budget-tracker/models';
 
 export const AccountsActions = {
   accountsLoaded: createAction('[Accounts] Accounts loaded', props<{ accounts: Account[] }>()),
@@ -55,7 +55,6 @@ export const AccountsActions = {
       toAccountId: string;
       fromAccountNewValue: number;
       toAccountNewValue: number;
-      activityLogRecord: MoveMoneyBetweenAccountsRecord;
     }>()
   ),
   moneyBetweenAccountsMoved: createAction(

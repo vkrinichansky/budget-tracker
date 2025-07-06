@@ -2,5 +2,5 @@ export { CategoryValueChangeRecordComponent } from './category-value-change-reco
 export { CategoriesResetRecordComponent } from './categories-reset-record/categories-reset-record.component';
 export { MoveMoneyBetweenAccountsRecordComponent } from './move-money-between-accounts-record/move-money-between-accounts-record.component';
 export { CurrencyChangeRecordComponent } from './currency-change-record/currency-change-record.component';
-
+export { GenericActivityLogRecordComponent } from './generic-activity-log-record/generic-activity-log-record.component';
 export { ActivityLogComponent } from './activity-log/activity-log.component';

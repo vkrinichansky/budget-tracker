@@ -1,36 +1,33 @@
 import { createAction, props } from '@ngrx/store';
-import {
-  ActivityLogRecordUnitedType,
-  ActivityLog,
-  CategoryValueChangeRecord,
-} from '@budget-tracker/models';
+import { ActivityLog, ActivityLogRecordUnitedType } from '../models';
 
 export const ActivityLogActions = {
+  loadActivityLog: createAction('[ActivityLog] Load activity log'),
   activityLogLoaded: createAction(
     '[ActivityLog] Activity log loaded',
     props<{ activityLog: ActivityLog }>()
   ),
   cleanState: createAction('[ActivityLog] Clean state'),
 
+  addRecord: createAction(
+    '[ActivityLog] Add record',
+    props<{
+      record: ActivityLogRecordUnitedType;
+    }>()
+  ),
   recordAdded: createAction(
     '[ActivityLog] Record added',
     props<{ record: ActivityLogRecordUnitedType }>()
   ),
+  addRecordFail: createAction('[ActivityLog] Add record fail'),
 
-  removeCategoryValueChangeRecord: createAction(
+  removeRecord: createAction(
     '[ActivityLog] Remove category value change record',
     props<{
-      record: CategoryValueChangeRecord;
-      updatedAccountId: string;
-      updatedAccountValue: number;
-      updatedCategoryId: string;
-      updatedCategoryValue: number;
+      recordId: string;
     }>()
   ),
-  activityLogRecordRemoved: createAction(
-    '[ActivityLog] Record removed',
-    props<{ recordId: string }>()
-  ),
+  recordRemoved: createAction('[ActivityLog] Record removed', props<{ recordId: string }>()),
   removeRecordFail: createAction('[ActivityLog] Remove record fail', props<{ recordId: string }>()),
 
   bulkRecordsRemove: createAction('[ActivityLog] Bulk records remove'),

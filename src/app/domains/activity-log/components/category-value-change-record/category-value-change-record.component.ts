@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { ActivityLogFacadeService } from '../../../../services';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ConfirmationModalService, SnackbarHandlerService } from '@budget-tracker/design-system';
-import { CategoryValueChangeRecord, BudgetType } from '@budget-tracker/models';
+import { BudgetType } from '@budget-tracker/models';
 import { ActionListenerService, isToday } from '@budget-tracker/utils';
-import { combineLatest, map, Observable } from 'rxjs';
-import { ActivityLogActions } from '../../../../store';
+import { Observable } from 'rxjs';
 import { MetadataFacadeService, predefinedCurrenciesDictionary } from '@budget-tracker/metadata';
+import { ActivityLogActions } from '../../store';
+import { ActivityLogFacadeService } from '../../services';
+import { CategoryValueChangeRecord } from '../../models';
 
 @Component({
   selector: 'app-category-value-change-record',
@@ -13,7 +14,7 @@ import { MetadataFacadeService, predefinedCurrenciesDictionary } from '@budget-t
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CategoryValueChangeRecordComponent implements OnInit {
+export class CategoryValueChangeRecordComponent {
   @Input()
   record: CategoryValueChangeRecord;
 
@@ -51,6 +52,15 @@ export class CategoryValueChangeRecordComponent implements OnInit {
     return predefinedCurrenciesDictionary[this.record.currency].symbol;
   }
 
+  get shouldDisplayRemoveButton(): boolean {
+    return (
+      this.isToday &&
+      this.metadataFacade.currentCurrency === this.record.currency &&
+      predefinedCurrenciesDictionary[this.record.currency].id ===
+        this.metadataFacade.currentCurrency
+    );
+  }
+
   constructor(
     private readonly confirmationModalService: ConfirmationModalService,
     private readonly activityLogFacade: ActivityLogFacadeService,
@@ -58,23 +68,6 @@ export class CategoryValueChangeRecordComponent implements OnInit {
     private readonly snackbarHandler: SnackbarHandlerService,
     private readonly metadataFacade: MetadataFacadeService
   ) {}
-
-  ngOnInit(): void {
-    this.shouldDisplayRemoveButton$ = combineLatest([
-      this.activityLogFacade.doesCategoryExist(this.record.category.id),
-      this.activityLogFacade.doesAccountExist(this.record.account.id),
-    ]).pipe(
-      map(
-        ([a, b]) =>
-          a &&
-          b &&
-          this.isToday &&
-          this.metadataFacade.currentCurrency === this.record.currency &&
-          predefinedCurrenciesDictionary[this.record.currency].symbol ===
-            this.metadataFacade.getCurrencySymbol()
-      )
-    );
-  }
 
   removeHandler(): void {
     this.confirmationModalService.openConfirmationModal(
@@ -90,10 +83,10 @@ export class CategoryValueChangeRecordComponent implements OnInit {
       },
       async () => {
         try {
-          this.activityLogFacade.removeCategoryValueChangeRecord(this.record.id);
+          this.activityLogFacade.removeRecord(this.record.id);
 
           await this.actionListener.waitForResult(
-            ActivityLogActions.activityLogRecordRemoved,
+            ActivityLogActions.recordRemoved,
             ActivityLogActions.removeRecordFail,
             (action) => action.recordId === this.record.id,
             (action) => action.recordId === this.record.id

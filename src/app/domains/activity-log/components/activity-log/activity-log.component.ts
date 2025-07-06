@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ActivityLogFacadeService } from '../../../../services';
 import { ConfirmationModalService, SnackbarHandlerService } from '@budget-tracker/design-system';
 import {
-  ActivityLogRecordUnitedType,
   ActivityLogRecordType,
+  ActivityLogRecordUnitedType,
   TotalValueForDateByCurrency,
-} from '@budget-tracker/models';
+} from '../../models';
 import { Observable, map } from 'rxjs';
 import { ActionListenerService } from '@budget-tracker/utils';
-import { ActivityLogActions } from '../../../../store';
+import { ActivityLogActions } from '../../store';
+import { ActivityLogFacadeService } from '../../services';
 
 interface DateObject {
   date: string;

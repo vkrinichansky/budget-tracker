@@ -5,10 +5,10 @@ import { CategoriesApiService } from '../../services';
 import {
   Account,
   Category,
-  createCurrencyChangeRecord,
-  CurrencyChangeRecord,
+  // createCurrencyChangeRecord,
+  // CurrencyChangeRecord,
 } from '@budget-tracker/models';
-import { AccountsActions, ActivityLogActions, CategoriesActions } from '../actions';
+import { AccountsActions, CategoriesActions } from '../actions';
 import { MetadataActions, MetadataService } from '@budget-tracker/metadata';
 import { CategoriesSelectors } from '../selectors';
 import { Store } from '@ngrx/store';
@@ -71,8 +71,7 @@ export class CategoriesEffects {
             action.updatedCategoryId,
             action.updatedCategoryValue,
             action.updatedAccountId,
-            action.updatedAccountValue,
-            action.activityLogRecord
+            action.updatedAccountValue
           )
         ).pipe(
           switchMap(() => {
@@ -88,9 +87,6 @@ export class CategoriesEffects {
                   id: action.updatedAccountId,
                   value: action.updatedAccountValue,
                 } as Account,
-              }),
-              ActivityLogActions.recordAdded({
-                record: action.activityLogRecord,
               })
             );
           }),
@@ -106,19 +102,11 @@ export class CategoriesEffects {
     this.actions$.pipe(
       ofType(CategoriesActions.resetCategories),
       mergeMap((action) =>
-        from(
-          this.categoriesService.resetCategories(
-            action.categoriesIdsToReset,
-            action.activityLogRecord
-          )
-        ).pipe(
+        from(this.categoriesService.resetCategories(action.categoriesIdsToReset)).pipe(
           switchMap(() => {
             return of(
               CategoriesActions.categoriesReset({
                 categoriesIdsToReset: action.categoriesIdsToReset,
-              }),
-              ActivityLogActions.recordAdded({
-                record: action.activityLogRecord,
               })
             );
           }),
@@ -147,22 +135,12 @@ export class CategoriesEffects {
               );
             });
 
-            const activityLogRecord: CurrencyChangeRecord = createCurrencyChangeRecord(
-              this.metadataService.currentCurrency,
-              action.newCurrency
-            );
-
-            return { updatedCategories, activityLogRecord };
+            return updatedCategories;
           })
         )
       ),
-      mergeMap(({ updatedCategories, activityLogRecord }) =>
-        from(
-          this.categoriesService.updateCategoriesAfterCurrencyChange(
-            updatedCategories,
-            activityLogRecord
-          )
-        ).pipe(
+      mergeMap((updatedCategories) =>
+        from(this.categoriesService.updateCategoriesAfterCurrencyChange(updatedCategories)).pipe(
           switchMap(() => of(MetadataActions.updateCategoriesAfterCurrencyChangeSuccess())),
           catchError(() => of(MetadataActions.updateCategoriesAfterCurrencyChangeFail()))
         )

@@ -4,12 +4,7 @@ import { StatisticsSnapshot, Dashboard, Category } from '@budget-tracker/models'
 import { getMonthAndYearString, getPreviousMonthTime } from '@budget-tracker/utils';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { switchMap, from, of, map, tap, combineLatest, take } from 'rxjs';
-import {
-  CategoriesActions,
-  ActivityLogActions,
-  AccountsActions,
-  DashboardInitActions,
-} from '../actions';
+import { CategoriesActions, AccountsActions, DashboardInitActions } from '../actions';
 import { DashboardInitApiService } from '../../services';
 import { Store } from '@ngrx/store';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
@@ -111,13 +106,7 @@ export class DashboardInitEffects {
   cleanStateOnLogOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logout),
-      switchMap(() =>
-        of(
-          CategoriesActions.cleanState(),
-          ActivityLogActions.cleanState(),
-          AccountsActions.cleanState()
-        )
-      )
+      switchMap(() => of(CategoriesActions.cleanState(), AccountsActions.cleanState()))
     )
   );
 
@@ -134,10 +123,8 @@ export class DashboardInitEffects {
   private setStates(data: Dashboard) {
     const categories = Object.values(data.categories);
     const accounts = Object.values(data.accounts);
-    const activityLog = [...data.activityLog];
 
     this.store.dispatch(CategoriesActions.categoriesLoaded({ categories }));
-    this.store.dispatch(ActivityLogActions.activityLogLoaded({ activityLog }));
     this.store.dispatch(AccountsActions.accountsLoaded({ accounts }));
   }
 }

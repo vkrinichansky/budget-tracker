@@ -1,31 +1,23 @@
 import { createSelector } from '@ngrx/store';
-import { dataFeatureSelector } from './feature.selector';
+import { dataFeatureSelector } from './feature-selector';
 import {
   ActivityLog,
   ActivityLogGroupedByDay,
   ActivityLogGroupedByDayDictionary,
   ActivityLogRecordType,
-  BudgetType,
   CategoryValueChangeRecord,
-} from '@budget-tracker/models';
+} from '../models';
 import { LanguagesEnum, CurrenciesEnum } from '@budget-tracker/metadata';
-
-const activityLogStateSelector = createSelector(
-  dataFeatureSelector,
-  (dataFeatureState) => dataFeatureState.activityLogState
-);
+import { BudgetType } from '@budget-tracker/models';
 
 const activityLogDictionarySelector = createSelector(
-  activityLogStateSelector,
+  dataFeatureSelector,
   (state) => state.activityLogRecords.entities
 );
 
-const activityLogLoadedSelector = createSelector(
-  activityLogStateSelector,
-  (state) => state.isLoaded
-);
+const activityLogLoadedSelector = createSelector(dataFeatureSelector, (state) => state.isLoaded);
 
-const activityLogSelector = createSelector(activityLogStateSelector, (state) =>
+const activityLogSelector = createSelector(dataFeatureSelector, (state) =>
   Object.values(state.activityLogRecords.entities)
 );
 
@@ -42,7 +34,7 @@ const activityLogGroupedByDaysSelector = (language: LanguagesEnum) =>
   });
 
 export const ActivityLogSelectors = {
-  activityLogStateSelector,
+  dataFeatureSelector,
   activityLogSelector,
   selectRecordByIdSelector,
   activityLogDictionarySelector,

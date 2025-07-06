@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
 import { firstValueFrom, map, Observable } from 'rxjs';
-import {
-  Account,
-  Category,
-  createMoveMoneyBetweenAccountsRecord,
-  MoveMoneyBetweenAccountsRecord,
-} from '@budget-tracker/models';
+import { Account, Category } from '@budget-tracker/models';
 import { Store } from '@ngrx/store';
 import { AccountsActions, AccountsSelectors, CategoriesSelectors } from '../../store';
 import { MetadataService } from '@budget-tracker/metadata';
@@ -57,12 +52,6 @@ export class AccountsFacadeService {
 
     const fromAccountNewValue = fromAccount.value - valueToMove;
     const toAccountNewValue = toAccount.value + convertedValueToMove;
-    const activityLogRecord: MoveMoneyBetweenAccountsRecord = createMoveMoneyBetweenAccountsRecord(
-      fromAccount,
-      toAccount,
-      valueToMove,
-      convertedValueToMove
-    );
 
     this.store.dispatch(
       AccountsActions.moveMoneyBetweenAccounts({
@@ -70,7 +59,6 @@ export class AccountsFacadeService {
         toAccountId,
         fromAccountNewValue,
         toAccountNewValue,
-        activityLogRecord,
       })
     );
   }

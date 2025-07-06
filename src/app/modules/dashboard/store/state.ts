@@ -6,13 +6,11 @@ export const featureKey = 'dashboard';
 export interface DashboardFeatureState {
   accountsState: t.AccountsState;
   categoriesState: t.CategoriesState;
-  activityLogState: t.ActivityLogState;
 }
 
 export const reducers: ActionReducerMap<DashboardFeatureState> = {
   accountsState: t.accountsReducer,
   categoriesState: t.categoriesReducer,
-  activityLogState: t.activityLogReducer,
 };
 
 // tslint:disable-next-line:typedef

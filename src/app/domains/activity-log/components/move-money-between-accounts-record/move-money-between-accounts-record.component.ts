@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { MoveMoneyBetweenAccountsRecord } from '@budget-tracker/models';
 import { predefinedCurrenciesDictionary } from '@budget-tracker/metadata';
+import { MoveMoneyBetweenAccountsRecord } from '../../models';
 
 @Component({
   selector: 'app-move-money-between-accounts-record',

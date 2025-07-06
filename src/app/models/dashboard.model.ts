@@ -1,5 +1,5 @@
 import { Account } from './account.model';
-import { ActivityLog } from './activity-log.model';
+import { ActivityLog } from '../domains/activity-log/models/activity-log.model';
 import { Category } from './category.model';
 
 export interface Dashboard {

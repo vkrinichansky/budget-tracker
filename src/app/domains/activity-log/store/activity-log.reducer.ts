@@ -1,7 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { ActivityLogActions } from '../actions';
-import { ActivityLogRecordUnitedType } from '@budget-tracker/models';
+import { ActivityLogActions } from './activity-log.actions';
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
+import { ActivityLogRecordUnitedType } from '../models';
 
 export interface ActivityLogState {
   activityLogRecords: EntityState<ActivityLogRecordUnitedType>;
@@ -48,7 +48,7 @@ const adapterReducer = createReducer(
   ),
 
   on(
-    ActivityLogActions.activityLogRecordRemoved,
+    ActivityLogActions.recordRemoved,
     (state, action): ActivityLogState => ({
       ...state,
       activityLogRecords: activityLogRecordsEntityAdapter.removeOne(

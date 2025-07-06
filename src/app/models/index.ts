@@ -6,4 +6,3 @@ export { Snapshots } from './snapshots.model';
 export { AppRoutes } from './app-routes.enum';
 
 export * from './category.model';
-export * from './activity-log.model';

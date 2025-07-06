@@ -2,25 +2,12 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, firstValueFrom, map } from 'rxjs';
 import { AccountsSelectors, CategoriesActions, CategoriesSelectors } from '../../store';
-import {
-  Category,
-  BudgetType,
-  CategoryValueChangeRecord,
-  CategoriesResetRecord,
-  Account,
-  createCategoryValueChangeRecord,
-  createCategoriesResetRecord,
-} from '@budget-tracker/models';
+import { Category, BudgetType, Account } from '@budget-tracker/models';
 import { Dictionary } from '@ngrx/entity';
-import { MetadataService } from '@budget-tracker/metadata';
-import { pick } from '@budget-tracker/utils';
 
 @Injectable()
 export class CategoriesFacadeService {
-  constructor(
-    private readonly store: Store,
-    private readonly metadataService: MetadataService
-  ) {}
+  constructor(private readonly store: Store) {}
 
   getAllCategories(): Observable<Category[]> {
     return this.store.select(CategoriesSelectors.allCategoriesSelector);
@@ -81,15 +68,6 @@ export class CategoriesFacadeService {
     const category = structuredClone(await firstValueFrom(this.getCategoryById(categoryId)));
 
     const updatedCategoryValue = category.value + convertedValueToAdd;
-    const addCategoryValueRecord: CategoryValueChangeRecord = createCategoryValueChangeRecord(
-      pick(category, ['id', 'name', 'isSystem', 'icon']),
-      pick(account, ['id', 'name', 'currency']),
-      valueToAdd,
-      convertedValueToAdd,
-      this.metadataService.currentCurrency,
-      category.budgetType,
-      note
-    );
 
     let updatedAccountValue: number;
 
@@ -111,7 +89,6 @@ export class CategoriesFacadeService {
         updatedCategoryValue,
         updatedAccountId: accountId,
         updatedAccountValue,
-        activityLogRecord: addCategoryValueRecord,
       })
     );
   }
@@ -122,10 +99,7 @@ export class CategoriesFacadeService {
         map((categories) => categories.map((category) => category.id))
       )
     );
-    const activityLogRecord: CategoriesResetRecord = createCategoriesResetRecord(budgetType);
 
-    this.store.dispatch(
-      CategoriesActions.resetCategories({ categoriesIdsToReset, budgetType, activityLogRecord })
-    );
+    this.store.dispatch(CategoriesActions.resetCategories({ categoriesIdsToReset, budgetType }));
   }
 }

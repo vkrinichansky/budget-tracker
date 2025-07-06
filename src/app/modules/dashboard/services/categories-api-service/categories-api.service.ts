@@ -9,15 +9,9 @@ import {
   DocumentReference,
   deleteField,
 } from '@angular/fire/firestore';
-import {
-  Category,
-  CategoryValueChangeRecord,
-  CategoriesResetRecord,
-  CurrencyChangeRecord,
-} from '@budget-tracker/models';
+import { Category } from '@budget-tracker/models';
 
 const CATEGORIES_PATH = 'categories';
-const ACTIVITY_LOG_PATH = 'activityLog';
 const ACCOUNTS_PATH = 'accounts';
 
 @Injectable()
@@ -43,20 +37,15 @@ export class CategoriesApiService {
     updatedCategoryId: string,
     updatedCategoryValue: number,
     updatedAccountId: string,
-    updatedAccountValue: number,
-    activityLogRecord: CategoryValueChangeRecord
+    updatedAccountValue: number
   ): Promise<void> {
     return updateDoc(this.getDocRef(), {
       [`${CATEGORIES_PATH}.${updatedCategoryId}.value`]: updatedCategoryValue,
       [`${ACCOUNTS_PATH}.${updatedAccountId}.value`]: updatedAccountValue,
-      [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
     });
   }
 
-  resetCategories(
-    categoriesIdsToReset: string[],
-    activityLogRecord: CategoriesResetRecord
-  ): Promise<void> {
+  resetCategories(categoriesIdsToReset: string[]): Promise<void> {
     const updatedCategoriesDictionary = categoriesIdsToReset.reduce(
       (result, categoryId) => ({ ...result, [`${CATEGORIES_PATH}.${categoryId}.value`]: 0 }),
       {}
@@ -64,7 +53,6 @@ export class CategoriesApiService {
 
     return updateDoc(this.getDocRef(), {
       ...updatedCategoriesDictionary,
-      [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
     });
   }
 
@@ -76,14 +64,10 @@ export class CategoriesApiService {
 
     return updateDoc(this.getDocRef(), {
       ...updatedCategoriesDictionary,
-      [`${ACTIVITY_LOG_PATH}`]: [],
     });
   }
 
-  updateCategoriesAfterCurrencyChange(
-    categories: Category[],
-    activityLogRecord: CurrencyChangeRecord
-  ): Promise<void> {
+  updateCategoriesAfterCurrencyChange(categories: Category[]): Promise<void> {
     const updatedCategoriesDictionary = categories.reduce(
       (result, category) => ({
         ...result,
@@ -94,11 +78,10 @@ export class CategoriesApiService {
 
     return updateDoc(this.getDocRef(), {
       ...updatedCategoriesDictionary,
-      [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
     });
   }
 
   private getDocRef(): DocumentReference {
-    return doc(collection(this.firestore, 'dashboard'), this.afAuth.currentUser?.uid);
+    return doc(collection(this.firestore, CATEGORIES_PATH), this.afAuth.currentUser?.uid);
   }
 }

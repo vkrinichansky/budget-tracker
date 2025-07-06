@@ -15,10 +15,9 @@ import { map, Observable } from 'rxjs';
 import { collection, doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { getMonthAndYearString } from '@budget-tracker/utils';
 import {
-  Dashboard,
   expenseAdjustmentCategory,
   incomeAdjustmentCategory,
-  Snapshots,
+  Category,
 } from '@budget-tracker/models';
 
 @Injectable()
@@ -53,24 +52,18 @@ export class AuthService {
     const metadata: Record<string, string> = {
       currency: 'usd',
       language: 'en-US',
-    };
-
-    const dashboard: Dashboard = {
-      accounts: {},
-      categories: {
-        [incomeAdjustmentCategory.id]: incomeAdjustmentCategory,
-        [expenseAdjustmentCategory.id]: expenseAdjustmentCategory,
-      },
-      activityLog: [],
       resetDate: getMonthAndYearString(),
     };
 
-    const snapshots: Snapshots = {
-      snapshots: {},
+    const categories: Record<string, Category> = {
+      [incomeAdjustmentCategory.id]: incomeAdjustmentCategory,
+      [expenseAdjustmentCategory.id]: expenseAdjustmentCategory,
     };
 
     await setDoc(doc(collection(this.firestore, 'metadata'), userId), metadata);
-    await setDoc(doc(collection(this.firestore, 'dashboard'), userId), dashboard);
-    await setDoc(doc(collection(this.firestore, 'snapshots'), userId), snapshots);
+    await setDoc(doc(collection(this.firestore, 'accounts'), userId), {});
+    await setDoc(doc(collection(this.firestore, 'categories'), userId), categories);
+    await setDoc(doc(collection(this.firestore, 'activityLog'), userId), {});
+    await setDoc(doc(collection(this.firestore, 'snapshots'), userId), {});
   }
 }

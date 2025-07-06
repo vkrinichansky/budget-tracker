@@ -36,6 +36,9 @@
       "@budget-tracker/metadata": [
         "src/app/domains/metadata/index.ts"
       ],
+      "@budget-tracker/activity-log": [
+        "src/app/domains/activity-log/index.ts"
+      ],
       "@budget-tracker/data": [
         "src/app/modules/data/index.ts"
       ],
@@ -59,9 +62,6 @@
       ],
       "@budget-tracker/dashboard/info-cards": [
         "src/app/modules/budget-tracker/modules/dashboard/modules/info-cards/index.ts"
-      ],
-      "@budget-tracker/dashboard/activity-log": [
-        "src/app/modules/budget-tracker/modules/dashboard/modules/activity-log/index.ts"
       ],
       "@budget-tracker/statistics": [
         "src/app/modules/budget-tracker/modules/statistics/index.ts"

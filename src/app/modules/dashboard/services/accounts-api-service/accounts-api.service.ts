@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Account, MoveMoneyBetweenAccountsRecord } from '@budget-tracker/models';
+import { Account } from '@budget-tracker/models';
 import { Auth } from '@angular/fire/auth';
 import {
-  arrayUnion,
   collection,
   deleteField,
   doc,
@@ -12,7 +11,6 @@ import {
 } from '@angular/fire/firestore';
 
 const ACCOUNTS_PATH = 'accounts';
-const ACTIVITY_LOG_PATH = 'activityLog';
 
 @Injectable()
 export class AccountsApiService {
@@ -52,13 +50,11 @@ export class AccountsApiService {
     fromAccountId: string,
     toAccountId: string,
     fromAccountNewValue: number,
-    toAccountNewValue: number,
-    activityLogRecord: MoveMoneyBetweenAccountsRecord
+    toAccountNewValue: number
   ): Promise<void> {
     return updateDoc(this.getDocRef(), {
       [`${ACCOUNTS_PATH}.${fromAccountId}.value`]: fromAccountNewValue,
       [`${ACCOUNTS_PATH}.${toAccountId}.value`]: toAccountNewValue,
-      [`${ACTIVITY_LOG_PATH}`]: arrayUnion(activityLogRecord),
     });
   }
 

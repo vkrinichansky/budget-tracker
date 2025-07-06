@@ -1,10 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import {
-  BudgetType,
-  CategoriesResetRecord,
-  Category,
-  CategoryValueChangeRecord,
-} from '@budget-tracker/models';
+import { BudgetType, Category } from '@budget-tracker/models';
 
 export const CategoriesActions = {
   categoriesLoaded: createAction(
@@ -32,7 +27,6 @@ export const CategoriesActions = {
       updatedCategoryValue: number;
       updatedAccountId: string;
       updatedAccountValue: number;
-      activityLogRecord: CategoryValueChangeRecord;
     }>()
   ),
   categoryValueChanged: createAction(
@@ -45,7 +39,6 @@ export const CategoriesActions = {
     props<{
       categoriesIdsToReset: string[];
       budgetType: BudgetType;
-      activityLogRecord: CategoriesResetRecord;
     }>()
   ),
   categoriesReset: createAction(

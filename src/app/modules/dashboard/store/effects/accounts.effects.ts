@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, from, mergeMap, of, switchMap } from 'rxjs';
-import { AccountsActions, ActivityLogActions } from '../actions';
+import { AccountsActions } from '../actions';
 import { AccountsApiService } from '../../services';
 import { Account } from '@budget-tracker/models';
 
@@ -63,8 +63,7 @@ export class AccountsEffects {
             action.fromAccountId,
             action.toAccountId,
             action.fromAccountNewValue,
-            action.toAccountNewValue,
-            action.activityLogRecord
+            action.toAccountNewValue
           )
         ).pipe(
           switchMap(() => {
@@ -74,9 +73,6 @@ export class AccountsEffects {
                   { id: action.fromAccountId, value: action.fromAccountNewValue } as Account,
                   { id: action.toAccountId, value: action.toAccountNewValue } as Account,
                 ],
-              }),
-              ActivityLogActions.recordAdded({
-                record: action.activityLogRecord,
               })
             );
           }),
