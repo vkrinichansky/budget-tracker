@@ -10,7 +10,7 @@ import { v4 as uuid } from 'uuid';
 import { ActionListenerService } from '@budget-tracker/utils';
 import { AccountsActions } from '../../../../store';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
-import { predefinedCurrenciesDictionary, Currency } from '@budget-tracker/metadata';
+import { predefinedCurrenciesDictionary, Currency, CurrenciesEnum } from '@budget-tracker/metadata';
 
 enum FormFields {
   AccountName = 'accountName',
@@ -91,7 +91,7 @@ export class AddAccountModalComponent implements OnInit {
         name: this.form.controls[FormFields.AccountName].value,
         bgColor: this.form.controls[FormFields.AccountBgColor].value,
         textColor: this.form.controls[FormFields.AccountTextColor].value,
-        currency: this.form.controls[FormFields.AccountCurrency].value,
+        currency: this.form.controls[FormFields.AccountCurrency].value.id as CurrenciesEnum,
         order: 0,
       };
 

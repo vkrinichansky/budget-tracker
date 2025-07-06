@@ -6,7 +6,11 @@ import {
   SnackbarHandlerService,
 } from '@budget-tracker/design-system';
 import { Account } from '@budget-tracker/models';
-import { MetadataFacadeService, CurrencyPipe, predefinedCurrenciesDictionary } from '@budget-tracker/metadata';
+import {
+  MetadataFacadeService,
+  CurrencyPipe,
+  predefinedCurrenciesDictionary,
+} from '@budget-tracker/metadata';
 import { ActionListenerService } from '@budget-tracker/utils';
 import { AccountsActions } from '../../../../store';
 
