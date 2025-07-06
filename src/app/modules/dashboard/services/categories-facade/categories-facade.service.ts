@@ -13,6 +13,7 @@ import {
 } from '@budget-tracker/models';
 import { Dictionary } from '@ngrx/entity';
 import { MetadataService } from '@budget-tracker/metadata';
+import { pick } from '@budget-tracker/utils';
 
 @Injectable()
 export class CategoriesFacadeService {
@@ -81,11 +82,12 @@ export class CategoriesFacadeService {
 
     const updatedCategoryValue = category.value + convertedValueToAdd;
     const addCategoryValueRecord: CategoryValueChangeRecord = createCategoryValueChangeRecord(
-      category,
-      account,
+      pick(category, ['id', 'name', 'isSystem', 'icon']),
+      pick(account, ['id', 'name', 'currency']),
       valueToAdd,
       convertedValueToAdd,
       this.metadataService.currentCurrency,
+      category.budgetType,
       note
     );
 

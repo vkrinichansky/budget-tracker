@@ -1,12 +1,20 @@
 import { pick } from '@budget-tracker/utils';
-import { Account } from './account.model';
 import { BudgetType } from './budget-type.enum';
-import { Category } from './category.model';
 import { v4 as uuid } from 'uuid';
 import { CurrenciesEnum } from '@budget-tracker/metadata';
 
-type ActivityLogAccount = Pick<Account, 'id' | 'name' | 'currency'>;
-type ActivityLogCategory = Pick<Category, 'id' | 'name' | 'isSystem'>;
+interface ActivityLogAccount {
+  id: string;
+  name: string;
+  currency: CurrenciesEnum;
+}
+
+interface ActivityLogCategory {
+  id: string;
+  name: string;
+  isSystem: boolean;
+  icon: string;
+}
 
 export enum ActivityLogRecordType {
   CategoryValueChange = 'category-value-change',
@@ -72,18 +80,19 @@ export interface ActivityLogGroupedByDay {
 }
 
 export function createCategoryValueChangeRecord(
-  category: Category,
-  account: Account,
+  category: ActivityLogCategory,
+  account: ActivityLogAccount,
   value: number,
   convertedValue: number,
   currency: CurrenciesEnum,
+  budgetType: BudgetType,
   note: string
 ): CategoryValueChangeRecord {
   return {
     id: uuid(),
-    budgetType: category.budgetType,
-    category: pick(category, ['id', 'name', 'isSystem']),
-    account: pick(account, ['id', 'name', 'currency']),
+    budgetType,
+    category,
+    account,
     date: new Date().getTime(),
     icon: category.icon,
     recordType: ActivityLogRecordType.CategoryValueChange,
@@ -117,8 +126,8 @@ export function createCategoriesResetRecord(budgetType: BudgetType): CategoriesR
 }
 
 export function createMoveMoneyBetweenAccountsRecord(
-  fromAccount: Account,
-  toAccount: Account,
+  fromAccount: ActivityLogAccount,
+  toAccount: ActivityLogAccount,
   fromAccountValue: number,
   toAccountValue: number
 ): MoveMoneyBetweenAccountsRecord {

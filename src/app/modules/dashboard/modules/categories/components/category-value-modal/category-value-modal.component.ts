@@ -151,7 +151,7 @@ export class CategoryValueModalComponent implements OnInit {
         tap(([value, account]) => {
           const convertedValue = this.metadataFacade.getBasicToForeignConvertedValue(
             value,
-            account.currency.id
+            account.currency
           );
 
           this.form.controls[FormFields.ConvertedValueToAdd].setValue(
