@@ -16,7 +16,7 @@ import { MetadataModule } from '@budget-tracker/metadata';
 import { StoreModule } from '@ngrx/store';
 import { featureKey, activityLogReducer, ActivityLogEffects } from './store';
 import { EffectsModule } from '@ngrx/effects';
-import { ActivityLogFacadeService, ActivityLogApiService } from './services';
+import { ActivityLogService, ActivityLogApiService, ActivityLogFacadeService } from './services';
 
 @NgModule({
   imports: [
@@ -39,6 +39,6 @@ import { ActivityLogFacadeService, ActivityLogApiService } from './services';
   ],
 
   exports: [ActivityLogComponent],
-  providers: [ActivityLogFacadeService, ActivityLogApiService],
+  providers: [ActivityLogService, ActivityLogApiService, ActivityLogFacadeService],
 })
 export class ActivityLogModule {}

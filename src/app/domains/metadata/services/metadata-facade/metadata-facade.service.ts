@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MetadataService } from '../metadata-service/metadata-service.service';
+import { MetadataService } from '../metadata-service/metadata.service';
 import { Observable } from 'rxjs';
 import { LanguagesEnum, CurrencyExchangeRate, CurrenciesEnum } from '../../models';
 

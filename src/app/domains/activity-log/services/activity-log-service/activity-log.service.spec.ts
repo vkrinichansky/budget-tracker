@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MetadataService } from './metadata-service.service';
+import { ActivityLogService } from './activity-log.service';
 
-describe('MetadataService', () => {
-  let service: MetadataService;
+describe('ActivityLogService', () => {
+  let service: ActivityLogService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(MetadataService);
+    service = TestBed.inject(ActivityLogService);
   });
 
   it('should be created', () => {
