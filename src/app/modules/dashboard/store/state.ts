@@ -4,7 +4,7 @@ import * as t from './reducers';
 export const featureKey = 'dashboard';
 
 export interface DashboardFeatureState {
-  accountsState: t.AccountsState;
+  accountsState: t.AccountState;
   categoriesState: t.CategoriesState;
 }
 

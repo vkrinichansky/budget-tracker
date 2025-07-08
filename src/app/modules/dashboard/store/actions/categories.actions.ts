@@ -25,8 +25,6 @@ export const CategoriesActions = {
     props<{
       updatedCategoryId: string;
       updatedCategoryValue: number;
-      updatedAccountId: string;
-      updatedAccountValue: number;
     }>()
   ),
   categoryValueChanged: createAction(

@@ -12,11 +12,12 @@ import {
   SnackbarHandlerService,
 } from '@budget-tracker/design-system';
 import { CategoryModalsService } from '../../services';
-import { AccountsFacadeService, CategoriesFacadeService } from '../../../../services';
+import { CategoriesFacadeService } from '../../../../services';
 import { Observable, firstValueFrom, map } from 'rxjs';
 import { Category } from '@budget-tracker/models';
 import { ActionListenerService } from '@budget-tracker/utils';
 import { CategoriesActions } from '../../../../store';
+import { AccountsFacadeService } from '@budget-tracker/account';
 
 @Component({
   selector: 'app-category-item',

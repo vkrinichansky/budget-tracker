@@ -5,42 +5,27 @@
 
   .info-cards,
   .main-cards {
-    @apply flex overflow-x-scroll scroll-smooth -mx-4 px-4;
+    @apply flex gap-x-4;
 
-    scroll-snap-type: x mandatory;
+    .card {
+      @apply flex-1;
+    }
 
     &::-webkit-scrollbar {
       @apply hidden;
-    }
-
-    .card:not(:last-child) {
-      @apply mr-4;
-    }
-
-    .card {
-      scroll-snap-align: center;
-    }
-  }
-
-  .info-cards {
-    min-height: 112px;
-
-    .card {
-      flex: 0 0 calc(20% - calc(4 * 24px / 5));
-    }
-  }
-
-  .main-cards {
-    .card {
-      flex: 0 0 calc(calc(100% / 3) - calc(2 * 24px / 3));
     }
   }
 
   @media (width <= 480px) {
     .info-cards,
     .main-cards {
+      @apply overflow-x-scroll scroll-smooth -mx-4 px-4 gap-x-0;
+
+      scroll-snap-type: x mandatory;
+
       .card {
         flex: 0 0 100%;
+        scroll-snap-align: center;
       }
 
       .card:not(:last-child) {

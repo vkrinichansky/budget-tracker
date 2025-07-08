@@ -4,7 +4,6 @@ import {
   Firestore,
   collection,
   updateDoc,
-  arrayUnion,
   doc,
   DocumentReference,
   deleteField,
@@ -12,7 +11,6 @@ import {
 import { Category } from '@budget-tracker/models';
 
 const CATEGORIES_PATH = 'categories';
-const ACCOUNTS_PATH = 'accounts';
 
 @Injectable()
 export class CategoriesApiService {
@@ -33,15 +31,9 @@ export class CategoriesApiService {
     });
   }
 
-  changeCategoryValue(
-    updatedCategoryId: string,
-    updatedCategoryValue: number,
-    updatedAccountId: string,
-    updatedAccountValue: number
-  ): Promise<void> {
+  changeCategoryValue(updatedCategoryId: string, updatedCategoryValue: number): Promise<void> {
     return updateDoc(this.getDocRef(), {
       [`${CATEGORIES_PATH}.${updatedCategoryId}.value`]: updatedCategoryValue,
-      [`${ACCOUNTS_PATH}.${updatedAccountId}.value`]: updatedAccountValue,
     });
   }
 

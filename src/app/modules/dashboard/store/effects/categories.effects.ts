@@ -2,13 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, from, map, mergeMap, of, switchMap, take } from 'rxjs';
 import { CategoriesApiService } from '../../services';
-import {
-  Account,
-  Category,
-  // createCurrencyChangeRecord,
-  // CurrencyChangeRecord,
-} from '@budget-tracker/models';
-import { AccountsActions, CategoriesActions } from '../actions';
+import { Category } from '@budget-tracker/models';
+import { CategoriesActions } from '../actions';
 import { MetadataActions, MetadataService } from '@budget-tracker/metadata';
 import { CategoriesSelectors } from '../selectors';
 import { Store } from '@ngrx/store';
@@ -69,9 +64,7 @@ export class CategoriesEffects {
         from(
           this.categoriesService.changeCategoryValue(
             action.updatedCategoryId,
-            action.updatedCategoryValue,
-            action.updatedAccountId,
-            action.updatedAccountValue
+            action.updatedCategoryValue
           )
         ).pipe(
           switchMap(() => {
@@ -81,12 +74,6 @@ export class CategoriesEffects {
                   id: action.updatedCategoryId,
                   value: action.updatedCategoryValue,
                 } as Category,
-              }),
-              AccountsActions.accountValueEdited({
-                updatedAccount: {
-                  id: action.updatedAccountId,
-                  value: action.updatedAccountValue,
-                } as Account,
               })
             );
           }),

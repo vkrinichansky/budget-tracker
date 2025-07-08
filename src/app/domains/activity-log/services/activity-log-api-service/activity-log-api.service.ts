@@ -9,7 +9,7 @@ import {
   updateDoc,
 } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
-import { ActivityLog, ActivityLogRecordUnitedType } from '../../models';
+import { ActivityLogRecordUnitedType } from '../../models';
 
 @Injectable()
 export class ActivityLogApiService {
@@ -18,8 +18,10 @@ export class ActivityLogApiService {
     private afAuth: Auth
   ) {}
 
-  async loadActivityLog(): Promise<ActivityLog> {
-    return getDoc(this.getDocRef()).then((doc) => doc.data() as ActivityLog);
+  async loadActivityLog(): Promise<Record<string, ActivityLogRecordUnitedType>> {
+    return getDoc(this.getDocRef()).then(
+      (doc): Record<string, ActivityLogRecordUnitedType> => doc.data()
+    );
   }
 
   addRecord(record: ActivityLogRecordUnitedType): Promise<void> {

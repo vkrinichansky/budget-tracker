@@ -9,22 +9,15 @@ import { UtilsModule } from '@budget-tracker/utils';
 import { MetadataModule } from '@budget-tracker/metadata';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import {
-  featureKey,
-  reducers,
-  CategoriesEffects,
-  AccountsEffects,
-  DashboardInitEffects,
-} from './store';
+import { featureKey, reducers, CategoriesEffects, DashboardInitEffects } from './store';
 import {
   CategoriesFacadeService,
   CategoriesApiService,
-  AccountsFacadeService,
-  AccountsApiService,
   DashboardInitApiService,
   DashboardInitFacadeService,
 } from './services';
-import { ActivityLogModule } from '@budget-tracker/activity-log';
+import { ActivityLogDomainModule } from '@budget-tracker/activity-log';
+import { AccountDomainModule } from '@budget-tracker/account';
 
 const routes: Routes = [
   {
@@ -39,20 +32,19 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     StoreModule.forFeature(featureKey, reducers),
-    EffectsModule.forFeature([CategoriesEffects, AccountsEffects, DashboardInitEffects]),
+    EffectsModule.forFeature([CategoriesEffects, DashboardInitEffects]),
     DesignSystemModule,
     TranslateModule,
     InfoCardsModule,
     CategoriesModule,
     UtilsModule,
     MetadataModule,
-    ActivityLogModule,
+    ActivityLogDomainModule,
+    AccountDomainModule,
   ],
   providers: [
     CategoriesFacadeService,
     CategoriesApiService,
-    AccountsFacadeService,
-    AccountsApiService,
     DashboardInitApiService,
     DashboardInitFacadeService,
   ],

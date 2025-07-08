@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, firstValueFrom, map } from 'rxjs';
-import { AccountsSelectors, CategoriesActions, CategoriesSelectors } from '../../store';
-import { Category, BudgetType, Account } from '@budget-tracker/models';
+import { CategoriesActions, CategoriesSelectors } from '../../store';
+import { Category, BudgetType } from '@budget-tracker/models';
 import { Dictionary } from '@ngrx/entity';
 
 @Injectable()
@@ -41,10 +41,6 @@ export class CategoriesFacadeService {
     return this.store.select(CategoriesSelectors.currentMonthBalanceSelector);
   }
 
-  getAccountById(accountId: string): Observable<Account> {
-    return this.store.select(AccountsSelectors.accountByIdSelector(accountId));
-  }
-
   addCategory(category: Category): void {
     this.store.dispatch(CategoriesActions.addCategory({ category }));
   }
@@ -64,31 +60,28 @@ export class CategoriesFacadeService {
     convertedValueToAdd: number,
     note: string
   ): Promise<void> {
-    const account = structuredClone(await firstValueFrom(this.getAccountById(accountId)));
     const category = structuredClone(await firstValueFrom(this.getCategoryById(categoryId)));
 
     const updatedCategoryValue = category.value + convertedValueToAdd;
 
-    let updatedAccountValue: number;
+    // let updatedAccountValue: number;
 
-    switch (category.budgetType) {
-      case BudgetType.Income:
-        updatedAccountValue = account.value + valueToAdd;
+    // switch (category.budgetType) {
+    //   case BudgetType.Income:
+    //     updatedAccountValue = account.value + valueToAdd;
 
-        break;
+    //     break;
 
-      case BudgetType.Expense:
-        updatedAccountValue = account.value - valueToAdd;
+    //   case BudgetType.Expense:
+    //     updatedAccountValue = account.value - valueToAdd;
 
-        break;
-    }
+    //     break;
+    // }
 
     this.store.dispatch(
       CategoriesActions.changeCategoryValue({
         updatedCategoryId: categoryId,
         updatedCategoryValue,
-        updatedAccountId: accountId,
-        updatedAccountValue,
       })
     );
   }

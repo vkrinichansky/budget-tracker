@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AccountsSelectors, CategoriesSelectors, DashboardInitActions } from '../../store';
-import { combineLatest, firstValueFrom, map, Observable } from 'rxjs';
+import { CategoriesSelectors, DashboardInitActions } from '../../store';
+import { firstValueFrom, Observable } from 'rxjs';
 
 @Injectable()
 export class DashboardInitFacadeService {
   constructor(private store: Store) {}
 
   async initData(): Promise<void> {
-    const isLoaded$ = combineLatest([
-      this.store.select(AccountsSelectors.accountsLoadedSelector),
-      this.store.select(CategoriesSelectors.categoriesLoadedSelector),
-    ]).pipe(map(([a, b]) => a && b));
+    const isLoaded$ = this.store.select(CategoriesSelectors.categoriesLoadedSelector);
 
     if (!(await firstValueFrom(isLoaded$))) {
       this.store.dispatch(DashboardInitActions.loadDashboardData());
@@ -19,9 +16,6 @@ export class DashboardInitFacadeService {
   }
 
   isDataLoaded(): Observable<boolean> {
-    return combineLatest([
-      this.store.select(AccountsSelectors.accountsLoadedSelector),
-      this.store.select(CategoriesSelectors.categoriesLoadedSelector),
-    ]).pipe(map(([a, b]) => a && b));
+    return this.store.select(CategoriesSelectors.categoriesLoadedSelector);
   }
 }

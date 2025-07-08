@@ -41,4 +41,4 @@ import { ActivityLogService, ActivityLogApiService, ActivityLogFacadeService } f
   exports: [ActivityLogComponent],
   providers: [ActivityLogService, ActivityLogApiService, ActivityLogFacadeService],
 })
-export class ActivityLogModule {}
+export class ActivityLogDomainModule {}

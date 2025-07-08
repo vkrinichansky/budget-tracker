@@ -9,7 +9,7 @@ import {
 } from '@angular/fire/firestore';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { combineLatest, firstValueFrom, from, map, switchMap } from 'rxjs';
-import { Account, Category, Dashboard, StatisticsSnapshot } from '@budget-tracker/models';
+import { Category, Dashboard, StatisticsSnapshot } from '@budget-tracker/models';
 import { Auth } from '@angular/fire/auth';
 import { getMonthAndYearString } from '@budget-tracker/utils';
 
@@ -29,13 +29,9 @@ export class DashboardInitApiService {
     return await firstValueFrom(
       this.authFacade.getUserId().pipe(
         switchMap((userId) =>
-          combineLatest([
-            from(getDoc(doc(collection(this.firestore, 'categories'), userId))),
-            from(getDoc(doc(collection(this.firestore, 'accounts'), userId))),
-          ]).pipe(
-            map(([categories, accounts]) => ({
+          combineLatest([from(getDoc(doc(collection(this.firestore, 'categories'), userId)))]).pipe(
+            map(([categories]) => ({
               categories: categories.data() as Record<string, Category>,
-              accounts: accounts.data() as Record<string, Account>,
               resetDate: getMonthAndYearString(),
             }))
           )

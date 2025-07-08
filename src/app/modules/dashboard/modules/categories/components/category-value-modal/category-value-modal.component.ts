@@ -3,13 +3,14 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl } from '@angular/forms';
 import { BehaviorSubject, Observable, tap, withLatestFrom } from 'rxjs';
 import { CategoryValueModalData } from '../../models';
-import { AccountsFacadeService, CategoriesFacadeService } from '../../../../services';
+import { CategoriesFacadeService } from '../../../../services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Account, Category, BudgetType } from '@budget-tracker/models';
+import { Category, BudgetType } from '@budget-tracker/models';
 import { MetadataFacadeService, predefinedCurrenciesDictionary } from '@budget-tracker/metadata';
 import { ActionListenerService } from '@budget-tracker/utils';
 import { CategoriesActions } from '../../../../store';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
+import { AccountsFacadeService, Account } from '@budget-tracker/account';
 
 enum FormFields {
   ValueToAdd = 'valueToAdd',

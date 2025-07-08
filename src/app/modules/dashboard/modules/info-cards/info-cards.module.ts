@@ -3,15 +3,8 @@ import { CommonModule } from '@angular/common';
 import {
   IncomeInfoCardComponent,
   ExpenseInfoCardComponent,
-  AccountsInfoCardComponent,
-  AccountsListModalComponent,
-  AccountCardComponent,
-  AddAccountModalComponent,
-  FullBalanceInfoCardComponent,
   CurrentMonthBalanceInfoCardComponent,
-  MoveMoneyBetweenAccountsModalComponent,
 } from './components';
-import { AccountsModalsService } from './services';
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -23,13 +16,7 @@ import { MetadataModule } from '@budget-tracker/metadata';
   declarations: [
     IncomeInfoCardComponent,
     ExpenseInfoCardComponent,
-    FullBalanceInfoCardComponent,
-    AccountsInfoCardComponent,
-    AccountsListModalComponent,
-    AccountCardComponent,
-    AddAccountModalComponent,
     CurrentMonthBalanceInfoCardComponent,
-    MoveMoneyBetweenAccountsModalComponent,
   ],
   imports: [
     CommonModule,
@@ -44,14 +31,7 @@ import { MetadataModule } from '@budget-tracker/metadata';
   exports: [
     IncomeInfoCardComponent,
     ExpenseInfoCardComponent,
-    FullBalanceInfoCardComponent,
-    AccountsInfoCardComponent,
-    AccountsListModalComponent,
-    AccountCardComponent,
-    AddAccountModalComponent,
     CurrentMonthBalanceInfoCardComponent,
-    MoveMoneyBetweenAccountsModalComponent,
   ],
-  providers: [AccountsModalsService],
 })
 export class InfoCardsModule {}

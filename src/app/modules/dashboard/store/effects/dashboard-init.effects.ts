@@ -1,24 +1,19 @@
 import { Injectable } from '@angular/core';
 import { AuthActions } from '@budget-tracker/auth';
-import { StatisticsSnapshot, Dashboard, Category } from '@budget-tracker/models';
-import { getMonthAndYearString, getPreviousMonthTime } from '@budget-tracker/utils';
+import { Dashboard, Category } from '@budget-tracker/models';
+import { getMonthAndYearString } from '@budget-tracker/utils';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { switchMap, from, of, map, tap, combineLatest, take } from 'rxjs';
-import { CategoriesActions, AccountsActions, DashboardInitActions } from '../actions';
+import { switchMap, from, of, map } from 'rxjs';
+import { CategoriesActions, DashboardInitActions } from '../actions';
 import { DashboardInitApiService } from '../../services';
 import { Store } from '@ngrx/store';
-import { SnackbarHandlerService } from '@budget-tracker/design-system';
-import { AccountsSelectors, CategoriesSelectors } from '../selectors';
-import { MetadataService } from '@budget-tracker/metadata';
 
 @Injectable()
 export class DashboardInitEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly dashboardInitService: DashboardInitApiService,
-    private readonly store: Store,
-    private readonly snackbarHandler: SnackbarHandlerService,
-    private readonly metadataService: MetadataService
+    private readonly store: Store
   ) {}
 
   init$ = createEffect(() =>
@@ -37,76 +32,76 @@ export class DashboardInitEffects {
     )
   );
 
-  resetData$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(DashboardInitActions.resetData),
-      switchMap((action) =>
-        combineLatest([
-          this.store.select(CategoriesSelectors.incomeValueSelector),
-          this.store.select(CategoriesSelectors.expenseValueSelector),
-          this.store.select(CategoriesSelectors.currentMonthBalanceSelector),
-          this.store.select(
-            AccountsSelectors.fullBalanceSelector(
-              this.metadataService.currentCurrency,
-              this.metadataService.currencyExchangeRate
-            )
-          ),
-        ]).pipe(
-          map(([income, expense, monthBalance, fullBalance]) => ({
-            action,
-            income,
-            expense,
-            monthBalance,
-            fullBalance,
-          })),
-          take(1)
-        )
-      ),
-      switchMap(({ action, income, expense, monthBalance, fullBalance }) => {
-        const date = getPreviousMonthTime().toString();
-        const statisticsSnapshot: StatisticsSnapshot = {
-          date,
-          categories: [...Object.values(action.data.categories)],
-          income,
-          expense,
-          monthBalance,
-          fullBalance,
-          currency: this.metadataService.currentCurrency,
-        };
+  // resetData$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(DashboardInitActions.resetData),
+  //     switchMap((action) =>
+  //       combineLatest([
+  //         this.store.select(CategoriesSelectors.incomeValueSelector),
+  //         this.store.select(CategoriesSelectors.expenseValueSelector),
+  //         this.store.select(CategoriesSelectors.currentMonthBalanceSelector),
+  //         this.store.select(
+  //           AccountsSelectors.fullBalanceSelector(
+  //             this.metadataService.currentCurrency,
+  //             this.metadataService.currencyExchangeRate
+  //           )
+  //         ),
+  //       ]).pipe(
+  //         map(([income, expense, monthBalance, fullBalance]) => ({
+  //           action,
+  //           income,
+  //           expense,
+  //           monthBalance,
+  //           fullBalance,
+  //         })),
+  //         take(1)
+  //       )
+  //     ),
+  //     switchMap(({ action, income, expense, monthBalance, fullBalance }) => {
+  //       const date = getPreviousMonthTime().toString();
+  //       const statisticsSnapshot: StatisticsSnapshot = {
+  //         date,
+  //         categories: [...Object.values(action.data.categories)],
+  //         income,
+  //         expense,
+  //         monthBalance,
+  //         fullBalance,
+  //         currency: this.metadataService.currentCurrency,
+  //       };
 
-        const { resetCategories, resetDate } = this.getResetData(action.data);
+  //       const { resetCategories, resetDate } = this.getResetData(action.data);
 
-        return of({
-          resetCategories,
-          resetDate,
-          statisticsSnapshot,
-          date,
-          initialData: action.data,
-        });
-      }),
-      switchMap(({ resetCategories, resetDate, statisticsSnapshot, date, initialData }) =>
-        from(
-          this.dashboardInitService.resetData(resetCategories, resetDate, statisticsSnapshot, date)
-        ).pipe(
-          tap(() => {
-            const resultResetData: Dashboard = {
-              ...initialData,
-              categories: resetCategories,
-            };
+  //       return of({
+  //         resetCategories,
+  //         resetDate,
+  //         statisticsSnapshot,
+  //         date,
+  //         initialData: action.data,
+  //       });
+  //     }),
+  //     switchMap(({ resetCategories, resetDate, statisticsSnapshot, date, initialData }) =>
+  //       from(
+  //         this.dashboardInitService.resetData(resetCategories, resetDate, statisticsSnapshot, date)
+  //       ).pipe(
+  //         tap(() => {
+  //           const resultResetData: Dashboard = {
+  //             ...initialData,
+  //             categories: resetCategories,
+  //           };
 
-            this.setStates(resultResetData);
-          })
-        )
-      ),
-      map(() => DashboardInitActions.dashboardDataLoaded()),
-      tap(() => this.snackbarHandler.showDataResetSnackbar())
-    )
-  );
+  //           this.setStates(resultResetData);
+  //         })
+  //       )
+  //     ),
+  //     map(() => DashboardInitActions.dashboardDataLoaded()),
+  //     tap(() => this.snackbarHandler.showDataResetSnackbar())
+  //   )
+  // );
 
   cleanStateOnLogOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logout),
-      switchMap(() => of(CategoriesActions.cleanState(), AccountsActions.cleanState()))
+      switchMap(() => of(CategoriesActions.cleanState()))
     )
   );
 
@@ -122,9 +117,7 @@ export class DashboardInitEffects {
 
   private setStates(data: Dashboard) {
     const categories = Object.values(data.categories);
-    const accounts = Object.values(data.accounts);
 
     this.store.dispatch(CategoriesActions.categoriesLoaded({ categories }));
-    this.store.dispatch(AccountsActions.accountsLoaded({ accounts }));
   }
 }

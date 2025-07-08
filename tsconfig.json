@@ -36,6 +36,9 @@
       "@budget-tracker/metadata": [
         "src/app/domains/metadata/index.ts"
       ],
+      "@budget-tracker/account": [
+        "src/app/domains/account/index.ts"
+      ],
       "@budget-tracker/activity-log": [
         "src/app/domains/activity-log/index.ts"
       ],
