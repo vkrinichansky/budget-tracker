@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
 import { Account } from '../models';
-import { AccountsActions } from './account.actions';
+import { AccountActions } from './account.actions';
 
 export interface AccountState {
   accounts: EntityState<Account>;
@@ -24,7 +24,7 @@ const initialState: AccountState = {
 const adapterReducer = createReducer(
   initialState,
   on(
-    AccountsActions.accountsLoaded,
+    AccountActions.accountsLoaded,
     (state, action): AccountState => ({
       ...state,
       accounts: accountEntityAdapter.addMany(action.accounts, state.accounts),
@@ -32,7 +32,7 @@ const adapterReducer = createReducer(
     })
   ),
 
-  on(AccountsActions.accountAdded, (state, action): AccountState => {
+  on(AccountActions.accountAdded, (state, action): AccountState => {
     const updatedAccounts: Account[] = [
       action.account,
       ...Object.keys(action.updatedAccountsOrder).map(
@@ -50,7 +50,7 @@ const adapterReducer = createReducer(
     };
   }),
 
-  on(AccountsActions.accountRemoved, (state, action): AccountState => {
+  on(AccountActions.accountRemoved, (state, action): AccountState => {
     const updatedState: AccountState = {
       ...state,
       accounts: accountEntityAdapter.removeOne(action.accountId, state.accounts),
@@ -69,7 +69,7 @@ const adapterReducer = createReducer(
   }),
 
   on(
-    AccountsActions.accountValueEdited,
+    AccountActions.accountValueEdited,
     (state, action): AccountState => ({
       ...state,
       accounts: accountEntityAdapter.updateOne(
@@ -80,7 +80,7 @@ const adapterReducer = createReducer(
   ),
 
   on(
-    AccountsActions.moneyBetweenAccountsMoved,
+    AccountActions.moneyBetweenAccountsMoved,
     (state, action): AccountState => ({
       ...state,
       accounts: accountEntityAdapter.updateMany(
@@ -94,7 +94,7 @@ const adapterReducer = createReducer(
   ),
 
   on(
-    AccountsActions.bulkAccountOrderChanged,
+    AccountActions.bulkAccountOrderChanged,
     (state, action): AccountState => ({
       ...state,
       accounts: accountEntityAdapter.updateMany(
@@ -107,9 +107,9 @@ const adapterReducer = createReducer(
     })
   ),
 
-  on(AccountsActions.cleanState, (): AccountState => initialState)
+  on(AccountActions.cleanState, (): AccountState => initialState)
 );
 
-export function accountsReducer(state = initialState, action: Action): AccountState {
+export function accountReducer(state = initialState, action: Action): AccountState {
   return adapterReducer(state, action);
 }

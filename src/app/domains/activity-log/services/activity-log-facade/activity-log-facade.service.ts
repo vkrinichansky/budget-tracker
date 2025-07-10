@@ -7,8 +7,12 @@ import { ActivityLogGroupedByDay, ActivityLogRecordUnitedType } from '../../mode
 export class ActivityLogFacadeService {
   constructor(private readonly activityLogService: ActivityLogService) {}
 
-  loadActivityLog(): Promise<void> {
-    return this.activityLogService.loadActivityLog();
+  loadActivityLog(): void {
+    this.activityLogService.loadActivityLog();
+  }
+
+  activityLogLoaded(): Observable<boolean> {
+    return this.activityLogService.activityLogLoaded();
   }
 
   getActivityLogGroupedByDays(): Observable<ActivityLogGroupedByDay[]> {

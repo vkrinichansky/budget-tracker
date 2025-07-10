@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
-import { AccountEffects, accountsReducer, featureKey } from './store';
+import { AccountEffects, accountReducer, featureKey } from './store';
 import { EffectsModule } from '@ngrx/effects';
 import {
   AccountApiService,
-  AccountServiceService,
-  AccountsFacadeService,
+  AccountService,
+  AccountFacadeService,
   AccountModalService,
 } from './services';
 import {
@@ -32,7 +32,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MetadataModule,
     DragDropModule,
 
-    StoreModule.forFeature(featureKey, accountsReducer),
+    StoreModule.forFeature(featureKey, accountReducer),
     EffectsModule.forFeature([AccountEffects]),
   ],
   declarations: [
@@ -44,11 +44,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     FullBalanceInfoCardComponent,
   ],
   exports: [AccountsInfoCardComponent, FullBalanceInfoCardComponent],
-  providers: [
-    AccountApiService,
-    AccountsFacadeService,
-    AccountModalService,
-    AccountServiceService,
-  ],
+  providers: [AccountApiService, AccountFacadeService, AccountModalService, AccountService],
 })
 export class AccountDomainModule {}

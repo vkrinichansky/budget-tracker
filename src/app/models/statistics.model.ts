@@ -1,4 +1,4 @@
-import { Category } from './category.model';
+import { Category } from '@budget-tracker/models';
 import { CurrenciesEnum } from '@budget-tracker/metadata';
 
 export interface StatisticsSnapshot {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, from, map, mergeMap, of, switchMap } from 'rxjs';
-import { AccountsActions } from './account.actions';
+import { AccountActions } from './account.actions';
 import { Account } from '../models';
 import { AccountApiService } from '../services';
 import { AuthActions } from '@budget-tracker/auth';
@@ -15,27 +15,27 @@ export class AccountEffects {
 
   loadAccounts$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AccountsActions.loadAccounts),
+      ofType(AccountActions.loadAccounts),
       switchMap(() => from(this.accountService.loadAccounts())),
-      map((accounts) => AccountsActions.accountsLoaded({ accounts: Object.values(accounts) }))
+      map((accounts) => AccountActions.accountsLoaded({ accounts: Object.values(accounts) }))
     )
   );
 
   addAccount$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AccountsActions.addAccount),
+      ofType(AccountActions.addAccount),
       mergeMap((action) =>
         from(this.accountService.addAccount(action.account, action.updatedAccountsOrder)).pipe(
           switchMap(() => {
             return of(
-              AccountsActions.accountAdded({
+              AccountActions.accountAdded({
                 account: action.account,
                 updatedAccountsOrder: action.updatedAccountsOrder,
               })
             );
           }),
           catchError(() => {
-            return of(AccountsActions.addAccountFail());
+            return of(AccountActions.addAccountFail());
           })
         )
       )
@@ -44,19 +44,19 @@ export class AccountEffects {
 
   removeAccount$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AccountsActions.removeAccount),
+      ofType(AccountActions.removeAccount),
       mergeMap((action) =>
         from(this.accountService.removeAccount(action.accountId, action.updatedAccountsOrder)).pipe(
           switchMap(() => {
             return of(
-              AccountsActions.accountRemoved({
+              AccountActions.accountRemoved({
                 accountId: action.accountId,
                 updatedAccountsOrder: action.updatedAccountsOrder,
               })
             );
           }),
           catchError(() => {
-            return of(AccountsActions.removeAccountFail({ accountId: action.accountId }));
+            return of(AccountActions.removeAccountFail({ accountId: action.accountId }));
           })
         )
       )
@@ -65,7 +65,7 @@ export class AccountEffects {
 
   moveMoneyBetweenAccounts$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AccountsActions.moveMoneyBetweenAccounts),
+      ofType(AccountActions.moveMoneyBetweenAccounts),
       mergeMap((action) =>
         from(
           this.accountService.moveMoneyBetweenAccounts(
@@ -77,7 +77,7 @@ export class AccountEffects {
         ).pipe(
           switchMap(() => {
             return of(
-              AccountsActions.moneyBetweenAccountsMoved({
+              AccountActions.moneyBetweenAccountsMoved({
                 updatedAccounts: [
                   { id: action.fromAccountId, value: action.fromAccountNewValue } as Account,
                   { id: action.toAccountId, value: action.toAccountNewValue } as Account,
@@ -86,7 +86,7 @@ export class AccountEffects {
             );
           }),
           catchError(() => {
-            return of(AccountsActions.moveMoneyBetweenAccountsFail());
+            return of(AccountActions.moveMoneyBetweenAccountsFail());
           })
         )
       )
@@ -95,18 +95,18 @@ export class AccountEffects {
 
   bulkAccountChangeOrder$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AccountsActions.bulkAccountChangeOrder),
+      ofType(AccountActions.bulkAccountChangeOrder),
       mergeMap((action) =>
         from(this.accountService.bulkAccountChangeOrder(action.updatedAccountsOrder)).pipe(
           switchMap(() => {
             return of(
-              AccountsActions.bulkAccountOrderChanged({
+              AccountActions.bulkAccountOrderChanged({
                 updatedAccountsOrder: action.updatedAccountsOrder,
               })
             );
           }),
           catchError(() => {
-            return of(AccountsActions.bulkAccountChangeOrderFail());
+            return of(AccountActions.bulkAccountChangeOrderFail());
           })
         )
       )
@@ -116,7 +116,7 @@ export class AccountEffects {
   cleanStateOnLogOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logout),
-      switchMap(() => of(AccountsActions.cleanState()))
+      switchMap(() => of(AccountActions.cleanState()))
     )
   );
 }

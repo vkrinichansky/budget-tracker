@@ -5,9 +5,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject, tap } from 'rxjs';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
 import { ActionListenerService } from '@budget-tracker/utils';
-import { AccountsFacadeService } from '../../services';
+import { AccountFacadeService } from '../../services';
 import { Account } from '../../models';
-import { AccountsActions } from '../../store';
+import { AccountActions } from '../../store';
 
 @Component({
   selector: 'app-accounts-list-modal',
@@ -21,7 +21,7 @@ export class AccountsListModalComponent implements OnInit {
   readonly changeOrderInProgress$ = new BehaviorSubject<boolean>(false);
 
   constructor(
-    private readonly accountsFacade: AccountsFacadeService,
+    private readonly accountFacade: AccountFacadeService,
     private readonly dialogRef: MatDialogRef<AccountsListModalComponent>,
     private readonly destroyRef: DestroyRef,
     private readonly actionListener: ActionListenerService,
@@ -47,11 +47,11 @@ export class AccountsListModalComponent implements OnInit {
     this.changeOrderInProgress$.next(true);
 
     try {
-      this.accountsFacade.bulkAccountChangeOrder(updatedAccountsOrder);
+      this.accountFacade.bulkAccountChangeOrder(updatedAccountsOrder);
 
       await this.actionListener.waitForResult(
-        AccountsActions.bulkAccountOrderChanged,
-        AccountsActions.bulkAccountChangeOrderFail
+        AccountActions.bulkAccountOrderChanged,
+        AccountActions.bulkAccountChangeOrderFail
       );
 
       this.snackbarHandler.showAccountOrderChangedSnackbar();
@@ -67,7 +67,7 @@ export class AccountsListModalComponent implements OnInit {
   }
 
   private initListeners(): void {
-    this.accountsFacade
+    this.accountFacade
       .getAllAccounts()
       .pipe(
         tap((accounts) => {

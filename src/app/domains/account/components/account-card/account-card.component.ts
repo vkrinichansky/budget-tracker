@@ -11,8 +11,8 @@ import {
   predefinedCurrenciesDictionary,
 } from '@budget-tracker/metadata';
 import { ActionListenerService } from '@budget-tracker/utils';
-import { AccountsFacadeService } from '../../services';
-import { AccountsActions } from '../../store';
+import { AccountFacadeService } from '../../services';
+import { AccountActions } from '../../store';
 
 @Component({
   selector: 'app-account-card',
@@ -36,11 +36,11 @@ export class AccountCardComponent {
           },
           async () => {
             try {
-              this.accountsFacade.removeAccount(this.account.id);
+              this.accountFacade.removeAccount(this.account.id);
 
               await this.actionListener.waitForResult(
-                AccountsActions.accountRemoved,
-                AccountsActions.removeAccountFail,
+                AccountActions.accountRemoved,
+                AccountActions.removeAccountFail,
                 (action) => action.accountId === this.account.id,
                 (action) => action.accountId === this.account.id
               );
@@ -79,7 +79,7 @@ export class AccountCardComponent {
 
   constructor(
     private readonly metadataFacade: MetadataFacadeService,
-    private readonly accountsFacade: AccountsFacadeService,
+    private readonly accountFacade: AccountFacadeService,
     private readonly confirmationModalService: ConfirmationModalService,
     private readonly actionListener: ActionListenerService,
     private readonly snackbarHandler: SnackbarHandlerService,

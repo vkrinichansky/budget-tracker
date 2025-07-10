@@ -8,9 +8,9 @@ import { v4 as uuid } from 'uuid';
 import { ActionListenerService } from '@budget-tracker/utils';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
 import { predefinedCurrenciesDictionary, Currency, CurrenciesEnum } from '@budget-tracker/metadata';
-import { AccountsFacadeService } from '../../services';
+import { AccountFacadeService } from '../../services';
 import { Account } from '../../models';
-import { AccountsActions } from '../../store';
+import { AccountActions } from '../../store';
 
 enum FormFields {
   AccountName = 'accountName',
@@ -68,7 +68,7 @@ export class AddAccountModalComponent implements OnInit {
   }
 
   constructor(
-    private readonly accountsFacade: AccountsFacadeService,
+    private readonly accountFacade: AccountFacadeService,
     private readonly destroyRef: DestroyRef,
     private readonly translateService: TranslateService,
     private readonly dialogRef: MatDialogRef<AddAccountModalComponent>,
@@ -95,11 +95,11 @@ export class AddAccountModalComponent implements OnInit {
         order: 0,
       };
 
-      this.accountsFacade.addAccount(account);
+      this.accountFacade.addAccount(account);
 
       await this.actionListener.waitForResult(
-        AccountsActions.accountAdded,
-        AccountsActions.addAccountFail
+        AccountActions.accountAdded,
+        AccountActions.addAccountFail
       );
 
       this.dialogRef.close();
@@ -112,7 +112,7 @@ export class AddAccountModalComponent implements OnInit {
   }
 
   private initListeners(): void {
-    this.accountsFacade
+    this.accountFacade
       .getAllAccounts()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((accounts) => (this.accounts = accounts));

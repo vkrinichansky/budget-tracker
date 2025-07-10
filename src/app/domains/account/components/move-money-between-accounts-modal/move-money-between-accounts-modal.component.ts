@@ -6,8 +6,8 @@ import { MetadataFacadeService, predefinedCurrenciesDictionary } from '@budget-t
 import { BehaviorSubject, combineLatest, filter, map, Observable, tap, withLatestFrom } from 'rxjs';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
 import { ActionListenerService } from '@budget-tracker/utils';
-import { AccountsFacadeService } from '../../services';
-import { AccountsActions } from '../../store';
+import { AccountFacadeService } from '../../services';
+import { AccountActions } from '../../store';
 import { Account } from '../../models';
 
 enum FormFields {
@@ -80,7 +80,7 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
   }
 
   constructor(
-    private accountsFacade: AccountsFacadeService,
+    private accountFacade: AccountFacadeService,
     private destroyRef: DestroyRef,
     private metadataFacade: MetadataFacadeService,
     private dialogRef: DialogRef,
@@ -96,7 +96,7 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
     this.loading$.next(true);
 
     try {
-      this.accountsFacade.moveMoneyBetweenAccount(
+      this.accountFacade.moveMoneyBetweenAccount(
         this.form.controls[FormFields.FromAccount].value.id,
         this.form.controls[FormFields.ToAccount].value.id,
         parseInt(this.form.controls[FormFields.ValueToMove].value),
@@ -104,8 +104,8 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
       );
 
       await this.actionListener.waitForResult(
-        AccountsActions.moneyBetweenAccountsMoved,
-        AccountsActions.moveMoneyBetweenAccountsFail
+        AccountActions.moneyBetweenAccountsMoved,
+        AccountActions.moveMoneyBetweenAccountsFail
       );
 
       this.dialogRef.close();
@@ -118,7 +118,7 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
   }
 
   private initListeners(): void {
-    this.accounts$ = this.accountsFacade.getAllAccounts();
+    this.accounts$ = this.accountFacade.getAllAccounts();
 
     this.filteredAccounts$ = this.form.controls[FormFields.FromAccount].valueChanges.pipe(
       withLatestFrom(this.accounts$),

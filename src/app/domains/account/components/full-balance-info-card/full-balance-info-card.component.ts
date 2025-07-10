@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AccountsFacadeService } from '../../services';
+import { AccountFacadeService } from '../../services';
 
 @Component({
   selector: 'app-full-balance-info-card',
@@ -11,9 +11,9 @@ import { AccountsFacadeService } from '../../services';
 export class FullBalanceInfoCardComponent implements OnInit {
   fullBalance$: Observable<number>;
 
-  constructor(private readonly accountsFacade: AccountsFacadeService) {}
+  constructor(private readonly accountFacade: AccountFacadeService) {}
 
   ngOnInit(): void {
-    this.fullBalance$ = this.accountsFacade.getFullBallance();
+    this.fullBalance$ = this.accountFacade.getFullBallance();
   }
 }

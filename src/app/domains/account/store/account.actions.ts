@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Account } from '../models';
 
-export const AccountsActions = {
+export const AccountActions = {
   loadAccounts: createAction('[Accounts] Load accounts'),
   accountsLoaded: createAction('[Accounts] Accounts loaded', props<{ accounts: Account[] }>()),
   cleanState: createAction('[Accounts] Clean state'),

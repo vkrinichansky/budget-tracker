@@ -1,36 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AuthActions } from '@budget-tracker/auth';
-import { Dashboard, Category } from '@budget-tracker/models';
-import { getMonthAndYearString } from '@budget-tracker/utils';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { switchMap, from, of, map } from 'rxjs';
-import { CategoriesActions, DashboardInitActions } from '../actions';
-import { DashboardInitApiService } from '../../services';
-import { Store } from '@ngrx/store';
 
 @Injectable()
 export class DashboardInitEffects {
-  constructor(
-    private readonly actions$: Actions,
-    private readonly dashboardInitService: DashboardInitApiService,
-    private readonly store: Store
-  ) {}
-
-  init$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(DashboardInitActions.loadDashboardData),
-      switchMap(() => from(this.dashboardInitService.initData())),
-      map((data: Dashboard) => {
-        this.setStates(data);
-
-        if (data.resetDate !== getMonthAndYearString()) {
-          return DashboardInitActions.resetData({ data });
-        }
-
-        return DashboardInitActions.dashboardDataLoaded();
-      })
-    )
-  );
+  constructor() {}
 
   // resetData$ = createEffect(() =>
   //   this.actions$.pipe(
@@ -98,26 +70,13 @@ export class DashboardInitEffects {
   //   )
   // );
 
-  cleanStateOnLogOut$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.logout),
-      switchMap(() => of(CategoriesActions.cleanState()))
-    )
-  );
+  // private getResetData(data: Dashboard): {
+  //   resetCategories: Record<string, Category>;
+  //   resetDate: string;
+  // } {
+  //   const categories = structuredClone(data.categories);
+  //   Object.keys(categories).forEach((categoryId) => (categories[categoryId].value = 0));
 
-  private getResetData(data: Dashboard): {
-    resetCategories: Record<string, Category>;
-    resetDate: string;
-  } {
-    const categories = structuredClone(data.categories);
-    Object.keys(categories).forEach((categoryId) => (categories[categoryId].value = 0));
-
-    return { resetCategories: categories, resetDate: getMonthAndYearString() };
-  }
-
-  private setStates(data: Dashboard) {
-    const categories = Object.values(data.categories);
-
-    this.store.dispatch(CategoriesActions.categoriesLoaded({ categories }));
-  }
+  //   return { resetCategories: categories, resetDate: getMonthAndYearString() };
+  // }
 }

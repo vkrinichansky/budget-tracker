@@ -33,7 +33,7 @@ const fullBalanceSelector = (
     )
   );
 
-export const AccountsSelectors = {
+export const AccountSelectors = {
   allAccountsSelector,
   accountByIdSelector,
   fullBalanceSelector,

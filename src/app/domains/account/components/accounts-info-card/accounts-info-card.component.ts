@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostListener, OnInit } from '@angular/core';
 import { firstValueFrom, map, Observable } from 'rxjs';
-import { AccountsFacadeService, AccountModalService } from '../../services';
+import { AccountFacadeService, AccountModalService } from '../../services';
 
 @Component({
   selector: 'app-accounts-info-card',
@@ -13,12 +13,12 @@ export class AccountsInfoCardComponent implements OnInit {
   accountsAmount$: Observable<number>;
 
   constructor(
-    private readonly accountsFacade: AccountsFacadeService,
+    private readonly accountFacade: AccountFacadeService,
     private readonly accountsModalsService: AccountModalService
   ) {}
 
   ngOnInit(): void {
-    this.accountsAmount$ = this.accountsFacade.getAccountsAmount();
+    this.accountsAmount$ = this.accountFacade.getAccountsAmount();
   }
 
   buildTranslationKey(key: string): string {

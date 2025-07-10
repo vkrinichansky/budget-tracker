@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Account } from '../../models';
-import { AccountServiceService } from '../account-service/account-service.service';
+import { AccountService } from '../account-service/account.service';
 
 @Injectable()
-export class AccountsFacadeService {
-  constructor(private accountService: AccountServiceService) {}
+export class AccountFacadeService {
+  constructor(private accountService: AccountService) {}
 
-  loadAccounts(): Promise<void> {
-    return this.accountService.loadAccounts();
+  loadAccounts(): void {
+    this.accountService.loadAccounts();
+  }
+
+  accountsLoaded(): Observable<boolean> {
+    return this.accountService.accountsLoaded();
   }
 
   getAllAccounts(): Observable<Account[]> {

@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { BudgetType } from '@budget-tracker/models';
-import { DashboardInitFacadeService } from './services';
-import { map, Observable } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 import { ActivityLogFacadeService } from '@budget-tracker/activity-log';
-import { AccountsFacadeService } from '@budget-tracker/account';
+import { AccountFacadeService } from '@budget-tracker/account';
+import { CategoryFacadeService } from '@budget-tracker/category';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,17 +18,25 @@ export class DashboardComponent implements OnInit {
   loading$: Observable<boolean>;
 
   constructor(
-    private readonly dashboardInitFacade: DashboardInitFacadeService,
     private readonly activityLogFacade: ActivityLogFacadeService,
-    private readonly accountFacade: AccountsFacadeService
+    private readonly accountFacade: AccountFacadeService,
+    private readonly categoryFacade: CategoryFacadeService
   ) {}
 
   ngOnInit(): void {
-    this.dashboardInitFacade.initData();
-
-    this.activityLogFacade.loadActivityLog();
     this.accountFacade.loadAccounts();
+    this.categoryFacade.loadCategories();
+    this.activityLogFacade.loadActivityLog();
 
-    this.loading$ = this.dashboardInitFacade.isDataLoaded().pipe(map((isLoaded) => !isLoaded));
+    this.loading$ = combineLatest([
+      this.categoryFacade.categoriesLoaded(),
+      this.accountFacade.accountsLoaded(),
+      this.activityLogFacade.activityLogLoaded(),
+    ]).pipe(
+      map(
+        ([accountsLoaded, categoriesLoaded, activityLogLoaded]) =>
+          !accountsLoaded || !categoriesLoaded || !activityLogLoaded
+      )
+    );
   }
 }

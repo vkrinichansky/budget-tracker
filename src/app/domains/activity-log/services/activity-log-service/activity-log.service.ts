@@ -13,13 +13,15 @@ export class ActivityLogService {
   ) {}
 
   async loadActivityLog(): Promise<void> {
-    const isLoaded = await firstValueFrom(
-      this.store.select(ActivityLogSelectors.activityLogLoadedSelector)
-    );
+    const isLoaded = await firstValueFrom(this.activityLogLoaded());
 
     if (!isLoaded) {
       this.store.dispatch(ActivityLogActions.loadActivityLog());
     }
+  }
+
+  activityLogLoaded(): Observable<boolean> {
+    return this.store.select(ActivityLogSelectors.activityLogLoadedSelector);
   }
 
   getActivityLogGroupedByDays(): Observable<ActivityLogGroupedByDay[]> {
@@ -34,10 +36,10 @@ export class ActivityLogService {
 
   async removeRecord(recordId: string): Promise<void> {
     // const category = structuredClone(
-    //   await firstValueFrom(this.categoriesFacade.getCategoryById(record.category.id))
+    //   await firstValueFrom(this.categoryFacade.getCategoryById(record.category.id))
     // );
     // const account = structuredClone(
-    //   await firstValueFrom(this.accountsFacade.getAccountById(record.account.id))
+    //   await firstValueFrom(this.accountFacade.getAccountById(record.account.id))
     // );
 
     // const updatedCategoryValue =
