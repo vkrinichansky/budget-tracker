@@ -1,4 +1,4 @@
-import { BudgetType } from './budget-type.enum';
+import { BudgetType } from '../../../models/budget-type.enum';
 
 export interface Category {
   id: string;

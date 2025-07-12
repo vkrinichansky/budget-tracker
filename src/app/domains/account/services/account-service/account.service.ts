@@ -1,16 +1,24 @@
 import { Injectable } from '@angular/core';
 import { firstValueFrom, map, Observable } from 'rxjs';
-import { Account } from '../../models';
+import { Account, AccountEvents } from '../../models';
 import { AccountActions, AccountSelectors } from '../../store';
 import { Store } from '@ngrx/store';
 import { MetadataService } from '@budget-tracker/metadata';
+import { EventBusService } from '@budget-tracker/utils';
 
 @Injectable()
 export class AccountService {
   constructor(
-    private store: Store,
-    private metadataService: MetadataService
+    private readonly store: Store,
+    private readonly metadataService: MetadataService,
+    private readonly eventBus: EventBusService
   ) {}
+
+  async initAccountDB(): Promise<void> {
+    this.store.dispatch(AccountActions.initAccountsDB());
+
+    return this.eventBus.waitFor(AccountEvents.INIT_ACCOUNT_DB);
+  }
 
   async loadAccounts(): Promise<void> {
     const isLoaded = await firstValueFrom(this.accountsLoaded());

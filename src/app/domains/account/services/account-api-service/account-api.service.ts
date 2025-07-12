@@ -8,6 +8,7 @@ import {
   DocumentReference,
   Firestore,
   getDoc,
+  setDoc,
   updateDoc,
 } from '@angular/fire/firestore';
 
@@ -17,6 +18,10 @@ export class AccountApiService {
     private firestore: Firestore,
     private afAuth: Auth
   ) {}
+
+  async initAccountDB(): Promise<void> {
+    return setDoc(this.getDocRef(), {});
+  }
 
   async loadAccounts(): Promise<Record<string, Account>> {
     return getDoc(this.getDocRef()).then((doc): Record<string, Account> => doc.data());

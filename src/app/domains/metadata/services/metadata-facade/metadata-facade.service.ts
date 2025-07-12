@@ -17,10 +17,18 @@ export class MetadataFacadeService {
     return this.metadataService.currencyExchangeRate;
   }
 
+  get resetDate(): string {
+    return this.metadataService.resetDate;
+  }
+
   constructor(private readonly metadataService: MetadataService) {}
 
-  async initMetadata(): Promise<void> {
-    return this.metadataService.initMetadata();
+  async initMetadataDB(): Promise<void> {
+    return this.metadataService.initMetadataDB();
+  }
+
+  async loadMetadata(): Promise<void> {
+    return this.metadataService.loadMetadata();
   }
 
   async changeCurrency(newCurrency: CurrenciesEnum): Promise<void> {
@@ -31,8 +39,8 @@ export class MetadataFacadeService {
     return this.metadataService.changeLanguage(newLanguage);
   }
 
-  isMetadataLoadedObs(): Observable<boolean> {
-    return this.metadataService.isMetadataLoadedObs();
+  metadataLoaded(): Observable<boolean> {
+    return this.metadataService.metadataLoaded();
   }
 
   getCurrencySymbol(currency?: CurrenciesEnum): string {

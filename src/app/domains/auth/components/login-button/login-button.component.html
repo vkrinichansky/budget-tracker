@@ -1,0 +1,8 @@
+<app-button
+  [iconName]="'google'"
+  [colorScheme]="'green'"
+  [text]="'Sign in with Google'"
+  [buttonSizeX]="'large'"
+  [loading]="loading$ | async"
+  (click)="login()"
+></app-button>

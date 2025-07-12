@@ -1,17 +1,43 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, from, map, mergeMap, of, switchMap } from 'rxjs';
+import { catchError, EMPTY, from, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { AccountActions } from './account.actions';
-import { Account } from '../models';
+import { Account, AccountEvents } from '../models';
 import { AccountApiService } from '../services';
 import { AuthActions } from '@budget-tracker/auth';
+import { EventBusService } from '@budget-tracker/utils';
 
 @Injectable()
 export class AccountEffects {
   constructor(
     private actions$: Actions,
-    private accountService: AccountApiService
+    private accountService: AccountApiService,
+    private eventBus: EventBusService
   ) {}
+
+  initAccountDB$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AccountActions.initAccountsDB),
+        switchMap(() =>
+          from(this.accountService.initAccountDB()).pipe(
+            tap(() =>
+              this.eventBus.emit({ type: AccountEvents.INIT_ACCOUNT_DB, status: 'success' })
+            ),
+            catchError(() => {
+              this.eventBus.emit({
+                type: AccountEvents.INIT_ACCOUNT_DB,
+                status: 'error',
+                errorCode: 'account.initAccountDBFailed',
+              });
+
+              return EMPTY;
+            })
+          )
+        )
+      ),
+    { dispatch: false }
+  );
 
   loadAccounts$ = createEffect(() =>
     this.actions$.pipe(

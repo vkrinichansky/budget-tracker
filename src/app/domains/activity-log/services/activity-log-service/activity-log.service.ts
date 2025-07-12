@@ -2,15 +2,27 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { firstValueFrom, Observable } from 'rxjs';
 import { ActivityLogActions, ActivityLogSelectors } from '../../store';
-import { ActivityLogGroupedByDay, ActivityLogRecordUnitedType } from '../../models';
+import {
+  ActivityLogGroupedByDay,
+  ActivityLogRecordUnitedType,
+  ActivityLogEvents,
+} from '../../models';
 import { MetadataService } from '@budget-tracker/metadata';
+import { EventBusService } from '@budget-tracker/utils';
 
 @Injectable()
 export class ActivityLogService {
   constructor(
     private store: Store,
-    private metadataService: MetadataService
+    private metadataService: MetadataService,
+    private eventBus: EventBusService
   ) {}
+
+  initActivityLogDB(): Promise<void> {
+    this.store.dispatch(ActivityLogActions.initActivityLogDB());
+
+    return this.eventBus.waitFor(ActivityLogEvents.INIT_ACTIVITY_LOG_DB);
+  }
 
   async loadActivityLog(): Promise<void> {
     const isLoaded = await firstValueFrom(this.activityLogLoaded());

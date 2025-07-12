@@ -3,7 +3,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { SnackbarComponent } from '../../components';
 import { SnackbarData } from '../../models';
-import { isMobileWidth } from '../../helpers';
 
 @Injectable()
 export class SnackbarHandlerService {
@@ -18,7 +17,7 @@ export class SnackbarHandlerService {
 
   showErrorSnackbar(error: string): void {
     this.openSnackBarWithCloseDelay(
-      error,
+      this.translateService.instant(error),
       this.translateService.instant('snackbars.defaultOkButtonText')
     );
   }
@@ -116,7 +115,7 @@ export class SnackbarHandlerService {
   ): void {
     this.snackBar.openFromComponent(SnackbarComponent, {
       duration: 3000,
-      verticalPosition: isMobileWidth() ? 'top' : 'bottom',
+      verticalPosition: 'top',
       data: { message, buttonText, buttonAction } as SnackbarData,
     });
   }

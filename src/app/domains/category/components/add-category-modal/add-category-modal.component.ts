@@ -10,7 +10,7 @@ import { ActionListenerService } from '@budget-tracker/utils';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
 import { CategoryActions } from '../../store';
 import { CategoryFacadeService } from '../../services';
-import { Category } from '@budget-tracker/models';
+import { Category } from '../../models';
 
 enum FormFields {
   CategoryIcon = 'categoryIcon',

@@ -1,24 +1,53 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { MetadataApiService, MetadataService } from '../services';
 import { Injectable } from '@angular/core';
-import { catchError, from, map, of, switchMap, take, tap } from 'rxjs';
+import { catchError, EMPTY, from, map, of, switchMap, take, tap } from 'rxjs';
 import { MetadataActions } from './metadata.actions';
 import { AuthActions } from '@budget-tracker/auth';
-import { CurrencyExchangeRate, predefinedCurrenciesDictionary } from '../models';
+import { CurrencyExchangeRate, predefinedCurrenciesDictionary, MetadataEvents } from '../models';
+import { EventBusService } from '@budget-tracker/utils';
 
 @Injectable()
 export class MetadataEffects {
   constructor(
     private actions$: Actions,
     private metadataApiService: MetadataApiService,
-    private metadataService: MetadataService
+    private metadataService: MetadataService,
+    private eventBus: EventBusService
   ) {}
+
+  initMetadataDB$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(MetadataActions.initMetadataDB),
+        switchMap(() =>
+          from(this.metadataApiService.initMetadataDB()).pipe(
+            tap(() =>
+              this.eventBus.emit({
+                type: MetadataEvents.INIT_METADATA_DB,
+                status: 'success',
+              })
+            ),
+            catchError(() => {
+              this.eventBus.emit({
+                type: MetadataEvents.INIT_METADATA_DB,
+                status: 'error',
+                errorCode: 'metadata.initMetadataDBFailed',
+              });
+
+              return EMPTY;
+            })
+          )
+        )
+      ),
+    { dispatch: false }
+  );
 
   loadMetadata$ = createEffect(() =>
     this.actions$.pipe(
       ofType(MetadataActions.loadMetadata),
       switchMap(() =>
-        from(this.metadataApiService.initMetadata()).pipe(
+        from(this.metadataApiService.loadMetadata()).pipe(
           switchMap((metadata) =>
             this.metadataApiService
               .getCurrencyExchangeRate(metadata.currency)
@@ -40,7 +69,8 @@ export class MetadataEffects {
         this.metadataService.setMetadata(
           metadata.currency,
           metadata.currencyExchangeRate,
-          metadata.language
+          metadata.language,
+          metadata.resetDate
         );
       }),
       map(() => MetadataActions.metadataLoaded())

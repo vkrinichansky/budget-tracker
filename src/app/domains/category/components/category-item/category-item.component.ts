@@ -17,7 +17,7 @@ import { ActionListenerService } from '@budget-tracker/utils';
 import { CategoryActions } from '../../store';
 import { CategoryFacadeService } from '../../services';
 import { AccountFacadeService } from '@budget-tracker/account';
-import { Category } from '@budget-tracker/models';
+import { Category } from '../../models';
 
 @Component({
   selector: 'app-category-item',

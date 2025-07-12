@@ -20,7 +20,7 @@ import {
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { MetadataModule } from '@budget-tracker/metadata';
+import { MetadataDomainModule } from '@budget-tracker/metadata';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
@@ -29,7 +29,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     DesignSystemModule,
     ReactiveFormsModule,
     TranslateModule,
-    MetadataModule,
+    MetadataDomainModule,
     DragDropModule,
 
     StoreModule.forFeature(featureKey, accountReducer),

@@ -12,7 +12,7 @@ import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
 import { UtilsModule } from '@budget-tracker/utils';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { MetadataModule } from '@budget-tracker/metadata';
+import { MetadataDomainModule } from '@budget-tracker/metadata';
 import { StoreModule } from '@ngrx/store';
 import { featureKey, activityLogReducer, ActivityLogEffects } from './store';
 import { EffectsModule } from '@ngrx/effects';
@@ -25,7 +25,7 @@ import { ActivityLogService, ActivityLogApiService, ActivityLogFacadeService } f
     TranslateModule,
     UtilsModule,
     ScrollingModule,
-    MetadataModule,
+    MetadataDomainModule,
     StoreModule.forFeature(featureKey, activityLogReducer),
     EffectsModule.forFeature([ActivityLogEffects]),
   ],

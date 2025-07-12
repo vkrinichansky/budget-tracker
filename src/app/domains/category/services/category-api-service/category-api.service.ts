@@ -8,8 +8,9 @@ import {
   DocumentReference,
   deleteField,
   getDoc,
+  setDoc,
 } from '@angular/fire/firestore';
-import { Category } from '@budget-tracker/models';
+import { Category, expenseAdjustmentCategory, incomeAdjustmentCategory } from '../../models';
 
 @Injectable()
 export class CategoryApiService {
@@ -17,6 +18,13 @@ export class CategoryApiService {
     private firestore: Firestore,
     private afAuth: Auth
   ) {}
+
+  async initCategoryDB(): Promise<void> {
+    return setDoc(this.getDocRef(), {
+      [incomeAdjustmentCategory.id]: incomeAdjustmentCategory,
+      [expenseAdjustmentCategory.id]: expenseAdjustmentCategory,
+    });
+  }
 
   async loadCategories(): Promise<Record<string, Category>> {
     return getDoc(this.getDocRef()).then((doc): Record<string, Category> => doc.data());

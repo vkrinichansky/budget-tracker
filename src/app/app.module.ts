@@ -19,7 +19,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { NavigationBarModule } from '@budget-tracker/navigation-bar';
 import { AuthDomainModule } from '@budget-tracker/auth';
-import { MetadataModule } from '@budget-tracker/metadata';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
@@ -34,7 +33,6 @@ import { CommonModule } from '@angular/common';
     NavigationBarModule,
     BrowserAnimationsModule,
     UtilsModule,
-    MetadataModule,
     StoreModule.forRoot(
       {},
       {
@@ -54,6 +52,8 @@ import { CommonModule } from '@angular/common';
         useFactory: HttpLoaderFactory,
         deps: [HttpClient],
       },
+      defaultLanguage: 'en-US',
+      useDefaultLang: true,
     }),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode(), connectInZone: true }),

@@ -7,7 +7,7 @@ const routes: Routes = [
   {
     path: AppRoutes.Auth,
     canActivate: [SecureInnerPagesGuard],
-    loadChildren: () => import('@budget-tracker/auth').then((m) => m.AuthDomainModule),
+    loadChildren: () => import('@budget-tracker/auth-page').then((m) => m.AuthPageModule),
   },
   {
     path: AppRoutes.Dashboard,

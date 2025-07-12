@@ -1,69 +1,61 @@
 import { Injectable } from '@angular/core';
-import {
-  Auth,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signOut,
-  UserCredential,
-  authState,
-  User,
-  getAdditionalUserInfo,
-  AdditionalUserInfo,
-} from '@angular/fire/auth';
-import { setPersistence, browserLocalPersistence } from '@firebase/auth';
-import { map, Observable } from 'rxjs';
-import { collection, doc, Firestore, setDoc } from '@angular/fire/firestore';
-import { getMonthAndYearString } from '@budget-tracker/utils';
-import {
-  expenseAdjustmentCategory,
-  incomeAdjustmentCategory,
-  Category,
-} from '@budget-tracker/models';
+import { Auth, authState } from '@angular/fire/auth';
+import { map, Observable, firstValueFrom } from 'rxjs';
+import { AuthActions, AuthSelectors } from '../../store';
+import { Store } from '@ngrx/store';
+import { EventBusService } from '@budget-tracker/utils';
+import { AuthEvents, User } from '../../models';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private afAuth: Auth,
-    private firestore: Firestore
+    private readonly afAuth: Auth,
+    private readonly store: Store,
+    private readonly eventBus: EventBusService
   ) {}
 
-  async googleLogin(): Promise<UserCredential> {
-    await setPersistence(this.afAuth, browserLocalPersistence);
-    return await signInWithPopup(this.afAuth, new GoogleAuthProvider());
+  async initAuthState(): Promise<void> {
+    const isLoaded = await firstValueFrom(this.store.select(AuthSelectors.authLoadedSelector));
+
+    if (!isLoaded) {
+      this.store.dispatch(AuthActions.setUser());
+    }
   }
 
-  async logOut(): Promise<void> {
-    return await signOut(this.afAuth);
+  async googleLogin(): Promise<void> {
+    this.store.dispatch(AuthActions.login());
+
+    return this.eventBus.waitFor(AuthEvents.LOGIN);
   }
 
-  getAuthState(): Observable<User | null> {
-    return authState(this.afAuth);
+  logOut(): void {
+    this.store.dispatch(AuthActions.logout());
+  }
+
+  setUser(): void {
+    this.store.dispatch(AuthActions.setUser());
+  }
+
+  getUser(): Observable<User | null> {
+    return this.store.select(AuthSelectors.userSelector);
   }
 
   isLoggedIn(): Observable<boolean> {
-    return this.getAuthState().pipe(map((user) => !!user));
+    return authState(this.afAuth).pipe(map((user) => !!user));
   }
 
-  getAdditionalUserInfo(user: UserCredential): AdditionalUserInfo | null {
-    return getAdditionalUserInfo(user);
+  async runLoginFlow(): Promise<void> {
+    this.eventBus.emit({
+      type: AuthEvents.LOGIN_START,
+      status: 'event',
+    });
+
+    return this.eventBus.waitFor(AuthEvents.LOGIN_FINISH);
   }
 
-  async setUserData(userId: string): Promise<void> {
-    const metadata: Record<string, string> = {
-      currency: 'usd',
-      language: 'en-US',
-      resetDate: getMonthAndYearString(),
-    };
+  // async setUserData(userId: string): Promise<void> {
 
-    const categories: Record<string, Category> = {
-      [incomeAdjustmentCategory.id]: incomeAdjustmentCategory,
-      [expenseAdjustmentCategory.id]: expenseAdjustmentCategory,
-    };
-
-    await setDoc(doc(collection(this.firestore, 'metadata'), userId), metadata);
-    await setDoc(doc(collection(this.firestore, 'accounts'), userId), {});
-    await setDoc(doc(collection(this.firestore, 'categories'), userId), categories);
-    await setDoc(doc(collection(this.firestore, 'activityLog'), userId), {});
-    await setDoc(doc(collection(this.firestore, 'snapshots'), userId), {});
-  }
+  //   await setDoc(doc(collection(this.firestore, 'activityLog'), userId), {});
+  //   await setDoc(doc(collection(this.firestore, 'snapshots'), userId), {});
+  // }
 }

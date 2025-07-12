@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, from, map, mergeMap, of, switchMap, take } from 'rxjs';
-import { Category } from '@budget-tracker/models';
+import { catchError, EMPTY, from, map, mergeMap, of, switchMap, take, tap } from 'rxjs';
+import { Category, CategoryEvents } from '../models';
 import { MetadataActions, MetadataService } from '@budget-tracker/metadata';
 import { CategorySelectors } from './category.selectors';
 import { Store } from '@ngrx/store';
 import { CategoryApiService } from '../services';
 import { CategoryActions } from './category.actions';
 import { AuthActions } from '@budget-tracker/auth';
+import { EventBusService } from '@budget-tracker/utils';
 
 @Injectable()
 export class CategoryEffects {
@@ -15,8 +16,36 @@ export class CategoryEffects {
     private readonly actions$: Actions,
     private readonly categoryService: CategoryApiService,
     private readonly store: Store,
-    private readonly metadataService: MetadataService
+    private readonly metadataService: MetadataService,
+    private readonly eventBus: EventBusService
   ) {}
+
+  initCategoryDB$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(CategoryActions.initCategoryDB),
+        switchMap(() =>
+          from(this.categoryService.initCategoryDB()).pipe(
+            tap(() =>
+              this.eventBus.emit({
+                type: CategoryEvents.INIT_CATEGORY_DB,
+                status: 'success',
+              })
+            ),
+            catchError(() => {
+              this.eventBus.emit({
+                type: CategoryEvents.INIT_CATEGORY_DB,
+                status: 'error',
+                errorCode: 'category.initCategoryDBFailed',
+              });
+
+              return EMPTY;
+            })
+          )
+        )
+      ),
+    { dispatch: false }
+  );
 
   loadCategories$ = createEffect(() =>
     this.actions$.pipe(

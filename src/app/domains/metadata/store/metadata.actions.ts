@@ -5,6 +5,9 @@ export const MetadataActions = {
   loadMetadata: createAction('[Metadata] Load metadata'),
   metadataLoaded: createAction('[Metadata] Metadata loaded'),
   cleanState: createAction('[Metadata] Clean state'),
+
+  initMetadataDB: createAction('[Metadata] Init metadata DB'),
+
   changeCurrency: createAction(
     '[Metadata] Change currency',
     props<{ newCurrency: CurrenciesEnum }>()

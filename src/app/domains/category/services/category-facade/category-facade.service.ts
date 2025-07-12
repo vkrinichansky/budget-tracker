@@ -2,11 +2,15 @@ import { Injectable } from '@angular/core';
 import { CategoryService } from '../category-service/category.service';
 import { BudgetType } from '@budget-tracker/models';
 import { Observable } from 'rxjs';
-import { Category } from '@budget-tracker/models';
+import { Category } from '../../models';
 
 @Injectable()
 export class CategoryFacadeService {
   constructor(private readonly categoryService: CategoryService) {}
+
+  initCategoryDB(): Promise<void> {
+    return this.categoryService.initCategoryDB();
+  }
 
   loadCategories(): void {
     this.categoryService.loadCategories();

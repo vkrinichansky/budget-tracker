@@ -4,12 +4,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { MetadataActions } from '../../store';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { Store } from '@ngrx/store';
-import { ActionListenerService } from '@budget-tracker/utils';
+import { ActionListenerService, EventBusService } from '@budget-tracker/utils';
 import {
   LanguagesEnum,
   CurrencyExchangeRate,
   predefinedCurrenciesDictionary,
   CurrenciesEnum,
+  MetadataEvents,
 } from '../../models';
 
 interface ExchangeRates {
@@ -27,6 +28,7 @@ export class MetadataService {
   private _currency: CurrenciesEnum;
   private _currencyExchangeRate: CurrencyExchangeRate;
   private _exchangeRates: ExchangeRates;
+  private _resetDate: string;
 
   get currentCurrency(): CurrenciesEnum {
     return this._currency;
@@ -40,14 +42,25 @@ export class MetadataService {
     return this.translateService.getDefaultLang() as LanguagesEnum;
   }
 
+  get resetDate(): string {
+    return this._resetDate;
+  }
+
   constructor(
     private readonly translateService: TranslateService,
     private readonly authFacade: AuthFacadeService,
     private readonly store: Store,
-    private readonly actionListener: ActionListenerService
+    private readonly actionListener: ActionListenerService,
+    private readonly eventBus: EventBusService
   ) {}
 
-  async initMetadata(): Promise<void> {
+  async initMetadataDB(): Promise<void> {
+    this.store.dispatch(MetadataActions.initMetadataDB());
+
+    return this.eventBus.waitFor(MetadataEvents.INIT_METADATA_DB);
+  }
+
+  async loadMetadata(): Promise<void> {
     await firstValueFrom(this.authFacade.isLoggedIn().pipe(filter(Boolean)));
 
     this.store.dispatch(MetadataActions.loadMetadata());
@@ -74,11 +87,13 @@ export class MetadataService {
   setMetadata(
     currency: CurrenciesEnum,
     currencyExchangeRate: CurrencyExchangeRate,
-    language: LanguagesEnum
+    language: LanguagesEnum,
+    resetDate: string
   ): void {
     this._currency = currency;
     this._currencyExchangeRate = currencyExchangeRate;
     this._exchangeRates = this.convertRates(currency);
+    this._resetDate = resetDate;
 
     this.translateService.setDefaultLang(language);
     this.translateService.use(language);
@@ -91,9 +106,10 @@ export class MetadataService {
     this._currency = undefined;
     this._currencyExchangeRate = undefined;
     this._exchangeRates = undefined;
+    this._resetDate = undefined;
   }
 
-  isMetadataLoadedObs(): Observable<boolean> {
+  metadataLoaded(): Observable<boolean> {
     return this._isMetadataLoaded$;
   }
 

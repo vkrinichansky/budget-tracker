@@ -7,6 +7,10 @@ import { ActivityLogGroupedByDay, ActivityLogRecordUnitedType } from '../../mode
 export class ActivityLogFacadeService {
   constructor(private readonly activityLogService: ActivityLogService) {}
 
+  initActivityLogDB(): Promise<void> {
+    return this.activityLogService.initActivityLogDB();
+  }
+
   loadActivityLog(): void {
     this.activityLogService.loadActivityLog();
   }

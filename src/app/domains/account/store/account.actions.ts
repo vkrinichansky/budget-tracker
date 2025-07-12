@@ -6,6 +6,8 @@ export const AccountActions = {
   accountsLoaded: createAction('[Accounts] Accounts loaded', props<{ accounts: Account[] }>()),
   cleanState: createAction('[Accounts] Clean state'),
 
+  initAccountsDB: createAction('[Accounts] Init accounts DB'),
+
   addAccount: createAction(
     '[Accounts] Add account',
     props<{

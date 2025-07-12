@@ -21,12 +21,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UtilsModule } from '@budget-tracker/utils';
 import { NgChartsModule } from 'ng2-charts';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { MetadataModule } from '@budget-tracker/metadata';
+import { MetadataDomainModule } from '@budget-tracker/metadata';
 import { NgxApexchartsModule } from 'ngx-apexcharts';
-import { featureKey } from './store/feature.selector';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { CategoryEffects, categoryReducer } from './store';
+import { CategoryEffects, categoryReducer, featureKey } from './store';
 
 @NgModule({
   imports: [
@@ -38,7 +37,7 @@ import { CategoryEffects, categoryReducer } from './store';
     UtilsModule,
     NgChartsModule,
     ScrollingModule,
-    MetadataModule,
+    MetadataDomainModule,
     NgxApexchartsModule,
     StoreModule.forFeature(featureKey, categoryReducer),
     EffectsModule.forFeature([CategoryEffects]),

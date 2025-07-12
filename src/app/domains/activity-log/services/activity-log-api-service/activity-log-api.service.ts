@@ -6,6 +6,7 @@ import {
   DocumentReference,
   Firestore,
   getDoc,
+  setDoc,
   updateDoc,
 } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
@@ -17,6 +18,10 @@ export class ActivityLogApiService {
     private firestore: Firestore,
     private afAuth: Auth
   ) {}
+
+  async initActivityLogDB(): Promise<void> {
+    return setDoc(this.getDocRef(), {});
+  }
 
   async loadActivityLog(): Promise<Record<string, ActivityLogRecordUnitedType>> {
     return getDoc(this.getDocRef()).then(

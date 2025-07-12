@@ -2,6 +2,8 @@ import { createAction, props } from '@ngrx/store';
 import { ActivityLog, ActivityLogRecordUnitedType } from '../models';
 
 export const ActivityLogActions = {
+  initActivityLogDB: createAction('[ActivityLog] Init activity log DB'),
+
   loadActivityLog: createAction('[ActivityLog] Load activity log'),
   activityLogLoaded: createAction(
     '[ActivityLog] Activity log loaded',

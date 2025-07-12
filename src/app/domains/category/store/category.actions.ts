@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
+import { Category } from '../models';
 import { BudgetType } from '@budget-tracker/models';
-import { Category } from '@budget-tracker/models';
 
 export const CategoryActions = {
   loadCategories: createAction('[Categories] Load categories'),
@@ -8,6 +8,9 @@ export const CategoryActions = {
     '[Categories] Categories loaded',
     props<{ categories: Category[] }>()
   ),
+
+  initCategoryDB: createAction('[Categories] Init categories DB'),
+
   addCategory: createAction('[Categories] Add category', props<{ category: Category }>()),
   categoryAdded: createAction('[Categories] Category added', props<{ category: Category }>()),
   addCategoryFail: createAction('[Categories] Add category fail'),

@@ -1,1 +1,1 @@
-export { AuthPageComponent } from './auth-page/auth-page.component';
+export { LoginButtonComponent } from './login-button/login-button.component';

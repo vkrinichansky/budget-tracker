@@ -30,6 +30,7 @@
       "@budget-tracker/models": [
         "src/app/models/index.ts"
       ],
+      // Domains
       "@budget-tracker/auth": [
         "src/app/domains/auth/index.ts"
       ],
@@ -45,32 +46,27 @@
       "@budget-tracker/activity-log": [
         "src/app/domains/activity-log/index.ts"
       ],
-      "@budget-tracker/data": [
-        "src/app/modules/data/index.ts"
+      // Orchestrators
+      "@budget-tracker/first-login-orchestrator": [
+        "src/app/orchestrators/first-login-orchestrator/index.ts"
       ],
+      // Pages
+      "@budget-tracker/auth-page": [
+        "src/app/pages/auth/index.ts"
+      ],
+      // Modules
       "@budget-tracker/design-system": [
         "src/app/modules/design-system/index.ts"
       ],
       "@budget-tracker/navigation-bar": [
         "src/app/modules/navigation-bar/index.ts"
       ],
-      "@budget-tracker/budget-tracker": [
-        "src/app/modules/budget-tracker/index.ts"
-      ],
       "@budget-tracker/utils": [
         "src/app/modules/utils/index.ts"
       ],
+      // Modules
       "@budget-tracker/dashboard": [
-        "src/app/modules/budget-tracker/modules/dashboard/index.ts"
-      ],
-      "@budget-tracker/dashboard/categories": [
-        "src/app/modules/budget-tracker/modules/dashboard/modules/categories/index.ts"
-      ],
-      "@budget-tracker/dashboard/info-cards": [
-        "src/app/modules/budget-tracker/modules/dashboard/modules/info-cards/index.ts"
-      ],
-      "@budget-tracker/statistics": [
-        "src/app/modules/budget-tracker/modules/statistics/index.ts"
+        "src/app/modules/dashboard/index.ts"
       ]
     }
   },

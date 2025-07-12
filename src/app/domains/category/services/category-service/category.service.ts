@@ -3,11 +3,21 @@ import { BudgetType } from '@budget-tracker/models';
 import { Observable, firstValueFrom, map } from 'rxjs';
 import { CategorySelectors, CategoryActions } from '../../store';
 import { Store } from '@ngrx/store';
-import { Category } from '@budget-tracker/models';
+import { Category, CategoryEvents } from '../../models';
+import { EventBusService } from '@budget-tracker/utils';
 
 @Injectable()
 export class CategoryService {
-  constructor(private readonly store: Store) {}
+  constructor(
+    private readonly store: Store,
+    private readonly eventBus: EventBusService
+  ) {}
+
+  async initCategoryDB(): Promise<void> {
+    this.store.dispatch(CategoryActions.initCategoryDB());
+
+    return this.eventBus.waitFor(CategoryEvents.INIT_CATEGORY_DB);
+  }
 
   async loadCategories(): Promise<void> {
     const isLoaded = await firstValueFrom(this.categoriesLoaded());

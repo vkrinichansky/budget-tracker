@@ -14,7 +14,7 @@ import { BudgetType } from '@budget-tracker/models';
 import { CurrencyPipe } from '@budget-tracker/metadata';
 import { CategoryActions } from '../../store';
 import { TranslateService } from '@ngx-translate/core';
-import { Category } from '@budget-tracker/models';
+import { Category } from '../../models';
 
 type TabType = 'list' | 'chart';
 

@@ -11,7 +11,7 @@ import { SnackbarHandlerService } from '@budget-tracker/design-system';
 import { AccountFacadeService, Account } from '@budget-tracker/account';
 import { CategoryActions } from '../../store';
 import { CategoryFacadeService } from '../../services';
-import { Category } from '@budget-tracker/models';
+import { Category } from '../../models';
 
 enum FormFields {
   ValueToAdd = 'valueToAdd',

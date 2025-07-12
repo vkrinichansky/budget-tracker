@@ -7,15 +7,17 @@ import {
   DocumentReference,
   Firestore,
   getDoc,
+  setDoc,
   updateDoc,
 } from '@angular/fire/firestore';
-import { firstValueFrom, from, map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   LanguagesEnum,
   UserMetadata,
   ExchangeEndpointResponse,
   CurrenciesEnum,
 } from '../../models';
+import { getMonthAndYearString } from '@budget-tracker/utils';
 
 @Injectable()
 export class MetadataApiService {
@@ -25,10 +27,16 @@ export class MetadataApiService {
     private readonly afAuth: Auth
   ) {}
 
-  async initMetadata(): Promise<UserMetadata> {
-    return await firstValueFrom(
-      from(getDoc(this.getDocRef())).pipe(map((data): UserMetadata => data.data() as UserMetadata))
-    );
+  async initMetadataDB(): Promise<void> {
+    return setDoc(this.getDocRef(), {
+      currency: CurrenciesEnum.USD,
+      language: LanguagesEnum.English,
+      resetDate: getMonthAndYearString(),
+    });
+  }
+
+  async loadMetadata(): Promise<UserMetadata> {
+    return getDoc(this.getDocRef()).then((data): UserMetadata => data.data() as UserMetadata);
   }
 
   getCurrencyExchangeRate(baseCurrency: string): Observable<ExchangeEndpointResponse> {

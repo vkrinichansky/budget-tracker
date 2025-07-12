@@ -7,6 +7,10 @@ import { AccountService } from '../account-service/account.service';
 export class AccountFacadeService {
   constructor(private accountService: AccountService) {}
 
+  initAccountDB(): Promise<void> {
+    return this.accountService.initAccountDB();
+  }
+
   loadAccounts(): void {
     this.accountService.loadAccounts();
   }

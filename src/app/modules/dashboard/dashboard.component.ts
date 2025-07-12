@@ -4,6 +4,7 @@ import { combineLatest, map, Observable } from 'rxjs';
 import { ActivityLogFacadeService } from '@budget-tracker/activity-log';
 import { AccountFacadeService } from '@budget-tracker/account';
 import { CategoryFacadeService } from '@budget-tracker/category';
+import { MetadataFacadeService } from '@budget-tracker/metadata';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,22 +21,25 @@ export class DashboardComponent implements OnInit {
   constructor(
     private readonly activityLogFacade: ActivityLogFacadeService,
     private readonly accountFacade: AccountFacadeService,
-    private readonly categoryFacade: CategoryFacadeService
+    private readonly categoryFacade: CategoryFacadeService,
+    private readonly metadataFacade: MetadataFacadeService
   ) {}
 
   ngOnInit(): void {
+    this.metadataFacade.loadMetadata();
     this.accountFacade.loadAccounts();
     this.categoryFacade.loadCategories();
     this.activityLogFacade.loadActivityLog();
 
     this.loading$ = combineLatest([
+      this.metadataFacade.metadataLoaded(),
       this.categoryFacade.categoriesLoaded(),
       this.accountFacade.accountsLoaded(),
       this.activityLogFacade.activityLogLoaded(),
     ]).pipe(
       map(
-        ([accountsLoaded, categoriesLoaded, activityLogLoaded]) =>
-          !accountsLoaded || !categoriesLoaded || !activityLogLoaded
+        ([metadataLoaded, accountsLoaded, categoriesLoaded, activityLogLoaded]) =>
+          !metadataLoaded || !accountsLoaded || !categoriesLoaded || !activityLogLoaded
       )
     );
   }

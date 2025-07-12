@@ -206,5 +206,24 @@
 
   "predefinedCategories": {
     "adjustments": "Adjustments"
+  },
+
+  "errors": {
+    "unknownError": "Something went wrong! Please, try again.",
+    "auth": {
+      "loginFailed": "Login failed! Please, try again."
+    },
+    "metadata": {
+      "initMetadataDBFailed": "Failed to initialize metadata DB."
+    },
+    "account": {
+      "initAccountDBFailed": "Failed to initialize account DB."
+    },
+    "category": {
+      "initCategoryDBFailed": "Failed to initialize category DB."
+    },
+    "activityLog": {
+      "initActivityLogDBFailed": "Failed to initialize activity log DB."
+    }
   }
 }

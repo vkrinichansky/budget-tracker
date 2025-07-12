@@ -1,16 +1,46 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, from, switchMap, of, catchError, map } from 'rxjs';
+import { mergeMap, from, switchMap, of, catchError, map, tap, EMPTY } from 'rxjs';
 import { ActivityLogActions } from './activity-log.actions';
 import { ActivityLogApiService } from '../services';
 import { AuthActions } from '@budget-tracker/auth';
+import { ActivityLogEvents } from '../models';
+import { EventBusService } from '@budget-tracker/utils';
 
 @Injectable()
 export class ActivityLogEffects {
   constructor(
     private actions$: Actions,
-    private activityLogService: ActivityLogApiService
+    private activityLogService: ActivityLogApiService,
+    private eventBus: EventBusService
   ) {}
+
+  initActivityLogDB$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ActivityLogActions.initActivityLogDB),
+        switchMap(() =>
+          from(this.activityLogService.initActivityLogDB()).pipe(
+            tap(() =>
+              this.eventBus.emit({
+                type: ActivityLogEvents.INIT_ACTIVITY_LOG_DB,
+                status: 'success',
+              })
+            ),
+            catchError(() => {
+              this.eventBus.emit({
+                type: ActivityLogEvents.INIT_ACTIVITY_LOG_DB,
+                status: 'error',
+                errorCode: 'errors.activityLog.initActivityLogDBFailed',
+              });
+
+              return EMPTY;
+            })
+          )
+        )
+      ),
+    { dispatch: false }
+  );
 
   loadActivityLog$ = createEffect(() =>
     this.actions$.pipe(
