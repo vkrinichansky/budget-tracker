@@ -39,7 +39,7 @@ export class MetadataService {
   }
 
   get currentLanguage(): LanguagesEnum {
-    return this.translateService.getDefaultLang() as LanguagesEnum;
+    return this.translateService.currentLang as LanguagesEnum;
   }
 
   get resetDate(): string {
