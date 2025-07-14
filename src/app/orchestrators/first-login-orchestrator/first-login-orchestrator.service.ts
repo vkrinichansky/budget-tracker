@@ -3,9 +3,7 @@ import { EventBusService, getErrorMessage, NavigatorService } from '@budget-trac
 import { AuthEvents, AuthFacadeService } from '@budget-tracker/auth';
 import { MetadataFacadeService } from '@budget-tracker/metadata';
 import { firstValueFrom, map, Subject, takeUntil } from 'rxjs';
-import { AccountFacadeService } from '@budget-tracker/account';
 import { CategoryFacadeService } from '@budget-tracker/category';
-import { ActivityLogFacadeService } from '@budget-tracker/activity-log';
 
 @Injectable()
 export class FirstLoginOrchestratorService {
@@ -15,9 +13,7 @@ export class FirstLoginOrchestratorService {
     private readonly eventBus: EventBusService,
     private readonly authFacade: AuthFacadeService,
     private readonly metadataFacade: MetadataFacadeService,
-    private readonly accountFacade: AccountFacadeService,
     private readonly categoryFacade: CategoryFacadeService,
-    private readonly activityLogFacade: ActivityLogFacadeService,
     private readonly navigator: NavigatorService
   ) {}
 
@@ -35,9 +31,7 @@ export class FirstLoginOrchestratorService {
 
           if (isNewUser) {
             await this.metadataFacade.initMetadataDB();
-            await this.accountFacade.initAccountDB();
             await this.categoryFacade.initCategoryDB();
-            await this.activityLogFacade.initActivityLogDB();
           }
 
           this.navigator.navigateToDashboard();

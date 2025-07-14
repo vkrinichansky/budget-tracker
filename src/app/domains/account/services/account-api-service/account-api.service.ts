@@ -19,12 +19,15 @@ export class AccountApiService {
     private afAuth: Auth
   ) {}
 
-  async initAccountDB(): Promise<void> {
-    return setDoc(this.getDocRef(), {});
-  }
-
   async loadAccounts(): Promise<Record<string, Account>> {
-    return getDoc(this.getDocRef()).then((doc): Record<string, Account> => doc.data());
+    const doc = await getDoc(this.getDocRef());
+
+    if (doc.exists()) {
+      return doc.data() as Record<string, Account>;
+    }
+
+    await setDoc(this.getDocRef(), {});
+    return {};
   }
 
   addAccount(account: Account, updatedAccountsOrder: Record<string, number>): Promise<void> {

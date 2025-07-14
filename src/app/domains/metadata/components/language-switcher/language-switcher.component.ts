@@ -48,7 +48,6 @@ export class LanguageSwitcherComponent implements OnInit {
           location.reload();
         } catch {
           this.snackbarHandler.showGeneralErrorSnackbar();
-        } finally {
           this.loading$.next(false);
         }
       },

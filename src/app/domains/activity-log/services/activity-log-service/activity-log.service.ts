@@ -18,12 +18,6 @@ export class ActivityLogService {
     private eventBus: EventBusService
   ) {}
 
-  initActivityLogDB(): Promise<void> {
-    this.store.dispatch(ActivityLogActions.initActivityLogDB());
-
-    return this.eventBus.waitFor(ActivityLogEvents.INIT_ACTIVITY_LOG_DB);
-  }
-
   async loadActivityLog(): Promise<void> {
     const isLoaded = await firstValueFrom(this.activityLogLoaded());
 
@@ -44,6 +38,8 @@ export class ActivityLogService {
 
   async addRecord(record: ActivityLogRecordUnitedType): Promise<void> {
     this.store.dispatch(ActivityLogActions.addRecord({ record }));
+
+    return this.eventBus.waitFor(ActivityLogEvents.ADD_RECORD);
   }
 
   async removeRecord(recordId: string): Promise<void> {

@@ -9,6 +9,7 @@ import { MetadataDomainModule } from '@budget-tracker/metadata';
 import { ActivityLogDomainModule } from '@budget-tracker/activity-log';
 import { AccountDomainModule } from '@budget-tracker/account';
 import { CategoryDomainModule } from '@budget-tracker/category';
+import { CurrencyChangeOrchestratorModule } from '@budget-tracker/currency-change-orchestrator';
 
 const routes: Routes = [
   {
@@ -29,6 +30,7 @@ const routes: Routes = [
     MetadataDomainModule,
     ActivityLogDomainModule,
     AccountDomainModule,
+    CurrencyChangeOrchestratorModule,
   ],
 })
 export class DashboardModule {}

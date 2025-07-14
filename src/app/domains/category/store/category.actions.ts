@@ -3,13 +3,13 @@ import { Category } from '../models';
 import { BudgetType } from '@budget-tracker/models';
 
 export const CategoryActions = {
+  initCategoryDB: createAction('[Categories] Init categories DB'),
   loadCategories: createAction('[Categories] Load categories'),
   categoriesLoaded: createAction(
     '[Categories] Categories loaded',
     props<{ categories: Category[] }>()
   ),
-
-  initCategoryDB: createAction('[Categories] Init categories DB'),
+  cleanState: createAction('[Categories] Clean state'),
 
   addCategory: createAction('[Categories] Add category', props<{ category: Category }>()),
   categoryAdded: createAction('[Categories] Category added', props<{ category: Category }>()),
@@ -51,5 +51,9 @@ export const CategoryActions = {
     }>()
   ),
   resetCategoriesFail: createAction('[Categories] Reset categories fail'),
-  cleanState: createAction('[Categories] Clean state'),
+
+  updateCategories: createAction(
+    '[Categories] Update categories',
+    props<{ categories: Category[] }>()
+  ),
 };

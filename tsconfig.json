@@ -50,6 +50,9 @@
       "@budget-tracker/first-login-orchestrator": [
         "src/app/orchestrators/first-login-orchestrator/index.ts"
       ],
+      "@budget-tracker/currency-change-orchestrator": [
+        "src/app/orchestrators/currency-change-orchestrator/index.ts"
+      ],
       // Pages
       "@budget-tracker/auth-page": [
         "src/app/pages/auth/index.ts"

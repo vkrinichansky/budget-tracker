@@ -35,6 +35,10 @@ export class MetadataFacadeService {
     return this.metadataService.changeCurrency(newCurrency);
   }
 
+  async runCurrencyChangeFlow(newCurrency: CurrenciesEnum): Promise<void> {
+    return this.metadataService.runCurrencyChangeFlow(newCurrency);
+  }
+
   async changeLanguage(newLanguage: LanguagesEnum): Promise<void> {
     return this.metadataService.changeLanguage(newLanguage);
   }

@@ -1,10 +1,11 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
 import { BudgetType } from '@budget-tracker/models';
 import { combineLatest, map, Observable } from 'rxjs';
 import { ActivityLogFacadeService } from '@budget-tracker/activity-log';
 import { AccountFacadeService } from '@budget-tracker/account';
 import { CategoryFacadeService } from '@budget-tracker/category';
 import { MetadataFacadeService } from '@budget-tracker/metadata';
+import { CurrencyChangeOrchestratorService } from '@budget-tracker/currency-change-orchestrator';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +14,7 @@ import { MetadataFacadeService } from '@budget-tracker/metadata';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   readonly budgetType = BudgetType;
 
   loading$: Observable<boolean>;
@@ -22,15 +23,28 @@ export class DashboardComponent implements OnInit {
     private readonly activityLogFacade: ActivityLogFacadeService,
     private readonly accountFacade: AccountFacadeService,
     private readonly categoryFacade: CategoryFacadeService,
-    private readonly metadataFacade: MetadataFacadeService
+    private readonly metadataFacade: MetadataFacadeService,
+    private readonly currencyChangeOrchestratorService: CurrencyChangeOrchestratorService
   ) {}
 
   ngOnInit(): void {
+    this.initData();
+    this.initDataLoading();
+    this.initOrchestrators();
+  }
+
+  ngOnDestroy(): void {
+    this.destroyOrchestrators();
+  }
+
+  private initData(): void {
     this.metadataFacade.loadMetadata();
     this.accountFacade.loadAccounts();
     this.categoryFacade.loadCategories();
     this.activityLogFacade.loadActivityLog();
+  }
 
+  private initDataLoading(): void {
     this.loading$ = combineLatest([
       this.metadataFacade.metadataLoaded(),
       this.categoryFacade.categoriesLoaded(),
@@ -42,5 +56,13 @@ export class DashboardComponent implements OnInit {
           !metadataLoaded || !accountsLoaded || !categoriesLoaded || !activityLogLoaded
       )
     );
+  }
+
+  private initOrchestrators(): void {
+    this.currencyChangeOrchestratorService.listen();
+  }
+
+  private destroyOrchestrators(): void {
+    this.currencyChangeOrchestratorService.destroy();
   }
 }

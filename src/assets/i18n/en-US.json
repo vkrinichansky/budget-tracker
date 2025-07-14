@@ -214,16 +214,20 @@
       "loginFailed": "Login failed! Please, try again."
     },
     "metadata": {
-      "initMetadataDBFailed": "Failed to initialize metadata DB."
+      "initMetadataDBFailed": "Failed to initialize metadata DB.",
+      "changeLanguageFailed": "Failed to change language.",
+      "changeCurrencyFailed": "Failed to change currency."
     },
     "account": {
       "initAccountDBFailed": "Failed to initialize account DB."
     },
     "category": {
-      "initCategoryDBFailed": "Failed to initialize category DB."
+      "initCategoryDBFailed": "Failed to initialize category DB.",
+      "updateCategoriesFailed": "Failed to update categories."
     },
     "activityLog": {
-      "initActivityLogDBFailed": "Failed to initialize activity log DB."
+      "initActivityLogDBFailed": "Failed to initialize activity log DB.",
+      "addRecordFailed": "Failed to add record."
     }
   }
 }

@@ -11,6 +11,7 @@ import {
   predefinedCurrenciesDictionary,
   CurrenciesEnum,
   MetadataEvents,
+  CurrencyChangeEvent,
 } from '../../models';
 
 interface ExchangeRates {
@@ -69,19 +70,25 @@ export class MetadataService {
   async changeCurrency(newCurrency: CurrenciesEnum): Promise<void> {
     this.store.dispatch(MetadataActions.changeCurrency({ newCurrency }));
 
-    await this.actionListener.waitForResult(
-      MetadataActions.updateCategoriesAfterCurrencyChangeSuccess,
-      MetadataActions.updateCategoriesAfterCurrencyChangeFail
-    );
+    return this.eventBus.waitFor(MetadataEvents.CURRENCY_CHANGE);
+  }
+
+  async runCurrencyChangeFlow(newCurrency: CurrenciesEnum): Promise<void> {
+    this.eventBus.emit<CurrencyChangeEvent>({
+      type: MetadataEvents.CURRENCY_CHANGE_START,
+      status: 'event',
+      payload: {
+        newCurrency,
+      },
+    });
+
+    return this.eventBus.waitFor(MetadataEvents.CURRENCY_CHANGE_FINISH);
   }
 
   async changeLanguage(newLanguage: LanguagesEnum): Promise<void> {
     this.store.dispatch(MetadataActions.changeLanguage({ newLanguage }));
 
-    await this.actionListener.waitForResult(
-      MetadataActions.changeLanguageSuccess,
-      MetadataActions.changeLanguageFail
-    );
+    return this.eventBus.waitFor(MetadataEvents.CHANGE_LANGUAGE);
   }
 
   setMetadata(

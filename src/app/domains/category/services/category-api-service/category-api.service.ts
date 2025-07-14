@@ -70,13 +70,13 @@ export class CategoryApiService {
     });
   }
 
-  updateCategoriesAfterCurrencyChange(categories: Category[]): Promise<void> {
+  updateCategories(categories: Category[]): Promise<void> {
     const updatedCategoriesDictionary = categories.reduce(
       (result, category) => ({
         ...result,
-        [`${category.id}.value`]: category.value,
+        [`${category.id}`]: category,
       }),
-      {}
+      {} as Record<string, Category>
     );
 
     return updateDoc(this.getDocRef(), {

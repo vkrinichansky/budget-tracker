@@ -10,4 +10,6 @@ export {
   predefinedCurrenciesDictionary,
   CurrenciesEnum,
   Currency,
+  MetadataEvents,
+  CurrencyChangeEvent,
 } from './models';

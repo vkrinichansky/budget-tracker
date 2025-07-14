@@ -19,14 +19,15 @@ export class ActivityLogApiService {
     private afAuth: Auth
   ) {}
 
-  async initActivityLogDB(): Promise<void> {
-    return setDoc(this.getDocRef(), {});
-  }
-
   async loadActivityLog(): Promise<Record<string, ActivityLogRecordUnitedType>> {
-    return getDoc(this.getDocRef()).then(
-      (doc): Record<string, ActivityLogRecordUnitedType> => doc.data()
-    );
+    const doc = await getDoc(this.getDocRef());
+
+    if (doc.exists()) {
+      return doc.data() as Record<string, ActivityLogRecordUnitedType>;
+    }
+
+    await setDoc(this.getDocRef(), {});
+    return {};
   }
 
   addRecord(record: ActivityLogRecordUnitedType): Promise<void> {

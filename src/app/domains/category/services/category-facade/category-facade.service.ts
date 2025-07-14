@@ -75,4 +75,8 @@ export class CategoryFacadeService {
   getCategoriesByType(budgetType: BudgetType): Observable<Category[]> {
     return this.categoryService.getCategoriesByType(budgetType);
   }
+
+  updateCategories(categories: Category[]): Promise<void> {
+    return this.categoryService.updateCategories(categories);
+  }
 }

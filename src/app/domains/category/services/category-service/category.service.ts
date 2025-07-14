@@ -113,4 +113,10 @@ export class CategoryService {
 
     this.store.dispatch(CategoryActions.resetCategories({ categoriesIdsToReset, budgetType }));
   }
+
+  updateCategories(categories: Category[]): Promise<void> {
+    this.store.dispatch(CategoryActions.updateCategories({ categories }));
+
+    return this.eventBus.waitFor(CategoryEvents.UPDATE_CATEGORIES);
+  }
 }

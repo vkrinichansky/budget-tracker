@@ -15,30 +15,6 @@ export class AccountEffects {
     private eventBus: EventBusService
   ) {}
 
-  initAccountDB$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(AccountActions.initAccountsDB),
-        switchMap(() =>
-          from(this.accountService.initAccountDB()).pipe(
-            tap(() =>
-              this.eventBus.emit({ type: AccountEvents.INIT_ACCOUNT_DB, status: 'success' })
-            ),
-            catchError(() => {
-              this.eventBus.emit({
-                type: AccountEvents.INIT_ACCOUNT_DB,
-                status: 'error',
-                errorCode: 'account.initAccountDBFailed',
-              });
-
-              return EMPTY;
-            })
-          )
-        )
-      ),
-    { dispatch: false }
-  );
-
   loadAccounts$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AccountActions.loadAccounts),

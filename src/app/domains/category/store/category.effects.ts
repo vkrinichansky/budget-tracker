@@ -1,22 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, EMPTY, from, map, mergeMap, of, switchMap, take, tap } from 'rxjs';
+import { catchError, EMPTY, from, map, mergeMap, of, switchMap, tap, timeout } from 'rxjs';
 import { Category, CategoryEvents } from '../models';
-import { MetadataActions, MetadataService } from '@budget-tracker/metadata';
-import { CategorySelectors } from './category.selectors';
-import { Store } from '@ngrx/store';
 import { CategoryApiService } from '../services';
 import { CategoryActions } from './category.actions';
 import { AuthActions } from '@budget-tracker/auth';
 import { EventBusService } from '@budget-tracker/utils';
+
+const REQUEST_TIMEOUT = 5000;
 
 @Injectable()
 export class CategoryEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly categoryService: CategoryApiService,
-    private readonly store: Store,
-    private readonly metadataService: MetadataService,
     private readonly eventBus: EventBusService
   ) {}
 
@@ -26,6 +23,7 @@ export class CategoryEffects {
         ofType(CategoryActions.initCategoryDB),
         switchMap(() =>
           from(this.categoryService.initCategoryDB()).pipe(
+            timeout(REQUEST_TIMEOUT),
             tap(() =>
               this.eventBus.emit({
                 type: CategoryEvents.INIT_CATEGORY_DB,
@@ -50,9 +48,13 @@ export class CategoryEffects {
   loadCategories$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CategoryActions.loadCategories),
-      switchMap(() => from(this.categoryService.loadCategories())),
-      map((categories) =>
-        CategoryActions.categoriesLoaded({ categories: Object.values(categories) })
+      switchMap(() =>
+        from(this.categoryService.loadCategories()).pipe(
+          timeout(REQUEST_TIMEOUT),
+          map((categories) =>
+            CategoryActions.categoriesLoaded({ categories: Object.values(categories) })
+          )
+        )
       )
     )
   );
@@ -62,6 +64,7 @@ export class CategoryEffects {
       ofType(CategoryActions.addCategory),
       mergeMap((action) =>
         from(this.categoryService.addCategory(action.category)).pipe(
+          timeout(REQUEST_TIMEOUT),
           switchMap(() => {
             return of(
               CategoryActions.categoryAdded({
@@ -82,6 +85,7 @@ export class CategoryEffects {
       ofType(CategoryActions.removeCategory),
       mergeMap((action) =>
         from(this.categoryService.removeCategory(action.categoryId)).pipe(
+          timeout(REQUEST_TIMEOUT),
           switchMap(() => {
             return of(
               CategoryActions.categoryRemoved({
@@ -107,6 +111,7 @@ export class CategoryEffects {
             action.updatedCategoryValue
           )
         ).pipe(
+          timeout(REQUEST_TIMEOUT),
           switchMap(() => {
             return of(
               CategoryActions.categoryValueChanged({
@@ -130,6 +135,7 @@ export class CategoryEffects {
       ofType(CategoryActions.resetCategories),
       mergeMap((action) =>
         from(this.categoryService.resetCategories(action.categoriesIdsToReset)).pipe(
+          timeout(REQUEST_TIMEOUT),
           switchMap(() => {
             return of(
               CategoryActions.categoriesReset({
@@ -145,34 +151,32 @@ export class CategoryEffects {
     )
   );
 
-  updateCategoriesAfterCurrencyChange$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(MetadataActions.updateCategoriesAfterCurrencyChange),
-      mergeMap((action) =>
-        this.store.select(CategorySelectors.allCategoriesSelector).pipe(
-          take(1),
-          map((categories) => {
-            const updatedCategories = structuredClone(categories);
+  updateCategories$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(CategoryActions.updateCategories),
+        mergeMap((action) =>
+          from(this.categoryService.updateCategories(action.categories)).pipe(
+            timeout(REQUEST_TIMEOUT),
+            tap(() => {
+              this.eventBus.emit({
+                type: CategoryEvents.UPDATE_CATEGORIES,
+                status: 'success',
+              });
+            }),
+            catchError(() => {
+              this.eventBus.emit({
+                type: CategoryEvents.UPDATE_CATEGORIES,
+                status: 'error',
+                errorCode: 'category.updateCategoriesFailed',
+              });
 
-            updatedCategories.forEach((category) => {
-              category.value = this.metadataService.convertCurrency(
-                category.value,
-                this.metadataService.currentCurrency,
-                action.newCurrency
-              );
-            });
-
-            return updatedCategories;
-          })
+              return EMPTY;
+            })
+          )
         )
       ),
-      mergeMap((updatedCategories) =>
-        from(this.categoryService.updateCategoriesAfterCurrencyChange(updatedCategories)).pipe(
-          switchMap(() => of(MetadataActions.updateCategoriesAfterCurrencyChangeSuccess())),
-          catchError(() => of(MetadataActions.updateCategoriesAfterCurrencyChangeFail()))
-        )
-      )
-    )
+    { dispatch: false }
   );
 
   cleanStateOnLogOut$ = createEffect(() =>

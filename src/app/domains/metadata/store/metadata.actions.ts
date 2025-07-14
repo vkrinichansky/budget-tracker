@@ -2,11 +2,10 @@ import { createAction, props } from '@ngrx/store';
 import { CurrenciesEnum, LanguagesEnum } from '../models';
 
 export const MetadataActions = {
+  initMetadataDB: createAction('[Metadata] Init metadata DB'),
   loadMetadata: createAction('[Metadata] Load metadata'),
   metadataLoaded: createAction('[Metadata] Metadata loaded'),
   cleanState: createAction('[Metadata] Clean state'),
-
-  initMetadataDB: createAction('[Metadata] Init metadata DB'),
 
   changeCurrency: createAction(
     '[Metadata] Change currency',
@@ -24,10 +23,9 @@ export const MetadataActions = {
   updateCategoriesAfterCurrencyChangeFail: createAction(
     '[Metadata] Update categories after currency change fail'
   ),
+
   changeLanguage: createAction(
     '[Metadata] Change language',
     props<{ newLanguage: LanguagesEnum }>()
   ),
-  changeLanguageSuccess: createAction('[Metadata] Change language success'),
-  changeLanguageFail: createAction('[Metadata] Change language fail'),
 };

@@ -45,7 +45,7 @@ export class CurrencySwitcherComponent implements OnInit {
           },
           async () => {
             try {
-              await this.metadataFacade.changeCurrency(key as CurrenciesEnum);
+              await this.metadataFacade.runCurrencyChangeFlow(key as CurrenciesEnum);
 
               location.reload();
             } catch {

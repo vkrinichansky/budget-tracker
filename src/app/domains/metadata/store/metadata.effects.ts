@@ -1,11 +1,13 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { MetadataApiService, MetadataService } from '../services';
 import { Injectable } from '@angular/core';
-import { catchError, EMPTY, from, map, of, switchMap, take, tap } from 'rxjs';
+import { catchError, EMPTY, from, map, of, switchMap, take, tap, timeout } from 'rxjs';
 import { MetadataActions } from './metadata.actions';
 import { AuthActions } from '@budget-tracker/auth';
 import { CurrencyExchangeRate, predefinedCurrenciesDictionary, MetadataEvents } from '../models';
 import { EventBusService } from '@budget-tracker/utils';
+
+const REQUEST_TIMEOUT = 5_000;
 
 @Injectable()
 export class MetadataEffects {
@@ -22,6 +24,7 @@ export class MetadataEffects {
         ofType(MetadataActions.initMetadataDB),
         switchMap(() =>
           from(this.metadataApiService.initMetadataDB()).pipe(
+            timeout(REQUEST_TIMEOUT),
             tap(() =>
               this.eventBus.emit({
                 type: MetadataEvents.INIT_METADATA_DB,
@@ -48,10 +51,11 @@ export class MetadataEffects {
       ofType(MetadataActions.loadMetadata),
       switchMap(() =>
         from(this.metadataApiService.loadMetadata()).pipe(
+          timeout(REQUEST_TIMEOUT),
           switchMap((metadata) =>
             this.metadataApiService
               .getCurrencyExchangeRate(metadata.currency)
-              .pipe(take(1))
+              .pipe(take(1), timeout(REQUEST_TIMEOUT))
               .pipe(
                 switchMap((currencyExchangeRate) =>
                   of({
@@ -77,34 +81,60 @@ export class MetadataEffects {
     )
   );
 
-  changeCurrency$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(MetadataActions.changeCurrency),
-      switchMap((action) =>
-        from(this.metadataApiService.changeCurrency(action.newCurrency)).pipe(
-          switchMap(() =>
-            of(
-              MetadataActions.updateCategoriesAfterCurrencyChange({
-                newCurrency: action.newCurrency,
-              })
-            )
-          ),
-          catchError(() => of(MetadataActions.changeCurrencyFail()))
+  changeCurrency$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(MetadataActions.changeCurrency),
+        switchMap((action) =>
+          from(this.metadataApiService.changeCurrency(action.newCurrency)).pipe(
+            timeout(REQUEST_TIMEOUT),
+            tap(() => {
+              this.eventBus.emit({
+                type: MetadataEvents.CURRENCY_CHANGE,
+                status: 'success',
+              });
+            }),
+            catchError(() => {
+              this.eventBus.emit({
+                type: MetadataEvents.CURRENCY_CHANGE,
+                status: 'error',
+                errorCode: 'metadata.changeCurrencyFailed',
+              });
+
+              return EMPTY;
+            })
+          )
         )
-      )
-    )
+      ),
+    { dispatch: false }
   );
 
-  changeLanguage$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(MetadataActions.changeLanguage),
-      switchMap((action) =>
-        from(this.metadataApiService.changeLanguage(action.newLanguage)).pipe(
-          switchMap(() => of(MetadataActions.changeLanguageSuccess())),
-          catchError(() => of(MetadataActions.changeLanguageFail()))
+  changeLanguage$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(MetadataActions.changeLanguage),
+        switchMap((action) =>
+          from(this.metadataApiService.changeLanguage(action.newLanguage)).pipe(
+            timeout(REQUEST_TIMEOUT),
+            tap(() => {
+              this.eventBus.emit({
+                type: MetadataEvents.CHANGE_LANGUAGE,
+                status: 'success',
+              });
+            }),
+            catchError(() => {
+              this.eventBus.emit({
+                type: MetadataEvents.CHANGE_LANGUAGE,
+                status: 'error',
+                errorCode: 'metadata.changeLanguageFailed',
+              });
+
+              return EMPTY;
+            })
+          )
         )
-      )
-    )
+      ),
+    { dispatch: false }
   );
 
   cleanStateOnLogOut$ = createEffect(

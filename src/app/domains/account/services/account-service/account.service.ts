@@ -14,12 +14,6 @@ export class AccountService {
     private readonly eventBus: EventBusService
   ) {}
 
-  async initAccountDB(): Promise<void> {
-    this.store.dispatch(AccountActions.initAccountsDB());
-
-    return this.eventBus.waitFor(AccountEvents.INIT_ACCOUNT_DB);
-  }
-
   async loadAccounts(): Promise<void> {
     const isLoaded = await firstValueFrom(this.accountsLoaded());
 

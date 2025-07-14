@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, from, switchMap, of, catchError, map, tap, EMPTY } from 'rxjs';
+import { mergeMap, from, switchMap, of, catchError, map, tap, EMPTY, timeout } from 'rxjs';
 import { ActivityLogActions } from './activity-log.actions';
 import { ActivityLogApiService } from '../services';
 import { AuthActions } from '@budget-tracker/auth';
 import { ActivityLogEvents } from '../models';
 import { EventBusService } from '@budget-tracker/utils';
+
+const REQUEST_TIMEOUT = 5000;
 
 @Injectable()
 export class ActivityLogEffects {
@@ -15,23 +17,38 @@ export class ActivityLogEffects {
     private eventBus: EventBusService
   ) {}
 
-  initActivityLogDB$ = createEffect(
+  loadActivityLog$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActivityLogActions.loadActivityLog),
+      switchMap(() =>
+        from(this.activityLogService.loadActivityLog()).pipe(
+          timeout(REQUEST_TIMEOUT),
+          map((activityLog) =>
+            ActivityLogActions.activityLogLoaded({ activityLog: Object.values(activityLog) })
+          )
+        )
+      )
+    )
+  );
+
+  addRecord$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(ActivityLogActions.initActivityLogDB),
-        switchMap(() =>
-          from(this.activityLogService.initActivityLogDB()).pipe(
-            tap(() =>
+        ofType(ActivityLogActions.addRecord),
+        mergeMap((action) =>
+          from(this.activityLogService.addRecord(action.record)).pipe(
+            timeout(REQUEST_TIMEOUT),
+            tap(() => {
               this.eventBus.emit({
-                type: ActivityLogEvents.INIT_ACTIVITY_LOG_DB,
+                type: ActivityLogEvents.ADD_RECORD,
                 status: 'success',
-              })
-            ),
+              });
+            }),
             catchError(() => {
               this.eventBus.emit({
-                type: ActivityLogEvents.INIT_ACTIVITY_LOG_DB,
+                type: ActivityLogEvents.ADD_RECORD,
                 status: 'error',
-                errorCode: 'errors.activityLog.initActivityLogDBFailed',
+                errorCode: 'errors.activityLog.addRecordFailed',
               });
 
               return EMPTY;
@@ -42,21 +59,12 @@ export class ActivityLogEffects {
     { dispatch: false }
   );
 
-  loadActivityLog$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ActivityLogActions.loadActivityLog),
-      switchMap(() => from(this.activityLogService.loadActivityLog())),
-      map((activityLog) =>
-        ActivityLogActions.activityLogLoaded({ activityLog: Object.values(activityLog) })
-      )
-    )
-  );
-
   removeCategoryValueChangeRecord$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActivityLogActions.removeRecord),
       mergeMap((action) =>
         from(this.activityLogService.removeRecord(action.recordId)).pipe(
+          timeout(REQUEST_TIMEOUT),
           switchMap(() => {
             return of(
               ActivityLogActions.recordRemoved({
@@ -77,6 +85,7 @@ export class ActivityLogEffects {
       ofType(ActivityLogActions.bulkRecordsRemove),
       mergeMap(() =>
         from(this.activityLogService.bulkRecordRemove()).pipe(
+          timeout(REQUEST_TIMEOUT),
           switchMap(() => {
             return of(ActivityLogActions.bulkRecordsRemoved());
           }),

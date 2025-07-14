@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FirstLoginOrchestratorService } from './first-login-orchestrator.service';
+import { FirstLoginOrchestratorService } from './first-login-orchestrator/first-login-orchestrator.service';
 
 describe('FirstLoginOrchestratorService', () => {
   let service: FirstLoginOrchestratorService;
