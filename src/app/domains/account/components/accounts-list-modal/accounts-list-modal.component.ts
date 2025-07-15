@@ -4,10 +4,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject, tap } from 'rxjs';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
-import { ActionListenerService } from '@budget-tracker/utils';
 import { AccountFacadeService } from '../../services';
 import { Account } from '../../models';
-import { AccountActions } from '../../store';
 
 @Component({
   selector: 'app-accounts-list-modal',
@@ -24,7 +22,6 @@ export class AccountsListModalComponent implements OnInit {
     private readonly accountFacade: AccountFacadeService,
     private readonly dialogRef: MatDialogRef<AccountsListModalComponent>,
     private readonly destroyRef: DestroyRef,
-    private readonly actionListener: ActionListenerService,
     private readonly snackbarHandler: SnackbarHandlerService
   ) {}
 
@@ -47,12 +44,7 @@ export class AccountsListModalComponent implements OnInit {
     this.changeOrderInProgress$.next(true);
 
     try {
-      this.accountFacade.bulkAccountChangeOrder(updatedAccountsOrder);
-
-      await this.actionListener.waitForResult(
-        AccountActions.bulkAccountOrderChanged,
-        AccountActions.bulkAccountChangeOrderFail
-      );
+      await this.accountFacade.bulkAccountChangeOrder(updatedAccountsOrder);
 
       this.snackbarHandler.showAccountOrderChangedSnackbar();
     } catch {

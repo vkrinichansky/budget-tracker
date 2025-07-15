@@ -219,14 +219,16 @@
       "changeCurrencyFailed": "Failed to change currency."
     },
     "account": {
-      "initAccountDBFailed": "Failed to initialize account DB."
+      "addAccountFailed": "Failed to add account.",
+      "removeAccountFailed": "Failed to remove account.",
+      "changeAccountsOrderFailed": "Failed to change accounts order.",
+      "moveMoneyBetweenAccountsFailed": "Failed to move money between accounts."
     },
     "category": {
       "initCategoryDBFailed": "Failed to initialize category DB.",
       "updateCategoriesFailed": "Failed to update categories."
     },
     "activityLog": {
-      "initActivityLogDBFailed": "Failed to initialize activity log DB.",
       "addRecordFailed": "Failed to add record."
     }
   }

@@ -10,6 +10,7 @@ import { ActivityLogDomainModule } from '@budget-tracker/activity-log';
 import { AccountDomainModule } from '@budget-tracker/account';
 import { CategoryDomainModule } from '@budget-tracker/category';
 import { CurrencyChangeOrchestratorModule } from '@budget-tracker/currency-change-orchestrator';
+import { MoveMoneyBetweenAccountsOrchestratorModule } from '@budget-tracker/move-money-between-accounts-orchestrator';
 
 const routes: Routes = [
   {
@@ -31,6 +32,7 @@ const routes: Routes = [
     ActivityLogDomainModule,
     AccountDomainModule,
     CurrencyChangeOrchestratorModule,
+    MoveMoneyBetweenAccountsOrchestratorModule,
   ],
 })
 export class DashboardModule {}

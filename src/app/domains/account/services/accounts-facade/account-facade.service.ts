@@ -35,6 +35,20 @@ export class AccountFacadeService {
     return this.accountService.getAccountsExist();
   }
 
+  runMoveMoneyBetweenAccountsFlow(
+    fromAccountId: string,
+    toAccountId: string,
+    valueToMove: number,
+    convertedValueToMove: number
+  ): Promise<void> {
+    return this.accountService.runMoveMoneyBetweenAccountsFlow(
+      fromAccountId,
+      toAccountId,
+      valueToMove,
+      convertedValueToMove
+    );
+  }
+
   moveMoneyBetweenAccount(
     fromAccountId: string,
     toAccountId: string,
@@ -57,7 +71,7 @@ export class AccountFacadeService {
     return this.accountService.removeAccount(accountId);
   }
 
-  bulkAccountChangeOrder(updatedAccountsOrder: Record<string, number>): void {
-    this.accountService.bulkAccountChangeOrder(updatedAccountsOrder);
+  bulkAccountChangeOrder(updatedAccountsOrder: Record<string, number>): Promise<void> {
+    return this.accountService.bulkAccountChangeOrder(updatedAccountsOrder);
   }
 }

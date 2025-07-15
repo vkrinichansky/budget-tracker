@@ -5,12 +5,11 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { v4 as uuid } from 'uuid';
-import { ActionListenerService } from '@budget-tracker/utils';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
 import { predefinedCurrenciesDictionary, Currency, CurrenciesEnum } from '@budget-tracker/metadata';
 import { AccountFacadeService } from '../../services';
 import { Account } from '../../models';
-import { AccountActions } from '../../store';
+import { getErrorMessage } from '@budget-tracker/utils';
 
 enum FormFields {
   AccountName = 'accountName',
@@ -72,7 +71,6 @@ export class AddAccountModalComponent implements OnInit {
     private readonly destroyRef: DestroyRef,
     private readonly translateService: TranslateService,
     private readonly dialogRef: MatDialogRef<AddAccountModalComponent>,
-    private readonly actionListener: ActionListenerService,
     private readonly snackbarHandler: SnackbarHandlerService
   ) {}
 
@@ -95,17 +93,12 @@ export class AddAccountModalComponent implements OnInit {
         order: 0,
       };
 
-      this.accountFacade.addAccount(account);
-
-      await this.actionListener.waitForResult(
-        AccountActions.accountAdded,
-        AccountActions.addAccountFail
-      );
+      await this.accountFacade.addAccount(account);
 
       this.dialogRef.close();
       this.snackbarHandler.showAccountAddedSnackbar();
-    } catch {
-      this.snackbarHandler.showGeneralErrorSnackbar();
+    } catch (error) {
+      this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
     } finally {
       this.loading$.next(false);
     }

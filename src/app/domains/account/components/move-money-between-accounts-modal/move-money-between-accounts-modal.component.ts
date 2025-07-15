@@ -3,11 +3,18 @@ import { ChangeDetectionStrategy, Component, DestroyRef, OnInit } from '@angular
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MetadataFacadeService, predefinedCurrenciesDictionary } from '@budget-tracker/metadata';
-import { BehaviorSubject, combineLatest, filter, map, Observable, tap, withLatestFrom } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  filter,
+  first,
+  map,
+  Observable,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
-import { ActionListenerService } from '@budget-tracker/utils';
 import { AccountFacadeService } from '../../services';
-import { AccountActions } from '../../store';
 import { Account } from '../../models';
 
 enum FormFields {
@@ -27,12 +34,7 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
   readonly formFieldsEnum = FormFields;
   readonly loading$ = new BehaviorSubject<boolean>(false);
 
-  readonly form: FormGroup = new FormGroup<{
-    [FormFields.FromAccount]: FormControl<Account>;
-    [FormFields.ToAccount]: FormControl<Account>;
-    [FormFields.ValueToMove]: FormControl<number>;
-    [FormFields.ConvertedValueToMove]: FormControl<number>;
-  }>({
+  readonly form: FormGroup = new FormGroup({
     [FormFields.FromAccount]: new FormControl(null),
     [FormFields.ToAccount]: new FormControl(null),
     [FormFields.ValueToMove]: new FormControl(null),
@@ -80,11 +82,10 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
   }
 
   constructor(
-    private accountFacade: AccountFacadeService,
-    private destroyRef: DestroyRef,
-    private metadataFacade: MetadataFacadeService,
-    private dialogRef: DialogRef,
-    private readonly actionListener: ActionListenerService,
+    private readonly accountFacade: AccountFacadeService,
+    private readonly destroyRef: DestroyRef,
+    private readonly metadataFacade: MetadataFacadeService,
+    private readonly dialogRef: DialogRef,
     private readonly snackbarHandler: SnackbarHandlerService
   ) {}
 
@@ -96,16 +97,11 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
     this.loading$.next(true);
 
     try {
-      this.accountFacade.moveMoneyBetweenAccount(
+      await this.accountFacade.runMoveMoneyBetweenAccountsFlow(
         this.form.controls[FormFields.FromAccount].value.id,
         this.form.controls[FormFields.ToAccount].value.id,
         parseInt(this.form.controls[FormFields.ValueToMove].value),
         parseInt(this.form.controls[FormFields.ConvertedValueToMove].value)
-      );
-
-      await this.actionListener.waitForResult(
-        AccountActions.moneyBetweenAccountsMoved,
-        AccountActions.moveMoneyBetweenAccountsFail
       );
 
       this.dialogRef.close();
@@ -118,7 +114,7 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
   }
 
   private initListeners(): void {
-    this.accounts$ = this.accountFacade.getAllAccounts();
+    this.accounts$ = this.accountFacade.getAllAccounts().pipe(first());
 
     this.filteredAccounts$ = this.form.controls[FormFields.FromAccount].valueChanges.pipe(
       withLatestFrom(this.accounts$),

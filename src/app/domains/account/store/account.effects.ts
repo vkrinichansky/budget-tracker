@@ -1,118 +1,186 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, EMPTY, from, map, mergeMap, of, switchMap, tap } from 'rxjs';
+import { catchError, EMPTY, from, map, mergeMap, of, switchMap, tap, timeout } from 'rxjs';
 import { AccountActions } from './account.actions';
 import { Account, AccountEvents } from '../models';
 import { AccountApiService } from '../services';
 import { AuthActions } from '@budget-tracker/auth';
 import { EventBusService } from '@budget-tracker/utils';
+import { Store } from '@ngrx/store';
+
+const REQUEST_TIMEOUT = 5000;
 
 @Injectable()
 export class AccountEffects {
   constructor(
     private actions$: Actions,
     private accountService: AccountApiService,
-    private eventBus: EventBusService
+    private eventBus: EventBusService,
+    private store: Store
   ) {}
 
   loadAccounts$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AccountActions.loadAccounts),
-      switchMap(() => from(this.accountService.loadAccounts())),
-      map((accounts) => AccountActions.accountsLoaded({ accounts: Object.values(accounts) }))
-    )
-  );
-
-  addAccount$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AccountActions.addAccount),
-      mergeMap((action) =>
-        from(this.accountService.addAccount(action.account, action.updatedAccountsOrder)).pipe(
-          switchMap(() => {
-            return of(
-              AccountActions.accountAdded({
-                account: action.account,
-                updatedAccountsOrder: action.updatedAccountsOrder,
-              })
-            );
-          }),
-          catchError(() => {
-            return of(AccountActions.addAccountFail());
-          })
+      switchMap(() =>
+        from(this.accountService.loadAccounts()).pipe(
+          timeout(REQUEST_TIMEOUT),
+          map((accounts) => AccountActions.accountsLoaded({ accounts: Object.values(accounts) }))
         )
       )
     )
   );
 
-  removeAccount$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AccountActions.removeAccount),
-      mergeMap((action) =>
-        from(this.accountService.removeAccount(action.accountId, action.updatedAccountsOrder)).pipe(
-          switchMap(() => {
-            return of(
-              AccountActions.accountRemoved({
-                accountId: action.accountId,
-                updatedAccountsOrder: action.updatedAccountsOrder,
-              })
-            );
-          }),
-          catchError(() => {
-            return of(AccountActions.removeAccountFail({ accountId: action.accountId }));
-          })
-        )
-      )
-    )
-  );
+  addAccount$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AccountActions.addAccount),
+        mergeMap((action) =>
+          from(this.accountService.addAccount(action.account, action.updatedAccountsOrder)).pipe(
+            timeout(REQUEST_TIMEOUT),
+            tap(() => {
+              this.store.dispatch(
+                AccountActions.accountAdded({
+                  account: action.account,
+                  updatedAccountsOrder: action.updatedAccountsOrder,
+                })
+              );
 
-  moveMoneyBetweenAccounts$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AccountActions.moveMoneyBetweenAccounts),
-      mergeMap((action) =>
-        from(
-          this.accountService.moveMoneyBetweenAccounts(
-            action.fromAccountId,
-            action.toAccountId,
-            action.fromAccountNewValue,
-            action.toAccountNewValue
+              this.eventBus.emit({
+                type: AccountEvents.ADD_ACCOUNT,
+                status: 'success',
+              });
+            }),
+            catchError(() => {
+              this.eventBus.emit({
+                type: AccountEvents.ADD_ACCOUNT,
+                status: 'error',
+                errorCode: 'errors.account.addAccountFailed',
+              });
+
+              return EMPTY;
+            })
           )
-        ).pipe(
-          switchMap(() => {
-            return of(
-              AccountActions.moneyBetweenAccountsMoved({
-                updatedAccounts: [
-                  { id: action.fromAccountId, value: action.fromAccountNewValue } as Account,
-                  { id: action.toAccountId, value: action.toAccountNewValue } as Account,
-                ],
-              })
-            );
-          }),
-          catchError(() => {
-            return of(AccountActions.moveMoneyBetweenAccountsFail());
-          })
         )
-      )
-    )
+      ),
+    { dispatch: false }
   );
 
-  bulkAccountChangeOrder$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AccountActions.bulkAccountChangeOrder),
-      mergeMap((action) =>
-        from(this.accountService.bulkAccountChangeOrder(action.updatedAccountsOrder)).pipe(
-          switchMap(() => {
-            return of(
-              AccountActions.bulkAccountOrderChanged({
-                updatedAccountsOrder: action.updatedAccountsOrder,
-              })
-            );
-          }),
-          catchError(() => {
-            return of(AccountActions.bulkAccountChangeOrderFail());
-          })
+  removeAccount$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AccountActions.removeAccount),
+        mergeMap((action) =>
+          from(
+            this.accountService.removeAccount(action.accountId, action.updatedAccountsOrder)
+          ).pipe(
+            timeout(REQUEST_TIMEOUT),
+            tap(() => {
+              this.store.dispatch(
+                AccountActions.accountRemoved({
+                  accountId: action.accountId,
+                  updatedAccountsOrder: action.updatedAccountsOrder,
+                })
+              );
+
+              this.eventBus.emit({
+                type: AccountEvents.REMOVE_ACCOUNT,
+                status: 'success',
+                operationId: action.accountId,
+              });
+            }),
+            catchError(() => {
+              this.eventBus.emit({
+                type: AccountEvents.REMOVE_ACCOUNT,
+                status: 'error',
+                errorCode: 'errors.account.removeAccountFailed',
+                operationId: action.accountId,
+              });
+
+              return EMPTY;
+            })
+          )
         )
-      )
-    )
+      ),
+    { dispatch: false }
+  );
+
+  moveMoneyBetweenAccounts$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AccountActions.moveMoneyBetweenAccounts),
+        mergeMap((action) =>
+          from(
+            this.accountService.moveMoneyBetweenAccounts(
+              action.fromAccountId,
+              action.toAccountId,
+              action.fromAccountNewValue,
+              action.toAccountNewValue
+            )
+          ).pipe(
+            timeout(REQUEST_TIMEOUT),
+            tap(() => {
+              this.eventBus.emit({
+                type: AccountEvents.MOVE_MONEY_BETWEEN_ACCOUNTS,
+                status: 'success',
+              });
+
+              this.store.dispatch(
+                AccountActions.moneyBetweenAccountsMoved({
+                  updatedAccounts: [
+                    { id: action.fromAccountId, value: action.fromAccountNewValue } as Account,
+                    { id: action.toAccountId, value: action.toAccountNewValue } as Account,
+                  ],
+                })
+              );
+            }),
+            catchError(() => {
+              this.eventBus.emit({
+                type: AccountEvents.MOVE_MONEY_BETWEEN_ACCOUNTS,
+                status: 'error',
+                errorCode: 'errors.account.moveMoneyBetweenAccountsFailed',
+              });
+
+              return EMPTY;
+            })
+          )
+        )
+      ),
+    { dispatch: false }
+  );
+
+  bulkAccountChangeOrder$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AccountActions.bulkAccountChangeOrder),
+        mergeMap((action) =>
+          from(this.accountService.bulkAccountChangeOrder(action.updatedAccountsOrder)).pipe(
+            timeout(REQUEST_TIMEOUT),
+            tap(() => {
+              this.eventBus.emit({
+                type: AccountEvents.CHANGE_ACCOUNTS_ORDER,
+                status: 'success',
+              });
+
+              this.store.dispatch(
+                AccountActions.bulkAccountOrderChanged({
+                  updatedAccountsOrder: action.updatedAccountsOrder,
+                })
+              );
+            }),
+            catchError(() => {
+              this.eventBus.emit({
+                type: AccountEvents.CHANGE_ACCOUNTS_ORDER,
+                status: 'error',
+                errorCode: 'errors.account.changeAccountsOrderFailed',
+              });
+
+              return EMPTY;
+            })
+          )
+        )
+      ),
+    { dispatch: false }
   );
 
   cleanStateOnLogOut$ = createEffect(() =>

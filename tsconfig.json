@@ -53,6 +53,9 @@
       "@budget-tracker/currency-change-orchestrator": [
         "src/app/orchestrators/currency-change-orchestrator/index.ts"
       ],
+      "@budget-tracker/move-money-between-accounts-orchestrator": [
+        "src/app/orchestrators/move-money-between-accounts-orchestrator/index.ts"
+      ],
       // Pages
       "@budget-tracker/auth-page": [
         "src/app/pages/auth/index.ts"

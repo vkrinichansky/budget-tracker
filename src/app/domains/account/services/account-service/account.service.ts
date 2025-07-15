@@ -5,6 +5,7 @@ import { AccountActions, AccountSelectors } from '../../store';
 import { Store } from '@ngrx/store';
 import { MetadataService } from '@budget-tracker/metadata';
 import { EventBusService } from '@budget-tracker/utils';
+import { MoveMoneyBetweenAccountsEvent } from '../../models/account.events';
 
 @Injectable()
 export class AccountService {
@@ -51,6 +52,26 @@ export class AccountService {
     return this.getAccountsAmount().pipe(map((amount) => !!amount));
   }
 
+  async runMoveMoneyBetweenAccountsFlow(
+    fromAccountId: string,
+    toAccountId: string,
+    valueToMove: number,
+    convertedValueToMove: number
+  ): Promise<void> {
+    this.eventBus.emit<MoveMoneyBetweenAccountsEvent>({
+      type: AccountEvents.MOVE_MONEY_BETWEEN_ACCOUNTS_START,
+      status: 'event',
+      payload: {
+        fromAccountId,
+        toAccountId,
+        valueToMove,
+        convertedValueToMove,
+      },
+    });
+
+    return this.eventBus.waitFor(AccountEvents.MOVE_MONEY_BETWEEN_ACCOUNTS_FINISH);
+  }
+
   async moveMoneyBetweenAccount(
     fromAccountId: string,
     toAccountId: string,
@@ -71,6 +92,8 @@ export class AccountService {
         toAccountNewValue,
       })
     );
+
+    return this.eventBus.waitFor(AccountEvents.MOVE_MONEY_BETWEEN_ACCOUNTS);
   }
 
   async addAccount(account: Account): Promise<void> {
@@ -94,6 +117,8 @@ export class AccountService {
         updatedAccountsOrder,
       })
     );
+
+    return this.eventBus.waitFor(AccountEvents.ADD_ACCOUNT);
   }
 
   async removeAccount(accountId: string): Promise<void> {
@@ -119,9 +144,13 @@ export class AccountService {
         updatedAccountsOrder,
       })
     );
+
+    return this.eventBus.waitFor(AccountEvents.REMOVE_ACCOUNT, accountId);
   }
 
-  bulkAccountChangeOrder(updatedAccountsOrder: Record<string, number>): void {
+  async bulkAccountChangeOrder(updatedAccountsOrder: Record<string, number>): Promise<void> {
     this.store.dispatch(AccountActions.bulkAccountChangeOrder({ updatedAccountsOrder }));
+
+    return this.eventBus.waitFor(AccountEvents.CHANGE_ACCOUNTS_ORDER);
   }
 }

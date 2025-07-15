@@ -6,8 +6,6 @@ export const AccountActions = {
   accountsLoaded: createAction('[Accounts] Accounts loaded', props<{ accounts: Account[] }>()),
   cleanState: createAction('[Accounts] Clean state'),
 
-  initAccountsDB: createAction('[Accounts] Init accounts DB'),
-
   addAccount: createAction(
     '[Accounts] Add account',
     props<{
@@ -19,7 +17,6 @@ export const AccountActions = {
     '[Accounts] Account added',
     props<{ account: Account; updatedAccountsOrder: Record<string, number> }>()
   ),
-  addAccountFail: createAction('[Accounts] Add account fail'),
 
   removeAccount: createAction(
     '[Accounts] Remove account',
@@ -32,7 +29,6 @@ export const AccountActions = {
     '[Accounts] Account removed',
     props<{ accountId: string; updatedAccountsOrder: Record<string, number> }>()
   ),
-  removeAccountFail: createAction('[Accounts] Remove account fail', props<{ accountId: string }>()),
 
   accountValueEdited: createAction(
     '[Accounts] Account value edited',
@@ -49,7 +45,6 @@ export const AccountActions = {
     '[Accounts] Bulk account order changed',
     props<{ updatedAccountsOrder: Record<string, number> }>()
   ),
-  bulkAccountChangeOrderFail: createAction('[Accounts] Bulk account change order fail'),
 
   moveMoneyBetweenAccounts: createAction(
     '[Accounts] Move money between accounts',
@@ -64,5 +59,4 @@ export const AccountActions = {
     '[Accounts] Money between accounts moved',
     props<{ updatedAccounts: Account[] }>()
   ),
-  moveMoneyBetweenAccountsFail: createAction('[Accounts] Move money between accounts fail'),
 };

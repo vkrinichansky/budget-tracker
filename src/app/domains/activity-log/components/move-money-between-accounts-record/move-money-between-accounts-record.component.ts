@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { predefinedCurrenciesDictionary } from '@budget-tracker/metadata';
+import { CurrenciesEnum, predefinedCurrenciesDictionary } from '@budget-tracker/metadata';
 import { MoveMoneyBetweenAccountsRecord } from '../../models';
 
 @Component({
@@ -18,5 +18,9 @@ export class MoveMoneyBetweenAccountsRecordComponent {
       predefinedCurrenciesDictionary[this.record.fromAccount.currency].symbol ===
         predefinedCurrenciesDictionary[this.record.toAccount.currency].symbol
     );
+  }
+
+  getCurrencySymbol(currency: CurrenciesEnum): string {
+    return predefinedCurrenciesDictionary[currency].symbol;
   }
 }

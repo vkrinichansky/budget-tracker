@@ -19,7 +19,6 @@ export const ActivityLogActions = {
     '[ActivityLog] Record added',
     props<{ record: ActivityLogRecordUnitedType }>()
   ),
-  addRecordFail: createAction('[ActivityLog] Add record fail'),
 
   removeRecord: createAction(
     '[ActivityLog] Remove category value change record',

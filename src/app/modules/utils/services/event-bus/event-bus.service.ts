@@ -8,6 +8,7 @@ export interface DomainEvent<T = unknown> {
   status: DomainEventStatus;
   payload?: T;
   errorCode?: string;
+  operationId?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -22,8 +23,18 @@ export class EventBusService {
     return this.event$.pipe(filter((e) => e.type === type)) as Observable<DomainEvent<T>>;
   }
 
-  async waitFor<T>(type: string): Promise<T> {
-    const event = await firstValueFrom(this.event$.pipe(filter((e) => e.type === type)));
+  async waitFor<T>(type: string, operationId?: string): Promise<T> {
+    const event = await firstValueFrom(
+      this.event$.pipe(
+        filter((event) => {
+          if (operationId) {
+            return event.type === type && event.operationId === operationId;
+          }
+
+          return event.type === type;
+        })
+      )
+    );
 
     switch (event.status) {
       case 'success':

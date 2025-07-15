@@ -10,9 +10,8 @@ import {
   CurrencyPipe,
   predefinedCurrenciesDictionary,
 } from '@budget-tracker/metadata';
-import { ActionListenerService } from '@budget-tracker/utils';
+import { ActionListenerService, getErrorMessage } from '@budget-tracker/utils';
 import { AccountFacadeService } from '../../services';
-import { AccountActions } from '../../store';
 
 @Component({
   selector: 'app-account-card',
@@ -36,18 +35,11 @@ export class AccountCardComponent {
           },
           async () => {
             try {
-              this.accountFacade.removeAccount(this.account.id);
-
-              await this.actionListener.waitForResult(
-                AccountActions.accountRemoved,
-                AccountActions.removeAccountFail,
-                (action) => action.accountId === this.account.id,
-                (action) => action.accountId === this.account.id
-              );
+              await this.accountFacade.removeAccount(this.account.id);
 
               this.snackbarHandler.showAccountRemovedSnackbar();
-            } catch {
-              this.snackbarHandler.showGeneralErrorSnackbar();
+            } catch (error) {
+              this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
             }
           }
         );

@@ -11,11 +11,11 @@
 
     <span class="font-bold text-blue">
       @if (isSameValueAndCurrency) {
-        {{ record.fromAccountValue }} {{ record.fromAccount.currency.symbol }}
+        {{ record.fromAccountValue }} {{ getCurrencySymbol(record.fromAccount.currency) }}
       } @else {
-        {{ record.fromAccountValue }} {{ record.fromAccount.currency.symbol }}
+        {{ record.fromAccountValue }} {{ getCurrencySymbol(record.fromAccount.currency) }}
         &rarr;
-        {{ record.toAccountValue }} {{ record.toAccount.currency.symbol }}
+        {{ record.toAccountValue }} {{ getCurrencySymbol(record.toAccount.currency) }}
       }
     </span>
   </div>

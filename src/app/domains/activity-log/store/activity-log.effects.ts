@@ -6,6 +6,7 @@ import { ActivityLogApiService } from '../services';
 import { AuthActions } from '@budget-tracker/auth';
 import { ActivityLogEvents } from '../models';
 import { EventBusService } from '@budget-tracker/utils';
+import { Store } from '@ngrx/store';
 
 const REQUEST_TIMEOUT = 5000;
 
@@ -14,7 +15,8 @@ export class ActivityLogEffects {
   constructor(
     private actions$: Actions,
     private activityLogService: ActivityLogApiService,
-    private eventBus: EventBusService
+    private eventBus: EventBusService,
+    private store: Store
   ) {}
 
   loadActivityLog$ = createEffect(() =>
@@ -39,6 +41,8 @@ export class ActivityLogEffects {
           from(this.activityLogService.addRecord(action.record)).pipe(
             timeout(REQUEST_TIMEOUT),
             tap(() => {
+              this.store.dispatch(ActivityLogActions.recordAdded({ record: action.record }));
+
               this.eventBus.emit({
                 type: ActivityLogEvents.ADD_RECORD,
                 status: 'success',
