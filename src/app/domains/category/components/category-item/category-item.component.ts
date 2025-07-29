@@ -13,8 +13,6 @@ import {
 } from '@budget-tracker/design-system';
 import { CategoryModalService } from '../../services';
 import { Observable, firstValueFrom, map } from 'rxjs';
-import { ActionListenerService } from '@budget-tracker/utils';
-import { CategoryActions } from '../../store';
 import { CategoryFacadeService } from '../../services';
 import { AccountFacadeService } from '@budget-tracker/account';
 import { Category } from '../../models';
@@ -43,7 +41,6 @@ export class CategoryItemComponent implements OnInit {
     private readonly confirmationModalService: ConfirmationModalService,
     private readonly categoryModalsService: CategoryModalService,
     private readonly accountFacade: AccountFacadeService,
-    private readonly actionListener: ActionListenerService,
     private readonly snackbarHandler: SnackbarHandlerService
   ) {}
 
@@ -90,14 +87,7 @@ export class CategoryItemComponent implements OnInit {
             },
             async () => {
               try {
-                this.categoryFacade.removeCategory(this.category.id);
-
-                await this.actionListener.waitForResult(
-                  CategoryActions.categoryRemoved,
-                  CategoryActions.removeCategoryFail,
-                  (action) => action.categoryId === this.category.id,
-                  (action) => action.categoryId === this.category.id
-                );
+                await this.categoryFacade.removeCategory(this.category.id);
 
                 this.snackbarHandler.showCategoryRemovedSnackbar();
               } catch {

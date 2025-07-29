@@ -6,4 +6,6 @@ export {
   createCurrencyChangeRecord,
   MoveMoneyBetweenAccountsRecord,
   createMoveMoneyBetweenAccountsRecord,
+  CategoriesResetRecord,
+  createCategoriesResetRecord,
 } from './models';

@@ -226,7 +226,10 @@
     },
     "category": {
       "initCategoryDBFailed": "Failed to initialize category DB.",
-      "updateCategoriesFailed": "Failed to update categories."
+      "updateCategoriesFailed": "Failed to update categories.",
+      "createCategoryFailed": "Failed to create category.",
+      "removeCategoryFailed": "Failed to remove category.",
+      "resetCategoriesFailed": "Failed to reset categories."
     },
     "activityLog": {
       "addRecordFailed": "Failed to add record."

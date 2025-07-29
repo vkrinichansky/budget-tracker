@@ -6,9 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { AddCategoryModalData } from '../../models';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BudgetType } from '@budget-tracker/models';
-import { ActionListenerService } from '@budget-tracker/utils';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
-import { CategoryActions } from '../../store';
 import { CategoryFacadeService } from '../../services';
 import { Category } from '../../models';
 
@@ -50,7 +48,6 @@ export class AddCategoryModalComponent implements OnInit {
     private readonly dialogRef: MatDialogRef<AddCategoryModalComponent>,
     private readonly categoryFacade: CategoryFacadeService,
     private readonly destroyRef: DestroyRef,
-    private readonly actionListener: ActionListenerService,
     private readonly snackbarHandler: SnackbarHandlerService
   ) {}
 
@@ -73,12 +70,7 @@ export class AddCategoryModalComponent implements OnInit {
         isSystem: false,
       };
 
-      this.categoryFacade.addCategory(category);
-
-      await this.actionListener.waitForResult(
-        CategoryActions.categoryAdded,
-        CategoryActions.addCategoryFail
-      );
+      await this.categoryFacade.addCategory(category);
 
       this.dialogRef.close();
       this.snackbarHandler.showCategoryAddedSnackbar();

@@ -15,6 +15,7 @@ import { firstValueFrom, Subject, takeUntil } from 'rxjs';
 @Injectable()
 export class MoveMoneyBetweenAccountsOrchestratorService {
   private readonly destroy$ = new Subject<void>();
+
   constructor(
     private readonly accountFacade: AccountFacadeService,
     private readonly activityLogFacade: ActivityLogFacadeService,

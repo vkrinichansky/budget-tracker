@@ -9,7 +9,7 @@ import {
   PieChartOptions,
   SnackbarHandlerService,
 } from '@budget-tracker/design-system';
-import { ActionListenerService } from '@budget-tracker/utils';
+import { ActionListenerService, getErrorMessage } from '@budget-tracker/utils';
 import { BudgetType } from '@budget-tracker/models';
 import { CurrencyPipe } from '@budget-tracker/metadata';
 import { CategoryActions } from '../../store';
@@ -108,16 +108,11 @@ export class CategoriesComponent implements OnInit {
             },
             async () => {
               try {
-                this.categoryFacade.resetCategoriesByType(this.budgetType);
-
-                await this.actionListener.waitForResult(
-                  CategoryActions.categoriesReset,
-                  CategoryActions.resetCategoriesFail
-                );
+                await this.categoryFacade.runResetCategoriesFlow(this.budgetType);
 
                 this.snackbarHandler.showCategoriesResetSnackbar(this.budgetType);
-              } catch {
-                this.snackbarHandler.showGeneralErrorSnackbar();
+              } catch (error) {
+                this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
               }
             }
           ),

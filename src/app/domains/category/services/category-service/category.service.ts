@@ -3,7 +3,7 @@ import { BudgetType } from '@budget-tracker/models';
 import { Observable, firstValueFrom, map } from 'rxjs';
 import { CategorySelectors, CategoryActions } from '../../store';
 import { Store } from '@ngrx/store';
-import { Category, CategoryEvents } from '../../models';
+import { Category, CategoryEvents, ResetCategoriesEvent } from '../../models';
 import { EventBusService } from '@budget-tracker/utils';
 
 @Injectable()
@@ -59,16 +59,20 @@ export class CategoryService {
     return this.store.select(CategorySelectors.currentMonthBalanceSelector);
   }
 
-  addCategory(category: Category): void {
+  async addCategory(category: Category): Promise<void> {
     this.store.dispatch(CategoryActions.addCategory({ category }));
+
+    return this.eventBus.waitFor(CategoryEvents.CREATE_CATEGORY);
   }
 
-  removeCategory(categoryId: string): void {
+  async removeCategory(categoryId: string): Promise<void> {
     this.store.dispatch(
       CategoryActions.removeCategory({
         categoryId,
       })
     );
+
+    return this.eventBus.waitFor(CategoryEvents.REMOVE_CATEGORY, categoryId);
   }
 
   async changeCategoryValue(
@@ -112,6 +116,20 @@ export class CategoryService {
     );
 
     this.store.dispatch(CategoryActions.resetCategories({ categoriesIdsToReset, budgetType }));
+
+    return this.eventBus.waitFor(CategoryEvents.RESET_CATEGORIES);
+  }
+
+  async runResetCategoriesFlow(budgetType: BudgetType): Promise<void> {
+    this.eventBus.emit<ResetCategoriesEvent>({
+      type: CategoryEvents.RESET_CATEGORIES_START,
+      status: 'event',
+      payload: {
+        budgetType,
+      },
+    });
+
+    return this.eventBus.waitFor(CategoryEvents.RESET_CATEGORIES_FINISH);
   }
 
   updateCategories(categories: Category[]): Promise<void> {

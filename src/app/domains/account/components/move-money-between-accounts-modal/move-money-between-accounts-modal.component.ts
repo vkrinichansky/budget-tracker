@@ -16,6 +16,7 @@ import {
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
 import { AccountFacadeService } from '../../services';
 import { Account } from '../../models';
+import { getErrorMessage } from '@budget-tracker/utils';
 
 enum FormFields {
   FromAccount = 'fromAccount',
@@ -106,8 +107,8 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
 
       this.dialogRef.close();
       this.snackbarHandler.showMoneyBetweenAccountsMovedSnackbar();
-    } catch {
-      this.snackbarHandler.showGeneralErrorSnackbar();
+    } catch (error) {
+      this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
     } finally {
       this.loading$.next(false);
     }

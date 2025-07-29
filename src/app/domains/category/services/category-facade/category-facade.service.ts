@@ -40,12 +40,12 @@ export class CategoryFacadeService {
     return this.categoryService.getCategoryById(categoryId);
   }
 
-  addCategory(category: Category): void {
-    this.categoryService.addCategory(category);
+  async addCategory(category: Category): Promise<void> {
+    return this.categoryService.addCategory(category);
   }
 
-  removeCategory(categoryId: string): void {
-    this.categoryService.removeCategory(categoryId);
+  removeCategory(categoryId: string): Promise<void> {
+    return this.categoryService.removeCategory(categoryId);
   }
 
   changeCategoryValue(
@@ -64,8 +64,12 @@ export class CategoryFacadeService {
     );
   }
 
-  resetCategoriesByType(budgetType: BudgetType): void {
-    this.categoryService.resetCategoriesByType(budgetType);
+  async resetCategoriesByType(budgetType: BudgetType): Promise<void> {
+    return this.categoryService.resetCategoriesByType(budgetType);
+  }
+
+  async runResetCategoriesFlow(budgetType: BudgetType): Promise<void> {
+    return this.categoryService.runResetCategoriesFlow(budgetType);
   }
 
   areCategoriesAllReset(budgetType: BudgetType): Observable<boolean> {

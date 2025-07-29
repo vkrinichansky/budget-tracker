@@ -13,7 +13,7 @@ export const CategoryActions = {
 
   addCategory: createAction('[Categories] Add category', props<{ category: Category }>()),
   categoryAdded: createAction('[Categories] Category added', props<{ category: Category }>()),
-  addCategoryFail: createAction('[Categories] Add category fail'),
+
   removeCategory: createAction(
     '[Categories] Remove category',
     props<{
@@ -21,10 +21,7 @@ export const CategoryActions = {
     }>()
   ),
   categoryRemoved: createAction('[Categories] Category removed', props<{ categoryId: string }>()),
-  removeCategoryFail: createAction(
-    '[Categories] Remove category fail',
-    props<{ categoryId: string }>()
-  ),
+
   changeCategoryValue: createAction(
     '[Categories] Change category value',
     props<{
@@ -37,6 +34,7 @@ export const CategoryActions = {
     props<{ updatedCategory: Category }>()
   ),
   changeCategoryValueFail: createAction('[Categories] Change category value fail'),
+
   resetCategories: createAction(
     '[Categories] Reset categories',
     props<{
@@ -50,7 +48,6 @@ export const CategoryActions = {
       categoriesIdsToReset: string[];
     }>()
   ),
-  resetCategoriesFail: createAction('[Categories] Reset categories fail'),
 
   updateCategories: createAction(
     '[Categories] Update categories',

@@ -6,6 +6,7 @@ import { CategoryApiService } from '../services';
 import { CategoryActions } from './category.actions';
 import { AuthActions } from '@budget-tracker/auth';
 import { EventBusService } from '@budget-tracker/utils';
+import { Store } from '@ngrx/store';
 
 const REQUEST_TIMEOUT = 5000;
 
@@ -14,7 +15,8 @@ export class CategoryEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly categoryService: CategoryApiService,
-    private readonly eventBus: EventBusService
+    private readonly eventBus: EventBusService,
+    private readonly store: Store
   ) {}
 
   initCategoryDB$ = createEffect(
@@ -34,7 +36,7 @@ export class CategoryEffects {
               this.eventBus.emit({
                 type: CategoryEvents.INIT_CATEGORY_DB,
                 status: 'error',
-                errorCode: 'category.initCategoryDBFailed',
+                errorCode: 'errors.category.initCategoryDBFailed',
               });
 
               return EMPTY;
@@ -59,46 +61,74 @@ export class CategoryEffects {
     )
   );
 
-  addCategory$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(CategoryActions.addCategory),
-      mergeMap((action) =>
-        from(this.categoryService.addCategory(action.category)).pipe(
-          timeout(REQUEST_TIMEOUT),
-          switchMap(() => {
-            return of(
-              CategoryActions.categoryAdded({
-                category: action.category,
-              })
-            );
-          }),
-          catchError(() => {
-            return of(CategoryActions.addCategoryFail());
-          })
+  addCategory$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(CategoryActions.addCategory),
+        mergeMap((action) =>
+          from(this.categoryService.addCategory(action.category)).pipe(
+            timeout(REQUEST_TIMEOUT),
+            tap(() => {
+              this.eventBus.emit({
+                type: CategoryEvents.CREATE_CATEGORY,
+                status: 'success',
+              });
+
+              this.store.dispatch(
+                CategoryActions.categoryAdded({
+                  category: action.category,
+                })
+              );
+            }),
+            catchError(() => {
+              this.eventBus.emit({
+                type: CategoryEvents.CREATE_CATEGORY,
+                status: 'error',
+                errorCode: 'errors.category.createCategoryFailed',
+              });
+
+              return EMPTY;
+            })
+          )
         )
-      )
-    )
+      ),
+    { dispatch: false }
   );
 
-  removeCategory$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(CategoryActions.removeCategory),
-      mergeMap((action) =>
-        from(this.categoryService.removeCategory(action.categoryId)).pipe(
-          timeout(REQUEST_TIMEOUT),
-          switchMap(() => {
-            return of(
-              CategoryActions.categoryRemoved({
-                categoryId: action.categoryId,
-              })
-            );
-          }),
-          catchError(() => {
-            return of(CategoryActions.removeCategoryFail({ categoryId: action.categoryId }));
-          })
+  removeCategory$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(CategoryActions.removeCategory),
+        mergeMap((action) =>
+          from(this.categoryService.removeCategory(action.categoryId)).pipe(
+            timeout(REQUEST_TIMEOUT),
+            tap(() => {
+              this.eventBus.emit({
+                type: CategoryEvents.REMOVE_CATEGORY,
+                status: 'success',
+                operationId: action.categoryId,
+              });
+
+              this.store.dispatch(
+                CategoryActions.categoryRemoved({
+                  categoryId: action.categoryId,
+                })
+              );
+            }),
+            catchError(() => {
+              this.eventBus.emit({
+                type: CategoryEvents.REMOVE_CATEGORY,
+                status: 'error',
+                errorCode: 'errors.category.removeCategoryFailed',
+                operationId: action.categoryId,
+              });
+
+              return EMPTY;
+            })
+          )
         )
-      )
-    )
+      ),
+    { dispatch: false }
   );
 
   changeCategoryValue$ = createEffect(() =>
@@ -130,25 +160,38 @@ export class CategoryEffects {
     )
   );
 
-  resetCategories$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(CategoryActions.resetCategories),
-      mergeMap((action) =>
-        from(this.categoryService.resetCategories(action.categoriesIdsToReset)).pipe(
-          timeout(REQUEST_TIMEOUT),
-          switchMap(() => {
-            return of(
-              CategoryActions.categoriesReset({
-                categoriesIdsToReset: action.categoriesIdsToReset,
-              })
-            );
-          }),
-          catchError(() => {
-            return of(CategoryActions.resetCategoriesFail());
-          })
+  resetCategories$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(CategoryActions.resetCategories),
+        mergeMap((action) =>
+          from(this.categoryService.resetCategories(action.categoriesIdsToReset)).pipe(
+            timeout(REQUEST_TIMEOUT),
+            tap(() => {
+              this.eventBus.emit({
+                type: CategoryEvents.RESET_CATEGORIES,
+                status: 'success',
+              });
+
+              this.store.dispatch(
+                CategoryActions.categoriesReset({
+                  categoriesIdsToReset: action.categoriesIdsToReset,
+                })
+              );
+            }),
+            catchError(() => {
+              this.eventBus.emit({
+                type: CategoryEvents.RESET_CATEGORIES,
+                status: 'error',
+                errorCode: 'errors.category.resetCategoriesFailed',
+              });
+
+              return EMPTY;
+            })
+          )
         )
-      )
-    )
+      ),
+    { dispatch: false }
   );
 
   updateCategories$ = createEffect(
@@ -168,7 +211,7 @@ export class CategoryEffects {
               this.eventBus.emit({
                 type: CategoryEvents.UPDATE_CATEGORIES,
                 status: 'error',
-                errorCode: 'category.updateCategoriesFailed',
+                errorCode: 'errors.category.updateCategoriesFailed',
               });
 
               return EMPTY;
