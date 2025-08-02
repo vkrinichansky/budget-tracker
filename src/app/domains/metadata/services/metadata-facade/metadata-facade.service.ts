@@ -5,6 +5,9 @@ import { LanguagesEnum, CurrencyExchangeRate, CurrenciesEnum } from '../../model
 
 @Injectable()
 export class MetadataFacadeService {
+  constructor(private readonly metadataService: MetadataService) {}
+
+  // ===== SELECTORS =====
   get currentCurrency(): CurrenciesEnum {
     return this.metadataService.currentCurrency;
   }
@@ -19,28 +22,6 @@ export class MetadataFacadeService {
 
   get resetDate(): string {
     return this.metadataService.resetDate;
-  }
-
-  constructor(private readonly metadataService: MetadataService) {}
-
-  async initMetadataDB(): Promise<void> {
-    return this.metadataService.initMetadataDB();
-  }
-
-  async loadMetadata(): Promise<void> {
-    return this.metadataService.loadMetadata();
-  }
-
-  async changeCurrency(newCurrency: CurrenciesEnum): Promise<void> {
-    return this.metadataService.changeCurrency(newCurrency);
-  }
-
-  async runCurrencyChangeFlow(newCurrency: CurrenciesEnum): Promise<void> {
-    return this.metadataService.runCurrencyChangeFlow(newCurrency);
-  }
-
-  async changeLanguage(newLanguage: LanguagesEnum): Promise<void> {
-    return this.metadataService.changeLanguage(newLanguage);
   }
 
   metadataLoaded(): Observable<boolean> {
@@ -61,5 +42,27 @@ export class MetadataFacadeService {
 
   convertCurrency(value: number, fromCurrency: CurrenciesEnum, toCurrency: CurrenciesEnum): number {
     return this.metadataService.convertCurrency(value, fromCurrency, toCurrency);
+  }
+
+  // ===== ACTIONS =====
+  async initMetadataDB(): Promise<void> {
+    return this.metadataService.initMetadataDB();
+  }
+
+  async loadMetadata(): Promise<void> {
+    return this.metadataService.loadMetadata();
+  }
+
+  async changeCurrency(newCurrency: CurrenciesEnum): Promise<void> {
+    return this.metadataService.changeCurrency(newCurrency);
+  }
+
+  async changeLanguage(newLanguage: LanguagesEnum): Promise<void> {
+    return this.metadataService.changeLanguage(newLanguage);
+  }
+
+  // ===== FLOW TRIGGERS =====
+  async runCurrencyChangeFlow(newCurrency: CurrenciesEnum): Promise<void> {
+    return this.metadataService.runCurrencyChangeFlow(newCurrency);
   }
 }

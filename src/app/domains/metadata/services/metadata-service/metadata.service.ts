@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { MetadataActions } from '../../store';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { Store } from '@ngrx/store';
-import { ActionListenerService, EventBusService } from '@budget-tracker/utils';
+import { EventBusService } from '@budget-tracker/utils';
 import {
   LanguagesEnum,
   CurrencyExchangeRate,
@@ -31,6 +31,7 @@ export class MetadataService {
   private _exchangeRates: ExchangeRates;
   private _resetDate: string;
 
+  // ===== SELECTORS =====
   get currentCurrency(): CurrenciesEnum {
     return this._currency;
   }
@@ -47,14 +48,36 @@ export class MetadataService {
     return this._resetDate;
   }
 
+  metadataLoaded(): Observable<boolean> {
+    return this._isMetadataLoaded$;
+  }
+
+  getCurrencySymbol(currency?: CurrenciesEnum): string {
+    return predefinedCurrenciesDictionary[currency || this._currency].symbol;
+  }
+
+  getConvertedValueForAccount(accountCurrency: CurrenciesEnum, accountValue: number): number {
+    return Math.round(accountValue / this._currencyExchangeRate[accountCurrency]);
+  }
+
+  getBasicToForeignConvertedValue(value: number, currency: CurrenciesEnum): number {
+    return Math.round(value / this._currencyExchangeRate[currency]);
+  }
+
+  convertCurrency(value: number, fromCurrency: CurrenciesEnum, toCurrency: CurrenciesEnum): number {
+    const rate = this._exchangeRates[fromCurrency][toCurrency];
+
+    return Math.round(value * rate);
+  }
+
   constructor(
     private readonly translateService: TranslateService,
     private readonly authFacade: AuthFacadeService,
     private readonly store: Store,
-    private readonly actionListener: ActionListenerService,
     private readonly eventBus: EventBusService
   ) {}
 
+  // ===== ACTIONS =====
   async initMetadataDB(): Promise<void> {
     this.store.dispatch(MetadataActions.initMetadataDB());
 
@@ -71,18 +94,6 @@ export class MetadataService {
     this.store.dispatch(MetadataActions.changeCurrency({ newCurrency }));
 
     return this.eventBus.waitFor(MetadataEvents.CURRENCY_CHANGE);
-  }
-
-  async runCurrencyChangeFlow(newCurrency: CurrenciesEnum): Promise<void> {
-    this.eventBus.emit<CurrencyChangeEvent>({
-      type: MetadataEvents.CURRENCY_CHANGE_START,
-      status: 'event',
-      payload: {
-        newCurrency,
-      },
-    });
-
-    return this.eventBus.waitFor(MetadataEvents.CURRENCY_CHANGE_FINISH);
   }
 
   async changeLanguage(newLanguage: LanguagesEnum): Promise<void> {
@@ -116,26 +127,17 @@ export class MetadataService {
     this._resetDate = undefined;
   }
 
-  metadataLoaded(): Observable<boolean> {
-    return this._isMetadataLoaded$;
-  }
+  // ===== FLOW TRIGGERS =====
+  async runCurrencyChangeFlow(newCurrency: CurrenciesEnum): Promise<void> {
+    this.eventBus.emit<CurrencyChangeEvent>({
+      type: MetadataEvents.CURRENCY_CHANGE_START,
+      status: 'event',
+      payload: {
+        newCurrency,
+      },
+    });
 
-  getCurrencySymbol(currency?: CurrenciesEnum): string {
-    return predefinedCurrenciesDictionary[currency || this._currency].symbol;
-  }
-
-  getConvertedValueForAccount(accountCurrency: CurrenciesEnum, accountValue: number): number {
-    return Math.round(accountValue / this._currencyExchangeRate[accountCurrency]);
-  }
-
-  getBasicToForeignConvertedValue(value: number, currency: CurrenciesEnum): number {
-    return Math.round(value / this._currencyExchangeRate[currency]);
-  }
-
-  convertCurrency(value: number, fromCurrency: CurrenciesEnum, toCurrency: CurrenciesEnum): number {
-    const rate = this._exchangeRates[fromCurrency][toCurrency];
-
-    return Math.round(value * rate);
+    return this.eventBus.waitFor(MetadataEvents.CURRENCY_CHANGE_FINISH);
   }
 
   private convertRates(baseCurrency: CurrenciesEnum): ExchangeRates {
