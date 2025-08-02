@@ -3,7 +3,12 @@ import { BudgetType } from '@budget-tracker/models';
 import { Observable, firstValueFrom, map } from 'rxjs';
 import { CategorySelectors, CategoryActions } from '../../store';
 import { Store } from '@ngrx/store';
-import { Category, CategoryEvents, ResetCategoriesEvent } from '../../models';
+import {
+  Category,
+  CategoryEvents,
+  ChangeCategoryValueEvent,
+  ResetCategoriesEvent,
+} from '../../models';
 import { EventBusService } from '@budget-tracker/utils';
 
 @Injectable()
@@ -13,20 +18,7 @@ export class CategoryService {
     private readonly eventBus: EventBusService
   ) {}
 
-  async initCategoryDB(): Promise<void> {
-    this.store.dispatch(CategoryActions.initCategoryDB());
-
-    return this.eventBus.waitFor(CategoryEvents.INIT_CATEGORY_DB);
-  }
-
-  async loadCategories(): Promise<void> {
-    const isLoaded = await firstValueFrom(this.categoriesLoaded());
-
-    if (!isLoaded) {
-      this.store.dispatch(CategoryActions.loadCategories());
-    }
-  }
-
+  // ===== SELECTORS =====
   categoriesLoaded(): Observable<boolean> {
     return this.store.select(CategorySelectors.categoriesLoadedSelector);
   }
@@ -59,6 +51,21 @@ export class CategoryService {
     return this.store.select(CategorySelectors.currentMonthBalanceSelector);
   }
 
+  // ===== ACTIONS =====
+  async initCategoryDB(): Promise<void> {
+    this.store.dispatch(CategoryActions.initCategoryDB());
+
+    return this.eventBus.waitFor(CategoryEvents.INIT_CATEGORY_DB);
+  }
+
+  async loadCategories(): Promise<void> {
+    const isLoaded = await firstValueFrom(this.categoriesLoaded());
+
+    if (!isLoaded) {
+      this.store.dispatch(CategoryActions.loadCategories());
+    }
+  }
+
   async addCategory(category: Category): Promise<void> {
     this.store.dispatch(CategoryActions.addCategory({ category }));
 
@@ -75,30 +82,9 @@ export class CategoryService {
     return this.eventBus.waitFor(CategoryEvents.REMOVE_CATEGORY, categoryId);
   }
 
-  async changeCategoryValue(
-    categoryId: string,
-    accountId: string,
-    valueToAdd: number,
-    convertedValueToAdd: number,
-    note: string
-  ): Promise<void> {
+  async changeCategoryValue(categoryId: string, convertedValueToAdd: number): Promise<void> {
     const category = structuredClone(await firstValueFrom(this.getCategoryById(categoryId)));
-
     const updatedCategoryValue = category.value + convertedValueToAdd;
-
-    // let updatedAccountValue: number;
-
-    // switch (category.budgetType) {
-    //   case BudgetType.Income:
-    //     updatedAccountValue = account.value + valueToAdd;
-
-    //     break;
-
-    //   case BudgetType.Expense:
-    //     updatedAccountValue = account.value - valueToAdd;
-
-    //     break;
-    // }
 
     this.store.dispatch(
       CategoryActions.changeCategoryValue({
@@ -106,6 +92,8 @@ export class CategoryService {
         updatedCategoryValue,
       })
     );
+
+    return this.eventBus.waitFor(CategoryEvents.CHANGE_CATEGORY_VALUE);
   }
 
   async resetCategoriesByType(budgetType: BudgetType): Promise<void> {
@@ -120,6 +108,13 @@ export class CategoryService {
     return this.eventBus.waitFor(CategoryEvents.RESET_CATEGORIES);
   }
 
+  updateCategories(categories: Category[]): Promise<void> {
+    this.store.dispatch(CategoryActions.updateCategories({ categories }));
+
+    return this.eventBus.waitFor(CategoryEvents.UPDATE_CATEGORIES);
+  }
+
+  // ===== FLOW TRIGGERS =====
   async runResetCategoriesFlow(budgetType: BudgetType): Promise<void> {
     this.eventBus.emit<ResetCategoriesEvent>({
       type: CategoryEvents.RESET_CATEGORIES_START,
@@ -132,9 +127,25 @@ export class CategoryService {
     return this.eventBus.waitFor(CategoryEvents.RESET_CATEGORIES_FINISH);
   }
 
-  updateCategories(categories: Category[]): Promise<void> {
-    this.store.dispatch(CategoryActions.updateCategories({ categories }));
+  async runChangeCategoryValueFlow(
+    categoryId: string,
+    accountId: string,
+    valueToAdd: number,
+    convertedValueToAdd: number,
+    note: string
+  ): Promise<void> {
+    this.eventBus.emit<ChangeCategoryValueEvent>({
+      type: CategoryEvents.CHANGE_CATEGORY_VALUE_START,
+      status: 'event',
+      payload: {
+        categoryId,
+        accountId,
+        valueToAdd,
+        convertedValueToAdd,
+        note,
+      },
+    });
 
-    return this.eventBus.waitFor(CategoryEvents.UPDATE_CATEGORIES);
+    return this.eventBus.waitFor(CategoryEvents.CHANGE_CATEGORY_VALUE_FINISH);
   }
 }

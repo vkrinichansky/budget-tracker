@@ -69,7 +69,7 @@ const adapterReducer = createReducer(
   }),
 
   on(
-    AccountActions.accountValueEdited,
+    AccountActions.accountValueChanged,
     (state, action): AccountState => ({
       ...state,
       accounts: accountEntityAdapter.updateOne(

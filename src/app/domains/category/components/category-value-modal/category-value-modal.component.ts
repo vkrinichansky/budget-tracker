@@ -1,15 +1,22 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl } from '@angular/forms';
-import { BehaviorSubject, Observable, tap, withLatestFrom } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  first,
+  map,
+  Observable,
+  startWith,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import { CategoryValueModalData } from '../../models';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BudgetType } from '@budget-tracker/models';
 import { MetadataFacadeService, predefinedCurrenciesDictionary } from '@budget-tracker/metadata';
-import { ActionListenerService } from '@budget-tracker/utils';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
 import { AccountFacadeService, Account } from '@budget-tracker/account';
-import { CategoryActions } from '../../store';
 import { CategoryFacadeService } from '../../services';
 import { Category } from '../../models';
 
@@ -44,8 +51,8 @@ export class CategoryValueModalComponent implements OnInit {
 
   success$: Observable<boolean>;
   accounts$: Observable<Account[]>;
-
-  category: Category;
+  category$: Observable<Category>;
+  maxValue$: Observable<number | undefined>;
 
   get accoundChoosed(): boolean {
     return this.form?.controls?.[FormFields.AccountToUse]?.value;
@@ -74,16 +81,6 @@ export class CategoryValueModalComponent implements OnInit {
     return this.accoundChoosed ? this.metadataFacade.getCurrencySymbol() : null;
   }
 
-  get maxValue(): number {
-    switch (this.category.budgetType) {
-      case BudgetType.Income:
-        return undefined;
-
-      case BudgetType.Expense:
-        return parseInt(this.form?.controls?.[FormFields.AccountToUse]?.value?.value);
-    }
-  }
-
   constructor(
     @Inject(MAT_DIALOG_DATA) private readonly data: CategoryValueModalData,
     private readonly dialogRef: MatDialogRef<CategoryValueModalComponent>,
@@ -91,7 +88,6 @@ export class CategoryValueModalComponent implements OnInit {
     private readonly accountFacade: AccountFacadeService,
     private readonly metadataFacade: MetadataFacadeService,
     private readonly destroyRef: DestroyRef,
-    private readonly actionListener: ActionListenerService,
     private readonly snackbarHandler: SnackbarHandlerService
   ) {}
 
@@ -107,17 +103,12 @@ export class CategoryValueModalComponent implements OnInit {
     this.loading$.next(true);
 
     try {
-      this.categoryFacade.changeCategoryValue(
+      await this.categoryFacade.runChangeCategoryValueFlow(
         this.data.categoryId,
         this.form.controls[FormFields.AccountToUse].value.id,
         parseInt(this.form.controls[FormFields.ValueToAdd].value),
         parseInt(this.form.controls[FormFields.ConvertedValueToAdd].value),
         this.form.controls[FormFields.Note].value
-      );
-
-      await this.actionListener.waitForResult(
-        CategoryActions.categoryValueChanged,
-        CategoryActions.changeCategoryValueFail
       );
 
       this.dialogRef.close();
@@ -130,12 +121,22 @@ export class CategoryValueModalComponent implements OnInit {
   }
 
   private initListeners(): void {
-    this.accounts$ = this.accountFacade.getAllAccounts();
+    this.accounts$ = this.accountFacade.getAllAccounts().pipe(first());
+    this.category$ = this.categoryFacade.getCategoryById(this.data.categoryId).pipe(first());
+    this.maxValue$ = combineLatest([
+      this.category$,
+      this.form.controls[FormFields.AccountToUse].valueChanges.pipe(startWith(null)),
+    ]).pipe(
+      map(([category, account]) => {
+        switch (category.budgetType) {
+          case BudgetType.Income:
+            return undefined;
 
-    this.categoryFacade
-      .getCategoryById(this.data.categoryId)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((category) => (this.category = category));
+          case BudgetType.Expense:
+            return parseInt(account?.value);
+        }
+      })
+    );
 
     this.form.controls[FormFields.AccountToUse].valueChanges
       .pipe(

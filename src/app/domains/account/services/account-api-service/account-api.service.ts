@@ -80,6 +80,12 @@ export class AccountApiService {
     });
   }
 
+  changeAccountValue(accountId: string, updatedAccountValue: number): Promise<void> {
+    return updateDoc(this.getDocRef(), {
+      [`${accountId}.value`]: updatedAccountValue,
+    });
+  }
+
   private getDocRef(): DocumentReference {
     return doc(collection(this.firestore, 'accounts'), this.afAuth.currentUser?.uid);
   }

@@ -8,4 +8,6 @@ export {
   createMoveMoneyBetweenAccountsRecord,
   CategoriesResetRecord,
   createCategoriesResetRecord,
+  CategoryValueChangeRecord,
+  createCategoryValueChangeRecord,
 } from './models';

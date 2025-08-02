@@ -33,7 +33,6 @@ export const CategoryActions = {
     '[Categories] Category value changed',
     props<{ updatedCategory: Category }>()
   ),
-  changeCategoryValueFail: createAction('[Categories] Change category value fail'),
 
   resetCategories: createAction(
     '[Categories] Reset categories',

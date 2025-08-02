@@ -8,14 +8,7 @@ import { Category } from '../../models';
 export class CategoryFacadeService {
   constructor(private readonly categoryService: CategoryService) {}
 
-  initCategoryDB(): Promise<void> {
-    return this.categoryService.initCategoryDB();
-  }
-
-  loadCategories(): void {
-    this.categoryService.loadCategories();
-  }
-
+  // ===== SELECTORS =====
   categoriesLoaded(): Observable<boolean> {
     return this.categoryService.categoriesLoaded();
   }
@@ -40,38 +33,6 @@ export class CategoryFacadeService {
     return this.categoryService.getCategoryById(categoryId);
   }
 
-  async addCategory(category: Category): Promise<void> {
-    return this.categoryService.addCategory(category);
-  }
-
-  removeCategory(categoryId: string): Promise<void> {
-    return this.categoryService.removeCategory(categoryId);
-  }
-
-  changeCategoryValue(
-    categoryId: string,
-    accountId: string,
-    valueToAdd: number,
-    convertedValueToAdd: number,
-    note: string
-  ): void {
-    this.categoryService.changeCategoryValue(
-      categoryId,
-      accountId,
-      valueToAdd,
-      convertedValueToAdd,
-      note
-    );
-  }
-
-  async resetCategoriesByType(budgetType: BudgetType): Promise<void> {
-    return this.categoryService.resetCategoriesByType(budgetType);
-  }
-
-  async runResetCategoriesFlow(budgetType: BudgetType): Promise<void> {
-    return this.categoryService.runResetCategoriesFlow(budgetType);
-  }
-
   areCategoriesAllReset(budgetType: BudgetType): Observable<boolean> {
     return this.categoryService.areCategoriesAllReset(budgetType);
   }
@@ -80,7 +41,53 @@ export class CategoryFacadeService {
     return this.categoryService.getCategoriesByType(budgetType);
   }
 
+  // ===== ACTIONS =====
+  initCategoryDB(): Promise<void> {
+    return this.categoryService.initCategoryDB();
+  }
+
+  loadCategories(): void {
+    this.categoryService.loadCategories();
+  }
+
+  async addCategory(category: Category): Promise<void> {
+    return this.categoryService.addCategory(category);
+  }
+
+  removeCategory(categoryId: string): Promise<void> {
+    return this.categoryService.removeCategory(categoryId);
+  }
+
+  async changeCategoryValue(categoryId: string, convertedValueToAdd: number): Promise<void> {
+    return this.categoryService.changeCategoryValue(categoryId, convertedValueToAdd);
+  }
+
+  async resetCategoriesByType(budgetType: BudgetType): Promise<void> {
+    return this.categoryService.resetCategoriesByType(budgetType);
+  }
+
   updateCategories(categories: Category[]): Promise<void> {
     return this.categoryService.updateCategories(categories);
+  }
+
+  // ===== FLOW TRIGGERS =====
+  async runResetCategoriesFlow(budgetType: BudgetType): Promise<void> {
+    return this.categoryService.runResetCategoriesFlow(budgetType);
+  }
+
+  async runChangeCategoryValueFlow(
+    categoryId: string,
+    accountId: string,
+    valueToAdd: number,
+    convertedValueToAdd: number,
+    note: string
+  ): Promise<void> {
+    return this.categoryService.runChangeCategoryValueFlow(
+      categoryId,
+      accountId,
+      valueToAdd,
+      convertedValueToAdd,
+      note
+    );
   }
 }

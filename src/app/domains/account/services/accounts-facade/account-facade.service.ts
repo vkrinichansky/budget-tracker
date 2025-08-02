@@ -7,10 +7,7 @@ import { AccountService } from '../account-service/account.service';
 export class AccountFacadeService {
   constructor(private accountService: AccountService) {}
 
-  loadAccounts(): void {
-    this.accountService.loadAccounts();
-  }
-
+  // ===== SELECTORS =====
   accountsLoaded(): Observable<boolean> {
     return this.accountService.accountsLoaded();
   }
@@ -35,18 +32,9 @@ export class AccountFacadeService {
     return this.accountService.getAccountsExist();
   }
 
-  runMoveMoneyBetweenAccountsFlow(
-    fromAccountId: string,
-    toAccountId: string,
-    valueToMove: number,
-    convertedValueToMove: number
-  ): Promise<void> {
-    return this.accountService.runMoveMoneyBetweenAccountsFlow(
-      fromAccountId,
-      toAccountId,
-      valueToMove,
-      convertedValueToMove
-    );
+  // ===== ACTIONS =====
+  loadAccounts(): void {
+    this.accountService.loadAccounts();
   }
 
   moveMoneyBetweenAccount(
@@ -71,7 +59,26 @@ export class AccountFacadeService {
     return this.accountService.removeAccount(accountId);
   }
 
-  bulkAccountChangeOrder(updatedAccountsOrder: Record<string, number>): Promise<void> {
+  async bulkAccountChangeOrder(updatedAccountsOrder: Record<string, number>): Promise<void> {
     return this.accountService.bulkAccountChangeOrder(updatedAccountsOrder);
+  }
+
+  async changeAccountValue(accountId: string, updatedAccountValue: number): Promise<void> {
+    return this.accountService.changeAccountValue(accountId, updatedAccountValue);
+  }
+
+  // ===== FLOW TRIGGERS =====
+  runMoveMoneyBetweenAccountsFlow(
+    fromAccountId: string,
+    toAccountId: string,
+    valueToMove: number,
+    convertedValueToMove: number
+  ): Promise<void> {
+    return this.accountService.runMoveMoneyBetweenAccountsFlow(
+      fromAccountId,
+      toAccountId,
+      valueToMove,
+      convertedValueToMove
+    );
   }
 }

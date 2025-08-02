@@ -222,14 +222,16 @@
       "addAccountFailed": "Failed to add account.",
       "removeAccountFailed": "Failed to remove account.",
       "changeAccountsOrderFailed": "Failed to change accounts order.",
-      "moveMoneyBetweenAccountsFailed": "Failed to move money between accounts."
+      "moveMoneyBetweenAccountsFailed": "Failed to move money between accounts.",
+      "changeAccountValueFailed": "Failed to change account value."
     },
     "category": {
       "initCategoryDBFailed": "Failed to initialize category DB.",
       "updateCategoriesFailed": "Failed to update categories.",
       "createCategoryFailed": "Failed to create category.",
       "removeCategoryFailed": "Failed to remove category.",
-      "resetCategoriesFailed": "Failed to reset categories."
+      "resetCategoriesFailed": "Failed to reset categories.",
+      "changeCategoryValueFailed": "Failed to change category value."
     },
     "activityLog": {
       "addRecordFailed": "Failed to add record."

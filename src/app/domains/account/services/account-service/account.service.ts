@@ -15,14 +15,7 @@ export class AccountService {
     private readonly eventBus: EventBusService
   ) {}
 
-  async loadAccounts(): Promise<void> {
-    const isLoaded = await firstValueFrom(this.accountsLoaded());
-
-    if (!isLoaded) {
-      this.store.dispatch(AccountActions.loadAccounts());
-    }
-  }
-
+  // ===== SELECTORS =====
   accountsLoaded(): Observable<boolean> {
     return this.store.select(AccountSelectors.accountsLoadedSelector);
   }
@@ -52,24 +45,13 @@ export class AccountService {
     return this.getAccountsAmount().pipe(map((amount) => !!amount));
   }
 
-  async runMoveMoneyBetweenAccountsFlow(
-    fromAccountId: string,
-    toAccountId: string,
-    valueToMove: number,
-    convertedValueToMove: number
-  ): Promise<void> {
-    this.eventBus.emit<MoveMoneyBetweenAccountsEvent>({
-      type: AccountEvents.MOVE_MONEY_BETWEEN_ACCOUNTS_START,
-      status: 'event',
-      payload: {
-        fromAccountId,
-        toAccountId,
-        valueToMove,
-        convertedValueToMove,
-      },
-    });
+  // ===== ACTIONS =====
+  async loadAccounts(): Promise<void> {
+    const isLoaded = await firstValueFrom(this.accountsLoaded());
 
-    return this.eventBus.waitFor(AccountEvents.MOVE_MONEY_BETWEEN_ACCOUNTS_FINISH);
+    if (!isLoaded) {
+      this.store.dispatch(AccountActions.loadAccounts());
+    }
   }
 
   async moveMoneyBetweenAccount(
@@ -152,5 +134,32 @@ export class AccountService {
     this.store.dispatch(AccountActions.bulkAccountChangeOrder({ updatedAccountsOrder }));
 
     return this.eventBus.waitFor(AccountEvents.CHANGE_ACCOUNTS_ORDER);
+  }
+
+  async changeAccountValue(accountId: string, updatedAccountValue: number): Promise<void> {
+    this.store.dispatch(AccountActions.changeAccountValue({ accountId, updatedAccountValue }));
+
+    return this.eventBus.waitFor(AccountEvents.CHANGE_ACCOUNT_VALUE);
+  }
+
+  // ===== FLOW TRIGGERS =====
+  async runMoveMoneyBetweenAccountsFlow(
+    fromAccountId: string,
+    toAccountId: string,
+    valueToMove: number,
+    convertedValueToMove: number
+  ): Promise<void> {
+    this.eventBus.emit<MoveMoneyBetweenAccountsEvent>({
+      type: AccountEvents.MOVE_MONEY_BETWEEN_ACCOUNTS_START,
+      status: 'event',
+      payload: {
+        fromAccountId,
+        toAccountId,
+        valueToMove,
+        convertedValueToMove,
+      },
+    });
+
+    return this.eventBus.waitFor(AccountEvents.MOVE_MONEY_BETWEEN_ACCOUNTS_FINISH);
   }
 }
