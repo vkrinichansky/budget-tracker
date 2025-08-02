@@ -63,6 +63,9 @@
       "@budget-tracker/auth-page": [
         "src/app/pages/auth/index.ts"
       ],
+      "@budget-tracker/dashboard-page": [
+        "src/app/pages/dashboard/index.ts"
+      ],
       // Modules
       "@budget-tracker/design-system": [
         "src/app/modules/design-system/index.ts"

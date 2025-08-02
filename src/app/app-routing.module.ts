@@ -12,8 +12,7 @@ const routes: Routes = [
   {
     path: AppRoutes.Dashboard,
     canActivate: [AuthGuard],
-    loadChildren: () =>
-      import('./modules/dashboard/dashboard.module').then((m) => m.DashboardModule),
+    loadChildren: () => import('@budget-tracker/dashboard-page').then((m) => m.DashboardPageModule),
   },
   {
     path: AppRoutes.Statistics,

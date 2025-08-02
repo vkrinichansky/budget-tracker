@@ -37,4 +37,4 @@ const routes: Routes = [
     ResetCategoriesOrchestratorModule,
   ],
 })
-export class DashboardModule {}
+export class DashboardPageModule {}
