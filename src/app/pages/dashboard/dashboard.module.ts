@@ -13,6 +13,7 @@ import { CurrencyChangeOrchestratorModule } from '@budget-tracker/currency-chang
 import { MoveMoneyBetweenAccountsOrchestratorModule } from '@budget-tracker/move-money-between-accounts-orchestrator';
 import { ResetCategoriesOrchestratorModule } from '@budget-tracker/reset-categories-orchestrator';
 import { ChangeCategoryValueOrchestratorModule } from '@budget-tracker/change-category-value-orchestrator';
+import { RemoveAlRecordOrchestratorModule } from '@budget-tracker/remove-al-record-orchestrator';
 
 const routes: Routes = [
   {
@@ -37,6 +38,7 @@ const routes: Routes = [
     MoveMoneyBetweenAccountsOrchestratorModule,
     ResetCategoriesOrchestratorModule,
     ChangeCategoryValueOrchestratorModule,
+    RemoveAlRecordOrchestratorModule,
   ],
 })
 export class DashboardPageModule {}

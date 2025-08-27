@@ -6,6 +6,7 @@ import {
   ActivityLogGroupedByDay,
   ActivityLogRecordUnitedType,
   ActivityLogEvents,
+  RemoveCategoryValueChangeRecordEvent,
 } from '../../models';
 import { MetadataService } from '@budget-tracker/metadata';
 import { EventBusService } from '@budget-tracker/utils';
@@ -18,14 +19,7 @@ export class ActivityLogService {
     private eventBus: EventBusService
   ) {}
 
-  async loadActivityLog(): Promise<void> {
-    const isLoaded = await firstValueFrom(this.activityLogLoaded());
-
-    if (!isLoaded) {
-      this.store.dispatch(ActivityLogActions.loadActivityLog());
-    }
-  }
-
+  // ===== SELECTORS =====
   activityLogLoaded(): Observable<boolean> {
     return this.store.select(ActivityLogSelectors.activityLogLoadedSelector);
   }
@@ -34,6 +28,19 @@ export class ActivityLogService {
     const language = this.metadataService.currentLanguage;
 
     return this.store.select(ActivityLogSelectors.activityLogGroupedByDaysSelector(language));
+  }
+
+  getRecordById(recordId: string): Observable<ActivityLogRecordUnitedType> {
+    return this.store.select(ActivityLogSelectors.selectRecordByIdSelector(recordId));
+  }
+
+  // ===== ACTIONS =====
+  async loadActivityLog(): Promise<void> {
+    const isLoaded = await firstValueFrom(this.activityLogLoaded());
+
+    if (!isLoaded) {
+      this.store.dispatch(ActivityLogActions.loadActivityLog());
+    }
   }
 
   async addRecord(record: ActivityLogRecordUnitedType): Promise<void> {
@@ -72,9 +79,27 @@ export class ActivityLogService {
         recordId,
       })
     );
+
+    return this.eventBus.waitFor(ActivityLogEvents.REMOVE_CATEGORY_VALUE_CHANGE_RECORD, recordId);
   }
 
   async removeAllRecords(): Promise<void> {
     this.store.dispatch(ActivityLogActions.bulkRecordsRemove());
+  }
+
+  // ===== FLOW TRIGGERS =====
+  runRemoveCategoryValueChangeRecordFlow(recordId: string): Promise<void> {
+    this.eventBus.emit<RemoveCategoryValueChangeRecordEvent>({
+      type: ActivityLogEvents.REMOVE_CATEGORY_VALUE_CHANGE_RECORD_START,
+      status: 'event',
+      payload: {
+        recordId,
+      },
+    });
+
+    return this.eventBus.waitFor(
+      ActivityLogEvents.REMOVE_CATEGORY_VALUE_CHANGE_RECORD_FINISH,
+      recordId
+    );
   }
 }

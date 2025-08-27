@@ -10,4 +10,6 @@ export {
   createCategoriesResetRecord,
   CategoryValueChangeRecord,
   createCategoryValueChangeRecord,
+  RemoveCategoryValueChangeRecordEvent,
+  ActivityLogEvents,
 } from './models';

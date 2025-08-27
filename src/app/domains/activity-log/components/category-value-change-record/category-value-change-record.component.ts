@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ConfirmationModalService, SnackbarHandlerService } from '@budget-tracker/design-system';
 import { BudgetType } from '@budget-tracker/models';
-import { ActionListenerService, isToday } from '@budget-tracker/utils';
-import { Observable } from 'rxjs';
+import { getErrorMessage, isToday } from '@budget-tracker/utils';
 import { MetadataFacadeService, predefinedCurrenciesDictionary } from '@budget-tracker/metadata';
-import { ActivityLogActions } from '../../store';
 import { ActivityLogFacadeService } from '../../services';
 import { CategoryValueChangeRecord } from '../../models';
 
@@ -17,8 +15,6 @@ import { CategoryValueChangeRecord } from '../../models';
 export class CategoryValueChangeRecordComponent {
   @Input()
   record: CategoryValueChangeRecord;
-
-  shouldDisplayRemoveButton$: Observable<boolean>;
 
   get colorClass(): string {
     switch (this.record.budgetType) {
@@ -64,7 +60,6 @@ export class CategoryValueChangeRecordComponent {
   constructor(
     private readonly confirmationModalService: ConfirmationModalService,
     private readonly activityLogFacade: ActivityLogFacadeService,
-    private readonly actionListener: ActionListenerService,
     private readonly snackbarHandler: SnackbarHandlerService,
     private readonly metadataFacade: MetadataFacadeService
   ) {}
@@ -83,18 +78,11 @@ export class CategoryValueChangeRecordComponent {
       },
       async () => {
         try {
-          this.activityLogFacade.removeRecord(this.record.id);
-
-          await this.actionListener.waitForResult(
-            ActivityLogActions.recordRemoved,
-            ActivityLogActions.removeRecordFail,
-            (action) => action.recordId === this.record.id,
-            (action) => action.recordId === this.record.id
-          );
+          await this.activityLogFacade.runRemoveCategoryValueChangeRecordFlow(this.record.id);
 
           this.snackbarHandler.showActivityLogRecordRemovedSnackbar();
-        } catch {
-          this.snackbarHandler.showGeneralErrorSnackbar();
+        } catch (error) {
+          this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
         }
       }
     );

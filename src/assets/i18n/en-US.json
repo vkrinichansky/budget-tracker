@@ -234,7 +234,8 @@
       "changeCategoryValueFailed": "Failed to change category value."
     },
     "activityLog": {
-      "addRecordFailed": "Failed to add record."
+      "addRecordFailed": "Failed to add record.",
+      "removeRecordFailed": "Failed to remove record."
     }
   }
 }

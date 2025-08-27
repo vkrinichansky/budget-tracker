@@ -58,8 +58,12 @@ export class CategoryFacadeService {
     return this.categoryService.removeCategory(categoryId);
   }
 
-  async changeCategoryValue(categoryId: string, convertedValueToAdd: number): Promise<void> {
-    return this.categoryService.changeCategoryValue(categoryId, convertedValueToAdd);
+  async changeCategoryValue(
+    categoryId: string,
+    convertedValueToAdd: number,
+    rewrite: boolean = false
+  ): Promise<void> {
+    return this.categoryService.changeCategoryValue(categoryId, convertedValueToAdd, rewrite);
   }
 
   async resetCategoriesByType(budgetType: BudgetType): Promise<void> {

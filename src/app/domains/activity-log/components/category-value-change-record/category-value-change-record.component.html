@@ -2,7 +2,7 @@
   [icon]="record.icon"
   [date]="record.date"
   [note]="record?.note"
-  [removeEnabled]="shouldDisplayRemoveButton$ | async"
+  [removeEnabled]="shouldDisplayRemoveButton"
   (remove)="removeHandler()"
 >
   <span class="flex justify-between items-center gap-x-2">

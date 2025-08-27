@@ -43,7 +43,7 @@ export class ActivityLogApiService {
   }
 
   bulkRecordRemove(): Promise<void> {
-    return updateDoc(this.getDocRef(), {});
+    return setDoc(this.getDocRef(), {});
   }
 
   private getDocRef(): DocumentReference {

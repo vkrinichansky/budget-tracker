@@ -62,6 +62,9 @@
       "@budget-tracker/change-category-value-orchestrator": [
         "src/app/orchestrators/change-category-value-orchestrator/index.ts"
       ],
+      "@budget-tracker/remove-al-record-orchestrator": [
+        "src/app/orchestrators/remove-al-record-orchestrator/index.ts"
+      ],
       // Pages
       "@budget-tracker/auth-page": [
         "src/app/pages/auth/index.ts"

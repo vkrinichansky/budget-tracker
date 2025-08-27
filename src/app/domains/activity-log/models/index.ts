@@ -1,2 +1,2 @@
 export * from './activity-log.model';
-export { ActivityLogEvents } from './activity-log.events';
+export * from './activity-log.events';

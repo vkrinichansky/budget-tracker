@@ -27,7 +27,6 @@ export const ActivityLogActions = {
     }>()
   ),
   recordRemoved: createAction('[ActivityLog] Record removed', props<{ recordId: string }>()),
-  removeRecordFail: createAction('[ActivityLog] Remove record fail', props<{ recordId: string }>()),
 
   bulkRecordsRemove: createAction('[ActivityLog] Bulk records remove'),
   bulkRecordsRemoved: createAction('[ActivityLog] Bulk records removed'),

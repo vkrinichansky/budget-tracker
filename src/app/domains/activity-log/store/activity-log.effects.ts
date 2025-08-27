@@ -63,25 +63,36 @@ export class ActivityLogEffects {
     { dispatch: false }
   );
 
-  removeCategoryValueChangeRecord$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ActivityLogActions.removeRecord),
-      mergeMap((action) =>
-        from(this.activityLogService.removeRecord(action.recordId)).pipe(
-          timeout(REQUEST_TIMEOUT),
-          switchMap(() => {
-            return of(
-              ActivityLogActions.recordRemoved({
-                recordId: action.recordId,
-              })
-            );
-          }),
-          catchError(() => {
-            return of(ActivityLogActions.removeRecordFail({ recordId: action.recordId }));
-          })
+  removeCategoryValueChangeRecord$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ActivityLogActions.removeRecord),
+        mergeMap((action) =>
+          from(this.activityLogService.removeRecord(action.recordId)).pipe(
+            timeout(REQUEST_TIMEOUT),
+            tap(() => {
+              this.store.dispatch(ActivityLogActions.recordRemoved({ recordId: action.recordId }));
+
+              this.eventBus.emit({
+                type: ActivityLogEvents.REMOVE_CATEGORY_VALUE_CHANGE_RECORD,
+                status: 'success',
+                operationId: action.recordId,
+              });
+            }),
+            catchError(() => {
+              this.eventBus.emit({
+                type: ActivityLogEvents.REMOVE_CATEGORY_VALUE_CHANGE_RECORD,
+                status: 'error',
+                errorCode: 'errors.activityLog.removeRecordFailed',
+                operationId: action.recordId,
+              });
+
+              return EMPTY;
+            })
+          )
         )
-      )
-    )
+      ),
+    { dispatch: false }
   );
 
   bulkRecordsRemove$ = createEffect(() =>
