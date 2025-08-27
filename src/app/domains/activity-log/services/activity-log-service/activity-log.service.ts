@@ -50,30 +50,6 @@ export class ActivityLogService {
   }
 
   async removeRecord(recordId: string): Promise<void> {
-    // const category = structuredClone(
-    //   await firstValueFrom(this.categoryFacade.getCategoryById(record.category.id))
-    // );
-    // const account = structuredClone(
-    //   await firstValueFrom(this.accountFacade.getAccountById(record.account.id))
-    // );
-
-    // const updatedCategoryValue =
-    //   category.value - record.convertedValue < 0 ? 0 : category.value - record.convertedValue;
-
-    // let updatedAccountValue: number;
-
-    // switch (record.budgetType) {
-    //   case BudgetType.Income:
-    //     updatedAccountValue = account.value - record.value < 0 ? 0 : account.value - record.value;
-
-    //     break;
-
-    //   case BudgetType.Expense:
-    //     updatedAccountValue = account.value + record.value;
-
-    //     break;
-    // }
-
     this.store.dispatch(
       ActivityLogActions.removeRecord({
         recordId,
