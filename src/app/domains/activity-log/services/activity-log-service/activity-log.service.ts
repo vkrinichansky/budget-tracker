@@ -61,6 +61,8 @@ export class ActivityLogService {
 
   async removeAllRecords(): Promise<void> {
     this.store.dispatch(ActivityLogActions.bulkRecordsRemove());
+
+    return this.eventBus.waitFor(ActivityLogEvents.REMOVE_ALL_RECORDS);
   }
 
   // ===== FLOW TRIGGERS =====

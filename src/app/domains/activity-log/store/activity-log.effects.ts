@@ -95,21 +95,34 @@ export class ActivityLogEffects {
     { dispatch: false }
   );
 
-  bulkRecordsRemove$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ActivityLogActions.bulkRecordsRemove),
-      mergeMap(() =>
-        from(this.activityLogService.bulkRecordRemove()).pipe(
-          timeout(REQUEST_TIMEOUT),
-          switchMap(() => {
-            return of(ActivityLogActions.bulkRecordsRemoved());
-          }),
-          catchError(() => {
-            return of(ActivityLogActions.bulkRecordsRemoveFail());
-          })
+  bulkRecordsRemove$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ActivityLogActions.bulkRecordsRemove),
+        mergeMap(() =>
+          from(this.activityLogService.bulkRecordRemove()).pipe(
+            timeout(REQUEST_TIMEOUT),
+            tap(() => {
+              this.store.dispatch(ActivityLogActions.bulkRecordsRemoved());
+
+              this.eventBus.emit({
+                type: ActivityLogEvents.REMOVE_ALL_RECORDS,
+                status: 'success',
+              });
+            }),
+            catchError(() => {
+              this.eventBus.emit({
+                type: ActivityLogEvents.REMOVE_ALL_RECORDS,
+                status: 'error',
+                errorCode: 'errors.activityLog.removeAllRecordsFailed',
+              });
+
+              return EMPTY;
+            })
+          )
         )
-      )
-    )
+      ),
+    { dispatch: false }
   );
 
   cleanStateOnLogOut$ = createEffect(() =>

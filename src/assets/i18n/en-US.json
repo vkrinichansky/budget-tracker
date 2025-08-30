@@ -235,7 +235,8 @@
     },
     "activityLog": {
       "addRecordFailed": "Failed to add record.",
-      "removeRecordFailed": "Failed to remove record."
+      "removeRecordFailed": "Failed to remove record.",
+      "removeAllRecordsFailed": "Failed to remove all records."
     }
   }
 }

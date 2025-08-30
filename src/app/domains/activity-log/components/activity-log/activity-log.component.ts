@@ -6,8 +6,7 @@ import {
   TotalValueForDateByCurrency,
 } from '../../models';
 import { Observable, map } from 'rxjs';
-import { ActionListenerService } from '@budget-tracker/utils';
-import { ActivityLogActions } from '../../store';
+import { getErrorMessage } from '@budget-tracker/utils';
 import { ActivityLogFacadeService } from '../../services';
 
 interface DateObject {
@@ -33,7 +32,6 @@ export class ActivityLogComponent implements OnInit {
   constructor(
     private readonly activityLogFacade: ActivityLogFacadeService,
     private readonly confirmationModalService: ConfirmationModalService,
-    private readonly actionListener: ActionListenerService,
     private readonly snackbarHandler: SnackbarHandlerService
   ) {}
 
@@ -58,16 +56,11 @@ export class ActivityLogComponent implements OnInit {
       },
       async () => {
         try {
-          this.activityLogFacade.removeAllRecords();
-
-          await this.actionListener.waitForResult(
-            ActivityLogActions.bulkRecordsRemoved,
-            ActivityLogActions.bulkRecordsRemoveFail
-          );
+          await this.activityLogFacade.removeAllRecords();
 
           this.snackbarHandler.showBulkActivityLogRecordsRemovedSnackbar();
-        } catch {
-          this.snackbarHandler.showGeneralErrorSnackbar();
+        } catch (error) {
+          this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
         }
       }
     );

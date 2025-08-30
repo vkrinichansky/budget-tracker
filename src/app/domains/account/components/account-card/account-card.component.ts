@@ -10,7 +10,7 @@ import {
   CurrencyPipe,
   predefinedCurrenciesDictionary,
 } from '@budget-tracker/metadata';
-import { ActionListenerService, getErrorMessage } from '@budget-tracker/utils';
+import { getErrorMessage } from '@budget-tracker/utils';
 import { AccountFacadeService } from '../../services';
 
 @Component({
@@ -73,7 +73,6 @@ export class AccountCardComponent {
     private readonly metadataFacade: MetadataFacadeService,
     private readonly accountFacade: AccountFacadeService,
     private readonly confirmationModalService: ConfirmationModalService,
-    private readonly actionListener: ActionListenerService,
     private readonly snackbarHandler: SnackbarHandlerService,
     private readonly currencyPipe: CurrencyPipe
   ) {}
