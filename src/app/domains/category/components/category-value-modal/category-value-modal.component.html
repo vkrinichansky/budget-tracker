@@ -4,13 +4,13 @@
 
 <app-base-modal
   [titleTranslationKey]="category?.name"
-  [subtitleTranslationKey]="'dashboard.categoryValueModal.subtitle'"
+  [subtitleTranslationKey]="'category.categoryValueModal.subtitle'"
   [footerTemplate]="footer"
 >
   <form class="flex flex-col gap-y-2" [formGroup]="form">
     <custom-select
       [id]="formFieldsEnum.AccountToUse"
-      [label]="'dashboard.categoryValueModal.accountsTitle' | translate"
+      [label]="'category.categoryValueModal.accountsTitle' | translate"
       [formControlName]="formFieldsEnum.AccountToUse"
       [options]="accounts"
       [idSelector]="idSelector"
@@ -21,7 +21,7 @@
 
     <custom-input
       [id]="formFieldsEnum.ValueToAdd"
-      [label]="'dashboard.categoryValueModal.valueToAddTitle' | translate"
+      [label]="'category.categoryValueModal.valueToAddTitle' | translate"
       [isRequired]="true"
       [minValue]="1"
       [maxValue]="maxValue"
@@ -34,7 +34,7 @@
     <custom-input
       [class.hidden]="!doesChoosedAccountHaveForeignCurrency"
       [id]="formFieldsEnum.ConvertedValueToAdd"
-      [label]="'dashboard.categoryValueModal.convertedValueToAddTitle' | translate"
+      [label]="'category.categoryValueModal.convertedValueToAddTitle' | translate"
       [isRequired]="true"
       [minValue]="1"
       [type]="'number'"
@@ -44,7 +44,7 @@
 
     <custom-textarea
       [id]="formFieldsEnum.Note"
-      [label]="'dashboard.categoryValueModal.noteTitle' | translate"
+      [label]="'category.categoryValueModal.noteTitle' | translate"
       [formControlName]="formFieldsEnum.Note"
       [maxLength]="100"
       [displayCharCounter]="true"
@@ -56,7 +56,7 @@
   <app-button
     [buttonSizeX]="'px100'"
     [colorScheme]="'charcoal'"
-    [text]="'dashboard.categoryValueModal.add' | translate"
+    [text]="'category.categoryValueModal.add' | translate"
     [loading]="loading$ | async"
     [disabled]="form?.invalid"
     (click)="submitClick()"

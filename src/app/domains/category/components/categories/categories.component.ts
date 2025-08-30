@@ -49,7 +49,7 @@ export class CategoriesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.title = `dashboard.categories.${this.budgetType}.title`;
+    this.title = `category.${this.budgetType}.title`;
 
     this.initData();
     this.initChartData();
@@ -92,17 +92,17 @@ export class CategoriesComponent implements OnInit {
     this.menuActions = [
       {
         icon: 'plus',
-        translationKey: 'dashboard.categories.menu.addCategory',
+        translationKey: 'category.menu.addCategory',
         action: () => this.categoryModalsService.openAddCategoryModal(this.budgetType),
       },
       {
         icon: 'eraser',
-        translationKey: 'dashboard.categories.menu.resetCategories',
+        translationKey: 'category.menu.resetCategories',
         disabledObs: this.categoryFacade.areCategoriesAllReset(this.budgetType),
         action: () =>
           this.confirmationModalService.openConfirmationModal(
             {
-              questionTranslationKey: `dashboard.categories.${this.budgetType}.resetConfirmationQuestion`,
+              questionTranslationKey: `category.${this.budgetType}.resetConfirmationQuestion`,
             },
             async () => {
               try {

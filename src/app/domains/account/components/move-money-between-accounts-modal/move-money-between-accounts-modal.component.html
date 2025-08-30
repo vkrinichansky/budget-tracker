@@ -1,11 +1,11 @@
 <app-base-modal
-  [titleTranslationKey]="'dashboard.moneyMovementBetweenAccountsModal.title'"
+  [titleTranslationKey]="'account.moneyMovementBetweenAccountsModal.title'"
   [footerTemplate]="footer"
 >
   <form class="flex flex-col gap-y-2" [formGroup]="form">
     <custom-select
       [id]="formFieldsEnum.FromAccount"
-      [label]="'dashboard.moneyMovementBetweenAccountsModal.fromAccountTitle' | translate"
+      [label]="'account.moneyMovementBetweenAccountsModal.fromAccountTitle' | translate"
       [formControlName]="formFieldsEnum.FromAccount"
       [options]="accounts$ | async"
       [idSelector]="idSelector"
@@ -17,7 +17,7 @@
     <custom-select
       [class.hidden]="!form?.controls?.[formFieldsEnum.FromAccount]?.value"
       [id]="formFieldsEnum.ToAccount"
-      [label]="'dashboard.moneyMovementBetweenAccountsModal.toAccountTitle' | translate"
+      [label]="'account.moneyMovementBetweenAccountsModal.toAccountTitle' | translate"
       [formControlName]="formFieldsEnum.ToAccount"
       [options]="filteredAccounts$ | async"
       [idSelector]="idSelector"
@@ -29,7 +29,7 @@
     <custom-input
       [class.hidden]="isAnyAccountFieldEmpty"
       [id]="formFieldsEnum.ValueToMove"
-      [label]="'dashboard.moneyMovementBetweenAccountsModal.valueToMoveTitle' | translate"
+      [label]="'account.moneyMovementBetweenAccountsModal.valueToMoveTitle' | translate"
       [isRequired]="true"
       [minValue]="1"
       [maxValue]="maxValue"
@@ -41,7 +41,7 @@
     <custom-input
       [class.hidden]="isAnyAccountFieldEmpty || !accountsHaveDifferentCurrencies"
       [id]="formFieldsEnum.ConvertedValueToMove"
-      [label]="'dashboard.moneyMovementBetweenAccountsModal.convertedValueToMoveTitle' | translate"
+      [label]="'account.moneyMovementBetweenAccountsModal.convertedValueToMoveTitle' | translate"
       [isRequired]="true"
       [minValue]="1"
       [type]="'number'"
@@ -54,7 +54,7 @@
 <ng-template #footer>
   <app-button
     [colorScheme]="'charcoal'"
-    [text]="'dashboard.moneyMovementBetweenAccountsModal.moveButton' | translate"
+    [text]="'account.moneyMovementBetweenAccountsModal.moveButton' | translate"
     [buttonSizeX]="'big'"
     [disabled]="form?.invalid"
     [loading]="loading$ | async"

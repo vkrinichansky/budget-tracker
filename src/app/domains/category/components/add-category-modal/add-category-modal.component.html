@@ -2,7 +2,7 @@
   <form class="flex flex-col gap-y-2" [formGroup]="form">
     <custom-input
       [id]="formFields.CategoryName"
-      [label]="'dashboard.addCategoryModal.categoryNameTitle' | translate"
+      [label]="'category.addCategoryModal.categoryNameTitle' | translate"
       [formControlName]="formFields.CategoryName"
       [isRequired]="true"
       [maxLength]="25"
@@ -12,7 +12,7 @@
 
     <custom-select
       [id]="formFields.CategoryIcon"
-      [label]="'dashboard.addCategoryModal.categoryIconTitle' | translate"
+      [label]="'category.addCategoryModal.categoryIconTitle' | translate"
       [formControlName]="formFields.CategoryIcon"
       [isRequired]="true"
       [iconPickerMode]="true"
@@ -20,7 +20,7 @@
 
     <color-picker
       [id]="formFields.CategoryColorPicker"
-      [label]="'dashboard.addCategoryModal.categoryColorTitle' | translate"
+      [label]="'category.addCategoryModal.categoryColorTitle' | translate"
       [formControlName]="formFields.CategoryColorPicker"
       [isRequired]="true"
     ></color-picker>
@@ -30,7 +30,7 @@
 <ng-template #footer>
   <app-button
     [colorScheme]="'charcoal'"
-    [text]="'dashboard.addCategoryModal.addCategory' | translate"
+    [text]="'category.addCategoryModal.addCategory' | translate"
     [buttonSizeX]="'big'"
     [disabled]="this.form?.invalid"
     [loading]="loading$ | async"

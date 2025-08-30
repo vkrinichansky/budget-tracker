@@ -1,4 +1,4 @@
-<app-base-modal [titleTranslationKey]="'dashboard.addAccountModal.title'" [footerTemplate]="footer">
+<app-base-modal [titleTranslationKey]="'account.addAccountModal.title'" [footerTemplate]="footer">
   <form class="flex flex-col gap-y-2 h-full" [formGroup]="form">
     <div class="sticky top-0 pb-4 bg-white -mx-6 px-6 z-10">
       <app-info-card
@@ -13,7 +13,7 @@
     </div>
 
     <custom-input
-      [label]="'dashboard.addAccountModal.accountNameTitle' | translate"
+      [label]="'account.addAccountModal.accountNameTitle' | translate"
       [id]="formFields.AccountName"
       [formControlName]="formFields.AccountName"
       [isRequired]="true"
@@ -25,7 +25,7 @@
     <custom-input
       [id]="formFields.AccountValue"
       [formControlName]="formFields.AccountValue"
-      [label]="'dashboard.addAccountModal.accountValueTitle' | translate"
+      [label]="'account.addAccountModal.accountValueTitle' | translate"
       [isRequired]="true"
       [minValue]="0"
       [type]="'number'"
@@ -33,7 +33,7 @@
 
     <custom-select
       [id]="formFields.AccountCurrency"
-      [label]="'dashboard.addAccountModal.accountCurrencyTitle' | translate"
+      [label]="'account.addAccountModal.accountCurrencyTitle' | translate"
       [formControlName]="formFields.AccountCurrency"
       [options]="options"
       [idSelector]="currencyIdSelector"
@@ -44,7 +44,7 @@
 
     <custom-select
       [id]="formFields.AccountIcon"
-      [label]="'dashboard.addAccountModal.accountIconTitle' | translate"
+      [label]="'account.addAccountModal.accountIconTitle' | translate"
       [formControlName]="formFields.AccountIcon"
       [isRequired]="true"
       [iconPickerMode]="true"
@@ -52,14 +52,14 @@
 
     <color-picker
       [id]="formFields.AccountBgColor"
-      [label]="'dashboard.addAccountModal.accountBgColorTitle' | translate"
+      [label]="'account.addAccountModal.accountBgColorTitle' | translate"
       [formControlName]="formFields.AccountBgColor"
       [isRequired]="true"
     ></color-picker>
 
     <color-picker
       [id]="formFields.AccountTextColor"
-      [label]="'dashboard.addAccountModal.accountTextColorTitle' | translate"
+      [label]="'account.addAccountModal.accountTextColorTitle' | translate"
       [formControlName]="formFields.AccountTextColor"
       [isRequired]="true"
     ></color-picker>
@@ -69,7 +69,7 @@
 <ng-template #footer>
   <app-button
     [colorScheme]="'charcoal'"
-    [text]="'dashboard.addAccountModal.addAccount' | translate"
+    [text]="'account.addAccountModal.addAccount' | translate"
     [buttonSizeX]="'big'"
     [disabled]="!isFormValid"
     [loading]="loading$ | async"

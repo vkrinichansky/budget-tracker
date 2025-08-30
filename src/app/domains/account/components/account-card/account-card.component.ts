@@ -24,11 +24,11 @@ export class AccountCardComponent {
   readonly menuActions: MenuAction[] = [
     {
       icon: 'delete-bin',
-      translationKey: 'dashboard.infoCards.accountCard.menu.remove',
+      translationKey: 'account.accountCard.menu.remove',
       action: () => {
         this.confirmationModalService.openConfirmationModal(
           {
-            questionTranslationKey: 'dashboard.infoCards.accountCard.removeConfirmationQuestion',
+            questionTranslationKey: 'account.accountCard.removeConfirmationQuestion',
             questionTranslationParams: {
               accountName: this.account.name,
             },

@@ -2,7 +2,7 @@
 @let changeOrderInProgress = changeOrderInProgress$ | async;
 
 <app-base-modal
-  [titleTranslationKey]="'dashboard.accountsListModal.title'"
+  [titleTranslationKey]="'account.accountsListModal.title'"
   [titleTranslationParams]="{ accountsAmount: accounts?.length }"
   [footerTemplate]="footer"
   [loading]="changeOrderInProgress"
@@ -33,7 +33,7 @@
 <ng-template #footer>
   <app-button
     [colorScheme]="'charcoal'"
-    [text]="'dashboard.accountsListModal.closeButton' | translate"
+    [text]="'account.accountsListModal.closeButton' | translate"
     [buttonSizeX]="'px100'"
     (click)="closeModal()"
   >

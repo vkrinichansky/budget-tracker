@@ -83,7 +83,7 @@ export class AddCategoryModalComponent implements OnInit {
 
   private initData(): void {
     this.budgetType = this.data.budgetType;
-    this.title = `dashboard.addCategoryModal.${this.budgetType}.title`;
+    this.title = `category.addCategoryModal.${this.budgetType}.title`;
     this.categories$ = this.categoryFacade.getCategoriesByType(this.budgetType);
   }
 

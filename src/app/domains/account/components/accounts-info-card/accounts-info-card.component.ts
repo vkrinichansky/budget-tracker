@@ -22,7 +22,7 @@ export class AccountsInfoCardComponent implements OnInit {
   }
 
   buildTranslationKey(key: string): string {
-    return `dashboard.infoCards.accounts.${key}`;
+    return `account.accountsInfoCard.${key}`;
   }
 
   openAddAccountModal(): void {

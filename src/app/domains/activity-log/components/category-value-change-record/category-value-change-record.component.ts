@@ -67,10 +67,8 @@ export class CategoryValueChangeRecordComponent {
   removeHandler(): void {
     this.confirmationModalService.openConfirmationModal(
       {
-        questionTranslationKey:
-          'dashboard.activityLog.categoryValueChangeRecord.removeConfirmationQuestion',
-        remarkTranslationKey:
-          'dashboard.activityLog.categoryValueChangeRecord.removeConfirmationRemark',
+        questionTranslationKey: 'activityLog.categoryValueChangeRecord.removeConfirmationQuestion',
+        remarkTranslationKey: 'activityLog.categoryValueChangeRecord.removeConfirmationRemark',
         remarkTranslationParams: {
           accountName: this.record.account.name,
           categoryName: this.record.category.name,

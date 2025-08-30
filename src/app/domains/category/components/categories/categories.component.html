@@ -9,7 +9,7 @@
       <button-toggle>
         <app-button
           [activeColorScheme]="'charcoal'"
-          [text]="'dashboard.categories.tabs.list' | translate"
+          [text]="'category.tabs.list' | translate"
           [buttonSizeX]="'auto'"
           [buttonSizeY]="'full'"
           [active]="currentTab === 'list'"
@@ -20,7 +20,7 @@
 
         <app-button
           [activeColorScheme]="'charcoal'"
-          [text]="'dashboard.categories.tabs.chart' | translate"
+          [text]="'category.tabs.chart' | translate"
           [buttonSizeX]="'auto'"
           [buttonSizeY]="'full'"
           [disabled]="areAllCategoriesReset"
@@ -39,7 +39,7 @@
     <span
       class="font-main font-bold text-charcoal text-lg text-center flex flex-1 flex-col justify-center items-center"
     >
-      {{ 'dashboard.categories.emptyStateText' | translate }}
+      {{ 'category.emptyStateText' | translate }}
     </span>
   }
 

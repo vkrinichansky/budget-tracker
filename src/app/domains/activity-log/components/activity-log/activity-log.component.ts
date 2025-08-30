@@ -52,7 +52,7 @@ export class ActivityLogComponent implements OnInit {
   openRemoveConfirmationModal(): void {
     this.confirmationModalService.openConfirmationModal(
       {
-        questionTranslationKey: 'dashboard.activityLog.allRecordsRemoveConfirmationQuestion',
+        questionTranslationKey: 'activityLog.allRecordsRemoveConfirmationQuestion',
       },
       async () => {
         try {

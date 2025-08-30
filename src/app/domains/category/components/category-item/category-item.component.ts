@@ -50,7 +50,7 @@ export class CategoryItemComponent implements OnInit {
   }
 
   buildTranslationKey(key: string): string {
-    return `dashboard.categories.categoryItem.${key}`;
+    return `category.categoryItem.${key}`;
   }
 
   private initListeners(): void {
