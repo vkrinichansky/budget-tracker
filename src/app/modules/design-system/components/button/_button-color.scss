@@ -4,7 +4,8 @@ $color-map:
   'green' bg-dark-green text-white bg-grey text-white bg-hover-green,
   'active-navigation-item' bg-transparent text-green bg-transparent text-grey bg-hover-white,
   'transparent-light' bg-transparent text-white bg-transparent text-grey bg-hover-white,
-  'transparent-dark' bg-transparent text-charcoal bg-transparent text-grey bg-hover-black;
+  'transparent-dark' bg-transparent text-charcoal bg-transparent text-grey bg-hover-black,
+  'white-red' bg-white text-dark-red bg-grey text-white bg-dirty-white;
 
 @mixin click-effect-on-mobile($bg-color) {
   @media (hover: none) {

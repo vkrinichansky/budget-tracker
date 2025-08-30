@@ -45,6 +45,7 @@ export const IconsForUser = [
 export type ColorScheme =
   | 'charcoal'
   | 'green'
+  | 'white-red'
   | 'transparent-light'
   | 'transparent-dark'
   | 'active-navigation-item';

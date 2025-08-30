@@ -86,6 +86,7 @@ export class ButtonComponent {
       case 'transparent-light':
       case 'transparent-dark':
       case 'active-navigation-item':
+      case 'white-red':
         return 'dark';
     }
   }
