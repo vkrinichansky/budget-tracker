@@ -66,7 +66,7 @@ export class DashboardInitEffects {
   //       )
   //     ),
   //     map(() => DashboardInitActions.dashboardDataLoaded()),
-  //     tap(() => this.snackbarHandler.showDataResetSnackbar())
+  //     tap(() => this.snackbarHandler.showMessageSnackbar('messages.dataReset'))
   //   )
   // );
 

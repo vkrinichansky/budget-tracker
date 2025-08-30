@@ -108,7 +108,9 @@ export class CategoriesComponent implements OnInit {
               try {
                 await this.categoryFacade.runResetCategoriesFlow(this.budgetType);
 
-                this.snackbarHandler.showCategoriesResetSnackbar(this.budgetType);
+                this.snackbarHandler.showMessageSnackbar(
+                  `messages.category.categoriesReset.${this.budgetType}`
+                );
               } catch (error) {
                 this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
               }

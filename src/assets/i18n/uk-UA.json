@@ -141,34 +141,36 @@
     }
   },
 
-  "snackbars": {
+  "messages": {
     "defaultOkButtonText": "Добре",
-    "errorSnackbar": "Щось пішло не так! Будь ласка, спробуйте ще.",
-    "balanceEditedSnackbar": "Баланс оновлено успішно!",
-    "savingsEditedSnackbar": "Збереження оновлено успішно!",
-    "freeMoneyEditedSnackbar": "Вільні гроші оновлено успішно!",
-    "categoryAddedSnackbar": "Категорію було додано успішно!",
-    "categoryRemovedSnackbar": "Категорію було видалено успішно!",
-    "activityLogRecordRemoved": "Запис журналу активності було видалено успішно!",
-    "bulkActivityLogRecordsRemoved": "Записи журналу активності були видалені успішно!",
-    "categoryValueChangedSnackbar": "Значення категорії було змінено успішно!",
-    "categoriesResetSnackbar": {
-      "income": "Категорії доходів було скинуто успішно!",
-      "expense": "Категорії витрат було скинуто успішно!"
+    "account": {
+      "accountValueEdited": "Значення рахунку було змінено успішно!",
+      "accountAdded": "Рахунок було додано успішно!",
+      "accountRemoved": "Рахунок було видалено успішно!",
+      "accountOrderChanged": "Рахунки було відсортовано успішно!",
+      "moneyBetweenAccountsMoved": "Гроші між рахунками було переміщено успішно!"
     },
-    "dataResetSnackbar": "Категорії було скинуто!",
-    "accountValueEdited": "Значення рахунку було змінено успішно!",
-    "accountAddedSnackbar": "Рахунок було додано успішно!",
-    "accountRemovedSnackbar": "Рахунок було видалено успішно!",
-    "accountOrderChangedSnackbar": "Рахунки було відсортовано успішно!",
-    "moneyBetweenAccountsMoved": "Гроші між рахунками було переміщено успішно!"
+    "category": {
+      "categoryAdded": "Категорію було додано успішно!",
+      "categoryRemoved": "Категорію було видалено успішно!",
+      "categoryValueChanged": "Значення категорії було змінено успішно!",
+      "categoriesReset": {
+        "income": "Категорії доходів було скинуто успішно!",
+        "expense": "Категорії витрат було скинуто успішно!"
+      }
+    },
+    "activityLog": {
+      "activityLogRecordRemoved": "Запис журналу активності було видалено успішно!",
+      "bulkActivityLogRecordsRemoved": "Записи журналу активності були видалені успішно!"
+    },
+    "dataReset": "Категорії було скинуто!"
   },
 
   "formErrors": {
     "required": "Обов'язкове для заповнення",
     "minValue": "Мінімальне значення - {{ minValue }}",
     "maxValue": "Максимальне значення - {{ maxValue }}",
-    "maxLength": "Макс. довжина - 100",
+    "maxLength": "Макс. довжина - {{ maxLength }}",
     "sameValue": "Значення після редагування має бути іншим",
     "entityExists": "Ця назва вже використовується"
   },

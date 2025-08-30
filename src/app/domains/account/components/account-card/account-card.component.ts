@@ -37,7 +37,7 @@ export class AccountCardComponent {
             try {
               await this.accountFacade.removeAccount(this.account.id);
 
-              this.snackbarHandler.showAccountRemovedSnackbar();
+              this.snackbarHandler.showMessageSnackbar('messages.account.accountRemoved');
             } catch (error) {
               this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
             }

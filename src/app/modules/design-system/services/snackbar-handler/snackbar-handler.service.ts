@@ -11,106 +11,24 @@ export class SnackbarHandlerService {
     private translateService: TranslateService
   ) {}
 
-  showGeneralErrorSnackbar(): void {
-    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.errorSnackbar'));
+  showMessageSnackbar(message: string): void {
+    this.openSnackBarWithCloseDelay(this.translateService.instant(message));
   }
 
   showErrorSnackbar(error: string): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant(error),
-      this.translateService.instant('snackbars.defaultOkButtonText')
-    );
+    this.openSnackBarWithCloseDelay(this.translateService.instant(error));
   }
 
-  showBalanceEditedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant('snackbars.balanceEditedSnackbar')
-    );
-  }
-
-  showSavingsEditedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant('snackbars.savingsEditedSnackbar')
-    );
-  }
-
-  showFreeMoneyEditedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant('snackbars.freeMoneyEditedSnackbar')
-    );
-  }
-
-  showCategoryAddedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant('snackbars.categoryAddedSnackbar')
-    );
-  }
-
-  showCategoryRemovedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant('snackbars.categoryRemovedSnackbar')
-    );
-  }
-
-  showActivityLogRecordRemovedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant('snackbars.activityLogRecordRemoved')
-    );
-  }
-
-  showBulkActivityLogRecordsRemovedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant('snackbars.bulkActivityLogRecordsRemoved')
-    );
-  }
-
-  showCategoryValueChangedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant('snackbars.categoryValueChangedSnackbar')
-    );
-  }
-
-  showCategoriesResetSnackbar(budgetType: string): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant(`snackbars.categoriesResetSnackbar.${budgetType}`)
-    );
-  }
-
-  showDataResetSnackbar(): void {
-    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.dataResetSnackbar'));
-  }
-
-  showAccountAddedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant('snackbars.accountAddedSnackbar')
-    );
-  }
-
-  showAccountRemovedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant('snackbars.accountRemovedSnackbar')
-    );
-  }
-
+  // TODO: don't forget to use this snackbar when you edit account value
   showAccountValueEditedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(this.translateService.instant('snackbars.accountValueEdited'));
-  }
-
-  showAccountOrderChangedSnackbar(): void {
     this.openSnackBarWithCloseDelay(
-      this.translateService.instant('snackbars.accountOrderChangedSnackbar')
-    );
-  }
-
-  showMoneyBetweenAccountsMovedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant('snackbars.moneyBetweenAccountsMoved')
+      this.translateService.instant('messages.account.accountValueEdited')
     );
   }
 
   private openSnackBarWithCloseDelay(
     message: string,
-    buttonText: string = this.translateService.instant('snackbars.defaultOkButtonText'),
+    buttonText: string = this.translateService.instant('messages.defaultOkButtonText'),
     buttonAction: () => unknown = () => this.snackBar.dismiss()
   ): void {
     this.snackBar.openFromComponent(SnackbarComponent, {

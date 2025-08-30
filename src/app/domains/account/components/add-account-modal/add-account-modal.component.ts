@@ -96,7 +96,7 @@ export class AddAccountModalComponent implements OnInit {
       await this.accountFacade.addAccount(account);
 
       this.dialogRef.close();
-      this.snackbarHandler.showAccountAddedSnackbar();
+      this.snackbarHandler.showMessageSnackbar('messages.account.accountAdded');
     } catch (error) {
       this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
     } finally {

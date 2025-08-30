@@ -58,7 +58,9 @@ export class ActivityLogComponent implements OnInit {
         try {
           await this.activityLogFacade.removeAllRecords();
 
-          this.snackbarHandler.showBulkActivityLogRecordsRemovedSnackbar();
+          this.snackbarHandler.showMessageSnackbar(
+            'messages.activityLog.bulkActivityLogRecordsRemoved'
+          );
         } catch (error) {
           this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
         }

@@ -78,7 +78,7 @@ export class CategoryValueChangeRecordComponent {
         try {
           await this.activityLogFacade.runRemoveCategoryValueChangeRecordFlow(this.record.id);
 
-          this.snackbarHandler.showActivityLogRecordRemovedSnackbar();
+          this.snackbarHandler.showMessageSnackbar('messages.activityLog.activityLogRecordRemoved');
         } catch (error) {
           this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
         }

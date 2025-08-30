@@ -6,6 +6,7 @@ import {
 } from '@budget-tracker/design-system';
 import { MetadataFacadeService } from '../../services';
 import { predefinedCurrenciesDictionary, CurrenciesEnum } from '../../models';
+import { getErrorMessage } from '@budget-tracker/utils';
 
 @Component({
   selector: 'app-currency-switcher',
@@ -48,8 +49,8 @@ export class CurrencySwitcherComponent implements OnInit {
               await this.metadataFacade.runCurrencyChangeFlow(key as CurrenciesEnum);
 
               location.reload();
-            } catch {
-              this.snackbarHandler.showGeneralErrorSnackbar();
+            } catch (error) {
+              this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
             }
           }
         ),

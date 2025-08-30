@@ -6,6 +6,7 @@ import { BehaviorSubject, tap } from 'rxjs';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
 import { AccountFacadeService } from '../../services';
 import { Account } from '../../models';
+import { getErrorMessage } from '@budget-tracker/utils';
 
 @Component({
   selector: 'app-accounts-list-modal',
@@ -46,9 +47,9 @@ export class AccountsListModalComponent implements OnInit {
     try {
       await this.accountFacade.bulkAccountChangeOrder(updatedAccountsOrder);
 
-      this.snackbarHandler.showAccountOrderChangedSnackbar();
-    } catch {
-      this.snackbarHandler.showGeneralErrorSnackbar();
+      this.snackbarHandler.showMessageSnackbar('messages.account.accountOrderChanged');
+    } catch (error) {
+      this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
     } finally {
       this.changeOrderInProgress$.next(false);
     }

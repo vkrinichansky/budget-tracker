@@ -9,6 +9,7 @@ import { BudgetType } from '@budget-tracker/models';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
 import { CategoryFacadeService } from '../../services';
 import { Category } from '../../models';
+import { getErrorMessage } from '@budget-tracker/utils';
 
 enum FormFields {
   CategoryIcon = 'categoryIcon',
@@ -73,9 +74,9 @@ export class AddCategoryModalComponent implements OnInit {
       await this.categoryFacade.addCategory(category);
 
       this.dialogRef.close();
-      this.snackbarHandler.showCategoryAddedSnackbar();
-    } catch {
-      this.snackbarHandler.showGeneralErrorSnackbar();
+      this.snackbarHandler.showMessageSnackbar('messages.category.categoryAdded');
+    } catch (error) {
+      this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
     } finally {
       this.loading$.next(false);
     }

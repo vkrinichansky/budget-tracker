@@ -3,6 +3,7 @@ import { MenuAction, SnackbarHandlerService } from '@budget-tracker/design-syste
 import { BehaviorSubject } from 'rxjs';
 import { MetadataFacadeService } from '../../services';
 import { LanguagesEnum, predefinedLanguagesDictionary } from '../../models';
+import { getErrorMessage } from '@budget-tracker/utils';
 
 @Component({
   selector: 'app-language-switcher',
@@ -46,8 +47,8 @@ export class LanguageSwitcherComponent implements OnInit {
           await this.metadataFacade.changeLanguage(key as LanguagesEnum);
 
           location.reload();
-        } catch {
-          this.snackbarHandler.showGeneralErrorSnackbar();
+        } catch (error) {
+          this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
           this.loading$.next(false);
         }
       },

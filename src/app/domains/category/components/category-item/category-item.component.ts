@@ -16,6 +16,7 @@ import { Observable, firstValueFrom, map } from 'rxjs';
 import { CategoryFacadeService } from '../../services';
 import { AccountFacadeService } from '@budget-tracker/account';
 import { Category } from '../../models';
+import { getErrorMessage } from '@budget-tracker/utils';
 
 @Component({
   selector: 'app-category-item',
@@ -89,9 +90,11 @@ export class CategoryItemComponent implements OnInit {
               try {
                 await this.categoryFacade.removeCategory(this.category.id);
 
-                this.snackbarHandler.showCategoryRemovedSnackbar();
-              } catch {
-                this.snackbarHandler.showGeneralErrorSnackbar();
+                this.snackbarHandler.showMessageSnackbar(
+                  'messages.category.categoryRemoved'
+                );
+              } catch (error) {
+                this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
               }
             }
           );

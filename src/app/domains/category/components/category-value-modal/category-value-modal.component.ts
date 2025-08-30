@@ -19,6 +19,7 @@ import { SnackbarHandlerService } from '@budget-tracker/design-system';
 import { AccountFacadeService, Account } from '@budget-tracker/account';
 import { CategoryFacadeService } from '../../services';
 import { Category } from '../../models';
+import { getErrorMessage } from '@budget-tracker/utils';
 
 enum FormFields {
   ValueToAdd = 'valueToAdd',
@@ -112,9 +113,9 @@ export class CategoryValueModalComponent implements OnInit {
       );
 
       this.dialogRef.close();
-      this.snackbarHandler.showCategoryValueChangedSnackbar();
-    } catch {
-      this.snackbarHandler.showGeneralErrorSnackbar();
+      this.snackbarHandler.showMessageSnackbar('messages.category.categoryValueChanged');
+    } catch (error) {
+      this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
     } finally {
       this.loading$.next(false);
     }

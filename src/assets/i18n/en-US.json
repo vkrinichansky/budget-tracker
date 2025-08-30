@@ -143,27 +143,30 @@
     }
   },
 
-  "snackbars": {
+  "messages": {
     "defaultOkButtonText": "Got it",
-    "errorSnackbar": "Something went wrong! Please, try again.",
-    "balanceEditedSnackbar": "Balance was updated successfully!",
-    "savingsEditedSnackbar": "Savings were updated successfully!",
-    "freeMoneyEditedSnackbar": "Free money were updated successfully!",
-    "categoryAddedSnackbar": "Category was added successfully!",
-    "categoryRemovedSnackbar": "Category was removed successfully!",
-    "activityLogRecordRemoved": "Activity log record was removed successfully!",
-    "bulkActivityLogRecordsRemoved": "Activity log records were removed successfully!",
-    "categoryValueChangedSnackbar": "Category value was changed successfully!",
-    "categoriesResetSnackbar": {
-      "income": "Income categories were reset successfully!",
-      "expense": "Expense categories were reset successfully!"
+    "account": {
+      "accountValueEdited": "Account value was edited successfully!",
+      "accountAdded": "Account was added successfully!",
+      "accountRemoved": "Account was removed successfully!",
+      "accountOrderChanged": "Accounts were sorted successfully!",
+      "moneyBetweenAccountsMoved": "Money between accounts was moved successfully!"
     },
-    "dataResetSnackbar": "Categories were reset!",
-    "accountValueEdited": "Account value was edited successfully!",
-    "accountAddedSnackbar": "Account was added successfully!",
-    "accountRemovedSnackbar": "Account was removed successfully!",
-    "accountOrderChangedSnackbar": "Accounts were sorted successfully!",
-    "moneyBetweenAccountsMoved": "Money between accounts was moved successfully!"
+    "category": {
+      "categoryAdded": "Category was added successfully!",
+      "categoryRemoved": "Category was removed successfully!",
+      "categoryValueChanged": "Category value was changed successfully!",
+      "categoriesReset": {
+        "income": "Income categories were reset successfully!",
+        "expense": "Expense categories were reset successfully!"
+      }
+    },
+    "activityLog": {
+      "activityLogRecordRemoved": "Activity log record was removed successfully!",
+      "bulkActivityLogRecordsRemoved": "Activity log records were removed successfully!"
+    },
+
+    "dataReset": "Categories were reset!"
   },
 
   "formErrors": {

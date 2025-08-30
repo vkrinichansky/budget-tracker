@@ -76,21 +76,6 @@ export class AuthEffects {
     )
   );
 
-  // initDatabaseOnFirstLogin$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(AuthActions.initDatabaseOnFirstLogin),
-  //     switchMap((action) =>
-  //       from(this.authService.setUserData(action.user.uid)).pipe(
-  //         map(() => AuthActions.authenticated({ user: action.user, shouldRedirect: true }))
-  //       )
-  //     ),
-  //     catchError(() => {
-  //       this.snackbarHandler.showGeneralErrorSnackbar();
-  //       return of(AuthActions.loginFailed());
-  //     })
-  //   )
-  // );
-
   readonly logOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logout),

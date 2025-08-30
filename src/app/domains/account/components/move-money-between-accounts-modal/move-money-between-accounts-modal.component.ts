@@ -106,7 +106,7 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
       );
 
       this.dialogRef.close();
-      this.snackbarHandler.showMoneyBetweenAccountsMovedSnackbar();
+      this.snackbarHandler.showMessageSnackbar('messages.account.moneyBetweenAccountsMoved');
     } catch (error) {
       this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
     } finally {
