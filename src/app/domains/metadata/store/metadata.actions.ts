@@ -2,7 +2,6 @@ import { createAction, props } from '@ngrx/store';
 import { CurrenciesEnum, LanguagesEnum } from '../models';
 
 export const MetadataActions = {
-  initMetadataDB: createAction('[Metadata] Init metadata DB'),
   loadMetadata: createAction('[Metadata] Load metadata'),
   metadataLoaded: createAction('[Metadata] Metadata loaded'),
   cleanState: createAction('[Metadata] Clean state'),

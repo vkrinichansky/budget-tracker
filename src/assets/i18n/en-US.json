@@ -212,10 +212,10 @@
   "errors": {
     "unknownError": "Something went wrong! Please, try again.",
     "auth": {
-      "loginFailed": "Login failed! Please, try again."
+      "loginFailed": "Login failed! Please, try again.",
+      "logoutFailed": "Logout failed! Please, try again."
     },
     "metadata": {
-      "initMetadataDBFailed": "Failed to initialize metadata DB.",
       "changeLanguageFailed": "Failed to change language.",
       "changeCurrencyFailed": "Failed to change currency."
     },
@@ -227,7 +227,6 @@
       "changeAccountValueFailed": "Failed to change account value."
     },
     "category": {
-      "initCategoryDBFailed": "Failed to initialize category DB.",
       "updateCategoriesFailed": "Failed to update categories.",
       "createCategoryFailed": "Failed to create category.",
       "removeCategoryFailed": "Failed to remove category.",

@@ -45,10 +45,6 @@ export class MetadataFacadeService {
   }
 
   // ===== ACTIONS =====
-  async initMetadataDB(): Promise<void> {
-    return this.metadataService.initMetadataDB();
-  }
-
   async loadMetadata(): Promise<void> {
     return this.metadataService.loadMetadata();
   }

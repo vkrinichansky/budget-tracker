@@ -1,7 +1,6 @@
 import { CurrenciesEnum } from './currency.model';
 
 export enum MetadataEvents {
-  INIT_METADATA_DB = 'Init metadata DB',
   CHANGE_LANGUAGE = 'Change language',
 
   CURRENCY_CHANGE_START = 'Currency change start',

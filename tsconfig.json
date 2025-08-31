@@ -47,9 +47,6 @@
         "src/app/domains/activity-log/index.ts"
       ],
       // Orchestrators
-      "@budget-tracker/first-login-orchestrator": [
-        "src/app/orchestrators/first-login-orchestrator/index.ts"
-      ],
       "@budget-tracker/currency-change-orchestrator": [
         "src/app/orchestrators/currency-change-orchestrator/index.ts"
       ],

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
-import { getErrorMessage } from '@budget-tracker/utils';
+import { getErrorMessage, NavigatorService } from '@budget-tracker/utils';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -15,14 +15,16 @@ export class LoginButtonComponent {
 
   constructor(
     private readonly authFacade: AuthFacadeService,
-    private readonly snackbarHandler: SnackbarHandlerService
+    private readonly snackbarHandler: SnackbarHandlerService,
+    private readonly navigator: NavigatorService
   ) {}
 
   async login(): Promise<void> {
     try {
       this.loading$.next(true);
 
-      await this.authFacade.runLoginFlow();
+      await this.authFacade.googleLogin();
+      this.navigator.navigateToDashboard();
     } catch (error) {
       this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
     } finally {

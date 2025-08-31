@@ -78,12 +78,6 @@ export class MetadataService {
   ) {}
 
   // ===== ACTIONS =====
-  async initMetadataDB(): Promise<void> {
-    this.store.dispatch(MetadataActions.initMetadataDB());
-
-    return this.eventBus.waitFor(MetadataEvents.INIT_METADATA_DB);
-  }
-
   async loadMetadata(): Promise<void> {
     await firstValueFrom(this.authFacade.isLoggedIn().pipe(filter(Boolean)));
 

@@ -52,12 +52,6 @@ export class CategoryService {
   }
 
   // ===== ACTIONS =====
-  async initCategoryDB(): Promise<void> {
-    this.store.dispatch(CategoryActions.initCategoryDB());
-
-    return this.eventBus.waitFor(CategoryEvents.INIT_CATEGORY_DB);
-  }
-
   async loadCategories(): Promise<void> {
     const isLoaded = await firstValueFrom(this.categoriesLoaded());
 

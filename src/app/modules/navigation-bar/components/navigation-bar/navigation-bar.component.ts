@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, inject } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { NavigationBarItem } from '../../models';
-import { ConfirmationModalService } from '@budget-tracker/design-system';
+import { ConfirmationModalService, SnackbarHandlerService } from '@budget-tracker/design-system';
 import { AppRoutes } from '@budget-tracker/models';
+import { getErrorMessage, NavigatorService } from '@budget-tracker/utils';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -13,9 +14,6 @@ import { AppRoutes } from '@budget-tracker/models';
   standalone: false,
 })
 export class NavigationBarComponent {
-  private readonly authFacade = inject(AuthFacadeService);
-  private readonly confirmationModalService = inject(ConfirmationModalService);
-
   readonly navigationBarItems: NavigationBarItem[] = [
     {
       iconName: 'home',
@@ -29,12 +27,26 @@ export class NavigationBarComponent {
     },
   ];
 
+  constructor(
+    private readonly snackbarHandler: SnackbarHandlerService,
+    private readonly navigator: NavigatorService,
+    private readonly authFacade: AuthFacadeService,
+    private readonly confirmationModalService: ConfirmationModalService
+  ) {}
+
   logOut(): void {
     this.confirmationModalService.openConfirmationModal(
       {
         questionTranslationKey: 'navigationBar.logoutConfirmation',
       },
-      () => this.authFacade.logOut()
+      async () => {
+        try {
+          await this.authFacade.logOut();
+          this.navigator.navigateToAuthPage();
+        } catch (error) {
+          this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
+        }
+      }
     );
   }
 }

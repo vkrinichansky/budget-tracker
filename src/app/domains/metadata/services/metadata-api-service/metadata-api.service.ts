@@ -27,16 +27,24 @@ export class MetadataApiService {
     private readonly afAuth: Auth
   ) {}
 
-  async initMetadataDB(): Promise<void> {
-    return setDoc(this.getDocRef(), {
+  async loadMetadata(): Promise<UserMetadata> {
+    const doc = await getDoc(this.getDocRef());
+
+    if (doc.exists()) {
+      return doc.data() as UserMetadata;
+    }
+
+    await setDoc(this.getDocRef(), {
       currency: CurrenciesEnum.USD,
       language: LanguagesEnum.English,
       resetDate: getMonthAndYearString(),
     });
-  }
 
-  async loadMetadata(): Promise<UserMetadata> {
-    return getDoc(this.getDocRef()).then((data): UserMetadata => data.data() as UserMetadata);
+    return {
+      currency: CurrenciesEnum.USD,
+      language: LanguagesEnum.English,
+      resetDate: getMonthAndYearString(),
+    };
   }
 
   getCurrencyExchangeRate(baseCurrency: string): Observable<ExchangeEndpointResponse> {

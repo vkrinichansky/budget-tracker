@@ -42,10 +42,6 @@ export class CategoryFacadeService {
   }
 
   // ===== ACTIONS =====
-  initCategoryDB(): Promise<void> {
-    return this.categoryService.initCategoryDB();
-  }
-
   loadCategories(): void {
     this.categoryService.loadCategories();
   }

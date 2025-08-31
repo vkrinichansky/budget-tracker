@@ -15,14 +15,13 @@ import { catchError, combineLatest, EMPTY, filter, switchMap, take, tap } from '
 import { from, map, mergeMap } from 'rxjs';
 import { User } from '../models';
 import { AuthActions } from './auth.actions';
-import { EventBusService, NavigatorService } from '@budget-tracker/utils';
+import { EventBusService } from '@budget-tracker/utils';
 import { AuthEvents } from '../models';
 
 @Injectable()
 export class AuthEffects {
   constructor(
     private readonly actions$: Actions,
-    private readonly navigator: NavigatorService,
     private readonly afAuth: Auth,
     private readonly eventBus: EventBusService
   ) {}
@@ -80,17 +79,23 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.logout),
       switchMap(() => from(signOut(this.afAuth))),
-      map(() => AuthActions.notAuthenticated())
-    )
-  );
-
-  readonly navigateToAuthPage$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(AuthActions.notAuthenticated),
-        tap(() => this.navigator.navigateToAuthPage())
+      map(() => AuthActions.notAuthenticated()),
+      tap(() =>
+        this.eventBus.emit({
+          type: AuthEvents.LOGOUT,
+          status: 'success',
+        })
       ),
-    { dispatch: false }
+      catchError(() => {
+        this.eventBus.emit({
+          type: AuthEvents.LOGOUT,
+          status: 'error',
+          errorCode: 'errors.auth.logoutFailed',
+        });
+
+        return EMPTY;
+      })
+    )
   );
 
   private extractUserFromState(user: FirebaseUser, isNewUser: boolean): User {

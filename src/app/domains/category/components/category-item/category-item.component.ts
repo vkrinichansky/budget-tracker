@@ -90,9 +90,7 @@ export class CategoryItemComponent implements OnInit {
               try {
                 await this.categoryFacade.removeCategory(this.category.id);
 
-                this.snackbarHandler.showMessageSnackbar(
-                  'messages.category.categoryRemoved'
-                );
+                this.snackbarHandler.showMessageSnackbar('messages.category.categoryRemoved');
               } catch (error) {
                 this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
               }

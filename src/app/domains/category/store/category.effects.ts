@@ -19,34 +19,6 @@ export class CategoryEffects {
     private readonly store: Store
   ) {}
 
-  initCategoryDB$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(CategoryActions.initCategoryDB),
-        switchMap(() =>
-          from(this.categoryService.initCategoryDB()).pipe(
-            timeout(REQUEST_TIMEOUT),
-            tap(() =>
-              this.eventBus.emit({
-                type: CategoryEvents.INIT_CATEGORY_DB,
-                status: 'success',
-              })
-            ),
-            catchError(() => {
-              this.eventBus.emit({
-                type: CategoryEvents.INIT_CATEGORY_DB,
-                status: 'error',
-                errorCode: 'errors.category.initCategoryDBFailed',
-              });
-
-              return EMPTY;
-            })
-          )
-        )
-      ),
-    { dispatch: false }
-  );
-
   loadCategories$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CategoryActions.loadCategories),

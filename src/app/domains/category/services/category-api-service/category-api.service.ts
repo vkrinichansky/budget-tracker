@@ -19,15 +19,21 @@ export class CategoryApiService {
     private afAuth: Auth
   ) {}
 
-  async initCategoryDB(): Promise<void> {
-    return setDoc(this.getDocRef(), {
+  async loadCategories(): Promise<Record<string, Category>> {
+    const doc = await getDoc(this.getDocRef());
+
+    if (doc.exists()) {
+      return doc.data() as Record<string, Category>;
+    }
+
+    await setDoc(this.getDocRef(), {
       [incomeAdjustmentCategory.id]: incomeAdjustmentCategory,
       [expenseAdjustmentCategory.id]: expenseAdjustmentCategory,
     });
-  }
-
-  async loadCategories(): Promise<Record<string, Category>> {
-    return getDoc(this.getDocRef()).then((doc): Record<string, Category> => doc.data());
+    return {
+      [incomeAdjustmentCategory.id]: incomeAdjustmentCategory,
+      [expenseAdjustmentCategory.id]: expenseAdjustmentCategory,
+    };
   }
 
   addCategory(category: Category): Promise<void> {

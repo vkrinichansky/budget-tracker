@@ -209,10 +209,10 @@
   "errors": {
     "unknownError": "Щось пішло не так! Будь ласка, спробуйте ще.",
     "auth": {
-      "loginFailed": "Помилка входу! Будь ласка, спробуйте ще."
+      "loginFailed": "Помилка входу! Будь ласка, спробуйте ще.",
+      "logoutFailed": "Помилка виходу! Будь ласка, спробуйте ще."
     },
     "metadata": {
-      "initMetadataDBFailed": "Не вдалося ініціалізувати базу даних метаданих.",
       "changeLanguageFailed": "Не вдалося змінити мову.",
       "changeCurrencyFailed": "Не вдалося змінити валюту."
     },
@@ -224,7 +224,6 @@
       "changeAccountValueFailed": "Не вдалося змінити значення рахунку."
     },
     "category": {
-      "initCategoryDBFailed": "Не вдалося ініціалізувати базу даних категорій.",
       "updateCategoriesFailed": "Не вдалося оновити категорії.",
       "createCategoryFailed": "Не вдалося створити категорію.",
       "removeCategoryFailed": "Не вдалося видалити категорію.",

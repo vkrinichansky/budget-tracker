@@ -4,7 +4,6 @@ import { AuthPageComponent } from './components';
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthDomainModule } from '@budget-tracker/auth';
-import { FirstLoginOrchestratorModule } from '@budget-tracker/first-login-orchestrator';
 
 const routes: Routes = [
   {
@@ -18,13 +17,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    DesignSystemModule,
-    RouterModule.forChild(routes),
-    AuthDomainModule,
-    FirstLoginOrchestratorModule,
-  ],
+  imports: [CommonModule, DesignSystemModule, RouterModule.forChild(routes), AuthDomainModule],
   declarations: [AuthPageComponent],
 })
 export class AuthPageModule {}

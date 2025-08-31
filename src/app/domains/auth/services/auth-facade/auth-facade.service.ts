@@ -14,8 +14,8 @@ export class AuthFacadeService {
     return this.authService.googleLogin();
   }
 
-  logOut(): void {
-    this.authService.logOut();
+  async logOut(): Promise<void> {
+    return this.authService.logOut();
   }
 
   isLoggedIn(): Observable<boolean> {
@@ -24,9 +24,5 @@ export class AuthFacadeService {
 
   getUser(): Observable<User | null> {
     return this.authService.getUser();
-  }
-
-  async runLoginFlow(): Promise<void> {
-    return this.authService.runLoginFlow();
   }
 }

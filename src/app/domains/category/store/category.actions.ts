@@ -3,7 +3,6 @@ import { Category } from '../models';
 import { BudgetType } from '@budget-tracker/models';
 
 export const CategoryActions = {
-  initCategoryDB: createAction('[Categories] Init categories DB'),
   loadCategories: createAction('[Categories] Load categories'),
   categoriesLoaded: createAction(
     '[Categories] Categories loaded',

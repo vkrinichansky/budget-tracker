@@ -28,8 +28,10 @@ export class AuthService {
     return this.eventBus.waitFor(AuthEvents.LOGIN);
   }
 
-  logOut(): void {
+  async logOut(): Promise<void> {
     this.store.dispatch(AuthActions.logout());
+
+    return this.eventBus.waitFor(AuthEvents.LOGOUT);
   }
 
   setUser(): void {
@@ -43,19 +45,4 @@ export class AuthService {
   isLoggedIn(): Observable<boolean> {
     return authState(this.afAuth).pipe(map((user) => !!user));
   }
-
-  async runLoginFlow(): Promise<void> {
-    this.eventBus.emit({
-      type: AuthEvents.LOGIN_START,
-      status: 'event',
-    });
-
-    return this.eventBus.waitFor(AuthEvents.LOGIN_FINISH);
-  }
-
-  // async setUserData(userId: string): Promise<void> {
-
-  //   await setDoc(doc(collection(this.firestore, 'activityLog'), userId), {});
-  //   await setDoc(doc(collection(this.firestore, 'snapshots'), userId), {});
-  // }
 }

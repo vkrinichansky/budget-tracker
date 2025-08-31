@@ -18,34 +18,6 @@ export class MetadataEffects {
     private eventBus: EventBusService
   ) {}
 
-  initMetadataDB$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(MetadataActions.initMetadataDB),
-        switchMap(() =>
-          from(this.metadataApiService.initMetadataDB()).pipe(
-            timeout(REQUEST_TIMEOUT),
-            tap(() =>
-              this.eventBus.emit({
-                type: MetadataEvents.INIT_METADATA_DB,
-                status: 'success',
-              })
-            ),
-            catchError(() => {
-              this.eventBus.emit({
-                type: MetadataEvents.INIT_METADATA_DB,
-                status: 'error',
-                errorCode: 'metadata.initMetadataDBFailed',
-              });
-
-              return EMPTY;
-            })
-          )
-        )
-      ),
-    { dispatch: false }
-  );
-
   loadMetadata$ = createEffect(() =>
     this.actions$.pipe(
       ofType(MetadataActions.loadMetadata),
