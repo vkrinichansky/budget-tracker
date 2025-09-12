@@ -12,7 +12,7 @@ import { EventBusService, getErrorMessage } from '@budget-tracker/utils';
 import { firstValueFrom, Subject, takeUntil } from 'rxjs';
 
 @Injectable()
-export class RemoveAlRecordOrchestratorService {
+export class RemoveActivityLogRecordOrchestratorService {
   private readonly destroy$ = new Subject<void>();
   constructor(
     private readonly eventBus: EventBusService,

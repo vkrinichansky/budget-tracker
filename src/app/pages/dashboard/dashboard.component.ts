@@ -9,7 +9,7 @@ import { CurrencyChangeOrchestratorService } from '@budget-tracker/currency-chan
 import { MoveMoneyBetweenAccountsOrchestratorService } from '@budget-tracker/move-money-between-accounts-orchestrator';
 import { ResetCategoriesOrchestratorService } from '@budget-tracker/reset-categories-orchestrator';
 import { ChangeCategoryValueOrchestratorService } from '@budget-tracker/change-category-value-orchestrator';
-import { RemoveAlRecordOrchestratorService } from '@budget-tracker/remove-al-record-orchestrator';
+import { RemoveActivityLogRecordOrchestratorService } from '@budget-tracker/remove-activity-log-record-orchestrator';
 
 @Component({
   selector: 'app-dashboard',
@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private readonly moveMoneyBetweenAccountsOrchestratorService: MoveMoneyBetweenAccountsOrchestratorService,
     private readonly resetCategoriesOrchestratorService: ResetCategoriesOrchestratorService,
     private readonly changeCategoryValueOrchestratorService: ChangeCategoryValueOrchestratorService,
-    private readonly removeAlRecordOrchestratorService: RemoveAlRecordOrchestratorService
+    private readonly removeActivityLogRecordOrchestratorService: RemoveActivityLogRecordOrchestratorService
   ) {}
 
   ngOnInit(): void {
@@ -71,7 +71,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.moveMoneyBetweenAccountsOrchestratorService.listen();
     this.resetCategoriesOrchestratorService.listen();
     this.changeCategoryValueOrchestratorService.listen();
-    this.removeAlRecordOrchestratorService.listen();
+    this.removeActivityLogRecordOrchestratorService.listen();
   }
 
   private destroyOrchestrators(): void {
@@ -79,6 +79,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.moveMoneyBetweenAccountsOrchestratorService.destroy();
     this.resetCategoriesOrchestratorService.destroy();
     this.changeCategoryValueOrchestratorService.destroy();
-    this.removeAlRecordOrchestratorService.destroy();
+    this.removeActivityLogRecordOrchestratorService.destroy();
   }
 }

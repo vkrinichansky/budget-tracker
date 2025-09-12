@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RemoveAlRecordOrchestratorService } from './remove-al-record-orchestrator.service';
+import { RemoveAlRecordOrchestratorService } from './remove-activity-log-record-orchestrator.service';
 
 describe('RemoveAlRecordOrchestratorService', () => {
   let service: RemoveAlRecordOrchestratorService;
