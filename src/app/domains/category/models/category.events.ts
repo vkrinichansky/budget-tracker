@@ -1,7 +1,6 @@
 import { BudgetType } from '@budget-tracker/models';
 
 export enum CategoryEvents {
-  UPDATE_CATEGORIES = 'Update categories',
   CREATE_CATEGORY = 'Create category',
   REMOVE_CATEGORY = 'Remove category',
 

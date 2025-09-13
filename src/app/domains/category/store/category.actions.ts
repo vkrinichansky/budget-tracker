@@ -39,9 +39,4 @@ export const CategoryActions = {
       categoriesIdsToReset: string[];
     }>()
   ),
-
-  updateCategories: createAction(
-    '[Categories] Update categories',
-    props<{ categories: Category[] }>()
-  ),
 };

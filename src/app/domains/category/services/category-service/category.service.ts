@@ -96,12 +96,6 @@ export class CategoryService {
     return this.eventBus.waitFor(CategoryEvents.RESET_CATEGORIES);
   }
 
-  updateCategories(categories: Category[]): Promise<void> {
-    this.store.dispatch(CategoryActions.updateCategories({ categories }));
-
-    return this.eventBus.waitFor(CategoryEvents.UPDATE_CATEGORIES);
-  }
-
   // ===== FLOW TRIGGERS =====
   async runResetCategoriesFlow(budgetType: BudgetType): Promise<void> {
     this.eventBus.emit<ResetCategoriesEvent>({

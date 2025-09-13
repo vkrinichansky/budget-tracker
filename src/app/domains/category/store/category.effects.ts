@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, EMPTY, from, map, mergeMap, of, switchMap, tap, timeout } from 'rxjs';
-import { Category, CategoryEvents } from '../models';
+import { CategoryEvents } from '../models';
 import { CategoryApiService } from '../services';
 import { CategoryActions } from './category.actions';
 import { AuthActions } from '@budget-tracker/auth';
@@ -127,34 +127,6 @@ export class CategoryEffects {
                 type: CategoryEvents.RESET_CATEGORIES,
                 status: 'error',
                 errorCode: 'errors.category.resetCategoriesFailed',
-              });
-
-              return EMPTY;
-            })
-          )
-        )
-      ),
-    { dispatch: false }
-  );
-
-  updateCategories$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(CategoryActions.updateCategories),
-        mergeMap((action) =>
-          from(this.categoryService.updateCategories(action.categories)).pipe(
-            timeout(REQUEST_TIMEOUT),
-            tap(() => {
-              this.eventBus.emit({
-                type: CategoryEvents.UPDATE_CATEGORIES,
-                status: 'success',
-              });
-            }),
-            catchError(() => {
-              this.eventBus.emit({
-                type: CategoryEvents.UPDATE_CATEGORIES,
-                status: 'error',
-                errorCode: 'errors.category.updateCategoriesFailed',
               });
 
               return EMPTY;

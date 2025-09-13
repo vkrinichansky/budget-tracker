@@ -217,7 +217,7 @@
     },
     "metadata": {
       "changeLanguageFailed": "Failed to change language.",
-      "changeCurrencyFailed": "Failed to change currency."
+      "changeCurrencyFlowFailed": "Failed to finish currency change flow."
     },
     "account": {
       "addAccountFailed": "Failed to add account.",
@@ -226,7 +226,6 @@
       "moveMoneyBetweenAccountsFailed": "Failed to move money between accounts."
     },
     "category": {
-      "updateCategoriesFailed": "Failed to update categories.",
       "createCategoryFailed": "Failed to create category.",
       "removeCategoryFailed": "Failed to remove category.",
       "resetCategoriesFailed": "Failed to reset categories.",

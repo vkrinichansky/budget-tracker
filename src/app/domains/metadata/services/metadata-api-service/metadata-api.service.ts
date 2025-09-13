@@ -53,19 +53,13 @@ export class MetadataApiService {
     );
   }
 
-  async changeCurrency(newCurrency: CurrenciesEnum): Promise<void> {
-    return updateDoc(this.getDocRef(), {
-      currency: newCurrency,
-    });
-  }
-
   changeLanguage(newLanguage: LanguagesEnum): Promise<void> {
     return updateDoc(this.getDocRef(), {
       language: newLanguage,
     });
   }
 
-  private getDocRef(): DocumentReference {
+  getDocRef(): DocumentReference {
     return doc(collection(this.firestore, 'metadata'), this.afAuth.currentUser.uid);
   }
 }

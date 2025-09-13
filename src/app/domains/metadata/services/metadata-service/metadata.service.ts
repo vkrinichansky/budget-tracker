@@ -84,12 +84,6 @@ export class MetadataService {
     this.store.dispatch(MetadataActions.loadMetadata());
   }
 
-  async changeCurrency(newCurrency: CurrenciesEnum): Promise<void> {
-    this.store.dispatch(MetadataActions.changeCurrency({ newCurrency }));
-
-    return this.eventBus.waitFor(MetadataEvents.CURRENCY_CHANGE);
-  }
-
   async changeLanguage(newLanguage: LanguagesEnum): Promise<void> {
     this.store.dispatch(MetadataActions.changeLanguage({ newLanguage }));
 

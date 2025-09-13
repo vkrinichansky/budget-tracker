@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { EventBusService, getErrorMessage } from '@budget-tracker/utils';
+import { BatchOperationService, EventBusService, getErrorMessage } from '@budget-tracker/utils';
 import {
   MetadataEvents,
   MetadataFacadeService,
   CurrencyChangeEvent,
 } from '@budget-tracker/metadata';
 import { firstValueFrom, Subject, takeUntil } from 'rxjs';
-import { CategoryFacadeService } from '@budget-tracker/category';
+import { Category, CategoryFacadeService } from '@budget-tracker/category';
 import {
   ActivityLogFacadeService,
   createCurrencyChangeRecord,
@@ -21,7 +21,8 @@ export class CurrencyChangeOrchestratorService {
     private readonly eventBusService: EventBusService,
     private readonly metadataFacade: MetadataFacadeService,
     private readonly categoryFacade: CategoryFacadeService,
-    private readonly activityLogFacade: ActivityLogFacadeService
+    private readonly activityLogFacade: ActivityLogFacadeService,
+    private readonly batchOperationService: BatchOperationService
   ) {}
 
   listen(): void {
@@ -30,8 +31,6 @@ export class CurrencyChangeOrchestratorService {
       .pipe(takeUntil(this.destroy$))
       .subscribe(async (event) => {
         try {
-          await this.metadataFacade.changeCurrency(event.payload.newCurrency);
-
           const updatedCategories = structuredClone(
             await firstValueFrom(this.categoryFacade.getAllCategories())
           );
@@ -44,14 +43,35 @@ export class CurrencyChangeOrchestratorService {
             );
           });
 
-          await this.categoryFacade.updateCategories(updatedCategories);
-
           const currencyChangeRecord: CurrencyChangeRecord = createCurrencyChangeRecord(
             this.metadataFacade.currentCurrency,
             event.payload.newCurrency
           );
 
-          await this.activityLogFacade.addRecord(currencyChangeRecord);
+          await this.batchOperationService.executeBatchOperation([
+            {
+              docRef: this.metadataFacade.getMetadataDocRef(),
+              type: 'update',
+              data: { currency: event.payload.newCurrency },
+            },
+            {
+              docRef: this.categoryFacade.getCategoryDocRef(),
+              type: 'update',
+              data: updatedCategories.reduce(
+                (result, category) => ({
+                  ...result,
+                  [`${category.id}`]: category,
+                }),
+                {} as Record<string, Category>
+              ),
+            },
+
+            {
+              docRef: this.activityLogFacade.getActivityLogDocRef(),
+              type: 'update',
+              data: { [currencyChangeRecord.id]: currencyChangeRecord },
+            },
+          ]);
 
           this.eventBusService.emit({
             type: MetadataEvents.CURRENCY_CHANGE_FINISH,

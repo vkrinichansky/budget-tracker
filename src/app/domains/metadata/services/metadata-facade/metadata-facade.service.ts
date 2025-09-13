@@ -2,10 +2,15 @@ import { Injectable } from '@angular/core';
 import { MetadataService } from '../metadata-service/metadata.service';
 import { Observable } from 'rxjs';
 import { LanguagesEnum, CurrencyExchangeRate, CurrenciesEnum } from '../../models';
+import { DocumentReference } from '@angular/fire/firestore';
+import { MetadataApiService } from '../metadata-api-service/metadata-api.service';
 
 @Injectable()
 export class MetadataFacadeService {
-  constructor(private readonly metadataService: MetadataService) {}
+  constructor(
+    private readonly metadataService: MetadataService,
+    private readonly metadataApiService: MetadataApiService
+  ) {}
 
   // ===== SELECTORS =====
   get currentCurrency(): CurrenciesEnum {
@@ -49,10 +54,6 @@ export class MetadataFacadeService {
     return this.metadataService.loadMetadata();
   }
 
-  async changeCurrency(newCurrency: CurrenciesEnum): Promise<void> {
-    return this.metadataService.changeCurrency(newCurrency);
-  }
-
   async changeLanguage(newLanguage: LanguagesEnum): Promise<void> {
     return this.metadataService.changeLanguage(newLanguage);
   }
@@ -60,5 +61,10 @@ export class MetadataFacadeService {
   // ===== FLOW TRIGGERS =====
   async runCurrencyChangeFlow(newCurrency: CurrenciesEnum): Promise<void> {
     return this.metadataService.runCurrencyChangeFlow(newCurrency);
+  }
+
+  // ===== UTILS =====
+  getMetadataDocRef(): DocumentReference {
+    return this.metadataApiService.getDocRef();
   }
 }

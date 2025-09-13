@@ -53,34 +53,6 @@ export class MetadataEffects {
     )
   );
 
-  changeCurrency$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(MetadataActions.changeCurrency),
-        switchMap((action) =>
-          from(this.metadataApiService.changeCurrency(action.newCurrency)).pipe(
-            timeout(REQUEST_TIMEOUT),
-            tap(() => {
-              this.eventBus.emit({
-                type: MetadataEvents.CURRENCY_CHANGE,
-                status: 'success',
-              });
-            }),
-            catchError(() => {
-              this.eventBus.emit({
-                type: MetadataEvents.CURRENCY_CHANGE,
-                status: 'error',
-                errorCode: 'metadata.changeCurrencyFailed',
-              });
-
-              return EMPTY;
-            })
-          )
-        )
-      ),
-    { dispatch: false }
-  );
-
   changeLanguage$ = createEffect(
     () =>
       this.actions$.pipe(

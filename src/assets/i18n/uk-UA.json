@@ -214,7 +214,7 @@
     },
     "metadata": {
       "changeLanguageFailed": "Не вдалося змінити мову.",
-      "changeCurrencyFailed": "Не вдалося змінити валюту."
+      "changeCurrencyFlowFailed": "Не вдалося завершити процес зміни валюти."
     },
     "account": {
       "addAccountFailed": "Не вдалося додати рахунок.",
@@ -223,7 +223,6 @@
       "moveMoneyBetweenAccountsFailed": "Не вдалося перемістити гроші між рахунками."
     },
     "category": {
-      "updateCategoriesFailed": "Не вдалося оновити категорії.",
       "createCategoryFailed": "Не вдалося створити категорію.",
       "removeCategoryFailed": "Не вдалося видалити категорію.",
       "resetCategoriesFailed": "Не вдалося скинути категорії.",

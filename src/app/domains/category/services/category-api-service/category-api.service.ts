@@ -70,20 +70,6 @@ export class CategoryApiService {
     });
   }
 
-  updateCategories(categories: Category[]): Promise<void> {
-    const updatedCategoriesDictionary = categories.reduce(
-      (result, category) => ({
-        ...result,
-        [`${category.id}`]: category,
-      }),
-      {} as Record<string, Category>
-    );
-
-    return updateDoc(this.getDocRef(), {
-      ...updatedCategoriesDictionary,
-    });
-  }
-
   getDocRef(): DocumentReference {
     return doc(collection(this.firestore, 'categories'), this.afAuth.currentUser?.uid);
   }
