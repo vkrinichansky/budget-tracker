@@ -2,10 +2,15 @@ import { Injectable } from '@angular/core';
 import { ActivityLogService } from '../activity-log-service/activity-log.service';
 import { Observable } from 'rxjs';
 import { ActivityLogGroupedByDay, ActivityLogRecordUnitedType } from '../../models';
+import { DocumentReference } from '@angular/fire/firestore';
+import { ActivityLogApiService } from '../activity-log-api-service/activity-log-api.service';
 
 @Injectable()
 export class ActivityLogFacadeService {
-  constructor(private readonly activityLogService: ActivityLogService) {}
+  constructor(
+    private readonly activityLogService: ActivityLogService,
+    private readonly activityLogApiService: ActivityLogApiService
+  ) {}
 
   // ===== SELECTORS =====
   activityLogLoaded(): Observable<boolean> {
@@ -25,8 +30,8 @@ export class ActivityLogFacadeService {
     this.activityLogService.loadActivityLog();
   }
 
-  async addRecord(record: ActivityLogRecordUnitedType): Promise<void> {
-    return this.activityLogService.addRecord(record);
+  addRecord(record: ActivityLogRecordUnitedType): void {
+    this.activityLogService.addRecord(record);
   }
 
   async removeRecord(recordId: string): Promise<void> {
@@ -40,5 +45,10 @@ export class ActivityLogFacadeService {
   // ===== FLOW TRIGGERS =====
   async runRemoveCategoryValueChangeRecordFlow(recordId: string): Promise<void> {
     return this.activityLogService.runRemoveCategoryValueChangeRecordFlow(recordId);
+  }
+
+  // ===== UTILS =====
+  getActivityLogDocRef(): DocumentReference {
+    return this.activityLogApiService.getDocRef();
   }
 }

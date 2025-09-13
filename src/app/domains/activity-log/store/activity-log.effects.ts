@@ -33,36 +33,6 @@ export class ActivityLogEffects {
     )
   );
 
-  addRecord$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(ActivityLogActions.addRecord),
-        mergeMap((action) =>
-          from(this.activityLogService.addRecord(action.record)).pipe(
-            timeout(REQUEST_TIMEOUT),
-            tap(() => {
-              this.store.dispatch(ActivityLogActions.recordAdded({ record: action.record }));
-
-              this.eventBus.emit({
-                type: ActivityLogEvents.ADD_RECORD,
-                status: 'success',
-              });
-            }),
-            catchError(() => {
-              this.eventBus.emit({
-                type: ActivityLogEvents.ADD_RECORD,
-                status: 'error',
-                errorCode: 'errors.activityLog.addRecordFailed',
-              });
-
-              return EMPTY;
-            })
-          )
-        )
-      ),
-    { dispatch: false }
-  );
-
   removeCategoryValueChangeRecord$ = createEffect(
     () =>
       this.actions$.pipe(

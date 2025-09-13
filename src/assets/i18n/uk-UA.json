@@ -220,18 +220,16 @@
       "addAccountFailed": "Не вдалося додати рахунок.",
       "removeAccountFailed": "Не вдалося видалити рахунок.",
       "changeAccountsOrderFailed": "Не вдалося змінити порядок рахунків.",
-      "moveMoneyBetweenAccountsFailed": "Не вдалося перемістити гроші між рахунками.",
-      "changeAccountValueFailed": "Не вдалося змінити значення рахунку."
+      "moveMoneyBetweenAccountsFailed": "Не вдалося перемістити гроші між рахунками."
     },
     "category": {
       "updateCategoriesFailed": "Не вдалося оновити категорії.",
       "createCategoryFailed": "Не вдалося створити категорію.",
       "removeCategoryFailed": "Не вдалося видалити категорію.",
       "resetCategoriesFailed": "Не вдалося скинути категорії.",
-      "changeCategoryValueFailed": "Не вдалося змінити значення категорії."
+      "changeCategoryValueFlowFailed": "Не вдалося завершити процес зміни значення категорії."
     },
     "activityLog": {
-      "addRecordFailed": "Не вдалося додати запис.",
       "removeRecordFailed": "Не вдалося видалити запис.",
       "removeAllRecordsFailed": "Не вдалося видалити всі записи."
     }

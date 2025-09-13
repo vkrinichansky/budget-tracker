@@ -43,10 +43,8 @@ export class ActivityLogService {
     }
   }
 
-  async addRecord(record: ActivityLogRecordUnitedType): Promise<void> {
-    this.store.dispatch(ActivityLogActions.addRecord({ record }));
-
-    return this.eventBus.waitFor(ActivityLogEvents.ADD_RECORD);
+  addRecord(record: ActivityLogRecordUnitedType): void {
+    this.store.dispatch(ActivityLogActions.recordAdded({ record }));
   }
 
   async removeRecord(recordId: string): Promise<void> {

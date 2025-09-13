@@ -103,48 +103,6 @@ export class CategoryEffects {
     { dispatch: false }
   );
 
-  changeCategoryValue$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(CategoryActions.changeCategoryValue),
-        mergeMap((action) =>
-          from(
-            this.categoryService.changeCategoryValue(
-              action.updatedCategoryId,
-              action.updatedCategoryValue
-            )
-          ).pipe(
-            timeout(REQUEST_TIMEOUT),
-            tap(() => {
-              this.eventBus.emit({
-                type: CategoryEvents.CHANGE_CATEGORY_VALUE,
-                status: 'success',
-              });
-
-              this.store.dispatch(
-                CategoryActions.categoryValueChanged({
-                  updatedCategory: {
-                    id: action.updatedCategoryId,
-                    value: action.updatedCategoryValue,
-                  } as Category,
-                })
-              );
-            }),
-            catchError(() => {
-              this.eventBus.emit({
-                type: CategoryEvents.CHANGE_CATEGORY_VALUE,
-                status: 'error',
-                errorCode: 'errors.category.changeCategoryValueFailed',
-              });
-
-              return EMPTY;
-            })
-          )
-        )
-      ),
-    { dispatch: false }
-  );
-
   resetCategories$ = createEffect(
     () =>
       this.actions$.pipe(

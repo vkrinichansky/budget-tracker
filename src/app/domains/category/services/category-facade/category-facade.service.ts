@@ -3,10 +3,15 @@ import { CategoryService } from '../category-service/category.service';
 import { BudgetType } from '@budget-tracker/models';
 import { Observable } from 'rxjs';
 import { Category } from '../../models';
+import { DocumentReference } from '@angular/fire/firestore';
+import { CategoryApiService } from '../category-api-service/category-api.service';
 
 @Injectable()
 export class CategoryFacadeService {
-  constructor(private readonly categoryService: CategoryService) {}
+  constructor(
+    private readonly categoryService: CategoryService,
+    private readonly categoryApiService: CategoryApiService
+  ) {}
 
   // ===== SELECTORS =====
   categoriesLoaded(): Observable<boolean> {
@@ -54,12 +59,8 @@ export class CategoryFacadeService {
     return this.categoryService.removeCategory(categoryId);
   }
 
-  async changeCategoryValue(
-    categoryId: string,
-    convertedValueToAdd: number,
-    rewrite: boolean = false
-  ): Promise<void> {
-    return this.categoryService.changeCategoryValue(categoryId, convertedValueToAdd, rewrite);
+  changeCategoryValue(updatedCategory: Category): void {
+    this.categoryService.changeCategoryValue(updatedCategory);
   }
 
   async resetCategoriesByType(budgetType: BudgetType): Promise<void> {
@@ -89,5 +90,10 @@ export class CategoryFacadeService {
       convertedValueToAdd,
       note
     );
+  }
+
+  // ===== UTILS =====
+  getCategoryDocRef(): DocumentReference {
+    return this.categoryApiService.getDocRef();
   }
 }

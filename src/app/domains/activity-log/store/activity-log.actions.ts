@@ -9,12 +9,6 @@ export const ActivityLogActions = {
   ),
   cleanState: createAction('[ActivityLog] Clean state'),
 
-  addRecord: createAction(
-    '[ActivityLog] Add record',
-    props<{
-      record: ActivityLogRecordUnitedType;
-    }>()
-  ),
   recordAdded: createAction(
     '[ActivityLog] Record added',
     props<{ record: ActivityLogRecordUnitedType }>()

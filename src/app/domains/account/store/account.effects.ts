@@ -183,45 +183,6 @@ export class AccountEffects {
     { dispatch: false }
   );
 
-  changeAccountValue$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(AccountActions.changeAccountValue),
-        mergeMap((action) =>
-          from(
-            this.accountService.changeAccountValue(action.accountId, action.updatedAccountValue)
-          ).pipe(
-            timeout(REQUEST_TIMEOUT),
-            tap(() => {
-              this.store.dispatch(
-                AccountActions.accountValueChanged({
-                  updatedAccount: {
-                    id: action.accountId,
-                    value: action.updatedAccountValue,
-                  } as Account,
-                })
-              );
-
-              this.eventBus.emit({
-                type: AccountEvents.CHANGE_ACCOUNT_VALUE,
-                status: 'success',
-              });
-            }),
-            catchError(() => {
-              this.eventBus.emit({
-                type: AccountEvents.CHANGE_ACCOUNT_VALUE,
-                status: 'error',
-                errorCode: 'errors.account.changeAccountValueFailed',
-              });
-
-              return EMPTY;
-            })
-          )
-        )
-      ),
-    { dispatch: false }
-  );
-
   cleanStateOnLogOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logout),

@@ -76,24 +76,12 @@ export class CategoryService {
     return this.eventBus.waitFor(CategoryEvents.REMOVE_CATEGORY, categoryId);
   }
 
-  async changeCategoryValue(
-    categoryId: string,
-    convertedValueToAdd: number,
-    rewrite: boolean = false
-  ): Promise<void> {
-    const category = structuredClone(await firstValueFrom(this.getCategoryById(categoryId)));
-    const updatedCategoryValue = rewrite
-      ? convertedValueToAdd
-      : category.value + convertedValueToAdd;
-
+  changeCategoryValue(updatedCategory: Category): void {
     this.store.dispatch(
-      CategoryActions.changeCategoryValue({
-        updatedCategoryId: categoryId,
-        updatedCategoryValue,
+      CategoryActions.categoryValueChanged({
+        updatedCategory,
       })
     );
-
-    return this.eventBus.waitFor(CategoryEvents.CHANGE_CATEGORY_VALUE);
   }
 
   async resetCategoriesByType(budgetType: BudgetType): Promise<void> {

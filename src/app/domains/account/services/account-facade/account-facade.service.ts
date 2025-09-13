@@ -2,10 +2,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Account } from '../../models';
 import { AccountService } from '../account-service/account.service';
+import { DocumentReference } from '@angular/fire/firestore';
+import { AccountApiService } from '../account-api-service/account-api.service';
 
 @Injectable()
 export class AccountFacadeService {
-  constructor(private accountService: AccountService) {}
+  constructor(
+    private accountService: AccountService,
+    private accountApiService: AccountApiService
+  ) {}
 
   // ===== SELECTORS =====
   accountsLoaded(): Observable<boolean> {
@@ -63,8 +68,8 @@ export class AccountFacadeService {
     return this.accountService.bulkAccountChangeOrder(updatedAccountsOrder);
   }
 
-  async changeAccountValue(accountId: string, updatedAccountValue: number): Promise<void> {
-    return this.accountService.changeAccountValue(accountId, updatedAccountValue);
+  changeAccountValue(updatedAccount: Account): void {
+    this.accountService.changeAccountValue(updatedAccount);
   }
 
   // ===== FLOW TRIGGERS =====
@@ -80,5 +85,10 @@ export class AccountFacadeService {
       valueToMove,
       convertedValueToMove
     );
+  }
+
+  // ===== UTILS =====
+  getAccountDocRef(): DocumentReference {
+    return this.accountApiService.getDocRef();
   }
 }

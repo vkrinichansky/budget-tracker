@@ -21,13 +21,6 @@ export const CategoryActions = {
   ),
   categoryRemoved: createAction('[Categories] Category removed', props<{ categoryId: string }>()),
 
-  changeCategoryValue: createAction(
-    '[Categories] Change category value',
-    props<{
-      updatedCategoryId: string;
-      updatedCategoryValue: number;
-    }>()
-  ),
   categoryValueChanged: createAction(
     '[Categories] Category value changed',
     props<{ updatedCategory: Category }>()

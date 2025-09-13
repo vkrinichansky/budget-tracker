@@ -9,7 +9,6 @@ export enum CategoryEvents {
   RESET_CATEGORIES_START = 'Reset categories start',
   RESET_CATEGORIES_FINISH = 'Reset categories finish',
 
-  CHANGE_CATEGORY_VALUE = 'Change category value',
   CHANGE_CATEGORY_VALUE_START = 'Change category value start',
   CHANGE_CATEGORY_VALUE_FINISH = 'Change category value finish',
 }

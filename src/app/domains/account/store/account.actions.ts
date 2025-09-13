@@ -30,13 +30,6 @@ export const AccountActions = {
     props<{ accountId: string; updatedAccountsOrder: Record<string, number> }>()
   ),
 
-  changeAccountValue: createAction(
-    '[Accounts] Change account value',
-    props<{
-      accountId: string;
-      updatedAccountValue: number;
-    }>()
-  ),
   accountValueChanged: createAction(
     '[Accounts] Account value changed',
     props<{ updatedAccount: Account }>()

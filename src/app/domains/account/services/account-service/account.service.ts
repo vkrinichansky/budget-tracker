@@ -136,10 +136,8 @@ export class AccountService {
     return this.eventBus.waitFor(AccountEvents.CHANGE_ACCOUNTS_ORDER);
   }
 
-  async changeAccountValue(accountId: string, updatedAccountValue: number): Promise<void> {
-    this.store.dispatch(AccountActions.changeAccountValue({ accountId, updatedAccountValue }));
-
-    return this.eventBus.waitFor(AccountEvents.CHANGE_ACCOUNT_VALUE);
+  changeAccountValue(updatedAccount: Account): void {
+    this.store.dispatch(AccountActions.accountValueChanged({ updatedAccount }));
   }
 
   // ===== FLOW TRIGGERS =====

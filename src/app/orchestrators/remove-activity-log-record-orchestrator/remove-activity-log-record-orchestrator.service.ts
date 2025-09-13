@@ -29,38 +29,38 @@ export class RemoveActivityLogRecordOrchestratorService {
       .pipe(takeUntil(this.destroy$))
       .subscribe(async (event) => {
         try {
-          const record = (await firstValueFrom(
-            this.activityLogFacade.getRecordById(event.payload.recordId)
-          )) as CategoryValueChangeRecord;
+          // const record = (await firstValueFrom(
+          //   this.activityLogFacade.getRecordById(event.payload.recordId)
+          // )) as CategoryValueChangeRecord;
 
-          const category = structuredClone(
-            await firstValueFrom(this.categoryFacade.getCategoryById(record.category.id))
-          );
-          const account = structuredClone(
-            await firstValueFrom(this.accountFacade.getAccountById(record.account.id))
-          );
+          // const category = structuredClone(
+          //   await firstValueFrom(this.categoryFacade.getCategoryById(record.category.id))
+          // );
+          // const account = structuredClone(
+          //   await firstValueFrom(this.accountFacade.getAccountById(record.account.id))
+          // );
 
-          const updatedCategoryValue =
-            category.value - record.convertedValue < 0 ? 0 : category.value - record.convertedValue;
+          // const updatedCategoryValue =
+          //   category.value - record.convertedValue < 0 ? 0 : category.value - record.convertedValue;
 
-          let updatedAccountValue: number;
+          // let updatedAccountValue: number;
 
-          switch (record.budgetType) {
-            case BudgetType.Income:
-              updatedAccountValue =
-                account.value - record.value < 0 ? 0 : account.value - record.value;
+          // switch (record.budgetType) {
+          //   case BudgetType.Income:
+          //     updatedAccountValue =
+          //       account.value - record.value < 0 ? 0 : account.value - record.value;
 
-              break;
+          //     break;
 
-            case BudgetType.Expense:
-              updatedAccountValue = account.value + record.value;
+          //   case BudgetType.Expense:
+          //     updatedAccountValue = account.value + record.value;
 
-              break;
-          }
+          //     break;
+          // }
 
-          await this.activityLogFacade.removeRecord(event.payload.recordId);
-          await this.categoryFacade.changeCategoryValue(category.id, updatedCategoryValue, true);
-          await this.accountFacade.changeAccountValue(account.id, updatedAccountValue);
+          // await this.activityLogFacade.removeRecord(event.payload.recordId);
+          // await this.categoryFacade.changeCategoryValue(category.id, updatedCategoryValue, true);
+          // await this.accountFacade.changeAccountValue(account.id, updatedAccountValue);
 
           this.eventBus.emit({
             type: ActivityLogEvents.REMOVE_CATEGORY_VALUE_CHANGE_RECORD_FINISH,
