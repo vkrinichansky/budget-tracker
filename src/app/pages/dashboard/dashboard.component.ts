@@ -10,6 +10,7 @@ import { MoveMoneyBetweenAccountsOrchestratorService } from '@budget-tracker/mov
 import { ResetCategoriesOrchestratorService } from '@budget-tracker/reset-categories-orchestrator';
 import { ChangeCategoryValueOrchestratorService } from '@budget-tracker/change-category-value-orchestrator';
 import { RemoveActivityLogRecordOrchestratorService } from '@budget-tracker/remove-activity-log-record-orchestrator';
+import { EditAccountValueOrchestratorService } from '@budget-tracker/edit-account-value-orchestrator';
 
 @Component({
   selector: 'app-dashboard',
@@ -32,7 +33,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private readonly moveMoneyBetweenAccountsOrchestratorService: MoveMoneyBetweenAccountsOrchestratorService,
     private readonly resetCategoriesOrchestratorService: ResetCategoriesOrchestratorService,
     private readonly changeCategoryValueOrchestratorService: ChangeCategoryValueOrchestratorService,
-    private readonly removeActivityLogRecordOrchestratorService: RemoveActivityLogRecordOrchestratorService
+    private readonly removeActivityLogRecordOrchestratorService: RemoveActivityLogRecordOrchestratorService,
+    private readonly editAccountValueOrchestratorService: EditAccountValueOrchestratorService
   ) {}
 
   ngOnInit(): void {
@@ -72,6 +74,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.resetCategoriesOrchestratorService.listen();
     this.changeCategoryValueOrchestratorService.listen();
     this.removeActivityLogRecordOrchestratorService.listen();
+    this.editAccountValueOrchestratorService.listen();
   }
 
   private destroyOrchestrators(): void {
@@ -80,5 +83,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.resetCategoriesOrchestratorService.destroy();
     this.changeCategoryValueOrchestratorService.destroy();
     this.removeActivityLogRecordOrchestratorService.destroy();
+    this.editAccountValueOrchestratorService.destroy();
   }
 }

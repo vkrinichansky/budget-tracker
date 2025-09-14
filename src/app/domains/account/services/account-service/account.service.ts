@@ -5,7 +5,7 @@ import { AccountActions, AccountSelectors } from '../../store';
 import { Store } from '@ngrx/store';
 import { MetadataService } from '@budget-tracker/metadata';
 import { EventBusService } from '@budget-tracker/utils';
-import { MoveMoneyBetweenAccountsEvent } from '../../models/account.events';
+import { MoveMoneyBetweenAccountsEvent, EditAccountValueEvent } from '../../models/account.events';
 
 @Injectable()
 export class AccountService {
@@ -135,5 +135,19 @@ export class AccountService {
     });
 
     return this.eventBus.waitFor(AccountEvents.MOVE_MONEY_BETWEEN_ACCOUNTS_FINISH);
+  }
+
+  async editAccountValue(accountId: string, value: number, note: string): Promise<void> {
+    this.eventBus.emit<EditAccountValueEvent>({
+      type: AccountEvents.EDIT_ACCOUNT_VALUE_START,
+      status: 'event',
+      payload: {
+        accountId,
+        value,
+        note,
+      },
+    });
+
+    return this.eventBus.waitFor(AccountEvents.EDIT_ACCOUNT_VALUE_FINISH);
   }
 }

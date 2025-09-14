@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BudgetType } from '@budget-tracker/models';
-import { Observable, firstValueFrom, map } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { CategorySelectors, CategoryActions } from '../../store';
 import { Store } from '@ngrx/store';
 import {

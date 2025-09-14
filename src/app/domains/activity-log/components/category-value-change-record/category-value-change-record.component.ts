@@ -5,6 +5,7 @@ import { getErrorMessage, isToday } from '@budget-tracker/utils';
 import { MetadataFacadeService, predefinedCurrenciesDictionary } from '@budget-tracker/metadata';
 import { ActivityLogFacadeService } from '../../services';
 import { CategoryValueChangeRecord } from '../../models';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-category-value-change-record',
@@ -61,7 +62,8 @@ export class CategoryValueChangeRecordComponent {
     private readonly confirmationModalService: ConfirmationModalService,
     private readonly activityLogFacade: ActivityLogFacadeService,
     private readonly snackbarHandler: SnackbarHandlerService,
-    private readonly metadataFacade: MetadataFacadeService
+    private readonly metadataFacade: MetadataFacadeService,
+    private readonly translateService: TranslateService
   ) {}
 
   removeHandler(): void {
@@ -71,7 +73,7 @@ export class CategoryValueChangeRecordComponent {
         remarkTranslationKey: 'activityLog.categoryValueChangeRecord.removeConfirmationRemark',
         remarkTranslationParams: {
           accountName: this.record.account.name,
-          categoryName: this.record.category.name,
+          categoryName: this.translateService.instant(this.record.category.name),
         },
       },
       async () => {

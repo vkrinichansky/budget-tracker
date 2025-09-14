@@ -4,3 +4,4 @@ export { AccountsListModalComponent } from './accounts-list-modal/accounts-list-
 export { AddAccountModalComponent } from './add-account-modal/add-account-modal.component';
 export { AccountsInfoCardComponent } from './accounts-info-card/accounts-info-card.component';
 export { FullBalanceInfoCardComponent } from './full-balance-info-card/full-balance-info-card.component';
+export { EditAccountValueModalComponent } from './edit-account-value-modal/edit-account-value-modal.component';

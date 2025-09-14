@@ -18,7 +18,8 @@
     },
     "accountCard": {
       "menu": {
-        "remove": "Remove"
+        "remove": "Remove",
+        "editValue": "Edit value"
       },
       "removeConfirmationQuestion": "Do you want to remove <b>{{ accountName }}</b> account?"
     },
@@ -45,6 +46,13 @@
     "accountsListModal": {
       "title": "Accounts ({{ accountsAmount }})",
       "closeButton": "Close"
+    },
+    "editAccountValueModal": {
+      "title": "Edit account value",
+      "subtitle": "Edit account value",
+      "valueTitle": "Value",
+      "noteTitle": "Note",
+      "editButton": "Edit"
     }
   },
 
@@ -223,7 +231,8 @@
       "addAccountFailed": "Failed to add account.",
       "removeAccountFailed": "Failed to remove account.",
       "changeAccountsOrderFailed": "Failed to change accounts order.",
-      "moveMoneyBetweenAccountsFlowFailed": "Failed to finish moving money between accounts flow."
+      "moveMoneyBetweenAccountsFlowFailed": "Failed to finish moving money between accounts flow.",
+      "editAccountValueFlowFailed": "Failed to finish edit account value flow."
     },
     "category": {
       "createCategoryFailed": "Failed to create category.",

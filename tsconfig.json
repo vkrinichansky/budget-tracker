@@ -62,6 +62,9 @@
       "@budget-tracker/remove-activity-log-record-orchestrator": [
         "src/app/orchestrators/remove-activity-log-record-orchestrator/index.ts"
       ],
+      "@budget-tracker/edit-account-value-orchestrator": [
+        "src/app/orchestrators/edit-account-value-orchestrator/index.ts"
+      ],
       // Pages
       "@budget-tracker/auth-page": [
         "src/app/pages/auth/index.ts"

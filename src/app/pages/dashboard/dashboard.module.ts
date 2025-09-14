@@ -14,6 +14,7 @@ import { MoveMoneyBetweenAccountsOrchestratorModule } from '@budget-tracker/move
 import { ResetCategoriesOrchestratorModule } from '@budget-tracker/reset-categories-orchestrator';
 import { ChangeCategoryValueOrchestratorModule } from '@budget-tracker/change-category-value-orchestrator';
 import { RemoveActivityLogRecordOrchestratorModule } from '@budget-tracker/remove-activity-log-record-orchestrator';
+import { EditAccountValueOrchestratorModule } from '@budget-tracker/edit-account-value-orchestrator';
 
 const routes: Routes = [
   {
@@ -39,6 +40,7 @@ const routes: Routes = [
     ResetCategoriesOrchestratorModule,
     ChangeCategoryValueOrchestratorModule,
     RemoveActivityLogRecordOrchestratorModule,
+    EditAccountValueOrchestratorModule,
   ],
 })
 export class DashboardPageModule {}

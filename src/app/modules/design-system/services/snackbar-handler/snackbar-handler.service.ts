@@ -19,14 +19,6 @@ export class SnackbarHandlerService {
     this.openSnackBarWithCloseDelay(this.translateService.instant(error), SnackbarType.Error);
   }
 
-  // TODO: don't forget to use this snackbar when you edit account value
-  showAccountValueEditedSnackbar(): void {
-    this.openSnackBarWithCloseDelay(
-      this.translateService.instant('messages.account.accountValueEdited'),
-      SnackbarType.Message
-    );
-  }
-
   private openSnackBarWithCloseDelay(
     message: string,
     type: SnackbarType,

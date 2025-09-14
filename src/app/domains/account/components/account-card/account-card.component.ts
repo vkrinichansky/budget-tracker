@@ -11,7 +11,7 @@ import {
   predefinedCurrenciesDictionary,
 } from '@budget-tracker/metadata';
 import { getErrorMessage } from '@budget-tracker/utils';
-import { AccountFacadeService } from '../../services';
+import { AccountFacadeService, AccountModalService } from '../../services';
 
 @Component({
   selector: 'app-account-card',
@@ -22,6 +22,11 @@ import { AccountFacadeService } from '../../services';
 })
 export class AccountCardComponent {
   readonly menuActions: MenuAction[] = [
+    {
+      icon: 'edit',
+      translationKey: 'account.accountCard.menu.editValue',
+      action: () => this.accountModalService.openEditAccountValueModal(this.account.id),
+    },
     {
       icon: 'delete-bin',
       translationKey: 'account.accountCard.menu.remove',
@@ -74,6 +79,7 @@ export class AccountCardComponent {
     private readonly accountFacade: AccountFacadeService,
     private readonly confirmationModalService: ConfirmationModalService,
     private readonly snackbarHandler: SnackbarHandlerService,
-    private readonly currencyPipe: CurrencyPipe
+    private readonly currencyPipe: CurrencyPipe,
+    private readonly accountModalService: AccountModalService
   ) {}
 }

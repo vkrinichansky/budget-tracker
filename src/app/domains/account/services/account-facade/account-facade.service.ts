@@ -59,7 +59,7 @@ export class AccountFacadeService {
   }
 
   // ===== FLOW TRIGGERS =====
-  runMoveMoneyBetweenAccountsFlow(
+  async runMoveMoneyBetweenAccountsFlow(
     fromAccountId: string,
     toAccountId: string,
     valueToMove: number,
@@ -71,6 +71,10 @@ export class AccountFacadeService {
       valueToMove,
       convertedValueToMove
     );
+  }
+
+  async runEditAccountValueFlow(accountId: string, value: number, note: string): Promise<void> {
+    return this.accountService.editAccountValue(accountId, value, note);
   }
 
   // ===== UTILS =====

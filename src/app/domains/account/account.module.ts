@@ -16,6 +16,7 @@ import {
   AccountCardComponent,
   AccountsInfoCardComponent,
   FullBalanceInfoCardComponent,
+  EditAccountValueModalComponent,
 } from './components';
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -42,6 +43,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     AccountCardComponent,
     AccountsInfoCardComponent,
     FullBalanceInfoCardComponent,
+    EditAccountValueModalComponent,
   ],
   exports: [AccountsInfoCardComponent, FullBalanceInfoCardComponent],
   providers: [AccountApiService, AccountFacadeService, AccountModalService, AccountService],

@@ -17,7 +17,8 @@
     },
     "accountCard": {
       "menu": {
-        "remove": "Видалити"
+        "remove": "Видалити",
+        "editValue": "Редагувати значення"
       },
       "removeConfirmationQuestion": "Ви хочете видалити рахунок <b>{{ accountName }}</b>?"
     },
@@ -44,6 +45,13 @@
     "accountsListModal": {
       "title": "Рахунки ({{ accountsAmount }})",
       "closeButton": "Вихід"
+    },
+    "editAccountValueModal": {
+      "title": "Редагувати значення рахунку",
+      "subtitle": "Редагувати значення рахунку",
+      "valueTitle": "Значення",
+      "noteTitle": "Примітка",
+      "editButton": "Редагувати"
     }
   },
 
@@ -220,7 +228,8 @@
       "addAccountFailed": "Не вдалося додати рахунок.",
       "removeAccountFailed": "Не вдалося видалити рахунок.",
       "changeAccountsOrderFailed": "Не вдалося змінити порядок рахунків.",
-      "moveMoneyBetweenAccountsFlowFailed": "Не вдалося завершити процес переміщення грошей між рахунками."
+      "moveMoneyBetweenAccountsFlowFailed": "Не вдалося завершити процес переміщення грошей між рахунками.",
+      "editAccountValueFlowFailed": "Не вдалося завершити процес редагування значення рахунку."
     },
     "category": {
       "createCategoryFailed": "Не вдалося створити категорію.",
