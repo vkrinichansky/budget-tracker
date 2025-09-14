@@ -54,30 +54,6 @@ export class AccountService {
     }
   }
 
-  async moveMoneyBetweenAccount(
-    fromAccountId: string,
-    toAccountId: string,
-    valueToMove: number,
-    convertedValueToMove: number
-  ): Promise<void> {
-    const fromAccount = await firstValueFrom(this.getAccountById(fromAccountId));
-    const toAccount = await firstValueFrom(this.getAccountById(toAccountId));
-
-    const fromAccountNewValue = fromAccount.value - valueToMove;
-    const toAccountNewValue = toAccount.value + convertedValueToMove;
-
-    this.store.dispatch(
-      AccountActions.moveMoneyBetweenAccounts({
-        fromAccountId,
-        toAccountId,
-        fromAccountNewValue,
-        toAccountNewValue,
-      })
-    );
-
-    return this.eventBus.waitFor(AccountEvents.MOVE_MONEY_BETWEEN_ACCOUNTS);
-  }
-
   async addAccount(account: Account): Promise<void> {
     const updatedAccountsOrder: Record<string, number> = await firstValueFrom(
       this.getAllAccounts().pipe(
@@ -136,8 +112,8 @@ export class AccountService {
     return this.eventBus.waitFor(AccountEvents.CHANGE_ACCOUNTS_ORDER);
   }
 
-  changeAccountValue(updatedAccount: Account): void {
-    this.store.dispatch(AccountActions.accountValueChanged({ updatedAccount }));
+  updateAccounts(updatedAccounts: Account[]): void {
+    this.store.dispatch(AccountActions.accountsUpdated({ updatedAccounts }));
   }
 
   // ===== FLOW TRIGGERS =====
