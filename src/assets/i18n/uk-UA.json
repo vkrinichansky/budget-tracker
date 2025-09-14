@@ -225,7 +225,7 @@
     "category": {
       "createCategoryFailed": "Не вдалося створити категорію.",
       "removeCategoryFailed": "Не вдалося видалити категорію.",
-      "resetCategoriesFailed": "Не вдалося скинути категорії.",
+      "resetCategoriesFlowFailed": "Не вдалося завершити процес скидання категорій.",
       "changeCategoryValueFlowFailed": "Не вдалося завершити процес зміни значення категорії."
     },
     "activityLog": {

@@ -103,40 +103,6 @@ export class CategoryEffects {
     { dispatch: false }
   );
 
-  resetCategories$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(CategoryActions.resetCategories),
-        mergeMap((action) =>
-          from(this.categoryService.resetCategories(action.categoriesIdsToReset)).pipe(
-            timeout(REQUEST_TIMEOUT),
-            tap(() => {
-              this.eventBus.emit({
-                type: CategoryEvents.RESET_CATEGORIES,
-                status: 'success',
-              });
-
-              this.store.dispatch(
-                CategoryActions.categoriesReset({
-                  categoriesIdsToReset: action.categoriesIdsToReset,
-                })
-              );
-            }),
-            catchError(() => {
-              this.eventBus.emit({
-                type: CategoryEvents.RESET_CATEGORIES,
-                status: 'error',
-                errorCode: 'errors.category.resetCategoriesFailed',
-              });
-
-              return EMPTY;
-            })
-          )
-        )
-      ),
-    { dispatch: false }
-  );
-
   cleanStateOnLogOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logout),

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
-import { EventBusService, getErrorMessage } from '@budget-tracker/utils';
+import { firstValueFrom, map, Subject, takeUntil } from 'rxjs';
+import { BatchOperationService, EventBusService } from '@budget-tracker/utils';
 import {
   CategoryEvents,
   ResetCategoriesEvent,
   CategoryFacadeService,
+  Category,
 } from '@budget-tracker/category';
 import {
   ActivityLogFacadeService,
@@ -19,7 +20,8 @@ export class ResetCategoriesOrchestratorService {
   constructor(
     private readonly eventBus: EventBusService,
     private readonly categoryFacade: CategoryFacadeService,
-    private readonly activityLogFacade: ActivityLogFacadeService
+    private readonly activityLogFacade: ActivityLogFacadeService,
+    private readonly batchOperationService: BatchOperationService
   ) {}
 
   listen(): void {
@@ -28,13 +30,43 @@ export class ResetCategoriesOrchestratorService {
       .pipe(takeUntil(this.destroy$))
       .subscribe(async (event) => {
         try {
-          await this.categoryFacade.resetCategoriesByType(event.payload.budgetType);
+          const categoriesIdsToReset = await firstValueFrom(
+            this.categoryFacade
+              .getCategoriesByType(event.payload.budgetType)
+              .pipe(map((categories) => categories.map((category) => category.id)))
+          );
 
           const resetCategoriesRecord: CategoriesResetRecord = createCategoriesResetRecord(
             event.payload.budgetType
           );
 
-          await this.activityLogFacade.addRecord(resetCategoriesRecord);
+          await this.batchOperationService.executeBatchOperation([
+            {
+              docRef: this.categoryFacade.getCategoryDocRef(),
+              type: 'update',
+              data: categoriesIdsToReset.reduce(
+                (result, categoryId) => ({ ...result, [`${categoryId}.value`]: 0 }),
+                {}
+              ),
+            },
+            {
+              docRef: this.activityLogFacade.getActivityLogDocRef(),
+              type: 'update',
+              data: { [resetCategoriesRecord.id]: resetCategoriesRecord },
+            },
+          ]);
+
+          this.categoryFacade.updateCategories(
+            categoriesIdsToReset.map(
+              (categoryId) =>
+                ({
+                  id: categoryId,
+                  value: 0,
+                }) as Category
+            )
+          );
+
+          this.activityLogFacade.addRecord(resetCategoriesRecord);
 
           this.eventBus.emit({
             type: CategoryEvents.RESET_CATEGORIES_FINISH,
@@ -44,7 +76,7 @@ export class ResetCategoriesOrchestratorService {
           this.eventBus.emit({
             type: CategoryEvents.RESET_CATEGORIES_FINISH,
             status: 'error',
-            errorCode: getErrorMessage(error),
+            errorCode: 'errors.category.resetCategoriesFlowFailed',
           });
         }
       });

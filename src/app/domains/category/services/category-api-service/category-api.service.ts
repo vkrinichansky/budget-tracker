@@ -48,28 +48,6 @@ export class CategoryApiService {
     });
   }
 
-  resetCategories(categoriesIdsToReset: string[]): Promise<void> {
-    const updatedCategoriesDictionary = categoriesIdsToReset.reduce(
-      (result, categoryId) => ({ ...result, [`${categoryId}.value`]: 0 }),
-      {}
-    );
-
-    return updateDoc(this.getDocRef(), {
-      ...updatedCategoriesDictionary,
-    });
-  }
-
-  resetCategoriesAndActivityLog(categoriesIdsToReset: string[]): Promise<void> {
-    const updatedCategoriesDictionary = categoriesIdsToReset.reduce(
-      (result, categoryId) => ({ ...result, [`${categoryId}.value`]: 0 }),
-      {}
-    );
-
-    return updateDoc(this.getDocRef(), {
-      ...updatedCategoriesDictionary,
-    });
-  }
-
   getDocRef(): DocumentReference {
     return doc(collection(this.firestore, 'categories'), this.afAuth.currentUser?.uid);
   }

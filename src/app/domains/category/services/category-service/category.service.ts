@@ -84,18 +84,6 @@ export class CategoryService {
     );
   }
 
-  async resetCategoriesByType(budgetType: BudgetType): Promise<void> {
-    const categoriesIdsToReset: string[] = await firstValueFrom(
-      this.getCategoriesByType(budgetType).pipe(
-        map((categories) => categories.map((category) => category.id))
-      )
-    );
-
-    this.store.dispatch(CategoryActions.resetCategories({ categoriesIdsToReset, budgetType }));
-
-    return this.eventBus.waitFor(CategoryEvents.RESET_CATEGORIES);
-  }
-
   // ===== FLOW TRIGGERS =====
   async runResetCategoriesFlow(budgetType: BudgetType): Promise<void> {
     this.eventBus.emit<ResetCategoriesEvent>({

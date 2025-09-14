@@ -63,10 +63,6 @@ export class CategoryFacadeService {
     this.categoryService.updateCategories(updatedCategories);
   }
 
-  async resetCategoriesByType(budgetType: BudgetType): Promise<void> {
-    return this.categoryService.resetCategoriesByType(budgetType);
-  }
-
   // ===== FLOW TRIGGERS =====
   async runResetCategoriesFlow(budgetType: BudgetType): Promise<void> {
     return this.categoryService.runResetCategoriesFlow(budgetType);

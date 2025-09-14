@@ -63,20 +63,6 @@ const adapterReducer = createReducer(
     })
   ),
 
-  on(
-    CategoryActions.categoriesReset,
-    (state, action): CategoryState => ({
-      ...state,
-      categories: categoryEntityAdapter.updateMany(
-        action.categoriesIdsToReset.map((categoryId) => ({
-          changes: { value: 0 },
-          id: categoryId,
-        })),
-        state.categories
-      ),
-    })
-  ),
-
   on(CategoryActions.cleanState, (): CategoryState => initialState)
 );
 

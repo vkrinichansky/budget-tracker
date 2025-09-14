@@ -25,18 +25,4 @@ export const CategoryActions = {
     '[Categories] Categories updated',
     props<{ updatedCategories: Category[] }>()
   ),
-
-  resetCategories: createAction(
-    '[Categories] Reset categories',
-    props<{
-      categoriesIdsToReset: string[];
-      budgetType: BudgetType;
-    }>()
-  ),
-  categoriesReset: createAction(
-    '[Categories] Categories reset',
-    props<{
-      categoriesIdsToReset: string[];
-    }>()
-  ),
 };

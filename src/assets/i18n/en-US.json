@@ -228,7 +228,7 @@
     "category": {
       "createCategoryFailed": "Failed to create category.",
       "removeCategoryFailed": "Failed to remove category.",
-      "resetCategoriesFailed": "Failed to reset categories.",
+      "resetCategoriesFlowFailed": "Failed to finish reset categories flow.",
       "changeCategoryValueFlowFailed": "Failed to finish change category value flow."
     },
     "activityLog": {
