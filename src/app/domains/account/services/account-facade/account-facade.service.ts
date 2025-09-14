@@ -42,20 +42,6 @@ export class AccountFacadeService {
     this.accountService.loadAccounts();
   }
 
-  moveMoneyBetweenAccount(
-    fromAccountId: string,
-    toAccountId: string,
-    valueToMove: number,
-    convertedValueToMove: number
-  ): Promise<void> {
-    return this.accountService.moveMoneyBetweenAccount(
-      fromAccountId,
-      toAccountId,
-      valueToMove,
-      convertedValueToMove
-    );
-  }
-
   addAccount(account: Account): Promise<void> {
     return this.accountService.addAccount(account);
   }
@@ -68,8 +54,8 @@ export class AccountFacadeService {
     return this.accountService.bulkAccountChangeOrder(updatedAccountsOrder);
   }
 
-  changeAccountValue(updatedAccount: Account): void {
-    this.accountService.changeAccountValue(updatedAccount);
+  updateAccounts(updatedAccounts: Account[]): void {
+    this.accountService.updateAccounts(updatedAccounts);
   }
 
   // ===== FLOW TRIGGERS =====

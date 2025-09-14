@@ -30,11 +30,6 @@ export const AccountActions = {
     props<{ accountId: string; updatedAccountsOrder: Record<string, number> }>()
   ),
 
-  accountValueChanged: createAction(
-    '[Accounts] Account value changed',
-    props<{ updatedAccount: Account }>()
-  ),
-
   bulkAccountChangeOrder: createAction(
     '[Accounts] Bulk account change order',
     props<{
@@ -46,17 +41,8 @@ export const AccountActions = {
     props<{ updatedAccountsOrder: Record<string, number> }>()
   ),
 
-  moveMoneyBetweenAccounts: createAction(
-    '[Accounts] Move money between accounts',
-    props<{
-      fromAccountId: string;
-      toAccountId: string;
-      fromAccountNewValue: number;
-      toAccountNewValue: number;
-    }>()
-  ),
-  moneyBetweenAccountsMoved: createAction(
-    '[Accounts] Money between accounts moved',
+  accountsUpdated: createAction(
+    '[Accounts] Accounts updated',
     props<{ updatedAccounts: Account[] }>()
   ),
 };

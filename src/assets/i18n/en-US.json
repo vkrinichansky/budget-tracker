@@ -223,7 +223,7 @@
       "addAccountFailed": "Failed to add account.",
       "removeAccountFailed": "Failed to remove account.",
       "changeAccountsOrderFailed": "Failed to change accounts order.",
-      "moveMoneyBetweenAccountsFailed": "Failed to move money between accounts."
+      "moveMoneyBetweenAccountsFlowFailed": "Failed to finish moving money between accounts flow."
     },
     "category": {
       "createCategoryFailed": "Failed to create category.",

@@ -105,50 +105,6 @@ export class AccountEffects {
     { dispatch: false }
   );
 
-  moveMoneyBetweenAccounts$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(AccountActions.moveMoneyBetweenAccounts),
-        mergeMap((action) =>
-          from(
-            this.accountService.moveMoneyBetweenAccounts(
-              action.fromAccountId,
-              action.toAccountId,
-              action.fromAccountNewValue,
-              action.toAccountNewValue
-            )
-          ).pipe(
-            timeout(REQUEST_TIMEOUT),
-            tap(() => {
-              this.eventBus.emit({
-                type: AccountEvents.MOVE_MONEY_BETWEEN_ACCOUNTS,
-                status: 'success',
-              });
-
-              this.store.dispatch(
-                AccountActions.moneyBetweenAccountsMoved({
-                  updatedAccounts: [
-                    { id: action.fromAccountId, value: action.fromAccountNewValue } as Account,
-                    { id: action.toAccountId, value: action.toAccountNewValue } as Account,
-                  ],
-                })
-              );
-            }),
-            catchError(() => {
-              this.eventBus.emit({
-                type: AccountEvents.MOVE_MONEY_BETWEEN_ACCOUNTS,
-                status: 'error',
-                errorCode: 'errors.account.moveMoneyBetweenAccountsFailed',
-              });
-
-              return EMPTY;
-            })
-          )
-        )
-      ),
-    { dispatch: false }
-  );
-
   bulkAccountChangeOrder$ = createEffect(
     () =>
       this.actions$.pipe(

@@ -3,13 +3,14 @@ import {
   AccountEvents,
   AccountFacadeService,
   MoveMoneyBetweenAccountsEvent,
+  Account,
 } from '@budget-tracker/account';
 import {
   ActivityLogFacadeService,
   MoveMoneyBetweenAccountsRecord,
   createMoveMoneyBetweenAccountsRecord,
 } from '@budget-tracker/activity-log';
-import { EventBusService, getErrorMessage, pick } from '@budget-tracker/utils';
+import { BatchOperationService, EventBusService, pick } from '@budget-tracker/utils';
 import { firstValueFrom, Subject, takeUntil } from 'rxjs';
 
 @Injectable()
@@ -19,7 +20,8 @@ export class MoveMoneyBetweenAccountsOrchestratorService {
   constructor(
     private readonly accountFacade: AccountFacadeService,
     private readonly activityLogFacade: ActivityLogFacadeService,
-    private readonly eventBus: EventBusService
+    private readonly eventBus: EventBusService,
+    private readonly batchOperationService: BatchOperationService
   ) {}
 
   listen(): void {
@@ -28,13 +30,6 @@ export class MoveMoneyBetweenAccountsOrchestratorService {
       .pipe(takeUntil(this.destroy$))
       .subscribe(async (event) => {
         try {
-          await this.accountFacade.moveMoneyBetweenAccount(
-            event.payload.fromAccountId,
-            event.payload.toAccountId,
-            event.payload.valueToMove,
-            event.payload.convertedValueToMove
-          );
-
           const fromAccount = await firstValueFrom(
             this.accountFacade.getAccountById(event.payload.fromAccountId)
           );
@@ -42,6 +37,9 @@ export class MoveMoneyBetweenAccountsOrchestratorService {
           const toAccount = await firstValueFrom(
             this.accountFacade.getAccountById(event.payload.toAccountId)
           );
+
+          const fromAccountNewValue = fromAccount.value - event.payload.valueToMove;
+          const toAccountNewValue = toAccount.value + event.payload.convertedValueToMove;
 
           const moveMoneyBetweenAccountsRecord: MoveMoneyBetweenAccountsRecord =
             createMoveMoneyBetweenAccountsRecord(
@@ -51,17 +49,44 @@ export class MoveMoneyBetweenAccountsOrchestratorService {
               event.payload.convertedValueToMove
             );
 
-          await this.activityLogFacade.addRecord(moveMoneyBetweenAccountsRecord);
+          await this.batchOperationService.executeBatchOperation([
+            {
+              docRef: this.accountFacade.getAccountDocRef(),
+              type: 'update',
+              data: {
+                [`${fromAccount.id}.value`]: fromAccountNewValue,
+                [`${toAccount.id}.value`]: toAccountNewValue,
+              },
+            },
+            {
+              docRef: this.activityLogFacade.getActivityLogDocRef(),
+              type: 'update',
+              data: { [moveMoneyBetweenAccountsRecord.id]: moveMoneyBetweenAccountsRecord },
+            },
+          ]);
+
+          this.accountFacade.updateAccounts([
+            {
+              id: fromAccount.id,
+              value: fromAccountNewValue,
+            } as Account,
+            {
+              id: toAccount.id,
+              value: toAccountNewValue,
+            } as Account,
+          ]);
+
+          this.activityLogFacade.addRecord(moveMoneyBetweenAccountsRecord);
 
           this.eventBus.emit({
             type: AccountEvents.MOVE_MONEY_BETWEEN_ACCOUNTS_FINISH,
             status: 'success',
           });
-        } catch (error) {
+        } catch {
           this.eventBus.emit({
             type: AccountEvents.MOVE_MONEY_BETWEEN_ACCOUNTS_FINISH,
             status: 'error',
-            errorCode: getErrorMessage(error),
+            errorCode: 'errors.account.moveMoneyBetweenAccountsFlowFailed',
           });
         }
       });

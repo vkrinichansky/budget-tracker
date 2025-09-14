@@ -57,18 +57,6 @@ export class AccountApiService {
     });
   }
 
-  moveMoneyBetweenAccounts(
-    fromAccountId: string,
-    toAccountId: string,
-    fromAccountNewValue: number,
-    toAccountNewValue: number
-  ): Promise<void> {
-    return updateDoc(this.getDocRef(), {
-      [`${fromAccountId}.value`]: fromAccountNewValue,
-      [`${toAccountId}.value`]: toAccountNewValue,
-    });
-  }
-
   bulkAccountChangeOrder(updatedAccountsOrder: Record<string, number>): Promise<void> {
     const payload = Object.entries(updatedAccountsOrder).reduce(
       (result, entry) => ({ ...result, [`${entry[0]}.order`]: entry[1] }),

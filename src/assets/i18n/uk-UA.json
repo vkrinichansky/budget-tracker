@@ -220,7 +220,7 @@
       "addAccountFailed": "Не вдалося додати рахунок.",
       "removeAccountFailed": "Не вдалося видалити рахунок.",
       "changeAccountsOrderFailed": "Не вдалося змінити порядок рахунків.",
-      "moveMoneyBetweenAccountsFailed": "Не вдалося перемістити гроші між рахунками."
+      "moveMoneyBetweenAccountsFlowFailed": "Не вдалося завершити процес переміщення грошей між рахунками."
     },
     "category": {
       "createCategoryFailed": "Не вдалося створити категорію.",

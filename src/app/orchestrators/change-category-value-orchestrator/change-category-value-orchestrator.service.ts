@@ -88,10 +88,12 @@ export class ChangeCategoryValueOrchestratorService {
             },
           ]);
 
-          this.accountFacade.changeAccountValue({
-            id: account.id,
-            value: updatedAccountValue,
-          } as Account);
+          this.accountFacade.updateAccounts([
+            {
+              id: account.id,
+              value: updatedAccountValue,
+            } as Account,
+          ]);
 
           this.categoryFacade.changeCategoryValue({
             ...category,
