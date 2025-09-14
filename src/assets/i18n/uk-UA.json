@@ -229,7 +229,7 @@
       "changeCategoryValueFlowFailed": "Не вдалося завершити процес зміни значення категорії."
     },
     "activityLog": {
-      "removeRecordFailed": "Не вдалося видалити запис.",
+      "removeRecordFlowFailed": "Не вдалося відмінити зміни, зроблені цим записом.",
       "removeAllRecordsFailed": "Не вдалося видалити всі записи."
     }
   }

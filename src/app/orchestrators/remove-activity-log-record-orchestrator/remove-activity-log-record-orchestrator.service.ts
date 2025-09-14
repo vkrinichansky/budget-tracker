@@ -5,11 +5,12 @@ import {
   ActivityLogFacadeService,
   CategoryValueChangeRecord,
 } from '@budget-tracker/activity-log';
-import { CategoryFacadeService } from '@budget-tracker/category';
-import { AccountFacadeService } from '@budget-tracker/account';
+import { Category, CategoryFacadeService } from '@budget-tracker/category';
+import { Account, AccountFacadeService } from '@budget-tracker/account';
 import { BudgetType } from '@budget-tracker/models';
-import { EventBusService, getErrorMessage } from '@budget-tracker/utils';
+import { BatchOperationService, EventBusService } from '@budget-tracker/utils';
 import { firstValueFrom, Subject, takeUntil } from 'rxjs';
+import { deleteField } from '@angular/fire/firestore';
 
 @Injectable()
 export class RemoveActivityLogRecordOrchestratorService {
@@ -18,7 +19,8 @@ export class RemoveActivityLogRecordOrchestratorService {
     private readonly eventBus: EventBusService,
     private readonly activityLogFacade: ActivityLogFacadeService,
     private readonly categoryFacade: CategoryFacadeService,
-    private readonly accountFacade: AccountFacadeService
+    private readonly accountFacade: AccountFacadeService,
+    private readonly batchOperationService: BatchOperationService
   ) {}
 
   listen(): void {
@@ -29,38 +31,69 @@ export class RemoveActivityLogRecordOrchestratorService {
       .pipe(takeUntil(this.destroy$))
       .subscribe(async (event) => {
         try {
-          // const record = (await firstValueFrom(
-          //   this.activityLogFacade.getRecordById(event.payload.recordId)
-          // )) as CategoryValueChangeRecord;
+          const record = (await firstValueFrom(
+            this.activityLogFacade.getRecordById(event.payload.recordId)
+          )) as CategoryValueChangeRecord;
 
-          // const category = structuredClone(
-          //   await firstValueFrom(this.categoryFacade.getCategoryById(record.category.id))
-          // );
-          // const account = structuredClone(
-          //   await firstValueFrom(this.accountFacade.getAccountById(record.account.id))
-          // );
+          const category = structuredClone(
+            await firstValueFrom(this.categoryFacade.getCategoryById(record.category.id))
+          );
 
-          // const updatedCategoryValue =
-          //   category.value - record.convertedValue < 0 ? 0 : category.value - record.convertedValue;
+          const account = structuredClone(
+            await firstValueFrom(this.accountFacade.getAccountById(record.account.id))
+          );
 
-          // let updatedAccountValue: number;
+          const updatedCategoryValue =
+            category.value - record.convertedValue < 0 ? 0 : category.value - record.convertedValue;
 
-          // switch (record.budgetType) {
-          //   case BudgetType.Income:
-          //     updatedAccountValue =
-          //       account.value - record.value < 0 ? 0 : account.value - record.value;
+          let updatedAccountValue: number;
 
-          //     break;
+          switch (record.budgetType) {
+            case BudgetType.Income:
+              updatedAccountValue =
+                account.value - record.value < 0 ? 0 : account.value - record.value;
 
-          //   case BudgetType.Expense:
-          //     updatedAccountValue = account.value + record.value;
+              break;
 
-          //     break;
-          // }
+            case BudgetType.Expense:
+              updatedAccountValue = account.value + record.value;
 
-          // await this.activityLogFacade.removeRecord(event.payload.recordId);
-          // await this.categoryFacade.changeCategoryValue(category.id, updatedCategoryValue, true);
-          // await this.accountFacade.changeAccountValue(account.id, updatedAccountValue);
+              break;
+          }
+
+          await this.batchOperationService.executeBatchOperation([
+            {
+              docRef: this.accountFacade.getAccountDocRef(),
+              type: 'update',
+              data: { [`${account.id}.value`]: updatedAccountValue },
+            },
+            {
+              docRef: this.categoryFacade.getCategoryDocRef(),
+              type: 'update',
+              data: { [`${category.id}.value`]: updatedCategoryValue },
+            },
+            {
+              docRef: this.activityLogFacade.getActivityLogDocRef(),
+              type: 'update',
+              data: { [record.id]: deleteField() },
+            },
+          ]);
+
+          this.categoryFacade.updateCategories([
+            {
+              ...category,
+              value: updatedCategoryValue,
+            } as Category,
+          ]);
+
+          this.accountFacade.updateAccounts([
+            {
+              id: account.id,
+              value: updatedAccountValue,
+            } as Account,
+          ]);
+
+          this.activityLogFacade.removeRecord(event.payload.recordId);
 
           this.eventBus.emit({
             type: ActivityLogEvents.REMOVE_CATEGORY_VALUE_CHANGE_RECORD_FINISH,
@@ -72,7 +105,7 @@ export class RemoveActivityLogRecordOrchestratorService {
             type: ActivityLogEvents.REMOVE_CATEGORY_VALUE_CHANGE_RECORD_FINISH,
             status: 'error',
             operationId: event.payload.recordId,
-            errorCode: getErrorMessage(error),
+            errorCode: 'errors.activityLog.removeRecordFlowFailed',
           });
         }
       });

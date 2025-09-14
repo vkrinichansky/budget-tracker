@@ -95,10 +95,12 @@ export class ChangeCategoryValueOrchestratorService {
             } as Account,
           ]);
 
-          this.categoryFacade.changeCategoryValue({
-            ...category,
-            value: updatedCategoryValue,
-          } as Category);
+          this.categoryFacade.updateCategories([
+            {
+              ...category,
+              value: updatedCategoryValue,
+            } as Category,
+          ]);
 
           this.activityLogFacade.addRecord(changeCategoryValueRecord);
 

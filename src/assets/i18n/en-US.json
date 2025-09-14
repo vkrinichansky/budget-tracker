@@ -232,7 +232,7 @@
       "changeCategoryValueFlowFailed": "Failed to finish change category value flow."
     },
     "activityLog": {
-      "removeRecordFailed": "Failed to remove record.",
+      "removeRecordFlowFailed": "Failed to revert changes made by this record.",
       "removeAllRecordsFailed": "Failed to remove all records."
     }
   }

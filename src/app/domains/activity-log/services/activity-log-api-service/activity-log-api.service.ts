@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import {
   collection,
-  deleteField,
   doc,
   DocumentReference,
   Firestore,
   getDoc,
   setDoc,
-  updateDoc,
 } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 import { ActivityLogRecordUnitedType } from '../../models';
@@ -28,12 +26,6 @@ export class ActivityLogApiService {
 
     await setDoc(this.getDocRef(), {});
     return {};
-  }
-
-  removeRecord(recordId: string): Promise<void> {
-    return updateDoc(this.getDocRef(), {
-      [recordId]: deleteField(),
-    });
   }
 
   bulkRecordRemove(): Promise<void> {

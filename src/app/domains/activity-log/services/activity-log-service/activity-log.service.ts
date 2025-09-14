@@ -47,14 +47,8 @@ export class ActivityLogService {
     this.store.dispatch(ActivityLogActions.recordAdded({ record }));
   }
 
-  async removeRecord(recordId: string): Promise<void> {
-    this.store.dispatch(
-      ActivityLogActions.removeRecord({
-        recordId,
-      })
-    );
-
-    return this.eventBus.waitFor(ActivityLogEvents.REMOVE_CATEGORY_VALUE_CHANGE_RECORD, recordId);
+  removeRecord(recordId: string): void {
+    this.store.dispatch(ActivityLogActions.recordRemoved({ recordId }));
   }
 
   async removeAllRecords(): Promise<void> {

@@ -59,8 +59,8 @@ export class CategoryFacadeService {
     return this.categoryService.removeCategory(categoryId);
   }
 
-  changeCategoryValue(updatedCategory: Category): void {
-    this.categoryService.changeCategoryValue(updatedCategory);
+  updateCategories(updatedCategories: Category[]): void {
+    this.categoryService.updateCategories(updatedCategories);
   }
 
   async resetCategoriesByType(budgetType: BudgetType): Promise<void> {

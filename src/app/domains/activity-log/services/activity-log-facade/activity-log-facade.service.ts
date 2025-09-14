@@ -34,7 +34,7 @@ export class ActivityLogFacadeService {
     this.activityLogService.addRecord(record);
   }
 
-  async removeRecord(recordId: string): Promise<void> {
+  removeRecord(recordId: string): void {
     return this.activityLogService.removeRecord(recordId);
   }
 

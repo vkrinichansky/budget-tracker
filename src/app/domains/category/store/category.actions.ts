@@ -21,9 +21,9 @@ export const CategoryActions = {
   ),
   categoryRemoved: createAction('[Categories] Category removed', props<{ categoryId: string }>()),
 
-  categoryValueChanged: createAction(
-    '[Categories] Category value changed',
-    props<{ updatedCategory: Category }>()
+  categoriesUpdated: createAction(
+    '[Categories] Categories updated',
+    props<{ updatedCategories: Category[] }>()
   ),
 
   resetCategories: createAction(

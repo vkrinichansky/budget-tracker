@@ -14,12 +14,6 @@ export const ActivityLogActions = {
     props<{ record: ActivityLogRecordUnitedType }>()
   ),
 
-  removeRecord: createAction(
-    '[ActivityLog] Remove category value change record',
-    props<{
-      recordId: string;
-    }>()
-  ),
   recordRemoved: createAction('[ActivityLog] Record removed', props<{ recordId: string }>()),
 
   bulkRecordsRemove: createAction('[ActivityLog] Bulk records remove'),

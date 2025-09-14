@@ -50,11 +50,14 @@ const adapterReducer = createReducer(
   ),
 
   on(
-    CategoryActions.categoryValueChanged,
+    CategoryActions.categoriesUpdated,
     (state, action): CategoryState => ({
       ...state,
-      categories: categoryEntityAdapter.updateOne(
-        { changes: action.updatedCategory, id: action.updatedCategory.id },
+      categories: categoryEntityAdapter.updateMany(
+        action.updatedCategories.map((category) => ({
+          changes: { value: category.value },
+          id: category.id,
+        })),
         state.categories
       ),
     })

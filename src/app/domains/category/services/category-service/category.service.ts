@@ -76,10 +76,10 @@ export class CategoryService {
     return this.eventBus.waitFor(CategoryEvents.REMOVE_CATEGORY, categoryId);
   }
 
-  changeCategoryValue(updatedCategory: Category): void {
+  updateCategories(updatedCategories: Category[]): void {
     this.store.dispatch(
-      CategoryActions.categoryValueChanged({
-        updatedCategory,
+      CategoryActions.categoriesUpdated({
+        updatedCategories,
       })
     );
   }
