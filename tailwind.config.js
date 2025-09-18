@@ -73,6 +73,7 @@ module.exports = {
         ...convertPixelsIntoRems(72), // 72px,
         ...convertPixelsIntoRems(76), // 76px,
         ...convertPixelsIntoRems(100), // 100px,
+        ...convertPixelsIntoRems(200), // 200px,
       },
       maxWidth: {
         ...convertPixelsIntoRems(200), // 200px,

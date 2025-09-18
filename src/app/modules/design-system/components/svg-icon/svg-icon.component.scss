@@ -20,9 +20,9 @@
 
   $icon-size-map:
    // class size
-    'small' 5,
-    'medium' 6,
-    'big' 10;
+    '20px' 5,
+    '24px' 6,
+    '40px' 10;
 
   @mixin icon-size() {
     @each $class, $size in $icon-size-map {
@@ -34,12 +34,4 @@
 
   @include bg-size;
   @include icon-size;
-
-  &.icon-large {
-    @apply w-96 max-w-full;
-
-    @media (width <= 480px) {
-      @apply px-6;
-    }
-  }
 }

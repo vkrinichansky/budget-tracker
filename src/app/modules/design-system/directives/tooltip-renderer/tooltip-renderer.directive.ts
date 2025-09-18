@@ -14,7 +14,7 @@ import {
   OverlayRef,
 } from '@angular/cdk/overlay';
 import { CustomTooltipComponent } from '../../components';
-import { BgColorScheme, TooltipPosition } from '../../models';
+import { TooltipBgColor, TooltipPosition } from '../../models';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { filter, firstValueFrom, map } from 'rxjs';
 import { isMobileWidth } from '../../helpers';
@@ -73,7 +73,7 @@ export class TooltipRendererDirective implements OnDestroy {
   showTooltipOnlyOnOverflow = false;
 
   @Input()
-  tooltipBgColor: BgColorScheme = 'charcoal';
+  tooltipBgColor: TooltipBgColor = 'charcoal';
 
   @Input()
   position: TooltipPosition[] = ['top'];

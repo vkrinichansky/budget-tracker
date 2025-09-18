@@ -5,17 +5,17 @@ import {
   DestroyRef,
   ElementRef,
   EventEmitter,
-  HostBinding,
   Input,
   Output,
   TemplateRef,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { ButtonSize, ColorScheme, MenuAction, overlayFade } from '../../models';
+import { ColorScheme, MenuAction, overlayFade } from '../../models';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ButtonComponent } from '../button/button.component';
 
 @Component({
   selector: 'app-menu',
@@ -24,7 +24,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   animations: [overlayFade],
   standalone: false,
 })
-export class MenuComponent implements AfterViewInit {
+export class MenuComponent extends ButtonComponent implements AfterViewInit {
   @ViewChild('actionsTemplate')
   private actionsTemplate: TemplateRef<unknown>;
 
@@ -34,35 +34,13 @@ export class MenuComponent implements AfterViewInit {
   private overlayRef: OverlayRef;
 
   @Input()
-  colorScheme: ColorScheme = 'transparent-dark';
-
-  @Input()
-  buttonSizeX: ButtonSize = 'small';
-
-  @Input()
-  buttonSizeY: ButtonSize = 'small';
-
-  @Input()
   icon = 'menu';
-
-  @HostBinding('class.use-current-color')
-  @Input()
-  shouldUseCurrentColor: boolean;
 
   @Input()
   menuActions: MenuAction[];
 
   @Input()
   useContent: boolean;
-
-  @Input()
-  text: string;
-
-  @Input()
-  menuDisabled: boolean;
-
-  @Input()
-  loading: boolean;
 
   @Output()
   // eslint-disable-next-line @angular-eslint/no-output-native
@@ -80,7 +58,9 @@ export class MenuComponent implements AfterViewInit {
     private overlay: Overlay,
     private viewContainerRef: ViewContainerRef,
     private destroyRef: DestroyRef
-  ) {}
+  ) {
+    super();
+  }
 
   ngAfterViewInit() {
     const positionStrategy = this.overlay

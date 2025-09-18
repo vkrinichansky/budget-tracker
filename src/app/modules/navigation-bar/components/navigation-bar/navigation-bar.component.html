@@ -1,5 +1,5 @@
 <div class="nav-container">
-  <svg-icon class="logo mb-2" [iconName]="'small-logo'" [iconSize]="'big'"></svg-icon>
+  <svg-icon class="logo mb-2" [iconName]="'small-logo'" [iconSize]="'40px'"></svg-icon>
 
   @for (item of navigationBarItems; track item) {
     <app-navigation-bar-item [item]="item"></app-navigation-bar-item>
@@ -14,7 +14,7 @@
   [dontDisplayOnScreenWidth]="true"
   [iconName]="'logout'"
   [colorScheme]="'transparent-light'"
-  [buttonSizeY]="'medium'"
-  [buttonSizeX]="'medium'"
+  [buttonSizeY]="'px36'"
+  [buttonSizeX]="'px36'"
   (click)="logOut()"
 ></app-button>

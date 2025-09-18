@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, TemplateRef } from '@angular/core';
-import { IconSize, InfoIconType, TooltipPosition } from '../../models';
+import { TooltipPosition } from '../../models';
+import { SvgIconComponent } from '../svg-icon/svg-icon.component';
+
+type InfoIconType = 'info' | 'warning';
 
 @Component({
   selector: 'app-info-icon',
@@ -8,12 +11,9 @@ import { IconSize, InfoIconType, TooltipPosition } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class InfoIconComponent {
+export class InfoIconComponent extends SvgIconComponent {
   @Input({ required: true })
   tooltip: TemplateRef<unknown> | string;
-
-  @Input()
-  size: IconSize = 'small';
 
   @Input()
   tooltipPosition: TooltipPosition = 'top';

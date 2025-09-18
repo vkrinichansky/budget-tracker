@@ -2,7 +2,7 @@
   @if (menuActions?.length) {
     <app-menu
       [menuActions]="menuActions"
-      [menuDisabled]="shouldDisableMenu"
+      [disabled]="shouldDisableMenu"
       [loading]="menuLoading"
       [shouldUseCurrentColor]="true"
     ></app-menu>
@@ -10,7 +10,7 @@
 
   @if (tooltip) {
     <app-info-icon
-      [size]="'medium'"
+      [iconSize]="'24px'"
       [tooltipPosition]="isMobile ? 'left' : 'top'"
       [tooltip]="tooltip"
     ></app-info-icon>

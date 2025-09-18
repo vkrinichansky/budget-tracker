@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
-import { IconSize } from '../../models';
 
+type IconSize = '20px' | '24px' | '40px';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'svg-icon',
@@ -12,14 +12,14 @@ import { IconSize } from '../../models';
 export class SvgIconComponent {
   @HostBinding('class')
   private get classes(): string {
-    return `icon-${this.iconSize} ${this.resolveBgSize}`;
+    return `${this.resolveIconSize} ${this.resolveBgSize}`;
   }
 
   @Input()
   iconName: string;
 
   @Input()
-  iconSize: IconSize = 'medium';
+  iconSize: IconSize = '24px';
 
   @HostBinding('class.rounded-full')
   @Input()
@@ -27,5 +27,9 @@ export class SvgIconComponent {
 
   get resolveBgSize(): string {
     return this.bgSize ? `bg-${this.bgSize}` : '';
+  }
+
+  get resolveIconSize(): string {
+    return this.iconSize ? `icon-${this.iconSize}` : '';
   }
 }

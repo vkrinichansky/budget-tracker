@@ -64,8 +64,8 @@
         <app-button
           class="overflow-hidden"
           [iconName]="getIcon(option)"
-          [buttonSizeX]="iconPickerMode ? 'medium' : 'full'"
-          [buttonSizeY]="'medium'"
+          [buttonSizeX]="iconPickerMode ? 'px36' : 'full'"
+          [buttonSizeY]="'px36'"
           [active]="formControl?.value && getId(option) === getId(formControl?.value)"
           [activeColorScheme]="'transparent-dark'"
           [text]="displayValueSelector ? displayValueSelector(option) : null"

@@ -50,10 +50,4 @@ export type ColorScheme =
   | 'transparent-dark'
   | 'active-navigation-item';
 
-export type BgColorScheme = 'white' | 'dark-green' | 'charcoal' | 'green' | 'red';
-
-export type IconSize = 'small' | 'medium' | 'big' | 'large' | 'auto' | 'full-width';
-
-export type ButtonSize = 'tiny' | 'small' | 'medium' | 'px100' | 'big' | 'large' | 'full' | 'auto';
-
-export type InfoIconType = 'info' | 'warning';
+export type ButtonType = 'primary' | 'secondary' | 'basic' | 'danger' | 'active';

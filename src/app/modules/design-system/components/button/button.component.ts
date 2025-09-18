@@ -1,7 +1,8 @@
 import { HostBinding } from '@angular/core';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ButtonSize, ColorScheme } from '../../models';
+import { ColorScheme } from '../../models';
 
+type ButtonSize = 'px28' | 'px32' | 'px36' | 'px100' | 'px160' | 'px240' | 'full' | 'auto';
 @Component({
   selector: 'app-button',
   templateUrl: './button.component.html',
@@ -60,10 +61,10 @@ export class ButtonComponent {
   activeColorScheme: ColorScheme = 'green';
 
   @Input()
-  buttonSizeX: ButtonSize = 'medium';
+  buttonSizeX: ButtonSize = 'px32';
 
   @Input()
-  buttonSizeY: ButtonSize = 'medium';
+  buttonSizeY: ButtonSize = 'px32';
 
   @Input()
   colorScheme: ColorScheme = 'transparent-dark';

@@ -8,5 +8,5 @@ import { Component, HostBinding, ChangeDetectionStrategy } from '@angular/core';
 export class AuthPageComponent {
   @HostBinding('class')
   private readonly classes =
-    'flex justify-center items-center flex-col w-full h-full bg-charcoal gap-y-50';
+    'flex justify-center items-center flex-col w-full h-full bg-charcoal gap-y-10 p-6';
 }

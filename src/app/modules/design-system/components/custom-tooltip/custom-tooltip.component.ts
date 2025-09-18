@@ -1,5 +1,5 @@
 import { Component, Input, TemplateRef, ChangeDetectionStrategy, HostBinding } from '@angular/core';
-import { BgColorScheme, TooltipPosition } from '../../models';
+import { TooltipPosition, TooltipBgColor } from '../../models';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 /**
@@ -48,7 +48,7 @@ export class CustomTooltipComponent {
   @Input() tooltipTemplate: TemplateRef<unknown>;
 
   @Input()
-  tooltipBgColor: BgColorScheme;
+  tooltipBgColor: TooltipBgColor = 'charcoal';
 
   @Input()
   position: TooltipPosition;
