@@ -1,0 +1,72 @@
+@use 'sass:map';
+
+$primary-type: 'primary';
+$secondary-type: 'secondary';
+$active-type: 'active';
+$inherit-type: 'inherit';
+$type-map: (
+  $primary-type: (
+    'bg': bg-charcoal,
+    'text': text-white,
+    'border': border-transparent,
+  ),
+  $secondary-type: (
+    'bg': bg-white,
+    'text': text-charcoal,
+    'border': border-charcoal,
+  ),
+  $active-type: (
+    'bg': bg-dark-green,
+    'text': text-white,
+    'border': border-transparent,
+  ),
+  $inherit-type: (
+    'bg': bg-inherit,
+    'text': text-inherit,
+    'border': border-transparent,
+  ),
+);
+$hover-map:
+// prop value
+  'hover' hover,
+  'active' none;
+
+@mixin button-type-hover($type, $bg) {
+  @each $prop, $value in $hover-map {
+    @media (hover: #{$value}) {
+      &:#{$prop} {
+        @if $type == $inherit-type or $type == $secondary-type {
+          background-color: rgba(from currentcolor r g b / 20%);
+        } @else {
+          @apply bg-opacity-80 #{$bg};
+        }
+      }
+    }
+  }
+}
+
+@mixin button-type() {
+  @each $type, $props in $type-map {
+    &.#{$type} {
+      $bg: map.get($props, 'bg');
+      $text: map.get($props, 'text');
+      $border: map.get($props, 'border');
+
+      @apply border-2 border-solid #{$border};
+
+      &.disabled {
+        @apply filter grayscale opacity-80;
+      }
+
+      svg-icon {
+        @apply text-inherit;
+      }
+
+      @include button-type-hover($type, $bg);
+
+      @if $type != $inherit-type {
+        @apply #{$bg} #{$text};
+      }
+    }
+  }
+}

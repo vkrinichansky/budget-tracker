@@ -1,24 +1,55 @@
+$color-mode-map: (
+  'dark': (
+    'border-x': border-x-charcoal,
+    'border-b': border-b-charcoal,
+  ),
+  'light': (
+    'border-x': border-x-white,
+    'border-b': border-b-white,
+  ),
+  'inherit': (
+    'border-x': border-x-current-color,
+    'border-b': border-b-current-color,
+  ),
+);
+$size-map: (
+  'button-loader': (
+    'w': w-6,
+    'h': h-6,
+  ),
+  'main-loader': (
+    'w': w-10,
+    'h': h-10,
+  ),
+);
+
+@mixin loader-size() {
+  @each $size, $props in $size-map {
+    &.#{$size} {
+      @each $prop, $value in $props {
+        @apply #{$value};
+      }
+    }
+  }
+}
+
+@mixin loader-color-mode() {
+  @each $color-mode, $props in $color-mode-map {
+    &.#{$color-mode} {
+      @each $prop, $value in $props {
+        @apply #{$value};
+      }
+    }
+  }
+}
+
 :host {
   @apply block rounded-full border-solid border-2 border-t-transparent;
 
   animation: loader 1s linear infinite;
 
-  // COLORS
-  &.dark {
-    @apply border-x-charcoal border-b-charcoal;
-  }
-
-  &.light {
-    @apply border-x-white border-b-white;
-  }
-
-  &.button-loader {
-    @apply w-6 h-6;
-  }
-
-  &.main-loader {
-    @apply w-10 h-10;
-  }
+  @include loader-color-mode;
+  @include loader-size;
 }
 
 // ANIMATION

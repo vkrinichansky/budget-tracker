@@ -14,7 +14,12 @@
   </div>
 
   @if (shouldDisplayCloseButton) {
-    <app-button [iconName]="'close'" (click)="cancelClick()"></app-button>
+    <app-button
+      class="text-charcoal"
+      [iconName]="'close'"
+      [type]="'inherit'"
+      (click)="cancelClick()"
+    ></app-button>
   }
 </div>
 

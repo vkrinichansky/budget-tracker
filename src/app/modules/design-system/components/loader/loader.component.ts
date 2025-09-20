@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 
+type LoaderSize = 'main-loader' | 'button-loader';
+type LoaderColorMode = 'dark' | 'light' | 'inherit';
+
 @Component({
   selector: 'app-loader',
   templateUrl: './loader.component.html',
@@ -9,10 +12,10 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
 })
 export class LoaderComponent {
   @Input()
-  size: 'main-loader' | 'button-loader' = 'button-loader';
+  size: LoaderSize = 'button-loader';
 
   @Input()
-  colorMode: 'dark' | 'light' = 'light';
+  colorMode: LoaderColorMode = 'light';
 
   @HostBinding('class')
   private get classes(): string {

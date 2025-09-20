@@ -31,6 +31,10 @@ export class AccountsListModalComponent implements OnInit {
   }
 
   async orderChanged(event: CdkDragDrop<Account[]>) {
+    if (event.previousIndex === event.currentIndex) {
+      return;
+    }
+
     const resultArray = structuredClone(this.accounts$.value);
 
     moveItemInArray(resultArray, event.previousIndex, event.currentIndex);

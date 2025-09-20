@@ -6,32 +6,30 @@
 <div class="flex flex-col gap-y-4 w-full h-full justify-between">
   <app-page-header class="text-xl bg-transparent" [title]="title | translate">
     <div class="flex items-center gap-x-2">
-      <button-toggle>
+      <button-toggle class="overflow-hidden">
         <app-button
-          [activeColorScheme]="'charcoal'"
+          class="text-charcoal"
           [text]="'category.tabs.list' | translate"
           [buttonSizeX]="'auto'"
           [buttonSizeY]="'full'"
-          [active]="currentTab === 'list'"
-          [shouldDisplayMobileClickEffect]="false"
+          [type]="currentTab === 'list' ? 'active' : 'inherit'"
           [rounded]="false"
           (click)="setTab('list')"
         ></app-button>
 
         <app-button
-          [activeColorScheme]="'charcoal'"
+          class="text-charcoal"
           [text]="'category.tabs.chart' | translate"
           [buttonSizeX]="'auto'"
           [buttonSizeY]="'full'"
           [disabled]="areAllCategoriesReset"
-          [active]="currentTab === 'chart'"
-          [shouldDisplayMobileClickEffect]="false"
+          [type]="currentTab === 'chart' ? 'active' : 'inherit'"
           [rounded]="false"
           (click)="setTab('chart')"
         ></app-button>
       </button-toggle>
 
-      <app-menu [colorScheme]="'transparent-dark'" [menuActions]="menuActions"></app-menu>
+      <app-menu class="text-charcoal" [type]="'inherit'" [menuActions]="menuActions"></app-menu>
     </div>
   </app-page-header>
 

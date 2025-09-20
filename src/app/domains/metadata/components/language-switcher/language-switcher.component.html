@@ -1,10 +1,12 @@
 <app-menu
   customTooltip
+  class="text-charcoal"
   [tooltipText]="buildTranslationKey('tooltip') | translate"
   [position]="['left']"
   [dontDisplayOnScreenWidth]="true"
   [menuActions]="menuActions"
   [icon]="icon"
+  [type]="'inherit'"
   [text]="currentLanguageText"
   [buttonSizeX]="'auto'"
   [loading]="loading$ | async"

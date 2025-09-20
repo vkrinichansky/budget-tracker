@@ -16,8 +16,9 @@
 
 @if (removeEnabled) {
   <app-button
+    class="text-charcoal"
     [iconName]="'close'"
-    [colorScheme]="'transparent-dark'"
+    [type]="'inherit'"
     [buttonSizeY]="'px28'"
     [buttonSizeX]="'px28'"
     (click)="removeButtonClick()"

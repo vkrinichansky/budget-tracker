@@ -11,7 +11,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { ColorScheme, MenuAction, overlayFade } from '../../models';
+import { MenuAction, overlayFade } from '../../models';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -33,11 +33,11 @@ export class MenuComponent extends ButtonComponent implements AfterViewInit {
 
   private overlayRef: OverlayRef;
 
-  @Input()
-  icon = 'menu';
+  @Input({ required: true })
+  menuActions: MenuAction[];
 
   @Input()
-  menuActions: MenuAction[];
+  icon = 'menu';
 
   @Input()
   useContent: boolean;
@@ -49,10 +49,6 @@ export class MenuComponent extends ButtonComponent implements AfterViewInit {
   @Output()
   // eslint-disable-next-line @angular-eslint/no-output-native
   open = new EventEmitter<void>();
-
-  get resolveColorScheme(): ColorScheme {
-    return this.shouldUseCurrentColor ? null : this.colorScheme;
-  }
 
   constructor(
     private overlay: Overlay,

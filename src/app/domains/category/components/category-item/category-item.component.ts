@@ -12,7 +12,7 @@ import {
   SnackbarHandlerService,
 } from '@budget-tracker/design-system';
 import { CategoryModalService } from '../../services';
-import { Observable, firstValueFrom, map } from 'rxjs';
+import { BehaviorSubject, Observable, firstValueFrom, map } from 'rxjs';
 import { CategoryFacadeService } from '../../services';
 import { AccountFacadeService } from '@budget-tracker/account';
 import { Category } from '../../models';
@@ -26,6 +26,8 @@ import { getErrorMessage } from '@budget-tracker/utils';
   standalone: false,
 })
 export class CategoryItemComponent implements OnInit {
+  readonly loading$ = new BehaviorSubject<boolean>(false);
+
   @Input({ required: true })
   category: Category;
 
@@ -88,11 +90,15 @@ export class CategoryItemComponent implements OnInit {
             },
             async () => {
               try {
+                this.loading$.next(true);
+
                 await this.categoryFacade.removeCategory(this.category.id);
 
                 this.snackbarHandler.showMessageSnackbar('messages.category.categoryRemoved');
               } catch (error) {
                 this.snackbarHandler.showErrorSnackbar(getErrorMessage(error));
+              } finally {
+                this.loading$.next(false);
               }
             }
           );

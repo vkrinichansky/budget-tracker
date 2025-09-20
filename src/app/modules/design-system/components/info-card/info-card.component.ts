@@ -1,6 +1,11 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, TemplateRef } from '@angular/core';
-import { MenuAction } from '../../models';
-import { isMobileWidth } from '../../helpers';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ContentChild,
+  HostBinding,
+  Input,
+  TemplateRef,
+} from '@angular/core';
 
 @Component({
   selector: 'app-info-card',
@@ -12,6 +17,9 @@ export class InfoCardComponent {
   @HostBinding('class')
   private readonly classes =
     'flex py-4 px-5 rounded-lg h-28 justify-start items-center gap-x-5 relative';
+
+  @ContentChild('content')
+  protected content: TemplateRef<unknown>;
 
   @HostBinding('style.background-color')
   @Input()
@@ -32,20 +40,4 @@ export class InfoCardComponent {
 
   @Input()
   iconName: string;
-
-  @Input()
-  shouldDisableMenu: boolean;
-
-  @Input()
-  tooltip: TemplateRef<unknown> | string;
-
-  @Input()
-  menuActions: MenuAction[];
-
-  @Input()
-  menuLoading: boolean;
-
-  get isMobile(): boolean {
-    return isMobileWidth();
-  }
 }

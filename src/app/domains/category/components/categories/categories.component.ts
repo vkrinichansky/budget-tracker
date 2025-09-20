@@ -65,9 +65,16 @@ export class CategoriesComponent implements OnInit {
   }
 
   private initData(): void {
-    this.categories$ = this.categoryFacade
-      .getCategoriesByType(this.budgetType)
-      .pipe(map((categories) => categories.sort((a, b) => b.value - a.value)));
+    this.categories$ = this.categoryFacade.getCategoriesByType(this.budgetType).pipe(
+      map((categories) =>
+        categories.sort((a, b) => {
+          if (a.isSystem && !b.isSystem) return 1;
+          if (!a.isSystem && b.isSystem) return -1;
+
+          return b.value - a.value;
+        })
+      )
+    );
 
     this.areAllCategoriesReset$ = this.categoryFacade.areCategoriesAllReset(this.budgetType);
     this.isEmpty$ = this.categories$.pipe(map((categories) => !categories.length));

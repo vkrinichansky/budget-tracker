@@ -19,7 +19,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-hover-black border border-solid border-transparent rounded-full bg-clip-padding;
+  @apply bg-charcoal bg-opacity-20 border border-solid border-transparent rounded-full bg-clip-padding;
 }
 
 .apex-tooltip {

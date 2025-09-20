@@ -4,9 +4,11 @@
   @if (!isEmpty) {
     <app-button
       customTooltip
+      class="text-charcoal"
       [tooltipText]="'activityLog.removeButtonTooltip' | translate"
       [position]="['left']"
       [iconName]="'delete-bin'"
+      [type]="'inherit'"
       (click)="openRemoveConfirmationModal()"
     ></app-button>
   }

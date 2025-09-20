@@ -1,27 +1,31 @@
 :host {
-  &::ng-deep {
-    svg-icon {
-      @media (hover: hover) {
-        transition: color ease-in-out 0.15s;
-      }
-    }
+  @media (hover: hover) {
+    transition: opacity ease-in-out 0.15s;
   }
 
   $color-map:
     // class text-color hover-text-color
-    'info' text-charcoal text-blue,
-    'warning' text-yellow text-dark-yellow;
+    'info' text-charcoal,
+    'warning' text-yellow;
+  $hover-map:
+    // class hover-class
+    'hover' hover,
+    'active' none;
 
   @mixin icon-color() {
-    @each $class, $text-color, $hover-text-color in $color-map {
+    @each $class, $text-color in $color-map {
       &.#{$class} {
-        &::ng-deep {
-          svg-icon {
-            @apply #{$text-color};
-          }
+        @apply #{$text-color};
 
-          @media (hover: hover) {
-            @apply hover:#{$hover-text-color};
+        svg-icon {
+          @apply text-inherit;
+        }
+
+        @each $prop, $value in $hover-map {
+          @media (hover: #{$value}) {
+            &:#{$prop} {
+              @apply opacity-80;
+            }
           }
         }
       }

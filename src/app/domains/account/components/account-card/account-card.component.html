@@ -7,16 +7,20 @@
     [tertiaryText]="isAccountWithForeignCurrency ? account.name : null"
     [bgColor]="account.bgColor"
     [textColor]="account.textColor"
-    [menuActions]="menuActions"
-  ></app-info-card>
+  >
+    <ng-template #content>
+      <div class="flex flex-col gap-y-1">
+        <app-menu [menuActions]="menuActions" [type]="'inherit'"></app-menu>
 
-  <app-button
-    cdkDragHandle
-    class="drag-button absolute right-2 top-12"
-    [style.color]="account.textColor"
-    [iconName]="'drag-handle'"
-    [colorScheme]="null"
-    [shouldUseCurrentColor]="true"
-    [disabled]="shouldDisableDragButton"
-  ></app-button>
+        <app-button
+          cdkDragHandle
+          class="drag-button"
+          [style.color]="account.textColor"
+          [iconName]="'drag-handle'"
+          [type]="'inherit'"
+          [disabled]="shouldDisableDragButton"
+        ></app-button>
+      </div>
+    </ng-template>
+  </app-info-card>
 </div>

@@ -16,29 +16,32 @@
     [textColor]="'text-white' | classToHexColor"
     [bgColor]="'bg-dark-green' | classToHexColor"
   >
+    <ng-template #content>
+      <div class="flex gap-x-2">
+        <app-button
+          class="text-white"
+          [iconName]="'plus'"
+          [type]="'inherit'"
+          (click)="openAddAccountModal(); $event.stopPropagation()"
+        ></app-button>
+
+        @if (accountsAmount >= 2) {
+          <app-button
+            class="text-white"
+            [iconName]="'money-change'"
+            [type]="'inherit'"
+            (click)="openMoneyMovementModal(); $event.stopPropagation()"
+          ></app-button>
+        }
+      </div>
+    </ng-template>
   </app-info-card>
 
   @if (accountsAmount) {
     <span
-      class="tip absolute left-0 bottom-0 w-full h-7 bg-hover-black flex justify-center items-center font-main text-white"
+      class="tip absolute left-0 bottom-0 w-full h-7 bg-charcoal bg-opacity-50 flex justify-center items-center font-main text-white"
     >
       {{ buildTranslationKey('hoverTip') | translate }}
     </span>
   }
-
-  <div class="absolute top-2 right-2 flex gap-x-2">
-    <app-button
-      [iconName]="'plus'"
-      [colorScheme]="'transparent-light'"
-      (click)="openAddAccountModal(); $event.stopPropagation()"
-    ></app-button>
-
-    @if (accountsAmount >= 2) {
-      <app-button
-        [iconName]="'money-change'"
-        [colorScheme]="'transparent-light'"
-        (click)="openMoneyMovementModal(); $event.stopPropagation()"
-      ></app-button>
-    }
-  </div>
 </div>

@@ -42,14 +42,14 @@
 
 <ng-template #footer>
   <app-button
-    [colorScheme]="'transparent-dark'"
+    [type]="'secondary'"
     [text]="buildTranslationKey('noButton') | translate"
     [buttonSizeX]="'px100'"
     (click)="closeClick()"
   >
   </app-button>
   <app-button
-    [colorScheme]="'charcoal'"
+    [type]="'primary'"
     [text]="buildTranslationKey('yesButton') | translate"
     [buttonSizeX]="'px100'"
     [loading]="loading$ | async"

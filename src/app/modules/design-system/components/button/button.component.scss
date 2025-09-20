@@ -1,7 +1,5 @@
-@import './button-size';
-@import './button-active-state';
-@import './button-color';
-@import './button-current-color-mixin';
+@use './button-size' as *;
+@use './button-type' as *;
 
 :host {
   @media (hover: hover) {
@@ -10,23 +8,13 @@
       color 0.15s ease-in-out;
   }
 
-  // STATES
   &.loading,
   &.disabled,
   &.active {
     @apply cursor-default pointer-events-none;
   }
 
-  // USE CURRENT COLOR
-  @include use-current-color;
-
-  // COLORS
-  @include button-color;
-
-  // ACTIVE STATE
-  @include button-active-state;
-
-  // SIZES
+  @include button-type;
   @include button-size(w);
   @include button-size(h);
 }

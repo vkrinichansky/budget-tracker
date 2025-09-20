@@ -61,15 +61,16 @@
       }"
     >
       @for (option of dropdownOptions; track getId(option)) {
+        @let isActive = formControl?.value && getId(option) === getId(formControl?.value);
+
         <app-button
-          class="overflow-hidden"
+          class="overflow-hidden text-charcoal"
           [iconName]="getIcon(option)"
           [buttonSizeX]="iconPickerMode ? 'px36' : 'full'"
           [buttonSizeY]="'px36'"
-          [active]="formControl?.value && getId(option) === getId(formControl?.value)"
-          [activeColorScheme]="'transparent-dark'"
           [text]="displayValueSelector ? displayValueSelector(option) : null"
           [align]="iconPickerMode ? 'center' : 'start'"
+          [type]="isActive ? 'active' : 'inherit'"
           (click)="valueChanged(option)"
         ></app-button>
       }

@@ -1,7 +1,7 @@
-@import './shared-styles/tailwind';
-@import './shared-styles/custom-styles';
-@import './shared-styles/font';
-@import './shared-styles/general';
-@import './shared-styles/form-controls';
-@import './shared-styles/ng-material-custom';
-@import './shared-styles/view-transition';
+@use './shared-styles/tailwind' as *;
+@use './shared-styles/custom-styles' as *;
+@use './shared-styles/font' as *;
+@use './shared-styles/general' as *;
+@use './shared-styles/form-controls' as *;
+@use './shared-styles/ng-material-custom' as *;
+@use './shared-styles/view-transition' as *;

@@ -4,7 +4,7 @@
   [class.justify-center]="align === 'center'"
   [class.justify-start]="align === 'start'"
   [ngClass]="{
-    'px-1.5 py-1.5': text
+    'px-1.5 py-1.5': text,
   }"
   [tooltipText]="text"
   [showTooltipOnlyOnOverflow]="true"
@@ -12,7 +12,7 @@
   [type]="'button'"
 >
   @if (loading) {
-    <app-loader [colorMode]="loaderColorMode"></app-loader>
+    <app-loader [colorMode]="'inherit'"></app-loader>
   } @else {
     @if (iconName) {
       <svg-icon class="w-6 h-6" [iconName]="iconName" [class.grayscale]="disabled"></svg-icon>

@@ -7,13 +7,19 @@
 >
   <app-button
     customTooltip
+    [ngClass]="{
+      'text-green': routerLinkActive.isActive,
+      'text-white': !routerLinkActive.isActive,
+    }"
     [tooltipText]="item.tooltipTranslationKey | translate"
     [position]="['right']"
     [tooltipBgColor]="'green'"
     [dontDisplayOnScreenWidth]="true"
     [iconName]="item.iconName"
-    [colorScheme]="routerLinkActive.isActive ? 'active-navigation-item' : 'transparent-light'"
     [buttonSizeY]="'px36'"
     [buttonSizeX]="'px36'"
+    [type]="'inherit'"
   ></app-button>
 </a>
+
+<!-- TODO: add type to button -->

@@ -8,12 +8,13 @@
 
 <app-button
   customTooltip
+  class="text-white"
   [tooltipText]="'navigationBar.itemTooltip.logout' | translate"
   [position]="['right']"
   [tooltipBgColor]="'green'"
   [dontDisplayOnScreenWidth]="true"
   [iconName]="'logout'"
-  [colorScheme]="'transparent-light'"
+  [type]="'inherit'"
   [buttonSizeY]="'px36'"
   [buttonSizeX]="'px36'"
   (click)="logOut()"
