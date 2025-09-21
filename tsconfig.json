@@ -78,6 +78,9 @@
       "@budget-tracker/edit-account-value-orchestrator": [
         "src/app/orchestrators/edit-account-value-orchestrator/index.ts"
       ],
+      "@budget-tracker/month-reset-orchestrator": [
+        "src/app/orchestrators/month-reset-orchestrator/index.ts"
+      ],
       // Pages
       "@budget-tracker/auth-page": [
         "src/app/pages/auth/index.ts"

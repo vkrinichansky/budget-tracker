@@ -15,6 +15,7 @@ import { ResetCategoriesOrchestratorModule } from '@budget-tracker/reset-categor
 import { ChangeCategoryValueOrchestratorModule } from '@budget-tracker/change-category-value-orchestrator';
 import { RemoveActivityLogRecordOrchestratorModule } from '@budget-tracker/remove-activity-log-record-orchestrator';
 import { EditAccountValueOrchestratorModule } from '@budget-tracker/edit-account-value-orchestrator';
+import { MonthResetOrchestratorModule } from '@budget-tracker/month-reset-orchestrator';
 
 const routes: Routes = [
   {
@@ -41,6 +42,7 @@ const routes: Routes = [
     ChangeCategoryValueOrchestratorModule,
     RemoveActivityLogRecordOrchestratorModule,
     EditAccountValueOrchestratorModule,
+    MonthResetOrchestratorModule,
   ],
 })
 export class DashboardPageModule {}

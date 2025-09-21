@@ -8,6 +8,7 @@ import { SnapshotsListComponent, SnapshotItemComponent } from './components';
 import { NgxApexchartsModule } from 'ngx-apexcharts';
 import { TranslateModule } from '@ngx-translate/core';
 import { DesignSystemModule } from '@budget-tracker/design-system';
+import { MetadataDomainModule } from '@budget-tracker/metadata';
 
 @NgModule({
   declarations: [SnapshotsListComponent, SnapshotItemComponent],
@@ -18,6 +19,7 @@ import { DesignSystemModule } from '@budget-tracker/design-system';
     EffectsModule.forFeature([SnapshotEffects]),
     TranslateModule,
     DesignSystemModule,
+    MetadataDomainModule,
   ],
   exports: [SnapshotsListComponent, SnapshotItemComponent],
   providers: [SnapshotApiService, SnapshotService, SnapshotFacadeService],

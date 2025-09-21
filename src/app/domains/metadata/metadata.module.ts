@@ -17,6 +17,6 @@ import { CurrencyPipe } from './pipes';
   ],
   declarations: [CurrencySwitcherComponent, LanguageSwitcherComponent, CurrencyPipe],
   exports: [CurrencySwitcherComponent, LanguageSwitcherComponent, CurrencyPipe],
-  providers: [MetadataApiService, MetadataFacadeService, CurrencyPipe],
+  providers: [MetadataApiService, CurrencyPipe, MetadataFacadeService],
 })
 export class MetadataDomainModule {}

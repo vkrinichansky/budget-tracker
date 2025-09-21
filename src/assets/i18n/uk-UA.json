@@ -171,7 +171,7 @@
       "activityLogRecordRemoved": "Запис журналу активності було видалено успішно!",
       "bulkActivityLogRecordsRemoved": "Записи журналу активності були видалені успішно!"
     },
-    "dataReset": "Категорії було скинуто!"
+    "monthSnapshotCreated": "Снапшот місяця було створено успішно!"
   },
 
   "formErrors": {
@@ -240,6 +240,7 @@
     "activityLog": {
       "removeRecordFlowFailed": "Не вдалося відмінити зміни, зроблені цим записом.",
       "removeAllRecordsFailed": "Не вдалося видалити всі записи."
-    }
+    },
+    "monthResetFlowFailed": "Не вдалося завершити процес скидання місяця."
   }
 }

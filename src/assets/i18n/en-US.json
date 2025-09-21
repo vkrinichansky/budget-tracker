@@ -173,8 +173,7 @@
       "activityLogRecordRemoved": "Activity log record was removed successfully!",
       "bulkActivityLogRecordsRemoved": "Activity log records were removed successfully!"
     },
-
-    "dataReset": "Categories were reset!"
+    "monthSnapshotCreated": "Month snapshot was created successfully!"
   },
 
   "formErrors": {
@@ -243,6 +242,7 @@
     "activityLog": {
       "removeRecordFlowFailed": "Failed to revert changes made by this record.",
       "removeAllRecordsFailed": "Failed to remove all records."
-    }
+    },
+    "monthResetFlowFailed": "Failed to finish month reset flow."
   }
 }

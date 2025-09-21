@@ -23,7 +23,7 @@ export class SnackbarComponent {
         break;
     }
 
-    return `flex items-center justify-between gap-x-4 rounded-md p-4 text-white ${bgClass}`;
+    return `flex items-center justify-between gap-x-4 rounded-md p-4 text-white ${bgClass} border-2 border-charcoal border-solid`;
   }
 
   get data(): SnackbarData {
