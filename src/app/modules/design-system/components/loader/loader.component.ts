@@ -18,7 +18,7 @@ export class LoaderComponent {
   colorMode: LoaderColorMode = 'light';
 
   @HostBinding('class')
-  private get classes(): string {
+  protected get classes(): string {
     return `${this.size} ${this.colorMode}`;
   }
 }
