@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, EMPTY, from, map, mergeMap, of, switchMap, tap, timeout } from 'rxjs';
 import { AccountActions } from './account.actions';
-import { Account, AccountEvents } from '../models';
+import { AccountEvents } from '../models';
 import { AccountApiService } from '../services';
 import { AuthActions } from '@budget-tracker/auth';
 import { EventBusService } from '@budget-tracker/utils';
