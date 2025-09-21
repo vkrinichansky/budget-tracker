@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, filter, firstValueFrom, Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { MetadataActions } from '../../store';
+import { MetadataActions } from '../../store/metadata.actions';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { Store } from '@ngrx/store';
 import { EventBusService } from '@budget-tracker/shared-utils';

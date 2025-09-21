@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
 import { ClassToHexColorPipe, ProgressBarSection } from '@budget-tracker/design-system';
-import { BudgetType, StatisticsSnapshot } from '@budget-tracker/shared-models';
+import { BudgetType } from '@budget-tracker/shared-models';
 import { TranslateService } from '@ngx-translate/core';
 import { MetadataFacadeService } from '@budget-tracker/metadata';
 import { predefinedCurrenciesDictionary } from '@budget-tracker/metadata';
+import { Snapshot } from '../../models';
 
 interface FinancialMetric {
   icon: string;
@@ -26,7 +27,7 @@ export class SnapshotItemComponent implements OnInit {
   private readonly classes = 'group';
 
   @Input({ required: true })
-  snapshot: StatisticsSnapshot;
+  snapshot: Snapshot;
 
   metrics: FinancialMetric[];
   incomeCategories: number;

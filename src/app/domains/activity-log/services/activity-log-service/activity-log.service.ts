@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { firstValueFrom, Observable } from 'rxjs';
-import { ActivityLogActions, ActivityLogSelectors } from '../../store';
+import { ActivityLogActions } from '../../store/activity-log.actions';
+import { ActivityLogSelectors } from '../../store/activity-log.selectors';
 import {
   ActivityLogGroupedByDay,
   ActivityLogRecordUnitedType,

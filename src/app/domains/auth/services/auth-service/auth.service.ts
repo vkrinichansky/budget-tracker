@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Auth, authState } from '@angular/fire/auth';
 import { map, Observable, firstValueFrom } from 'rxjs';
-import { AuthActions, AuthSelectors } from '../../store';
+import { AuthActions } from '../../store/auth.actions';
+import { AuthSelectors } from '../../store/auth.selectors';
 import { Store } from '@ngrx/store';
 import { EventBusService } from '@budget-tracker/shared-utils';
 import { AuthEvents, User } from '../../models';

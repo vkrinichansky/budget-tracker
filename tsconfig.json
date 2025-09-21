@@ -56,6 +56,9 @@
       "@budget-tracker/activity-log": [
         "src/app/domains/activity-log/index.ts"
       ],
+      "@budget-tracker/snapshot": [
+        "src/app/domains/snapshot/index.ts"
+      ],
       // Orchestrators
       "@budget-tracker/currency-change-orchestrator": [
         "src/app/orchestrators/currency-change-orchestrator/index.ts"
@@ -82,7 +85,9 @@
       "@budget-tracker/dashboard-page": [
         "src/app/pages/dashboard/index.ts"
       ],
-      // Modules
+      "@budget-tracker/statistics-page": [
+        "src/app/pages/statistics/index.ts"
+      ],
     }
   },
   "angularCompilerOptions": {

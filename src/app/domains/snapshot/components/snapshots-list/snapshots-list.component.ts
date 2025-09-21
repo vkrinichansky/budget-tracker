@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, DestroyRef, HostBinding, OnInit } from '@angular/core';
-import { StatisticsFacadeService } from '../../services';
-import { StatisticsSnapshot } from '@budget-tracker/shared-models';
+import { SnapshotFacadeService } from '../../services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Snapshot } from '../../models';
 
 @Component({
   selector: 'app-snapshots-list',
@@ -10,7 +10,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   standalone: false,
 })
 export class SnapshotsListComponent implements OnInit {
-  snapshots: StatisticsSnapshot[];
+  snapshots: Snapshot[];
 
   @HostBinding('class.hide')
   private get shouldHide(): boolean {
@@ -18,13 +18,13 @@ export class SnapshotsListComponent implements OnInit {
   }
 
   constructor(
-    private readonly statisticsFacade: StatisticsFacadeService,
+    private readonly snapshotFacade: SnapshotFacadeService,
     private readonly destroyRef: DestroyRef,
     private readonly cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.statisticsFacade
+    this.snapshotFacade
       .getSnapshots()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((snapshots) => {

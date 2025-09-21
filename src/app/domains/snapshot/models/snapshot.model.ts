@@ -10,7 +10,7 @@ export interface CategoryForSnapshot {
   hexColor: string;
 }
 
-export interface StatisticsSnapshot {
+export interface Snapshot {
   date: string;
   categories: CategoryForSnapshot[];
   income: number;
