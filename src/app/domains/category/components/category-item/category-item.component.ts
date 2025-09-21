@@ -16,7 +16,7 @@ import { Observable, firstValueFrom, map } from 'rxjs';
 import { CategoryFacadeService } from '../../services';
 import { AccountFacadeService } from '@budget-tracker/account';
 import { Category } from '../../models';
-import { getErrorMessage } from '@budget-tracker/utils';
+import { getErrorMessage } from '@budget-tracker/shared-utils';
 
 @Component({
   selector: 'app-category-item',

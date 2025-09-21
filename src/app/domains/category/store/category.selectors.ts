@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { dataFeatureSelector } from './feature.selector';
-import { BudgetType } from '@budget-tracker/models';
+import { BudgetType } from '@budget-tracker/shared-models';
 
 const allCategoriesDictionarySelector = createSelector(
   dataFeatureSelector,

@@ -3,7 +3,7 @@ import { MenuAction, SnackbarHandlerService } from '@budget-tracker/design-syste
 import { BehaviorSubject } from 'rxjs';
 import { MetadataFacadeService } from '../../services';
 import { LanguagesEnum, predefinedLanguagesDictionary } from '../../models';
-import { getErrorMessage } from '@budget-tracker/utils';
+import { getErrorMessage } from '@budget-tracker/shared-utils';
 
 @Component({
   selector: 'app-language-switcher',

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthActions } from '@budget-tracker/auth';
-import { Snapshots } from '@budget-tracker/models';
+import { Snapshots } from '@budget-tracker/shared-models';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { switchMap, from, map } from 'rxjs';
 import { StatisticsActions } from '../actions';

@@ -11,8 +11,8 @@ import {
   CategoryValueChangeRecord,
   createCategoryValueChangeRecord,
 } from '@budget-tracker/activity-log';
-import { BudgetType } from '@budget-tracker/models';
-import { BatchOperationService, EventBusService, pick } from '@budget-tracker/utils';
+import { BudgetType } from '@budget-tracker/shared-models';
+import { BatchOperationService, EventBusService, pick } from '@budget-tracker/shared-utils';
 import { firstValueFrom, Subject, takeUntil } from 'rxjs';
 
 @Injectable()

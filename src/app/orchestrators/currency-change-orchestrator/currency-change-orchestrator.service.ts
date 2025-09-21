@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BatchOperationService, EventBusService, getErrorMessage } from '@budget-tracker/utils';
+import { BatchOperationService, EventBusService, getErrorMessage } from '@budget-tracker/shared-utils';
 import {
   MetadataEvents,
   MetadataFacadeService,

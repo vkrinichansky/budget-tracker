@@ -9,8 +9,8 @@ import {
   PieChartOptions,
   SnackbarHandlerService,
 } from '@budget-tracker/design-system';
-import { getErrorMessage } from '@budget-tracker/utils';
-import { BudgetType } from '@budget-tracker/models';
+import { getErrorMessage } from '@budget-tracker/shared-utils';
+import { BudgetType } from '@budget-tracker/shared-models';
 import { CurrencyPipe } from '@budget-tracker/metadata';
 import { TranslateService } from '@ngx-translate/core';
 import { Category } from '../../models';

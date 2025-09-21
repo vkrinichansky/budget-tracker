@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Category } from '../models';
-import { BudgetType } from '@budget-tracker/models';
+import { BudgetType } from '@budget-tracker/shared-models';
 
 export const CategoryActions = {
   loadCategories: createAction('[Categories] Load categories'),

@@ -10,7 +10,7 @@ import {
   CurrencyPipe,
   predefinedCurrenciesDictionary,
 } from '@budget-tracker/metadata';
-import { getErrorMessage } from '@budget-tracker/utils';
+import { getErrorMessage } from '@budget-tracker/shared-utils';
 import { AccountFacadeService, AccountModalService } from '../../services';
 
 @Component({

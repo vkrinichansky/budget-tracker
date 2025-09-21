@@ -10,7 +10,7 @@ import {
 } from './components';
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
-import { UtilsModule } from '@budget-tracker/utils';
+import { UtilsModule } from '@budget-tracker/shared-utils';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MetadataDomainModule } from '@budget-tracker/metadata';
 import { StoreModule } from '@ngrx/store';

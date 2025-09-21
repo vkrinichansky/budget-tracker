@@ -6,7 +6,7 @@ import {
   TotalValueForDateByCurrency,
 } from '../../models';
 import { Observable, map } from 'rxjs';
-import { getErrorMessage } from '@budget-tracker/utils';
+import { getErrorMessage } from '@budget-tracker/shared-utils';
 import { ActivityLogFacadeService } from '../../services';
 
 interface DateObject {

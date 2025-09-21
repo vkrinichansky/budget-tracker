@@ -3,7 +3,7 @@ import { Auth, authState } from '@angular/fire/auth';
 import { map, Observable, firstValueFrom } from 'rxjs';
 import { AuthActions, AuthSelectors } from '../../store';
 import { Store } from '@ngrx/store';
-import { EventBusService } from '@budget-tracker/utils';
+import { EventBusService } from '@budget-tracker/shared-utils';
 import { AuthEvents, User } from '../../models';
 
 @Injectable()

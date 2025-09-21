@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, DestroyRef, HostBinding, OnInit } from '@angular/core';
 import { StatisticsFacadeService } from '../../services';
-import { StatisticsSnapshot } from '@budget-tracker/models';
+import { StatisticsSnapshot } from '@budget-tracker/shared-models';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({

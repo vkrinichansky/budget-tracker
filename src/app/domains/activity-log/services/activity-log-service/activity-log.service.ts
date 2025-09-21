@@ -9,7 +9,7 @@ import {
   RemoveCategoryValueChangeRecordEvent,
 } from '../../models';
 import { MetadataService } from '@budget-tracker/metadata';
-import { EventBusService } from '@budget-tracker/utils';
+import { EventBusService } from '@budget-tracker/shared-utils';
 
 @Injectable()
 export class ActivityLogService {

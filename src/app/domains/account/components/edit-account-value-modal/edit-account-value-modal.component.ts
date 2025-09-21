@@ -5,7 +5,7 @@ import { BehaviorSubject, firstValueFrom, map, Observable } from 'rxjs';
 import { Account } from '../../models';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
 import { AccountFacadeService } from '../../services';
-import { getErrorMessage } from '@budget-tracker/utils';
+import { getErrorMessage } from '@budget-tracker/shared-utils';
 
 enum FormFields {
   Value = 'value',

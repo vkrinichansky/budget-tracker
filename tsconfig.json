@@ -27,8 +27,18 @@
     "strictPropertyInitialization": false,
     "strictNullChecks": false,
     "paths": {
-      "@budget-tracker/models": [
-        "src/app/models/index.ts"
+      // Shared
+      "@budget-tracker/shared-models": [
+        "src/app/shared/models/index.ts"
+      ],
+      "@budget-tracker/shared-utils": [
+        "src/app/shared/utils/index.ts"
+      ],
+      "@budget-tracker/design-system": [
+        "src/app/shared/design-system/index.ts"
+      ],
+      "@budget-tracker/shared-features/navigation-bar": [
+        "src/app/shared/features/navigation-bar/index.ts"
       ],
       // Domains
       "@budget-tracker/auth": [
@@ -73,15 +83,6 @@
         "src/app/pages/dashboard/index.ts"
       ],
       // Modules
-      "@budget-tracker/design-system": [
-        "src/app/modules/design-system/index.ts"
-      ],
-      "@budget-tracker/navigation-bar": [
-        "src/app/modules/navigation-bar/index.ts"
-      ],
-      "@budget-tracker/utils": [
-        "src/app/modules/utils/index.ts"
-      ]
     }
   },
   "angularCompilerOptions": {

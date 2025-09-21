@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, provideRouter, withViewTransitions } from '@angular/router';
-import { AppRoutes } from '@budget-tracker/models';
+import { AppRoutes } from '@budget-tracker/shared-models';
 import { AuthGuard, SecureInnerPagesGuard } from '@budget-tracker/auth';
 
 const routes: Routes = [

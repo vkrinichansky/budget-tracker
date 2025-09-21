@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ConfirmationModalService, SnackbarHandlerService } from '@budget-tracker/design-system';
-import { BudgetType } from '@budget-tracker/models';
-import { getErrorMessage, isToday } from '@budget-tracker/utils';
+import { BudgetType } from '@budget-tracker/shared-models';
+import { getErrorMessage, isToday } from '@budget-tracker/shared-utils';
 import { MetadataFacadeService, predefinedCurrenciesDictionary } from '@budget-tracker/metadata';
 import { ActivityLogFacadeService } from '../../services';
 import { CategoryValueChangeRecord } from '../../models';

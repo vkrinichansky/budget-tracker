@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CategoryService } from '../category-service/category.service';
-import { BudgetType } from '@budget-tracker/models';
+import { BudgetType } from '@budget-tracker/shared-models';
 import { Observable } from 'rxjs';
 import { Category } from '../../models';
 import { DocumentReference } from '@angular/fire/firestore';

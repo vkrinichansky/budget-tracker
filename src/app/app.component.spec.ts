@@ -3,7 +3,7 @@ import { AppComponent } from './app.component';
 import { DataInitFacadeService } from '@budget-tracker/data';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { of } from 'rxjs';
-import { NgVarDirective } from '@budget-tracker/utils';
+import { NgVarDirective } from '@budget-tracker/shared-utils';
 import { RouterModule } from '@angular/router';
 import { provideMockStore } from '@ngrx/store/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';

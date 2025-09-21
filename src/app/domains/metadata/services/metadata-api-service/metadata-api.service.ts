@@ -17,7 +17,7 @@ import {
   ExchangeEndpointResponse,
   CurrenciesEnum,
 } from '../../models';
-import { getMonthAndYearString } from '@budget-tracker/utils';
+import { getMonthAndYearString } from '@budget-tracker/shared-utils';
 
 @Injectable()
 export class MetadataApiService {

@@ -5,7 +5,7 @@ import {
   AccountFacadeService,
   EditAccountValueEvent,
 } from '@budget-tracker/account';
-import { BatchOperationService, EventBusService } from '@budget-tracker/utils';
+import { BatchOperationService, EventBusService } from '@budget-tracker/shared-utils';
 import { firstValueFrom, Subject, takeUntil } from 'rxjs';
 import {
   Category,

@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
-import { BudgetType } from '@budget-tracker/models';
+import { BudgetType } from '@budget-tracker/shared-models';
 import { combineLatest, map, Observable } from 'rxjs';
 import { ActivityLogFacadeService } from '@budget-tracker/activity-log';
 import { AccountFacadeService } from '@budget-tracker/account';

@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppRoutes } from '@budget-tracker/models';
+import { AppRoutes } from '@budget-tracker/shared-models';
 
 @Injectable({ providedIn: 'root' })
 export class NavigatorService {

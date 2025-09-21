@@ -5,7 +5,7 @@ import { AccountActions } from './account.actions';
 import { AccountEvents } from '../models';
 import { AccountApiService } from '../services';
 import { AuthActions } from '@budget-tracker/auth';
-import { EventBusService } from '@budget-tracker/utils';
+import { EventBusService } from '@budget-tracker/shared-utils';
 import { Store } from '@ngrx/store';
 
 const REQUEST_TIMEOUT = 5000;

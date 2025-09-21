@@ -18,7 +18,7 @@ import {
 import { DesignSystemModule } from '@budget-tracker/design-system';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UtilsModule } from '@budget-tracker/utils';
+import { UtilsModule } from '@budget-tracker/shared-utils';
 import { NgChartsModule } from 'ng2-charts';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MetadataDomainModule } from '@budget-tracker/metadata';

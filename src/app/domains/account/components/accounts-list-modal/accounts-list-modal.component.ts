@@ -6,7 +6,7 @@ import { BehaviorSubject, tap } from 'rxjs';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
 import { AccountFacadeService } from '../../services';
 import { Account } from '../../models';
-import { getErrorMessage } from '@budget-tracker/utils';
+import { getErrorMessage } from '@budget-tracker/shared-utils';
 
 @Component({
   selector: 'app-accounts-list-modal',

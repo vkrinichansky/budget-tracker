@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { AuthFacadeService } from '../../services';
-import { NavigatorService } from '@budget-tracker/utils';
+import { NavigatorService } from '@budget-tracker/shared-utils';
 
 @Injectable({
   providedIn: 'root',

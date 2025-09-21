@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
 import { ClassToHexColorPipe, ProgressBarSection } from '@budget-tracker/design-system';
-import { BudgetType, StatisticsSnapshot } from '@budget-tracker/models';
+import { BudgetType, StatisticsSnapshot } from '@budget-tracker/shared-models';
 import { TranslateService } from '@ngx-translate/core';
 import { MetadataFacadeService } from '@budget-tracker/metadata';
 import { predefinedCurrenciesDictionary } from '@budget-tracker/metadata';

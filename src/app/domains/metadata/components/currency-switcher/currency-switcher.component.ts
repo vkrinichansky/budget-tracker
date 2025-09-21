@@ -6,7 +6,7 @@ import {
 } from '@budget-tracker/design-system';
 import { MetadataFacadeService } from '../../services';
 import { predefinedCurrenciesDictionary, CurrenciesEnum } from '../../models';
-import { getErrorMessage } from '@budget-tracker/utils';
+import { getErrorMessage } from '@budget-tracker/shared-utils';
 
 @Component({
   selector: 'app-currency-switcher',

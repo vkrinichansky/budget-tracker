@@ -14,10 +14,10 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { UtilsModule } from '@budget-tracker/utils';
+import { UtilsModule } from '@budget-tracker/shared-utils';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DesignSystemModule } from '@budget-tracker/design-system';
-import { NavigationBarModule } from '@budget-tracker/navigation-bar';
+import { NavigationBarModule } from '@budget-tracker/shared-features/navigation-bar';
 import { AuthDomainModule } from '@budget-tracker/auth';
 import { CommonModule } from '@angular/common';
 

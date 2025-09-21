@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { collection, doc, Firestore, getDoc } from '@angular/fire/firestore';
-import { Snapshots } from '@budget-tracker/models';
+import { Snapshots } from '@budget-tracker/shared-models';
 import { firstValueFrom, switchMap, from, map } from 'rxjs';
 
 @Injectable()

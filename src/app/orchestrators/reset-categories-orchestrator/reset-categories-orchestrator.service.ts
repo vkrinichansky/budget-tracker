@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { firstValueFrom, map, Subject, takeUntil } from 'rxjs';
-import { BatchOperationService, EventBusService } from '@budget-tracker/utils';
+import { BatchOperationService, EventBusService } from '@budget-tracker/shared-utils';
 import {
   CategoryEvents,
   ResetCategoriesEvent,

@@ -1,4 +1,4 @@
-import { StatisticsSnapshot } from '@budget-tracker/models';
+import { StatisticsSnapshot } from '@budget-tracker/shared-models';
 import { createAction, props } from '@ngrx/store';
 
 export const StatisticsActions = {

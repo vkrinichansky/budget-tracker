@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { NavigationBarItem } from '../../models';
 import { ConfirmationModalService, SnackbarHandlerService } from '@budget-tracker/design-system';
-import { AppRoutes } from '@budget-tracker/models';
-import { getErrorMessage, NavigatorService } from '@budget-tracker/utils';
+import { AppRoutes } from '@budget-tracker/shared-models';
+import { getErrorMessage, NavigatorService } from '@budget-tracker/shared-utils';
 
 @Component({
   selector: 'app-navigation-bar',

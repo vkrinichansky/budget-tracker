@@ -6,7 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { AuthFacadeService, AuthService } from './services';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthGuard, SecureInnerPagesGuard } from './guards';
-import { UtilsModule } from '@budget-tracker/utils';
+import { UtilsModule } from '@budget-tracker/shared-utils';
 import { LoginButtonComponent } from './components';
 @NgModule({
   imports: [

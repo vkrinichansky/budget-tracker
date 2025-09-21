@@ -1,5 +1,5 @@
-import { pick } from '@budget-tracker/utils';
-import { BudgetType } from '../../../models/budget-type.enum';
+import { pick } from '@budget-tracker/shared-utils';
+import { BudgetType } from '@budget-tracker/shared-models';
 import { v4 as uuid } from 'uuid';
 import { CurrenciesEnum } from '@budget-tracker/metadata';
 

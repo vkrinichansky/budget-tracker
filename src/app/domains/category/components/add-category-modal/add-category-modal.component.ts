@@ -5,11 +5,11 @@ import { v4 as uuid } from 'uuid';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AddCategoryModalData } from '../../models';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { BudgetType } from '@budget-tracker/models';
+import { BudgetType } from '@budget-tracker/shared-models';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
 import { CategoryFacadeService } from '../../services';
 import { Category } from '../../models';
-import { getErrorMessage } from '@budget-tracker/utils';
+import { getErrorMessage } from '@budget-tracker/shared-utils';
 
 enum FormFields {
   CategoryIcon = 'categoryIcon',

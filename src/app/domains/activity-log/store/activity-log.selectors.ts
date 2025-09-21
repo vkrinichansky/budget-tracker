@@ -8,7 +8,7 @@ import {
   CategoryValueChangeRecord,
 } from '../models';
 import { LanguagesEnum, CurrenciesEnum } from '@budget-tracker/metadata';
-import { BudgetType } from '@budget-tracker/models';
+import { BudgetType } from '@budget-tracker/shared-models';
 
 const activityLogDictionarySelector = createSelector(
   dataFeatureSelector,

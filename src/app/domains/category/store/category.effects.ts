@@ -5,7 +5,7 @@ import { CategoryEvents } from '../models';
 import { CategoryApiService } from '../services';
 import { CategoryActions } from './category.actions';
 import { AuthActions } from '@budget-tracker/auth';
-import { EventBusService } from '@budget-tracker/utils';
+import { EventBusService } from '@budget-tracker/shared-utils';
 import { Store } from '@ngrx/store';
 
 const REQUEST_TIMEOUT = 5000;

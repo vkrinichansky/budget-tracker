@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { MetadataActions } from '../../store';
 import { AuthFacadeService } from '@budget-tracker/auth';
 import { Store } from '@ngrx/store';
-import { EventBusService } from '@budget-tracker/utils';
+import { EventBusService } from '@budget-tracker/shared-utils';
 import {
   LanguagesEnum,
   CurrencyExchangeRate,

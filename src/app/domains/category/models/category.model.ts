@@ -1,4 +1,4 @@
-import { BudgetType } from '../../../models/budget-type.enum';
+import { BudgetType } from '@budget-tracker/shared-models';
 
 export interface Category {
   id: string;

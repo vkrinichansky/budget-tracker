@@ -15,7 +15,7 @@ import { catchError, combineLatest, EMPTY, filter, switchMap, take, tap } from '
 import { from, map, mergeMap } from 'rxjs';
 import { User } from '../models';
 import { AuthActions } from './auth.actions';
-import { EventBusService } from '@budget-tracker/utils';
+import { EventBusService } from '@budget-tracker/shared-utils';
 import { AuthEvents } from '../models';
 
 @Injectable()

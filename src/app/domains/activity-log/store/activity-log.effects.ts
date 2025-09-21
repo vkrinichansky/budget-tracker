@@ -5,7 +5,7 @@ import { ActivityLogActions } from './activity-log.actions';
 import { ActivityLogApiService } from '../services';
 import { AuthActions } from '@budget-tracker/auth';
 import { ActivityLogEvents } from '../models';
-import { EventBusService } from '@budget-tracker/utils';
+import { EventBusService } from '@budget-tracker/shared-utils';
 import { Store } from '@ngrx/store';
 
 const REQUEST_TIMEOUT = 5000;

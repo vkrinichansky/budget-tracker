@@ -1,7 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { StatisticsActions } from '../actions';
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
-import { StatisticsSnapshot } from '@budget-tracker/models';
+import { StatisticsSnapshot } from '@budget-tracker/shared-models';
 
 export interface StatisticsState {
   snapshots: EntityState<StatisticsSnapshot>;

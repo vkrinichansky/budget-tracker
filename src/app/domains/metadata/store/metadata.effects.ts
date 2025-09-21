@@ -5,7 +5,7 @@ import { catchError, EMPTY, from, map, of, switchMap, take, tap, timeout } from 
 import { MetadataActions } from './metadata.actions';
 import { AuthActions } from '@budget-tracker/auth';
 import { CurrencyExchangeRate, predefinedCurrenciesDictionary, MetadataEvents } from '../models';
-import { EventBusService } from '@budget-tracker/utils';
+import { EventBusService } from '@budget-tracker/shared-utils';
 
 const REQUEST_TIMEOUT = 5_000;
 

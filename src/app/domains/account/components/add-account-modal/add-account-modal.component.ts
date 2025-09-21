@@ -9,7 +9,7 @@ import { SnackbarHandlerService } from '@budget-tracker/design-system';
 import { predefinedCurrenciesDictionary, Currency, CurrenciesEnum } from '@budget-tracker/metadata';
 import { AccountFacadeService } from '../../services';
 import { Account } from '../../models';
-import { getErrorMessage } from '@budget-tracker/utils';
+import { getErrorMessage } from '@budget-tracker/shared-utils';
 
 enum FormFields {
   AccountName = 'accountName',

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { StatisticsSnapshot } from '@budget-tracker/models';
+import { StatisticsSnapshot } from '@budget-tracker/shared-models';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { StatisticsSelectors } from '../../store';

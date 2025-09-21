@@ -4,7 +4,7 @@ import { Account, AccountEvents } from '../../models';
 import { AccountActions, AccountSelectors } from '../../store';
 import { Store } from '@ngrx/store';
 import { MetadataService } from '@budget-tracker/metadata';
-import { EventBusService } from '@budget-tracker/utils';
+import { EventBusService } from '@budget-tracker/shared-utils';
 import { MoveMoneyBetweenAccountsEvent, EditAccountValueEvent } from '../../models/account.events';
 
 @Injectable()

@@ -13,13 +13,13 @@ import {
 } from 'rxjs';
 import { CategoryValueModalData } from '../../models';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { BudgetType } from '@budget-tracker/models';
+import { BudgetType } from '@budget-tracker/shared-models';
 import { MetadataFacadeService, predefinedCurrenciesDictionary } from '@budget-tracker/metadata';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
 import { AccountFacadeService, Account } from '@budget-tracker/account';
 import { CategoryFacadeService } from '../../services';
 import { Category } from '../../models';
-import { getErrorMessage } from '@budget-tracker/utils';
+import { getErrorMessage } from '@budget-tracker/shared-utils';
 
 enum FormFields {
   ValueToAdd = 'valueToAdd',

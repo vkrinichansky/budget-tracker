@@ -10,7 +10,7 @@ import {
   MoveMoneyBetweenAccountsRecord,
   createMoveMoneyBetweenAccountsRecord,
 } from '@budget-tracker/activity-log';
-import { BatchOperationService, EventBusService, pick } from '@budget-tracker/utils';
+import { BatchOperationService, EventBusService, pick } from '@budget-tracker/shared-utils';
 import { firstValueFrom, Subject, takeUntil } from 'rxjs';
 
 @Injectable()

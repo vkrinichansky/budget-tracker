@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BudgetType } from '@budget-tracker/models';
+import { BudgetType } from '@budget-tracker/shared-models';
 import { Observable, firstValueFrom } from 'rxjs';
 import { CategorySelectors, CategoryActions } from '../../store';
 import { Store } from '@ngrx/store';
@@ -9,7 +9,7 @@ import {
   ChangeCategoryValueEvent,
   ResetCategoriesEvent,
 } from '../../models';
-import { EventBusService } from '@budget-tracker/utils';
+import { EventBusService } from '@budget-tracker/shared-utils';
 
 @Injectable()
 export class CategoryService {
