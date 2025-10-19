@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ContentChild,
   DestroyRef,
   ElementRef,
   forwardRef,
@@ -52,6 +53,9 @@ export class CustomSelectComponent
 
   @ViewChild('trigger', { static: true })
   private trigger: ElementRef<HTMLElement>;
+
+  @ContentChild('emptyStateTemplate')
+  protected emptyStateTemplate: TemplateRef<unknown>;
 
   private resizeObserver: ResizeObserver;
 

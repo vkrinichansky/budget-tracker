@@ -11,14 +11,13 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs';
-import { CategoryValueModalData } from '../../models';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BudgetType } from '@budget-tracker/shared-models';
 import { MetadataFacadeService, predefinedCurrenciesDictionary } from '@budget-tracker/metadata';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
-import { AccountFacadeService, Account } from '@budget-tracker/account';
-import { CategoryFacadeService } from '../../services';
-import { Category } from '../../models';
+import { AccountFacadeService, Account, AccountModalService } from '@budget-tracker/account';
+import { CategoryFacadeService } from '@budget-tracker/category';
+import { Category } from '@budget-tracker/category';
 import { getErrorMessage } from '@budget-tracker/shared-utils';
 
 enum FormFields {
@@ -29,12 +28,12 @@ enum FormFields {
 }
 
 @Component({
-  selector: 'app-category-value-modal',
-  templateUrl: './category-value-modal.component.html',
+  selector: 'app-category-transaction-modal',
+  templateUrl: './category-transaction-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CategoryValueModalComponent implements OnInit {
+export class CategoryTransactionModalComponent implements OnInit {
   readonly formFieldsEnum = FormFields;
   readonly loading$ = new BehaviorSubject<boolean>(false);
 
@@ -83,17 +82,33 @@ export class CategoryValueModalComponent implements OnInit {
   }
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private readonly data: CategoryValueModalData,
-    private readonly dialogRef: MatDialogRef<CategoryValueModalComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    private readonly data: {
+      categoryId: string;
+      transactionCallback: (
+        categoryId: string,
+        accountId: string,
+        valueToAdd: number,
+        convertedValueToAdd: number,
+        note: string
+      ) => Promise<void>;
+    },
+    private readonly dialogRef: MatDialogRef<CategoryTransactionModalComponent>,
     private readonly categoryFacade: CategoryFacadeService,
     private readonly accountFacade: AccountFacadeService,
     private readonly metadataFacade: MetadataFacadeService,
     private readonly destroyRef: DestroyRef,
-    private readonly snackbarHandler: SnackbarHandlerService
+    private readonly snackbarHandler: SnackbarHandlerService,
+    private readonly accountModalService: AccountModalService
   ) {}
 
   ngOnInit(): void {
     this.initListeners();
+  }
+
+  openAddAccountModal(): void {
+    this.dialogRef.close();
+    this.accountModalService.openAddAccountsModal();
   }
 
   cancelClick(): void {
@@ -104,7 +119,7 @@ export class CategoryValueModalComponent implements OnInit {
     this.loading$.next(true);
 
     try {
-      await this.categoryFacade.runChangeCategoryValueFlow(
+      await this.data.transactionCallback(
         this.data.categoryId,
         this.form.controls[FormFields.AccountToUse].value.id,
         parseInt(this.form.controls[FormFields.ValueToAdd].value),

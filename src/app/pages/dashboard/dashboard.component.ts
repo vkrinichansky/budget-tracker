@@ -8,7 +8,7 @@ import { MetadataFacadeService } from '@budget-tracker/metadata';
 import { CurrencyChangeOrchestratorService } from '@budget-tracker/currency-change-orchestrator';
 import { MoveMoneyBetweenAccountsOrchestratorService } from '@budget-tracker/move-money-between-accounts-orchestrator';
 import { ResetCategoriesOrchestratorService } from '@budget-tracker/reset-categories-orchestrator';
-import { ChangeCategoryValueOrchestratorService } from '@budget-tracker/change-category-value-orchestrator';
+import { CategoryTransactionOrchestratorService } from '@budget-tracker/category-transaction-orchestrator';
 import { RemoveActivityLogRecordOrchestratorService } from '@budget-tracker/remove-activity-log-record-orchestrator';
 import { EditAccountValueOrchestratorService } from '@budget-tracker/edit-account-value-orchestrator';
 import { MonthResetOrchestratorService } from '@budget-tracker/month-reset-orchestrator';
@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private readonly currencyChangeOrchestratorService: CurrencyChangeOrchestratorService,
     private readonly moveMoneyBetweenAccountsOrchestratorService: MoveMoneyBetweenAccountsOrchestratorService,
     private readonly resetCategoriesOrchestratorService: ResetCategoriesOrchestratorService,
-    private readonly changeCategoryValueOrchestratorService: ChangeCategoryValueOrchestratorService,
+    private readonly categoryTransactionOrchestratorService: CategoryTransactionOrchestratorService,
     private readonly removeActivityLogRecordOrchestratorService: RemoveActivityLogRecordOrchestratorService,
     private readonly editAccountValueOrchestratorService: EditAccountValueOrchestratorService,
     private readonly monthResetOrchestratorService: MonthResetOrchestratorService,
@@ -88,7 +88,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.currencyChangeOrchestratorService.listen();
     this.moveMoneyBetweenAccountsOrchestratorService.listen();
     this.resetCategoriesOrchestratorService.listen();
-    this.changeCategoryValueOrchestratorService.listen();
+    this.categoryTransactionOrchestratorService.listen();
     this.removeActivityLogRecordOrchestratorService.listen();
     this.editAccountValueOrchestratorService.listen();
   }
@@ -97,7 +97,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.currencyChangeOrchestratorService.destroy();
     this.moveMoneyBetweenAccountsOrchestratorService.destroy();
     this.resetCategoriesOrchestratorService.destroy();
-    this.changeCategoryValueOrchestratorService.destroy();
+    this.categoryTransactionOrchestratorService.destroy();
     this.removeActivityLogRecordOrchestratorService.destroy();
     this.editAccountValueOrchestratorService.destroy();
   }

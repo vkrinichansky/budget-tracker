@@ -60,19 +60,25 @@
         'flex-wrap gap-x-1': iconPickerMode,
       }"
     >
-      @for (option of dropdownOptions; track getId(option)) {
-        @let isActive = formControl?.value && getId(option) === getId(formControl?.value);
+      @if (dropdownOptions.length > 0) {
+        @for (option of dropdownOptions; track getId(option)) {
+          @let isActive = formControl?.value && getId(option) === getId(formControl?.value);
 
-        <app-button
-          class="overflow-hidden text-charcoal"
-          [iconName]="getIcon(option)"
-          [buttonSizeX]="iconPickerMode ? 'px36' : 'full'"
-          [buttonSizeY]="'px36'"
-          [text]="displayValueSelector ? displayValueSelector(option) : null"
-          [align]="iconPickerMode ? 'center' : 'start'"
-          [type]="isActive ? 'active' : 'inherit'"
-          (click)="valueChanged(option)"
-        ></app-button>
+          <app-button
+            class="overflow-hidden text-charcoal"
+            [iconName]="getIcon(option)"
+            [buttonSizeX]="iconPickerMode ? 'px36' : 'full'"
+            [buttonSizeY]="'px36'"
+            [text]="displayValueSelector ? displayValueSelector(option) : null"
+            [align]="iconPickerMode ? 'center' : 'start'"
+            [type]="isActive ? 'active' : 'inherit'"
+            (click)="valueChanged(option)"
+          ></app-button>
+        }
+      } @else {
+        @if (emptyStateTemplate) {
+          <ng-container *ngTemplateOutlet="emptyStateTemplate"></ng-container>
+        }
       }
     </div>
   </div>

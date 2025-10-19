@@ -4,12 +4,7 @@ import { Observable, firstValueFrom } from 'rxjs';
 import { CategorySelectors } from '../../store/category.selectors';
 import { CategoryActions } from '../../store/category.actions';
 import { Store } from '@ngrx/store';
-import {
-  Category,
-  CategoryEvents,
-  ChangeCategoryValueEvent,
-  ResetCategoriesEvent,
-} from '../../models';
+import { Category, CategoryEvents, ResetCategoriesEvent } from '../../models';
 import { EventBusService } from '@budget-tracker/shared-utils';
 
 @Injectable()
@@ -96,27 +91,5 @@ export class CategoryService {
     });
 
     return this.eventBus.waitFor(CategoryEvents.RESET_CATEGORIES_FINISH);
-  }
-
-  async runChangeCategoryValueFlow(
-    categoryId: string,
-    accountId: string,
-    valueToAdd: number,
-    convertedValueToAdd: number,
-    note: string
-  ): Promise<void> {
-    this.eventBus.emit<ChangeCategoryValueEvent>({
-      type: CategoryEvents.CHANGE_CATEGORY_VALUE_START,
-      status: 'event',
-      payload: {
-        categoryId,
-        accountId,
-        valueToAdd,
-        convertedValueToAdd,
-        note,
-      },
-    });
-
-    return this.eventBus.waitFor(CategoryEvents.CHANGE_CATEGORY_VALUE_FINISH);
   }
 }

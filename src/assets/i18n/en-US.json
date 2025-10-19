@@ -110,7 +110,8 @@
       "valueToAddTitle": "Value to add",
       "convertedValueToAddTitle": "Converted value",
       "noteTitle": "Note",
-      "accountsTitle": "Account to use"
+      "accountsTitle": "Account to use",
+      "addAccount": "Add account"
     }
   },
 

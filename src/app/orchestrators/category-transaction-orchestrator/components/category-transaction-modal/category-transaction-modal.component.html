@@ -17,7 +17,17 @@
       [displayValueSelector]="displayValueSelector"
       [iconSelector]="iconSelector"
       [isRequired]="true"
-    ></custom-select>
+    >
+      <ng-template #emptyStateTemplate>
+        <app-button
+          [buttonSizeX]="'auto'"
+          [buttonSizeY]="'px36'"
+          [type]="'primary'"
+          [text]="'category.categoryValueModal.addAccount' | translate"
+          (click)="openAddAccountModal()"
+        ></app-button>
+      </ng-template>
+    </custom-select>
 
     <custom-input
       [id]="formFieldsEnum.ValueToAdd"

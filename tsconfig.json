@@ -69,8 +69,8 @@
       "@budget-tracker/reset-categories-orchestrator": [
         "src/app/orchestrators/reset-categories-orchestrator/index.ts"
       ],
-      "@budget-tracker/change-category-value-orchestrator": [
-        "src/app/orchestrators/change-category-value-orchestrator/index.ts"
+      "@budget-tracker/category-transaction-orchestrator": [
+        "src/app/orchestrators/category-transaction-orchestrator/index.ts"
       ],
       "@budget-tracker/remove-activity-log-record-orchestrator": [
         "src/app/orchestrators/remove-activity-log-record-orchestrator/index.ts"

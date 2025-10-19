@@ -68,22 +68,6 @@ export class CategoryFacadeService {
     return this.categoryService.runResetCategoriesFlow(budgetType);
   }
 
-  async runChangeCategoryValueFlow(
-    categoryId: string,
-    accountId: string,
-    valueToAdd: number,
-    convertedValueToAdd: number,
-    note: string
-  ): Promise<void> {
-    return this.categoryService.runChangeCategoryValueFlow(
-      categoryId,
-      accountId,
-      valueToAdd,
-      convertedValueToAdd,
-      note
-    );
-  }
-
   // ===== UTILS =====
   getCategoryDocRef(): DocumentReference {
     return this.categoryApiService.getDocRef();

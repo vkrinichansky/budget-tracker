@@ -12,7 +12,7 @@ import { CategoryDomainModule } from '@budget-tracker/category';
 import { CurrencyChangeOrchestratorModule } from '@budget-tracker/currency-change-orchestrator';
 import { MoveMoneyBetweenAccountsOrchestratorModule } from '@budget-tracker/move-money-between-accounts-orchestrator';
 import { ResetCategoriesOrchestratorModule } from '@budget-tracker/reset-categories-orchestrator';
-import { ChangeCategoryValueOrchestratorModule } from '@budget-tracker/change-category-value-orchestrator';
+import { CategoryTransactionOrchestratorModule } from '@budget-tracker/category-transaction-orchestrator';
 import { RemoveActivityLogRecordOrchestratorModule } from '@budget-tracker/remove-activity-log-record-orchestrator';
 import { EditAccountValueOrchestratorModule } from '@budget-tracker/edit-account-value-orchestrator';
 import { MonthResetOrchestratorModule } from '@budget-tracker/month-reset-orchestrator';
@@ -39,7 +39,7 @@ const routes: Routes = [
     CurrencyChangeOrchestratorModule,
     MoveMoneyBetweenAccountsOrchestratorModule,
     ResetCategoriesOrchestratorModule,
-    ChangeCategoryValueOrchestratorModule,
+    CategoryTransactionOrchestratorModule,
     RemoveActivityLogRecordOrchestratorModule,
     EditAccountValueOrchestratorModule,
     MonthResetOrchestratorModule,

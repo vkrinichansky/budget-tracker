@@ -4,7 +4,7 @@ export {
   Category,
   CategoryEvents,
   ResetCategoriesEvent,
-  ChangeCategoryValueEvent,
+  OpenCategoryTransactionModalEvent,
   incomeAdjustmentCategory,
   expenseAdjustmentCategory,
 } from './models';

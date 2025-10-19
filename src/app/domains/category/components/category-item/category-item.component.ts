@@ -11,12 +11,9 @@ import {
   MenuAction,
   SnackbarHandlerService,
 } from '@budget-tracker/design-system';
-import { CategoryModalService } from '../../services';
-import { Observable, firstValueFrom, map } from 'rxjs';
 import { CategoryFacadeService } from '../../services';
-import { AccountFacadeService } from '@budget-tracker/account';
-import { Category } from '../../models';
-import { getErrorMessage } from '@budget-tracker/shared-utils';
+import { Category, CategoryEvents, OpenCategoryTransactionModalEvent } from '../../models';
+import { EventBusService, getErrorMessage } from '@budget-tracker/shared-utils';
 
 @Component({
   selector: 'app-category-item',
@@ -29,7 +26,6 @@ export class CategoryItemComponent implements OnInit {
   @Input({ required: true })
   category: Category;
 
-  shouldDisableAddValueAction$: Observable<boolean>;
   menuActions: MenuAction[];
 
   @HostBinding('class.is-system-category')
@@ -40,13 +36,11 @@ export class CategoryItemComponent implements OnInit {
   constructor(
     private readonly categoryFacade: CategoryFacadeService,
     private readonly confirmationModalService: ConfirmationModalService,
-    private readonly categoryModalsService: CategoryModalService,
-    private readonly accountFacade: AccountFacadeService,
-    private readonly snackbarHandler: SnackbarHandlerService
+    private readonly snackbarHandler: SnackbarHandlerService,
+    private readonly eventBusService: EventBusService
   ) {}
 
   ngOnInit(): void {
-    this.initListeners();
     this.menuActions = this.initMenuActions();
   }
 
@@ -54,17 +48,15 @@ export class CategoryItemComponent implements OnInit {
     return `category.categoryItem.${key}`;
   }
 
-  private initListeners(): void {
-    this.shouldDisableAddValueAction$ = this.accountFacade
-      .getAccountsExist()
-      .pipe(map((accountsExist) => !accountsExist));
-  }
-
   @HostListener('click')
-  private async openCategoryValueModal(): Promise<void> {
-    if (!(await firstValueFrom(this.shouldDisableAddValueAction$))) {
-      this.categoryModalsService.openCategoryValueModal(this.category.id);
-    }
+  private async openCategoryTransactionModal(): Promise<void> {
+    this.eventBusService.emit<OpenCategoryTransactionModalEvent>({
+      status: 'event',
+      type: CategoryEvents.OPEN_CATEGORY_TRANSACTION_MODAL,
+      payload: {
+        categoryId: this.category.id,
+      },
+    });
   }
 
   private initMenuActions(): MenuAction[] {
@@ -72,8 +64,7 @@ export class CategoryItemComponent implements OnInit {
       {
         icon: 'plus',
         translationKey: this.buildTranslationKey('menu.addValue'),
-        disabledObs: this.shouldDisableAddValueAction$,
-        action: () => this.openCategoryValueModal(),
+        action: () => this.openCategoryTransactionModal(),
       },
       {
         icon: 'delete-bin',

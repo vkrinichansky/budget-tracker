@@ -5,4 +5,4 @@ export {
   MoveMoneyBetweenAccountsEvent,
   EditAccountValueEvent,
 } from './models';
-export { AccountFacadeService } from './services';
+export { AccountFacadeService, AccountModalService } from './services';

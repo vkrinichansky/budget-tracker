@@ -1,3 +1,3 @@
-export { AddCategoryModalData, CategoryValueModalData } from './category-modal-data';
-export { CategoryEvents, ResetCategoriesEvent, ChangeCategoryValueEvent } from './category.events';
+export { AddCategoryModalData } from './category-modal-data';
+export * from './category.events';
 export * from './category.model';
