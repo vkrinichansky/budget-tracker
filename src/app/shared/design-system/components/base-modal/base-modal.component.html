@@ -1,4 +1,4 @@
-<div mat-dialog-title class="!flex !justify-between !items-center !gap-x-4">
+<div mat-dialog-title class="!flex !justify-between !items-center !gap-x-4 !m-0">
   <div>
     <div class="flex items-center gap-2">
       <h1>{{ titleTranslationKey | translate: titleTranslationParams }}</h1>
@@ -23,10 +23,17 @@
   }
 </div>
 
-<div mat-dialog-content>
-  <ng-content></ng-content>
+<div mat-dialog-content class="!py-3 !border-t-2 !border-solid !border-grey !border-opacity-20">
+  @if (contentTemplate) {
+    <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+  }
 </div>
 
-<div mat-dialog-actions>
-  <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
+<div
+  mat-dialog-actions
+  [ngClass]="{ '!border-t-2 !border-solid !border-grey !border-opacity-20': footerTemplate }"
+>
+  @if (footerTemplate) {
+    <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
+  }
 </div>

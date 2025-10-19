@@ -1,63 +1,62 @@
-<app-base-modal
-  [titleTranslationKey]="'account.moneyMovementBetweenAccountsModal.title'"
-  [footerTemplate]="footer"
->
-  <form class="flex flex-col gap-y-2" [formGroup]="form">
-    <custom-select
-      [id]="formFieldsEnum.FromAccount"
-      [label]="'account.moneyMovementBetweenAccountsModal.fromAccountTitle' | translate"
-      [formControlName]="formFieldsEnum.FromAccount"
-      [options]="accounts$ | async"
-      [idSelector]="idSelector"
-      [displayValueSelector]="displayValueSelector"
-      [iconSelector]="iconSelector"
-      [isRequired]="true"
-    ></custom-select>
+<app-base-modal [titleTranslationKey]="'account.moneyMovementBetweenAccountsModal.title'">
+  <ng-template #contentTemplate>
+    <form class="flex flex-col gap-y-2" [formGroup]="form">
+      <custom-select
+        [id]="formFieldsEnum.FromAccount"
+        [label]="'account.moneyMovementBetweenAccountsModal.fromAccountTitle' | translate"
+        [formControlName]="formFieldsEnum.FromAccount"
+        [options]="accounts$ | async"
+        [idSelector]="idSelector"
+        [displayValueSelector]="displayValueSelector"
+        [iconSelector]="iconSelector"
+        [isRequired]="true"
+      ></custom-select>
 
-    <custom-select
-      [class.hidden]="!form?.controls?.[formFieldsEnum.FromAccount]?.value"
-      [id]="formFieldsEnum.ToAccount"
-      [label]="'account.moneyMovementBetweenAccountsModal.toAccountTitle' | translate"
-      [formControlName]="formFieldsEnum.ToAccount"
-      [options]="filteredAccounts$ | async"
-      [idSelector]="idSelector"
-      [displayValueSelector]="displayValueSelector"
-      [iconSelector]="iconSelector"
-      [isRequired]="true"
-    ></custom-select>
+      <custom-select
+        [class.hidden]="!form?.controls?.[formFieldsEnum.FromAccount]?.value"
+        [id]="formFieldsEnum.ToAccount"
+        [label]="'account.moneyMovementBetweenAccountsModal.toAccountTitle' | translate"
+        [formControlName]="formFieldsEnum.ToAccount"
+        [options]="filteredAccounts$ | async"
+        [idSelector]="idSelector"
+        [displayValueSelector]="displayValueSelector"
+        [iconSelector]="iconSelector"
+        [isRequired]="true"
+      ></custom-select>
 
-    <custom-input
-      [class.hidden]="isAnyAccountFieldEmpty"
-      [id]="formFieldsEnum.ValueToMove"
-      [label]="'account.moneyMovementBetweenAccountsModal.valueToMoveTitle' | translate"
-      [isRequired]="true"
-      [minValue]="1"
-      [maxValue]="maxValue"
-      [type]="'number'"
-      [formControlName]="formFieldsEnum.ValueToMove"
-      [prefix]="currencySymbolForValueField"
-    ></custom-input>
+      <custom-input
+        [class.hidden]="isAnyAccountFieldEmpty"
+        [id]="formFieldsEnum.ValueToMove"
+        [label]="'account.moneyMovementBetweenAccountsModal.valueToMoveTitle' | translate"
+        [isRequired]="true"
+        [minValue]="1"
+        [maxValue]="maxValue"
+        [type]="'number'"
+        [formControlName]="formFieldsEnum.ValueToMove"
+        [prefix]="currencySymbolForValueField"
+      ></custom-input>
 
-    <custom-input
-      [class.hidden]="isAnyAccountFieldEmpty || !accountsHaveDifferentCurrencies"
-      [id]="formFieldsEnum.ConvertedValueToMove"
-      [label]="'account.moneyMovementBetweenAccountsModal.convertedValueToMoveTitle' | translate"
-      [isRequired]="true"
-      [minValue]="1"
-      [type]="'number'"
-      [formControlName]="formFieldsEnum.ConvertedValueToMove"
-      [prefix]="currencySymbolForConvertedValueField"
-    ></custom-input>
-  </form>
+      <custom-input
+        [class.hidden]="isAnyAccountFieldEmpty || !accountsHaveDifferentCurrencies"
+        [id]="formFieldsEnum.ConvertedValueToMove"
+        [label]="'account.moneyMovementBetweenAccountsModal.convertedValueToMoveTitle' | translate"
+        [isRequired]="true"
+        [minValue]="1"
+        [type]="'number'"
+        [formControlName]="formFieldsEnum.ConvertedValueToMove"
+        [prefix]="currencySymbolForConvertedValueField"
+      ></custom-input>
+    </form>
+  </ng-template>
+
+  <ng-template #footerTemplate>
+    <app-button
+      [type]="'primary'"
+      [text]="'account.moneyMovementBetweenAccountsModal.moveButton' | translate"
+      [buttonSizeX]="'px160'"
+      [disabled]="form?.invalid"
+      [loading]="loading$ | async"
+      (click)="submitAction()"
+    ></app-button>
+  </ng-template>
 </app-base-modal>
-
-<ng-template #footer>
-  <app-button
-    [type]="'primary'"
-    [text]="'account.moneyMovementBetweenAccountsModal.moveButton' | translate"
-    [buttonSizeX]="'px160'"
-    [disabled]="form?.invalid"
-    [loading]="loading$ | async"
-    (click)="submitAction()"
-  ></app-button>
-</ng-template>

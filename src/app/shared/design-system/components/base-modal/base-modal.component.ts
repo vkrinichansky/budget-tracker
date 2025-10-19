@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, HostBinding, Input, TemplateRef } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -11,6 +11,12 @@ export class BaseModalComponent {
   @HostBinding('class')
   private readonly classes = 'rounded-md';
 
+  @ContentChild('contentTemplate')
+  contentTemplate: TemplateRef<unknown>;
+
+  @ContentChild('footerTemplate')
+  footerTemplate: TemplateRef<unknown>;
+
   @Input()
   titleTranslationKey: string;
 
@@ -22,9 +28,6 @@ export class BaseModalComponent {
 
   @Input()
   shouldDisplayCloseButton = true;
-
-  @Input()
-  footerTemplate: TemplateRef<unknown>;
 
   @Input()
   loading: boolean;
