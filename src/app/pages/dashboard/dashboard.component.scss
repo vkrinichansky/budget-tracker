@@ -16,7 +16,7 @@
     }
   }
 
-  @media (width <= 480px) {
+  @media (width <= 768px) {
     .info-cards,
     .main-cards {
       @apply overflow-x-scroll scroll-smooth -mx-4 px-4 gap-x-0;
