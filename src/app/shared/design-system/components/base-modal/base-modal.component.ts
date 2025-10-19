@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, ContentChild, HostBinding, Input, TemplateRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ContentChild,
+  HostBinding,
+  Input,
+  TemplateRef,
+} from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -28,6 +35,9 @@ export class BaseModalComponent {
 
   @Input()
   shouldDisplayCloseButton = true;
+
+  @Input()
+  shouldDisplayBorder = true;
 
   @Input()
   loading: boolean;

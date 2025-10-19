@@ -12,35 +12,50 @@ import {
   createCategoryValueChangeRecord,
 } from '@budget-tracker/activity-log';
 import { BudgetType } from '@budget-tracker/shared-models';
-import { BatchOperationService, EventBusService, pick } from '@budget-tracker/shared-utils';
-import { firstValueFrom, Subject, takeUntil } from 'rxjs';
+import {
+  BatchOperationService,
+  DomainEvent,
+  EventBusService,
+  pick,
+} from '@budget-tracker/shared-utils';
+import { firstValueFrom } from 'rxjs';
 import { CategoryTransactionModalComponent } from './components';
 import { MatDialog } from '@angular/material/dialog';
+import { BaseOrchestratorService } from '../base-orchestrator.service';
 @Injectable()
-export class CategoryTransactionOrchestratorService {
-  private readonly destroy$ = new Subject<void>();
-
+export class CategoryTransactionOrchestratorService extends BaseOrchestratorService {
   constructor(
-    private readonly eventBusService: EventBusService,
     private readonly categoryFacade: CategoryFacadeService,
     private readonly accountFacade: AccountFacadeService,
     private readonly activityLogFacade: ActivityLogFacadeService,
-    private readonly batchOperationService: BatchOperationService,
-    private readonly dialog: MatDialog
-  ) {}
-
-  listen(): void {
-    this.eventBusService
-      .on<OpenCategoryTransactionModalEvent>(CategoryEvents.OPEN_CATEGORY_TRANSACTION_MODAL)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((event) => {
-        this.openCategoryTransactionModal(event.payload.categoryId);
-      });
+    private readonly dialog: MatDialog,
+    eventBusService: EventBusService,
+    batchOperationService: BatchOperationService
+  ) {
+    super(eventBusService, batchOperationService);
   }
 
-  destroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+  listen(): void {
+    this.handleEvent<OpenCategoryTransactionModalEvent>(
+      CategoryEvents.OPEN_CATEGORY_TRANSACTION_MODAL
+    );
+  }
+
+  protected async eventCallback(
+    event: DomainEvent<OpenCategoryTransactionModalEvent>
+  ): Promise<void> {
+    this.dialog.open(CategoryTransactionModalComponent, {
+      data: {
+        categoryId: event.payload.categoryId,
+        transactionCallback: (
+          categoryId: string,
+          accountId: string,
+          valueToAdd: number,
+          convertedValueToAdd: number,
+          note: string
+        ) => this.transactionCallback(categoryId, accountId, valueToAdd, convertedValueToAdd, note),
+      },
+    });
   }
 
   private async transactionCallback(
@@ -119,20 +134,5 @@ export class CategoryTransactionOrchestratorService {
     } catch {
       throw new Error('errors.category.changeCategoryValueFlowFailed');
     }
-  }
-
-  private openCategoryTransactionModal(categoryId: string) {
-    this.dialog.open(CategoryTransactionModalComponent, {
-      data: {
-        categoryId,
-        transactionCallback: (
-          categoryId: string,
-          accountId: string,
-          valueToAdd: number,
-          convertedValueToAdd: number,
-          note: string
-        ) => this.transactionCallback(categoryId, accountId, valueToAdd, convertedValueToAdd, note),
-      },
-    });
   }
 }

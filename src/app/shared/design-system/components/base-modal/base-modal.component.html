@@ -1,4 +1,8 @@
-<div mat-dialog-title class="!flex !justify-between !items-center !gap-x-4 !m-0">
+<div
+  mat-dialog-title
+  class="!flex !justify-between !items-center !gap-x-4 !m-0"
+  [ngClass]="{ '!border-b-2 !border-solid !border-grey !border-opacity-20': shouldDisplayBorder }"
+>
   <div>
     <div class="flex items-center gap-2">
       <h1>{{ titleTranslationKey | translate: titleTranslationParams }}</h1>
@@ -23,7 +27,7 @@
   }
 </div>
 
-<div mat-dialog-content class="!py-3 !border-t-2 !border-solid !border-grey !border-opacity-20">
+<div mat-dialog-content class="!py-3">
   @if (contentTemplate) {
     <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
   }
@@ -31,7 +35,11 @@
 
 <div
   mat-dialog-actions
-  [ngClass]="{ '!border-t-2 !border-solid !border-grey !border-opacity-20': footerTemplate }"
+  class="bg-grey bg-opacity-10"
+  [ngClass]="{
+    '!border-t-2 !border-solid !border-grey !border-opacity-20':
+      footerTemplate && shouldDisplayBorder,
+  }"
 >
   @if (footerTemplate) {
     <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
