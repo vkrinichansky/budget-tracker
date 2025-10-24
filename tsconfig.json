@@ -27,45 +27,73 @@
     "strictPropertyInitialization": false,
     "strictNullChecks": false,
     "paths": {
-      "@budget-tracker/models": [
-        "src/app/modules/models/index.ts"
+      // Shared
+      "@budget-tracker/shared-models": [
+        "src/app/shared/models/index.ts"
       ],
-      "@budget-tracker/auth": [
-        "src/app/modules/auth/index.ts"
-      ],
-      "@budget-tracker/metadata": [
-        "src/app/modules/metadata/index.ts"
-      ],
-      "@budget-tracker/data": [
-        "src/app/modules/data/index.ts"
+      "@budget-tracker/shared-utils": [
+        "src/app/shared/utils/index.ts"
       ],
       "@budget-tracker/design-system": [
-        "src/app/modules/design-system/index.ts"
+        "src/app/shared/design-system/index.ts"
       ],
-      "@budget-tracker/navigation-bar": [
-        "src/app/modules/navigation-bar/index.ts"
+      "@budget-tracker/shared-features/navigation-bar": [
+        "src/app/shared/features/navigation-bar/index.ts"
       ],
-      "@budget-tracker/budget-tracker": [
-        "src/app/modules/budget-tracker/index.ts"
+      // Domains
+      "@budget-tracker/auth": [
+        "src/app/domains/auth/index.ts"
       ],
-      "@budget-tracker/utils": [
-        "src/app/modules/utils/index.ts"
+      "@budget-tracker/metadata": [
+        "src/app/domains/metadata/index.ts"
       ],
-      "@budget-tracker/dashboard": [
-        "src/app/modules/budget-tracker/modules/dashboard/index.ts"
+      "@budget-tracker/account": [
+        "src/app/domains/account/index.ts"
       ],
-      "@budget-tracker/dashboard/categories": [
-        "src/app/modules/budget-tracker/modules/dashboard/modules/categories/index.ts"
+      "@budget-tracker/category": [
+        "src/app/domains/category/index.ts"
       ],
-      "@budget-tracker/dashboard/info-cards": [
-        "src/app/modules/budget-tracker/modules/dashboard/modules/info-cards/index.ts"
+      "@budget-tracker/activity-log": [
+        "src/app/domains/activity-log/index.ts"
       ],
-      "@budget-tracker/dashboard/activity-log": [
-        "src/app/modules/budget-tracker/modules/dashboard/modules/activity-log/index.ts"
+      "@budget-tracker/snapshot": [
+        "src/app/domains/snapshot/index.ts"
       ],
-      "@budget-tracker/statistics": [
-        "src/app/modules/budget-tracker/modules/statistics/index.ts"
-      ]
+      // Orchestrators
+      "@budget-tracker/currency-change-orchestrator": [
+        "src/app/orchestrators/currency-change-orchestrator/index.ts"
+      ],
+      "@budget-tracker/move-money-between-accounts-orchestrator": [
+        "src/app/orchestrators/move-money-between-accounts-orchestrator/index.ts"
+      ],
+      "@budget-tracker/reset-categories-orchestrator": [
+        "src/app/orchestrators/reset-categories-orchestrator/index.ts"
+      ],
+      "@budget-tracker/category-transaction-orchestrator": [
+        "src/app/orchestrators/category-transaction-orchestrator/index.ts"
+      ],
+      "@budget-tracker/remove-activity-log-record-orchestrator": [
+        "src/app/orchestrators/remove-activity-log-record-orchestrator/index.ts"
+      ],
+      "@budget-tracker/edit-account-value-orchestrator": [
+        "src/app/orchestrators/edit-account-value-orchestrator/index.ts"
+      ],
+      "@budget-tracker/month-reset-orchestrator": [
+        "src/app/orchestrators/month-reset-orchestrator/index.ts"
+      ],
+      "@budget-tracker/orchestrators-utils": [
+        "src/app/orchestrators/utils/index.ts"
+      ],
+      // Pages
+      "@budget-tracker/auth-page": [
+        "src/app/pages/auth/index.ts"
+      ],
+      "@budget-tracker/dashboard-page": [
+        "src/app/pages/dashboard/index.ts"
+      ],
+      "@budget-tracker/statistics-page": [
+        "src/app/pages/statistics/index.ts"
+      ],
     }
   },
   "angularCompilerOptions": {

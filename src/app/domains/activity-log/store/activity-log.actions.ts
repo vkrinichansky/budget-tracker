@@ -1,0 +1,22 @@
+import { createAction, props } from '@ngrx/store';
+import { ActivityLog, ActivityLogRecordUnitedType } from '../models';
+
+export const ActivityLogActions = {
+  loadActivityLog: createAction('[ActivityLog] Load activity log'),
+  activityLogLoaded: createAction(
+    '[ActivityLog] Activity log loaded',
+    props<{ activityLog: ActivityLog }>()
+  ),
+  cleanState: createAction('[ActivityLog] Clean state'),
+
+  recordAdded: createAction(
+    '[ActivityLog] Record added',
+    props<{ record: ActivityLogRecordUnitedType }>()
+  ),
+
+  recordRemoved: createAction('[ActivityLog] Record removed', props<{ recordId: string }>()),
+
+  bulkRecordsRemove: createAction('[ActivityLog] Bulk records remove'),
+  bulkRecordsRemoved: createAction('[ActivityLog] Bulk records removed'),
+  bulkRecordsRemoveFail: createAction('[ActivityLog] Bulk records remove fail'),
+};

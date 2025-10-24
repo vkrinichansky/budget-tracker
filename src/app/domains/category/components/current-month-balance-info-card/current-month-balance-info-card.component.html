@@ -1,0 +1,10 @@
+@let currentMonthBalance = currentMonthBalance$ | async;
+@let colorClasses = colorClasses$ | async;
+
+<app-info-card
+  [bgColor]="colorClasses?.bg | classToHexColor"
+  [textColor]="colorClasses?.text | classToHexColor"
+  [iconName]="'calendar-dot-grid'"
+  [primaryText]="currentMonthBalance | numberSpace | currencySymbol"
+  [secondaryText]="'category.infoCards.currentMonthBalance' | translate"
+></app-info-card>

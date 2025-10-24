@@ -1,0 +1,61 @@
+<app-base-modal
+  [titleTranslationKey]="buildTranslationKey('title')"
+  [shouldDisplayCloseButton]="false"
+  [shouldDisplayBorder]="false"
+>
+  <ng-template #contentTemplate>
+    <div class="flex flex-col gap-y-4">
+      <span
+        class="font-main text-charcoal text-base"
+        [innerHTML]="
+          translation.questionTranslationKey | translate: translation?.questionTranslationParams
+        "
+      ></span>
+
+      @if (shouldDisplayCheckbox) {
+        <checkbox [id]="'confirmation-checkbox'" [(ngModel)]="checkmarkChecked">
+          <span
+            class="text-charcoal"
+            [innerHTML]="
+              translation.checkboxTranslationKey | translate: translation?.questionTranslationParams
+            "
+          ></span>
+
+          @if (shouldDisplayRemark) {
+            <span class="text-dark-red">&#xFE61;</span>
+          }
+        </checkbox>
+      }
+
+      @if (shouldDisplayRemark) {
+        <div>
+          <span class="text-dark-red">&#xFE61;</span>
+          <span
+            class="font-main text-sm text-charcoal"
+            [innerHTML]="
+              translation.remarkTranslationKey | translate: translation?.remarkTranslationParams
+            "
+          ></span>
+        </div>
+      }
+    </div>
+  </ng-template>
+
+  <ng-template #footerTemplate>
+    <app-button
+      [type]="'secondary'"
+      [text]="buildTranslationKey('noButton') | translate"
+      [buttonSizeX]="'px100'"
+      (click)="closeClick()"
+    >
+    </app-button>
+    <app-button
+      [type]="'primary'"
+      [text]="buildTranslationKey('yesButton') | translate"
+      [buttonSizeX]="'px100'"
+      [loading]="loading$ | async"
+      (click)="resolveAction()"
+    >
+    </app-button>
+  </ng-template>
+</app-base-modal>

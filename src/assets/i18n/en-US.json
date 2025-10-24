@@ -5,31 +5,24 @@
       "statistics": "Statistics",
       "logout": "Logout"
     },
+
     "logoutConfirmation": "Are you sure you want to log out?"
   },
 
-  "dashboard": {
-    "pageTitle": "Dashboard",
-
-    "infoCards": {
-      "income": "Income",
-      "expense": "Expense",
-      "currentMonthBalance": "Current month balance",
-      "fullBalance": "Full balance",
-      "accounts": {
-        "title": "Accounts",
-        "titleWithAmount": "Accounts ({{ accountsAmount }})",
-        "hoverTip": "Click to see your accounts"
-      },
-      "accountCard": {
-        "menu": {
-          "editValue": "Edit",
-          "remove": "Remove"
-        },
-        "removeConfirmationQuestion": "Do you want to remove <b>{{ accountName }}</b> account?"
-      }
+  "account": {
+    "fullBalance": "Full balance",
+    "accountsInfoCard": {
+      "title": "Accounts",
+      "titleWithAmount": "Accounts ({{ accountsAmount }})",
+      "hoverTip": "Click to see your accounts"
     },
-
+    "accountCard": {
+      "menu": {
+        "remove": "Remove",
+        "editValue": "Edit value"
+      },
+      "removeConfirmationQuestion": "Do you want to remove <b>{{ accountName }}</b> account?"
+    },
     "addAccountModal": {
       "title": "Add account",
       "accountNameTitle": "Account name",
@@ -42,7 +35,6 @@
       "accountExistsError": "Such account already exists",
       "accountNameLengthError": "Max account name length is 20"
     },
-
     "moneyMovementBetweenAccountsModal": {
       "title": "Money movement between accounts",
       "fromAccountTitle": "From account",
@@ -51,65 +43,51 @@
       "convertedValueToMoveTitle": "Converted value",
       "moveButton": "Move"
     },
-
-    "accountValueEditModal": {
-      "subtitle": "Edit account value",
-      "cancel": "Cancel",
-      "valueInputLabel": "Value",
-      "noteInputLabel": "Note",
-      "editButton": "Edit"
-    },
-
     "accountsListModal": {
       "title": "Accounts ({{ accountsAmount }})",
       "closeButton": "Close"
     },
+    "editAccountValueModal": {
+      "title": "Edit account value",
+      "subtitle": "Edit account value",
+      "valueTitle": "Value",
+      "noteTitle": "Note",
+      "editButton": "Edit"
+    }
+  },
 
-    "activityLog": {
-      "title": "Activity log",
-      "categoriesResetRecord": {
-        "income": "<b>Income</b> categories were reset",
-        "expense": "<b>Expense</b> categories were reset"
-      },
-      "categoryValueChangeRecord": {
-        "removeConfirmationQuestion": "Are you sure you want to remove this record?",
-        "removeConfirmationRemark": "This action will revert changes made by this record and will affect <span class='font-bold'>{{ accountName }}</span> account and <span class='font-bold'>{{ categoryName }}</span> category"
-      },
-      "currencyChangeRecord": "Currency was changed",
-      "emptyStateText": "No data to display yet",
-      "removeButtonTooltip": "Remove all records",
-      "allRecordsRemoveConfirmationQuestion": "Are you sure you want to remove all records?"
+  "category": {
+    "infoCards": {
+      "income": "Income",
+      "expense": "Expense",
+      "currentMonthBalance": "Current month balance"
+    },
+    "income": {
+      "title": "Income",
+      "resetConfirmationQuestion": "Do you want to reset all <b>income</b> categories' values?"
+    },
+    "expense": {
+      "title": "Expense",
+      "resetConfirmationQuestion": "Do you want to reset all <b>expense</b> categories' values?"
+    },
+    "menu": {
+      "addCategory": "Add category",
+      "resetCategories": "Reset categories"
     },
 
-    "categories": {
-      "income": {
-        "title": "Income",
-        "resetConfirmationQuestion": "Do you want to reset all <b>income</b> categories' values?"
-      },
-      "expense": {
-        "title": "Expense",
-        "resetConfirmationQuestion": "Do you want to reset all <b>expense</b> categories' values?"
-      },
+    "emptyStateText": "No data to display yet",
+    "tabs": {
+      "list": "List",
+      "chart": "Chart"
+    },
+    "categoryItem": {
       "menu": {
-        "addCategory": "Add category",
-        "resetCategories": "Reset categories"
+        "addValue": "Add value",
+        "resetValue": "Reset value",
+        "remove": "Remove"
       },
-
-      "emptyStateText": "No data to display yet",
-      "tabs": {
-        "list": "List",
-        "chart": "Chart"
-      },
-      "categoryItem": {
-        "menu": {
-          "addValue": "Add value",
-          "resetValue": "Reset value",
-          "remove": "Remove"
-        },
-        "removeConfirmationQuestion": "Do you want to remove <b>{{ categoryName }}</b> category?"
-      }
+      "removeConfirmationQuestion": "Do you want to remove <b>{{ categoryName }}</b> category?"
     },
-
     "addCategoryModal": {
       "income": {
         "title": "Add category to income"
@@ -125,7 +103,6 @@
       "categoryExistsError": "Such category already exists",
       "categoryNameLengthError": "Max category name length is 25"
     },
-
     "categoryValueModal": {
       "subtitle": "Add value to category",
       "cancel": "Cancel",
@@ -133,8 +110,29 @@
       "valueToAddTitle": "Value to add",
       "convertedValueToAddTitle": "Converted value",
       "noteTitle": "Note",
-      "accountsTitle": "Account to use"
+      "accountsTitle": "Account to use",
+      "addAccount": "Add account"
     }
+  },
+
+  "activityLog": {
+    "title": "Activity log",
+    "categoriesResetRecord": {
+      "income": "<b>Income</b> categories were reset",
+      "expense": "<b>Expense</b> categories were reset"
+    },
+    "categoryValueChangeRecord": {
+      "removeConfirmationQuestion": "Are you sure you want to remove this record?",
+      "removeConfirmationRemark": "This action will revert changes made by this record and will affect <span class='font-bold'>{{ accountName }}</span> account and <span class='font-bold'>{{ categoryName }}</span> category"
+    },
+    "currencyChangeRecord": "Currency was changed",
+    "emptyStateText": "No data to display yet",
+    "removeButtonTooltip": "Remove all records",
+    "allRecordsRemoveConfirmationQuestion": "Are you sure you want to remove all records?"
+  },
+
+  "dashboard": {
+    "pageTitle": "Dashboard"
   },
 
   "statistics": {
@@ -154,27 +152,29 @@
     }
   },
 
-  "snackbars": {
+  "messages": {
     "defaultOkButtonText": "Got it",
-    "errorSnackbar": "Something went wrong! Please, try again.",
-    "balanceEditedSnackbar": "Balance was updated successfully!",
-    "savingsEditedSnackbar": "Savings were updated successfully!",
-    "freeMoneyEditedSnackbar": "Free money were updated successfully!",
-    "categoryAddedSnackbar": "Category was added successfully!",
-    "categoryRemovedSnackbar": "Category was removed successfully!",
-    "activityLogRecordRemoved": "Activity log record was removed successfully!",
-    "bulkActivityLogRecordsRemoved": "Activity log records were removed successfully!",
-    "categoryValueChangedSnackbar": "Category value was changed successfully!",
-    "categoriesResetSnackbar": {
-      "income": "Income categories were reset successfully!",
-      "expense": "Expense categories were reset successfully!"
+    "account": {
+      "accountValueEdited": "Account value was edited successfully!",
+      "accountAdded": "Account was added successfully!",
+      "accountRemoved": "Account was removed successfully!",
+      "accountOrderChanged": "Accounts were sorted successfully!",
+      "moneyBetweenAccountsMoved": "Money between accounts was moved successfully!"
     },
-    "dataResetSnackbar": "Categories were reset!",
-    "accountValueEdited": "Account value was edited successfully!",
-    "accountAddedSnackbar": "Account was added successfully!",
-    "accountRemovedSnackbar": "Account was removed successfully!",
-    "accountOrderChangedSnackbar": "Accounts were sorted successfully!",
-    "moneyBetweenAccountsMoved": "Money between accounts was moved successfully!"
+    "category": {
+      "categoryAdded": "Category was added successfully!",
+      "categoryRemoved": "Category was removed successfully!",
+      "categoryValueChanged": "Category value was changed successfully!",
+      "categoriesReset": {
+        "income": "Income categories were reset successfully!",
+        "expense": "Expense categories were reset successfully!"
+      }
+    },
+    "activityLog": {
+      "activityLogRecordRemoved": "Activity log record was removed successfully!",
+      "bulkActivityLogRecordsRemoved": "Activity log records were removed successfully!"
+    },
+    "monthSnapshotCreated": "Month snapshot was created successfully!"
   },
 
   "formErrors": {
@@ -215,5 +215,35 @@
 
   "predefinedCategories": {
     "adjustments": "Adjustments"
+  },
+
+  "errors": {
+    "unknownError": "Something went wrong! Please, try again.",
+    "auth": {
+      "loginFailed": "Login failed! Please, try again.",
+      "logoutFailed": "Logout failed! Please, try again."
+    },
+    "metadata": {
+      "changeLanguageFailed": "Failed to change language.",
+      "changeCurrencyFlowFailed": "Failed to finish currency change flow."
+    },
+    "account": {
+      "addAccountFailed": "Failed to add account.",
+      "removeAccountFailed": "Failed to remove account.",
+      "changeAccountsOrderFailed": "Failed to change accounts order.",
+      "moveMoneyBetweenAccountsFlowFailed": "Failed to finish moving money between accounts flow.",
+      "editAccountValueFlowFailed": "Failed to finish edit account value flow."
+    },
+    "category": {
+      "createCategoryFailed": "Failed to create category.",
+      "removeCategoryFailed": "Failed to remove category.",
+      "resetCategoriesFlowFailed": "Failed to finish reset categories flow.",
+      "changeCategoryValueFlowFailed": "Failed to finish change category value flow."
+    },
+    "activityLog": {
+      "removeRecordFlowFailed": "Failed to revert changes made by this record.",
+      "removeAllRecordsFailed": "Failed to remove all records."
+    },
+    "monthResetFlowFailed": "Failed to finish month reset flow."
   }
 }

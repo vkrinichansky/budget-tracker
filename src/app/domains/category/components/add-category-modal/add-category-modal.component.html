@@ -1,0 +1,41 @@
+<app-base-modal [titleTranslationKey]="title">
+  <ng-template #contentTemplate>
+    <form class="flex flex-col gap-y-2" [formGroup]="form">
+      <custom-input
+        [id]="formFields.CategoryName"
+        [label]="'category.addCategoryModal.categoryNameTitle' | translate"
+        [formControlName]="formFields.CategoryName"
+        [isRequired]="true"
+        [maxLength]="25"
+        [entityExistsValidator]="categoryExistsValidator"
+        [displayCharCounter]="true"
+      ></custom-input>
+
+      <custom-select
+        [id]="formFields.CategoryIcon"
+        [label]="'category.addCategoryModal.categoryIconTitle' | translate"
+        [formControlName]="formFields.CategoryIcon"
+        [isRequired]="true"
+        [iconPickerMode]="true"
+      ></custom-select>
+
+      <color-picker
+        [id]="formFields.CategoryColorPicker"
+        [label]="'category.addCategoryModal.categoryColorTitle' | translate"
+        [formControlName]="formFields.CategoryColorPicker"
+        [isRequired]="true"
+      ></color-picker>
+    </form>
+  </ng-template>
+
+  <ng-template #footerTemplate>
+    <app-button
+      [type]="'primary'"
+      [text]="'category.addCategoryModal.addCategory' | translate"
+      [buttonSizeX]="'px160'"
+      [disabled]="this.form?.invalid"
+      [loading]="loading$ | async"
+      (click)="submitClick()"
+    ></app-button>
+  </ng-template>
+</app-base-modal>

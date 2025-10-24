@@ -1,0 +1,80 @@
+<app-base-modal [titleTranslationKey]="'account.addAccountModal.title'">
+  <ng-template #contentTemplate>
+    <form class="flex flex-col gap-y-2 h-full" [formGroup]="form">
+      <div class="sticky top-0 pb-4 bg-white -mx-6 px-6 z-10">
+        <app-info-card
+          [primaryText]="
+            (form.controls[formFields.AccountValue].value || 0) + ' ' + selectedCurrencySymbol
+          "
+          [secondaryText]="form.controls[formFields.AccountName].value"
+          [iconName]="form.controls[formFields.AccountIcon].value"
+          [bgColor]="form.controls[formFields.AccountBgColor].value || '#F0F2F2'"
+          [textColor]="form.controls[formFields.AccountTextColor].value || '#2C4251'"
+        ></app-info-card>
+      </div>
+
+      <custom-input
+        [label]="'account.addAccountModal.accountNameTitle' | translate"
+        [id]="formFields.AccountName"
+        [formControlName]="formFields.AccountName"
+        [isRequired]="true"
+        [maxLength]="20"
+        [displayCharCounter]="true"
+        [entityExistsValidator]="accountExistsValidator"
+      ></custom-input>
+
+      <custom-input
+        [id]="formFields.AccountValue"
+        [formControlName]="formFields.AccountValue"
+        [label]="'account.addAccountModal.accountValueTitle' | translate"
+        [isRequired]="true"
+        [minValue]="0"
+        [type]="'number'"
+      ></custom-input>
+
+      <custom-select
+        [id]="formFields.AccountCurrency"
+        [label]="'account.addAccountModal.accountCurrencyTitle' | translate"
+        [formControlName]="formFields.AccountCurrency"
+        [options]="options"
+        [idSelector]="currencyIdSelector"
+        [displayValueSelector]="currencyDisplayValueSelector"
+        [iconSelector]="currencyIconSelector"
+        [isRequired]="true"
+      ></custom-select>
+
+      <custom-select
+        [id]="formFields.AccountIcon"
+        [label]="'account.addAccountModal.accountIconTitle' | translate"
+        [formControlName]="formFields.AccountIcon"
+        [isRequired]="true"
+        [iconPickerMode]="true"
+      ></custom-select>
+
+      <color-picker
+        [id]="formFields.AccountBgColor"
+        [label]="'account.addAccountModal.accountBgColorTitle' | translate"
+        [formControlName]="formFields.AccountBgColor"
+        [isRequired]="true"
+      ></color-picker>
+
+      <color-picker
+        [id]="formFields.AccountTextColor"
+        [label]="'account.addAccountModal.accountTextColorTitle' | translate"
+        [formControlName]="formFields.AccountTextColor"
+        [isRequired]="true"
+      ></color-picker>
+    </form>
+  </ng-template>
+
+  <ng-template #footerTemplate>
+    <app-button
+      [type]="'primary'"
+      [text]="'account.addAccountModal.addAccount' | translate"
+      [buttonSizeX]="'px160'"
+      [disabled]="!isFormValid"
+      [loading]="loading$ | async"
+      (click)="submitClick()"
+    ></app-button>
+  </ng-template>
+</app-base-modal>

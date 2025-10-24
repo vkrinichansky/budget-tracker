@@ -8,28 +8,20 @@
     "logoutConfirmation": "Ви впевнені, що хочете вийти?"
   },
 
-  "dashboard": {
-    "pageTitle": "Дошка",
-
-    "infoCards": {
-      "income": "Дохід",
-      "expense": "Витрати",
-      "currentMonthBalance": "Баланс за місяць",
-      "fullBalance": "Повний баланс",
-      "accounts": {
-        "title": "Рахунки",
-        "titleWithAmount": "Рахунки ({{ accountsAmount }})",
-        "hoverTip": "Ваші рахунки (натисніть)"
-      },
-      "accountCard": {
-        "menu": {
-          "editValue": "Редагувати",
-          "remove": "Видалити"
-        },
-        "removeConfirmationQuestion": "Ви хочете видалити рахунок <b>{{ accountName }}</b>?"
-      }
+  "account": {
+    "fullBalance": "Повний баланс",
+    "accountsInfoCard": {
+      "title": "Рахунки",
+      "titleWithAmount": "Рахунки ({{ accountsAmount }})",
+      "hoverTip": "Ваші рахунки (натисніть)"
     },
-
+    "accountCard": {
+      "menu": {
+        "remove": "Видалити",
+        "editValue": "Редагувати значення"
+      },
+      "removeConfirmationQuestion": "Ви хочете видалити рахунок <b>{{ accountName }}</b>?"
+    },
     "addAccountModal": {
       "title": "Додати рахунок",
       "accountNameTitle": "Назва рахунку",
@@ -42,7 +34,6 @@
       "accountExistsError": "Такий рахунок вже існує",
       "accountNameLengthError": "Макс. довжина імені рахунку - 20"
     },
-
     "moneyMovementBetweenAccountsModal": {
       "title": "Переміщення грошей між рахунками",
       "fromAccountTitle": "З рахунку",
@@ -51,66 +42,50 @@
       "convertedValueToMoveTitle": "Конвертоване значення",
       "moveButton": "Перемістити"
     },
-
-    "accountValueEditModal": {
-      "subtitle": "Редагування значення рахунку",
-      "cancel": "Вихід",
-      "valueInputLabel": "Значення",
-      "noteInputLabel": "Примітка",
-      "editButton": "Редагувати"
-    },
-
     "accountsListModal": {
-      "title": "Accounts ({{ accountsAmount }})",
+      "title": "Рахунки ({{ accountsAmount }})",
       "closeButton": "Вихід"
     },
+    "editAccountValueModal": {
+      "title": "Редагувати значення рахунку",
+      "subtitle": "Редагувати значення рахунку",
+      "valueTitle": "Значення",
+      "noteTitle": "Примітка",
+      "editButton": "Редагувати"
+    }
+  },
 
-    "activityLog": {
-      "title": "Журнал активності",
-      "categoriesResetRecord": {
-        "income": "Категорії <b>доходів</b> було скинуто",
-        "expense": "Категорії <b>витрат</b> було скинуто"
-      },
-      "categoryValueChangeRecord": {
-        "removeConfirmationQuestion": "Ви хочете видалити цей запис?",
-        "removeConfirmationRemark": "Ця дія відмінить зроблені цим записом зміни і вплине на рахунок <span class='font-bold'>{{ accountName }}</span> і категорію <span class='font-bold'>{{ categoryName }}</span>"
-      },
-      "currencyChangeRecord": "Валюту змінено",
-      "emptyStateText": "Немає даних для відображення",
-      "removeButtonTooltip": "Видалити всі записи",
-      "allRecordsRemoveConfirmationQuestion": "Ви дійсно хочете видалити всі записи?"
+  "category": {
+    "infoCards": {
+      "income": "Дохід",
+      "expense": "Витрати",
+      "currentMonthBalance": "Баланс за місяць"
     },
-
-    "categories": {
-      "income": {
-        "title": "Дохід",
-        "resetConfirmationQuestion": "Ви хочете скинути всі категорії <b>доходів</b>?"
-      },
-      "expense": {
-        "title": "Витрати",
-        "resetConfirmationQuestion": "Ви хочете скинути всі категорії <b>витрат</b>?"
-      },
+    "income": {
+      "title": "Дохід",
+      "resetConfirmationQuestion": "Ви хочете скинути всі категорії <b>доходів</b>?"
+    },
+    "expense": {
+      "title": "Витрати",
+      "resetConfirmationQuestion": "Ви хочете скинути всі категорії <b>витрат</b>?"
+    },
+    "menu": {
+      "addCategory": "Додати категорію",
+      "resetCategories": "Скинути категорії"
+    },
+    "emptyStateText": "Немає даних для відображення",
+    "tabs": {
+      "list": "Список",
+      "chart": "Графік"
+    },
+    "categoryItem": {
       "menu": {
-        "addCategory": "Додати категорію",
-        "resetCategories": "Скинути категорії"
+        "addValue": "Додати значення",
+        "resetValue": "Скинути значення",
+        "remove": "Видалити"
       },
-      "emptyStateText": "Немає даних для відображення",
-
-      "tabs": {
-        "list": "Список",
-        "chart": "Графік"
-      },
-
-      "categoryItem": {
-        "menu": {
-          "addValue": "Додати значення",
-          "resetValue": "Скинути значення",
-          "remove": "Видалити"
-        },
-        "removeConfirmationQuestion": "Ви хочете видалити категорію <b>{{ categoryName }}</b>?"
-      }
+      "removeConfirmationQuestion": "Ви хочете видалити категорію <b>{{ categoryName }}</b>?"
     },
-
     "addCategoryModal": {
       "income": {
         "title": "Додати категорію до доходів"
@@ -126,7 +101,6 @@
       "categoryExistsError": "Така категорія вже існує",
       "categoryNameLengthError": "Макс. довжина імені категорії - 25"
     },
-
     "categoryValueModal": {
       "subtitle": "Додати значення до категорії",
       "cancel": "Вихід",
@@ -134,8 +108,29 @@
       "valueToAddTitle": "Значення",
       "convertedValueToAddTitle": "Конвертоване значення",
       "noteTitle": "Примітка",
-      "accountsTitle": "Використати рахунок"
+      "accountsTitle": "Використати рахунок",
+      "addAccount": "Додати рахунок"
     }
+  },
+
+  "activityLog": {
+    "title": "Журнал активності",
+    "categoriesResetRecord": {
+      "income": "Категорії <b>доходів</b> було скинуто",
+      "expense": "Категорії <b>витрат</b> було скинуто"
+    },
+    "categoryValueChangeRecord": {
+      "removeConfirmationQuestion": "Ви хочете видалити цей запис?",
+      "removeConfirmationRemark": "Ця дія відмінить зроблені цим записом зміни і вплине на рахунок <span class='font-bold'>{{ accountName }}</span> і категорію <span class='font-bold'>{{ categoryName }}</span>"
+    },
+    "currencyChangeRecord": "Валюту змінено",
+    "emptyStateText": "Немає даних для відображення",
+    "removeButtonTooltip": "Видалити всі записи",
+    "allRecordsRemoveConfirmationQuestion": "Ви дійсно хочете видалити всі записи?"
+  },
+
+  "dashboard": {
+    "pageTitle": "Дошка"
   },
 
   "statistics": {
@@ -155,34 +150,36 @@
     }
   },
 
-  "snackbars": {
+  "messages": {
     "defaultOkButtonText": "Добре",
-    "errorSnackbar": "Щось пішло не так! Будь ласка, спробуйте ще.",
-    "balanceEditedSnackbar": "Баланс оновлено успішно!",
-    "savingsEditedSnackbar": "Збереження оновлено успішно!",
-    "freeMoneyEditedSnackbar": "Вільні гроші оновлено успішно!",
-    "categoryAddedSnackbar": "Категорію було додано успішно!",
-    "categoryRemovedSnackbar": "Категорію було видалено успішно!",
-    "activityLogRecordRemoved": "Запис журналу активності було видалено успішно!",
-    "bulkActivityLogRecordsRemoved": "Записи журналу активності були видалені успішно!",
-    "categoryValueChangedSnackbar": "Значення категорії було змінено успішно!",
-    "categoriesResetSnackbar": {
-      "income": "Категорії доходів було скинуто успішно!",
-      "expense": "Категорії витрат було скинуто успішно!"
+    "account": {
+      "accountValueEdited": "Значення рахунку було змінено успішно!",
+      "accountAdded": "Рахунок було додано успішно!",
+      "accountRemoved": "Рахунок було видалено успішно!",
+      "accountOrderChanged": "Рахунки було відсортовано успішно!",
+      "moneyBetweenAccountsMoved": "Гроші між рахунками було переміщено успішно!"
     },
-    "dataResetSnackbar": "Категорії було скинуто!",
-    "accountValueEdited": "Значення рахунку було змінено успішно!",
-    "accountAddedSnackbar": "Рахунок було додано успішно!",
-    "accountRemovedSnackbar": "Рахунок було видалено успішно!",
-    "accountOrderChangedSnackbar": "Рахунки було відсортовано успішно!",
-    "moneyBetweenAccountsMoved": "Гроші між рахунками було переміщено успішно!"
+    "category": {
+      "categoryAdded": "Категорію було додано успішно!",
+      "categoryRemoved": "Категорію було видалено успішно!",
+      "categoryValueChanged": "Значення категорії було змінено успішно!",
+      "categoriesReset": {
+        "income": "Категорії доходів було скинуто успішно!",
+        "expense": "Категорії витрат було скинуто успішно!"
+      }
+    },
+    "activityLog": {
+      "activityLogRecordRemoved": "Запис журналу активності було видалено успішно!",
+      "bulkActivityLogRecordsRemoved": "Записи журналу активності були видалені успішно!"
+    },
+    "monthSnapshotCreated": "Снапшот місяця було створено успішно!"
   },
 
   "formErrors": {
     "required": "Обов'язкове для заповнення",
     "minValue": "Мінімальне значення - {{ minValue }}",
     "maxValue": "Максимальне значення - {{ maxValue }}",
-    "maxLength": "Макс. довжина - 100",
+    "maxLength": "Макс. довжина - {{ maxLength }}",
     "sameValue": "Значення після редагування має бути іншим",
     "entityExists": "Ця назва вже використовується"
   },
@@ -216,5 +213,35 @@
 
   "predefinedCategories": {
     "adjustments": "Коригування"
+  },
+
+  "errors": {
+    "unknownError": "Щось пішло не так! Будь ласка, спробуйте ще.",
+    "auth": {
+      "loginFailed": "Помилка входу! Будь ласка, спробуйте ще.",
+      "logoutFailed": "Помилка виходу! Будь ласка, спробуйте ще."
+    },
+    "metadata": {
+      "changeLanguageFailed": "Не вдалося змінити мову.",
+      "changeCurrencyFlowFailed": "Не вдалося завершити процес зміни валюти."
+    },
+    "account": {
+      "addAccountFailed": "Не вдалося додати рахунок.",
+      "removeAccountFailed": "Не вдалося видалити рахунок.",
+      "changeAccountsOrderFailed": "Не вдалося змінити порядок рахунків.",
+      "moveMoneyBetweenAccountsFlowFailed": "Не вдалося завершити процес переміщення грошей між рахунками.",
+      "editAccountValueFlowFailed": "Не вдалося завершити процес редагування значення рахунку."
+    },
+    "category": {
+      "createCategoryFailed": "Не вдалося створити категорію.",
+      "removeCategoryFailed": "Не вдалося видалити категорію.",
+      "resetCategoriesFlowFailed": "Не вдалося завершити процес скидання категорій.",
+      "changeCategoryValueFlowFailed": "Не вдалося завершити процес зміни значення категорії."
+    },
+    "activityLog": {
+      "removeRecordFlowFailed": "Не вдалося відмінити зміни, зроблені цим записом.",
+      "removeAllRecordsFailed": "Не вдалося видалити всі записи."
+    },
+    "monthResetFlowFailed": "Не вдалося завершити процес скидання місяця."
   }
 }

@@ -23,7 +23,7 @@ color-picker {
 
 .form-control {
   @apply font-main text-base text-charcoal;
-  @apply border-2 border-solid border-black-transparent rounded-md group-hover:border-charcoal;
+  @apply border-2 border-solid border-charcoal border-opacity-50 rounded-md group-hover:border-opacity-100;
 }
 
 .form-control-error {

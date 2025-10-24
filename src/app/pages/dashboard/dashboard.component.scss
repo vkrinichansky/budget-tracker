@@ -1,0 +1,36 @@
+:host {
+  @apply grid h-full flex-1 relative p-4 gap-y-4;
+
+  grid-template-rows: auto auto 1fr;
+
+  .info-cards,
+  .main-cards {
+    @apply flex gap-x-4;
+
+    .card {
+      @apply flex-1;
+    }
+
+    &::-webkit-scrollbar {
+      @apply hidden;
+    }
+  }
+
+  @media (width <= 768px) {
+    .info-cards,
+    .main-cards {
+      @apply overflow-x-scroll scroll-smooth -mx-4 px-4 gap-x-0;
+
+      scroll-snap-type: x mandatory;
+
+      .card {
+        flex: 0 0 100%;
+        scroll-snap-align: center;
+      }
+
+      .card:not(:last-child) {
+        @apply mr-2;
+      }
+    }
+  }
+}

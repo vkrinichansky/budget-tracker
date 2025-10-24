@@ -1,0 +1,20 @@
+<div
+  class="flex justify-center items-center w-5 h-5 border-2 border-solid border-charcoal border-opacity-50 hover:border-opacity-100 group-hover:border-opacity-100 rounded-sm text-white"
+  [ngClass]="{
+    'border-dark-green bg-dark-green hover:border-dark-green group-hover:border-dark-green':
+      value || indeterminate,
+  }"
+  (click)="valueChanged(); $event.stopPropagation()"
+>
+  @if (value) {
+    <svg-icon class="text-white" [iconSize]="'20px'" [iconName]="'check'"></svg-icon>
+  }
+
+  @if (indeterminate && !value) {
+    <svg-icon class="text-white" [iconSize]="'20px'" [iconName]="'minus'"></svg-icon>
+  }
+</div>
+
+<div class="font-main text-base text-charcoal">
+  <ng-content></ng-content>
+</div>

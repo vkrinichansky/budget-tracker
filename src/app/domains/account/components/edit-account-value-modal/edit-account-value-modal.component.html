@@ -1,0 +1,40 @@
+@let account = account$ | async;
+
+<app-base-modal
+  [titleTranslationKey]="account.name"
+  [subtitleTranslationKey]="'account.editAccountValueModal.subtitle'"
+>
+  <ng-template #contentTemplate>
+    <form class="flex flex-col gap-y-2" [formGroup]="form">
+      <custom-input
+        [id]="formFields.Value"
+        [label]="'account.editAccountValueModal.valueTitle' | translate"
+        [formControlName]="formFields.Value"
+        [isRequired]="true"
+        [minValue]="0"
+        [type]="'number'"
+        [preventSameValue]="true"
+        [initialValue]="account.value"
+      ></custom-input>
+
+      <custom-textarea
+        [id]="formFields.Note"
+        [label]="'account.editAccountValueModal.noteTitle' | translate"
+        [formControlName]="formFields.Note"
+        [maxLength]="100"
+        [displayCharCounter]="true"
+      ></custom-textarea>
+    </form>
+  </ng-template>
+
+  <ng-template #footerTemplate>
+    <app-button
+      [buttonSizeX]="'px160'"
+      [type]="'primary'"
+      [text]="'account.editAccountValueModal.editButton' | translate"
+      [disabled]="isSubmitButtonDisabled"
+      [loading]="loading$ | async"
+      (click)="submitAction()"
+    ></app-button>
+  </ng-template>
+</app-base-modal>
