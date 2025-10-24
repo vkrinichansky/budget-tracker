@@ -1,0 +1,47 @@
+<div
+  mat-dialog-title
+  class="!flex !justify-between !items-center !gap-x-4 !m-0"
+  [ngClass]="{ '!border-b-2 !border-solid !border-grey !border-opacity-20': shouldDisplayBorder }"
+>
+  <div>
+    <div class="flex items-center gap-2">
+      <h1>{{ titleTranslationKey | translate: titleTranslationParams }}</h1>
+
+      @if (loading) {
+        <app-loader [colorMode]="'dark'"></app-loader>
+      }
+    </div>
+
+    @if (subtitleTranslationKey) {
+      <h2 class="text-sm">{{ subtitleTranslationKey | translate }}</h2>
+    }
+  </div>
+
+  @if (shouldDisplayCloseButton) {
+    <app-button
+      class="text-charcoal"
+      [iconName]="'close'"
+      [type]="'inherit'"
+      (click)="cancelClick()"
+    ></app-button>
+  }
+</div>
+
+<div mat-dialog-content class="!py-3">
+  @if (contentTemplate) {
+    <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+  }
+</div>
+
+<div
+  mat-dialog-actions
+  class="bg-grey bg-opacity-10"
+  [ngClass]="{
+    '!border-t-2 !border-solid !border-grey !border-opacity-20':
+      footerTemplate && shouldDisplayBorder,
+  }"
+>
+  @if (footerTemplate) {
+    <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
+  }
+</div>

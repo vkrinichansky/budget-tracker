@@ -1,0 +1,9 @@
+<span class="font-main text-base">{{ data.message }}</span>
+
+<app-button
+  class="min-w-fit"
+  [type]="'primary'"
+  [buttonSizeX]="'auto'"
+  [text]="data.buttonText"
+  (click)="data.buttonAction()"
+></app-button>

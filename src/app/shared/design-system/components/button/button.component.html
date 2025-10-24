@@ -1,0 +1,26 @@
+<button
+  customTooltip
+  class="w-full flex items-center gap-x-1.5"
+  [class.justify-center]="align === 'center'"
+  [class.justify-start]="align === 'start'"
+  [ngClass]="{
+    'px-1.5 py-1.5': text,
+  }"
+  [tooltipText]="text"
+  [showTooltipOnlyOnOverflow]="true"
+  [childElementId]="'buttonText'"
+  [type]="'button'"
+>
+  @if (loading) {
+    <app-loader [colorMode]="'inherit'"></app-loader>
+  } @else {
+    @if (iconName) {
+      <svg-icon class="w-6 h-6" [iconName]="iconName" [class.grayscale]="disabled"></svg-icon>
+    }
+    @if (text) {
+      <span id="buttonText" class="inline-block font-main text-base truncate">
+        {{ text }}
+      </span>
+    }
+  }
+</button>

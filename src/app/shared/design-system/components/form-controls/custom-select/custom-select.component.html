@@ -1,0 +1,85 @@
+<control-label
+  class="mb-1"
+  [for]="id"
+  [required]="true"
+  [label]="label"
+  (click)="toggleDropdown()"
+></control-label>
+
+<div
+  #trigger
+  class="custom-select form-control relative flex justify-start items-center gap-x-1.5"
+  [ngClass]="{
+    'form-control-error': formControl.invalid && isErrorState(),
+    'border-grey': !isOpen,
+    'border-charcoal': isOpen,
+  }"
+  [id]="id"
+  (click)="toggleDropdown()"
+>
+  @if (formControl.value) {
+    <span class="text-charcoal flex gap-x-2 items-center">
+      @if (getIcon) {
+        <svg-icon [iconName]="formControl.value && getIcon(formControl.value)"></svg-icon>
+      }
+
+      @if (displayValueSelector) {
+        <span>{{ formControl.value && displayValueSelector(formControl.value) }}</span>
+      }
+    </span>
+  }
+
+  <svg-icon
+    class="group-hover:text-charcoal absolute top-1/2 right-2 -translate-y-2.5"
+    [ngClass]="{
+      'text-dark-red group-hover:text-dark-red': formControl.invalid && isErrorState(),
+      'text-charcoal': isOpen,
+      'text-grey': !isOpen,
+    }"
+    [iconName]="'chevron'"
+  ></svg-icon>
+</div>
+
+@if (isErrorState()) {
+  <div class="flex flex-col gap-y-1 w-full pt-1 px-1.5 pb-1.5 rounded-b-md bg-dark-red">
+    @if (hasRequiredError) {
+      <control-error>{{ 'formErrors.required' | translate }}</control-error>
+    }
+  </div>
+}
+
+<ng-template #optionsTemplate>
+  <div
+    @overlayFade
+    class="bg-white rounded-md border-2 border-solid border-charcoal w-full max-h-50 min-h-13"
+  >
+    <div
+      class="flex gap-y-1 p-2 h-full rounded-md overflow-y-auto"
+      [ngClass]="{
+        'flex-col': !iconPickerMode,
+        'flex-wrap gap-x-1': iconPickerMode,
+      }"
+    >
+      @if (dropdownOptions.length > 0) {
+        @for (option of dropdownOptions; track getId(option)) {
+          @let isActive = formControl?.value && getId(option) === getId(formControl?.value);
+
+          <app-button
+            class="overflow-hidden text-charcoal"
+            [iconName]="getIcon(option)"
+            [buttonSizeX]="iconPickerMode ? 'px36' : 'full'"
+            [buttonSizeY]="'px36'"
+            [text]="displayValueSelector ? displayValueSelector(option) : null"
+            [align]="iconPickerMode ? 'center' : 'start'"
+            [type]="isActive ? 'active' : 'inherit'"
+            (click)="valueChanged(option)"
+          ></app-button>
+        }
+      } @else {
+        @if (emptyStateTemplate) {
+          <ng-container *ngTemplateOutlet="emptyStateTemplate"></ng-container>
+        }
+      }
+    </div>
+  </div>
+</ng-template>

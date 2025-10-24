@@ -1,25 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, provideRouter, withViewTransitions } from '@angular/router';
-import { AuthGuard, SecureInnerPagesGuard } from './modules/auth/guards';
-import { AppRoutes } from '@budget-tracker/models';
+import { AppRoutes } from '@budget-tracker/shared-models';
+import { AuthGuard, SecureInnerPagesGuard } from '@budget-tracker/auth';
 
 const routes: Routes = [
   {
     path: AppRoutes.Auth,
     canActivate: [SecureInnerPagesGuard],
-    loadChildren: () => import('./modules/auth/auth.module').then((m) => m.AuthCoreModule),
+    loadChildren: () => import('@budget-tracker/auth-page').then((m) => m.AuthPageModule),
   },
   {
     path: AppRoutes.Dashboard,
     canActivate: [AuthGuard],
-    loadChildren: () =>
-      import('./modules/dashboard/dashboard.module').then((m) => m.DashboardModule),
+    loadChildren: () => import('@budget-tracker/dashboard-page').then((m) => m.DashboardPageModule),
   },
   {
     path: AppRoutes.Statistics,
     canActivate: [AuthGuard],
-    loadChildren: () =>
-      import('./modules/statistics/statistics.module').then((m) => m.StatisticsModule),
+    loadChildren: () => import('@budget-tracker/statistics-page').then((m) => m.StatisticsModule),
   },
   {
     path: '',

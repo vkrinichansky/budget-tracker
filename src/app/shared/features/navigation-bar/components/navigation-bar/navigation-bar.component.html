@@ -1,0 +1,21 @@
+<div class="nav-container">
+  <svg-icon class="logo mb-2" [iconName]="'small-logo'" [iconSize]="'40px'"></svg-icon>
+
+  @for (item of navigationBarItems; track item) {
+    <app-navigation-bar-item [item]="item"></app-navigation-bar-item>
+  }
+</div>
+
+<app-button
+  customTooltip
+  class="text-white"
+  [tooltipText]="'navigationBar.itemTooltip.logout' | translate"
+  [position]="['right']"
+  [tooltipBgColor]="'green'"
+  [dontDisplayOnScreenWidth]="true"
+  [iconName]="'logout'"
+  [type]="'inherit'"
+  [buttonSizeY]="'px36'"
+  [buttonSizeX]="'px36'"
+  (click)="logOut()"
+></app-button>

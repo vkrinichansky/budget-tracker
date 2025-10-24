@@ -1,0 +1,15 @@
+@let content = 'activityLog.categoriesResetRecord.' + record.budgetType | translate;
+
+<app-generic-activity-log-record [icon]="record.icon" [date]="record.date">
+  <span
+    class="font-main text-charcoal text-base block truncate"
+    customTooltip
+    [tooltipTemplate]="template"
+    [showTooltipOnlyOnOverflow]="true"
+    [innerHTML]="content"
+  >
+    <ng-template #template>
+      <span [innerHTML]="content"></span>
+    </ng-template>
+  </span>
+</app-generic-activity-log-record>

@@ -1,0 +1,26 @@
+<div class="w-full relative">
+  <app-info-card
+    class="flex-1"
+    [iconName]="account.icon"
+    [primaryText]="(account.value | numberSpace) + ' ' + currencySymbol"
+    [secondaryText]="isAccountWithForeignCurrency ? accountValueInBaseCurrency : account.name"
+    [tertiaryText]="isAccountWithForeignCurrency ? account.name : null"
+    [bgColor]="account.bgColor"
+    [textColor]="account.textColor"
+  >
+    <ng-template #content>
+      <div class="flex flex-col gap-y-1">
+        <app-menu [menuActions]="menuActions" [type]="'inherit'"></app-menu>
+
+        <app-button
+          cdkDragHandle
+          class="drag-button"
+          [style.color]="account.textColor"
+          [iconName]="'drag-handle'"
+          [type]="'inherit'"
+          [disabled]="shouldDisableDragButton"
+        ></app-button>
+      </div>
+    </ng-template>
+  </app-info-card>
+</div>

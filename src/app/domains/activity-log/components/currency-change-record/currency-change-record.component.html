@@ -1,0 +1,26 @@
+<app-generic-activity-log-record [icon]="record.icon" [date]="record.date">
+  <div class="flex flex-col font-main text-charcoal text-base overflow-hidden">
+    <span>
+      {{ 'activityLog.currencyChangeRecord' | translate }}
+    </span>
+
+    <div class="flex items-center font-bold text-blue text-sm gap-x-2">
+      <ng-container
+        *ngTemplateOutlet="currencyTemplate; context: { currency: record.fromCurrency }"
+      ></ng-container>
+
+      &rarr;
+
+      <ng-container
+        *ngTemplateOutlet="currencyTemplate; context: { currency: record.toCurrency }"
+      ></ng-container>
+    </div>
+  </div>
+</app-generic-activity-log-record>
+
+<ng-template #currencyTemplate let-currency="currency">
+  <span class="flex items-center gap-x-1">
+    <svg-icon [iconName]="getIcon(currency)" [iconSize]="'20px'"></svg-icon>
+    <span>{{ getText(currency) }}</span>
+  </span>
+</ng-template>

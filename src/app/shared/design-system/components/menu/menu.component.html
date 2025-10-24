@@ -1,0 +1,34 @@
+<app-button
+  #trigger
+  [iconName]="icon"
+  [type]="'inherit'"
+  [buttonSizeY]="buttonSizeY"
+  [buttonSizeX]="buttonSizeX"
+  [text]="text"
+  [disabled]="disabled"
+  [loading]="loading"
+  (click)="toggleDropdown()"
+></app-button>
+
+<ng-template #actionsTemplate>
+  <div @overlayFade class="bg-white rounded-md border-2 border-solid border-charcoal w-full p-2">
+    @if (useContent) {
+      <ng-content></ng-content>
+    } @else {
+      <div class="flex flex-col gap-y-1 h-full rounded-md">
+        @for (action of menuActions; track action) {
+          <app-button
+            class="text-charcoal"
+            [text]="action.translationKey | translate"
+            [iconName]="action.icon"
+            [buttonSizeX]="'full'"
+            [disabled]="action.disabled || (action.disabledObs | async)"
+            [align]="'start'"
+            [type]="'inherit'"
+            (click)="action.action(); toggleDropdown()"
+          ></app-button>
+        }
+      </div>
+    }
+  </div>
+</ng-template>

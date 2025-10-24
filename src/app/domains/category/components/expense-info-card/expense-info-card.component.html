@@ -1,0 +1,7 @@
+<app-info-card
+  [bgColor]="'bg-white' | classToHexColor"
+  [textColor]="'text-dark-red' | classToHexColor"
+  [iconName]="'arrow-down'"
+  [primaryText]="expense$ | async | numberSpace | currencySymbol"
+  [secondaryText]="'category.infoCards.expense' | translate" 
+></app-info-card>

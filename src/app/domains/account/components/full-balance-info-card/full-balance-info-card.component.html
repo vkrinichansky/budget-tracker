@@ -1,0 +1,7 @@
+<app-info-card
+  [bgColor]="'text-white' | classToHexColor"
+  [textColor]="'text-blue' | classToHexColor"
+  [iconName]="'equal-sign'"
+  [primaryText]="fullBalance$ | async | numberSpace | currencySymbol"
+  [secondaryText]="'account.fullBalance' | translate"
+></app-info-card>

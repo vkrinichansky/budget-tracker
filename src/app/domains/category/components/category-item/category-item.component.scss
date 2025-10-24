@@ -1,0 +1,11 @@
+:host {
+  @apply flex justify-between items-center pl-2 py-3 pr-1 border-solid border-2 rounded-lg border-charcoal h-16 gap-x-2 cursor-pointer hover:bg-grey hover:bg-opacity-20;
+
+  &.is-system-category {
+    @apply pointer-events-none cursor-default opacity-70;
+  }
+
+  @media (width <= 768px) {
+    @apply hover:bg-opacity-0;
+  }
+}

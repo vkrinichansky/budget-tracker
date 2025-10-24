@@ -9,29 +9,18 @@ function convertPixelsIntoRems(sizeInPx) {
 
 const colors = {
   transparent: 'rgb(0, 0, 0, 0)',
+  'current-color': 'currentColor',
 
   white: '#ffffff',
-  grey: '#636766',
   'dirty-white': '#F0F2F2',
-
-  charcoal: '#2C4251',
-  blue: '#395B72',
+  grey: '#636766',
   'light-blue': '#E2F5FD',
-
-  'light-green': '#E4FCF7',
+  blue: '#395B72',
+  charcoal: '#2C4251',
   green: '#24B563',
   'dark-green': '#109279',
-  'hover-green': '#0B7863',
-
-  'light-red': '#FFECEC',
   'dark-red': '#AD3546',
-
   yellow: '#E9AD03',
-  'dark-yellow': '#C39104',
-
-  'hover-white': 'rgb(255, 255, 255, 0.1)',
-  'hover-black': 'rgb(0, 0, 0, 0.1)',
-  'black-transparent': 'rgb(0, 0, 0, 0.5)',
 };
 
 module.exports = {
@@ -73,6 +62,7 @@ module.exports = {
         ...convertPixelsIntoRems(72), // 72px,
         ...convertPixelsIntoRems(76), // 76px,
         ...convertPixelsIntoRems(100), // 100px,
+        ...convertPixelsIntoRems(200), // 200px,
       },
       maxWidth: {
         ...convertPixelsIntoRems(200), // 200px,

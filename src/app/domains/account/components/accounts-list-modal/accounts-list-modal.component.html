@@ -1,0 +1,41 @@
+@let accounts = accounts$ | async;
+@let changeOrderInProgress = changeOrderInProgress$ | async;
+
+<app-base-modal
+  [titleTranslationKey]="'account.accountsListModal.title'"
+  [titleTranslationParams]="{ accountsAmount: accounts?.length }"
+  [loading]="changeOrderInProgress"
+>
+  <ng-template #contentTemplate>
+    <div
+      cdkDropList
+      cdkScrollable
+      class="container flex flex-col gap-y-4"
+      [class.pointer-events-none]="changeOrderInProgress"
+      [cdkDropListLockAxis]="'y'"
+      [cdkDropListAutoScrollDisabled]="false"
+      [cdkDropListAutoScrollStep]="10"
+      [cdkDropListDisabled]="accounts?.length === 1"
+      (cdkDropListDropped)="orderChanged($event)"
+    >
+      @for (account of accounts; track account.id) {
+        <app-account-card
+          cdkDrag
+          cdkDragBoundary=".container"
+          class="container-item"
+          [account]="account"
+          [shouldDisableDragButton]="accounts?.length === 1"
+        ></app-account-card>
+      }
+    </div>
+  </ng-template>
+
+  <ng-template #footerTemplate>
+    <app-button
+      [type]="'primary'"
+      [text]="'account.accountsListModal.closeButton' | translate"
+      [buttonSizeX]="'px100'"
+      (click)="closeModal()"
+    ></app-button>
+  </ng-template>
+</app-base-modal>

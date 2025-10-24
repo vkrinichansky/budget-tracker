@@ -14,12 +14,11 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { UtilsModule } from '@budget-tracker/utils';
+import { UtilsModule } from '@budget-tracker/shared-utils';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DesignSystemModule } from '@budget-tracker/design-system';
-import { NavigationBarModule } from '@budget-tracker/navigation-bar';
-import { AuthCoreModule } from '@budget-tracker/auth';
-import { MetadataModule } from '@budget-tracker/metadata';
+import { NavigationBarModule } from '@budget-tracker/shared-features/navigation-bar';
+import { AuthDomainModule } from '@budget-tracker/auth';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
@@ -29,12 +28,11 @@ import { CommonModule } from '@angular/common';
     CommonModule,
     BrowserModule,
     AppRoutingModule,
-    AuthCoreModule,
+    AuthDomainModule,
     DesignSystemModule,
     NavigationBarModule,
     BrowserAnimationsModule,
     UtilsModule,
-    MetadataModule,
     StoreModule.forRoot(
       {},
       {
@@ -54,6 +52,8 @@ import { CommonModule } from '@angular/common';
         useFactory: HttpLoaderFactory,
         deps: [HttpClient],
       },
+      useDefaultLang: true,
+      defaultLanguage: 'en-US',
     }),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode(), connectInZone: true }),

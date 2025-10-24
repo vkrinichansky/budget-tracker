@@ -1,0 +1,26 @@
+<div class="absolute right-2 top-2">
+  @if (content) {
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  }
+</div>
+
+<svg-icon
+  [style.color]="bgColor"
+  [style.background-color]="textColor"
+  [iconName]="iconName"
+  [bgSize]="'big'"
+></svg-icon>
+
+<div class="font-main flex flex-1 flex-col">
+  @if (primaryText) {
+    <span class="font-bold text-xl"> {{ primaryText }}</span>
+  }
+
+  @if (secondaryText) {
+    <span class="text-sm">{{ secondaryText }}</span>
+  }
+
+  @if (tertiaryText) {
+    <span class="text-xs">{{ tertiaryText }}</span>
+  }
+</div>

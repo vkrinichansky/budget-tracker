@@ -1,0 +1,97 @@
+@let isEmpty = isEmpty$ | async;
+
+<app-page-header class="text-xl bg-transparent" [title]="'activityLog.title' | translate">
+  @if (!isEmpty) {
+    <app-button
+      customTooltip
+      class="text-charcoal"
+      [tooltipText]="'activityLog.removeButtonTooltip' | translate"
+      [position]="['left']"
+      [iconName]="'delete-bin'"
+      [type]="'inherit'"
+      (click)="openRemoveConfirmationModal()"
+    ></app-button>
+  }
+</app-page-header>
+
+<div
+  class="flex flex-col overflow-hidden h-full w-full"
+  [ngClass]="{
+    'justify-center': isEmpty,
+    'items-center': isEmpty,
+  }"
+>
+  @if (isEmpty) {
+    <span class="font-main font-bold text-charcoal text-lg text-center">
+      {{ 'activityLog.emptyStateText' | translate }}
+    </span>
+  } @else {
+    <cdk-virtual-scroll-viewport itemSize="66" class="h-full w-full !overflow-x-hidden">
+      <div
+        *cdkVirtualFor="
+          let item of itemsToRender$ | async;
+          trackBy: trackBy.bind(this);
+          templateCacheSize: 0
+        "
+        class="h-16.5 flex items-center w-full"
+      >
+        <ng-container
+          *ngTemplateOutlet="
+            isItemDateObject(item) ? dateItem : recordItem;
+            context: { item: item }
+          "
+        ></ng-container>
+      </div>
+    </cdk-virtual-scroll-viewport>
+  }
+</div>
+
+<ng-template #dateItem let-item="item">
+  <div
+    class="flex justify-between items-center h-full w-full font-main text-grey text-base bg-white font-bold"
+  >
+    <span>
+      {{ item.date }}
+    </span>
+
+    <div class="flex flex-col items-end text-sm">
+      @for (currency of item.totalValueForDate; track currency.currency) {
+        <span
+          [ngClass]="{
+            'text-dark-green': currency.value > 0,
+            'text-dark-red': currency.value < 0,
+          }"
+        >
+          {{ currency.value > 0 ? '&plus;' : '' }}
+          {{ currency.value | numberSpace | currencySymbol: currency.currency }}
+        </span>
+      }
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #recordItem let-item="item">
+  @switch (item.recordType) {
+    @case (recordType.CategoryValueChange) {
+      <app-category-value-change-record
+        class="w-full"
+        [record]="item"
+      ></app-category-value-change-record>
+    }
+
+    @case (recordType.CategoriesReset) {
+      <app-categories-reset-record class="w-full" [record]="item"></app-categories-reset-record>
+    }
+
+    @case (recordType.MoveMoneyBetweenAccounts) {
+      <app-move-money-between-accounts-record
+        class="w-full"
+        [record]="item"
+      ></app-move-money-between-accounts-record>
+    }
+
+    @case (recordType.CurrencyChange) {
+      <app-currency-change-record class="w-full" [record]="item"></app-currency-change-record>
+    }
+  }
+</ng-template>

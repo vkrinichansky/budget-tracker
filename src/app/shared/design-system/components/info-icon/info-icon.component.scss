@@ -1,0 +1,36 @@
+:host {
+  @media (hover: hover) {
+    transition: opacity ease-in-out 0.15s;
+  }
+
+  $color-map:
+    // class text-color hover-text-color
+    'info' text-charcoal,
+    'warning' text-yellow;
+  $hover-map:
+    // class hover-class
+    'hover' hover,
+    'active' none;
+
+  @mixin icon-color() {
+    @each $class, $text-color in $color-map {
+      &.#{$class} {
+        @apply #{$text-color};
+
+        svg-icon {
+          @apply text-inherit;
+        }
+
+        @each $prop, $value in $hover-map {
+          @media (hover: #{$value}) {
+            &:#{$prop} {
+              @apply opacity-80;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @include icon-color;
+}

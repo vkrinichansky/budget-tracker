@@ -1,0 +1,36 @@
+$size-map-w: (
+  px28-x: 7,
+  px32-x: 8,
+  px36-x: 9,
+  px100-x: 25,
+  px160-x: 40,
+  px240-x: 60,
+  full-x: full,
+  auto-x: auto,
+);
+$size-map-h: (
+  px28-y: 7,
+  px32-y: 8,
+  px36-y: 9,
+  auto-y: auto,
+);
+
+@mixin button-size($dimension) {
+  $map-to-use: null;
+
+  @if $dimension == w {
+    $map-to-use: $size-map-w;
+  } @else if $dimension == h {
+    $map-to-use: $size-map-h;
+  }
+
+  @each $class, $size in $map-to-use {
+    &.#{$class} {
+      @if $size == auto {
+        @apply #{$dimension}-#{$size};
+      } @else {
+        @apply #{$dimension}-#{$size} min-#{$dimension}-#{$size};
+      }
+    }
+  }
+}

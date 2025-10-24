@@ -1,0 +1,25 @@
+<a
+  #routerLinkActive="routerLinkActive"
+  class="flex items-center justify-center"
+  [routerLink]="item.routerLink"
+  [routerLinkActive]="'active'"
+  [class.pointer-events-none]="routerLinkActive.isActive"
+>
+  <app-button
+    customTooltip
+    [ngClass]="{
+      'text-green': routerLinkActive.isActive,
+      'text-white': !routerLinkActive.isActive,
+    }"
+    [tooltipText]="item.tooltipTranslationKey | translate"
+    [position]="['right']"
+    [tooltipBgColor]="'green'"
+    [dontDisplayOnScreenWidth]="true"
+    [iconName]="item.iconName"
+    [buttonSizeY]="'px36'"
+    [buttonSizeX]="'px36'"
+    [type]="'inherit'"
+  ></app-button>
+</a>
+
+<!-- TODO: add type to button -->

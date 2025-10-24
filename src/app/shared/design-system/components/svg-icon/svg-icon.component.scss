@@ -1,0 +1,37 @@
+:host {
+  @apply flex justify-center items-center box-content;
+
+  svg {
+    @apply text-inherit w-inherit max-w-inherit h-inherit max-h-inherit;
+  }
+
+  $bg-size-map:
+   // class padding
+    'small' 2,
+    'big' 3;
+
+  @mixin bg-size() {
+    @each $class, $padding in $bg-size-map {
+      &.bg-#{$class} {
+        @apply p-#{$padding};
+      }
+    }
+  }
+
+  $icon-size-map:
+   // class size
+    '20px' 5,
+    '24px' 6,
+    '40px' 10;
+
+  @mixin icon-size() {
+    @each $class, $size in $icon-size-map {
+      &.icon-#{$class} {
+        @apply w-#{$size} h-#{$size};
+      }
+    }
+  }
+
+  @include bg-size;
+  @include icon-size;
+}
