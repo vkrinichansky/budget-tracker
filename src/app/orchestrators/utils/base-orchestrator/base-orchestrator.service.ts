@@ -11,7 +11,7 @@ export abstract class BaseOrchestratorService {
     protected readonly batchOperationService: BatchOperationService
   ) {}
 
-  protected abstract listen(): void;
+  abstract listen(): void;
 
   protected abstract eventCallback(event: DomainEvent<unknown>): Promise<void> | void;
 

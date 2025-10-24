@@ -17,8 +17,7 @@ import {
   createCurrencyChangeRecord,
   CurrencyChangeRecord,
 } from '@budget-tracker/activity-log';
-import { BaseOrchestratorService } from '../base-orchestrator.service';
-
+import { BaseOrchestratorService } from '@budget-tracker/orchestrators-utils';
 @Injectable()
 export class CurrencyChangeOrchestratorService extends BaseOrchestratorService {
   constructor(

@@ -21,7 +21,7 @@ import {
 import { firstValueFrom } from 'rxjs';
 import { CategoryTransactionModalComponent } from './components';
 import { MatDialog } from '@angular/material/dialog';
-import { BaseOrchestratorService } from '../base-orchestrator.service';
+import { BaseOrchestratorService } from '@budget-tracker/orchestrators-utils';
 @Injectable()
 export class CategoryTransactionOrchestratorService extends BaseOrchestratorService {
   constructor(

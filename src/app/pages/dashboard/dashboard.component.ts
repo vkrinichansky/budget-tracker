@@ -5,14 +5,9 @@ import { ActivityLogFacadeService } from '@budget-tracker/activity-log';
 import { AccountFacadeService } from '@budget-tracker/account';
 import { CategoryFacadeService } from '@budget-tracker/category';
 import { MetadataFacadeService } from '@budget-tracker/metadata';
-import { CurrencyChangeOrchestratorService } from '@budget-tracker/currency-change-orchestrator';
-import { MoveMoneyBetweenAccountsOrchestratorService } from '@budget-tracker/move-money-between-accounts-orchestrator';
-import { ResetCategoriesOrchestratorService } from '@budget-tracker/reset-categories-orchestrator';
-import { CategoryTransactionOrchestratorService } from '@budget-tracker/category-transaction-orchestrator';
-import { RemoveActivityLogRecordOrchestratorService } from '@budget-tracker/remove-activity-log-record-orchestrator';
-import { EditAccountValueOrchestratorService } from '@budget-tracker/edit-account-value-orchestrator';
 import { MonthResetOrchestratorService } from '@budget-tracker/month-reset-orchestrator';
 import { SnackbarHandlerService } from '@budget-tracker/design-system';
+import { DashboardOrchestratorManagerService } from './dashboard-orchestrator-config/dashboard-orchestrator-manager.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,32 +18,26 @@ import { SnackbarHandlerService } from '@budget-tracker/design-system';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   readonly budgetType = BudgetType;
-
-  loading$ = new BehaviorSubject<boolean>(true);
+  readonly loading$ = new BehaviorSubject<boolean>(true);
 
   constructor(
     private readonly activityLogFacade: ActivityLogFacadeService,
     private readonly accountFacade: AccountFacadeService,
     private readonly categoryFacade: CategoryFacadeService,
     private readonly metadataFacade: MetadataFacadeService,
-    private readonly currencyChangeOrchestratorService: CurrencyChangeOrchestratorService,
-    private readonly moveMoneyBetweenAccountsOrchestratorService: MoveMoneyBetweenAccountsOrchestratorService,
-    private readonly resetCategoriesOrchestratorService: ResetCategoriesOrchestratorService,
-    private readonly categoryTransactionOrchestratorService: CategoryTransactionOrchestratorService,
-    private readonly removeActivityLogRecordOrchestratorService: RemoveActivityLogRecordOrchestratorService,
-    private readonly editAccountValueOrchestratorService: EditAccountValueOrchestratorService,
     private readonly monthResetOrchestratorService: MonthResetOrchestratorService,
-    private readonly snackbarHandlerService: SnackbarHandlerService
+    private readonly snackbarHandlerService: SnackbarHandlerService,
+    private readonly dashboardOrchestratorManagerService: DashboardOrchestratorManagerService
   ) {}
 
   ngOnInit(): void {
     this.initData();
     this.initDataLoading();
-    this.initOrchestrators();
+    this.dashboardOrchestratorManagerService.init();
   }
 
   ngOnDestroy(): void {
-    this.destroyOrchestrators();
+    this.dashboardOrchestratorManagerService.destroyAll();
   }
 
   private initData(): void {
@@ -74,7 +63,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
 
     try {
-      if (await this.monthResetOrchestratorService.doResetIfNeeded()) {
+      const result = await this.monthResetOrchestratorService.doResetIfNeeded();
+
+      if (result) {
         this.snackbarHandlerService.showMessageSnackbar('messages.monthSnapshotCreated');
       }
     } catch (error) {
@@ -82,23 +73,5 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } finally {
       this.loading$.next(false);
     }
-  }
-
-  private initOrchestrators(): void {
-    this.currencyChangeOrchestratorService.listen();
-    this.moveMoneyBetweenAccountsOrchestratorService.listen();
-    this.resetCategoriesOrchestratorService.listen();
-    this.categoryTransactionOrchestratorService.listen();
-    this.removeActivityLogRecordOrchestratorService.listen();
-    this.editAccountValueOrchestratorService.listen();
-  }
-
-  private destroyOrchestrators(): void {
-    this.currencyChangeOrchestratorService.destroy();
-    this.moveMoneyBetweenAccountsOrchestratorService.destroy();
-    this.resetCategoriesOrchestratorService.destroy();
-    this.categoryTransactionOrchestratorService.destroy();
-    this.removeActivityLogRecordOrchestratorService.destroy();
-    this.editAccountValueOrchestratorService.destroy();
   }
 }

@@ -81,6 +81,9 @@
       "@budget-tracker/month-reset-orchestrator": [
         "src/app/orchestrators/month-reset-orchestrator/index.ts"
       ],
+      "@budget-tracker/orchestrators-utils": [
+        "src/app/orchestrators/utils/index.ts"
+      ],
       // Pages
       "@budget-tracker/auth-page": [
         "src/app/pages/auth/index.ts"

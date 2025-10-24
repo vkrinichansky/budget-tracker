@@ -17,7 +17,7 @@ import {
   pick,
 } from '@budget-tracker/shared-utils';
 import { firstValueFrom } from 'rxjs';
-import { BaseOrchestratorService } from '../base-orchestrator.service';
+import { BaseOrchestratorService } from '@budget-tracker/orchestrators-utils';
 
 @Injectable()
 export class MoveMoneyBetweenAccountsOrchestratorService extends BaseOrchestratorService {

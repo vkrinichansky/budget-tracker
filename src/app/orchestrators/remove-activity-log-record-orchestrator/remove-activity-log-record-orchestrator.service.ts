@@ -11,7 +11,7 @@ import { BudgetType } from '@budget-tracker/shared-models';
 import { BatchOperationService, DomainEvent, EventBusService } from '@budget-tracker/shared-utils';
 import { firstValueFrom } from 'rxjs';
 import { deleteField } from '@angular/fire/firestore';
-import { BaseOrchestratorService } from '../base-orchestrator.service';
+import { BaseOrchestratorService } from '@budget-tracker/orchestrators-utils';
 
 @Injectable()
 export class RemoveActivityLogRecordOrchestratorService extends BaseOrchestratorService {

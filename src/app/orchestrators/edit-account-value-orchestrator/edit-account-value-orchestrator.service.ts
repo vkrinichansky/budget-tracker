@@ -18,7 +18,7 @@ import {
   createCategoryValueChangeRecord,
   ActivityLogFacadeService,
 } from '@budget-tracker/activity-log';
-import { BaseOrchestratorService } from '../base-orchestrator.service';
+import { BaseOrchestratorService } from '@budget-tracker/orchestrators-utils';
 
 @Injectable()
 export class EditAccountValueOrchestratorService extends BaseOrchestratorService {

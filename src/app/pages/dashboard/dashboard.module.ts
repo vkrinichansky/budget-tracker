@@ -9,13 +9,7 @@ import { MetadataDomainModule } from '@budget-tracker/metadata';
 import { ActivityLogDomainModule } from '@budget-tracker/activity-log';
 import { AccountDomainModule } from '@budget-tracker/account';
 import { CategoryDomainModule } from '@budget-tracker/category';
-import { CurrencyChangeOrchestratorModule } from '@budget-tracker/currency-change-orchestrator';
-import { MoveMoneyBetweenAccountsOrchestratorModule } from '@budget-tracker/move-money-between-accounts-orchestrator';
-import { ResetCategoriesOrchestratorModule } from '@budget-tracker/reset-categories-orchestrator';
-import { CategoryTransactionOrchestratorModule } from '@budget-tracker/category-transaction-orchestrator';
-import { RemoveActivityLogRecordOrchestratorModule } from '@budget-tracker/remove-activity-log-record-orchestrator';
-import { EditAccountValueOrchestratorModule } from '@budget-tracker/edit-account-value-orchestrator';
-import { MonthResetOrchestratorModule } from '@budget-tracker/month-reset-orchestrator';
+import { DashboardOrchestratorConfigModule } from './dashboard-orchestrator-config/dashboard-orchestrator-config.module';
 
 const routes: Routes = [
   {
@@ -36,13 +30,7 @@ const routes: Routes = [
     MetadataDomainModule,
     ActivityLogDomainModule,
     AccountDomainModule,
-    CurrencyChangeOrchestratorModule,
-    MoveMoneyBetweenAccountsOrchestratorModule,
-    ResetCategoriesOrchestratorModule,
-    CategoryTransactionOrchestratorModule,
-    RemoveActivityLogRecordOrchestratorModule,
-    EditAccountValueOrchestratorModule,
-    MonthResetOrchestratorModule,
+    DashboardOrchestratorConfigModule,
   ],
 })
 export class DashboardPageModule {}
