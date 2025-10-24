@@ -1,11 +1,11 @@
 export const environment = {
   production: true,
   firebaseConfig: {
-    apiKey: 'AIzaSyAQ2mErm2Y6FsLGA2F9RWfVUwjK5J9NzYk',
-    authDomain: 'bt-budget-tracker.firebaseapp.com',
-    projectId: 'bt-budget-tracker',
-    storageBucket: 'bt-budget-tracker.appspot.com',
-    messagingSenderId: '852924699094',
-    appId: '1:852924699094:web:e49a51e3a4d5cd9f91d477',
+    apiKey: 'AIzaSyAs3ohO-md73054RANIuo4mvHnFl5vN3bc',
+    authDomain: 'smart-expense-se.firebaseapp.com',
+    projectId: 'smart-expense-se',
+    storageBucket: 'smart-expense-se.firebasestorage.app',
+    messagingSenderId: '857494630683',
+    appId: '1:857494630683:web:81589158dd19b7b645a3be',
   },
 };

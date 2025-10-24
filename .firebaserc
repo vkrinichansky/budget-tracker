@@ -1,6 +1,6 @@
 {
   "projects": {
-    "production": "bt-budget-tracker",
+    "production": "smart-expense-se",
     "develop": "budget-tracker-3ca8e"
   }
 }
