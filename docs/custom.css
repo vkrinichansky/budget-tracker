@@ -1,0 +1,498 @@
+/* Custom CSS for SmartExpense Documentation using MainPalette colors */
+/* stylelint-disable no-descending-specificity */
+
+:root {
+  /* MainPalette color variables */
+  --white: #fff;
+  --dirty-white: #f0f2f2;
+  --grey: #636766;
+  --light-blue: #e2f5fd;
+  --blue: #395b72;
+  --charcoal: #2c4251;
+  --green: #24b563;
+  --dark-green: #109279;
+  --dark-red: #ad3546;
+  --yellow: #e9ad03;
+}
+
+/* Base styles */
+body {
+  background: linear-gradient(135deg, var(--dirty-white) 0%, rgb(240 242 242 / 95%) 100%);
+  color: var(--charcoal);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+  background-color: rgb(44 66 81 / 10%);
+  border-right: none;
+  padding: 1rem !important;
+}
+
+.sidebar-toggle {
+  display: none;
+}
+
+.sidebar-nav {
+  padding: 0 !important;
+}
+
+/* App name */
+.app-name {
+  color: var(--blue);
+  font-weight: 600;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--charcoal);
+}
+
+.app-name-link {
+  color: var(--blue);
+  text-decoration: none;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.app-name-link:hover {
+  color: var(--blue);
+  text-decoration: underline;
+}
+
+/* Sidebar navigation */
+.sidebar-nav h2 {
+  color: var(--white);
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.5rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--blue);
+  background: linear-gradient(135deg, var(--blue) 0%, rgb(57 91 114 / 90%) 100%);
+  border-radius: 8px;
+  border-left: 4px solid var(--green);
+  box-shadow: 0 2px 8px rgb(44 66 81 / 20%);
+  transition: all 0.3s ease;
+}
+
+.sidebar-nav h2:first-child {
+  margin-top: 0;
+}
+
+.sidebar-nav h2 a {
+  color: var(--white);
+  text-decoration: none;
+  pointer-events: none;
+  cursor: default;
+}
+
+.sidebar-nav h2 a:hover {
+  color: var(--white);
+  text-decoration: underline;
+}
+
+.sidebar-nav h2 a span {
+  color: var(--white);
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0 0 1rem;
+}
+
+.sidebar-nav ul li {
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-nav ul li a {
+  color: var(--charcoal);
+  text-decoration: none;
+  padding: 0.75rem 0 0.75rem 1.5rem;
+  display: block;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  margin-bottom: 0.25rem;
+}
+
+.sidebar-nav ul li a:hover {
+  color: var(--green);
+  background: linear-gradient(135deg, var(--light-blue) 0%, rgb(226 245 253 / 80%) 100%);
+  padding-left: 2rem;
+  box-shadow: 0 2px 4px rgb(44 66 81 / 10%);
+  transform: translateX(2px);
+}
+
+.sidebar-nav ul li.active a {
+  color: var(--green);
+  background-color: var(--light-blue);
+  border-right: 3px solid var(--green);
+  pointer-events: none;
+  cursor: default;
+}
+
+.sidebar-nav ul li.active a:hover {
+  color: var(--green);
+  background-color: var(--light-blue);
+  padding-left: 1.5rem;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Content area */
+.content {
+  background: linear-gradient(135deg, var(--dirty-white) 0%, rgb(240 242 242 / 95%) 100%);
+  padding: 2rem;
+  border-radius: 0 8px 8px 0;
+}
+
+.markdown-section {
+  max-width: none;
+  line-height: 1.6;
+}
+
+/* Typography */
+.markdown-section h1 {
+  color: var(--charcoal);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid var(--blue);
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.markdown-section h2 {
+  color: var(--charcoal);
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 2rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--light-blue);
+}
+
+.markdown-section h3 {
+  color: var(--charcoal);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.markdown-section h4,
+.markdown-section h5,
+.markdown-section h6 {
+  color: var(--charcoal);
+  border-bottom: 2px solid var(--light-blue);
+}
+
+.markdown-section p {
+  color: var(--charcoal);
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.markdown-section ul {
+  color: var(--charcoal);
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.markdown-section li {
+  margin-bottom: 0.5rem;
+}
+
+.markdown-section strong {
+  color: var(--charcoal);
+  font-weight: 600;
+}
+
+/* Links */
+.markdown-section a {
+  color: var(--blue);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.markdown-section a:hover {
+  color: var(--green);
+  text-decoration: none;
+}
+
+.markdown-section a:hover::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--green) 0%, var(--blue) 100%);
+  border-radius: 1px;
+}
+
+/* Code */
+.markdown-section pre {
+  background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+  border: 1px solid #404040;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  overflow-x: auto;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+}
+
+.markdown-section pre code {
+  background: transparent;
+  color: #d4d4d4;
+  border: none;
+  padding: 0;
+  font-family: 'Fira Code', Monaco, Menlo, 'Ubuntu Mono', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  display: block;
+}
+
+/* Inline code */
+.markdown-section code:not(pre code) {
+  background: linear-gradient(135deg, var(--light-blue) 0%, rgb(226 245 253 / 80%) 100%);
+  color: var(--charcoal);
+  border: 1px solid var(--blue);
+  border-radius: 4px;
+  padding: 0.2rem 0.4rem;
+  font-family: 'Fira Code', Monaco, Menlo, 'Ubuntu Mono', monospace;
+  font-size: 0.9em;
+  font-weight: 500;
+  box-shadow: 0 1px 3px rgb(44 66 81 / 10%);
+}
+
+/* Code syntax highlighting */
+.markdown-section pre code .keyword {
+  color: #569cd6;
+  font-weight: 600;
+}
+
+.markdown-section pre code .string {
+  color: #ce9178;
+}
+
+.markdown-section pre code .number {
+  color: #b5cea8;
+}
+
+.markdown-section pre code .comment {
+  color: #6a9955;
+  font-style: italic;
+}
+
+.markdown-section pre code .function {
+  color: #dcdcaa;
+}
+
+.markdown-section pre code .variable {
+  color: #9cdcfe;
+}
+
+/* Blockquotes */
+.markdown-section blockquote {
+  border-left: 4px solid var(--blue);
+  background-color: var(--light-blue);
+  color: var(--charcoal);
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Tables */
+.markdown-section table {
+  border-collapse: collapse;
+}
+
+.markdown-section table th {
+  background-color: var(--blue);
+  color: var(--white);
+  font-weight: 600;
+}
+
+.markdown-section table td {
+  border: 1px solid var(--light-blue);
+}
+
+.markdown-section table tr:nth-child(even) {
+  background-color: var(--dirty-white);
+}
+
+/* Buttons */
+.btn {
+  background-color: var(--blue);
+  color: var(--white);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: var(--green);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--dirty-white);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--grey);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--blue);
+}
+
+/* Progress bar */
+.progress {
+  background-color: var(--blue);
+  height: 3px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  transition: width 0.3s ease;
+}
+
+/* Coverpage */
+.cover {
+  background: linear-gradient(135deg, var(--charcoal) 0%, var(--blue) 100%);
+  color: var(--white);
+}
+
+.cover-main {
+  color: var(--white);
+}
+
+.cover-main * {
+  color: inherit;
+}
+
+.cover img {
+  height: auto;
+}
+
+.cover h1,
+.cover .cover-main h1,
+.cover-main h1 {
+  color: var(--white) !important;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.cover .cover-main p,
+.cover-main p {
+  color: var(--light-blue) !important;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.cover .cover-main .btn {
+  background-color: var(--green);
+  color: var(--white);
+  border: 2px solid var(--white);
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  margin: 0 8px;
+  transition: all 0.3s ease;
+}
+
+.cover .cover-main .btn:hover {
+  background-color: var(--white);
+  color: var(--charcoal);
+  transform: translateY(-2px);
+}
+
+.cover a,
+.cover a span,
+.cover a * {
+  color: var(--white) !important;
+}
+
+/* SmartExpense title styling */
+#smartexpense-documentation {
+  color: var(--green) !important;
+}
+
+#smartexpense-documentation a,
+#smartexpense-documentation a span,
+#smartexpense-documentation span,
+#smartexpense-documentation * {
+  color: var(--green) !important;
+}
+
+/* Alert boxes */
+.alert {
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin: 16px 0;
+}
+
+.alert-info {
+  background-color: var(--light-blue);
+  border-left: 4px solid var(--blue);
+  color: var(--charcoal);
+}
+
+.alert-success {
+  background-color: var(--light-blue);
+  border-left: 4px solid var(--green);
+  color: var(--dark-green);
+}
+
+.alert-warning {
+  background-color: var(--light-blue);
+  border-left: 4px solid var(--yellow);
+  color: var(--charcoal);
+}
+
+.alert-error {
+  background-color: var(--light-blue);
+  border-left: 4px solid var(--dark-red);
+  color: var(--dark-red);
+}
+
+/* Mermaid diagrams */
+.mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+  padding: 1rem;
+  background-color: var(--white);
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Hide copy button on mermaid blocks (plugin converts code blocks to .mermaid divs) */
+.mermaid + button,
+pre code.language-mermaid + button {
+  display: none !important;
+}

@@ -32,7 +32,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     TranslateModule,
     MetadataDomainModule,
     DragDropModule,
-
     StoreModule.forFeature(featureKey, accountReducer),
     EffectsModule.forFeature([AccountEffects]),
   ],

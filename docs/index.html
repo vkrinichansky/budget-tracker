@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SmartExpense Documentation</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="description" content="BudgetTracker - Personal Finance Management Application" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css" />
+    <link rel="stylesheet" href="custom.css" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      window.$docsify = {
+        name: 'SmartExpense',
+        loadSidebar: true,
+        coverpage: true,
+        homepage: 'about/overview.md',
+        search: false,
+        pagination: {
+          previousText: 'Previous',
+          nextText: 'Next',
+          crossChapter: true,
+          crossChapterText: true,
+        },
+        tabs: {
+          persist: true,
+          sync: true,
+          theme: 'classic',
+          tabComments: true,
+          tabHeadings: true,
+        },
+        copyCode: {
+          buttonText: 'Copy to clipboard',
+          errorText: 'Error',
+          successText: 'Copied',
+        },
+        zoom: {
+          selector: 'img',
+          background: {
+            'background-color': 'rgba(0,0,0,0.8)',
+          },
+        },
+        mermaidConfig: {
+          querySelector: '.mermaid',
+          theme: 'base',
+          securityLevel: 'loose',
+        },
+      };
+    </script>
+    <!-- Mermaid -->
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'base',
+        themeVariables: {
+          // MainPalette colors
+          primaryColor: '#e2f5fd', // light-blue - main node background
+          primaryTextColor: '#2c4251', // charcoal - text in nodes
+          primaryBorderColor: '#395b72', // blue - node borders
+          lineColor: '#636766', // grey - connection lines
+          secondaryColor: '#fff', // white - alternative nodes
+          tertiaryColor: '#f0f2f2', // dirty-white - background variant
+          background: '#f0f2f2', // dirty-white - diagram background
+          mainBkg: '#e2f5fd', // light-blue - main background
+          secondBkg: '#fff', // white - secondary background
+          // Success/Warning/Error states
+          successColor: '#24b563', // green
+          warningColor: '#e9ad03', // yellow
+          errorColor: '#ad3546', // dark-red
+          // Text colors
+          textColor: '#2c4251', // charcoal
+          // Other styling
+          fontSize: '16px',
+          fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        },
+      });
+      window.mermaid = mermaid;
+    </script>
+    <!-- Docsify v4 -->
+    <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+    <!-- Mermaid Docsify Plugin -->
+    <script src="//unpkg.com/docsify-mermaid@2.0.1/dist/docsify-mermaid.js"></script>
+    <!-- Copy code plugin -->
+    <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
+    <!-- Tabs plugin -->
+    <script src="//cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
+    <!-- Zoom plugin -->
+    <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
+  </body>
+</html>
