@@ -36,15 +36,22 @@ flowchart TD
     
     J --> K[Execute Batch Operations]
     
-    K --> L[Reset All Category Values to 0]
-    K --> M[Save Snapshot]
-    K --> N[Update Reset Date]
+    K --> L[Batch: Reset Category Values to 0]
+    K --> M[Batch: Save Snapshot]
+    K --> N[Batch: Update Reset Date]
     
     L --> O[Batch Commit Success]
     M --> O
     N --> O
     
-    O --> P[Return True - Reset Completed]
+    O --> Q[Update Local State]
+    Q --> R[Update Categories State]
+    Q --> S[Add Snapshot to State]
+    Q --> T[Update Metadata State]
+    
+    R --> P[Return True - Reset Completed]
+    S --> P
+    T --> P
     
     style C fill:#e2f5fd
     style P fill:#24b563,color:#fff
@@ -96,11 +103,16 @@ The reset date in metadata is updated to the current month/year.
 
 The orchestrator performs three Firestore operations in a single batch:
 
-1. **Update Categories**: Reset all category values to 0
-2. **Update Snapshots**: Save monthly snapshot
-3. **Update Metadata**: Update reset date
+1. **Update Categories**: Reset all category values to 0 in Firestore
+2. **Update Snapshots**: Save monthly snapshot to Firestore
+3. **Update Metadata**: Update reset date in Firestore
 
 All operations must succeed or all are rolled back.
+
+After the batch commit succeeds, the orchestrator updates local state by calling:
+- `categoryFacade.updateCategories()` - Updates category values in NgRx store
+- `snapshotFacade.addSnapshot()` - Adds snapshot to NgRx store
+- `metadataFacade.updateResetDate()` - Updates reset date in service state
 
 ## Dependencies
 

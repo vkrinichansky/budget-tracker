@@ -94,6 +94,7 @@ interface CurrencyExchangeRate {
 - `setMetadata(currency, exchangeRate, language, resetDate)`: Set all metadata
 - `changeCurrency(newCurrency)`: Change user currency
 - `changeLanguage(newLanguage)`: Change user language
+- `updateResetDate(resetDate)`: Update monthly reset date
 - `initMetadata()`: Initialize metadata from store/database
 - `loadExchangeRate(currency)`: Load exchange rates for currency
 
@@ -114,6 +115,9 @@ interface CurrencyExchangeRate {
 - Provides unified interface to components
 - Delegates to MetadataService and MetadataApiService
 - Exposes configuration properties
+
+**Key Methods**:
+- `updateResetDate(resetDate)`: Update monthly reset date in local state
 
 ## Components
 
@@ -306,6 +310,12 @@ await this.metadataFacade.changeLanguage(LanguagesEnum.Ukrainian);
 
 ```typescript
 const resetDate = this.metadataService.resetDate;
+```
+
+### Updating Reset Date
+
+```typescript
+this.metadataFacade.updateResetDate('2024-01');
 ```
 
 ## Best Practices

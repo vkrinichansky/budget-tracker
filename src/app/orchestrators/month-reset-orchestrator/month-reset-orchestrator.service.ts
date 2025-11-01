@@ -70,6 +70,17 @@ export class MonthResetOrchestratorService {
       },
     ]);
 
+    this.categoryFacade.updateCategories(
+      categories.map((category) => ({
+        ...category,
+        value: 0,
+      }))
+    );
+
+    this.snapshotFacade.addSnapshot(snapshot);
+
+    this.metadataFacade.updateResetDate(currentDate);
+
     return true;
   }
 }

@@ -48,34 +48,17 @@ export class MetadataService {
     return this._resetDate;
   }
 
-  metadataLoaded(): Observable<boolean> {
-    return this._isMetadataLoaded$;
-  }
-
-  getCurrencySymbol(currency?: CurrenciesEnum): string {
-    return predefinedCurrenciesDictionary[currency || this._currency].symbol;
-  }
-
-  getConvertedValueForAccount(accountCurrency: CurrenciesEnum, accountValue: number): number {
-    return Math.round(accountValue / this._currencyExchangeRate[accountCurrency]);
-  }
-
-  getBasicToForeignConvertedValue(value: number, currency: CurrenciesEnum): number {
-    return Math.round(value / this._currencyExchangeRate[currency]);
-  }
-
-  convertCurrency(value: number, fromCurrency: CurrenciesEnum, toCurrency: CurrenciesEnum): number {
-    const rate = this._exchangeRates[fromCurrency][toCurrency];
-
-    return Math.round(value * rate);
-  }
-
   constructor(
     private readonly translateService: TranslateService,
     private readonly authFacade: AuthFacadeService,
     private readonly store: Store,
     private readonly eventBus: EventBusService
   ) {}
+
+  // ===== SELECTORS =====
+  metadataLoaded(): Observable<boolean> {
+    return this._isMetadataLoaded$;
+  }
 
   // ===== ACTIONS =====
   async loadMetadata(): Promise<void> {
@@ -107,12 +90,34 @@ export class MetadataService {
     this._isMetadataLoaded$.next(true);
   }
 
+  updateResetDate(resetDate: string): void {
+    this._resetDate = resetDate;
+  }
+
   clearMetadata(): void {
     this._isMetadataLoaded$.next(false);
     this._currency = undefined;
     this._currencyExchangeRate = undefined;
     this._exchangeRates = undefined;
     this._resetDate = undefined;
+  }
+
+  getCurrencySymbol(currency?: CurrenciesEnum): string {
+    return predefinedCurrenciesDictionary[currency || this._currency].symbol;
+  }
+
+  getConvertedValueForAccount(accountCurrency: CurrenciesEnum, accountValue: number): number {
+    return Math.round(accountValue / this._currencyExchangeRate[accountCurrency]);
+  }
+
+  getBasicToForeignConvertedValue(value: number, currency: CurrenciesEnum): number {
+    return Math.round(value / this._currencyExchangeRate[currency]);
+  }
+
+  convertCurrency(value: number, fromCurrency: CurrenciesEnum, toCurrency: CurrenciesEnum): number {
+    const rate = this._exchangeRates[fromCurrency][toCurrency];
+
+    return Math.round(value * rate);
   }
 
   // ===== FLOW TRIGGERS =====

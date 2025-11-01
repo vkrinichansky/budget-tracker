@@ -69,6 +69,7 @@ interface CategoryForSnapshot {
 - `getSnapshots()`: Get all snapshots as observable
 - `snapshotsLoaded()`: Check if snapshots are loaded
 - `loadSnapshots()`: Load snapshots from store/database
+- `addSnapshot(snapshot)`: Add snapshot to local state
 
 ### SnapshotApiService
 
@@ -85,6 +86,9 @@ interface CategoryForSnapshot {
 **Responsibilities**:
 - Provides unified interface to components
 - Delegates to SnapshotService and SnapshotApiService
+
+**Key Methods**:
+- `addSnapshot(snapshot)`: Add snapshot to local state
 
 ## Components
 
@@ -232,6 +236,22 @@ this.snapshotFacade.getSnapshots().subscribe(snapshots => {
   console.log('Full balance:', latestSnapshot.fullBalance);
   console.log('Categories count:', latestSnapshot.categories.length);
 });
+```
+
+### Adding Snapshot
+
+```typescript
+const snapshot: Snapshot = {
+  date: '2024-01',
+  categories: [...],
+  income: 5000,
+  expense: 3000,
+  monthBalance: 2000,
+  fullBalance: 10000,
+  currency: CurrenciesEnum.USD
+};
+
+this.snapshotFacade.addSnapshot(snapshot);
 ```
 
 ## Best Practices
