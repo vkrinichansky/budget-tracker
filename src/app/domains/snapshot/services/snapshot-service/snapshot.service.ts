@@ -26,4 +26,8 @@ export class SnapshotService {
       this.store.dispatch(SnapshotActions.loadSnapshots());
     }
   }
+
+  addSnapshot(snapshot: Snapshot): void {
+    this.store.dispatch(SnapshotActions.snapshotAdded({ snapshot }));
+  }
 }

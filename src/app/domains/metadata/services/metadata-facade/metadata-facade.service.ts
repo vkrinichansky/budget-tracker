@@ -58,6 +58,10 @@ export class MetadataFacadeService {
     return this.metadataService.changeLanguage(newLanguage);
   }
 
+  updateResetDate(resetDate: string): void {
+    return this.metadataService.updateResetDate(resetDate);
+  }
+
   // ===== FLOW TRIGGERS =====
   async runCurrencyChangeFlow(newCurrency: CurrenciesEnum): Promise<void> {
     return this.metadataService.runCurrencyChangeFlow(newCurrency);

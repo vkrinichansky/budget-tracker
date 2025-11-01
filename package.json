@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "start with open": "ng serve -o",
+    "docsify": "docsify serve docs",
     "start": "ng serve",
     "build sprites": "svg-sprite --config sprite-config.json src/assets/svg-icons/**/*.svg",
     "build for dev": "ng build --configuration development",

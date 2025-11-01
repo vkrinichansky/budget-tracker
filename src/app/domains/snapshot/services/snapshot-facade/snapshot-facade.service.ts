@@ -26,6 +26,10 @@ export class SnapshotFacadeService {
     this.snapshotService.loadSnapshots();
   }
 
+  addSnapshot(snapshot: Snapshot): void {
+    this.snapshotService.addSnapshot(snapshot);
+  }
+
   // ===== UTILS =====
   getSnapshotDocRef(): DocumentReference {
     return this.snapshotApiService.getDocRef();
