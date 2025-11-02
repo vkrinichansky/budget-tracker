@@ -18,12 +18,12 @@ export class NavigationBarComponent {
     {
       iconName: 'home',
       tooltipTranslationKey: 'navigationBar.itemTooltip.home',
-      routerLink: `/${AppRoutes.Dashboard}`,
+      routerLink: `/${AppRoutes.DASHBOARD}`,
     },
     {
       iconName: 'statistics',
       tooltipTranslationKey: 'navigationBar.itemTooltip.statistics',
-      routerLink: `/${AppRoutes.Statistics}`,
+      routerLink: `/${AppRoutes.STATISTICS}`,
     },
   ];
 

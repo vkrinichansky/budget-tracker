@@ -5,7 +5,9 @@ import {
   HostBinding,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -16,24 +18,27 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { debounceTime, tap } from 'rxjs';
+import { debounceTime, tap, Subscription, Subject, takeUntil } from 'rxjs';
 
 type valueType = string | number | boolean | unknown;
 
 enum CustomErrors {
-  SameValue = 'sameValue',
-  EntityExists = 'entityExists',
+  SAME_VALUE = 'sameValue',
+  ENTITY_EXISTS = 'entityExists',
 }
 
 @Component({
   selector: 'app-generic-custom-control',
   template: '',
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GenericCustomControlComponent
-  implements ControlValueAccessor, Validator, OnInit, OnChanges
+  implements ControlValueAccessor, Validator, OnInit, OnChanges, OnDestroy
 {
   private _value: valueType;
+  private valueChangesSubscription?: Subscription;
+  private readonly destroy$ = new Subject<void>();
 
   readonly formControl: FormControl = new FormControl(null);
 
@@ -97,11 +102,11 @@ export class GenericCustomControlComponent
   }
 
   get hasSameValueError(): boolean {
-    return this.formControl.hasError(CustomErrors.SameValue);
+    return this.formControl.hasError(CustomErrors.SAME_VALUE);
   }
 
   get hasEntityExistsError(): boolean {
-    return this.formControl.hasError(CustomErrors.EntityExists);
+    return this.formControl.hasError(CustomErrors.ENTITY_EXISTS);
   }
 
   constructor(
@@ -133,7 +138,16 @@ export class GenericCustomControlComponent
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   registerOnChange(fn: any): void {
     this.onChange = fn;
-    this.formControl.valueChanges.subscribe(fn);
+    this.valueChangesSubscription?.unsubscribe();
+    this.valueChangesSubscription = this.formControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(fn);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.valueChangesSubscription?.unsubscribe();
   }
 
   isErrorState(): boolean {
@@ -177,12 +191,12 @@ export class GenericCustomControlComponent
           debounceTime(150),
           tap((value) => {
             if (this.preventSameValue && this.initialValue == value) {
-              this.formControl.setErrors({ [CustomErrors.SameValue]: true });
+              this.formControl.setErrors({ [CustomErrors.SAME_VALUE]: true });
               this.cd.detectChanges();
             }
 
             if (this.entityExistsValidator && this.entityExistsValidator(value)) {
-              this.formControl.setErrors({ [CustomErrors.EntityExists]: true });
+              this.formControl.setErrors({ [CustomErrors.ENTITY_EXISTS]: true });
               this.cd.detectChanges();
             }
           }),

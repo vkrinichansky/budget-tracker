@@ -13,7 +13,7 @@ type ButtonSize = 'px28' | 'px32' | 'px36' | 'px100' | 'px160' | 'px240' | 'full
 export class ButtonComponent {
   @HostBinding('class')
   private get classes(): string {
-    return `flex overflow-hidden ${this.align} ${this.buttonSizeClasses} ${this.type}`;
+    return `flex overflow-hidden ${this.align} ${this.buttonSizeClasses} ${this.type} cursor-pointer`;
   }
 
   private get buttonSizeClasses(): string {

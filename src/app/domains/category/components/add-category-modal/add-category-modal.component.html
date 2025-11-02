@@ -2,9 +2,9 @@
   <ng-template #contentTemplate>
     <form class="flex flex-col gap-y-2" [formGroup]="form">
       <custom-input
-        [id]="formFields.CategoryName"
+        [id]="formFields.CATEGORY_NAME"
         [label]="'category.addCategoryModal.categoryNameTitle' | translate"
-        [formControlName]="formFields.CategoryName"
+        [formControlName]="formFields.CATEGORY_NAME"
         [isRequired]="true"
         [maxLength]="25"
         [entityExistsValidator]="categoryExistsValidator"
@@ -12,17 +12,17 @@
       ></custom-input>
 
       <custom-select
-        [id]="formFields.CategoryIcon"
+        [id]="formFields.CATEGORY_ICON"
         [label]="'category.addCategoryModal.categoryIconTitle' | translate"
-        [formControlName]="formFields.CategoryIcon"
+        [formControlName]="formFields.CATEGORY_ICON"
         [isRequired]="true"
         [iconPickerMode]="true"
       ></custom-select>
 
       <color-picker
-        [id]="formFields.CategoryColorPicker"
+        [id]="formFields.CATEGORY_COLOR_PICKER"
         [label]="'category.addCategoryModal.categoryColorTitle' | translate"
-        [formControlName]="formFields.CategoryColorPicker"
+        [formControlName]="formFields.CATEGORY_COLOR_PICKER"
         [isRequired]="true"
       ></color-picker>
     </form>

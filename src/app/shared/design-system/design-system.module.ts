@@ -23,6 +23,7 @@ import {
   SnackbarComponent,
   ProgressBarComponent,
   FullsizeLoaderComponent,
+  EmptyStateComponent,
 } from './components';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
@@ -78,6 +79,7 @@ import { ClassToHexColorPipe, NumberSpacePipe } from './pipes';
     NumberSpacePipe,
     ProgressBarComponent,
     FullsizeLoaderComponent,
+    EmptyStateComponent,
   ],
   exports: [
     SvgIconComponent,
@@ -102,6 +104,7 @@ import { ClassToHexColorPipe, NumberSpacePipe } from './pipes';
     NumberSpacePipe,
     ProgressBarComponent,
     FullsizeLoaderComponent,
+    EmptyStateComponent,
   ],
   providers: [
     ConfirmationModalService,

@@ -12,9 +12,9 @@ import { Category } from '../../models';
 import { getErrorMessage } from '@budget-tracker/shared-utils';
 
 enum FormFields {
-  CategoryIcon = 'categoryIcon',
-  CategoryName = 'categoryName',
-  CategoryColorPicker = 'categoryColorPicker',
+  CATEGORY_ICON = 'categoryIcon',
+  CATEGORY_NAME = 'categoryName',
+  CATEGORY_COLOR_PICKER = 'categoryColorPicker',
 }
 
 @Component({
@@ -31,9 +31,9 @@ export class AddCategoryModalComponent implements OnInit {
   readonly loading$ = new BehaviorSubject<boolean>(false);
 
   readonly form: FormGroup = new FormGroup({
-    [FormFields.CategoryIcon]: new FormControl(null),
-    [FormFields.CategoryName]: new FormControl(null),
-    [FormFields.CategoryColorPicker]: new FormControl(null),
+    [FormFields.CATEGORY_ICON]: new FormControl(null),
+    [FormFields.CATEGORY_NAME]: new FormControl(null),
+    [FormFields.CATEGORY_COLOR_PICKER]: new FormControl(null),
   });
 
   readonly categoryExistsValidator = (value: string) =>
@@ -62,9 +62,9 @@ export class AddCategoryModalComponent implements OnInit {
 
     try {
       const category: Category = {
-        icon: this.form.controls[FormFields.CategoryIcon].value,
-        name: this.form.controls[FormFields.CategoryName].value,
-        hexColor: this.form.controls[FormFields.CategoryColorPicker].value,
+        icon: this.form.controls[FormFields.CATEGORY_ICON].value,
+        name: this.form.controls[FormFields.CATEGORY_NAME].value,
+        hexColor: this.form.controls[FormFields.CATEGORY_COLOR_PICKER].value,
         value: 0,
         id: uuid(),
         budgetType: this.budgetType,

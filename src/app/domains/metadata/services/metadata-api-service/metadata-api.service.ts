@@ -36,13 +36,13 @@ export class MetadataApiService {
 
     await setDoc(this.getDocRef(), {
       currency: CurrenciesEnum.USD,
-      language: LanguagesEnum.English,
+      language: LanguagesEnum.ENGLISH,
       resetDate: getMonthAndYearString(),
     });
 
     return {
       currency: CurrenciesEnum.USD,
-      language: LanguagesEnum.English,
+      language: LanguagesEnum.ENGLISH,
       resetDate: getMonthAndYearString(),
     };
   }

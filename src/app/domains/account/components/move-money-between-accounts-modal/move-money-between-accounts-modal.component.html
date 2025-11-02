@@ -2,9 +2,9 @@
   <ng-template #contentTemplate>
     <form class="flex flex-col gap-y-2" [formGroup]="form">
       <custom-select
-        [id]="formFieldsEnum.FromAccount"
+        [id]="formFieldsEnum.FROM_ACCOUNT"
         [label]="'account.moneyMovementBetweenAccountsModal.fromAccountTitle' | translate"
-        [formControlName]="formFieldsEnum.FromAccount"
+        [formControlName]="formFieldsEnum.FROM_ACCOUNT"
         [options]="accounts$ | async"
         [idSelector]="idSelector"
         [displayValueSelector]="displayValueSelector"
@@ -13,10 +13,10 @@
       ></custom-select>
 
       <custom-select
-        [class.hidden]="!form?.controls?.[formFieldsEnum.FromAccount]?.value"
-        [id]="formFieldsEnum.ToAccount"
+        [class.hidden]="!form?.controls?.[formFieldsEnum.FROM_ACCOUNT]?.value"
+        [id]="formFieldsEnum.TO_ACCOUNT"
         [label]="'account.moneyMovementBetweenAccountsModal.toAccountTitle' | translate"
-        [formControlName]="formFieldsEnum.ToAccount"
+        [formControlName]="formFieldsEnum.TO_ACCOUNT"
         [options]="filteredAccounts$ | async"
         [idSelector]="idSelector"
         [displayValueSelector]="displayValueSelector"
@@ -26,24 +26,24 @@
 
       <custom-input
         [class.hidden]="isAnyAccountFieldEmpty"
-        [id]="formFieldsEnum.ValueToMove"
+        [id]="formFieldsEnum.VALUE_TO_MOVE"
         [label]="'account.moneyMovementBetweenAccountsModal.valueToMoveTitle' | translate"
         [isRequired]="true"
         [minValue]="1"
         [maxValue]="maxValue"
         [type]="'number'"
-        [formControlName]="formFieldsEnum.ValueToMove"
+        [formControlName]="formFieldsEnum.VALUE_TO_MOVE"
         [prefix]="currencySymbolForValueField"
       ></custom-input>
 
       <custom-input
         [class.hidden]="isAnyAccountFieldEmpty || !accountsHaveDifferentCurrencies"
-        [id]="formFieldsEnum.ConvertedValueToMove"
+        [id]="formFieldsEnum.CONVERTED_VALUE_TO_MOVE"
         [label]="'account.moneyMovementBetweenAccountsModal.convertedValueToMoveTitle' | translate"
         [isRequired]="true"
         [minValue]="1"
         [type]="'number'"
-        [formControlName]="formFieldsEnum.ConvertedValueToMove"
+        [formControlName]="formFieldsEnum.CONVERTED_VALUE_TO_MOVE"
         [prefix]="currencySymbolForConvertedValueField"
       ></custom-input>
     </form>

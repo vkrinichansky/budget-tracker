@@ -6,6 +6,6 @@ export interface SnackbarData {
 }
 
 export enum SnackbarType {
-  Message = 'message',
-  Error = 'error',
+  MESSAGE = 'message',
+  ERROR = 'error',
 }

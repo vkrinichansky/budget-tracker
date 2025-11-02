@@ -1,6 +1,6 @@
 export enum LanguagesEnum {
-  English = 'en-US',
-  Ukrainian = 'uk-UA',
+  ENGLISH = 'en-US',
+  UKRAINIAN = 'uk-UA',
 }
 
 export interface Language {
@@ -10,13 +10,13 @@ export interface Language {
 }
 
 export const predefinedLanguagesDictionary: Record<LanguagesEnum, Language> = {
-  [LanguagesEnum.English]: {
-    id: LanguagesEnum.English,
+  [LanguagesEnum.ENGLISH]: {
+    id: LanguagesEnum.ENGLISH,
     code: 'EN',
     icon: 'ukFlag',
   },
-  [LanguagesEnum.Ukrainian]: {
-    id: LanguagesEnum.Ukrainian,
+  [LanguagesEnum.UKRAINIAN]: {
+    id: LanguagesEnum.UKRAINIAN,
     code: 'UA',
     icon: 'uaFlag',
   },

@@ -25,6 +25,10 @@ export class ActivityLogFacadeService {
     return this.activityLogService.getRecordById(recordId);
   }
 
+  getAllRecords(): Observable<ActivityLogRecordUnitedType[]> {
+    return this.activityLogService.getAllRecords();
+  }
+
   // ===== ACTIONS =====
   loadActivityLog(): void {
     this.activityLogService.loadActivityLog();

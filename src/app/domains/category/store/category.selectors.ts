@@ -27,13 +27,13 @@ const categoriesByTypeSelector = (budgetType: BudgetType) =>
 
 const incomeValueSelector = createSelector(allCategoriesSelector, (categories) =>
   categories
-    .filter((category) => category.budgetType === BudgetType.Income)
+    .filter((category) => category.budgetType === BudgetType.INCOME)
     .reduce((sum, category) => sum + category.value, 0)
 );
 
 const expenseValueSelector = createSelector(allCategoriesSelector, (categories) =>
   categories
-    .filter((category) => category.budgetType === BudgetType.Expense)
+    .filter((category) => category.budgetType === BudgetType.EXPENSE)
     .reduce((sum, category) => sum + category.value, 0)
 );
 

@@ -34,7 +34,6 @@ export class CategoriesComponent implements OnInit {
   menuActions: MenuAction[];
 
   categories$: Observable<Category[]>;
-  isEmpty$: Observable<boolean>;
   areAllCategoriesReset$: Observable<boolean>;
   chartOptions$: Observable<PieChartOptions>;
 
@@ -77,7 +76,6 @@ export class CategoriesComponent implements OnInit {
     );
 
     this.areAllCategoriesReset$ = this.categoryFacade.areCategoriesAllReset(this.budgetType);
-    this.isEmpty$ = this.categories$.pipe(map((categories) => !categories.length));
   }
 
   private initChartData(): void {

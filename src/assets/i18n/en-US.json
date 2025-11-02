@@ -25,12 +25,12 @@
     },
     "addAccountModal": {
       "title": "Add account",
-      "accountNameTitle": "Account name",
-      "accountValueTitle": "Account value",
-      "accountIconTitle": "Account icon",
+      "accountNameTitle": "Name",
+      "accountValueTitle": "Value",
+      "accountIconTitle": "Icon",
       "accountBgColorTitle": "Background",
       "accountTextColorTitle": "Text color",
-      "accountCurrencyTitle": "Account currency",
+      "accountCurrencyTitle": "Currency",
       "addAccount": "Add account",
       "accountExistsError": "Such account already exists",
       "accountNameLengthError": "Max account name length is 20"
@@ -74,8 +74,6 @@
       "addCategory": "Add category",
       "resetCategories": "Reset categories"
     },
-
-    "emptyStateText": "No data to display yet",
     "tabs": {
       "list": "List",
       "chart": "Chart"
@@ -126,7 +124,7 @@
       "removeConfirmationRemark": "This action will revert changes made by this record and will affect <span class='font-bold'>{{ accountName }}</span> account and <span class='font-bold'>{{ categoryName }}</span> category"
     },
     "currencyChangeRecord": "Currency was changed",
-    "emptyStateText": "No data to display yet",
+    "emptyStateText": "No activity log records yet",
     "removeButtonTooltip": "Remove all records",
     "allRecordsRemoveConfirmationQuestion": "Are you sure you want to remove all records?"
   },
@@ -204,7 +202,7 @@
   "currencySwitcher": {
     "tooltip": "Currency",
     "removeConfirmationQuestion": "Are you sure you want to switch the currency?",
-    "removeConfirmationRemark": "This action also will convert categories values to new currency"
+    "removeConfirmationRemark": "This action also will convert categories values to new currency and remove all activity log records"
   },
 
   "currencies": {

@@ -5,28 +5,28 @@ import { AuthGuard, SecureInnerPagesGuard } from '@budget-tracker/auth';
 
 const routes: Routes = [
   {
-    path: AppRoutes.Auth,
+    path: AppRoutes.AUTH,
     canActivate: [SecureInnerPagesGuard],
     loadChildren: () => import('@budget-tracker/auth-page').then((m) => m.AuthPageModule),
   },
   {
-    path: AppRoutes.Dashboard,
+    path: AppRoutes.DASHBOARD,
     canActivate: [AuthGuard],
     loadChildren: () => import('@budget-tracker/dashboard-page').then((m) => m.DashboardPageModule),
   },
   {
-    path: AppRoutes.Statistics,
+    path: AppRoutes.STATISTICS,
     canActivate: [AuthGuard],
     loadChildren: () => import('@budget-tracker/statistics-page').then((m) => m.StatisticsModule),
   },
   {
     path: '',
-    redirectTo: AppRoutes.Dashboard,
+    redirectTo: AppRoutes.DASHBOARD,
     pathMatch: 'full',
   },
   {
     path: '**',
-    redirectTo: AppRoutes.Dashboard,
+    redirectTo: AppRoutes.DASHBOARD,
     pathMatch: 'full',
   },
 ];

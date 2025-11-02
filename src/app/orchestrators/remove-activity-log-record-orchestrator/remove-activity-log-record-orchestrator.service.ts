@@ -53,12 +53,12 @@ export class RemoveActivityLogRecordOrchestratorService extends BaseOrchestrator
       let updatedAccountValue: number;
 
       switch (record.budgetType) {
-        case BudgetType.Income:
+        case BudgetType.INCOME:
           updatedAccountValue = account.value - record.value < 0 ? 0 : account.value - record.value;
 
           break;
 
-        case BudgetType.Expense:
+        case BudgetType.EXPENSE:
           updatedAccountValue = account.value + record.value;
 
           break;

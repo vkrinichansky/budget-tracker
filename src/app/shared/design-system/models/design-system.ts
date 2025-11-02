@@ -1,14 +1,14 @@
 export enum MainPalette {
-  White = '#ffffff',
-  DirtyWhite = '#F0F2F2',
-  Grey = '#636766',
-  LightBlue = '#E2F5FD',
-  Blue = '#395B72',
-  Charcoal = '#2C4251',
-  Green = '#24B563',
-  DarkGreen = '#109279',
-  DarkRed = '#AD3546',
-  Yellow = '#E9AD03',
+  WHITE = '#ffffff',
+  DIRTY_WHITE = '#F0F2F2',
+  GREY = '#636766',
+  LIGHT_BLUE = '#E2F5FD',
+  BLUE = '#395B72',
+  CHARCOAL = '#2C4251',
+  GREEN = '#24B563',
+  DARK_GREEN = '#109279',
+  DARK_RED = '#AD3546',
+  YELLOW = '#E9AD03',
 }
 
 export const IconsForUser = [

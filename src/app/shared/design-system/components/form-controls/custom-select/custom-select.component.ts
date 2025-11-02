@@ -148,9 +148,15 @@ export class CustomSelectComponent
     this.resizeObserver.observe(this.trigger.nativeElement);
   }
 
-  ngOnDestroy(): void {
+  override ngOnDestroy(): void {
+    super.ngOnDestroy();
+
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
+    }
+
+    if (this.overlayRef) {
+      this.overlayRef.dispose();
     }
   }
 
