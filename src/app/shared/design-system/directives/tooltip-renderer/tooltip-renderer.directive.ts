@@ -60,7 +60,7 @@ const positionMapping: { [key: string]: ConnectedPosition } = {
   standalone: false,
 })
 export class TooltipRendererDirective implements OnDestroy {
-  private _overlayRef: OverlayRef;
+  private _overlayRef: OverlayRef | null;
 
   /**
    * This will be used to show tooltip or not
@@ -132,7 +132,10 @@ export class TooltipRendererDirective implements OnDestroy {
    * tooltip after the page [on which tooltip visible] is destroyed
    */
   ngOnDestroy() {
-    this.closeToolTip();
+    if (this._overlayRef) {
+      this._overlayRef.dispose();
+      this._overlayRef = null;
+    }
   }
 
   /**
@@ -155,6 +158,11 @@ export class TooltipRendererDirective implements OnDestroy {
     }
 
     if (this.tooltipText || this.tooltipTemplate) {
+      // Очистити попередній overlay, якщо він існує
+      if (this._overlayRef) {
+        this._overlayRef.dispose();
+      }
+
       const positionStrategy = this._overlayPositionBuilder
         .flexibleConnectedTo(this._elementRef)
         .withPositions(

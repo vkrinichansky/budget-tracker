@@ -17,10 +17,10 @@ interface ActivityLogCategory {
 }
 
 export enum ActivityLogRecordType {
-  CategoryValueChange = 'category-value-change',
-  CategoriesReset = 'categories-reset',
-  MoveMoneyBetweenAccounts = 'move-money-between-account',
-  CurrencyChange = 'currency-change',
+  CATEGORY_VALUE_CHANGE = 'category-value-change',
+  CATEGORIES_RESET = 'categories-reset',
+  MOVE_MONEY_BETWEEN_ACCOUNTS = 'move-money-between-account',
+  CURRENCY_CHANGE = 'currency-change',
 }
 
 export interface TotalValueForDateByCurrency {
@@ -76,7 +76,7 @@ export interface ActivityLogGroupedByDayDictionary {
 export interface ActivityLogGroupedByDay {
   date: string;
   records: ActivityLog;
-  totalValueForDate: TotalValueForDateByCurrency[];
+  totalValueForDate: number;
 }
 
 export function createCategoryValueChangeRecord(
@@ -95,7 +95,7 @@ export function createCategoryValueChangeRecord(
     account,
     date: new Date().getTime(),
     icon: category.icon,
-    recordType: ActivityLogRecordType.CategoryValueChange,
+    recordType: ActivityLogRecordType.CATEGORY_VALUE_CHANGE,
     value,
     convertedValue,
     currency,
@@ -107,11 +107,11 @@ export function createCategoriesResetRecord(budgetType: BudgetType): CategoriesR
   let icon: string;
 
   switch (budgetType) {
-    case BudgetType.Income:
+    case BudgetType.INCOME:
       icon = 'arrow-up';
       break;
 
-    case BudgetType.Expense:
+    case BudgetType.EXPENSE:
       icon = 'arrow-down';
       break;
   }
@@ -120,7 +120,7 @@ export function createCategoriesResetRecord(budgetType: BudgetType): CategoriesR
     budgetType,
     date: new Date().getTime(),
     id: uuid(),
-    recordType: ActivityLogRecordType.CategoriesReset,
+    recordType: ActivityLogRecordType.CATEGORIES_RESET,
     icon,
   };
 }
@@ -137,7 +137,7 @@ export function createMoveMoneyBetweenAccountsRecord(
     toAccount: pick(toAccount, ['id', 'name', 'currency']),
     fromAccountValue,
     toAccountValue,
-    recordType: ActivityLogRecordType.MoveMoneyBetweenAccounts,
+    recordType: ActivityLogRecordType.MOVE_MONEY_BETWEEN_ACCOUNTS,
     date: new Date().getTime(),
     icon: 'money-change',
   };
@@ -151,7 +151,7 @@ export function createCurrencyChangeRecord(
     id: uuid(),
     fromCurrency,
     toCurrency,
-    recordType: ActivityLogRecordType.CurrencyChange,
+    recordType: ActivityLogRecordType.CURRENCY_CHANGE,
     date: new Date().getTime(),
     icon: 'currency-change',
   };

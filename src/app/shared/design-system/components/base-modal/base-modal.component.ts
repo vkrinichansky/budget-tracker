@@ -16,7 +16,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class BaseModalComponent {
   @HostBinding('class')
-  private readonly classes = 'rounded-md';
+  private readonly classes = 'rounded-md flex flex-col';
 
   @ContentChild('contentTemplate')
   contentTemplate: TemplateRef<unknown>;

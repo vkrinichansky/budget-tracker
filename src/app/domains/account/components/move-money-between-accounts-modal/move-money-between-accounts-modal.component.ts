@@ -19,10 +19,10 @@ import { Account } from '../../models';
 import { getErrorMessage } from '@budget-tracker/shared-utils';
 
 enum FormFields {
-  FromAccount = 'fromAccount',
-  ToAccount = 'toAccount',
-  ValueToMove = 'valueToMove',
-  ConvertedValueToMove = 'convertedValueToMove',
+  FROM_ACCOUNT = 'fromAccount',
+  TO_ACCOUNT = 'toAccount',
+  VALUE_TO_MOVE = 'valueToMove',
+  CONVERTED_VALUE_TO_MOVE = 'convertedValueToMove',
 }
 
 @Component({
@@ -36,10 +36,10 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
   readonly loading$ = new BehaviorSubject<boolean>(false);
 
   readonly form: FormGroup = new FormGroup({
-    [FormFields.FromAccount]: new FormControl(null),
-    [FormFields.ToAccount]: new FormControl(null),
-    [FormFields.ValueToMove]: new FormControl(null),
-    [FormFields.ConvertedValueToMove]: new FormControl(null),
+    [FormFields.FROM_ACCOUNT]: new FormControl(null),
+    [FormFields.TO_ACCOUNT]: new FormControl(null),
+    [FormFields.VALUE_TO_MOVE]: new FormControl(null),
+    [FormFields.CONVERTED_VALUE_TO_MOVE]: new FormControl(null),
   });
 
   readonly idSelector = (account: Account) => account.id;
@@ -53,33 +53,33 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
   success$: Observable<boolean>;
 
   get accountsHaveDifferentCurrencies(): boolean {
-    const fromAccount = this.form.controls[FormFields.FromAccount].value as Account;
-    const toAccount = this.form.controls[FormFields.ToAccount].value as Account;
+    const fromAccount = this.form.controls[FormFields.FROM_ACCOUNT].value as Account;
+    const toAccount = this.form.controls[FormFields.TO_ACCOUNT].value as Account;
 
     return fromAccount && toAccount ? fromAccount.currency !== toAccount.currency : false;
   }
 
   get isAnyAccountFieldEmpty(): boolean {
     return (
-      !this.form?.controls?.[FormFields.FromAccount]?.value ||
-      !this.form?.controls?.[FormFields.ToAccount]?.value
+      !this.form?.controls?.[FormFields.FROM_ACCOUNT]?.value ||
+      !this.form?.controls?.[FormFields.TO_ACCOUNT]?.value
     );
   }
 
   get currencySymbolForValueField(): string {
     return predefinedCurrenciesDictionary[
-      (this.form?.controls?.[FormFields.FromAccount]?.value as Account)?.currency
+      (this.form?.controls?.[FormFields.FROM_ACCOUNT]?.value as Account)?.currency
     ]?.symbol;
   }
 
   get currencySymbolForConvertedValueField(): string {
     return predefinedCurrenciesDictionary[
-      (this.form?.controls?.[FormFields.ToAccount]?.value as Account)?.currency
+      (this.form?.controls?.[FormFields.TO_ACCOUNT]?.value as Account)?.currency
     ]?.symbol;
   }
 
   get maxValue(): number {
-    return parseInt(this.form?.controls?.[FormFields.FromAccount]?.value?.value);
+    return parseInt(this.form?.controls?.[FormFields.FROM_ACCOUNT]?.value?.value);
   }
 
   constructor(
@@ -99,10 +99,10 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
 
     try {
       await this.accountFacade.runMoveMoneyBetweenAccountsFlow(
-        this.form.controls[FormFields.FromAccount].value.id,
-        this.form.controls[FormFields.ToAccount].value.id,
-        parseInt(this.form.controls[FormFields.ValueToMove].value),
-        parseInt(this.form.controls[FormFields.ConvertedValueToMove].value)
+        this.form.controls[FormFields.FROM_ACCOUNT].value.id,
+        this.form.controls[FormFields.TO_ACCOUNT].value.id,
+        parseInt(this.form.controls[FormFields.VALUE_TO_MOVE].value),
+        parseInt(this.form.controls[FormFields.CONVERTED_VALUE_TO_MOVE].value)
       );
 
       this.dialogRef.close();
@@ -117,12 +117,12 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
   private initListeners(): void {
     this.accounts$ = this.accountFacade.getAllAccounts().pipe(first());
 
-    this.filteredAccounts$ = this.form.controls[FormFields.FromAccount].valueChanges.pipe(
+    this.filteredAccounts$ = this.form.controls[FormFields.FROM_ACCOUNT].valueChanges.pipe(
       withLatestFrom(this.accounts$),
       tap(() => {
-        this.form.controls[FormFields.ToAccount].setValue(null);
-        this.form.controls[FormFields.ValueToMove].setValue(null);
-        this.form.controls[FormFields.ConvertedValueToMove].setValue(null);
+        this.form.controls[FormFields.TO_ACCOUNT].setValue(null);
+        this.form.controls[FormFields.VALUE_TO_MOVE].setValue(null);
+        this.form.controls[FormFields.CONVERTED_VALUE_TO_MOVE].setValue(null);
       }),
       map(([choosedAccount, accounts]) =>
         accounts.filter((account) => account.id !== (choosedAccount as Account).id)
@@ -130,9 +130,9 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
     );
 
     combineLatest([
-      this.form.controls[FormFields.ValueToMove].valueChanges,
-      this.form.controls[FormFields.FromAccount].valueChanges.pipe(filter((account) => !!account)),
-      this.form.controls[FormFields.ToAccount].valueChanges.pipe(filter((account) => !!account)),
+      this.form.controls[FormFields.VALUE_TO_MOVE].valueChanges,
+      this.form.controls[FormFields.FROM_ACCOUNT].valueChanges.pipe(filter((account) => !!account)),
+      this.form.controls[FormFields.TO_ACCOUNT].valueChanges.pipe(filter((account) => !!account)),
     ])
       .pipe(
         tap(([value, fromAccount, toAccount]) => {
@@ -142,7 +142,7 @@ export class MoveMoneyBetweenAccountsModalComponent implements OnInit {
             toAccount.currency
           );
 
-          this.form.controls[FormFields.ConvertedValueToMove].setValue(
+          this.form.controls[FormFields.CONVERTED_VALUE_TO_MOVE].setValue(
             value ? convertedValue : null
           );
         }),

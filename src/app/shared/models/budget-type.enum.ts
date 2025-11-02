@@ -1,4 +1,4 @@
 export enum BudgetType {
-  Income = 'income',
-  Expense = 'expense',
+  INCOME = 'income',
+  EXPENSE = 'expense',
 }

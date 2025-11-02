@@ -22,9 +22,7 @@
   }"
 >
   @if (isEmpty) {
-    <span class="font-main font-bold text-charcoal text-lg text-center">
-      {{ 'activityLog.emptyStateText' | translate }}
-    </span>
+    <app-empty-state [primaryTextKey]="'activityLog.emptyStateText'"></app-empty-state>
   } @else {
     <cdk-virtual-scroll-viewport itemSize="66" class="h-full w-full !overflow-x-hidden">
       <div
@@ -55,42 +53,44 @@
     </span>
 
     <div class="flex flex-col items-end text-sm">
-      @for (currency of item.totalValueForDate; track currency.currency) {
-        <span
-          [ngClass]="{
-            'text-dark-green': currency.value > 0,
-            'text-dark-red': currency.value < 0,
-          }"
-        >
-          {{ currency.value > 0 ? '&plus;' : '' }}
-          {{ currency.value | numberSpace | currencySymbol: currency.currency }}
-        </span>
-      }
+      @let greaterThanZero = item.totalValueForDate > 0;
+
+      <span
+        [ngClass]="{
+          'text-dark-green': greaterThanZero,
+          'text-dark-red': item.totalValueForDate < 0,
+        }"
+      >
+        @if (greaterThanZero) {
+          &plus;
+        }
+        {{ item.totalValueForDate | numberSpace | currencySymbol }}
+      </span>
     </div>
   </div>
 </ng-template>
 
 <ng-template #recordItem let-item="item">
   @switch (item.recordType) {
-    @case (recordType.CategoryValueChange) {
+    @case (recordType.CATEGORY_VALUE_CHANGE) {
       <app-category-value-change-record
         class="w-full"
         [record]="item"
       ></app-category-value-change-record>
     }
 
-    @case (recordType.CategoriesReset) {
+    @case (recordType.CATEGORIES_RESET) {
       <app-categories-reset-record class="w-full" [record]="item"></app-categories-reset-record>
     }
 
-    @case (recordType.MoveMoneyBetweenAccounts) {
+    @case (recordType.MOVE_MONEY_BETWEEN_ACCOUNTS) {
       <app-move-money-between-accounts-record
         class="w-full"
         [record]="item"
       ></app-move-money-between-accounts-record>
     }
 
-    @case (recordType.CurrencyChange) {
+    @case (recordType.CURRENCY_CHANGE) {
       <app-currency-change-record class="w-full" [record]="item"></app-currency-change-record>
     }
   }

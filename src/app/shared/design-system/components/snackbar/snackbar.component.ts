@@ -14,11 +14,11 @@ export class SnackbarComponent {
     let bgClass: string;
 
     switch (this.data.type) {
-      case SnackbarType.Message:
+      case SnackbarType.MESSAGE:
         bgClass = 'bg-dark-green';
         break;
 
-      case SnackbarType.Error:
+      case SnackbarType.ERROR:
         bgClass = 'bg-dark-red';
         break;
     }

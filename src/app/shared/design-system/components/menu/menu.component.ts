@@ -6,6 +6,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
   Output,
   TemplateRef,
   ViewChild,
@@ -24,7 +25,7 @@ import { ButtonComponent } from '../button/button.component';
   animations: [overlayFade],
   standalone: false,
 })
-export class MenuComponent extends ButtonComponent implements AfterViewInit {
+export class MenuComponent extends ButtonComponent implements AfterViewInit, OnDestroy {
   @ViewChild('actionsTemplate')
   private actionsTemplate: TemplateRef<unknown>;
 
@@ -80,6 +81,12 @@ export class MenuComponent extends ButtonComponent implements AfterViewInit {
         this.overlayRef.detach();
         this.close.emit();
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.overlayRef) {
+      this.overlayRef.dispose();
+    }
   }
 
   toggleDropdown(): void {

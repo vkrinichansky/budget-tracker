@@ -1,22 +1,20 @@
 <app-base-modal [titleTranslationKey]="'account.addAccountModal.title'">
   <ng-template #contentTemplate>
     <form class="flex flex-col gap-y-2 h-full" [formGroup]="form">
-      <div class="sticky top-0 pb-4 bg-white -mx-6 px-6 z-10">
-        <app-info-card
-          [primaryText]="
-            (form.controls[formFields.AccountValue].value || 0) + ' ' + selectedCurrencySymbol
-          "
-          [secondaryText]="form.controls[formFields.AccountName].value"
-          [iconName]="form.controls[formFields.AccountIcon].value"
-          [bgColor]="form.controls[formFields.AccountBgColor].value || '#F0F2F2'"
-          [textColor]="form.controls[formFields.AccountTextColor].value || '#2C4251'"
-        ></app-info-card>
-      </div>
+      <app-info-card
+        [primaryText]="
+          (form.controls[formFields.ACCOUNT_VALUE].value || 0) + ' ' + selectedCurrencySymbol
+        "
+        [secondaryText]="form.controls[formFields.ACCOUNT_NAME].value"
+        [iconName]="form.controls[formFields.ACCOUNT_ICON].value"
+        [bgColor]="form.controls[formFields.ACCOUNT_BG_COLOR].value || '#F0F2F2'"
+        [textColor]="form.controls[formFields.ACCOUNT_TEXT_COLOR].value || '#2C4251'"
+      ></app-info-card>
 
       <custom-input
         [label]="'account.addAccountModal.accountNameTitle' | translate"
-        [id]="formFields.AccountName"
-        [formControlName]="formFields.AccountName"
+        [id]="formFields.ACCOUNT_NAME"
+        [formControlName]="formFields.ACCOUNT_NAME"
         [isRequired]="true"
         [maxLength]="20"
         [displayCharCounter]="true"
@@ -24,8 +22,8 @@
       ></custom-input>
 
       <custom-input
-        [id]="formFields.AccountValue"
-        [formControlName]="formFields.AccountValue"
+        [id]="formFields.ACCOUNT_VALUE"
+        [formControlName]="formFields.ACCOUNT_VALUE"
         [label]="'account.addAccountModal.accountValueTitle' | translate"
         [isRequired]="true"
         [minValue]="0"
@@ -33,9 +31,9 @@
       ></custom-input>
 
       <custom-select
-        [id]="formFields.AccountCurrency"
+        [id]="formFields.ACCOUNT_CURRENCY"
         [label]="'account.addAccountModal.accountCurrencyTitle' | translate"
-        [formControlName]="formFields.AccountCurrency"
+        [formControlName]="formFields.ACCOUNT_CURRENCY"
         [options]="options"
         [idSelector]="currencyIdSelector"
         [displayValueSelector]="currencyDisplayValueSelector"
@@ -44,24 +42,24 @@
       ></custom-select>
 
       <custom-select
-        [id]="formFields.AccountIcon"
+        [id]="formFields.ACCOUNT_ICON"
         [label]="'account.addAccountModal.accountIconTitle' | translate"
-        [formControlName]="formFields.AccountIcon"
+        [formControlName]="formFields.ACCOUNT_ICON"
         [isRequired]="true"
         [iconPickerMode]="true"
       ></custom-select>
 
       <color-picker
-        [id]="formFields.AccountBgColor"
+        [id]="formFields.ACCOUNT_BG_COLOR"
         [label]="'account.addAccountModal.accountBgColorTitle' | translate"
-        [formControlName]="formFields.AccountBgColor"
+        [formControlName]="formFields.ACCOUNT_BG_COLOR"
         [isRequired]="true"
       ></color-picker>
 
       <color-picker
-        [id]="formFields.AccountTextColor"
+        [id]="formFields.ACCOUNT_TEXT_COLOR"
         [label]="'account.addAccountModal.accountTextColorTitle' | translate"
-        [formControlName]="formFields.AccountTextColor"
+        [formControlName]="formFields.ACCOUNT_TEXT_COLOR"
         [isRequired]="true"
       ></color-picker>
     </form>

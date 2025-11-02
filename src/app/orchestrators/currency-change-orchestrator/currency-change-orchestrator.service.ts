@@ -18,6 +18,7 @@ import {
   CurrencyChangeRecord,
 } from '@budget-tracker/activity-log';
 import { BaseOrchestratorService } from '@budget-tracker/orchestrators-utils';
+import { deleteField } from '@angular/fire/firestore';
 @Injectable()
 export class CurrencyChangeOrchestratorService extends BaseOrchestratorService {
   constructor(
@@ -53,6 +54,8 @@ export class CurrencyChangeOrchestratorService extends BaseOrchestratorService {
         event.payload.newCurrency
       );
 
+      const allRecords = await firstValueFrom(this.activityLogFacade.getAllRecords());
+
       await this.batchOperationService.executeBatchOperation([
         {
           docRef: this.metadataFacade.getMetadataDocRef(),
@@ -74,7 +77,14 @@ export class CurrencyChangeOrchestratorService extends BaseOrchestratorService {
         {
           docRef: this.activityLogFacade.getActivityLogDocRef(),
           type: 'update',
-          data: { [currencyChangeRecord.id]: currencyChangeRecord },
+          data: allRecords.reduce(
+            (result, record) => ({
+              ...result,
+              [`${record.id}`]: deleteField(),
+              [`${currencyChangeRecord.id}`]: currencyChangeRecord,
+            }),
+            {}
+          ),
         },
       ]);
 

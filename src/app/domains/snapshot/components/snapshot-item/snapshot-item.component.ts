@@ -60,10 +60,10 @@ export class SnapshotItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.incomeCategories = this.snapshot.categories.filter(
-      (category) => category.budgetType === BudgetType.Income
+      (category) => category.budgetType === BudgetType.INCOME
     ).length;
     this.expenseCategories = this.snapshot.categories.filter(
-      (category) => category.budgetType === BudgetType.Expense
+      (category) => category.budgetType === BudgetType.EXPENSE
     ).length;
 
     this.metrics = this.getMetrics();

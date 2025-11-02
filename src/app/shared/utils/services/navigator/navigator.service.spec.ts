@@ -26,24 +26,24 @@ describe('NavigatorService', () => {
   });
 
   describe('#navigateToAuthPage', () => {
-    it(`should call router.navigate with ${AppRoutes.Auth}`, () => {
+    it(`should call router.navigate with ${AppRoutes.AUTH}`, () => {
       // Arrange
       // Act
       serviceUnderTest.navigateToAuthPage();
 
       // Assert
-      expect(router.navigate).toHaveBeenCalledWith([AppRoutes.Auth]);
+      expect(router.navigate).toHaveBeenCalledWith([AppRoutes.AUTH]);
     });
   });
 
   describe('#navigateToDashboard', () => {
-    it(`should call router.navigate with ${AppRoutes.Dashboard}`, () => {
+    it(`should call router.navigate with ${AppRoutes.DASHBOARD}`, () => {
       // Arrange
       // Act
       serviceUnderTest.navigateToDashboard();
 
       // Assert
-      expect(router.navigate).toHaveBeenCalledWith([AppRoutes.Dashboard]);
+      expect(router.navigate).toHaveBeenCalledWith([AppRoutes.DASHBOARD]);
     });
   });
 });

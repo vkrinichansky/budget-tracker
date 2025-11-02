@@ -18,6 +18,7 @@ import {
   createCategoryValueChangeRecord,
   ActivityLogFacadeService,
 } from '@budget-tracker/activity-log';
+import { MetadataFacadeService } from '@budget-tracker/metadata';
 import { BaseOrchestratorService } from '@budget-tracker/orchestrators-utils';
 
 @Injectable()
@@ -26,6 +27,7 @@ export class EditAccountValueOrchestratorService extends BaseOrchestratorService
     private readonly accountFacade: AccountFacadeService,
     private readonly categoryFacade: CategoryFacadeService,
     private readonly activityLogFacade: ActivityLogFacadeService,
+    private readonly metadataFacade: MetadataFacadeService,
     eventBusService: EventBusService,
     batchOperationService: BatchOperationService
   ) {
@@ -57,11 +59,18 @@ export class EditAccountValueOrchestratorService extends BaseOrchestratorService
         );
       }
 
+      const currentCurrency = this.metadataFacade.currentCurrency;
+
+      const convertedDelta =
+        account.currency !== currentCurrency
+          ? this.metadataFacade.convertCurrency(absDelta, account.currency, currentCurrency)
+          : absDelta;
+
       const categoryValueChangeRecord: CategoryValueChangeRecord = createCategoryValueChangeRecord(
         categoryToUse,
         account,
         absDelta,
-        absDelta,
+        convertedDelta,
         account.currency,
         categoryToUse.budgetType,
         event.payload.note
@@ -76,7 +85,7 @@ export class EditAccountValueOrchestratorService extends BaseOrchestratorService
         {
           docRef: this.categoryFacade.getCategoryDocRef(),
           type: 'update',
-          data: { [`${categoryToUse.id}.value`]: categoryToUse.value + absDelta },
+          data: { [`${categoryToUse.id}.value`]: categoryToUse.value + convertedDelta },
         },
         {
           docRef: this.activityLogFacade.getActivityLogDocRef(),
@@ -95,7 +104,7 @@ export class EditAccountValueOrchestratorService extends BaseOrchestratorService
       this.categoryFacade.updateCategories([
         {
           ...categoryToUse,
-          value: categoryToUse.value + absDelta,
+          value: categoryToUse.value + convertedDelta,
         } as Category,
       ]);
 

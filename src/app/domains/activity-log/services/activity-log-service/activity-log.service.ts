@@ -35,6 +35,10 @@ export class ActivityLogService {
     return this.store.select(ActivityLogSelectors.selectRecordByIdSelector(recordId));
   }
 
+  getAllRecords(): Observable<ActivityLogRecordUnitedType[]> {
+    return this.store.select(ActivityLogSelectors.activityLogSelector);
+  }
+
   // ===== ACTIONS =====
   async loadActivityLog(): Promise<void> {
     const isLoaded = await firstValueFrom(this.activityLogLoaded());

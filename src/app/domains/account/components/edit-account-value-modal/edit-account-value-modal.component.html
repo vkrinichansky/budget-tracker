@@ -7,9 +7,9 @@
   <ng-template #contentTemplate>
     <form class="flex flex-col gap-y-2" [formGroup]="form">
       <custom-input
-        [id]="formFields.Value"
+        [id]="formFields.VALUE"
         [label]="'account.editAccountValueModal.valueTitle' | translate"
-        [formControlName]="formFields.Value"
+        [formControlName]="formFields.VALUE"
         [isRequired]="true"
         [minValue]="0"
         [type]="'number'"
@@ -18,9 +18,9 @@
       ></custom-input>
 
       <custom-textarea
-        [id]="formFields.Note"
+        [id]="formFields.NOTE"
         [label]="'account.editAccountValueModal.noteTitle' | translate"
-        [formControlName]="formFields.Note"
+        [formControlName]="formFields.NOTE"
         [maxLength]="100"
         [displayCharCounter]="true"
       ></custom-textarea>

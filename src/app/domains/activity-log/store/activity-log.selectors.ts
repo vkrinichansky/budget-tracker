@@ -7,7 +7,7 @@ import {
   ActivityLogRecordType,
   CategoryValueChangeRecord,
 } from '../models';
-import { LanguagesEnum, CurrenciesEnum } from '@budget-tracker/metadata';
+import { LanguagesEnum } from '@budget-tracker/metadata';
 import { BudgetType } from '@budget-tracker/shared-models';
 
 const activityLogDictionarySelector = createSelector(
@@ -73,38 +73,35 @@ function getActivityLogGroupedByDay(
 
     const categoryValueChangeRecords: CategoryValueChangeRecord[] = allRecords.filter(
       (activityLogRecord) =>
-        activityLogRecord.recordType === ActivityLogRecordType.CategoryValueChange
+        activityLogRecord.recordType === ActivityLogRecordType.CATEGORY_VALUE_CHANGE
     ) as CategoryValueChangeRecord[];
 
-    const currencies: CurrenciesEnum[] = Array.from(
-      new Set(categoryValueChangeRecords.map((record) => record.currency))
+    const incomeCategoryValueChangeRecordsSum: number = sumOfCategoryValueChangeRecords(
+      BudgetType.INCOME,
+      categoryValueChangeRecords
     );
+
+    const expenseCategoryValueChangeRecordsSum: number = sumOfCategoryValueChangeRecords(
+      BudgetType.EXPENSE,
+      categoryValueChangeRecords
+    );
+
+    const totalValueForDate: number =
+      incomeCategoryValueChangeRecordsSum - expenseCategoryValueChangeRecordsSum;
 
     return {
       date: dateKey,
       records: allRecords,
-      totalValueForDate: currencies.map((currency) => {
-        const incomeCategoryValueChangeRecordsSum: number = sumOfCategoryValueChangeRecords(
-          categoryValueChangeRecords.filter(
-            (record) => record.currency === currency && record.budgetType === BudgetType.Income
-          )
-        );
-
-        const expenseCategoryValueChangeRecordsSum: number = sumOfCategoryValueChangeRecords(
-          categoryValueChangeRecords.filter(
-            (record) => record.currency === currency && record.budgetType === BudgetType.Expense
-          )
-        );
-
-        return {
-          currency,
-          value: incomeCategoryValueChangeRecordsSum - expenseCategoryValueChangeRecordsSum,
-        };
-      }),
+      totalValueForDate,
     };
   });
 }
 
-function sumOfCategoryValueChangeRecords(records: CategoryValueChangeRecord[]) {
-  return records.reduce((sum, record) => sum + record.convertedValue, 0);
+function sumOfCategoryValueChangeRecords(
+  budgetType: BudgetType,
+  records: CategoryValueChangeRecord[]
+) {
+  return records
+    .filter((record) => record.budgetType === budgetType)
+    .reduce((sum, record) => sum + record.convertedValue, 0);
 }
