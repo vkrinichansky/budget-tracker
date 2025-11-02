@@ -24,12 +24,12 @@
     },
     "addAccountModal": {
       "title": "Додати рахунок",
-      "accountNameTitle": "Назва рахунку",
-      "accountValueTitle": "Значення рахунку",
-      "accountIconTitle": "Значок рахунку",
+      "accountNameTitle": "Назва",
+      "accountValueTitle": "Значення",
+      "accountIconTitle": "Значок",
       "accountBgColorTitle": "Фон",
       "accountTextColorTitle": "Колір тексту",
-      "accountCurrencyTitle": "Валюта рахунку",
+      "accountCurrencyTitle": "Валюта",
       "addAccount": "Додати рахунок",
       "accountExistsError": "Такий рахунок вже існує",
       "accountNameLengthError": "Макс. довжина імені рахунку - 20"
@@ -73,7 +73,6 @@
       "addCategory": "Додати категорію",
       "resetCategories": "Скинути категорії"
     },
-    "emptyStateText": "Немає даних для відображення",
     "tabs": {
       "list": "Список",
       "chart": "Графік"
@@ -124,7 +123,7 @@
       "removeConfirmationRemark": "Ця дія відмінить зроблені цим записом зміни і вплине на рахунок <span class='font-bold'>{{ accountName }}</span> і категорію <span class='font-bold'>{{ categoryName }}</span>"
     },
     "currencyChangeRecord": "Валюту змінено",
-    "emptyStateText": "Немає даних для відображення",
+    "emptyStateText": "Немає записів журналу активності",
     "removeButtonTooltip": "Видалити всі записи",
     "allRecordsRemoveConfirmationQuestion": "Ви дійсно хочете видалити всі записи?"
   },
@@ -202,7 +201,7 @@
   "currencySwitcher": {
     "tooltip": "Валюта",
     "removeConfirmationQuestion": "Ви хочете змінити валюту?",
-    "removeConfirmationRemark": "Ця дія також конвертує значення категорій в нову валюту"
+    "removeConfirmationRemark": "Ця дія також конвертує значення категорій в нову валюту і видалить всі записи журналу активності"
   },
 
   "currencies": {

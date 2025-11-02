@@ -36,6 +36,13 @@
             "style": "kebab-case"
           }
         ],
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": "enumMember",
+            "format": ["UPPER_CASE"]
+          }
+        ],
         "no-console": "error",
         "prettier/prettier": [
           "warn",
@@ -84,6 +91,13 @@
             "type": "element",
             "prefix": "app",
             "style": "kebab-case"
+          }
+        ],
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": "enumMember",
+            "format": ["UPPER_CASE"]
           }
         ],
         "no-console": "error",

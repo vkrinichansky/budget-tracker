@@ -55,7 +55,7 @@ const adapterReducer = createReducer(
       ...state,
       categories: categoryEntityAdapter.updateMany(
         action.updatedCategories.map((category) => ({
-          changes: { value: category.value },
+          changes: { ...category },
           id: category.id,
         })),
         state.categories

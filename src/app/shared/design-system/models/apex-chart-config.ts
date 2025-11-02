@@ -32,6 +32,9 @@ export function getPieChartConfig(
   return {
     chart: {
       type: 'pie',
+      animations: {
+        enabled: false,
+      },
     },
     series,
     labels,
@@ -50,7 +53,7 @@ export function getPieChartConfig(
     stroke: {
       show: true,
       width: 2,
-      colors: [MainPalette.Charcoal],
+      colors: [MainPalette.CHARCOAL],
     },
     states: {
       active: {

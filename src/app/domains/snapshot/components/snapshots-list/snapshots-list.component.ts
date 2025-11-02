@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, DestroyRef, HostBinding, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  HostBinding,
+  OnInit,
+} from '@angular/core';
 import { SnapshotFacadeService } from '../../services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Snapshot } from '../../models';
@@ -8,6 +15,7 @@ import { Snapshot } from '../../models';
   templateUrl: './snapshots-list.component.html',
   styleUrl: './snapshots-list.component.scss',
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SnapshotsListComponent implements OnInit {
   snapshots: Snapshot[];

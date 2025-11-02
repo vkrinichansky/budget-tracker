@@ -8,8 +8,8 @@ import { AccountFacadeService } from '../../services';
 import { getErrorMessage } from '@budget-tracker/shared-utils';
 
 enum FormFields {
-  Value = 'value',
-  Note = 'note',
+  VALUE = 'value',
+  NOTE = 'note',
 }
 
 @Component({
@@ -23,8 +23,8 @@ export class EditAccountValueModalComponent implements OnInit, AfterViewInit {
   readonly loading$ = new BehaviorSubject<boolean>(false);
 
   readonly form = new FormGroup({
-    [FormFields.Value]: new FormControl(null),
-    [FormFields.Note]: new FormControl(null),
+    [FormFields.VALUE]: new FormControl(null),
+    [FormFields.NOTE]: new FormControl(null),
   });
 
   initialValue: number;
@@ -38,7 +38,7 @@ export class EditAccountValueModalComponent implements OnInit, AfterViewInit {
   get isSubmitButtonDisabled(): boolean {
     return (
       this.form?.invalid ||
-      this.initialValue === parseInt(this.form.controls[this.formFields.Value].value)
+      this.initialValue === parseInt(this.form.controls[this.formFields.VALUE].value)
     );
   }
 
@@ -55,15 +55,15 @@ export class EditAccountValueModalComponent implements OnInit, AfterViewInit {
 
   async ngAfterViewInit(): Promise<void> {
     this.initialValue = await firstValueFrom(this.account$.pipe(map((account) => account.value)));
-    this.form.controls[FormFields.Value].setValue(this.initialValue, { emitEvent: false });
+    this.form.controls[FormFields.VALUE].setValue(this.initialValue, { emitEvent: false });
   }
 
   async submitAction(): Promise<void> {
     this.loading$.next(true);
 
     try {
-      const inputValue = parseInt(this.form.controls[FormFields.Value].value);
-      const note = this.form.controls[FormFields.Note]?.value;
+      const inputValue = parseInt(this.form.controls[FormFields.VALUE].value);
+      const note = this.form.controls[FormFields.NOTE]?.value;
 
       await this.accountsFacade.runEditAccountValueFlow(this.accountId, inputValue, note);
 

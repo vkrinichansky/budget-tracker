@@ -3,7 +3,9 @@
     class="flex-1"
     [iconName]="account.icon"
     [primaryText]="(account.value | numberSpace) + ' ' + currencySymbol"
-    [secondaryText]="isAccountWithForeignCurrency ? accountValueInBaseCurrency : account.name"
+    [secondaryText]="
+      isAccountWithForeignCurrency ? (accountValueInBaseCurrency | numberSpace) : account.name
+    "
     [tertiaryText]="isAccountWithForeignCurrency ? account.name : null"
     [bgColor]="account.bgColor"
     [textColor]="account.textColor"
@@ -14,7 +16,7 @@
 
         <app-button
           cdkDragHandle
-          class="drag-button"
+          class="drag-button cursor-grab"
           [style.color]="account.textColor"
           [iconName]="'drag-handle'"
           [type]="'inherit'"

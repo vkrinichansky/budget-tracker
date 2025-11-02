@@ -12,11 +12,11 @@ export class SnackbarHandlerService {
   ) {}
 
   showMessageSnackbar(message: string): void {
-    this.openSnackBarWithCloseDelay(this.translateService.instant(message), SnackbarType.Message);
+    this.openSnackBarWithCloseDelay(this.translateService.instant(message), SnackbarType.MESSAGE);
   }
 
   showErrorSnackbar(error: string): void {
-    this.openSnackBarWithCloseDelay(this.translateService.instant(error), SnackbarType.Error);
+    this.openSnackBarWithCloseDelay(this.translateService.instant(error), SnackbarType.ERROR);
   }
 
   private openSnackBarWithCloseDelay(

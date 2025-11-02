@@ -12,12 +12,12 @@ import { Account } from '../../models';
 import { getErrorMessage } from '@budget-tracker/shared-utils';
 
 enum FormFields {
-  AccountName = 'accountName',
-  AccountValue = 'accountValue',
-  AccountIcon = 'AccountIcon',
-  AccountBgColor = 'accountBgColor',
-  AccountTextColor = 'accountTextColor',
-  AccountCurrency = 'accountCurrency',
+  ACCOUNT_NAME = 'accountName',
+  ACCOUNT_VALUE = 'accountValue',
+  ACCOUNT_ICON = 'AccountIcon',
+  ACCOUNT_BG_COLOR = 'accountBgColor',
+  ACCOUNT_TEXT_COLOR = 'accountTextColor',
+  ACCOUNT_CURRENCY = 'accountCurrency',
 }
 
 @Component({
@@ -33,12 +33,12 @@ export class AddAccountModalComponent implements OnInit {
   readonly loading$ = new BehaviorSubject<boolean>(false);
 
   readonly form: FormGroup = new FormGroup({
-    [FormFields.AccountName]: new FormControl(null),
-    [FormFields.AccountValue]: new FormControl(null),
-    [FormFields.AccountIcon]: new FormControl(null),
-    [FormFields.AccountBgColor]: new FormControl(null),
-    [FormFields.AccountTextColor]: new FormControl(null),
-    [FormFields.AccountCurrency]: new FormControl(null),
+    [FormFields.ACCOUNT_NAME]: new FormControl(null),
+    [FormFields.ACCOUNT_VALUE]: new FormControl(null),
+    [FormFields.ACCOUNT_ICON]: new FormControl(null),
+    [FormFields.ACCOUNT_BG_COLOR]: new FormControl(null),
+    [FormFields.ACCOUNT_TEXT_COLOR]: new FormControl(null),
+    [FormFields.ACCOUNT_CURRENCY]: new FormControl(null),
   });
 
   readonly options: Currency[] = Object.values(predefinedCurrenciesDictionary);
@@ -55,8 +55,8 @@ export class AddAccountModalComponent implements OnInit {
       .includes(value.toLowerCase().trim());
 
   get selectedCurrencySymbol(): string {
-    if (this.form.controls[FormFields.AccountCurrency]?.value?.symbol) {
-      return this.form.controls[FormFields.AccountCurrency]?.value?.symbol;
+    if (this.form.controls[FormFields.ACCOUNT_CURRENCY]?.value?.symbol) {
+      return this.form.controls[FormFields.ACCOUNT_CURRENCY]?.value?.symbol;
     }
 
     return '';
@@ -84,12 +84,12 @@ export class AddAccountModalComponent implements OnInit {
     try {
       const account: Account = {
         id: uuid(),
-        value: parseInt(this.form.controls[FormFields.AccountValue].value),
-        icon: this.form.controls[FormFields.AccountIcon].value,
-        name: this.form.controls[FormFields.AccountName].value,
-        bgColor: this.form.controls[FormFields.AccountBgColor].value,
-        textColor: this.form.controls[FormFields.AccountTextColor].value,
-        currency: this.form.controls[FormFields.AccountCurrency].value.id as CurrenciesEnum,
+        value: parseInt(this.form.controls[FormFields.ACCOUNT_VALUE].value),
+        icon: this.form.controls[FormFields.ACCOUNT_ICON].value,
+        name: this.form.controls[FormFields.ACCOUNT_NAME].value,
+        bgColor: this.form.controls[FormFields.ACCOUNT_BG_COLOR].value,
+        textColor: this.form.controls[FormFields.ACCOUNT_TEXT_COLOR].value,
+        currency: this.form.controls[FormFields.ACCOUNT_CURRENCY].value.id as CurrenciesEnum,
         order: 0,
       };
 

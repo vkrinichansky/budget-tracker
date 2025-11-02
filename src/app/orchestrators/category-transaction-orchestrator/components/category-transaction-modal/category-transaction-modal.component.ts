@@ -21,10 +21,10 @@ import { Category } from '@budget-tracker/category';
 import { getErrorMessage } from '@budget-tracker/shared-utils';
 
 enum FormFields {
-  ValueToAdd = 'valueToAdd',
-  ConvertedValueToAdd = 'convertedValueToAdd',
-  Note = 'note',
-  AccountToUse = 'accountToUse',
+  VALUE_TO_ADD = 'valueToAdd',
+  CONVERTED_VALUE_TO_ADD = 'convertedValueToAdd',
+  NOTE = 'note',
+  ACCOUNT_TO_USE = 'accountToUse',
 }
 
 @Component({
@@ -38,10 +38,10 @@ export class CategoryTransactionModalComponent implements OnInit {
   readonly loading$ = new BehaviorSubject<boolean>(false);
 
   readonly form: FormGroup = new FormGroup({
-    [FormFields.AccountToUse]: new FormControl(null),
-    [FormFields.ValueToAdd]: new FormControl(null),
-    [FormFields.ConvertedValueToAdd]: new FormControl(null),
-    [FormFields.Note]: new FormControl(null),
+    [FormFields.ACCOUNT_TO_USE]: new FormControl(null),
+    [FormFields.VALUE_TO_ADD]: new FormControl(null),
+    [FormFields.CONVERTED_VALUE_TO_ADD]: new FormControl(null),
+    [FormFields.NOTE]: new FormControl(null),
   });
 
   readonly idSelector = (account: Account) => account.id;
@@ -55,12 +55,12 @@ export class CategoryTransactionModalComponent implements OnInit {
   maxValue$: Observable<number | undefined>;
 
   get accoundChoosed(): boolean {
-    return this.form?.controls?.[FormFields.AccountToUse]?.value;
+    return this.form?.controls?.[FormFields.ACCOUNT_TO_USE]?.value;
   }
 
   get doesChoosedAccountHaveForeignCurrency(): boolean {
     return this.accoundChoosed
-      ? (this.form.controls[FormFields.AccountToUse].value as Account).currency !==
+      ? (this.form.controls[FormFields.ACCOUNT_TO_USE].value as Account).currency !==
           this.metadataFacade.currentCurrency
       : false;
   }
@@ -72,7 +72,7 @@ export class CategoryTransactionModalComponent implements OnInit {
 
     return this.doesChoosedAccountHaveForeignCurrency
       ? predefinedCurrenciesDictionary[
-          (this.form?.controls?.[FormFields.AccountToUse]?.value as Account)?.currency
+          (this.form?.controls?.[FormFields.ACCOUNT_TO_USE]?.value as Account)?.currency
         ]?.symbol
       : this.metadataFacade.getCurrencySymbol();
   }
@@ -121,10 +121,10 @@ export class CategoryTransactionModalComponent implements OnInit {
     try {
       await this.data.transactionCallback(
         this.data.categoryId,
-        this.form.controls[FormFields.AccountToUse].value.id,
-        parseInt(this.form.controls[FormFields.ValueToAdd].value),
-        parseInt(this.form.controls[FormFields.ConvertedValueToAdd].value),
-        this.form.controls[FormFields.Note].value
+        this.form.controls[FormFields.ACCOUNT_TO_USE].value.id,
+        parseInt(this.form.controls[FormFields.VALUE_TO_ADD].value),
+        parseInt(this.form.controls[FormFields.CONVERTED_VALUE_TO_ADD].value),
+        this.form.controls[FormFields.NOTE].value
       );
 
       this.dialogRef.close();
@@ -141,39 +141,39 @@ export class CategoryTransactionModalComponent implements OnInit {
     this.category$ = this.categoryFacade.getCategoryById(this.data.categoryId).pipe(first());
     this.maxValue$ = combineLatest([
       this.category$,
-      this.form.controls[FormFields.AccountToUse].valueChanges.pipe(startWith(null)),
+      this.form.controls[FormFields.ACCOUNT_TO_USE].valueChanges.pipe(startWith(null)),
     ]).pipe(
       map(([category, account]) => {
         switch (category.budgetType) {
-          case BudgetType.Income:
+          case BudgetType.INCOME:
             return undefined;
 
-          case BudgetType.Expense:
+          case BudgetType.EXPENSE:
             return parseInt(account?.value);
         }
       })
     );
 
-    this.form.controls[FormFields.AccountToUse].valueChanges
+    this.form.controls[FormFields.ACCOUNT_TO_USE].valueChanges
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         tap(() => {
-          this.form.controls[FormFields.ValueToAdd].reset(null);
-          this.form.controls?.[FormFields.ConvertedValueToAdd].reset(null);
+          this.form.controls[FormFields.VALUE_TO_ADD].reset(null);
+          this.form.controls?.[FormFields.CONVERTED_VALUE_TO_ADD].reset(null);
         })
       )
       .subscribe();
 
-    this.form.controls[FormFields.ValueToAdd].valueChanges
+    this.form.controls[FormFields.VALUE_TO_ADD].valueChanges
       .pipe(
-        withLatestFrom(this.form.controls[FormFields.AccountToUse].valueChanges),
+        withLatestFrom(this.form.controls[FormFields.ACCOUNT_TO_USE].valueChanges),
         tap(([value, account]) => {
           const convertedValue = this.metadataFacade.getBasicToForeignConvertedValue(
             value,
             account.currency
           );
 
-          this.form.controls[FormFields.ConvertedValueToAdd].setValue(
+          this.form.controls[FormFields.CONVERTED_VALUE_TO_ADD].setValue(
             value ? convertedValue : null
           );
         }),

@@ -2,7 +2,7 @@
   [icon]="record.icon"
   [date]="record.date"
   [note]="record?.note"
-  [removeEnabled]="shouldDisplayRemoveButton"
+  [removeEnabled]="isToday"
   (remove)="removeHandler()"
 >
   <span class="flex justify-between items-center gap-x-2">
@@ -12,7 +12,7 @@
       </span>
 
       <span class="block truncate flex-1 font-main font-bold text-blue text-xs">
-        ({{ currencySymbol }}) {{ record.account.name }}
+        ({{ accountCurrencySymbol }}) {{ record.account.name }}
       </span>
     </div>
 
@@ -20,16 +20,16 @@
       @if (isSingleValue) {
         <span>
           {{ symbol }}{{ record.value | numberSpace }}
-          {{ currencySymbol }}
+          {{ accountCurrencySymbol }}
         </span>
       } @else {
         <span class="text-base font-normal">
-          {{ symbol }}{{ record.convertedValue | numberSpace | currencySymbol: record.currency }}
+          {{ symbol }}{{ record.convertedValue | numberSpace | currencySymbol }}
         </span>
 
         <span class="text-xs font-bold">
           {{ symbol }}{{ record.value | numberSpace }}
-          {{ currencySymbol }}
+          {{ accountCurrencySymbol }}
         </span>
       }
     </span>

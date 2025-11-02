@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import {
   CategoryEvents,
   CategoryFacadeService,
-  Category,
   OpenCategoryTransactionModalEvent,
 } from '@budget-tracker/category';
-import { Account, AccountFacadeService } from '@budget-tracker/account';
+import { AccountFacadeService } from '@budget-tracker/account';
 import {
   ActivityLogFacadeService,
   CategoryValueChangeRecord,
@@ -75,12 +74,12 @@ export class CategoryTransactionOrchestratorService extends BaseOrchestratorServ
       let updatedAccountValue: number;
 
       switch (category.budgetType) {
-        case BudgetType.Income:
+        case BudgetType.INCOME:
           updatedAccountValue = account.value + valueToAdd;
 
           break;
 
-        case BudgetType.Expense:
+        case BudgetType.EXPENSE:
           updatedAccountValue = account.value - valueToAdd;
 
           break;
@@ -118,16 +117,16 @@ export class CategoryTransactionOrchestratorService extends BaseOrchestratorServ
 
       this.accountFacade.updateAccounts([
         {
-          id: account.id,
+          ...account,
           value: updatedAccountValue,
-        } as Account,
+        },
       ]);
 
       this.categoryFacade.updateCategories([
         {
           ...category,
           value: updatedCategoryValue,
-        } as Category,
+        },
       ]);
 
       this.activityLogFacade.addRecord(changeCategoryValueRecord);

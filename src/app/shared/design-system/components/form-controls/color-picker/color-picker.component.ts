@@ -54,7 +54,8 @@ export class ColorPickerComponent extends GenericCustomControlComponent {
 
   onPanelClose(): void {
     if (!this.formControl.value) {
-      this.formControl.markAsTouched;
+      this.formControl.markAsTouched();
+      this.cd.detectChanges();
     }
   }
 

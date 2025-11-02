@@ -9,9 +9,9 @@
   <ng-template #contentTemplate>
     <form class="flex flex-col gap-y-2" [formGroup]="form">
       <custom-select
-        [id]="formFieldsEnum.AccountToUse"
+        [id]="formFieldsEnum.ACCOUNT_TO_USE"
         [label]="'category.categoryValueModal.accountsTitle' | translate"
-        [formControlName]="formFieldsEnum.AccountToUse"
+        [formControlName]="formFieldsEnum.ACCOUNT_TO_USE"
         [options]="accounts"
         [idSelector]="idSelector"
         [displayValueSelector]="displayValueSelector"
@@ -30,32 +30,32 @@
       </custom-select>
 
       <custom-input
-        [id]="formFieldsEnum.ValueToAdd"
+        [id]="formFieldsEnum.VALUE_TO_ADD"
         [label]="'category.categoryValueModal.valueToAddTitle' | translate"
         [isRequired]="true"
         [minValue]="1"
         [maxValue]="maxValue"
         [type]="'number'"
-        [formControlName]="formFieldsEnum.ValueToAdd"
+        [formControlName]="formFieldsEnum.VALUE_TO_ADD"
         [isDisabled]="!accoundChoosed"
         [prefix]="currencySymbolForValueField"
       ></custom-input>
 
       <custom-input
         [class.hidden]="!doesChoosedAccountHaveForeignCurrency"
-        [id]="formFieldsEnum.ConvertedValueToAdd"
+        [id]="formFieldsEnum.CONVERTED_VALUE_TO_ADD"
         [label]="'category.categoryValueModal.convertedValueToAddTitle' | translate"
         [isRequired]="true"
         [minValue]="1"
         [type]="'number'"
-        [formControlName]="formFieldsEnum.ConvertedValueToAdd"
+        [formControlName]="formFieldsEnum.CONVERTED_VALUE_TO_ADD"
         [prefix]="currencySymbolForConvertedValueField"
       ></custom-input>
 
       <custom-textarea
-        [id]="formFieldsEnum.Note"
+        [id]="formFieldsEnum.NOTE"
         [label]="'category.categoryValueModal.noteTitle' | translate"
-        [formControlName]="formFieldsEnum.Note"
+        [formControlName]="formFieldsEnum.NOTE"
         [maxLength]="100"
         [displayCharCounter]="true"
       ></custom-textarea>
